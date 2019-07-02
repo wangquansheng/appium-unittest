@@ -1,6 +1,7 @@
 import random
 import time
 import unittest
+import warnings
 
 from selenium.common.exceptions import TimeoutException
 
@@ -550,6 +551,53 @@ class Preconditions(WorkbenchPreconditions):
         current_mobile().launch_app()
         Preconditions.make_in_message_page(moible_param)
 
+    @staticmethod
+    def create_team_select_contacts(team_name):
+        """创建团队并添加指定名字联系人为团队成员"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        mess.open_workbench_page()
+        workbench = WorkbenchPage()
+        if workbench.is_on_welcome_page():
+            workbench.click_now_create_team()
+        else:
+            workbench.wait_for_page_load()
+            workbench.click_create_team()
+        team = CreateTeamPage()
+        team.wait_for_page_load()
+        team.input_team_name(team_name)
+        team.choose_location()
+        team.choose_industry()
+        team.input_real_name("admin")
+        # 立即创建团队
+        team.click_immediately_create_team()
+        # 点击完成设置工作台
+        team.wait_for_setting_workbench_page_load()
+        team.click_finish_setting_workbench()
+        team.wait_for_create_team_success_page_load()
+        # 点击邀请成员
+        team.click_invite_member()
+        time.sleep(3)
+        osp = OrganizationStructurePage()
+        osp.click_text("从手机通讯录添加")
+        time.sleep(2)
+        sc = SelectContactsPage()
+        slc = SelectLocalContactsPage()
+        # 选择联系人加入团队
+        slc.wait_for_page_load()
+        name_contacts = ["a a", "aa1122",  "大佬1", "给个红包1", "English", "特殊!@$"]
+        for name_contact in name_contacts:
+            time.sleep(2)
+            slc.selecting_local_contacts_by_name(name_contact)
+        # 点击确认
+        slc.click_sure()
+        slc.wait_for_page_load()
+        # 点击取消返回工作台页面
+        slc.click_cancle()
+        workbench.click_message_icon()
+
 
 class MsgPrivateChatFileLocationTest(TestCase):
     """
@@ -560,11 +608,13 @@ class MsgPrivateChatFileLocationTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        warnings.simplefilter('ignore')
         Preconditions.select_mobile('Android-移动')
         current_mobile().launch_app()
 
     def default_setUp(self):
         """确保每个用例运行前在单聊会话页面"""
+        warnings.simplefilter('ignore')
         Preconditions.select_mobile('Android-移动')
         mess = MessagePage()
         if mess.is_on_this_page():
@@ -1135,9 +1185,9 @@ class MsgPrivateChatAllTest(TestCase):
     Author:刘晓东
     """
 
-    # @classmethod
-    # def setUpClass(cls):
-    #
+    @classmethod
+    def setUpClass(cls):
+        warnings.simplefilter('ignore', ResourceWarning)
     #     Preconditions.select_mobile('Android-移动')
     #     # 导入测试联系人、群聊
     #     fail_time1 = 0
@@ -4922,5 +4972,4 @@ class MsgPrivateChatAllTest(TestCase):
         mess.press_file_to_do(phone_number2, "删除聊天")
         Preconditions.change_mobile('Android-移动')
         mess.press_file_to_do(phone_number, "删除聊天")
-
 
