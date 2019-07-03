@@ -87,11 +87,17 @@ class ChatSelectLocalFilePage(BasePage):
             return self.get_element(locator)
         else:
             c = 0
-            while c < times:
+            while c < 15:
                 self.page_up()
                 if self._is_element_present(locator):
                     return self.get_element(locator)
                 c += 1
+            d=0
+            while d < 15:
+                self.page_down()
+                if self._is_element_present(locator):
+                    return self.get_element(locator)
+                d += 1
             return None
 
     def swipe_page_up(self):
@@ -417,3 +423,13 @@ class ChatSelectLocalFilePage(BasePage):
     @TestLogger.log("检测元素是否存在")
     def check_element_is_exist(self, locator):
         return self._is_element_present(self.__locators[locator])
+
+    @TestLogger.log()
+    def select_file_by_text(self, file_type):
+        """选择文件"""
+        el = self.find_element_by_swipe((MobileBy.XPATH, '//*[contains(@text,"%s")]' % file_type), file_type)
+        if el:
+            el.click()
+            return el
+        else:
+            self.make_file_into_sdcard(file_type)

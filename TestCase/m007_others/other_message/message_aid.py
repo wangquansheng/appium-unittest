@@ -2,11 +2,16 @@ import os
 import random
 import time
 import unittest
+
+from pages.call.multipartycall import MultipartyCallPage
 from pages.components import ChatNoticeDialog, ContactsSelector
 from appium.webdriver.common.mobileby import MobileBy
 
 import preconditions
 from dataproviders import contact2
+from pages.me.MeCallMulti import MeCallMultiPage
+from pages.message.FreeMsg import FreeMsgPage
+from pages.message.Send_CardName import Send_CardNamePage
 from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType

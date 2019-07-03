@@ -1,7 +1,20 @@
 import time
 from appium.webdriver.common.mobileby import MobileBy
 from library.core.utils.applicationcache import current_mobile
+from pages import ChatAudioPage
+from pages import ChatWindowPage
+from pages import GrantPemissionsPage
+from pages import GroupChatPage
+from pages import GroupChatSetFindChatContentPage
+from pages import GroupChatSetPage
+from pages import GroupNamePage
+from pages import SelectContactPage
+from pages.call.multipartycall import MultipartyCallPage
+from pages.components import ChatNoticeDialog
 from pages.components import ContactsSelector
+from pages.components import SearchBar
+from pages.components.SearchGroup import SearchGroupPage
+from pages.message.FreeMsg import FreeMsgPage
 from preconditions.BasePreconditions import LoginPreconditions, ContactsPage, CallPage, ContactSecltorPage, \
     SelectContactsPage, CalllogBannerPage, MessagePage, SearchPage, LabelGroupingPage, GroupListPage, \
     GroupListSearchPage, LableGroupDetailPage

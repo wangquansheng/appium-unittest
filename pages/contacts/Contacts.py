@@ -98,7 +98,7 @@ class ContactsPage(FooterPage):
         '联系-公众号': (MobileBy.ID, 'com.chinasofti.rcs:id/third_item'),
         # 标签分组(6.3.1版本)
         '标签分组_631': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_tag_group'),
-
+        '手机联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/first_item'),
     }
 
     @TestLogger.log()

@@ -100,6 +100,11 @@ class GroupChatPage(BaseChatPage):
                   '企业群成员头像': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_icon'),
                   '飞信电话(免费)': (MobileBy.XPATH, '//*[@text="飞信电话（免费）"]'),
                   '多方视频': (MobileBy.XPATH, '//*[@text="多方视频"]'),
+                  '多方视频接听': (MobileBy.ID, 'com.chinasofti.rcs:id/ivAnswer'),
+                  '多方视频挂断': (MobileBy.ID, 'com.chinasofti.rcs:id/ivCancel'),
+                  '结束多方视频': (MobileBy.ID, 'com.chinasofti.rcs:id/end_video_call_btn'),
+                  '多方视频缩放按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_hide'),
+
                   }
 
     @TestLogger.log()

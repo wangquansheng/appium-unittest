@@ -1219,6 +1219,8 @@ class MessageListAllTest(TestCase):
         Preconditions.change_mobile('Android-移动-移动')
         mess.wait_for_page_load()
         mess.click_text(phone_number2)
+        if scp.is_text_present("1元/条"):
+            scp.click_i_have_read()
         scp.wait_for_page_load()
         scp.click_setting()
         scsp=SingleChatSetPage()

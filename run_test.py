@@ -54,11 +54,12 @@ def get_total():
         total_list, module_name = get_content()
         lists = []
         if total_list:
-            lists.append(int(total_list[0][0]) + int(total_list[1][0]) + int(total_list[2][0]) + int(total_list[3][0]))
-            lists.append(int(total_list[0][1]) + int(total_list[1][1]) + int(total_list[2][1]) + int(total_list[3][1]))
-            lists.append(int(total_list[0][2]) + int(total_list[1][2]) + int(total_list[2][2]) + int(total_list[3][2]))
-            lists.append(int(total_list[0][3]) + int(total_list[1][3]) + int(total_list[2][3]) + int(total_list[3][3]))
-            lists.append('%.2f' %((float(total_list[0][4]) + float(total_list[1][4]) + float(total_list[2][4]) + float(total_list[3][4]))/4))
+            lists.append(int(total_list[0][0]) + int(total_list[1][0]) + int(total_list[2][0]) + int(total_list[3][0]) + int(total_list[4][0]))
+            lists.append(int(total_list[0][1]) + int(total_list[1][1]) + int(total_list[2][1]) + int(total_list[3][1]) + int(total_list[4][1]))
+            lists.append(int(total_list[0][2]) + int(total_list[1][2]) + int(total_list[2][2]) + int(total_list[3][2]) + int(total_list[4][2]))
+            lists.append(int(total_list[0][3]) + int(total_list[1][3]) + int(total_list[2][3]) + int(total_list[3][3]) + int(total_list[4][3]))
+            lists.append('%.2f' % ((float(total_list[0][4]) + float(total_list[1][4]) + float(total_list[2][4]) + float(
+                total_list[3][4]) + float(total_list[4][4])) / 5))
             total_list.append(lists)
             break
         elif total_list is None:
