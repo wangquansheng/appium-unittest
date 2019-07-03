@@ -1632,3 +1632,339 @@ class CallMultipartyVideo(TestCase):
         cpg.page_should_contain_text("发出群邀请")
         cpg.page_should_contain_text("多方通话群聊")
         cpg.click_back_by_android(2)
+
+    @staticmethod
+    def setUp_test_call_zhenyishan_0167():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zhenyishan_0167(self):
+        """多方视频管理界面，正在说话功能-一个联系人发言"""
+        # 1、一个联系人发言
+        # 2、检查被叫多方视频管理界面
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_mutilcall()
+        time.sleep(2)
+        gcp.click_text("多方视频")
+        #选择联系人
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        names = slc.get_contacts_name()
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_text("呼叫")
+        time.sleep(3)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        # gcp.pick_up_the_call()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(3)
+        if gcp.is_text_present("始终允许"):
+            gcp.click_text("始终允许")
+        time.sleep(2)
+        if gcp.is_text_present("始终允许"):
+            gcp.click_text("始终允许")
+        time.sleep(2)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        time.sleep(2)
+        gcp.click_element_("多方视频接听")
+        time.sleep(3)
+        gcp.click_element_("结束多方视频")
+        time.sleep(2)
+        gcp.click_element_("确定移除")
+
+    @staticmethod
+    def setUp_test_call_zhenyishan_0220_01():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zhenyishan_0220_01(self):
+        """被叫已开启悬浮窗权限，收到多方视频邀请，检查邀请页面缩放按钮"""
+        # 1、点击缩放按钮
+        # 2、点击悬浮窗
+        # 3、断开网络连接
+        # 4、呼叫超过有效时间
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_mutilcall()
+        time.sleep(2)
+        gcp.click_text("多方视频")
+        #选择联系人
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        names = slc.get_contacts_name()
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_text("呼叫")
+        time.sleep(3)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        # gcp.pick_up_the_call()
+        time.sleep(2)
+        gcp.click_element_("多方视频缩放按钮")
+        time.sleep(30)
+
+    @staticmethod
+    def setUp_test_call_zhenyishan_0220_02():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zhenyishan_0220_02(self):
+        """被叫已开启悬浮窗权限，收到多方视频邀请，检查邀请页面缩放按钮"""
+        # 1、点击缩放按钮
+        # 2、点击悬浮窗
+        # 3、断开网络连接
+        # 4、呼叫超过有效时间
+        group_name = Preconditions.get_group_chat_name_double()
+        Preconditions.change_mobile('Android-移动-移动')
+        Preconditions.go_to_group_double(group_name)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_mutilcall()
+        time.sleep(2)
+        gcp.click_text("多方视频")
+        #选择联系人
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        names = slc.get_contacts_name()
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_text("呼叫")
+        time.sleep(3)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        # gcp.pick_up_the_call()
+        gcp.set_network_status(0)
+
+    @staticmethod
+    def tearDown_test_call_zhenyishan_0220_02():
+        # 打开网络
+        cpg = CallPage()
+        cpg.set_network_status(6)
+
+    @staticmethod
+    def setUp_test_call_zhenyishan_0220_03():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zhenyishan_0220_03(self):
+        """被叫已开启悬浮窗权限，收到多方视频邀请，检查邀请页面缩放按钮"""
+        # 1、点击缩放按钮
+        # 2、点击悬浮窗
+        # 3、断开网络连接
+        # 4、呼叫超过有效时间
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_mutilcall()
+        time.sleep(2)
+        gcp.click_text("多方视频")
+        #选择联系人
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        names = slc.get_contacts_name()
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_text("呼叫")
+        time.sleep(3)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        # gcp.pick_up_the_call()
+        time.sleep(30)
+
+    @staticmethod
+    def setUp_test_call_zhenyishan_0221_01():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zhenyishan_0221_01(self):
+        """被叫未开启悬浮窗权限，收到多方视频邀请，检查邀请页面缩放按钮"""
+        # 1、点击缩放按钮
+        # 2、点击悬浮窗
+        # 3、断开网络连接
+        # 4、呼叫超过有效时间
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_mutilcall()
+        time.sleep(2)
+        gcp.click_text("多方视频")
+        #选择联系人
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        names = slc.get_contacts_name()
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_text("呼叫")
+        time.sleep(3)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        # gcp.pick_up_the_call()
+        time.sleep(2)
+        gcp.click_element_("多方视频缩放按钮")
+        time.sleep(30)
+
+    @staticmethod
+    def setUp_test_call_zhenyishan_0221_02():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zhenyishan_0221_02(self):
+        """被叫未开启悬浮窗权限，收到多方视频邀请，检查邀请页面缩放按钮"""
+        # 1、点击缩放按钮
+        # 2、点击悬浮窗
+        # 3、断开网络连接
+        # 4、呼叫超过有效时间
+        group_name = Preconditions.get_group_chat_name_double()
+        Preconditions.change_mobile('Android-移动-移动')
+        Preconditions.go_to_group_double(group_name)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_mutilcall()
+        time.sleep(2)
+        gcp.click_text("多方视频")
+        #选择联系人
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        names = slc.get_contacts_name()
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_text("呼叫")
+        time.sleep(3)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        # gcp.pick_up_the_call()
+        gcp.set_network_status(0)
+
+    @staticmethod
+    def tearDown_test_call_zhenyishan_0221_02():
+        # 打开网络
+        cpg = CallPage()
+        cpg.set_network_status(6)
+
+    @staticmethod
+    def setUp_test_call_zhenyishan_0221_03():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zhenyishan_0221_03(self):
+        """被叫未开启悬浮窗权限，收到多方视频邀请，检查邀请页面缩放按钮"""
+        # 1、点击缩放按钮
+        # 2、点击悬浮窗
+        # 3、断开网络连接
+        # 4、呼叫超过有效时间
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_mutilcall()
+        time.sleep(2)
+        gcp.click_text("多方视频")
+        #选择联系人
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        names = slc.get_contacts_name()
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_text("呼叫")
+        time.sleep(3)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        # gcp.pick_up_the_call()
+        time.sleep(30)
