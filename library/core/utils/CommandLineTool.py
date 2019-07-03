@@ -17,14 +17,14 @@ def parse_and_store_command_line_params():
     parser.add_argument('--installOn', action='store_true', default=False, help='初始化运行时，是否安装应用')
     args = parser.parse_args()
     if args.module_name:
-        if os.path.exists(settings.REPORT_HTML_PATH2):
-            file_list = os.listdir(settings.REPORT_HTML_PATH2)
-            for file in file_list:
-                try:
-                    file_path = os.path.join(settings.REPORT_HTML_PATH2, file)
-                    os.remove(file_path)
-                except:
-                    print(file + "删除失败")
+        # if os.path.exists(settings.REPORT_HTML_PATH2):
+        #     file_list = os.listdir(settings.REPORT_HTML_PATH2)
+        #     for file in file_list:
+        #         try:
+        #             file_path = os.path.join(settings.REPORT_HTML_PATH2, file)
+        #             os.remove(file_path)
+        #         except:
+        #             print(file + "删除失败")
         settings.REPORT_HTML_PATH= os.path.join(settings.REPORT_HTML_PATH2, args.module_name + '.html')
     if args.include:
         include = json.dumps(args.include, ensure_ascii=False).upper()

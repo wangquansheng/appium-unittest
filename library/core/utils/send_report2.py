@@ -88,11 +88,20 @@ UI_AUTOMATION4 = {
     'RATE': u'暂无数据'
 }
 
+UI_AUTOMATION5 = {
+    'TOTAL': u'暂无数据',
+    'SUCCESS': u'暂无数据',
+    'FAIL': u'暂无数据',
+    'ERROR': u'暂无数据',
+    'RATE': u'暂无数据'
+}
+
 INTERFACE_NAME = {
     'INTERFACE1': u'端口1',
     'INTERFACE2': u'端口2',
     'INTERFACE3': u'端口3',
-    'INTERFACE4': u'端口4'
+    'INTERFACE4': u'端口4',
+    'INTERFACE5': u'端口5'
 }
 
 API_AUTOMATION = {
@@ -157,12 +166,19 @@ def get_ui_automation_metric(total_list):
     UI_AUTOMATION4['ERROR'] = total_list[3][3]
     UI_AUTOMATION4['RATE'] = total_list[3][4] + "%"
 
+    global UI_AUTOMATION5
+    UI_AUTOMATION5['TOTAL'] = total_list[4][0]
+    UI_AUTOMATION5['SUCCESS'] = total_list[4][1]
+    UI_AUTOMATION5['FAIL'] = total_list[4][2]
+    UI_AUTOMATION5['ERROR'] = total_list[4][3]
+    UI_AUTOMATION5['RATE'] = total_list[4][4] + "%"
+
     global UI_AUTOMATION
-    UI_AUTOMATION['TOTAL'] = total_list[4][0]
-    UI_AUTOMATION['SUCCESS'] = total_list[4][1]
-    UI_AUTOMATION['FAIL'] = total_list[4][2]
-    UI_AUTOMATION['ERROR'] = total_list[4][3]
-    UI_AUTOMATION['RATE'] = total_list[4][4] + "%"
+    UI_AUTOMATION['TOTAL'] = total_list[5][0]
+    UI_AUTOMATION['SUCCESS'] = total_list[5][1]
+    UI_AUTOMATION['FAIL'] = total_list[5][2]
+    UI_AUTOMATION['ERROR'] = total_list[5][3]
+    UI_AUTOMATION['RATE'] = total_list[5][4] + "%"
 
 def get_interface_name(module_name):
     """获取端口名字"""
@@ -172,6 +188,7 @@ def get_interface_name(module_name):
     INTERFACE_NAME['INTERFACE2'] = module_name[1]
     INTERFACE_NAME['INTERFACE3'] = module_name[2]
     INTERFACE_NAME['INTERFACE4'] = module_name[3]
+    INTERFACE_NAME['INTERFACE5'] = module_name[4]
 
 def get_current_version():
     """获取APP当前版本号"""
@@ -219,6 +236,8 @@ def send_mail(*to):
         UI_AUTOMATION3['ERROR'], UI_AUTOMATION3['RATE'],
         INTERFACE_NAME['INTERFACE4'], UI_AUTOMATION4['TOTAL'], UI_AUTOMATION4['SUCCESS'], UI_AUTOMATION4['FAIL'],
         UI_AUTOMATION4['ERROR'], UI_AUTOMATION4['RATE'],
+        INTERFACE_NAME['INTERFACE5'], UI_AUTOMATION5['TOTAL'], UI_AUTOMATION5['SUCCESS'], UI_AUTOMATION5['FAIL'],
+        UI_AUTOMATION5['ERROR'], UI_AUTOMATION5['RATE'],
         UI_AUTOMATION['TOTAL'], UI_AUTOMATION['SUCCESS'], UI_AUTOMATION['FAIL'], UI_AUTOMATION['ERROR'],
         UI_AUTOMATION['RATE']
     )
