@@ -27,7 +27,7 @@ REQUIRED_MOBILES = {
 }
 
 
-class Preconditions(object):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
     @staticmethod
@@ -254,6 +254,203 @@ class Preconditions(object):
         wbp.wait_for_workbench_page_load()
         mp.open_message_page()
         mp.wait_for_page_load()
+
+    @staticmethod
+    def delete_record_group_chat():
+        # 删除聊天记录
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            scp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            # 点击删除聊天记录
+            gcsp.click_clear_chat_record()
+            gcsp.wait_clear_chat_record_confirmation_box_load()
+            # 点击确认
+            gcsp.click_determine()
+            time.sleep(3)
+            # if not gcsp.is_toast_exist("聊天记录清除成功"):
+            #     raise AssertionError("没有聊天记录清除成功弹窗")
+            # 点击返回群聊页面
+            gcsp.click_back()
+            time.sleep(2)
+            # 判断是否返回到群聊页面
+            if not scp.is_on_this_page():
+                raise AssertionError("没有返回到群聊页面")
+        else:
+            try:
+                raise AssertionError("没有返回到群聊页面，无法删除记录")
+            except AssertionError as e:
+                raise e
+
+    #多人群聊前置条件
+    @staticmethod
+    def select_one_mobile(moible_param):
+        """选择指定的设备连接，并确保在消息列表页面"""
+        Preconditions.select_mobile(moible_param)
+        # 消息页面
+        Preconditions.make_in_message_page(moible_param,reset=False)
+
+    @staticmethod
+    def make_in_message_page(moible_param,reset=False):
+        """确保应用在消息页面"""
+        Preconditions.select_mobile(moible_param, reset)
+        current_mobile().hide_keyboard_if_display()
+        time.sleep(1)
+        # 如果在消息页，不做任何操作
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            return
+        # 进入一键登录页
+        Preconditions.make_already_in_one_key_login_page()
+        #  从一键登录页面登录
+        Preconditions.login_by_one_key_login()
+
+    @staticmethod
+    def build_one_new_group_with_number(puhone_number,group_name):
+        """新建一个指定成员和名称的群，如果已存在，不建群"""
+        # 消息页面
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        times = 15
+        n = 0
+        # 重置应用时需要再次点击才会出现选择一个群
+        while n < times:
+            flag = sc.wait_for_page_load()
+            if not flag:
+                sc.click_back()
+                time.sleep(2)
+                mess.click_add_icon()
+                mess.click_group_chat()
+                sc = SelectContactsPage()
+            else:
+                break
+            n = n + 1
+        time.sleep(3)
+        sc.click_select_one_group()
+        # 群名
+        # group_name = Preconditions.get_group_chat_name()
+        # 获取已有群名
+        sog = SelectOneGroupPage()
+        sog.wait_for_page_load()
+        sog.click_search_group()
+        time.sleep(2)
+        sog.input_search_keyword(group_name)
+        time.sleep(2)
+        if sog.is_element_exit("群聊名"):
+            current_mobile().back()
+            time.sleep(2)
+            current_mobile().back()
+            return True
+        current_mobile().back()
+        time.sleep(2)
+        current_mobile().back()
+        current_mobile().back()
+        time.sleep(2)
+        current_mobile().back()
+        time.sleep(2)
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        #添加指定电话成员
+        time.sleep(2)
+        sc.input_search_keyword(puhone_number)
+        time.sleep(2)
+        sog.click_text("tel")
+        time.sleep(2)
+        # 从本地联系人中选择成员创建群
+        sc.click_local_contacts()
+        time.sleep(2)
+        slc = SelectLocalContactsPage()
+        a = 0
+        names = {}
+        while a < 3:
+            names = slc.get_contacts_name()
+            num = len(names)
+            if not names:
+                raise AssertionError("No contacts, please add contacts in address book.")
+            if num == 1:
+                sog.page_up()
+                a += 1
+                if a == 3:
+                    raise AssertionError("联系人只有一个，请再添加多个不同名字联系人组成群聊")
+            else:
+                break
+        # 选择成员
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_sure()
+        # 创建群
+        cgnp = CreateGroupNamePage()
+        cgnp.input_group_name(group_name)
+        cgnp.click_sure()
+        # 等待群聊页面加载
+        GroupChatPage().wait_for_page_load()
+        return False
+
+    @staticmethod
+    def get_group_chat_name_double():
+        """获取多人群名"""
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "多机" + phone_number[-4:]
+        return group_name
+
+    @staticmethod
+    def go_to_group_double(group_name):
+        """从消息列表进入双机群聊，前提：已经存在双机群聊"""
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        times = 15
+        n = 0
+        # 重置应用时需要再次点击才会出现选择一个群
+        while n < times:
+            flag = sc.wait_for_page_load()
+            if not flag:
+                sc.click_back()
+                time.sleep(2)
+                mess.click_add_icon()
+                mess.click_group_chat()
+                sc = SelectContactsPage()
+            else:
+                break
+            n = n + 1
+        time.sleep(3)
+        sc.click_select_one_group()
+        # # 群名
+        # group_name = Preconditions.get_group_chat_name_double()
+        # 获取已有群名
+        sog = SelectOneGroupPage()
+        sog.wait_for_page_load()
+        sog.click_search_group()
+        time.sleep(2)
+        sog.input_search_keyword(group_name)
+        time.sleep(2)
+        if not sog.is_element_exit("群聊名"):
+            raise AssertionError("没有找到双机群聊，请确认是否创建")
+        sog.click_element_("群聊名")
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+
+    @staticmethod
+    def change_mobile(moible_param):
+        """转换设备连接并且确保在消息列表页面"""
+        Preconditions.select_mobile(moible_param)
+        current_mobile().hide_keyboard_if_display()
+        current_mobile().launch_app()
+        Preconditions.make_in_message_page(moible_param)
 
 
 class CallMultipartyVideo(TestCase):
@@ -1435,4 +1632,3 @@ class CallMultipartyVideo(TestCase):
         cpg.page_should_contain_text("发出群邀请")
         cpg.page_should_contain_text("多方通话群聊")
         cpg.click_back_by_android(2)
-

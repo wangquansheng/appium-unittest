@@ -5234,6 +5234,155 @@ class MsgGroupChatvedioTest(TestCase):
             raise AssertionError("没有提示请先下载文件")
         Preconditions.delete_record_group_chat()
 
+    @staticmethod
+    def setUp_test_msg_xiaoliping_D_0195():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_msg_xiaoliping_D_0195(self):
+        """长按接收到老版本和飞信发送过来的大于20M的图片-删除"""
+        # 1、在当前页面接收到长按未下载的大于20M的图片
+        # 2、点击删除按钮
+        group_name = Preconditions.get_group_chat_name_double()
+        Preconditions.change_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.go_to_group_double(group_name)
+        Preconditions.public_send_file("十五兆")
+        cwp = ChatWindowPage()
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        Preconditions.delete_record_group_chat()
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+        gcp=GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.press_element_("消息图片", 3000)
+        gcp.click_text("删除")
+        time.sleep(2)
+        if gcp.is_element_exit_("消息图片"):
+            raise AssertionError("删除不成功")
+        Preconditions.delete_record_group_chat()
+
+    @staticmethod
+    def setUp_test_msg_xiaoliping_D_0196():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_msg_xiaoliping_D_0196(self):
+        """长按接收到老版本和飞信发送过来的大于20M的图片-编辑"""
+        # 1、在当前页面接收到长按未下载的大于20M的图片
+        # 2、点击编辑按钮
+        group_name = Preconditions.get_group_chat_name_double()
+        Preconditions.change_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.go_to_group_double(group_name)
+        Preconditions.public_send_file("十五兆")
+        cwp = ChatWindowPage()
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        Preconditions.delete_record_group_chat()
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+        gcp=GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.press_element_("消息图片", 3000)
+        gcp.click_text("编辑")
+        # if not gcp.is_toast_exist("请下载原文件后编辑"):
+        #     raise AssertionError("没有提示请下载原文件后编辑")
+        Preconditions.delete_record_group_chat()
+
+    @staticmethod
+    def setUp_test_msg_xiaoliping_D_0198():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_msg_xiaoliping_D_0198(self):
+        """点击接收到小于500k的图片"""
+        # 1、在当前页面点击接收到小于500k缩略图
+        # 3、长按原图进行保存到本地
+        group_name = Preconditions.get_group_chat_name_double()
+        Preconditions.change_mobile('Android-移动-移动')
+        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.go_to_group_double(group_name)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 2.点击输入框左上方的相册图标
+        gcp.click_picture()
+        # 3.进入相片页面,选择一张相片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_pic_fk()
+        # 4.点击预览
+        cpg.click_preview()
+        cpp = ChatPicPreviewPage()
+        cpp.wait_for_page_load()
+        # 5.点击发送,
+        cpp.click_send()
+        # 验证是否发送成功
+        cwp = ChatWindowPage()
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        Preconditions.delete_record_group_chat()
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+        gcp.wait_for_page_load()
+        gcp.click_element_("消息图片")
+        time.sleep(7)
+        gcp.press_xy()
+        gcp.click_text("保存图片")
+        if not gcp.is_toast_exist("保存成功"):
+            raise AssertionError("保存不成功")
+        current_mobile().back()
+        Preconditions.delete_record_group_chat()
+
 
 class MsgGroupChatVideoPicAllTest(TestCase):
     """
