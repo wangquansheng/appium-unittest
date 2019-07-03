@@ -3,7 +3,7 @@ import re
 import time
 import unittest
 import uuid
-
+import warnings
 from appium.webdriver.common.mobileby import MobileBy
 from selenium.common.exceptions import TimeoutException
 
@@ -561,8 +561,8 @@ class MsgGroupChatvedioTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-
-        # 创建联系
+        warnings.simplefilter('ignore', ResourceWarning)
+        创建联系
         fail_time = 0
         import dataproviders
         while fail_time < 3:
@@ -5065,7 +5065,6 @@ class MsgGroupChatvedioTest(TestCase):
         chat.click_back()
 
 
-
 class MsgGroupChatVideoPicAllTest(TestCase):
     """
     模块：群聊-图片视频-GIF
@@ -6369,4 +6368,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
 
         mp = MessagePage()
         mp.set_network_status(6)
+
+
 
