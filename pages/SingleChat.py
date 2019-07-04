@@ -385,3 +385,17 @@ class SingleChatPage(BaseChatPage):
         el = self.get_elements(('id', 'com.chinasofti.rcs:id/ll_msg'))[-1]
         self.press(el)
         self.click_element(self.__class__.__locators[text])
+
+    @TestLogger.log()
+    def press_last_picture_to_do(self, text):
+        """长按最后一个图片文件进行操作"""
+        el = self.get_elements(('id', 'com.chinasofti.rcs:id/layout_loading'))[-1]
+        self.press(el)
+        self.click_element(self.__class__.__locators[text])
+
+    @TestLogger.log()
+    def press_last_video_to_do(self, text):
+        """长按最后一个视频文件进行操作"""
+        el = self.get_elements(('id', 'com.chinasofti.rcs:id/video_thumb'))[-1]
+        self.press(el)
+        self.click_element(self.__class__.__locators[text])

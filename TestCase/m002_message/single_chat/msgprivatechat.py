@@ -1,5 +1,6 @@
 import random
 import time
+import warnings
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile
 from preconditions.BasePreconditions import LoginPreconditions
@@ -1582,3 +1583,5 @@ class MsgPrivateChatDialog(TestCase):
         if not len(info) == 5000:
             raise AssertionError("输入框可以输入超过5000个字符")
         chat.input_message('')
+
+

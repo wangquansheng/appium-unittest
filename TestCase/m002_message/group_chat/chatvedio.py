@@ -594,38 +594,38 @@ class MsgGroupChatvedioTest(TestCase):
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
         # 创建联系
-        # fail_time = 0
-        # import dataproviders
-        # while fail_time < 3:
-        #     try:
-        #         required_contacts = dataproviders.get_preset_contacts()
-        #         conts = ContactsPage()
-        #         Preconditions.connect_mobile('Android-移动')
-        #         current_mobile().hide_keyboard_if_display()
-        #         Preconditions.make_already_in_message_page()
-        #         conts.open_contacts_page()
-        #         try:
-        #             if conts.is_text_present("发现SIM卡联系人"):
-        #                 conts.click_text("显示")
-        #         except:
-        #             pass
-        #         for name, number in required_contacts:
-        #             conts.create_contacts_if_not_exits(name, number)
-        #         # 创建群
-        #         required_group_chats = dataproviders.get_preset_group_chats()
-        #         conts.open_group_chat_list()
-        #         group_list = GroupListPage()
-        #         for group_name, members in required_group_chats:
-        #             group_list.wait_for_page_load()
-        #             group_list.create_group_chats_if_not_exits(group_name, members)
-        #         group_list.click_back()
-        #         conts.open_message_page()
-        #         return
-        #     except:
-        #         fail_time += 1
-        #         import traceback
-        #         msg = traceback.format_exc()
-        #         print(msg)
+        fail_time = 0
+        import dataproviders
+        while fail_time < 3:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                Preconditions.connect_mobile('Android-移动')
+                current_mobile().hide_keyboard_if_display()
+                Preconditions.make_already_in_message_page()
+                conts.open_contacts_page()
+                try:
+                    if conts.is_text_present("发现SIM卡联系人"):
+                        conts.click_text("显示")
+                except:
+                    pass
+                for name, number in required_contacts:
+                    conts.create_contacts_if_not_exits(name, number)
+                # 创建群
+                required_group_chats = dataproviders.get_preset_group_chats()
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name, members in required_group_chats:
+                    group_list.wait_for_page_load()
+                    group_list.create_group_chats_if_not_exits(group_name, members)
+                group_list.click_back()
+                conts.open_message_page()
+                return
+            except:
+                fail_time += 1
+                import traceback
+                msg = traceback.format_exc()
+                print(msg)
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
@@ -5383,6 +5383,7 @@ class MsgGroupChatvedioTest(TestCase):
         current_mobile().back()
         Preconditions.delete_record_group_chat()
 
+
 class MsgGroupChatVideoPicAllTest(TestCase):
     """
     模块：群聊-图片视频-GIF
@@ -5393,7 +5394,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-
+        warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
         # 导入测试联系人、群聊
         fail_time1 = 0
@@ -6687,5 +6688,52 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mp = MessagePage()
         mp.set_network_status(6)
 
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0090(self):
+        """分享相册内图片给普通群聊时失败"""
+        # 1、成功登陆和飞信
+        # 2、网络异常
+        # 3、进入手机本地相册
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_back()
+        # 1.确保当前消息列表没有消息发送失败的标识影响验证结果
+        Preconditions.make_no_message_send_failed_status()
+        Preconditions.enter_group_chat_page()
+        # 2.点击输入框左上方的相册图标
+        gcp.click_picture()
+        # 3.进入相片页面,选择一张相片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_pic_fk(1)
+        # 4.点击发送，长按图片转发
+        cpg.click_send()
+        gcp.press_last_picture_to_do("转发")
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        # 5.点击选择一个普通群
+        scp.click_select_one_group()
+        sogp = SelectOneGroupPage()
+        sogp.wait_for_page_load()
+        name = "群聊2"
+        # 6.选择一个普通群
+        sogp.selecting_one_group_by_name(name)
+        # 7.断开网络
+        sogp.set_network_status(0)
+        # 8.点击确定发送
+        sogp.click_sure_forward()
+        # 9.点击返回消息页面
+        time.sleep(3)
+        gcp.click_back()
+        scp.wait_for_page_load()
+        scp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        if not mess.is_iv_fail_status_present():
+            raise AssertionError("消息列表没有显示消息发送失败标识")
 
+    def tearDown_test_msg_xiaoliping_D_0090(self):
+        # 重新连接网络
+        mess = MessagePage()
+        mess.set_network_status(6)
 
