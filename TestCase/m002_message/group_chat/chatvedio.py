@@ -6814,3 +6814,52 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 重新连接网络
         mess = MessagePage()
         mess.set_network_status(6)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0096(self):
+        """分享相册内视频给普通群聊时失败"""
+        # 1、成功登陆和飞信
+        # 2、网络异常
+        # 3、进入手机本地相册
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_back()
+        # 1.确保当前消息列表没有消息发送失败的标识影响验证结果
+        Preconditions.make_no_message_send_failed_status()
+        Preconditions.enter_group_chat_page()
+        # 2.点击输入框左上方的相册图标
+        gcp.click_picture()
+        # 3.进入相片页面,选择一个视频
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_video_fk(1)
+        # 4.点击发送，长按视频转发
+        cpg.click_send()
+        gcp.press_last_video_to_do("转发")
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        # 5.点击选择一个普通群
+        scp.click_select_one_group()
+        sogp = SelectOneGroupPage()
+        sogp.wait_for_page_load()
+        name = "群聊2"
+        # 6.选择一个普通群
+        sogp.selecting_one_group_by_name(name)
+        # 7.断开网络
+        sogp.set_network_status(0)
+        # 8.点击确定发送
+        sogp.click_sure_forward()
+        # 9.点击返回消息页面
+        time.sleep(3)
+        gcp.click_back()
+        scp.wait_for_page_load()
+        scp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        if not mess.is_iv_fail_status_present():
+            raise AssertionError("消息列表没有显示消息发送失败标识")
+
+    def tearDown_test_msg_xiaoliping_D_0096(self):
+        # 重新连接网络
+        mess = MessagePage()
+        mess.set_network_status(6)
