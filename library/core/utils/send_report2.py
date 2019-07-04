@@ -56,54 +56,6 @@ UI_AUTOMATION = {
     'RATE': u'暂无数据'
 }
 
-UI_AUTOMATION1 = {
-    'TOTAL': u'暂无数据',
-    'SUCCESS': u'暂无数据',
-    'FAIL': u'暂无数据',
-    'ERROR': u'暂无数据',
-    'RATE': u'暂无数据'
-}
-
-UI_AUTOMATION2 = {
-    'TOTAL': u'暂无数据',
-    'SUCCESS': u'暂无数据',
-    'FAIL': u'暂无数据',
-    'ERROR': u'暂无数据',
-    'RATE': u'暂无数据'
-}
-
-UI_AUTOMATION3 = {
-    'TOTAL': u'暂无数据',
-    'SUCCESS': u'暂无数据',
-    'FAIL': u'暂无数据',
-    'ERROR': u'暂无数据',
-    'RATE': u'暂无数据'
-}
-
-UI_AUTOMATION4 = {
-    'TOTAL': u'暂无数据',
-    'SUCCESS': u'暂无数据',
-    'FAIL': u'暂无数据',
-    'ERROR': u'暂无数据',
-    'RATE': u'暂无数据'
-}
-
-UI_AUTOMATION5 = {
-    'TOTAL': u'暂无数据',
-    'SUCCESS': u'暂无数据',
-    'FAIL': u'暂无数据',
-    'ERROR': u'暂无数据',
-    'RATE': u'暂无数据'
-}
-
-INTERFACE_NAME = {
-    'INTERFACE1': u'端口1',
-    'INTERFACE2': u'端口2',
-    'INTERFACE3': u'端口3',
-    'INTERFACE4': u'端口4',
-    'INTERFACE5': u'端口5'
-}
-
 API_AUTOMATION = {
     'TOTAL': u'暂无数据',
     'SUCCESS': u'暂无数据',
@@ -111,6 +63,7 @@ API_AUTOMATION = {
     'RATE': u'暂无数据'
 }
 
+HTML_TEXT = ""
 
 def get_sonar_metric():
     """获取静态代码扫描结果"""
@@ -134,61 +87,41 @@ def get_sonar_metric():
         print("获取SONAR数据失败")
         traceback.print_exc()
 
+def get_html_text(total_list, module_name):
+    """获取报告数据，生成HTML文件"""
 
-def get_ui_automation_metric(total_list):
-    """获取UI自动化测试结果"""
-
-    global UI_AUTOMATION1
-    UI_AUTOMATION1['TOTAL'] = total_list[0][0]
-    UI_AUTOMATION1['SUCCESS'] = total_list[0][1]
-    UI_AUTOMATION1['FAIL'] = total_list[0][2]
-    UI_AUTOMATION1['ERROR'] = total_list[0][3]
-    UI_AUTOMATION1['RATE'] = total_list[0][4] + "%"
-
-    global UI_AUTOMATION2
-    UI_AUTOMATION2['TOTAL'] = total_list[1][0]
-    UI_AUTOMATION2['SUCCESS'] = total_list[1][1]
-    UI_AUTOMATION2['FAIL'] = total_list[1][2]
-    UI_AUTOMATION2['ERROR'] = total_list[1][3]
-    UI_AUTOMATION2['RATE'] = total_list[1][4] + "%"
-
-    global UI_AUTOMATION3
-    UI_AUTOMATION3['TOTAL'] = total_list[2][0]
-    UI_AUTOMATION3['SUCCESS'] = total_list[2][1]
-    UI_AUTOMATION3['FAIL'] = total_list[2][2]
-    UI_AUTOMATION3['ERROR'] = total_list[2][3]
-    UI_AUTOMATION3['RATE'] = total_list[2][4] + "%"
-
-    global UI_AUTOMATION4
-    UI_AUTOMATION4['TOTAL'] = total_list[3][0]
-    UI_AUTOMATION4['SUCCESS'] = total_list[3][1]
-    UI_AUTOMATION4['FAIL'] = total_list[3][2]
-    UI_AUTOMATION4['ERROR'] = total_list[3][3]
-    UI_AUTOMATION4['RATE'] = total_list[3][4] + "%"
-
-    global UI_AUTOMATION5
-    UI_AUTOMATION5['TOTAL'] = total_list[4][0]
-    UI_AUTOMATION5['SUCCESS'] = total_list[4][1]
-    UI_AUTOMATION5['FAIL'] = total_list[4][2]
-    UI_AUTOMATION5['ERROR'] = total_list[4][3]
-    UI_AUTOMATION5['RATE'] = total_list[4][4] + "%"
-
-    global UI_AUTOMATION
-    UI_AUTOMATION['TOTAL'] = total_list[5][0]
-    UI_AUTOMATION['SUCCESS'] = total_list[5][1]
-    UI_AUTOMATION['FAIL'] = total_list[5][2]
-    UI_AUTOMATION['ERROR'] = total_list[5][3]
-    UI_AUTOMATION['RATE'] = total_list[5][4] + "%"
-
-def get_interface_name(module_name):
-    """获取端口名字"""
-
-    global INTERFACE_NAME
-    INTERFACE_NAME['INTERFACE1'] = module_name[0]
-    INTERFACE_NAME['INTERFACE2'] = module_name[1]
-    INTERFACE_NAME['INTERFACE3'] = module_name[2]
-    INTERFACE_NAME['INTERFACE4'] = module_name[3]
-    INTERFACE_NAME['INTERFACE5'] = module_name[4]
+    global HTML_TEXT
+    HTML_TEXT = """
+<html>
+	<head></head>
+	<body style="font-size: 20px; line-height: 20px;">
+		<br>
+		<h3>UI自动化测试</h3>
+		<table border="1" cellspacing="0" cellpadding="6">
+			<th colspan="6" bgcolor="grey" width="600px">UI自动化测试结果</th>
+			<tr><td></td><td style="color: purple; font-weight: bold;">用例数</td><td style="color: green; font-weight: bold;">成功数</td><td style="color: red; font-weight: bold;">失败数</td><td style="color: red; font-weight: bold;">错误数</td><td style="color: purple; font-weight: bold;">通过率</td></tr>
+        """
+    number = len(module_name)
+    for i in range(number):
+        HTML_TEXT += "<tr><td>" + module_name[i] + "</td>"
+        for j in range(len(total_list[i])):
+            if j == (len(total_list[i])-1):
+                HTML_TEXT += "<td>" + total_list[i][j] + "%</td>"
+            else:
+                HTML_TEXT += "<td>" + total_list[i][j] + "</td>"
+        HTML_TEXT += "</tr>\n"
+    HTML_TEXT += "<tr><td>合计</td><td>" + str(total_list[number][0]) + "</td><td>" + str(total_list[number][1]) + "</td><td>" + \
+                 str(total_list[number][2]) + "</td><td>" + str(total_list[number][3]) + "</td><td>" + str(total_list[number][4]) + "%</td></tr>"
+    HTML_TEXT += """
+		</table>
+		<br>
+		<p style="font-size: 16px; color: blue;">UI自动化测试明细详见附件</p>
+		<br>
+		<hr>
+		<p style="font-size: 14px; color: red;">此邮件为系统邮件，请勿直接回复。如有问题请联系<b>【测试团队】</b>相关同事。</p>
+	</body>
+</html>
+    """
 
 def get_current_version():
     """获取APP当前版本号"""
@@ -225,24 +158,7 @@ def send_mail(*to):
     mail['To'] = ','.join(to)
     mail['Subject'] = SUBJECT % CURRENT_VERSION
 
-    # content = open('ci_report.html', 'r', encoding='utf-8').read()
-    content = open(settings.EMAIL_REPORT_HTML_TPL2, 'r', encoding='utf-8').read()
-    content = content.format(
-        INTERFACE_NAME['INTERFACE1'], UI_AUTOMATION1['TOTAL'], UI_AUTOMATION1['SUCCESS'], UI_AUTOMATION1['FAIL'],
-        UI_AUTOMATION1['ERROR'], UI_AUTOMATION1['RATE'],
-        INTERFACE_NAME['INTERFACE2'], UI_AUTOMATION2['TOTAL'], UI_AUTOMATION2['SUCCESS'], UI_AUTOMATION2['FAIL'],
-        UI_AUTOMATION2['ERROR'], UI_AUTOMATION2['RATE'],
-        INTERFACE_NAME['INTERFACE3'], UI_AUTOMATION3['TOTAL'], UI_AUTOMATION3['SUCCESS'], UI_AUTOMATION3['FAIL'],
-        UI_AUTOMATION3['ERROR'], UI_AUTOMATION3['RATE'],
-        INTERFACE_NAME['INTERFACE4'], UI_AUTOMATION4['TOTAL'], UI_AUTOMATION4['SUCCESS'], UI_AUTOMATION4['FAIL'],
-        UI_AUTOMATION4['ERROR'], UI_AUTOMATION4['RATE'],
-        INTERFACE_NAME['INTERFACE5'], UI_AUTOMATION5['TOTAL'], UI_AUTOMATION5['SUCCESS'], UI_AUTOMATION5['FAIL'],
-        UI_AUTOMATION5['ERROR'], UI_AUTOMATION5['RATE'],
-        UI_AUTOMATION['TOTAL'], UI_AUTOMATION['SUCCESS'], UI_AUTOMATION['FAIL'], UI_AUTOMATION['ERROR'],
-        UI_AUTOMATION['RATE']
-    )
-
-    mail.attach(MIMEText(content, 'html', 'utf-8'))
+    mail.attach(MIMEText(HTML_TEXT, 'html', 'utf-8'))
 
     for FILE in FILES:
         if os.path.isfile(os.path.abspath(FILE)):

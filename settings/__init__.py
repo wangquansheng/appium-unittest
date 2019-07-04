@@ -29,8 +29,6 @@ RESOURCE_FILE_PATH = os.path.join(PROJECT_PATH, 'resource')
 STATIC_FILE_PATH = os.path.join(PROJECT_PATH, 'Resources')
 EMAIL_REPORT_HTML_TPL = os.path.join(STATIC_FILE_PATH, 'email_report_tpl', 'ci_report.html')
 
-EMAIL_REPORT_HTML_TPL2 = os.path.join(STATIC_FILE_PATH, 'email_report_tpl', 'ci_report2.html')
-
 # 139公共邮箱
 EMAIL = dict(
     SMTP_SERVER='smtp.139.com',
