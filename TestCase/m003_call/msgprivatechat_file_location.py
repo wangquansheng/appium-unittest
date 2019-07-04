@@ -5014,3 +5014,31 @@ class MsgPrivateChatAllTest(TestCase):
         # 7.长按搜索框
         sogp.press_group_search_bar()
 
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0099(self):
+        """将自己发送的文件转发到在搜索框输入空格搜索到的手机联系人"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        # 2.长按最后一个文件转发
+        scp.press_last_file_to_do("转发")
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 3.点击选择手机联系人
+        select_contacts.click_phone_contact()
+        slcp = SelectLocalContactsPage()
+        slcp.wait_for_page_load()
+        slcp.click_search_box()
+        # 3.在搜索框输入含有空格点击搜索到的手机联系人
+        slcp.search_and_select_contact("a a")
+        if scp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
+
