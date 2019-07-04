@@ -6766,3 +6766,51 @@ class MsgGroupChatVideoPicAllTest(TestCase):
             raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊天会话页面")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0093(self):
+        """分享相册内图片给企业群聊时失败"""
+        # 1、成功登陆和飞信
+        # 2、网络异常
+        # 3、进入手机本地相册
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_back()
+        # 1.确保当前消息列表没有消息发送失败的标识影响验证结果
+        Preconditions.make_no_message_send_failed_status()
+        Preconditions.enter_group_chat_page()
+        # 2.点击输入框左上方的相册图标
+        gcp.click_picture()
+        # 3.进入相片页面,选择一张相片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_pic_fk(1)
+        # 4.点击发送，长按图片转发
+        cpg.click_send()
+        gcp.press_last_picture_to_do("转发")
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        # 5.点击"选择一个群"菜单
+        scp.click_select_one_group()
+        sogp = SelectOneGroupPage()
+        sogp.wait_for_page_load()
+        # 6.点击选择一个企业群
+        sogp.select_one_enterprise_group()
+        # 7.断开网络
+        sogp.set_network_status(0)
+        # 8.点击确定发送
+        sogp.click_sure_forward()
+        # 9.点击返回消息页面
+        time.sleep(3)
+        gcp.click_back()
+        scp.wait_for_page_load()
+        scp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        if not mess.is_iv_fail_status_present():
+            raise AssertionError("消息列表没有显示消息发送失败标识")
+
+    def tearDown_test_msg_xiaoliping_D_0093(self):
+        # 重新连接网络
+        mess = MessagePage()
+        mess.set_network_status(6)
