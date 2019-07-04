@@ -69,6 +69,7 @@ class ContactsPage(FooterPage):
         '显示':(MobileBy.ID,'com.chinasofti.rcs:id/btn_ok'),
         '不显示': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
         '企业群标识': (MobileBy.ID, 'com.chinasofti.rcs:id/group_ep'),
+        '企业群名称': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
         '群聊列表返回': (MobileBy.ID, 'com.chinasofti.rcs:id/select_picture_custom_toolbar_back_btn'),
         '团队名称': (MobileBy.ID, 'com.chinasofti.rcs:id/img_icon_department'),
         '标签分组返回': (MobileBy.ID, 'com.chinasofti.rcs:id/toolbar_back_btn'),
@@ -589,6 +590,19 @@ class ContactsPage(FooterPage):
         current = 0
         while current < max_try:
             if self._is_element_present(self.__class__.__locators["企业群标识"]):
+                return True
+            current += 1
+            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        return False
+
+    @TestLogger.log()
+    def is_exist_enterprise_group_name(self,groupname):
+        """是否存在企业群名称"""
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text ="%s"]' % groupname)
+        max_try = 10
+        current = 0
+        while current < max_try:
+            if self._is_element_present(locator):
                 return True
             current += 1
             self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
