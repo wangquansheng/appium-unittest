@@ -6863,3 +6863,33 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 重新连接网络
         mess = MessagePage()
         mess.set_network_status(6)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0098(self):
+        """分享相册内视频给和企业群聊"""
+        # 1、成功登陆和飞信
+        # 2、进入手机本地相册
+        gcp = GroupChatPage()
+        gcp.click_picture()
+        # 1.进入相片页面,选择一个视频
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_video_fk(1)
+        # 2.点击发送，长按视频转发
+        cpg.click_send()
+        gcp.press_last_video_to_do("转发")
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        # 3.点击“选择一个群”菜单
+        scp.click_select_one_group()
+        sogp = SelectOneGroupPage()
+        sogp.wait_for_page_load()
+        # 4.点击选择一个企业群
+        sogp.select_one_enterprise_group()
+        # 5.点击确定发送
+        sogp.click_sure_forward()
+        flag = gcp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not gcp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊天会话页面")
