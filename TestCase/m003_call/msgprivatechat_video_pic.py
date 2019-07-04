@@ -3226,3 +3226,33 @@ class MsgPrivateChatVideoPicAllTest(TestCase):
         Preconditions.change_mobile('Android-移动')
         mess.press_file_to_do(phone_number, "删除聊天")
 
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_C_0080(self):
+        """分享相册内图片给手机联系人"""
+        # 1、成功登陆和飞信
+        # 2、进入手机本地相册
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        # 1.点击输入框左上方的相册图标
+        scp.click_picture()
+        # 2.进入相片页面,选择一张图片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_pic_fk(1)
+        # 3.点击发送，长按图片转发
+        cpg.click_send()
+        scp.press_last_picture_to_do("转发")
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 4.点击选择手机联系人
+        select_contacts.click_phone_contact()
+        slcp = SelectLocalContactsPage()
+        slcp.wait_for_page_load()
+        slcp.click_search_box()
+        # 5.在搜索框点击搜索到的手机联系人
+        slcp.search_and_select_contact("大佬2")
+        if not scp.is_toast_exist("已转发"):
+            raise AssertionError("没有已转发的弹框提示")
+        if not scp.is_on_this_page():
+            raise AssertionError("当前页面不在单聊页面")
+
