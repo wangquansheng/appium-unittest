@@ -5312,3 +5312,33 @@ class MsgPrivateChatAllTest(TestCase):
         if not scp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
 
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0115(self):
+        """将自己发送的文件转发到在企业列表搜索框输入字母搜索到的团队联系人"""
+        scp = SingleChatPage()
+        file_type = ".txt"
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(file_type):
+            Preconditions.send_file_by_type(file_type)
+        # 2.等待单聊会话页面加载
+        scp.wait_for_page_load()
+        # 3.长按自己发送的文件并转发
+        scp.forward_file(file_type)
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 4.点击“选择团队联系人”菜单
+        select_contacts.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        shc.wait_for_he_contacts_page_load()
+        # 5.在搜索框输入字母
+        shc.input_search("English")
+        # 6.点击搜索的团队联系人
+        shc.click_search_team_contacts()
+        # 7.点击确认转发
+        shc.click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not scp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
+
