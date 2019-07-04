@@ -18,6 +18,7 @@ class GroupChatPage(BaseChatPage):
                   'com.chinasofti.rcs:id/back': (MobileBy.ID, 'com.chinasofti.rcs:id/back'),
                   'com.chinasofti.rcs:id/back_arrow': (MobileBy.ID, 'com.chinasofti.rcs:id/back_arrow'),
                   '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/back_arrow'),
+                  '返回2': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
                   '群聊001(2)': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
                   '消息免打扰': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_slient'),
                   '多方通话': (MobileBy.ID, 'com.chinasofti.rcs:id/action_multicall'),
@@ -282,6 +283,11 @@ class GroupChatPage(BaseChatPage):
     def click_back(self):
         """点击返回按钮"""
         self.click_element(self.__class__.__locators["返回"])
+
+    @TestLogger.log()
+    def click_back2(self):
+        """点击返回按钮(审批页面)"""
+        self.click_element(self.__class__.__locators["返回2"])
 
     @TestLogger.log()
     def is_exist_undisturb(self):
@@ -827,5 +833,19 @@ class GroupChatPage(BaseChatPage):
     def press_last_file_to_do(self, text):
         """长按最后一个文件进行操作"""
         el = self.get_elements(('id', 'com.chinasofti.rcs:id/ll_msg'))[-1]
+        self.press(el)
+        self.click_element(self.__class__.__locators[text])
+
+    @TestLogger.log()
+    def press_last_picture_to_do(self, text):
+        """长按最后一个图片文件进行操作"""
+        el = self.get_elements(('id', 'com.chinasofti.rcs:id/layout_loading'))[-1]
+        self.press(el)
+        self.click_element(self.__class__.__locators[text])
+
+    @TestLogger.log()
+    def press_last_video_to_do(self, text):
+        """长按最后一个视频文件进行操作"""
+        el = self.get_elements(('id', 'com.chinasofti.rcs:id/video_thumb'))[-1]
         self.press(el)
         self.click_element(self.__class__.__locators[text])

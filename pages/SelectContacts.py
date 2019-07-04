@@ -349,6 +349,24 @@ class SelectContactsPage(BasePage):
         self.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and ' +
                             '@text="{}"]'.format(name)))
 
+    @TestLogger.log('是否存在名字为空的联系人')
+    def is_exisit_null_contact(self, name):
+        """是否存在名字为空的联系人"""
+        els = self.get_elements((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name"]'))
+        for i in range(len(els)):
+            print("els"+ str(i) +"   = "+str(els[i].text))
+            if els[i].text =="":
+                return True
+        print("els---------------------------")
+        return False
+
+
+
+        # if el is None:
+        #     return True
+        # else:
+        #     return False
+
     @TestLogger.log('点击联系人头像')
     def click_cantact_avatar(self):
         """点击联系人头像"""

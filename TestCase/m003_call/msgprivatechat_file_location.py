@@ -1,6 +1,7 @@
 import random
 import time
 import unittest
+import warnings
 
 from selenium.common.exceptions import TimeoutException
 
@@ -550,6 +551,53 @@ class Preconditions(WorkbenchPreconditions):
         current_mobile().launch_app()
         Preconditions.make_in_message_page(moible_param)
 
+    @staticmethod
+    def create_team_select_contacts(team_name):
+        """创建团队并添加指定名字联系人为团队成员"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        mess.open_workbench_page()
+        workbench = WorkbenchPage()
+        if workbench.is_on_welcome_page():
+            workbench.click_now_create_team()
+        else:
+            workbench.wait_for_page_load()
+            workbench.click_create_team()
+        team = CreateTeamPage()
+        team.wait_for_page_load()
+        team.input_team_name(team_name)
+        team.choose_location()
+        team.choose_industry()
+        team.input_real_name("admin")
+        # 立即创建团队
+        team.click_immediately_create_team()
+        # 点击完成设置工作台
+        team.wait_for_setting_workbench_page_load()
+        team.click_finish_setting_workbench()
+        team.wait_for_create_team_success_page_load()
+        # 点击邀请成员
+        team.click_invite_member()
+        time.sleep(3)
+        osp = OrganizationStructurePage()
+        osp.click_text("从手机通讯录添加")
+        time.sleep(2)
+        sc = SelectContactsPage()
+        slc = SelectLocalContactsPage()
+        # 选择联系人加入团队
+        slc.wait_for_page_load()
+        name_contacts = ["a a", "aa1122",  "大佬1", "给个红包1", "English", "特殊!@$"]
+        for name_contact in name_contacts:
+            time.sleep(2)
+            slc.selecting_local_contacts_by_name(name_contact)
+        # 点击确认
+        slc.click_sure()
+        slc.wait_for_page_load()
+        # 点击取消返回工作台页面
+        slc.click_cancle()
+        workbench.click_message_icon()
+
 
 class MsgPrivateChatFileLocationTest(TestCase):
     """
@@ -560,11 +608,13 @@ class MsgPrivateChatFileLocationTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        warnings.simplefilter('ignore')
         Preconditions.select_mobile('Android-移动')
         current_mobile().launch_app()
 
     def default_setUp(self):
         """确保每个用例运行前在单聊会话页面"""
+        warnings.simplefilter('ignore')
         Preconditions.select_mobile('Android-移动')
         mess = MessagePage()
         if mess.is_on_this_page():
@@ -1135,9 +1185,9 @@ class MsgPrivateChatAllTest(TestCase):
     Author:刘晓东
     """
 
-    # @classmethod
-    # def setUpClass(cls):
-    #
+    @classmethod
+    def setUpClass(cls):
+        warnings.simplefilter('ignore', ResourceWarning)
     #     Preconditions.select_mobile('Android-移动')
     #     # 导入测试联系人、群聊
     #     fail_time1 = 0
@@ -4923,4 +4973,468 @@ class MsgPrivateChatAllTest(TestCase):
         Preconditions.change_mobile('Android-移动')
         mess.press_file_to_do(phone_number, "删除聊天")
 
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0089(self):
+        """将自己发送的文件转发到在搜索框粘贴字符搜索到的群"""
+        scp = SingleChatPage()
+        # 1.输入群名发送，长按信息并复制
+        scp.input_message("群聊1")
+        scp.send_message()
+        cwp = ChatWindowPage()
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        scp.press_file_to_do("群聊1", "复制")
+        flag = scp.is_toast_exist("已复制")
+        if not flag:
+            raise AssertionError("群聊名字复制失败")
+        # 2.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        # 3.长按最后一个文件转发
+        scp.press_last_file_to_do("转发")
+        select_contacts = SelectContactsPage()
+        # 4.等待选择联系人页面加载
+        select_contacts.wait_for_page_load()
+        # 5.点击选择一个群
+        select_contacts.click_select_one_group()
+        sogp = SelectOneGroupPage()
+        sogp.wait_for_page_load()
+        # 6.搜索群组
+        sogp.click_search_group()
+        time.sleep(1)
+        # 7.长按搜索框
+        sogp.press_group_search_bar()
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0099(self):
+        """将自己发送的文件转发到在搜索框输入空格搜索到的手机联系人"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        # 2.长按最后一个文件转发
+        scp.press_last_file_to_do("转发")
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 3.点击选择手机联系人
+        select_contacts.click_phone_contact()
+        slcp = SelectLocalContactsPage()
+        slcp.wait_for_page_load()
+        slcp.click_search_box()
+        # 3.在搜索框输入含有空格点击搜索到的手机联系人
+        slcp.search_and_select_contact("a a")
+        if scp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0100(self):
+        """将自己发送的文件转发到在搜索框粘贴字符搜索到的手机联系人"""
+        scp = SingleChatPage()
+        # 1.输入联系人名字发送，长按信息并复制
+        scp.input_message("飞信电话")
+        scp.send_message()
+        cwp = ChatWindowPage()
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        scp.press_file_to_do("飞信电话", "复制")
+        flag = scp.is_toast_exist("已复制")
+        if not flag:
+            raise AssertionError("联系人名字复制失败")
+        # 2.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        # 3.长按最后一个文件转发
+        scp.press_last_file_to_do("转发")
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 3.点击选择手机联系人
+        select_contacts.click_phone_contact()
+        slcp = SelectLocalContactsPage()
+        slcp.wait_for_page_load()
+        # 4.点击搜索框长按粘贴
+        slcp.click_search_box()
+        slcp.press_search_bar()
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0108(self):
+        """将自己发送的文件转发到团队联系人时发送失败"""
+        scp = SingleChatPage()
+        file_type = ".txt"
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(file_type):
+            Preconditions.send_file_by_type(file_type)
+        # 2.等待单聊会话页面加载
+        scp.wait_for_page_load()
+        # 3.长按自己发送的文件并转发
+        scp.forward_file(file_type)
+        scg = SelectContactsPage()
+        # 4.等待选择联系人页面加载
+        scg.wait_for_page_load()
+        # 5.点击“选择团队联系人”菜单
+        scg.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        # 6.等待选择联系人->和通讯录联系人 页面加载
+        shc.wait_for_he_contacts_page_load()
+        # 7.选择一个团队联系人
+        # 需要考虑测试号码存在多个团队的情况
+        Preconditions.if_exists_multiple_enterprises_enter_single_chat(file_type)
+        name = "大佬1"
+        shc.selecting_he_contacts_by_name(name)
+        # 8.断开网络
+        shc.set_network_status(0)
+        # 9.点击确认
+        shc.click_sure_forward()
+        if not scp.is_toast_exist("已转发"):
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        # 10.返回单聊会话页面
+        scp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        if not mess.is_iv_fail_status_present():
+            raise AssertionError("消息列表没有显示消息发送失败标识")
+
+    def tearDown_test_msg_weifenglian_1V1_0108(self):
+        # 重新连接网络
+        mess = MessagePage()
+        mess.set_network_status(6)
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0109(self):
+        """将自己发送的文件转发到在企业列表搜索框输入多种字符搜索到的团队联系人"""
+        scp = SingleChatPage()
+        file_type = ".txt"
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(file_type):
+            Preconditions.send_file_by_type(file_type)
+        # 2.等待单聊会话页面加载
+        scp.wait_for_page_load()
+        # 3.长按自己发送的文件并转发
+        scp.forward_file(file_type)
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 4.点击“选择团队联系人”菜单
+        select_contacts.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        shc.wait_for_he_contacts_page_load()
+        # 5.在搜索框输入多种字符
+        shc.input_search("给个红包1")
+        # 6.点击搜索的团队联系人
+        shc.click_search_team_contacts()
+        # 7.点击确认转发
+        shc.click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not scp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0110(self):
+        """将自己发送的文件转发到在企业内搜索框输入多种字符搜索到的团队联系人"""
+        scp = SingleChatPage()
+        file_type = ".txt"
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(file_type):
+            Preconditions.send_file_by_type(file_type)
+        # 2.等待单聊会话页面加载
+        scp.wait_for_page_load()
+        # 3.长按自己发送的文件并转发
+        scp.forward_file(file_type)
+        scg = SelectContactsPage()
+        # 4.等待选择联系人页面加载
+        scg.wait_for_page_load()
+        # 5.点击“选择团队联系人”菜单
+        scg.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        shc.wait_for_he_contacts_page_load()
+        # 6.选择团队
+        shc.click_department_name("测试团队1")
+        # 7.在搜索框输入多种字符
+        shc.input_search("给个红包1")
+        # 8.点击搜索的团队联系人
+        shc.click_search_team_contacts()
+        # 9.点击确认转发
+        shc.click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not scp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0111(self):
+        """将自己发送的文件转发到在企业列表搜索框输入数字搜索到的团队联系人"""
+        scp = SingleChatPage()
+        file_type = ".txt"
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(file_type):
+            Preconditions.send_file_by_type(file_type)
+        # 2.等待单聊会话页面加载
+        scp.wait_for_page_load()
+        # 3.长按自己发送的文件并转发
+        scp.forward_file(file_type)
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 4.点击“选择团队联系人”菜单
+        select_contacts.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        shc.wait_for_he_contacts_page_load()
+        # 5.在搜索框输入数字
+        shc.input_search("1122")
+        # 6.点击搜索的团队联系人
+        shc.click_search_team_contacts()
+        # 7.点击确认转发
+        shc.click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not scp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0112(self):
+        """将自己发送的文件转发到在企业内搜索框输入数字搜索到的团队联系人"""
+        scp = SingleChatPage()
+        file_type = ".txt"
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(file_type):
+            Preconditions.send_file_by_type(file_type)
+        # 2.等待单聊会话页面加载
+        scp.wait_for_page_load()
+        # 3.长按自己发送的文件并转发
+        scp.forward_file(file_type)
+        scg = SelectContactsPage()
+        # 4.等待选择联系人页面加载
+        scg.wait_for_page_load()
+        # 5.点击“选择团队联系人”菜单
+        scg.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        shc.wait_for_he_contacts_page_load()
+        # 3.选择团队
+        shc.click_department_name("测试团队1")
+        # 4.在搜索框输入数字
+        shc.input_search("1122")
+        # 5.点击搜索的团队联系人
+        shc.click_search_team_contacts()
+        # 6.点击确认转发
+        shc.click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not scp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0113(self):
+        """将自己发送的文件转发到在企业列表搜索框输入标点符号搜索到的团队联系人"""
+        scp = SingleChatPage()
+        file_type = ".txt"
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(file_type):
+            Preconditions.send_file_by_type(file_type)
+        # 2.等待单聊会话页面加载
+        scp.wait_for_page_load()
+        # 3.长按自己发送的文件并转发
+        scp.forward_file(file_type)
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 4.点击“选择团队联系人”菜单
+        select_contacts.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        shc.wait_for_he_contacts_page_load()
+        # 5.在搜索框输入标点符号
+        shc.input_search("!")
+        # 6.点击搜索的团队联系人
+        shc.click_search_team_contacts()
+        # 7.点击确认转发
+        shc.click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not scp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0114(self):
+        """将自己发送的文件转发到在企业内搜索框输入标点符号搜索到的团队联系人"""
+        scp = SingleChatPage()
+        file_type = ".txt"
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(file_type):
+            Preconditions.send_file_by_type(file_type)
+        # 2.等待单聊会话页面加载
+        scp.wait_for_page_load()
+        # 3.长按自己发送的文件并转发
+        scp.forward_file(file_type)
+        scg = SelectContactsPage()
+        # 4.等待选择联系人页面加载
+        scg.wait_for_page_load()
+        # 5.点击“选择团队联系人”菜单
+        scg.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        shc.wait_for_he_contacts_page_load()
+        # 6.选择团队
+        shc.click_department_name("测试团队1")
+        # 7.在搜索框输入标点符号
+        shc.input_search("!")
+        # 8.点击搜索的团队联系人
+        shc.click_search_team_contacts()
+        # 9.点击确认转发
+        shc.click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not scp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0115(self):
+        """将自己发送的文件转发到在企业列表搜索框输入字母搜索到的团队联系人"""
+        scp = SingleChatPage()
+        file_type = ".txt"
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(file_type):
+            Preconditions.send_file_by_type(file_type)
+        # 2.等待单聊会话页面加载
+        scp.wait_for_page_load()
+        # 3.长按自己发送的文件并转发
+        scp.forward_file(file_type)
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 4.点击“选择团队联系人”菜单
+        select_contacts.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        shc.wait_for_he_contacts_page_load()
+        # 5.在搜索框输入字母
+        shc.input_search("English")
+        # 6.点击搜索的团队联系人
+        shc.click_search_team_contacts()
+        # 7.点击确认转发
+        shc.click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not scp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0116(self):
+        """将自己发送的文件转发到在企业内搜索框输入字母搜索到的团队联系人"""
+        scp = SingleChatPage()
+        file_type = ".txt"
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(file_type):
+            Preconditions.send_file_by_type(file_type)
+        # 2.等待单聊会话页面加载
+        scp.wait_for_page_load()
+        # 3.长按自己发送的文件并转发
+        scp.forward_file(file_type)
+        scg = SelectContactsPage()
+        # 4.等待选择联系人页面加载
+        scg.wait_for_page_load()
+        # 5.点击“选择团队联系人”菜单
+        scg.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        shc.wait_for_he_contacts_page_load()
+        # 6.选择团队
+        shc.click_department_name("测试团队1")
+        # 7.在搜索框输入字母
+        shc.input_search("English")
+        # 8.点击搜索的团队联系人
+        shc.click_search_team_contacts()
+        # 9.点击确认转发
+        shc.click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not scp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0117(self):
+        """将自己发送的文件转发到在企业列表搜索框输入空格搜索到的团队联系人"""
+        scp = SingleChatPage()
+        file_type = ".txt"
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(file_type):
+            Preconditions.send_file_by_type(file_type)
+        # 2.等待单聊会话页面加载
+        scp.wait_for_page_load()
+        # 3.长按自己发送的文件并转发
+        scp.forward_file(file_type)
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 4.点击“选择团队联系人”菜单
+        select_contacts.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        shc.wait_for_he_contacts_page_load()
+        # 5.在搜索框输入空格
+        shc.input_search("a a")
+        # 6.点击搜索的团队联系人
+        shc.click_search_team_contacts()
+        # 7.点击确认转发
+        shc.click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not scp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0118(self):
+        """将自己发送的文件转发到在企业内搜索框输入空格搜索到的团队联系人"""
+        scp = SingleChatPage()
+        file_type = ".txt"
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(file_type):
+            Preconditions.send_file_by_type(file_type)
+        # 2.等待单聊会话页面加载
+        scp.wait_for_page_load()
+        # 3.长按自己发送的文件并转发
+        scp.forward_file(file_type)
+        scg = SelectContactsPage()
+        # 4.等待选择联系人页面加载
+        scg.wait_for_page_load()
+        # 5.点击“选择团队联系人”菜单
+        scg.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        shc.wait_for_he_contacts_page_load()
+        # 6.选择团队
+        shc.click_department_name("测试团队1")
+        # 7.在搜索框输入空格
+        shc.input_search("a a")
+        # 8.点击搜索的团队联系人
+        shc.click_search_team_contacts()
+        # 9.点击确认转发
+        shc.click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not scp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
 

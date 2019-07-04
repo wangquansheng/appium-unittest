@@ -73,6 +73,7 @@ class SingleChatPage(BaseChatPage):
                   '复制': (MobileBy.XPATH, "//*[contains(@text, '复制')]"),
                   '编辑': (MobileBy.XPATH, "//*[contains(@text, '编辑')]"),
                   '消息位置': (MobileBy.ID, 'com.chinasofti.rcs:id/lloc_famous_address_text'),
+                  '文件': ('id', 'com.chinasofti.rcs:id/ib_file'),
                   }
 
     @TestLogger.log()
@@ -363,5 +364,24 @@ class SingleChatPage(BaseChatPage):
     def press_message_to_do(self, text):
         """长按指定信息进行操作"""
         el = self.get_element((MobileBy.ID, 'com.chinasofti.rcs:id/lloc_famous_address_text'))
+        self.press(el)
+        self.click_element(self.__class__.__locators[text])
+
+    @TestLogger.log()
+    def press_file_to_do(self, file, text):
+        """长按指定文件进行操作"""
+        el = self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file))
+        self.press(el)
+        self.click_element(self.__class__.__locators[text])
+
+    @TestLogger.log()
+    def click_file(self):
+        """点击文件"""
+        self.click_element(self.__class__.__locators["文件"])
+
+    @TestLogger.log()
+    def press_last_file_to_do(self, text):
+        """长按最后一个文件进行操作"""
+        el = self.get_elements(('id', 'com.chinasofti.rcs:id/ll_msg'))[-1]
         self.press(el)
         self.click_element(self.__class__.__locators[text])
