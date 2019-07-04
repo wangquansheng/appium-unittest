@@ -246,6 +246,42 @@ class Preconditions(WorkbenchPreconditions):
         gcp.wait_for_page_load()
 
     @staticmethod
+    def search_into_group_chat_page(name):
+        """搜索群后，选择该群，并进入群聊聊天会话页面"""
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        # 点击 +
+        mp.click_add_icon()
+        # 点击发起群聊
+        mp.click_group_chat()
+        scg = SelectContactsPage()
+        times = 15
+        n = 0
+        # 重置应用时需要再次点击才会出现选择一个群
+        while n < times:
+            # 等待选择联系人页面加载
+            flag = scg.wait_for_page_load()
+            if not flag:
+                scg.click_back()
+                time.sleep(2)
+                mp.click_add_icon()
+                mp.click_group_chat()
+            else:
+                break
+            n += 1
+        scg.click_select_one_group()
+        sog = SelectOneGroupPage()
+        # 等待“选择一个群”页面加载
+        sog.wait_for_page_load()
+        # 搜索群组
+        sog.click_search_group()
+        sog.input_search_keyword(name)
+        # 选择一个普通群（企业群）
+        sog.selecting_one_group_by_name(name)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+
+    @staticmethod
     def get_into_group_chat_page2():
         """进入企业群聊天会话页面"""
 
@@ -1290,6 +1326,788 @@ class MsgGroupChatVideoPicAllTest(TestCase):
             self.assertEqual(exist, True)
             exist = gcp.is_text_present("编辑")
             self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0057(self):
+        """普通企业群/长ID企业群：三种用户类型打开“+”后是否都展示正常——本网号"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        # 点击 + 号
+        gcp.click_more()
+        # 判定  "文件" "卡券"-没有
+        exist = gcp.is_text_present("群短信")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("位置")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("红包")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("审批")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("日志")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0060(self):
+        """普通企业群/长ID企业群：多个入口进入群打开“+”后是否都展示正常——消息模块内全局搜索企业群（本网号为例）"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 消息页 搜索'测试企业群'
+        mess = MessagePage()
+        mess.click_search()
+        time.sleep(1)
+        groupname = "测试企业群"
+        mess.input_search_message_631(groupname)
+        time.sleep(1)
+        mess.selecting_one_group_click_by_name(groupname)
+        # 点击 + 号
+        gcp.click_more()
+        # 判定  "文件" "卡券"-没有
+        exist = gcp.is_text_present("群短信")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("位置")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("红包")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("审批")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("日志")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0061(self):
+        """普通企业群/长ID企业群：多个入口进入群打开“+”后是否都展示正常——消息模块内发起群聊--选择一个群--搜索企业群（本网号为例）"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 搜索企业群，并进入企业群聊天页面
+        Preconditions.search_into_group_chat_page('测试企业群')
+        # 点击 + 号
+        gcp.click_more()
+        # 判定  "文件" "卡券"-没有
+        exist = gcp.is_text_present("群短信")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("位置")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("红包")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("审批")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("日志")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0062(self):
+        """普通企业群/长ID企业群：多个入口进入群打开“+”后是否都展示正常——消息模块内发起群聊--选择一个群--群列表内选择企业群（本网号为例）"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        # 点击 + 号
+        gcp.click_more()
+        # 判定  "文件" "卡券"-没有
+        exist = gcp.is_text_present("群短信")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("位置")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("红包")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("审批")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("日志")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0063(self):
+        """普通企业群/长ID企业群：多个入口进入群打开“+”后是否都展示正常——消息模块内发起群聊--选择一个群--群列表内选择企业群（本网号为例）"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        #发送信息
+        gcp.input_message("哈哈")
+        gcp.send_message()
+        # 返回到消息页面
+        gcp.click_back()
+        # 再次进入企业群聊天页面
+        mess = MessagePage()
+        mess.selecting_one_group_click_by_name('测试企业群')
+        # 点击 + 号
+        gcp.click_more()
+        # 判定  "文件" "卡券"-没有
+        exist = gcp.is_text_present("群短信")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("位置")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("红包")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("审批")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("日志")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0065(self):
+        """普通企业群/长ID企业群：多个入口进入群打开“+”后是否都展示正常——通讯录模块--群聊--搜索企业群（本网号为例）"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        # 搜索 测试企业群
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword('测试企业群')
+        mess.hide_keyboard()
+        time.sleep(1)
+        # 打开企业群
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 点击 + 号
+        gcp.click_more()
+        # 判定  "文件" "卡券"-没有
+        exist = gcp.is_text_present("群短信")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("位置")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("红包")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("审批")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("日志")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0066(self):
+        """普通企业群/长ID企业群：多个入口进入群打开“+”后是否都展示正常——通讯录模块--群聊--群列表内选择企业群（本网号为例）"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        # 选择 测试企业群
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 点击 + 号
+        gcp.click_more()
+        # 判定  "文件" "卡券"-没有
+        exist = gcp.is_text_present("群短信")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("位置")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("红包")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("审批")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("日志")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0067(self):
+        """普通企业群/长ID企业群：多个入口进入群打开“+”后是否都展示正常——新创建的群从“系统消息”进入后是否及时展示按钮（本网号为例）"""
+        # 1、在目标企业后台创建一个企业群--群主（本网）登录和飞信--点击消息模块“系统消息”按钮
+        # 2、点击该条系统消息的“进入群”按钮--点击下方输入框右上角的“+”按钮
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        # 选择 测试企业群
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 点击 + 号
+        gcp.click_more()
+        # 判定  "文件" "卡券"-没有
+        exist = gcp.is_text_present("群短信")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("位置")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("红包")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("审批")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("日志")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0068(self):
+        """普通企业群/长ID企业群：进入审批应用后页面样式检查（本网号为例）"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        # 选择 测试企业群
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 点击 + 号
+        gcp.click_more()
+        # 1、正常进入该企业下审批应用一级页面且页面样式及文案与工作台进入审批一致
+        exist = gcp.is_text_present("审批")
+        self.assertEqual(exist, True)
+        # 点击 审批
+        gcp.click_text("审批")
+        time.sleep(10)
+        exist = gcp.is_text_present("我审批的")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("我发起的")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("抄送我的")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0069(self):
+        """普通企业群/长ID企业群：进入审批应用后能否正常返回群聊页面（本网号为例）"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        # 选择 测试企业群
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 点击 + 号
+        gcp.click_more()
+        # 1、正常进入该企业下审批应用一级页面且页面样式及文案与工作台进入审批一致
+        exist = gcp.is_text_present("审批")
+        self.assertEqual(exist, True)
+        # 点击 审批
+        gcp.click_text("审批")
+        time.sleep(3)
+        # 点击 < 返回
+        gcp.click_back2()
+        time.sleep(5)
+        # 1、正常返回进入前的群聊页面且群内“+”保持打开状态
+        exist = gcp.is_text_present("飞信电话")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0353(self):
+        """全局搜索入口——搜索企业群/党群名称默认的三个结果"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 搜索企业群
+        mess = MessagePage()
+        mess.click_search()
+        mess.input_search_message_631("测试企业群")
+        mess.hide_keyboard()
+        time.sleep(2)
+        # 判断
+        # 1、全局搜索企业群/党群名称默认的三个结果
+        # 2、检查群头像、企业/党群标识、群名称、搜索字符高亮、群人数等元素
+        mess.is_exist_the_element("企业头像")
+        mess.is_exist_the_element("企业标识")
+        mess.is_exist_the_element("企业群名")
+        mess.is_exist_the_element("企业成员数量")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0354(self):
+        """全局搜索入口——搜索企业群/党群名称默认的三个结果"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 搜索企业群
+        mess = MessagePage()
+        mess.click_search()
+        mess.input_search_message_631("测试企业群")
+        mess.hide_keyboard()
+        time.sleep(1)
+        mess.selecting_one_group_scroll_by_name('测试企业群')
+        gcp.click_setting()
+        time.sleep(1)
+        # 判断
+        # 普通成员在群聊设置页没有拉人“+”和踢人“-”按钮
+        sc = SelectContactsPage()
+        exist = sc.is_exisit_null_contact(None)
+        self.assertEqual(exist, False)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0355(self):
+        """全局搜索入口——搜索企业群/党群名称默认的三个结果"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 搜索群
+        mess = MessagePage()
+        mess.click_search()
+        mess.input_search_message_631("ag6421")
+        mess.hide_keyboard()
+        time.sleep(1)
+        mess.selecting_one_group_scroll_by_name('ag6421')
+        gcp.click_setting()
+        time.sleep(1)
+        # 判断
+        # 群主在群聊设置页有拉人“+”和踢人“-”按钮正常展示
+        sc = SelectContactsPage()
+        exist = sc.is_exisit_null_contact(None)
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0358(self):
+        """全局搜索入口——搜索企业群/党群名称默认的三个结果"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 搜索企业群
+        mess = MessagePage()
+        mess.click_search()
+        mess.input_search_message_631("测试企业群")
+        mess.hide_keyboard()
+        time.sleep(1)
+        mess.selecting_one_group_scroll_by_name('测试企业群')
+        # 发送消息
+        gcp.input_text_message("123456")
+        gcp.send_message()
+        gcp.click_back()
+        gcp.click_back_by_android()
+        time.sleep(1)
+        # 1、消息列表内有消息记录的 正常进入和消息记录正常展示
+        mess.selecting_one_group_click_by_name("测试企业群")
+        time.sleep(1)
+        exist =gcp.is_text_present("已读动态")
+        self.assertEqual(exist, True)
+        exist =gcp.is_text_present("123456")
+        self.assertEqual(exist, True)
+        # 2、消息列表内没有消息记录的 正常进入和消息记录正常展示
+        Preconditions.delete_record_group_chat()
+        # 回到消息列表页面
+        gcp.click_back()
+        mess.selecting_one_group_click_by_name("测试企业群")
+        exist = gcp.is_text_present("已读动态")
+        self.assertEqual(exist, False)
+        exist = gcp.is_text_present("123456")
+        self.assertEqual(exist, False)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0359(self):
+        """全全局搜索入口——搜索企业群/党群名结果——查看更多列表页"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 搜索企业群
+        mess = MessagePage()
+        mess.click_search()
+        mess.input_search_message_631("测试企业群")
+        mess.hide_keyboard()
+        time.sleep(2)
+        # 判断
+        # 1、全局搜索企业群/党群名称默认的三个结果
+        # 2、检查群头像、企业/党群标识、群名称、搜索字符高亮、群人数等元素
+        mess.is_exist_the_element("企业头像")
+        mess.is_exist_the_element("企业标识")
+        mess.is_exist_the_element("企业群名")
+        mess.is_exist_the_element("企业成员数量")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0360(self):
+        """全局搜索入口——搜索企业群/党群名结果——查看更多列表页"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 搜索企业群
+        mess = MessagePage()
+        mess.click_search()
+        mess.input_search_message_631("测试企业群")
+        mess.hide_keyboard()
+        time.sleep(1)
+        mess.selecting_one_group_scroll_by_name('测试企业群')
+        gcp.click_setting()
+        time.sleep(1)
+        # 判断
+        # 普通成员在群聊设置页没有拉人“+”和踢人“-”按钮
+        sc = SelectContactsPage()
+        exist = sc.is_exisit_null_contact(None)
+        self.assertEqual(exist, False)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0361(self):
+        """全局搜索入口——搜索企业群/党群名结果——查看更多列表页"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 搜索群
+        mess = MessagePage()
+        mess.click_search()
+        mess.input_search_message_631("ag6421")
+        mess.hide_keyboard()
+        time.sleep(1)
+        mess.selecting_one_group_scroll_by_name('ag6421')
+        gcp.click_setting()
+        time.sleep(1)
+        # 判断
+        # 群主在群聊设置页有拉人“+”和踢人“-”按钮正常展示
+        sc = SelectContactsPage()
+        exist = sc.is_exisit_null_contact(None)
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0364(self):
+        """全局搜索入口——搜索企业群/党群名结果——查看更多列表页"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 搜索企业群
+        mess = MessagePage()
+        mess.click_search()
+        mess.input_search_message_631("测试企业群")
+        mess.hide_keyboard()
+        time.sleep(1)
+        mess.selecting_one_group_scroll_by_name('测试企业群')
+        # 发送消息
+        gcp.input_text_message("123456")
+        gcp.send_message()
+        gcp.click_back()
+        gcp.click_back_by_android()
+        time.sleep(1)
+        # 1、消息列表内有消息记录的 正常进入和消息记录正常展示
+        mess.selecting_one_group_click_by_name("测试企业群")
+        time.sleep(1)
+        exist = gcp.is_text_present("已读动态")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("123456")
+        self.assertEqual(exist, True)
+        # 2、消息列表内没有消息记录的 正常进入和消息记录正常展示
+        Preconditions.delete_record_group_chat()
+        # 回到消息列表页面
+        gcp.click_back()
+        mess.selecting_one_group_click_by_name("测试企业群")
+        exist = gcp.is_text_present("已读动态")
+        self.assertEqual(exist, False)
+        exist = gcp.is_text_present("123456")
+        self.assertEqual(exist, False)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0370(self):
+        """消息--右上角“+”--发起群聊--选择一个群——选择一个企业群/党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # # 搜索企业群
+        mess = MessagePage()
+        # 进入企业群
+        Preconditions.get_into_group_chat_page("测试企业群")
+        # 发送消息
+        gcp.input_text_message("123456")
+        gcp.send_message()
+        gcp.click_back()
+        time.sleep(1)
+        # 1、消息列表内有消息记录的 正常进入和消息记录正常展示
+        mess.selecting_one_group_click_by_name("测试企业群")
+        time.sleep(1)
+        exist = gcp.is_text_present("已读动态")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("123456")
+        self.assertEqual(exist, True)
+        # 2、消息列表内没有消息记录的 正常进入和消息记录正常展示
+        Preconditions.delete_record_group_chat()
+        # 回到消息列表页面
+        gcp.click_back()
+        mess.selecting_one_group_click_by_name("测试企业群")
+        exist = gcp.is_text_present("已读动态")
+        self.assertEqual(exist, False)
+        exist = gcp.is_text_present("123456")
+        self.assertEqual(exist, False)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0372(self):
+        """消息列表入口"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 搜索群
+        mess = MessagePage()
+        mess.click_search()
+        mess.input_search_message_631("ag6421")
+        mess.hide_keyboard()
+        time.sleep(1)
+        mess.selecting_one_group_scroll_by_name('ag6421')
+        # 发送消息
+        gcp.input_text_message("哈哈")
+        gcp.send_message()
+        #返回
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        # 消息列表进入群
+        mess.selecting_one_group_click_by_name('ag6421')
+        time.sleep(1)
+        gcp.click_setting()
+        time.sleep(1)
+        # 判断
+        # 群主在群聊设置页有拉人“+”和踢人“-”按钮正常展示
+        sc = SelectContactsPage()
+        exist = sc.is_exisit_null_contact(None)
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0375(self):
+        """企业群/党群在消息列表内展示"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # # 搜索企业群
+        mess = MessagePage()
+        # 进入企业群
+        Preconditions.get_into_group_chat_page("测试企业群")
+        # 发送消息
+        gcp.input_text_message("123456")
+        gcp.send_message()
+        gcp.click_back()
+        time.sleep(1)
+        # 1、群头像
+        # 2、企群头像右下角“企”标识；党群的群名称后党徽标识
+        mess.is_exist_the_element("企业头像")
+        mess.is_exist_the_element("企业标识")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0420(self):
+        """通讯录——群聊入口——群聊列表入口"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        time.sleep(1)
+        # 打开企业群
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name('ag6421')
+        time.sleep(1)
+        gcp.click_setting()
+        time.sleep(1)
+        # 判断
+        # 群主在群聊设置页有拉人“+”和踢人“-”按钮正常展示
+        sc = SelectContactsPage()
+        exist = sc.is_exisit_null_contact(None)
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0423(self):
+        """通讯录——群聊入口——群聊列表入口"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        time.sleep(1)
+        # 打开企业群
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 发送消息
+        gcp.input_text_message("123456")
+        gcp.send_message()
+        gcp.click_back()
+        gcp.click_back_by_android()
+        time.sleep(1)
+        # 切换到 消息 tab
+        cp = ContactsPage()
+        cp.open_message_page()
+        # 1、消息列表内有消息记录的 正常进入和消息记录正常展示
+        mess.selecting_one_group_click_by_name("测试企业群")
+        time.sleep(1)
+        exist = gcp.is_text_present("已读动态")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("123456")
+        self.assertEqual(exist, True)
+        # 2、消息列表内没有消息记录的 正常进入和消息记录正常展示
+        Preconditions.delete_record_group_chat()
+        # 回到消息列表页面
+        gcp.click_back()
+        mess.selecting_one_group_click_by_name("测试企业群")
+        exist = gcp.is_text_present("已读动态")
+        self.assertEqual(exist, False)
+        exist = gcp.is_text_present("123456")
+        self.assertEqual(exist, False)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0424(self):
+        """通讯录——群聊入口——搜索群组结果入口"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        time.sleep(1)
+        # 搜索企业群
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("测试企业群")
+        time.sleep(1)
+        # 判断企业群是否存在
+        exist = sog.is_text_present('测试企业群')
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0425(self):
+        """通讯录——群聊入口——搜索群组结果入口"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        time.sleep(1)
+        # 搜索企业群
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("测试企业群")
+        time.sleep(1)
+        # 打开企业群
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        gcp.click_setting()
+        time.sleep(1)
+        # 判断
+        # 群主在群聊设置页没有拉人“+”和踢人“-”按钮正常展示
+        sc = SelectContactsPage()
+        exist = sc.is_exisit_null_contact(None)
+        self.assertEqual(exist, False)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0426(self):
+        """通讯录——群聊入口——搜索群组结果入口"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        time.sleep(1)
+        #搜索企业群
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("ag6421")
+        time.sleep(1)
+        # 打开企业群
+        sog.selecting_one_group_by_name('ag6421')
+        time.sleep(1)
+        gcp.click_setting()
+        time.sleep(1)
+        # 判断
+        # 群主在群聊设置页有拉人“+”和踢人“-”按钮正常展示
+        sc = SelectContactsPage()
+        exist = sc.is_exisit_null_contact(None)
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0429(self):
+        """通讯录——群聊入口——搜索群组结果入口"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        time.sleep(1)
+        # 搜索企业群
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("测试企业群")
+        time.sleep(1)
+        # 打开企业群
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 发送消息
+        gcp.input_text_message("123456")
+        gcp.send_message()
+        gcp.hide_keyboard()
+        gcp.click_back()
+        gcp.click_back_by_android()
+        gcp.click_back_by_android()
+        time.sleep(1)
+        # 切换到 消息 tab
+        cp = ContactsPage()
+        cp.open_message_page()
+        # 1、消息列表内有消息记录的 正常进入和消息记录正常展示
+        mess.selecting_one_group_click_by_name("测试企业群")
+        time.sleep(1)
+        exist = gcp.is_text_present("已读动态")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("123456")
+        self.assertEqual(exist, True)
+        # 2、消息列表内没有消息记录的 正常进入和消息记录正常展示
+        Preconditions.delete_record_group_chat()
+        # 回到消息列表页面
+        gcp.click_back()
+        mess.selecting_one_group_click_by_name("测试企业群")
+        exist = gcp.is_text_present("已读动态")
+        self.assertEqual(exist, False)
+        exist = gcp.is_text_present("123456")
+        self.assertEqual(exist, False)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0430(self):
+        """消息列表——发起群聊——选择一个群——模糊搜索存在的企业群和党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        sc.click_select_one_group()
+        time.sleep(1)
+        # 1、点击右上角的+号，发起群聊
+        # 2、点击选择一个群，可以进入到群聊列表展示页面
+        exist = gcp.is_text_present("搜索群组")
+        self.assertEqual(exist, True)
+        # 搜索企业群
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("测试企业")
+        sog.hide_keyboard()
+        time.sleep(1)
+        # 3、中文模糊搜索企业群和党群，可以匹配展示搜索结果（有相应“企”或党徽标识）
+        exist = gcp.is_text_present("测试企业群")
+        self.assertEqual(exist, True)
+        mess.is_exist_the_element("企业标识")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0431(self):
+        """消息列表——发起群聊——选择一个群——模糊搜索存在的企业群和党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        sc.click_select_one_group()
+        time.sleep(1)
+        # 中文模糊搜索企业群和党群，是否可以匹配展示搜索结果
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("企业测试")
+        sog.hide_keyboard()
+        time.sleep(1)
+        # 1、中文模糊搜索企业群和党群，无匹配搜索结果，展示提示：无搜索结果
+        exist = gcp.is_text_present("无搜索结果")
+        self.assertEqual(exist, True)
+
+
+
+
+
+
 
 
 

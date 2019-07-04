@@ -85,6 +85,11 @@ class MessagePage(FooterPage):
         "群发助手欢迎页确定":(MobileBy.ID,"com.chinasofti.rcs:id/confirm_btn"),
         "搜索输入框":(MobileBy.ID, "com.chinasofti.rcs:id/edit_query01"),
         '我的电脑': (MobileBy.XPATH, '//*[@text="我的电脑"]'),
+
+        '企业头像': (MobileBy.ID, 'com.chinasofti.rcs:id/svd_head'),
+        '企业标识': (MobileBy.ID, 'com.chinasofti.rcs:id/svd_head_EP_type'),
+        '企业群名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_conv_name'),
+        '企业成员数量': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_member_count'),
     }
 
     @TestLogger.log()
@@ -762,6 +767,8 @@ class MessagePage(FooterPage):
         """是否存在消息记录"""
         return self._is_element_present(self.__class__.__locators["消息项"])
 
+
+
     @TestLogger.log()
     def is_exist_message_img(self):
         """是否存在消息头像"""
@@ -771,6 +778,11 @@ class MessagePage(FooterPage):
     def is_exist_message_time(self):
         """是否存在消息时间"""
         return self._is_element_present(self.__class__.__locators["消息时间"])
+
+    @TestLogger.log()
+    def is_exist_the_element(self, content):
+        """是否存在指定元素"""
+        return self._is_element_present(self.__class__.__locators[content])
 
     @TestLogger.log()
     def is_exist_message_content(self):
@@ -932,7 +944,7 @@ class MessagePage(FooterPage):
         self.swipe_by_direction(locator, "left")
 
     def selecting_one_group_click_by_name(self, name):
-        """根据群名 长按 群"""
+        """根据群名 选择群"""
         locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text ="%s"]' % name)
         max_try = 20
         current = 0

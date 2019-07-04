@@ -777,6 +777,25 @@ class WorkbenchPreconditions(LoginPreconditions):
             WorkbenchPreconditions.create_enterprise_group("测试企业群")
 
     @staticmethod
+    def ensure_have_enterprise_group2(groupname):
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        mp.open_contacts_page()
+        cp = ContactsPage()
+        cp.wait_for_page_load()
+        cp.open_group_chat_list()
+        time.sleep(2)
+        flag = False
+        if not cp.is_exist_enterprise_group_name(groupname):
+            flag = True
+        cp.click_return()
+        cp.wait_for_page_load()
+        mp.open_message_page()
+        mp.wait_for_page_load()
+        if flag:
+            WorkbenchPreconditions.create_enterprise_group(groupname)
+
+    @staticmethod
     def create_department_and_add_member(department_names):
         """创建企业部门并从手机联系人添加成员"""
 
