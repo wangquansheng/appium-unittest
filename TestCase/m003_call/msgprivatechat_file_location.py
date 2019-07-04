@@ -4973,3 +4973,44 @@ class MsgPrivateChatAllTest(TestCase):
         Preconditions.change_mobile('Android-移动')
         mess.press_file_to_do(phone_number, "删除聊天")
 
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0089(self):
+        """将自己发送的文件转发到在搜索框粘贴字符搜索到的群"""
+        scp = SingleChatPage()
+        # 1.输入群名发送，长按信息并复制
+        scp.input_message("群聊1")
+        scp.send_message()
+        cwp = ChatWindowPage()
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        scp.press_file_to_do("群聊1", "复制")
+        flag = scp.is_toast_exist("已复制")
+        if not flag:
+            raise AssertionError("群聊名字复制失败")
+        # 2.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        # 3.长按最后一个文件转发
+        scp.press_last_file_to_do("转发")
+        select_contacts = SelectContactsPage()
+        # 4.等待选择联系人页面加载
+        select_contacts.wait_for_page_load()
+        # 5.点击选择一个群
+        select_contacts.click_select_one_group()
+        sogp = SelectOneGroupPage()
+        sogp.wait_for_page_load()
+        # 6.搜索群组
+        sogp.click_search_group()
+        time.sleep(1)
+        # 7.长按搜索框
+        sogp.press_group_search_bar()
+
