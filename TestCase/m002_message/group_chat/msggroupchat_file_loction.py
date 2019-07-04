@@ -3981,5 +3981,24 @@ class MsgGroupChatFileLocationTest(TestCase):
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
 
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
+    def test_msg_weifenglian_qun_0318(self):
+        """在群聊（企业群/普通群）将自己发送的位置转发到当前会话窗口"""
+        Preconditions.public_send_location()
+        # 1.长按位置消息体转发
+        gcp = GroupChatPage()
+        gcp.press_message_to_do("转发")
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        # 2.选择最近聊天联系人列表的第一个
+        scp.select_recent_chat_by_number(0)
+        # 3.点击确认发送
+        scp.click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not gcp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊天会话页面")
+
 
 
