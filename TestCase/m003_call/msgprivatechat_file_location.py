@@ -5080,3 +5080,41 @@ class MsgPrivateChatAllTest(TestCase):
         slcp.click_search_box()
         slcp.press_search_bar()
 
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0108(self):
+        """将自己发送的文件转发到团队联系人时发送失败"""
+        scp = SingleChatPage()
+        file_type = ".txt"
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(file_type):
+            Preconditions.send_file_by_type(file_type)
+        # 2.等待单聊会话页面加载
+        scp.wait_for_page_load()
+        # 3.长按自己发送的文件并转发
+        scp.forward_file(file_type)
+        scg = SelectContactsPage()
+        # 4.等待选择联系人页面加载
+        scg.wait_for_page_load()
+        # 5.点击“选择团队联系人”菜单
+        scg.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        # 6.等待选择联系人->和通讯录联系人 页面加载
+        shc.wait_for_he_contacts_page_load()
+        # 7.选择一个团队联系人
+        # 需要考虑测试号码存在多个团队的情况
+        Preconditions.if_exists_multiple_enterprises_enter_single_chat(file_type)
+        name = "大佬1"
+        shc.selecting_he_contacts_by_name(name)
+        # 8.断开网络
+        shc.set_network_status(0)
+        # 9.点击确认
+        shc.click_sure_forward()
+        if not scp.is_toast_exist("已转发"):
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        # 10.返回单聊会话页面
+        scp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        if not mess.is_iv_fail_status_present():
+            raise AssertionError("消息列表没有显示消息发送失败标识")
+
