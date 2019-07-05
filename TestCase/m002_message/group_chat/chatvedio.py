@@ -7023,3 +7023,35 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mess = MessagePage()
         mess.set_network_status(6)
 
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0089(self):
+        """分享相册内图片给普通群聊"""
+        # 1、成功登陆和飞信
+        # 2、进入手机本地相册
+        gcp = GroupChatPage()
+        # 1.点击输入框左上方的相册图标
+        gcp.click_picture()
+        # 2.进入相片页面,选择一张相片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_pic_fk(1)
+        # 3.点击发送，长按图片转发
+        cpg.click_send()
+        gcp.press_last_picture_to_do("转发")
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        # 4.点击选择一个普通群
+        scp.click_select_one_group()
+        sogp = SelectOneGroupPage()
+        sogp.wait_for_page_load()
+        name = "群聊2"
+        # 5.选择一个普通群
+        sogp.selecting_one_group_by_name(name)
+        # 6.点击确定发送
+        sogp.click_sure_forward()
+        flag = gcp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发图片时，没有‘已转发’提示")
+        if not gcp.is_on_this_page():
+            raise AssertionError("当前页面不在单聊页面")
+
