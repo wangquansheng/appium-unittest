@@ -90,6 +90,7 @@ class MessagePage(FooterPage):
         '企业标识': (MobileBy.ID, 'com.chinasofti.rcs:id/svd_head_EP_type'),
         '企业群名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_conv_name'),
         '企业成员数量': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_member_count'),
+        '搜索我的电脑': (MobileBy.ID, 'com.chinasofti.rcs:id/svd_head'),
     }
 
     @TestLogger.log()
@@ -102,6 +103,11 @@ class MessagePage(FooterPage):
     @TestLogger.log("点击我的电脑")
     def click_my_computer(self):
         self.click_element(self.__locators["我的电脑"])
+        time.sleep(1)
+
+    @TestLogger.log("点击搜索到我的电脑")
+    def click_search_my_computer(self):
+        self.click_element(self.__locators["搜索我的电脑"])
         time.sleep(1)
 
     @TestLogger.log()

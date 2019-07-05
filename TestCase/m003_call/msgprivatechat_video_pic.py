@@ -1,6 +1,7 @@
 import random
 import time
 import re
+import warnings
 
 from library.core.common.simcardtype import CardType
 from selenium.common.exceptions import TimeoutException
@@ -1836,68 +1837,68 @@ class MsgPrivateChatVideoPicAllTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-
-        Preconditions.select_mobile('Android-移动')
-        # 导入测试联系人、群聊
-        fail_time1 = 0
-        flag1 = False
-        import dataproviders
-        while fail_time1 < 3:
-            try:
-                required_contacts = dataproviders.get_preset_contacts()
-                conts = ContactsPage()
-                current_mobile().hide_keyboard_if_display()
-                Preconditions.make_already_in_message_page()
-                conts.open_contacts_page()
-                try:
-                    if conts.is_text_present("发现SIM卡联系人"):
-                        conts.click_text("显示")
-                except:
-                    pass
-                for name, number in required_contacts:
-                    # 创建联系人
-                    conts.create_contacts_if_not_exits(name, number)
-                required_group_chats = dataproviders.get_preset_group_chats()
-                conts.open_group_chat_list()
-                group_list = GroupListPage()
-                for group_name, members in required_group_chats:
-                    group_list.wait_for_page_load()
-                    # 创建群
-                    group_list.create_group_chats_if_not_exits(group_name, members)
-                group_list.click_back()
-                conts.open_message_page()
-                flag1 = True
-            except:
-                fail_time1 += 1
-            if flag1:
-                break
-
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        # 确保有企业群
-        fail_time3 = 0
-        flag3 = False
-        while fail_time3 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                Preconditions.ensure_have_enterprise_group()
-                flag3 = True
-            except:
-                fail_time3 += 1
-            if flag3:
-                break
+        warnings.simplefilter('ignore', ResourceWarning)
+        # Preconditions.select_mobile('Android-移动')
+        # # 导入测试联系人、群聊
+        # fail_time1 = 0
+        # flag1 = False
+        # import dataproviders
+        # while fail_time1 < 3:
+        #     try:
+        #         required_contacts = dataproviders.get_preset_contacts()
+        #         conts = ContactsPage()
+        #         current_mobile().hide_keyboard_if_display()
+        #         Preconditions.make_already_in_message_page()
+        #         conts.open_contacts_page()
+        #         try:
+        #             if conts.is_text_present("发现SIM卡联系人"):
+        #                 conts.click_text("显示")
+        #         except:
+        #             pass
+        #         for name, number in required_contacts:
+        #             # 创建联系人
+        #             conts.create_contacts_if_not_exits(name, number)
+        #         required_group_chats = dataproviders.get_preset_group_chats()
+        #         conts.open_group_chat_list()
+        #         group_list = GroupListPage()
+        #         for group_name, members in required_group_chats:
+        #             group_list.wait_for_page_load()
+        #             # 创建群
+        #             group_list.create_group_chats_if_not_exits(group_name, members)
+        #         group_list.click_back()
+        #         conts.open_message_page()
+        #         flag1 = True
+        #     except:
+        #         fail_time1 += 1
+        #     if flag1:
+        #         break
+        #
+        # # 导入团队联系人
+        # fail_time2 = 0
+        # flag2 = False
+        # while fail_time2 < 5:
+        #     try:
+        #         Preconditions.make_already_in_message_page()
+        #         contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
+        #         Preconditions.create_he_contacts(contact_names)
+        #         flag2 = True
+        #     except:
+        #         fail_time2 += 1
+        #     if flag2:
+        #         break
+        #
+        # # 确保有企业群
+        # fail_time3 = 0
+        # flag3 = False
+        # while fail_time3 < 5:
+        #     try:
+        #         Preconditions.make_already_in_message_page()
+        #         Preconditions.ensure_have_enterprise_group()
+        #         flag3 = True
+        #     except:
+        #         fail_time3 += 1
+        #     if flag3:
+        #         break
 
     def default_setUp(self):
         """
@@ -3224,3 +3225,34 @@ class MsgPrivateChatVideoPicAllTest(TestCase):
         mess.press_file_to_do(phone_number2, "删除聊天")
         Preconditions.change_mobile('Android-移动')
         mess.press_file_to_do(phone_number, "删除聊天")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_C_0080(self):
+        """分享相册内图片给手机联系人"""
+        # 1、成功登陆和飞信
+        # 2、进入手机本地相册
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        # 1.点击输入框左上方的相册图标
+        scp.click_picture()
+        # 2.进入相片页面,选择一张图片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_pic_fk(1)
+        # 3.点击发送，长按图片转发
+        cpg.click_send()
+        scp.press_last_picture_to_do("转发")
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 4.点击选择手机联系人
+        select_contacts.click_phone_contact()
+        slcp = SelectLocalContactsPage()
+        slcp.wait_for_page_load()
+        slcp.click_search_box()
+        # 5.在搜索框点击搜索到的手机联系人
+        slcp.search_and_select_contact("大佬2")
+        if not scp.is_toast_exist("已转发"):
+            raise AssertionError("没有已转发的弹框提示")
+        if not scp.is_on_this_page():
+            raise AssertionError("当前页面不在单聊页面")
+

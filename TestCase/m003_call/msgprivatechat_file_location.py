@@ -5437,4 +5437,3 @@ class MsgPrivateChatAllTest(TestCase):
             raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
         if not scp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
-
