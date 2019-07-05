@@ -577,6 +577,43 @@ class Preconditions(WorkbenchPreconditions):
             csf.click_back()
         chat.wait_for_page_load()
 
+    @staticmethod
+    def enter_preset_file_catalog():
+        """进入预置文件目录"""
+
+        # 在当前群聊天会话页面，点击更多富媒体的文件按钮
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # scp.click_more()
+        # 点击本地文件
+        cmp = ChatMorePage()
+        cmp.click_file()
+        csfp = ChatSelectFilePage()
+        csfp.wait_for_page_load()
+        csfp.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        # 没有预置文件，则上传
+        flag = local_file.push_preset_file()
+        if flag:
+            local_file.click_back()
+            csfp.click_local_file()
+        # 进入预置文件目录
+        local_file.click_preset_file_dir()
+
+    @staticmethod
+    def send_file_by_name(file_type):
+        """发送指定文件名字"""
+
+        # 进入预置文件目录
+        Preconditions.enter_preset_file_catalog()
+        local_file = ChatSelectLocalFilePage()
+        # 发送指定名字文件
+        local_file.select_file_by_text(file_type)
+        local_file.click_send_button()
+        time.sleep(2)
+        if local_file.is_exist_continue_send():
+            local_file.click_continue_send()
+
 
 class MsgGroupChatvedioTest(TestCase):
     """
@@ -6985,3 +7022,4 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 重新连接网络
         mess = MessagePage()
         mess.set_network_status(6)
+

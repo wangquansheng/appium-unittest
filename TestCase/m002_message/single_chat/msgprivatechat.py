@@ -1,5 +1,6 @@
 import random
 import time
+import re
 import warnings
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile
@@ -1643,11 +1644,11 @@ class MsgPrivateChatMyComputer(TestCase):
         cpe.click_picture_edit_crred()
         cpe.input_picture_text("我是python测试开发工程师")
         time.sleep(1)
-        # 9.点击保存
+        # 9.点击编辑完成
         cpe.click_picture_save()
         # 10.点击发送
         cpe.click_picture_send()
         # 11.判断是否发送成功
-        cwp.wait_for_msg_send_status_become_to("发送成功")
+        cwp.wait_for_msg_send_status_become_to("发送成功", 30)
         time.sleep(2)
 

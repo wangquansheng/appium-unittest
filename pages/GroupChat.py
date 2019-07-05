@@ -849,3 +849,11 @@ class GroupChatPage(BaseChatPage):
         el = self.get_elements(('id', 'com.chinasofti.rcs:id/video_thumb'))[-1]
         self.press(el)
         self.click_element(self.__class__.__locators[text])
+
+    @TestLogger.log()
+    def is_exist_file_by_type(self, file_type):
+        """是否存在指定类型文件"""
+        locator = (
+            MobileBy.XPATH,
+            '//*[@resource-id="com.chinasofti.rcs:id/textview_file_name" and contains(@text,"%s")]' % file_type)
+        return self._is_element_present(locator)
