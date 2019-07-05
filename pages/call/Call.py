@@ -80,6 +80,8 @@ class CallPage(FooterPage,BasePage):
         '呼叫选择飞信电话': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_calltype_fetion'),
         '结束通话提示框': (MobileBy.ID, 'com.chinasofti.rcs:id/dialog_title'),
         '结束通话提示框-确定': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
+        '开关摄像头按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_open_self_camera'),
+
     }
 
     @TestLogger.log()
@@ -766,3 +768,8 @@ class CallPage(FooterPage,BasePage):
     def click_call_history(self):
         """点击通话记录号码"""
         self.click_element(self.__locators['通话记录'])
+
+    @TestLogger.log()
+    def click_element_(self, text):
+        """点击元素"""
+        self.click_element(self.__class__.__locators[text])

@@ -2120,3 +2120,151 @@ class CallMultipartyVideo(TestCase):
         time.sleep(2)
         gcp.click_element_("多方视频挂断")
         time.sleep(3)
+
+    @staticmethod
+    def setUp_test_call_zhenyishan_0178():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zhenyishan_0178(self):
+        """多方视频管理界面，点击通话中断视频窗口，重新呼叫"""
+        # 1、点击未接听、已挂断视频窗口
+        # 2、点击弹窗中的重呼呼叫
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_mutilcall()
+        time.sleep(2)
+        gcp.click_text("多方视频")
+        # 选择联系人
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        names = slc.get_contacts_name()
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_text("呼叫")
+        time.sleep(3)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        # gcp.pick_up_the_call()
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        time.sleep(3)
+        if gcp.is_text_present("始终允许"):
+            gcp.click_text("始终允许")
+        time.sleep(2)
+        if gcp.is_text_present("始终允许"):
+            gcp.click_text("始终允许")
+        time.sleep(2)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        time.sleep(2)
+        gcp.click_element_("多方视频挂断")
+        time.sleep(3)
+        Preconditions.change_mobile('Android-移动')
+        mess=MessagePage()
+        mess.open_call_page()
+        time.sleep(2)
+        if not mess.is_text_present(phone_number):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        mess.click_text(phone_number)
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(2)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        time.sleep(2)
+        gcp.click_element_("多方视频挂断")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zhenyishan_0182_01(self):
+        """多方视频管理界面，点击通话中断视频窗口，重新呼叫"""
+        # 1、点击未接听、已挂断视频窗口
+        # 2、点击弹窗中的重呼呼叫
+        # 当前【关闭摄像头】为开启状态
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.make_already_in_call()
+        CalllogBannerPage().skip_multiparty_call()
+        CallPage().delete_all_call_entry()
+        cpg = CallPage()
+        cpg.click_multi_party_video()
+        mppg = MultiPartyVideoPage()
+        time.sleep(2)
+        sc = SelectContactsPage()
+        sc.input_search_keyword(phone_number)
+        time.sleep(2)
+        sc.click_text("tel")
+        time.sleep(2)
+        mppg.select_contacts_by_number("14775970982")
+        mppg.select_contacts_by_number("13800138006")
+        mppg.click_tv_sure()
+        # CheckPoint:发起多方视频
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(1)
+        if cpg.is_text_present("现在去开启"):
+            cpg.click_text("暂不开启")
+        time.sleep(2)
+        gcp=GroupChatPage()
+        gcp.click_element_("多方视频接听")
+        time.sleep(2)
+        cpg.page_should_contain_text("关闭摄像头")
+        cpg.click_element_("开关摄像头按钮")
+        time.sleep(2)
+        cpg.page_should_contain_text("打开摄像头")
+        mppg.click_end_video_call()
+        mppg.click_btn_ok()
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zhenyishan_0182_02(self):
+        """多方视频管理界面，点击通话中断视频窗口，重新呼叫"""
+        # 1、点击未接听、已挂断视频窗口
+        # 2、点击弹窗中的重呼呼叫
+        # 当前【关闭摄像头】为关闭状态
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.make_already_in_call()
+        CalllogBannerPage().skip_multiparty_call()
+        CallPage().delete_all_call_entry()
+        cpg = CallPage()
+        cpg.click_multi_party_video()
+        mppg = MultiPartyVideoPage()
+        time.sleep(2)
+        sc = SelectContactsPage()
+        sc.input_search_keyword(phone_number)
+        time.sleep(2)
+        sc.click_text("tel")
+        time.sleep(2)
+        mppg.select_contacts_by_number("14775970982")
+        mppg.select_contacts_by_number("13800138006")
+        mppg.click_tv_sure()
+        # CheckPoint:发起多方视频
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(1)
+        if cpg.is_text_present("现在去开启"):
+            cpg.click_text("暂不开启")
+        time.sleep(2)
+        gcp=GroupChatPage()
+        gcp.click_element_("多方视频接听")
+        time.sleep(2)
+        cpg.click_element_("开关摄像头按钮")
+        time.sleep(2)
+        cpg.page_should_contain_text("打开摄像头")
+        cpg.click_element_("开关摄像头按钮")
+        time.sleep(2)
+        cpg.page_should_contain_text("关闭摄像头")
+        mppg.click_end_video_call()
+        mppg.click_btn_ok()
