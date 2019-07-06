@@ -1201,7 +1201,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 回到信息列表界面
         gcp.click_back()
 
-    @tags('ALL', 'CMCC', 'YL')
+    @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0204(self):
         """
             消息列表——长按——删除会话窗口
@@ -1236,6 +1236,93 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 返回到消息列表界面
         gcp.click_back_by_android()
         time.sleep(1)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0205(self):
+        """
+            消息列表——长按——删除会话窗口
+        """
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 输入信息
+        gcp.input_message("哈哈")
+        # 点击发送
+        gcp.send_message()
+        time.sleep(1)
+        gcp.click_back()
+        time.sleep(1)
+        mess = MessagePage()
+        # 长按 "测试企业群"
+        mess.selecting_one_group_press_by_name('测试企业群')
+        # 1、长按消息列表的会话窗口，会弹出功能菜单列表
+        time.sleep(1)
+        exist = mess.is_text_present("置顶聊天")
+        self.assertEqual(exist, True)
+        # 消息列表 删除"测试企业群"记录
+        mess.press_groupname_to_do("删除聊天")
+        exist = mess.is_text_present("测试企业群")
+        self.assertEqual(exist, False)
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        exist = mess.is_text_present("哈哈")
+        self.assertEqual(exist, False)
+        # 返回到消息列表界面
+        gcp.click_back_by_android()
+        time.sleep(1)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0209(self):
+        """群聊设置页面——点击群成员头像"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        gcp.click_setting()
+        time.sleep(1)
+        gcp.click_text("大佬1")
+        mess = MessagePage()
+        # 1、点击未保存在本地的陌生人头像，会跳转到交换名片申请页面
+        if not mess.is_text_present("保存到通讯录"):
+            raise AssertionError("没有跳转到交换名片申请页面")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0210(self):
+        """群聊设置页面——点击已保存在本地通讯录中——群成员头像"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        gcp.click_setting()
+        time.sleep(1)
+        gcp.click_text("姚磊")
+        mess = MessagePage()
+        # 1、点击已保存在本地的联系人头像，会跳转到联系人的个人profile页
+        if not mess.is_text_present("编辑"):
+            raise AssertionError("没有跳转到联系人的个人profile页")
+        time.sleep(1)
+        gcp.click_text("大佬1")
+        mess = MessagePage()
+        # 1、点击未保存在本地的陌生人头像，会跳转到交换名片申请页面
+        if not mess.is_text_present("保存到通讯录"):
+            raise AssertionError("没有跳转到交换名片申请页面")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0211(self):
+        """群聊设置页面——点击已保存在本地通讯录中——群成员头像"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        gcp.click_setting()
+        time.sleep(1)
+        gcp.click_text("姚磊")
+        mess = MessagePage()
+        # 1、点击已保存在本地的联系人头像，会跳转到联系人的个人profile页
+        if not mess.is_text_present("编辑"):
+            raise AssertionError("没有跳转到联系人的个人profile页")
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0212(self):
@@ -1326,6 +1413,143 @@ class MsgGroupChatVideoPicAllTest(TestCase):
             self.assertEqual(exist, True)
             exist = gcp.is_text_present("编辑")
             self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0258(self):
+        """（普通消息体）聊天会话页面——5分钟内——连续发送文本消息体"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        i=0
+        for i in range(2):
+            # 发送信息
+            gcp.input_message("哈哈"+str(i))
+            gcp.send_message()
+        time.sleep(1)
+        #防止出现 群成员没有使用和飞信信息，干扰判断
+        Preconditions.delete_record_group_chat()
+        i = 0
+        for i in range(2):
+            # 发送信息
+            gcp.input_message("哈哈"+str(i))
+            gcp.send_message()
+        time.sleep(1)
+        # 判断
+        groupchat = GroupChatPage()
+        self.assertTrue(groupchat.is_multi_show())
+        Preconditions.delete_record_group_chat()
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0261(self):
+        """（普通消息体）聊天会话页面——5分钟内——发送失败的消息——重发"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        #Preconditions.delete_record_group_chat()
+        gcp.set_network_status(0)
+        i = 0
+        for i in range(2):
+            # 发送信息
+            gcp.input_message("哈哈" + str(i))
+            gcp.send_message()
+        time.sleep(1)
+        # 防止出现 群成员没有使用和飞信信息，干扰判断
+        Preconditions.delete_record_group_chat()
+        i = 0
+        for i in range(2):
+            # 发送信息
+            gcp.input_message("哈哈" + str(i))
+            gcp.send_message()
+        time.sleep(1)
+        gcp.set_network_status(6)
+        for i in range(2):
+            # 重新发送
+            cwp = ChatWindowPage()
+            cwp.click_resend_button()
+            cwp.click_resend_sure()
+            time.sleep(1)
+        time.sleep(1)
+        # 判断
+        groupchat = GroupChatPage()
+        if not gcp.is_text_present("邀请他们"):
+            self.assertTrue(groupchat.is_multi_show())
+        self.assertFalse(groupchat.is_multi_show())
+        Preconditions.delete_record_group_chat()
+
+    def tearDown_test_msg_huangmianhua_0261(self):
+        gcp = GroupChatPage()
+        gcp.set_network_status(6)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0262(self):
+        """（普通消息体）聊天会话页面——5分钟内——连续发送文本消息体"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        i = 0
+        for i in range(2):
+            # 发送信息
+            gcp.input_message("哈哈" + str(i))
+            gcp.send_message()
+        time.sleep(1)
+        # 等待5分钟
+        time.sleep(5*60)
+        i = 0
+        for i in range(2):
+            # 发送信息
+            gcp.input_message("哈哈" + str(i))
+            gcp.send_message()
+        time.sleep(1)
+        # 判断
+        groupchat = GroupChatPage()
+        self.assertFalse(groupchat.is_multi_show())
+        Preconditions.delete_record_group_chat()
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0264(self):
+        """（普通消息体）聊天会话页面——5分钟内——发送失败的消息——重发"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        # Preconditions.delete_record_group_chat()
+        gcp.set_network_status(0)
+        i = 0
+        for i in range(2):
+            # 发送信息
+            gcp.input_message("哈哈" + str(i))
+            gcp.send_message()
+        time.sleep(1)
+        # 防止出现 群成员没有使用和飞信信息，干扰判断
+        Preconditions.delete_record_group_chat()
+        i = 0
+        for i in range(2):
+            # 发送信息
+            gcp.input_message("哈哈" + str(i))
+            gcp.send_message()
+        time.sleep(1)
+        time.sleep(5*60)
+        gcp.set_network_status(6)
+        for i in range(2):
+            # 重新发送
+            cwp = ChatWindowPage()
+            cwp.click_resend_button()
+            cwp.click_resend_sure()
+            time.sleep(1)
+        time.sleep(1)
+        # 判断
+        groupchat = GroupChatPage()
+        self.assertFalse(groupchat.is_multi_show())
+        Preconditions.delete_record_group_chat()
+
+    def tearDown_test_msg_huangmianhua_0264(self):
+        gcp = GroupChatPage()
+        gcp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_hanjiabin_0057(self):
@@ -2102,6 +2326,283 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 1、中文模糊搜索企业群和党群，无匹配搜索结果，展示提示：无搜索结果
         exist = gcp.is_text_present("无搜索结果")
         self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0432(self):
+        """群聊列表展示页面——中文精确搜索存在的企业群和党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        sc.click_select_one_group()
+        time.sleep(1)
+        # 1、点击右上角的+号，发起群聊
+        # 2、点击选择一个群，可以进入到群聊列表展示页面
+        exist = gcp.is_text_present("搜索群组")
+        self.assertEqual(exist, True)
+        # 搜索企业群
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("测试企业")
+        sog.hide_keyboard()
+        time.sleep(1)
+        # 3、中文精确搜索企业群和党群，可以匹配展示搜索结果（有相应“企”或党徽标识）
+        exist = gcp.is_text_present("测试企业群")
+        self.assertEqual(exist, True)
+        mess.is_exist_the_element("企业标识")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0433(self):
+        """群聊列表展示页面——中文精确搜索不存在的企业群和党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        sc.click_select_one_group()
+        time.sleep(1)
+        # 中文精确搜索企业群和党群，是否可以匹配展示搜索结果
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("企业测试1")
+        sog.hide_keyboard()
+        time.sleep(1)
+        # 1、中文精确索企业群和党群，无匹配搜索结果，展示提示：无搜索结果
+        exist = gcp.is_text_present("无搜索结果")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0434(self):
+        """群聊列表展示页面——英文精确搜索存在的企业群和党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        sc.click_select_one_group()
+        time.sleep(1)
+        # 1、点击右上角的+号，发起群聊
+        # 2、点击选择一个群，可以进入到群聊列表展示页面
+        exist = gcp.is_text_present("搜索群组")
+        self.assertEqual(exist, True)
+        # 搜索企业群
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("csqyq")
+        sog.hide_keyboard()
+        time.sleep(1)
+        # 1、英文精确搜索企业群和党群，可以匹配展示搜索结果（有相应“企”或党徽标识）
+        exist = gcp.is_text_present("测试企业群")
+        self.assertEqual(exist, True)
+        mess.is_exist_the_element("企业标识")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0435(self):
+        """群聊列表展示页面——英文精确搜索不存在的企业群和党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        sc.click_select_one_group()
+        time.sleep(1)
+        # 英文精确搜索企业群和党群，是否可以匹配展示搜索结果
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("csqyqa")
+        sog.hide_keyboard()
+        time.sleep(1)
+        # 1、英文精确搜索企业群和党群，无匹配搜索结果，展示提示：无搜索结果
+        exist = gcp.is_text_present("无搜索结果")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0436(self):
+        """群聊列表展示页面——空格精确搜索存在的企业群和党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        sc.click_select_one_group()
+        time.sleep(1)
+        # 1、点击右上角的+号，发起群聊
+        # 2、点击选择一个群，可以进入到群聊列表展示页面
+        exist = gcp.is_text_present("搜索群组")
+        self.assertEqual(exist, True)
+        # 搜索企业群
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword(" ")
+        sog.hide_keyboard()
+        time.sleep(1)
+        # 1、空格精确搜索企业群和党群，可以匹配展示搜索结果（有相应“企”或党徽标识）
+        exist = gcp.is_text_present("test b")
+        self.assertEqual(exist, True)
+        mess.is_exist_the_element("企业标识")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0437(self):
+        """群聊列表展示页面——空格精确搜索不存在的企业群和党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        sc.click_select_one_group()
+        time.sleep(1)
+        # 空格精确搜索企业群和党群，是否可以匹配展示搜索结果
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("   ")
+        sog.hide_keyboard()
+        time.sleep(1)
+        # 1、空格精确搜索企业群和党群，无匹配搜索结果，展示提示：无搜索结果
+        exist = gcp.is_text_present("无搜索结果")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0438(self):
+        """群聊列表展示页面——数字精确搜索存在的企业群和党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        sc.click_select_one_group()
+        time.sleep(1)
+        # 1、点击右上角的+号，发起群聊
+        # 2、点击选择一个群，可以进入到群聊列表展示页面
+        exist = gcp.is_text_present("搜索群组")
+        self.assertEqual(exist, True)
+        # 搜索企业群
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("138138138")
+        sog.hide_keyboard()
+        time.sleep(1)
+        # 1、数字精确搜索企业群和党群，可以匹配展示搜索结果（有相应“企”或党徽标识）
+        exist = gcp.is_text_present("138138138")
+        self.assertEqual(exist, True)
+        mess.is_exist_the_element("企业标识")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0439(self):
+        """群聊列表展示页面——数字精确搜索不存在的企业群和党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        sc.click_select_one_group()
+        time.sleep(1)
+        # 数字精确搜索企业群和党群，是否可以匹配展示搜索结果
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("123456")
+        sog.hide_keyboard()
+        time.sleep(1)
+        # 1、数字精确搜索企业群和党群，无匹配搜索结果，展示提示：无搜索结果
+        exist = gcp.is_text_present("无搜索结果")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0440(self):
+        """群聊列表展示页面——字符精确搜索存在的企业群和党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        sc.click_select_one_group()
+        time.sleep(1)
+        # 1、点击右上角的+号，发起群聊
+        # 2、点击选择一个群，可以进入到群聊列表展示页面
+        exist = gcp.is_text_present("搜索群组")
+        self.assertEqual(exist, True)
+        # 搜索企业群
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("testa")
+        sog.hide_keyboard()
+        time.sleep(1)
+        # 1、字符精确搜索企业群和党群，可以匹配展示搜索结果（有相应“企”或党徽标识）
+        exist = gcp.is_text_present("testa")
+        self.assertEqual(exist, True)
+        mess.is_exist_the_element("企业标识")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0441(self):
+        """群聊列表展示页面——字符精确搜索不存在的企业群和党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        sc.click_select_one_group()
+        time.sleep(1)
+        # 字符精确搜索企业群和党群，是否可以匹配展示搜索结果
+        sog = SelectOneGroupPage()
+        sog.click_search_group()
+        sog.input_search_keyword("testabc")
+        sog.hide_keyboard()
+        time.sleep(1)
+        # 1、字符精确搜索企业群和党群，无匹配搜索结果，展示提示：无搜索结果
+        exist = gcp.is_text_present("无搜索结果")
+        self.assertEqual(exist, True)
+
+
 
 
 

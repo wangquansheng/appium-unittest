@@ -577,6 +577,43 @@ class Preconditions(WorkbenchPreconditions):
             csf.click_back()
         chat.wait_for_page_load()
 
+    @staticmethod
+    def enter_preset_file_catalog():
+        """进入预置文件目录"""
+
+        # 在当前群聊天会话页面，点击更多富媒体的文件按钮
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # scp.click_more()
+        # 点击本地文件
+        cmp = ChatMorePage()
+        cmp.click_file()
+        csfp = ChatSelectFilePage()
+        csfp.wait_for_page_load()
+        csfp.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        # 没有预置文件，则上传
+        flag = local_file.push_preset_file()
+        if flag:
+            local_file.click_back()
+            csfp.click_local_file()
+        # 进入预置文件目录
+        local_file.click_preset_file_dir()
+
+    @staticmethod
+    def send_file_by_name(file_type):
+        """发送指定文件名字"""
+
+        # 进入预置文件目录
+        Preconditions.enter_preset_file_catalog()
+        local_file = ChatSelectLocalFilePage()
+        # 发送指定名字文件
+        local_file.select_file_by_text(file_type)
+        local_file.click_send_button()
+        time.sleep(2)
+        if local_file.is_exist_continue_send():
+            local_file.click_continue_send()
+
 
 class MsgGroupChatvedioTest(TestCase):
     """
@@ -6985,3 +7022,68 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 重新连接网络
         mess = MessagePage()
         mess.set_network_status(6)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0089(self):
+        """分享相册内图片给普通群聊"""
+        # 1、成功登陆和飞信
+        # 2、进入手机本地相册
+        gcp = GroupChatPage()
+        # 1.点击输入框左上方的相册图标
+        gcp.click_picture()
+        # 2.进入相片页面,选择一张相片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_pic_fk(1)
+        # 3.点击发送，长按图片转发
+        cpg.click_send()
+        gcp.press_last_picture_to_do("转发")
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        # 4.点击选择一个普通群
+        scp.click_select_one_group()
+        sogp = SelectOneGroupPage()
+        sogp.wait_for_page_load()
+        name = "群聊2"
+        # 5.选择一个普通群
+        sogp.selecting_one_group_by_name(name)
+        # 6.点击确定发送
+        sogp.click_sure_forward()
+        flag = gcp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发图片时，没有‘已转发’提示")
+        if not gcp.is_on_this_page():
+            raise AssertionError("当前页面不在单聊页面")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0095(self):
+        """分享相册内视频给普通群聊"""
+        # 1、成功登陆和飞信
+        # 2、进入手机本地相册
+        gcp = GroupChatPage()
+        # 1.点击输入框左上方的相册图标
+        gcp.click_picture()
+        # 2.进入相片页面,选择视频
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_video_fk(1)
+        # 3.点击发送，长按视频转发
+        cpg.click_send()
+        gcp.press_last_video_to_do("转发")
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        # 4.点击选择一个普通群
+        scp.click_select_one_group()
+        sogp = SelectOneGroupPage()
+        sogp.wait_for_page_load()
+        name = "群聊2"
+        # 5.选择一个普通群
+        sogp.selecting_one_group_by_name(name)
+        # 6.点击确定发送
+        sogp.click_sure_forward()
+        flag = gcp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发视频时，没有‘已转发’提示")
+        if not gcp.is_on_this_page():
+            raise AssertionError("当前页面不在单聊页面")
+

@@ -66,7 +66,7 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
         '时间': (MobileBy.XPATH, '//*[@text="时间"]/../android.widget.TextView[@resource-id="android:id/summary"]'),
         '表情按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_expression'),
         'gif按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_gif'),
-
+        '指定1_gif表情': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.HorizontalScrollView/android.widget.LinearLayout/android.widget.ImageView[1]'),
     }
 
     @TestLogger.log('')
@@ -79,6 +79,10 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
     @TestLogger.log('gif按钮')
     def click_gif(self):
         self.click_element(self.__locators['gif按钮'])
+
+    @TestLogger.log('搜索框输入1关键字匹配第一个gif表情')
+    def click_1_gif(self):
+        self.click_element(self.__locators['指定1_gif表情'])
 
     @TestLogger.log('点击拍照')
     def click_photo(self):
@@ -286,4 +290,18 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
             return True
         else:
             return False
+
+    @TestLogger.log()
+    def click_send_again(self):
+        """点击重新发送gif"""
+        self.click_element(self.__class__.__locators["重新发送"])
+        self.click_element(self.__class__.__locators["确定重发"])
+
+    @TestLogger.log()
+    def is_send_sucess(self):
+        """当前页面是否有发送失败标识"""
+        el = self.get_elements(self.__locators['重新发送'])
+        if len(el) > 0:
+            return False
+        return True
 
