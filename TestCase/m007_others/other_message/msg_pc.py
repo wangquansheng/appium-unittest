@@ -146,22 +146,22 @@ class MsgAllPrior(TestCase):
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件目录
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件
         time.sleep(2)
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
         # 发送
@@ -236,22 +236,22 @@ class MsgAllPrior(TestCase):
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件目录
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件
         time.sleep(2)
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
         # 发送
@@ -306,24 +306,24 @@ class MsgAllPrior(TestCase):
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件目录
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件
         time.sleep(2)
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
-        chatWindowPage.click_element((MobileBy.XPATH,
-                                      '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
+        # chatWindowPage.click_element((MobileBy.XPATH,
+        #                               '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
         # 发送
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'))
@@ -375,22 +375,22 @@ class MsgAllPrior(TestCase):
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件目录
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件
         time.sleep(2)
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
         # 发送
@@ -438,22 +438,22 @@ class MsgAllPrior(TestCase):
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件目录
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件
         time.sleep(2)
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
         # 发送
@@ -501,22 +501,22 @@ class MsgAllPrior(TestCase):
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件目录
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件
         time.sleep(2)
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
         # 发送
@@ -559,22 +559,22 @@ class MsgAllPrior(TestCase):
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件目录
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         # 文件系统找文件
         time.sleep(2)
         elements = chatWindowPage.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
-        while len(elements) == 0:
-            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = chatWindowPage.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
+        # while len(elements) == 0:
+        #     chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+        #     time.sleep(1)
+        #     elements = chatWindowPage.get_elements(
+        #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
         chatWindowPage.click_element((MobileBy.XPATH,
                                       '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
         # 发送
