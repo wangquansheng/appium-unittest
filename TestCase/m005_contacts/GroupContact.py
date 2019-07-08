@@ -1174,8 +1174,9 @@ class MygroupSearchPage(TestCase):
         detailpage.create_contact("姚磊", "15013708130", "test_work", "员工", "13800137004@139.com")
         time.sleep(2)
         # 是否保存成功
-        self.assertEquals(detailpage.is_exists_share_card_icon(), True)
-        self.assertEquals(detailpage.is_exists_save_contacts_icon(), False)
+        cdp = ContactDetailsPage()
+        self.assertEquals(cdp.is_exists_share_card_icon(), True)
+        self.assertEquals(cdp.is_exists_save_contacts_icon(), False)
 
     @staticmethod
     def tearDown_test_contacts_quxinli_0095():

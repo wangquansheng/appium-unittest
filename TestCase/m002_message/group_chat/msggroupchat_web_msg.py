@@ -447,6 +447,20 @@ class Preconditions(WorkbenchPreconditions):
         res.close()
         return current_activity
 
+    # 功能：比较a，b两个字符串是否相同
+    # a<=b :true   a>b
+    def compare(param1, param2):
+        ib = 0
+        for ia in range(len(param1)):
+            if ord(param1[ia:ia + 1]) - ord(param2[ib:ib + 1]) <= 0:
+                ib = ib + 1
+                if ib == len(param2):
+                    return True
+                continue
+
+            else:
+                return False
+
 
 class MsgGroupChatVideoPicAllTest(TestCase):
     """
@@ -2602,8 +2616,176 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         exist = gcp.is_text_present("无搜索结果")
         self.assertEqual(exist, True)
 
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0110(self):
+        """群成员展示列表页，搜索出的搜索结果排序"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        if gcp.is_on_this_page():
+            gcp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            # "群成员展开 >
+            gcsp.click_group_member_show()
+            time.sleep(1)
+            gcp.input_member_message("a")
+            time.sleep(1)
+            group_member = GroupChatSetSeeMembersPage()
+            names = group_member.get_all_group_member_names()
+            if len(names) == 0 or len(names) == 1:
+                result = False
+                self.assertEqual(result, False)
+            else:
+                print(str(names[0]))
+                print(str(names[1]))
+                result = Preconditions.compare(names[0], names[1])
+                self.assertEqual(result, True)
 
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0215(self):
+        """转发——聊天窗口中的可消息体——选择和通讯录联系人——企业展示"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('ag6421')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈")
+        gcp.send_message()
+        # 长按信息并点击转发
+        gcp.press_file_to_do("哈哈", "转发")
+        sc = SelectContactsPage()
+        sc.wait_for_page_local_contact_load()
+        # 选择团队联系人
+        sc.click_text("选择团队联系人")
+        # 选择bm0子一层级？？？？
+        group_contact = EnterpriseContactsPage()
+        group_contact.click_sub_level_department_by_name2('bm0')
+        # 选择“b测算”联系人进行转发
+        sc.click_one_contact("b测算")
+        sc.click_sure_forward()
+        flag = sc.is_toast_exist("已转发")
+        self.assertTrue(flag)
+        time.sleep(1)
+        # 返回消息页面
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        # 判断消息页面有新的会话窗口
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            self.assertTrue(mess.is_text_present("b测算"))
 
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0216(self):
+        """转发——聊天窗口中的消息体——选择和通讯录联系人——企业展示"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('ag6421')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈")
+        gcp.send_message()
+        # 长按信息并点击转发
+        gcp.press_file_to_do("哈哈", "转发")
+        sc = SelectContactsPage()
+        sc.wait_for_page_local_contact_load()
+        # 选择团队联系人
+        sc.click_text("选择团队联系人")
+        # 选择bm0子一层级？？？？
+        group_contact = EnterpriseContactsPage()
+        group_contact.click_sub_level_department_by_name2('bm0')
+        # 选择“b测算”联系人进行转发
+        sc.click_one_contact("b测算")
+        sc.click_sure_forward()
+        flag = sc.is_toast_exist("已转发")
+        self.assertTrue(flag)
+        time.sleep(1)
+        # 返回消息页面
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        # 判断消息页面有新的会话窗口
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            self.assertTrue(mess.is_text_present("b测算"))
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0217(self):
+        """转发——聊天窗口中的消息体——选择和通讯录联系人——企业展示"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('ag6421')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈")
+        gcp.send_message()
+        # 长按信息并点击转发
+        gcp.press_file_to_do("哈哈", "转发")
+        sc = SelectContactsPage()
+        sc.wait_for_page_local_contact_load()
+        # 选择团队联系人
+        sc.click_text("选择团队联系人")
+        # 选择bm0子一层级？？？？
+        group_contact = EnterpriseContactsPage()
+        group_contact.click_sub_level_department_by_name2('bm0')
+        # 选择“b测算”联系人进行转发
+        sc.click_one_contact("b测算")
+        sc.click_sure_forward()
+        flag = sc.is_toast_exist("已转发")
+        self.assertTrue(flag)
+        time.sleep(1)
+        # 返回消息页面
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        # 判断消息页面有新的会话窗口
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            self.assertTrue(mess.is_text_present("b测算"))
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0218(self):
+        """转发——聊天窗口中的消息体——选择和通讯录联系人——企业展示"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('ag6421')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈")
+        gcp.send_message()
+        # 长按信息并点击转发
+        gcp.press_file_to_do("哈哈", "转发")
+        sc = SelectContactsPage()
+        sc.wait_for_page_local_contact_load()
+        # 选择团队联系人
+        sc.click_text("选择团队联系人")
+        # 选择bm0子一层级？？？？
+        group_contact = EnterpriseContactsPage()
+        group_contact.click_sub_level_department_by_name2('bm0')
+        # 选择“b测算”联系人进行转发
+        sc.click_one_contact("b测算")
+        sc.click_sure_forward()
+        flag = sc.is_toast_exist("已转发")
+        self.assertTrue(flag)
+        time.sleep(1)
+        # 返回消息页面
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        # 判断消息页面有新的会话窗口
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            self.assertTrue(mess.is_text_present("b测算"))
 
 
 
