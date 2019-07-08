@@ -4,6 +4,7 @@ from appium.webdriver.common.mobileby import MobileBy
 
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
+from library.core.utils.applicationcache import current_mobile
 
 
 class ContactListSearchPage(BasePage):
@@ -63,6 +64,7 @@ class ContactListSearchPage(BasePage):
 
     @TestLogger.log('查看是否显示XX联系人')
     def is_contact_in_list(self, name):
+        current_mobile().hide_keyboard_if_display()
         time.sleep(1)
         groups = self.mobile.list_iterator(self.__locators['搜索结果列表'], self.__locators['列表项'])
         for group in groups:

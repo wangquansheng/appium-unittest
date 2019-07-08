@@ -444,7 +444,8 @@ class GroupChatPage(BaseChatPage):
     @TestLogger.log()
     def click_expression_page_close_button(self):
         """点击表情页关闭"""
-        self.click_element(self.__class__.__locators["关闭表情页"])
+        if self._is_element_present(self.__class__.__locators["关闭表情页"]):
+            self.click_element(self.__class__.__locators["关闭表情页"])
 
     @TestLogger.log()
     def get_expressions(self):
