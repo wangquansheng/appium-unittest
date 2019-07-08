@@ -1970,3 +1970,24 @@ class MsgPrivateChatMyComputer(TestCase):
         cwp.wait_for_page_load()
         # 7.判断是否发送成功
         cwp.wait_for_msg_send_status_become_to("发送成功", 30)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0050(self):
+        """在我的电脑会话窗，断网情况下发送表情搜搜"""
+        # 1、网络异常
+        # 2、已登录客户端
+        # 3、当前页面在我的电脑聊天会话页面
+        cwp = ChatWindowPage()
+        cwp.set_network_status(0)
+        cwp.wait_for_page_load()
+        cwp.click_expression()
+        time.sleep(2)
+        cwp.click_gif()
+        flag = cwp.is_toast_exist("网络不可用，请检查网络设置")
+        if not flag:
+            raise AssertionError("没有'网络异常，请重新设置网络'提示")
+
+    @staticmethod
+    def tearDown_test_msg_huangcaizui_D_0050():
+        """恢复网络连接"""
+        current_mobile().set_network_status(6)
