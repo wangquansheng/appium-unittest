@@ -7200,3 +7200,55 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         if not flag:
             raise AssertionError("没有提示保存成功提示窗口弹出")
 
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0172(self):
+        """在会话窗口点击图片按钮进行发送大于20M的原图"""
+        # 1、网络正常
+        # 2、当前在群聊（普通群和企业群）会话窗口页面
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_back()
+        mess = MessagePage()
+        scp = SelectContactsPage()
+        if mess.is_on_this_page():
+            pass
+        else:
+            scp.click_back()
+        # 1.确保当前消息列表没有消息发送失败的标识影响验证结果
+        Preconditions.make_no_message_send_failed_status()
+        Preconditions.enter_group_chat_page()
+        # 2.判断当前群聊页面是否存在发送失败标识，存在清空聊天记录
+        if not gcp.is_send_sucess():
+            gcp.click_setting()
+            gcs = GroupChatSetPage()
+            gcs.wait_for_page_load()
+            gcs.click_clear_chat_record()
+            gcs.click_sure()
+            time.sleep(1)
+            gcp.click_group_setting_back()
+        gcp.wait_for_page_load()
+        # 3.点击输入框左上方的相册图标
+        gcp.click_picture()
+        ps = PictureSelector()
+        time.sleep(1)
+        # 4.选择大于20M的图片
+        ps.switch_to_given_folder("pic1")
+        ps.select_items_by_given_orders(1)
+        # 5.点击预览
+        ps.click_preview()
+        time.sleep(1)
+        cppp = ChatPicPreviewPage()
+        # 6.点击原图
+        cppp.click_original_photo()
+        # 7.点击发送
+        cppp.click_send()
+        # 8.判断存在发送失败按钮
+        self.assertFalse(gcp.is_send_sucess())
+        # 9.点击返回消息列表
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 10.判断是否显示消息发送失败的标识
+        if mess.is_iv_fail_status_present():
+            raise AssertionError("消息列表显示消息发送失败标识")
+
