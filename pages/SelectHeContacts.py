@@ -33,7 +33,7 @@ class SelectHeContactsPage(BasePage):
                   MobileBy.ID, 'com.chinasofti.rcs:id/img_right_department'),
                   'Superman': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
                   'myteam02': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
-                  '团队名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
+                  '团队名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title'),
                   '清空搜索框': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_delect'),
 
                   }
