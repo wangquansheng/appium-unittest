@@ -1,3 +1,5 @@
+import time
+
 from appium.webdriver.common.mobileby import MobileBy
 
 from library.core.BasePage import BasePage
@@ -28,6 +30,8 @@ class OrganizationStructurePage(BasePage):
         '联系人名称输入框': (MobileBy.XPATH, '//*[@resource-id ="contact_add_name_input"]'),
         '联系人号码输入框': (MobileBy.XPATH, '//*[@resource-id ="contact_add_mobile_input"]'),
         '确定删除部门': (MobileBy.XPATH, '//*[@resource-id ="c_com_confirm"]'),
+        '关闭返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_close_actionbar'),
+        '我知道了': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
 
     }
 
@@ -240,3 +244,15 @@ class OrganizationStructurePage(BasePage):
             time += 1
             self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
         return False
+
+    @TestLogger.log()
+    def click_cancle(self):
+        """点击关闭返回"""
+        self.click_element(self.__class__.__locators["关闭返回"])
+
+    @TestLogger.log("点击我知道了")
+    def click_i_know(self):
+        time.sleep(2)
+        if self._is_element_present(self.__class__.__locators['我知道了']):
+            self.click_element(self.__class__.__locators['我知道了'])
+        return True

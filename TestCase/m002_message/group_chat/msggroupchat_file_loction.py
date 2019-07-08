@@ -323,15 +323,17 @@ class Preconditions(WorkbenchPreconditions):
         slc = SelectLocalContactsPage()
         # 选择联系人加入团队
         slc.wait_for_page_load()
-        name_contacts = ["a a", "aa1122",  "大佬1", "给个红包1", "English", "特殊!@$"]
+        name_contacts = ["a a", "bb1122",  "大佬1", "给个红包1", "English", "特殊!@$"]
         for name_contact in name_contacts:
             time.sleep(2)
             slc.selecting_local_contacts_by_name(name_contact)
         # 点击确认
         slc.click_sure()
-        slc.wait_for_page_load()
+        time.sleep(1)
+        #slc.wait_for_page_load()
+        osp.click_i_know()
         # 点击取消返回工作台页面
-        slc.click_cancle()
+        osp.click_cancle()
         workbench.click_message_icon()
 
     @staticmethod
@@ -575,6 +577,16 @@ class Preconditions(WorkbenchPreconditions):
             local_file.click_send()
             group_chat_page.wait_for_page_load()
 
+    @staticmethod
+    def make_no_message_send_failed_status():
+        """确保当前消息列表没有消息发送失败的标识影响验证结果"""
+
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        # 确保当前消息列表没有消息发送失败的标识影响验证结果
+        if mp.is_iv_fail_status_present():
+            mp.clear_fail_in_send_message()
+
 class MsgGroupChatFileLocationTest(TestCase):
     """
     模块：消息-群聊文件,位置
@@ -587,38 +599,38 @@ class MsgGroupChatFileLocationTest(TestCase):
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
         # 创建联系
-        # fail_time = 0
-        # import dataproviders
-        # while fail_time < 3:
-        #     try:
-        #         required_contacts = dataproviders.get_preset_contacts()
-        #         conts = ContactsPage()
-        #         Preconditions.connect_mobile('Android-移动')
-        #         current_mobile().hide_keyboard_if_display()
-        #         Preconditions.make_already_in_message_page()
-        #         conts.open_contacts_page()
-        #         try:
-        #             if conts.is_text_present("发现SIM卡联系人"):
-        #                 conts.click_text("显示")
-        #         except:
-        #             pass
-        #         for name, number in required_contacts:
-        #             conts.create_contacts_if_not_exits(name, number)
-        #         # 创建群
-        #         required_group_chats = dataproviders.get_preset_group_chats()
-        #         conts.open_group_chat_list()
-        #         group_list = GroupListPage()
-        #         for group_name, members in required_group_chats:
-        #             group_list.wait_for_page_load()
-        #             group_list.create_group_chats_if_not_exits(group_name, members)
-        #         group_list.click_back()
-        #         conts.open_message_page()
-        #         return
-        #     except:
-        #         fail_time += 1
-        #         import traceback
-        #         msg = traceback.format_exc()
-        #         print(msg)
+        fail_time = 0
+        import dataproviders
+        while fail_time < 3:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                Preconditions.connect_mobile('Android-移动')
+                current_mobile().hide_keyboard_if_display()
+                Preconditions.make_already_in_message_page()
+                conts.open_contacts_page()
+                try:
+                    if conts.is_text_present("发现SIM卡联系人"):
+                        conts.click_text("显示")
+                except:
+                    pass
+                for name, number in required_contacts:
+                    conts.create_contacts_if_not_exits(name, number)
+                # 创建群
+                required_group_chats = dataproviders.get_preset_group_chats()
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name, members in required_group_chats:
+                    group_list.wait_for_page_load()
+                    group_list.create_group_chats_if_not_exits(group_name, members)
+                group_list.click_back()
+                conts.open_message_page()
+                return
+            except:
+                fail_time += 1
+                import traceback
+                msg = traceback.format_exc()
+                print(msg)
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
@@ -2083,23 +2095,14 @@ class MsgGroupChatFileLocationTest(TestCase):
         scp.click_select_one_group()
         sogp = SelectOneGroupPage()
         sogp.wait_for_page_load()
-        names = sogp.get_group_name()
-        firm_names = []
-        for name in names:
-            if '企业' in name:
-                firm_names.append(name)
-        firm_name = random.choice(firm_names)
-        if firm_name:
-            sogp.select_one_group_by_name(firm_name)
-            # 3、点击确定
-            sogp.click_sure_forward()
-            flag = gcp.is_toast_exist("已转发")
-            if not flag:
-                raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
-            if not gcp.is_on_this_page():
-                raise AssertionError("当前页面不在群聊天会话页面")
-        else:
-            raise AssertionError("需要创建企业群")
+        sogp.select_one_enterprise_group()
+        # 3、点击确定
+        sogp.click_sure_forward()
+        flag = gcp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not gcp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊天会话页面")
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0321(self):
@@ -2150,43 +2153,45 @@ class MsgGroupChatFileLocationTest(TestCase):
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0322(self):
         """将自己发送的位置转发到企业群时失败"""
-        Preconditions.public_send_location()
-        # 1.长按位置消息体转发
         gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_back()
+        mess = MessagePage()
+        scp = SelectContactsPage()
+        if mess.is_on_this_page():
+            pass
+        else:
+            scp.click_back()
+        # 1.确保当前消息列表没有消息发送失败的标识影响验证结果
+        Preconditions.make_no_message_send_failed_status()
+        Preconditions.enter_group_chat_page()
+        Preconditions.public_send_location()
+        # 2.长按位置消息体转发
         gcp.press_message_to_do("转发")
         scp = SelectContactsPage()
         scp.wait_for_page_load()
-        # 2.点击选择一个企业群
+        # 3.点击选择一个企业群
         scp.click_select_one_group()
         sogp = SelectOneGroupPage()
         sogp.wait_for_page_load()
-        names = sogp.get_group_name()
-        firm_names = []
-        for name in names:
-            if '企业' in name:
-                firm_names.append(name)
-        firm_name = random.choice(firm_names)
-        if firm_name:
-            sogp.select_one_group_by_name(firm_name)
-            # 3、点击确定
-            sogp.set_network_status(0)
-            sogp.click_sure_forward()
-            flag = gcp.is_toast_exist("已转发")
-            if not flag:
-                raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
-            if not gcp.is_on_this_page():
-                raise AssertionError("当前页面不在群聊天会话页面")
-            # 4、点击返回
-            time.sleep(3)
-            gcp.click_back()
-            scp.wait_for_page_load()
-            scp.click_back()
-            mess = MessagePage()
-            mess.wait_for_page_load()
-            if not mess.is_iv_fail_status_present():
-                raise AssertionError("消息列表没有显示消息发送失败标识")
-        else:
-            raise AssertionError("需要创建企业群")
+        sogp.select_one_enterprise_group()
+        # 4.点击确定
+        sogp.set_network_status(0)
+        sogp.click_sure_forward()
+        flag = gcp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not gcp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊天会话页面")
+        # 5.点击返回
+        time.sleep(3)
+        gcp.click_back()
+        scp.wait_for_page_load()
+        scp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        if not mess.is_iv_fail_status_present():
+            raise AssertionError("消息列表没有显示消息发送失败标识")
 
     def tearDown_test_msg_weifenglian_qun_0322(self):
         # 重新连接网络
@@ -2234,20 +2239,11 @@ class MsgGroupChatFileLocationTest(TestCase):
         scp.click_select_one_group()
         sogp = SelectOneGroupPage()
         sogp.wait_for_page_load()
-        names = sogp.get_group_name()
-        normal_names = []
-        for name in names:
-            if '企业' in name:
-                normal_names.append(name)
-        normal_name = random.choice(normal_names)
-        if normal_name:
-            sogp.select_one_group_by_name(normal_name)
-            # 3、点击取消
-            sogp.click_cancel_forward()
-            if not sogp.is_on_this_page():
-                raise AssertionError("不是停留在当前选择一个群页面")
-        else:
-            raise AssertionError("需要创建企业群")
+        sogp.select_one_enterprise_group()
+        # 3.点击取消
+        sogp.click_cancel_forward()
+        if not sogp.is_on_this_page():
+            raise AssertionError("不是停留在当前选择一个群页面")
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0325(self):
@@ -2665,6 +2661,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         slcp.click_search_box()
         # 3.在搜索框输入标点符号点击搜索到的手机联系人
         slcp.search_and_select_contact("：，。")
+        time.sleep(1)
         if gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
 
@@ -2684,6 +2681,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         slcp.click_search_box()
         # 3.在搜索框输入字母点击搜索到的手机联系人
         slcp.search_and_select_contact("abc")
+        time.sleep(1)
         if gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
 
@@ -2703,7 +2701,8 @@ class MsgGroupChatFileLocationTest(TestCase):
         slcp.click_search_box()
         # 3.在搜索框输入含有空格点击搜索到的手机联系人
         slcp.search_and_select_contact("a a")
-        if gcp.is_on_this_page():
+        time.sleep(1)
+        if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
@@ -2825,10 +2824,10 @@ class MsgGroupChatFileLocationTest(TestCase):
     def test_msg_weifenglian_qun_0349(self):
         """将自己发送的位置转发到团队未置灰的联系人"""
         # 1.创建测试团队1
-        #Preconditions.create_team_select_contacts("测试团队1")
+        Preconditions.create_team_select_contacts("测试团队1")
         gcp = GroupChatPage()
-        # gcp.click_back()
-        # Preconditions.enter_group_chat_page()
+        gcp.click_back()
+        Preconditions.enter_group_chat_page()
         # # 2.创建测试团队2
         # Preconditions.create_team_select_contacts("测试团队2")
         # gcp = GroupChatPage()
@@ -3746,78 +3745,72 @@ class MsgGroupChatFileLocationTest(TestCase):
         scp.click_select_one_group()
         sogp = SelectOneGroupPage()
         sogp.wait_for_page_load()
-        names = sogp.get_group_name()
-        firm_names = []
-        for name in names:
-            if '企业' in name:
-                firm_names.append(name)
-        firm_name = random.choice(firm_names)
-        if firm_name:
-            sogp.select_one_group_by_name(firm_name)
-            # 8、点击确定
-            sogp.click_sure_forward()
-            flag = gcp.is_toast_exist("已转发")
-            if not flag:
-                raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
-            if not gcp.is_on_this_page():
-                raise AssertionError("当前页面不在群聊天会话页面")
-        else:
-            raise AssertionError("需要创建企业群")
+        # 8.点击选择一个企业群
+        sogp.select_one_enterprise_group()
+        # 9.点击确定发送
+        sogp.click_sure_forward()
+        flag = gcp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not gcp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊天会话页面")
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0077(self):
         """将自己发送的文件转发到企业群"""
         gcp = GroupChatPage()
-        # 1.点击文件
+        gcp.wait_for_page_load()
+        gcp.click_back()
+        mess = MessagePage()
+        scp = SelectContactsPage()
+        if mess.is_on_this_page():
+            pass
+        else:
+            scp.click_back()
+        # 1.确保当前消息列表没有消息发送失败的标识影响验证结果
+        Preconditions.make_no_message_send_failed_status()
+        Preconditions.enter_group_chat_page()
+        # 2.点击文件
         gcp.click_file()
         csf = ChatSelectFilePage()
         csf.wait_for_page_load()
-        # 2.点击本地文件
+        # 3.点击本地文件
         csf.click_local_file()
-        # 3.选择任意文件，点击发送按钮
+        # 4.选择任意文件，点击发送按钮
         local_file = ChatSelectLocalFilePage()
-        # 4.进入预置文件目录，选择文件发送
+        # 5.进入预置文件目录，选择文件发送
         local_file.push_preset_file()
         local_file.click_preset_file_dir()
-        # 5.点击选择发送文件
+        # 6.点击选择发送文件
         local_file.select_file('.txt')
         local_file.click_send()
-        # 6.长按最后一个文件转发
+        # 7.长按最后一个文件转发
         gcp.press_last_file_to_do("转发")
         scp = SelectContactsPage()
         scp.wait_for_page_load()
-        # 7.点击选择一个企业群
+        # 8.点击选择一个企业群
         scp.click_select_one_group()
         sogp = SelectOneGroupPage()
         sogp.wait_for_page_load()
-        names = sogp.get_group_name()
-        firm_names = []
-        for name in names:
-            if '企业' in name:
-                firm_names.append(name)
-        firm_name = random.choice(firm_names)
-        if firm_name:
-            sogp.select_one_group_by_name(firm_name)
-            # 8.断开网络
-            sogp.set_network_status(0)
-            # 9.点击确定
-            sogp.click_sure_forward()
-            flag = gcp.is_toast_exist("已转发")
-            if not flag:
-                raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
-            if not gcp.is_on_this_page():
-                raise AssertionError("当前页面不在群聊天会话页面")
-            time.sleep(2)
-            # 10.点击返回至消息页面
-            gcp.click_back()
-            scp.wait_for_page_load()
-            scp.click_back()
-            mess = MessagePage()
-            mess.wait_for_page_load()
-            if not mess.is_iv_fail_status_present():
-                raise AssertionError("消息列表没有显示消息发送失败标识")
-        else:
-            raise AssertionError("需要创建企业群")
+        # 9.点击选择一个企业群
+        sogp.select_one_enterprise_group()
+        # 10.点击确定发送
+        sogp.set_network_status(0)
+        sogp.click_sure_forward()
+        flag = gcp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not gcp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊天会话页面")
+        time.sleep(2)
+        # 11.点击返回至消息页面
+        gcp.click_back()
+        scp.wait_for_page_load()
+        scp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        if not mess.is_iv_fail_status_present():
+            raise AssertionError("消息列表没有显示消息发送失败标识")
 
     def tearDown_test_msg_weifenglian_qun_0077(self):
         # 重新连接网络
@@ -3850,20 +3843,12 @@ class MsgGroupChatFileLocationTest(TestCase):
         scp.click_select_one_group()
         sogp = SelectOneGroupPage()
         sogp.wait_for_page_load()
-        names = sogp.get_group_name()
-        firm_names = []
-        for name in names:
-            if '企业' in name:
-                firm_names.append(name)
-        firm_name = random.choice(firm_names)
-        if firm_name:
-            sogp.select_one_group_by_name(firm_name)
-            # 8、点击取消
-            sogp.click_cancel_forward()
-            if not sogp.is_on_this_page():
-                raise AssertionError("当前页面不在群聊天会话页面")
-        else:
-            raise AssertionError("需要创建企业群")
+        # 8.点击选择一个企业群
+        sogp.select_one_enterprise_group()
+        # 9.点击取消
+        sogp.click_cancel_forward()
+        if not sogp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊天会话页面")
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0088(self):
@@ -3994,6 +3979,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         scp.select_recent_chat_by_number(0)
         # 3.点击确认发送
         scp.click_sure_forward()
+        time.sleep(1)
         flag = scp.is_toast_exist("已转发")
         if not flag:
             raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")

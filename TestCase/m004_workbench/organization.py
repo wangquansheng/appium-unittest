@@ -191,16 +191,16 @@ class OrganizationTest(TestCase):
         time.sleep(2)
         osp.wait_for_page_load()
         slc = SelectLocalContactsPage()
-        if osp.is_text_present("和飞信电话"):
+        if osp.is_text_present("飞信电话"):
             osp.click_text("添加联系人")
             time.sleep(1)
             osp.click_text("从手机通讯录添加")
             time.sleep(2)
             sc = SelectContactsPage()
             # 搜索联系人
-            sc.input_search_contact_message("和飞信")
+            sc.input_search_contact_message("飞信")
             # 选择“和飞信电话”联系人进行转发
-            sc.click_one_contact("和飞信电话")
+            sc.click_one_contact("飞信电话")
             # slc.click_one_contact("和飞信电话")
             slc.click_sure()
             if not slc.is_toast_exist("1个联系人联系人在库中已存在"):
@@ -215,9 +215,9 @@ class OrganizationTest(TestCase):
             time.sleep(2)
             sc = SelectContactsPage()
             # 搜索联系人
-            sc.input_search_contact_message("和飞信")
+            sc.input_search_contact_message("飞信")
             # 选择“和飞信电话”联系人进行转发
-            sc.click_one_contact("和飞信电话")
+            sc.click_one_contact("飞信电话")
             # slc.click_one_contact("和飞信电话")
             slc.click_sure()
             if not slc.is_toast_exist("操作成功"):
@@ -390,9 +390,9 @@ class OrganizationTest(TestCase):
             time.sleep(2)
             sc = SelectContactsPage()
             # 搜索联系人
-            sc.input_search_contact_message("和飞信")
+            sc.input_search_contact_message("飞信")
             # 选择“和飞信电话”联系人进行转发
-            sc.click_one_contact("和飞信电话")
+            sc.click_one_contact("飞信电话")
             # slc.click_one_contact("和飞信电话")
             slc.click_sure()
             if not slc.is_toast_exist("操作成功"):
@@ -400,9 +400,9 @@ class OrganizationTest(TestCase):
             time.sleep(2)
             if not osp.is_on_this_page():
                 raise AssertionError("没有返回上一级")
-        osp.input_search_box("和飞信")
+        osp.input_search_box("飞信")
         time.sleep(2)
-        if not osp.is_text_present("和飞信电话"):
+        if not osp.is_text_present("飞信电话"):
             raise AssertionError("搜索失败")
 
     @tags('ALL', "CMCC", 'workbench', 'ZZJG')

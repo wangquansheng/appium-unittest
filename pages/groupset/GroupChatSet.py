@@ -80,6 +80,8 @@ class GroupChatSetPage(BasePage):
                   '群名片': (MobileBy.ID, 'com.chinasofti.rcs:id/my_group_name'),
                   '群名称': (MobileBy.ID, 'com.chinasofti.rcs:id/group_name'),
                   "邀请微信或QQ好友进群": (MobileBy.ID, 'com.chinasofti.rcs:id/group_password_line'),
+                  "设置你在群内显示的昵称": (MobileBy.ID, 'com.chinasofti.rcs:id/edit_query'),
+
                   }
 
     @TestLogger.log("获取控件数量")
@@ -601,3 +603,26 @@ class GroupChatSetPage(BasePage):
     def click_group_avatars(self):
         """点击群二维码"""
         self.click_element(self.__class__.__locators["com.chinasofti.rcs:id/rl_group_avatars"])
+
+    @TestLogger.log()
+    def input_my_group_card_name(self, message):
+        """输入你在群内显示的昵称"""
+        self.input_text(self.__class__.__locators["设置你在群内显示的昵称"], message)
+        try:
+            self.driver.hide_keyboard()
+        except:
+            pass
+        return self
+
+    @TestLogger.log()
+    def save_btn_is_enabled(self):
+        """获取修改群名片完成按钮状态是否可点击"""
+        return self._is_enabled(self.__class__.__locators["群名片完成"])
+
+    @TestLogger.log()
+    def is_on_this_page(self):
+        """当前页面是否在群聊天页"""
+        el = self.get_elements(self.__locators['群聊设置'])
+        if len(el) > 0:
+            return True
+        return False

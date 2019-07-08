@@ -1775,3 +1775,106 @@ class MsgPrivateChatMyComputer(TestCase):
         if not cpe.is_toast_exist("保存成功"):
             raise AssertionError("没有保存成功")
 
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0033(self):
+        """我的电脑会话页面，取消编辑图片"""
+        # 1、成功登录和飞信
+        # 2、当前页面在我的电脑聊天会话页面
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击输入框左上方的相册图标
+        cwp.click_img_msgs()
+        # 2.进入相片页面,选择一张图片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_pic_fk(1)
+        # 3.点击预览
+        cpg.click_preview()
+        cpp = ChatPicPreviewPage()
+        cpp.wait_for_page_load()
+        # 4.点击编辑（预览图片）
+        cpp.click_edit()
+        cpe = ChatPicEditPage()
+        # 5.点击文本编辑（预览图片）
+        cpe.click_picture_edit()
+        # 6.涂鸦动作
+        cpe.click_picture_edit_crred()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 7.马赛克动作
+        cpe.click_picture_mosaic()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 8.文本编辑动作
+        cpe.click_picture_text()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("我是python测试开发工程师")
+        time.sleep(1)
+        # 9.点击取消编辑
+        cpe.click_cancle()
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0034(self):
+        """我的电脑会话页面，取消编辑图片，点击发送按钮"""
+        # 1、成功登录和飞信
+        # 2、当前页面在我的电脑聊天会话页面
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击输入框左上方的相册图标
+        cwp.click_img_msgs()
+        # 2.进入相片页面,选择一张图片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_pic_fk(1)
+        # 3.点击预览
+        cpg.click_preview()
+        cpp = ChatPicPreviewPage()
+        cpp.wait_for_page_load()
+        # 4.点击编辑（预览图片）
+        cpp.click_edit()
+        cpe = ChatPicEditPage()
+        # 5.点击文本编辑（预览图片）
+        cpe.click_picture_edit()
+        # 6.涂鸦动作
+        cpe.click_picture_edit_crred()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 7.马赛克动作
+        cpe.click_picture_mosaic()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 8.文本编辑动作
+        cpe.click_picture_text()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("我是python测试开发工程师")
+        time.sleep(1)
+        # 9.点击取消编辑
+        cpe.click_cancle()
+        time.sleep(2)
+        # 10.点击发送
+        current_mobile().hide_keyboard_if_display()
+        cpe.click_picture_send()
+        # 10.判断是否发送成功
+        cwp.wait_for_msg_send_status_become_to("发送成功")
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0035(self):
+        """我的电脑会话页面，发送相册内的图片"""
+        # 1、成功登录和飞信
+        # 2、当前页面在我的电脑聊天会话页面
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击输入框左上方的相册图标
+        cwp.click_img_msgs()
+        # 2.选择一张图片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.click_pic_preview()
+        cppp = ChatPicPreviewPage()
+        cppp.wait_for_page_load()
+        # 3、当前图片的左上角是否会展示格式为：当前图片张数/当前相册的总张数
+        preview_info = cppp.get_pic_preview_info()
+        self.assertIsNotNone(re.match(r'预览\(\d+/\d+\)', preview_info))
+        time.sleep(3)

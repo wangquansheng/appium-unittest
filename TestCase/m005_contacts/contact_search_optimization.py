@@ -868,7 +868,7 @@ class ContactSearchOpTest(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         time.sleep(2)
         detailpage.message_btn_is_clickable()
         detailpage.call_btn_is_clickable()

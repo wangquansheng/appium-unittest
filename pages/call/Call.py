@@ -81,6 +81,19 @@ class CallPage(FooterPage,BasePage):
         '结束通话提示框': (MobileBy.ID, 'com.chinasofti.rcs:id/dialog_title'),
         '结束通话提示框-确定': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
         '开关摄像头按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_open_self_camera'),
+        '1': (MobileBy.ID, 'com.chinasofti.rcs:id/iv1'),
+        '2': (MobileBy.ID, 'com.chinasofti.rcs:id/iv2'),
+        '3': (MobileBy.ID, 'com.chinasofti.rcs:id/iv3'),
+        '4': (MobileBy.ID, 'com.chinasofti.rcs:id/iv4'),
+        '5': (MobileBy.ID, 'com.chinasofti.rcs:id/iv5'),
+        '6': (MobileBy.ID, 'com.chinasofti.rcs:id/iv6'),
+        '7': (MobileBy.ID, 'com.chinasofti.rcs:id/iv7'),
+        '8': (MobileBy.ID, 'com.chinasofti.rcs:id/iv8'),
+        '9': (MobileBy.ID, 'com.chinasofti.rcs:id/iv9'),
+        '0': (MobileBy.ID, 'com.chinasofti.rcs:id/iv0'),
+        '语音通话接受按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_voice_call_answer'),
+        '语音通话拒绝按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_voice_call_refuse'),
+        '语音通话结束按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_call_out_term_new'),
 
     }
 
@@ -773,3 +786,8 @@ class CallPage(FooterPage,BasePage):
     def click_element_(self, text):
         """点击元素"""
         self.click_element(self.__class__.__locators[text])
+
+    @TestLogger.log()
+    def is_element_exit_(self, text):
+        """指定元素是否存在"""
+        return self._is_element_present(self.__class__.__locators[text])

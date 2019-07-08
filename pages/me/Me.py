@@ -232,7 +232,11 @@ class MePage(FooterPage):
     @TestLogger.log()
     def click_collection(self):
         """点击收藏按钮"""
-        self.click_element(self.__locators['收藏'])
+        if self._is_element_present(self.__locators['收藏']):
+            self.click_element(self.__locators['收藏'])
+        else:
+            self.page_up()
+            self.click_element(self.__locators['收藏'])
 
     @TestLogger.log()
     def click_collection2(self):
