@@ -1858,3 +1858,23 @@ class MsgPrivateChatMyComputer(TestCase):
         # 10.判断是否发送成功
         cwp.wait_for_msg_send_status_become_to("发送成功")
         time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0035(self):
+        """我的电脑会话页面，发送相册内的图片"""
+        # 1、成功登录和飞信
+        # 2、当前页面在我的电脑聊天会话页面
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击输入框左上方的相册图标
+        cwp.click_img_msgs()
+        # 2.选择一张图片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.click_pic_preview()
+        cppp = ChatPicPreviewPage()
+        cppp.wait_for_page_load()
+        # 3、当前图片的左上角是否会展示格式为：当前图片张数/当前相册的总张数
+        preview_info = cppp.get_pic_preview_info()
+        self.assertIsNotNone(re.match(r'预览\(\d+/\d+\)', preview_info))
+        time.sleep(3)
