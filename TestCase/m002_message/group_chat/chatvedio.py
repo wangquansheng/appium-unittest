@@ -7252,3 +7252,25 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         if mess.is_iv_fail_status_present():
             raise AssertionError("消息列表显示消息发送失败标识")
 
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0173(self):
+        """在会话窗口点击图片按钮进入相册，直接勾选原图，选择一张等于20M的照片进行发送"""
+        # 1、网络正常
+        # 2、当前在群聊（普通群和企业群）会话窗口页面
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击输入框左上方的相册图标
+        gcp.click_picture()
+        time.sleep(1)
+        # 2.选择等于20m的图片
+        gcp.switch_to_given_folder("pic2")
+        gcp.select_items_by_given_orders(1)
+        # 3.点击原图
+        gcp.click_original_photo()
+        # 4.点击发送
+        gcp.click_send()
+        # 5.判断是否发送成功
+        gcp.wait_for_msg_send_status_become_to("发送成功", 30)
+        time.sleep(2)
+
+
