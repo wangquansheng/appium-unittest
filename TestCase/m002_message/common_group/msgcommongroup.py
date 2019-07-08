@@ -6430,7 +6430,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         cgacp = ChatGroupAddContactsPage()
         if not cgacp.is_text_present("添加群成员"):
             raise AssertionError("不可以跳转到联系人选择器页面")
-        cgacp.click_one_contact("和飞信电话")
+        cgacp.click_one_contact("飞信电话")
         time.sleep(1)
         cgacp.click_sure()
         time.sleep(2)
@@ -6595,8 +6595,8 @@ class MsgCommonGroupPriorityTest(TestCase):
         time.sleep(1)
         gcsp.clear_group_name()
         time.sleep(1)
-        # 录入新群名 "adcdefghijklmnopqrstuvwxyz"
-        gcsp.input_new_group_name("adcdefghijklmnopqrstuvwxyz")
+        # 录入新群名 "adcdefghijklmnopqrstuvwxyzjkhuuibb"
+        gcsp.input_new_group_name("adcdefghijklmnopqrstuvwxyzjkhuuibb")
         time.sleep(1)
         gcsp.save_group_name()
         if not gcsp.is_toast_exist("修改成功"):
@@ -6615,7 +6615,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         mess = MessagePage()
         exist = mess.is_text_present("…")
         self.assertEqual(exist, True)
-        mess.selecting_one_group_click_by_name("adcdefghijklmnopqrstuvwxyz")
+        mess.selecting_one_group_click_by_name("adcdefghijklmnopqrstuvwxyzjkhuuibb")
         # 恢复群名
         gcp.click_setting()
         gcsp.wait_for_page_load()
@@ -7332,7 +7332,7 @@ class MsgCommonGroupAllTest(TestCase):
     def test_msg_xiaoqiu_0015(self):
         """群聊列表展示页面——索引字母定位选择"""
         # 先保证有特定名称的群
-        Preconditions.build_one_new_group("iiiiii")
+        Preconditions.build_one_new_group("ii")
         # 先点击加号
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -7347,7 +7347,7 @@ class MsgCommonGroupAllTest(TestCase):
         sog.wait_for_page_load()
         sog.click_text("I")
         time.sleep(2)
-        if not sog.is_text_present("iiiiii"):
+        if not sog.is_text_present("ii"):
             raise AssertionError("索引字母不能进行定位")
         gcp = GroupChatPage()
         if gcp.is_on_this_page():
@@ -10708,6 +10708,7 @@ class MsgCommonGroupAllTest(TestCase):
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
         gcp.click_back()
         mess = MessagePage()
+        time.sleep(3)
         exist = mess.is_text_present("刚刚")
         self.assertEqual(exist, True)
 
