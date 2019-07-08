@@ -1991,3 +1991,38 @@ class MsgPrivateChatMyComputer(TestCase):
     def tearDown_test_msg_huangcaizui_D_0050():
         """恢复网络连接"""
         current_mobile().set_network_status(6)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0056(self):
+        """在我的电脑会话窗，趣图发送失败后出现重新发送按钮"""
+        # 1、网络正常
+        # 2、已登录客户端
+        # 3、在会话窗口页面
+        cwp = ChatWindowPage()
+        # 1.如果当前我的电脑会话窗已有消息发送失败标识，需要先清除消息发送失败标识
+        if not cwp.is_send_sucess():
+            cwp.click_send_again()
+        cwp.wait_for_page_load()
+        # 2.点击表情
+        cwp.click_expression()
+        time.sleep(2)
+        cwp.click_gif()
+        # 3.输入框输入1
+        cwp.input_gif("1")
+        cwp.wait_for_gif_ele_load()
+        # 4.断开网络
+        cwp.set_network_status(0)
+        # 断网后gif图片无法加载,不能点击gif图片发送
+        # cwp.click_1_gif()
+        # 点击发送
+        cwp.click_send_button()
+        # 5.检验发送失败的标识
+        if cwp.is_send_sucess():
+            raise AssertionError("没有显示消息发送失败标识")
+        cwp.wait_for_msg_send_status_become_to('发送失败', 30)
+        # 6.重新连接网络
+        cwp.set_network_status(6)
+        # 7.点击重发
+        cwp.click_send_again()
+        # 8.验证是否发送成功
+        cwp.wait_for_msg_send_status_become_to('发送成功', 30)
