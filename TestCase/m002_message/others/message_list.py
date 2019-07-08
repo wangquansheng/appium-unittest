@@ -1531,3 +1531,49 @@ class MessageListAllTest(TestCase):
         gcp.press_and_move_down("未读消息气泡")
         time.sleep(2)
         mess.press_file_to_do(group_name, "删除聊天")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_msg_huangmianhua_0202(self):
+        """消息列表——消息tab_未读消息清空"""
+        # 重置当前app
+        Preconditions.make_already_in_message_page(True)
+        mp = MessagePage()
+        mp.wait_for_message_list_load()
+        # 确保消息列表有未读消息
+        if mp.is_exist_unread_messages():
+            # 清空未读消息
+            mp.clear_up_unread_messages()
+            # 1.验证未读消息小红点标识是否消失
+            self.assertEquals(mp.is_exist_unread_messages(), False)
+        else:
+            self.assertFalse(mp.is_exist_unread_messages())
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_msg_huangmianhua_0203(self):
+        """未开启免打扰的群聊，收到一条新消息"""
+        # 1未开启免打扰模式
+        # 2.在消息列表首页接收到一条新消息
+        # 3.拖拽红点气泡，在非原位置释放
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.input_text_message("嘿嘿")
+        gcp.send_message()
+        # 验证是否发送成功
+        cwp = ChatWindowPage()
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        group_name = Preconditions.get_group_chat_name_double()
+        Preconditions.delete_record_group_chat()
+        Preconditions.change_mobile('Android-移动-移动')
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 确保消息列表有未读消息
+        if mess.is_exist_unread_messages():
+            # 清空未读消息
+            mess.clear_up_unread_messages()
+            # 1.验证未读消息小红点标识是否消失
+            self.assertEquals(mess.is_exist_unread_messages(), False)
+        else:
+            self.assertFalse(mess.is_exist_unread_messages())
