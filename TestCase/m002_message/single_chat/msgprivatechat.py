@@ -1940,3 +1940,33 @@ class MsgPrivateChatMyComputer(TestCase):
         cwp.wait_for_page_load()
         # 8.判断是否发送成功
         cwp.wait_for_msg_send_status_become_to("发送成功", 30)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0043(self):
+        """我的电脑会话页面，使用拍照功能拍照编辑图片，再取消编辑并发送"""
+        # 1、成功登录和飞信
+        # 2、当前页面在我的电脑聊天会话页面
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击富媒体行拍照图标
+        cwp.click_photo()
+        cpp = ChatPhotoPage()
+        cpp.wait_for_page_load()
+        # 2.进入相机拍照页面，点击拍照
+        cpp.take_photo()
+        # 3.点击编辑拍摄的照片
+        cpp.click_edit_pic()
+        cpe = ChatPicEditPage()
+        # 4.编辑照片
+        cpe.click_text_edit_btn()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("编辑照片")
+        time.sleep(1)
+        # 5.点击取消编辑
+        cpe.click_cancle()
+        time.sleep(2)
+        # 6.点击发送
+        cpe.click_picture_send()
+        cwp.wait_for_page_load()
+        # 7.判断是否发送成功
+        cwp.wait_for_msg_send_status_become_to("发送成功", 30)
