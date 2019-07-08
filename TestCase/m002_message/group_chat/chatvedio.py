@@ -7344,3 +7344,52 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_msg_send_status_become_to("发送成功", 30)
         time.sleep(2)
 
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0177(self):
+        """在会话窗口点击图片按钮进行发送大于20M的原图"""
+        # 1、网络正常
+        # 2、当前在群聊（普通群和企业群）会话窗口页面
+        gcp = GroupChatPage()
+        # 1.判断当前群聊页面是否存在发送失败标识，存在清空聊天记录
+        if not gcp.is_send_sucess():
+            gcp.click_setting()
+            gcs = GroupChatSetPage()
+            gcs.wait_for_page_load()
+            gcs.click_clear_chat_record()
+            gcs.click_sure()
+            time.sleep(1)
+            gcp.click_group_setting_back()
+        gcp.wait_for_page_load()
+        # 2.点击输入框左上方的相册图标
+        gcp.click_picture()
+        time.sleep(1)
+        gcp.switch_to_given_folder("pic1")
+        # 3.点击原图
+        gcp.click_original_photo()
+        # 4.选择多张大于20m的图片
+        gcp.select_items_by_given_orders(1, 2)
+        # 5.点击发送
+        gcp.click_send()
+        # 6.判断存在发送失败按钮
+        self.assertFalse(gcp.is_send_sucess())
+        gcp.press_picture()
+        # 7.判断是否出现编辑选项
+        self.assertTrue(gcp.is_exist_edit_page())
+        gcp.click_edit()
+        cpe = ChatPicEditPage()
+        # 8.点击文本编辑（预览图片）
+        cpe.click_picture_edit()
+        # 9.涂鸦动作
+        cpe.click_picture_edit_crred()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 10.马赛克动作
+        cpe.click_picture_mosaic()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 11.文本编辑动作
+        cpe.click_picture_text()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("图片编辑")
+        time.sleep(1)
+
