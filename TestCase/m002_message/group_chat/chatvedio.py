@@ -7164,3 +7164,39 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         cpe.input_picture_text("图片编辑")
         time.sleep(1)
 
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0171(self):
+        """在查看发送失败的超大原图页面进行长按保存至本地操作"""
+        # 1、网络正常
+        # 2、当前在群聊（普通群和企业群）会话窗口页面
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击输入框左上方的相册图标
+        gcp.click_picture()
+        time.sleep(1)
+        # 2.选择大于20M的图片
+        gcp.switch_to_given_folder("pic1")
+        gcp.select_items_by_given_orders(1)
+        # 3.点击预览
+        gcp.click_preview()
+        time.sleep(1)
+        cpp = ChatPicPreviewPage()
+        # 4.点击原图
+        cpp.click_original_photo()
+        # 5.点击发送
+        cpp.click_send()
+        # 6.判断存在发送失败按钮
+        self.assertFalse(gcp.is_send_sucess())
+        # 7.点击图片
+        gcp.click_msg_image(0)
+        # 8.长按图片
+        gcp.press_xy()
+        time.sleep(1)
+        # 9.判断是否出现编辑选项
+        self.assertTrue(gcp.is_exist_picture_edit_page())
+        # 10.点击保存图片
+        gcp.click_save_picture()
+        flag = gcp.is_toast_exist("保存成功")
+        if not flag:
+            raise AssertionError("没有提示保存成功提示窗口弹出")
+
