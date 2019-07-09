@@ -2662,7 +2662,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         # 3.在搜索框输入标点符号点击搜索到的手机联系人
         slcp.search_and_select_contact("：，。")
         time.sleep(1)
-        if gcp.is_on_this_page():
+        if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
@@ -2682,7 +2682,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         # 3.在搜索框输入字母点击搜索到的手机联系人
         slcp.search_and_select_contact("abc")
         time.sleep(1)
-        if gcp.is_on_this_page():
+        if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
@@ -2751,7 +2751,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         slcp.click_search_box()
         # 3.在搜索框输入号码点击搜索到的手机联系人
         slcp.search_and_select_contact("012560")
-        if gcp.is_on_this_page():
+        if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
@@ -2826,7 +2826,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         # 1.创建测试团队1
         Preconditions.create_team_select_contacts("测试团队1")
         gcp = GroupChatPage()
-        gcp.click_back()
+        #gcp.click_back()
         Preconditions.enter_group_chat_page()
         # # 2.创建测试团队2
         # Preconditions.create_team_select_contacts("测试团队2")
@@ -3931,15 +3931,15 @@ class MsgGroupChatFileLocationTest(TestCase):
     def test_msg_weifenglian_qun_0306(self):
         """网络异常时点击位置按钮有提示"""
         gcp = GroupChatPage()
+        # 1.点击更多富媒体按钮
         gcp.click_more()
         time.sleep(1)
         cmp = ChatMorePage()
+        # 2.断开网络
         cmp.set_network_status(0)
+        # 3.点击位置
         cmp.click_location()
-        # 1.等待位置页面加载
         clp = ChatLocationPage()
-        time.sleep(1)
-        # 2.点击发送按钮
         flag = clp.is_toast_exist("网络异常，请稍后重试！")
         if not flag:
             raise AssertionError("没有'网络异常，请稍后重试！'提示")

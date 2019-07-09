@@ -1770,7 +1770,9 @@ class MsgPrivateChatMyComputer(TestCase):
         cpe.click_picture_edit_crred()
         cpe.input_picture_text("我是python测试开发工程师")
         time.sleep(1)
-        # 9.点击保存
+        # 9.点击完成
+        cpe.click_picture_save()
+        # 10.点击保存
         cpe.click_picture_save()
         if not cpe.is_toast_exist("保存成功"):
             raise AssertionError("没有保存成功")
