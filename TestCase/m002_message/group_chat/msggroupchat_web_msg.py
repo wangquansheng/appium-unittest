@@ -2787,6 +2787,447 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         if mess.is_on_this_page():
             self.assertTrue(mess.is_text_present("b测算"))
 
+    @tags('ALL', 'CMCC', 'me')
+    def test_me_zhangshuli_150(self):
+        """银行预留信息页仅填写手机号"""
+        # 1.输入15-19位有效的银行卡号
+        # 2.点击下一步
+        # 3.只填写持卡人手机号
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开‘我’页面
+        me = MePage()
+        me.open_me_page()
+        me.click_hebao_pay()
+        time.sleep(1)
+        me.click_hebao_pay_card("银行卡")
+        time.sleep(5)
+        if not gcp.is_text_present("绑定新的银行卡"):
+            raise AssertionError("没有出现 - 绑定新的银行卡")
+        gcp.click_text("绑定新的银行卡")
+        time.sleep(3)
+        me.input_text_cardno("6228480128139652175")
+        # 1.下一步按钮高亮可点
+        if me.is_enabled_next_btn():
+            gcp.click_text("下一步")
+        else:
+            raise AssertionError("下一步1 - 不可点击")
+        time.sleep(5)
+        # 2.跳转到银行预留信息页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+        # 3.手机号显示正常&下一步按钮置灰不可点
+        # me.input_text_card_person_name("张三123")
+        # me.input_text_card_id("421127198412125637")
+        me.input_text_phoneno("15013708130")
+        if me.is_enabled_next_btn2():
+            raise AssertionError("下一步2 - 可点击")
+
+    @tags('ALL', 'CMCC', 'me')
+    def test_me_zhangshuli_151(self):
+        """银行预留信息页填写持卡人姓名与手机号&输入小于15位的身份证号"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开‘我’页面
+        me = MePage()
+        me.open_me_page()
+        me.click_hebao_pay()
+        time.sleep(1)
+        me.click_hebao_pay_card("银行卡")
+        time.sleep(5)
+        if not gcp.is_text_present("绑定新的银行卡"):
+            raise AssertionError("没有出现 - 绑定新的银行卡")
+        gcp.click_text("绑定新的银行卡")
+        time.sleep(3)
+        me.input_text_cardno("6228480128139652175")
+        # 1.下一步按钮高亮可点
+        if me.is_enabled_next_btn():
+            gcp.click_text("下一步")
+        else:
+            raise AssertionError("下一步1 - 不可点击")
+        time.sleep(5)
+        # 2.跳转到银行预留信息页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+        # 3.填写信息显示正常，下一步按钮置灰不可点
+        me.input_text_card_person_name("姚磊")
+        me.input_text_card_id("421127198412121")
+        me.input_text_phoneno("15013708130")
+        if me.is_enabled_next_btn2():
+            raise AssertionError("下一步2 - 可点击")
+
+    @tags('ALL', 'CMCC', 'me')
+    def test_me_zhangshuli_152(self):
+        """银行预留信息页填写持卡人姓名与手机号&输入大于15位&小于18位的身份证号"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开‘我’页面
+        me = MePage()
+        me.open_me_page()
+        me.click_hebao_pay()
+        time.sleep(1)
+        me.click_hebao_pay_card("银行卡")
+        time.sleep(5)
+        if not gcp.is_text_present("绑定新的银行卡"):
+            raise AssertionError("没有出现 - 绑定新的银行卡")
+        gcp.click_text("绑定新的银行卡")
+        time.sleep(3)
+        me.input_text_cardno("6228480128139652175")
+        # 1.下一步按钮高亮可点
+        if me.is_enabled_next_btn():
+            gcp.click_text("下一步")
+        else:
+            raise AssertionError("下一步1 - 不可点击")
+        time.sleep(5)
+        # 2.跳转到银行预留信息页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+        # 3.填写信息显示正常，下一步按钮置灰不可点
+        me.input_text_card_person_name("姚磊")
+        # 输入大于15位&小于18位的身份证号
+        me.input_text_card_id("4211271984121211")
+        me.input_text_phoneno("15013708130")
+        if me.is_enabled_next_btn2():
+            raise AssertionError("下一步2 - 可点击")
+
+    @tags('ALL', 'CMCC', 'me')
+    def test_me_zhangshuli_154(self):
+        """银行预留信息页填写持卡人姓名&身份证号&手机号，未勾选协议"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开‘我’页面
+        me = MePage()
+        me.open_me_page()
+        me.click_hebao_pay()
+        time.sleep(1)
+        me.click_hebao_pay_card("银行卡")
+        time.sleep(5)
+        if not gcp.is_text_present("绑定新的银行卡"):
+            raise AssertionError("没有出现 - 绑定新的银行卡")
+        gcp.click_text("绑定新的银行卡")
+        time.sleep(3)
+        me.input_text_cardno("6228480128139652175")
+        # 1.下一步按钮高亮可点
+        if me.is_enabled_next_btn():
+            gcp.click_text("下一步")
+        else:
+            raise AssertionError("下一步1 - 不可点击")
+        time.sleep(5)
+        # 2.跳转到银行预留信息页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+        # 3.填写完持卡有效信息后，未勾选协议
+        me.input_text_card_person_name("姚磊")
+        me.input_text_card_id("421127198412125637")
+        me.input_text_phoneno("15013708130")
+        if not me.is_enabled_next_btn2():
+            raise AssertionError("下一步2 - 不可点击")
+
+    @tags('ALL', 'CMCC', 'me')
+    def test_me_zhangshuli_157(self):
+        """银行预留页面填写错误（无效）的持卡人姓名&正确的身份证号&正确的手机号"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开‘我’页面
+        me = MePage()
+        me.open_me_page()
+        me.click_hebao_pay()
+        time.sleep(1)
+        me.click_hebao_pay_card("银行卡")
+        time.sleep(5)
+        if not gcp.is_text_present("绑定新的银行卡"):
+            raise AssertionError("没有出现 - 绑定新的银行卡")
+        gcp.click_text("绑定新的银行卡")
+        time.sleep(3)
+        me.input_text_cardno("6228480128139652175")
+        # 1.下一步按钮高亮可点
+        if me.is_enabled_next_btn():
+            gcp.click_text("下一步")
+        else:
+            raise AssertionError("下一步1 - 不可点击")
+        time.sleep(5)
+        # 2.跳转到银行预留信息页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+        # 3.输入信息显示正确，下一步按钮高亮可点
+        me.input_text_card_person_name("张三123")
+        me.input_text_card_id("421127198412125637")
+        me.input_text_phoneno("15013708130")
+        if not me.is_enabled_next_btn2():
+            raise AssertionError("下一步2 - 不可点击")
+        else:
+            gcp.click_text("下一步")
+            time.sleep(3)
+        # 4.弹窗提示您输入的姓名有误 （您输入的信息有误，请核对后重试）
+        result = gcp.is_text_present("确认")
+        self.assertEqual(result, True)
+        gcp.click_text("确认")
+        # 5.弹窗消失并停留在当前页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'me')
+    def test_me_zhangshuli_158(self):
+        """银行预留页面填写错误的持卡人姓名&正确的身份证号&正确的手机号-非银行预留持卡人姓名"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开‘我’页面
+        me = MePage()
+        me.open_me_page()
+        me.click_hebao_pay()
+        time.sleep(1)
+        me.click_hebao_pay_card("银行卡")
+        time.sleep(5)
+        if not gcp.is_text_present("绑定新的银行卡"):
+            raise AssertionError("没有出现 - 绑定新的银行卡")
+        gcp.click_text("绑定新的银行卡")
+        time.sleep(3)
+        me.input_text_cardno("6228480128139652175")
+        # 1.下一步按钮高亮可点
+        if me.is_enabled_next_btn():
+            gcp.click_text("下一步")
+        else:
+            raise AssertionError("下一步1 - 不可点击")
+        time.sleep(5)
+        # 2.跳转到银行预留信息页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+        # 3.输入信息显示正确，下一步按钮高亮可点
+        me.input_text_card_person_name("张三")
+        me.input_text_card_id("421127198412125637")
+        me.input_text_phoneno("15013708130")
+        if not me.is_enabled_next_btn2():
+            raise AssertionError("下一步2 - 不可点击")
+        else:
+            gcp.click_text("下一步")
+            time.sleep(3)
+        # 4.弹窗提示您输入的姓名有误 （您输入的信息有误，请核对后重试）
+        result = gcp.is_text_present("确认")
+        self.assertEqual(result, True)
+        gcp.click_text("确认")
+        # 5.弹窗消失并停留在当前页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'me')
+    def test_me_zhangshuli_159(self):
+        """银行预留页面填写正确的姓名&无效的身份证号&正确的手机号-身份证尾数是除X外的英文字母"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开‘我’页面
+        me = MePage()
+        me.open_me_page()
+        me.click_hebao_pay()
+        time.sleep(1)
+        me.click_hebao_pay_card("银行卡")
+        time.sleep(5)
+        if not gcp.is_text_present("绑定新的银行卡"):
+            raise AssertionError("没有出现 - 绑定新的银行卡")
+        gcp.click_text("绑定新的银行卡")
+        time.sleep(3)
+        me.input_text_cardno("6228480128139652175")
+        # 1.下一步按钮高亮可点
+        if me.is_enabled_next_btn():
+            gcp.click_text("下一步")
+        else:
+            raise AssertionError("下一步1 - 不可点击")
+        time.sleep(5)
+        # 2.跳转到银行预留信息页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+        # 3.输入信息显示正确，下一步按钮高亮可点
+        me.input_text_card_person_name("姚磊")
+        # 错误的身份证号码（末尾是除了X外的英文字母）
+        me.input_text_card_id("42112719851211111A")
+        me.input_text_phoneno("15013708130")
+        if not me.is_enabled_next_btn2():
+            raise AssertionError("下一步2 - 不可点击")
+        else:
+            gcp.click_text("下一步")
+            time.sleep(3)
+        # 4.弹窗提示您输入的姓名有误 （您输入的信息有误，请核对后重试）
+        result = gcp.is_text_present("确认")
+        self.assertEqual(result, True)
+        gcp.click_text("确认")
+        # 5.弹窗消失并停留在当前页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'me')
+    def test_me_zhangshuli_160(self):
+        """银行预留页面填写正确的姓名&无效的身份证号&正确的手机号-错误的15或18位身份证号"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开‘我’页面
+        me = MePage()
+        me.open_me_page()
+        me.click_hebao_pay()
+        time.sleep(1)
+        me.click_hebao_pay_card("银行卡")
+        time.sleep(5)
+        if not gcp.is_text_present("绑定新的银行卡"):
+            raise AssertionError("没有出现 - 绑定新的银行卡")
+        gcp.click_text("绑定新的银行卡")
+        time.sleep(3)
+        me.input_text_cardno("6228480128139652175")
+        # 1.下一步按钮高亮可点
+        if me.is_enabled_next_btn():
+            gcp.click_text("下一步")
+        else:
+            raise AssertionError("下一步1 - 不可点击")
+        time.sleep(5)
+        # 2.跳转到银行预留信息页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+        # 3.输入信息显示正确，下一步按钮高亮可点
+        me.input_text_card_person_name("姚磊")
+        # 错误的身份证号码（错误的18位或15位数字）
+        me.input_text_card_id("421127198512111119")
+        me.input_text_phoneno("15013708130")
+        if not me.is_enabled_next_btn2():
+            raise AssertionError("下一步2 - 不可点击")
+        else:
+            gcp.click_text("下一步")
+            time.sleep(3)
+        # 4.弹窗提示您输入的姓名有误 （您输入的信息有误，请核对后重试）
+        result = gcp.is_text_present("确认")
+        self.assertEqual(result, True)
+        gcp.click_text("确认")
+        # 5.弹窗消失并停留在当前页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'me')
+    def test_me_zhangshuli_161(self):
+        """银行预留页面填写正确的姓名&无效的身份证号&正确的手机号-非银行预留身份证号"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开‘我’页面
+        me = MePage()
+        me.open_me_page()
+        me.click_hebao_pay()
+        time.sleep(1)
+        me.click_hebao_pay_card("银行卡")
+        time.sleep(5)
+        if not gcp.is_text_present("绑定新的银行卡"):
+            raise AssertionError("没有出现 - 绑定新的银行卡")
+        gcp.click_text("绑定新的银行卡")
+        time.sleep(3)
+        me.input_text_cardno("6228480128139652175")
+        # 1.下一步按钮高亮可点
+        if me.is_enabled_next_btn():
+            gcp.click_text("下一步")
+        else:
+            raise AssertionError("下一步1 - 不可点击")
+        time.sleep(5)
+        # 2.跳转到银行预留信息页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+        # 3.输入信息显示正确，下一步按钮高亮可点
+        me.input_text_card_person_name("姚磊")
+        # 错误的身份证号码（15位或18位非银行预留身份证号）
+        me.input_text_card_id("421127198512111")
+        me.input_text_phoneno("15013708130")
+        if not me.is_enabled_next_btn2():
+            raise AssertionError("下一步2 - 不可点击")
+        else:
+            gcp.click_text("下一步")
+            time.sleep(3)
+        # 4.弹窗提示您输入的姓名有误 （您输入的信息有误，请核对后重试）
+        result = gcp.is_text_present("确认")
+        self.assertEqual(result, True)
+        gcp.click_text("确认")
+        # 5.弹窗消失并停留在当前页面
+        result = gcp.is_text_present("填写银行预留信息")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'me')
+    def test_me_zhangshuli_089(self):
+        """已授权，清除客户端缓存，再授权"""
+        # 1、清除缓存成功
+        # 2、功能正常使用，无需授权再次授权
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开‘我’页面
+        me = MePage()
+        me.open_me_page()
+        me.click_hebao_pay()
+        time.sleep(1)
+        me.click_hebao_pay_card("现金红包")
+        time.sleep(3)
+        if not gcp.is_text_present("已收红包"):
+            raise AssertionError("没有出现 - 已收红包")
+        if not gcp.is_text_present("已发红包"):
+            raise AssertionError("没有出现 - 已发红包")
+
+    @tags('ALL', 'CMCC', 'me')
+    def test_me_zhangshuli_093(self):
+        """ 发二人红包-未授权 """
+        gcp = GroupChatPage()
+        gcp.click_back()
+        time.sleep(1)
+        mess = MessagePage()
+        # Step 1、在消息列表页点击全局搜索框，进行"大佬3"
+        mess.search_and_enter2('大佬3')
+        time.sleep(1)
+        gcp.click_text("消息")
+        time.sleep(1)
+        if gcp.is_text_present("我已阅读"):
+            gcp.click_back_by_android()
+        groupchat = GroupChatPage()
+        # 点击输入框上方的+号
+        groupchat.click_more()
+        time.sleep(1)
+        # 1、A打开B的二人对话窗口，点击红包
+        # 2、场景一：点击暂不授权
+        # 场景二：点击确认授权
+        result = gcp.is_text_present("红包")
+        self.assertEqual(result, True)
+        groupchat.click_text("红包")
+        result = gcp.is_text_present("发红包")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'me')
+    def test_me_zhangshuli_324(self):
+        """ 发二人红包-绑定新银行卡支付 """
+        gcp = GroupChatPage()
+        gcp.click_back()
+        time.sleep(1)
+        mess = MessagePage()
+        # Step 1、在消息列表页点击全局搜索框，进行"大佬3"
+        mess.search_and_enter2('大佬3')
+        time.sleep(1)
+        gcp.click_text("消息")
+        time.sleep(1)
+        if gcp.is_text_present("我已阅读"):
+            gcp.click_back_by_android()
+        groupchat = GroupChatPage()
+        # 点击输入框上方的+号
+        groupchat.click_more()
+        time.sleep(1)
+        # 1、A成功打开B的二人会话窗口
+        result = gcp.is_text_present("红包")
+        self.assertEqual(result, True)
+        groupchat.click_text("红包")
+        # 2、进入发红包页面，发红包按钮置灰不可点击
+        result = gcp.is_text_present("发红包")
+        self.assertEqual(result, True)
+        me = MePage()
+        result = me.is_enabled_red_packet_send()
+        self.assertEqual(result, False)
+        time.sleep(3)
+        # 4、进入绑定银行卡页面
+        # 输入金额 点击发红包
+        me.input_text_red_packet_num("1")
+        time.sleep(1)
+        # "发红包"
+        me.click_red_packet_send()
+        time.sleep(10)
+        result = gcp.is_text_present("绑定新的银行卡")
+        self.assertEqual(result, True)
+
+
+
 
 
 
