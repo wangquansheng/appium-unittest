@@ -84,6 +84,7 @@ class GroupChatSetPage(BasePage):
                   '搜索结果列表': (MobileBy.ID, 'com.chinasofti.rcs:id/result_list'),
                   '输入关键词快速搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/edit_query'),
 
+                  '删除联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_delete_contact'),
                   }
 
     @TestLogger.log("获取控件数量")

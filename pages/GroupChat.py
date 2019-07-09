@@ -118,6 +118,7 @@ class GroupChatPage(BaseChatPage):
                   '选择': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iv_select"]'),
                   '原图': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/cb_original_photo"]'),
                   '预览': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_preview"]'),
+                  '结束双人视频': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_term'),
 
                   }
 

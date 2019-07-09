@@ -326,6 +326,17 @@ class MessagePage(FooterPage):
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text ="%s"]' % point))
 
     @TestLogger.log()
+    def search_and_enter2(self, point):
+        """消息页全局搜索内容并进入"""
+        self.click_search()
+        from pages import SearchPage
+        SearchPage().input_search_keyword(point)
+        time.sleep(2)
+        self.click_element(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and @text ="%s"]' % point))
+
+
+    @TestLogger.log()
     def search_and_enter_631(self, point):
         """消息页全局搜索内容并进入"""
         self.click_search()
