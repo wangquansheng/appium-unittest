@@ -883,8 +883,8 @@ class MsgCommonGroupTest(TestCase):
         #判断消息页面有新的会话窗口
         mess = MessagePage()
         if mess.is_on_this_page():
-            self.assertTrue(mess.is_text_present("和飞信电话"))
-            mess.click_element_by_text("和飞信电话")
+            self.assertTrue(mess.is_text_present("飞信电话"))
+            mess.click_element_by_text("飞信电话")
             chat = SingleChatPage()
             time.sleep(2)
             if gcp.is_text_present("1元/条"):
@@ -929,9 +929,9 @@ class MsgCommonGroupTest(TestCase):
         sc = SelectContactsPage()
         sc.wait_for_page_local_contact_load()
         # 搜索联系人
-        sc.input_search_contact_message("和飞信")
+        sc.input_search_contact_message("飞信")
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -945,7 +945,7 @@ class MsgCommonGroupTest(TestCase):
         # 判断消息页面有新的会话窗口
         mess = MessagePage()
         if mess.is_on_this_page():
-            self.assertTrue(mess.is_text_present("和飞信电话"))
+            self.assertTrue(mess.is_text_present("飞信电话"))
             #判断是否有“！”
             if  not mess.is_iv_fail_status_present():
                 try:
@@ -953,7 +953,7 @@ class MsgCommonGroupTest(TestCase):
                 except AssertionError as e:
                     print(e)
             #进入新消息窗口判断消息是否发送失败
-            mess.click_element_by_text("和飞信电话")
+            mess.click_element_by_text("飞信电话")
             chat = SingleChatPage()
             chat.click_i_have_read()
             chat.wait_for_page_load()
@@ -997,9 +997,9 @@ class MsgCommonGroupTest(TestCase):
         sc = SelectContactsPage()
         sc.wait_for_page_local_contact_load()
         # 搜索联系人
-        sc.input_search_contact_message("和飞信")
+        sc.input_search_contact_message("飞信")
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -1030,7 +1030,7 @@ class MsgCommonGroupTest(TestCase):
         # 判断消息页面有新的会话窗口
         mess = MessagePage()
         if mess.is_on_this_page():
-            self.assertTrue(mess.is_text_present("和飞信电话"))
+            self.assertTrue(mess.is_text_present("飞信电话"))
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_common_group_0012(self):
@@ -1160,7 +1160,7 @@ class MsgCommonGroupTest(TestCase):
         sc.wait_for_page_local_contact_load()
         sc.select_local_contacts()
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -1227,7 +1227,7 @@ class MsgCommonGroupTest(TestCase):
         sc = SelectContactsPage()
         sc.wait_for_page_local_contact_load()
         # 选择最近聊天中“和飞信电话”联系人进行转发
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -1241,8 +1241,8 @@ class MsgCommonGroupTest(TestCase):
         # 判断消息页面有新的会话窗口
         mess = MessagePage()
         if mess.is_on_this_page():
-            self.assertTrue(mess.is_text_present("和飞信电话"))
-            mess.click_element_by_text("和飞信电话")
+            self.assertTrue(mess.is_text_present("飞信电话"))
+            mess.click_element_by_text("飞信电话")
             chat = SingleChatPage()
             time.sleep(2)
             if chat.is_text_present("用户须知"):
@@ -2754,7 +2754,7 @@ class MsgCommonGroupTest(TestCase):
         #     cgacp.select_one_member_by_name(contactNnames[0])
         # else:
         #     raise AssertionError("通讯录没有联系人，请添加")
-        cgacp.click_one_contact("和飞信电话")
+        cgacp.click_one_contact("飞信电话")
         time.sleep(1)
         if not cgacp.sure_btn_is_enabled():
             raise AssertionError("右上角的确定按钮不能高亮展示")
@@ -3144,7 +3144,7 @@ class MsgCommonGroupTest(TestCase):
         sc = SelectContactsPage()
         sc.wait_for_page_load()
         sc.select_local_contacts()
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -3180,9 +3180,9 @@ class MsgCommonGroupTest(TestCase):
         gcsp.wait_for_group_manage_load()
         #点击解散群
         gcsp.click_group_manage_disband_button()
-        time.sleep(1)
-        if not gcsp.is_text_present("解散群后，所有成员将被移出此群"):
-            raise AssertionError("不会弹出确认弹窗")
+        time.sleep(3)
+        # if not gcsp.is_text_present("解散群后，所有成员将被移出此群"):
+        #     raise AssertionError("不会弹出确认弹窗")
         #点击取消
         gcsp.click_cancel()
         time.sleep(1)
@@ -3531,10 +3531,10 @@ class MsgCommonGroupTest(TestCase):
         if not gcsp.is_text_present("删除并退出"):
             gcsp.page_up()
         gcsp.click_delete_and_exit2()
-        time.sleep(2)
+        time.sleep(3)
         #验证弹出弹窗
-        if not gcsp.is_text_present("退出后不会再接收该群消息"):
-            raise AssertionError("没有弹出确认弹窗")
+        # if not gcsp.is_text_present("退出后不会再接收该群消息"):
+        #     raise AssertionError("没有弹出确认弹窗")
         #点击取消
         gcsp.click_cancel()
         time.sleep(1)
@@ -4027,7 +4027,7 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         sc.click_cancel_forward()
         sc.click_back()
         sc.click_back()
@@ -4061,7 +4061,7 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -4267,13 +4267,13 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         # 点击取消
         gcp.click_cancel_repeat_msg()
         #验证停留在最近聊天选择器页面
         if not gcp.is_text_present("选择联系人"):
            raise AssertionError("没有停留在最近聊天选择器页面")
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         # 点击确定
         gcp.click_sure_repeat_msg()
         flag = sc.is_toast_exist("已转发")
@@ -4288,8 +4288,8 @@ class MsgCommonGroupTest(TestCase):
         # 判断消息页面有新的会话窗口
         mess = MessagePage()
         if mess.is_on_this_page():
-            self.assertTrue(mess.is_text_present("和飞信电话"))
-            mess.click_element_by_text("和飞信电话")
+            self.assertTrue(mess.is_text_present("飞信电话"))
+            mess.click_element_by_text("飞信电话")
             chat = SingleChatPage()
             chat.click_i_have_read()
             chat.wait_for_page_load()
@@ -4301,7 +4301,7 @@ class MsgCommonGroupTest(TestCase):
                 raise AssertionError("不支持转发的消息体没有被过滤掉")
             chat.click_back()
             time.sleep(2)
-            mess.press_file_to_do("和飞信电话","删除聊天")
+            mess.press_file_to_do("飞信电话","删除聊天")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1',"aa",'xin')
     def test_msg_common_group_0113(self):
@@ -4351,13 +4351,13 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         # 点击取消
         gcp.click_cancel_repeat_msg()
         # 验证停留在最近聊天选择器页面
         if not gcp.is_text_present("选择联系人"):
             raise AssertionError("没有停留在最近聊天选择器页面")
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         # 点击确定
         gcp.click_sure_repeat_msg()
         flag = sc.is_toast_exist("已转发")
@@ -4373,8 +4373,8 @@ class MsgCommonGroupTest(TestCase):
         # 判断消息页面有新的会话窗口
         mess = MessagePage()
         if mess.is_on_this_page():
-            self.assertTrue(mess.is_text_present("和飞信电话"))
-            mess.click_element_by_text("和飞信电话")
+            self.assertTrue(mess.is_text_present("飞信电话"))
+            mess.click_element_by_text("飞信电话")
             chat = SingleChatPage()
             time.sleep(3)
             if chat.is_text_present("用户须知"):
@@ -4396,7 +4396,7 @@ class MsgCommonGroupTest(TestCase):
                 raise AssertionError("不支持转发的消息体没有被过滤掉")
             chat.click_back()
             time.sleep(2)
-            mess.press_file_to_do("和飞信电话", "删除聊天")
+            mess.press_file_to_do("飞信电话", "删除聊天")
 
     def tearDown_test_msg_common_group_0113(self):
         #重连网络
@@ -4498,13 +4498,13 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         # 点击取消
         gcp.click_cancel_repeat_msg()
         # 验证停留在最近聊天选择器页面
         if not gcp.is_text_present("选择联系人"):
             raise AssertionError("没有停留在最近聊天选择器页面")
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         # 点击确定
         gcp.click_sure_repeat_msg()
         flag = sc.is_toast_exist("已转发")
@@ -4519,8 +4519,8 @@ class MsgCommonGroupTest(TestCase):
         # 判断消息页面有新的会话窗口
         mess = MessagePage()
         if mess.is_on_this_page():
-            self.assertTrue(mess.is_text_present("和飞信电话"))
-            mess.click_element_by_text("和飞信电话")
+            self.assertTrue(mess.is_text_present("飞信电话"))
+            mess.click_element_by_text("飞信电话")
             chat = SingleChatPage()
             if chat.is_text_present("用户须知"):
                 chat.click_i_have_read()
@@ -4533,7 +4533,7 @@ class MsgCommonGroupTest(TestCase):
                 raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
             chat.click_back()
             time.sleep(2)
-            mess.press_file_to_do("和飞信电话", "删除聊天")
+            mess.press_file_to_do("飞信电话", "删除聊天")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
     def test_msg_common_group_0116(self):
@@ -4557,13 +4557,13 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         # 点击取消
         gcp.click_cancel_repeat_msg()
         # 验证停留在最近聊天选择器页面
         if not gcp.is_text_present("选择联系人"):
             raise AssertionError("没有停留在最近聊天选择器页面")
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         # 点击确定
         gcp.click_sure_repeat_msg()
         flag = sc.is_toast_exist("已转发")
@@ -4578,8 +4578,8 @@ class MsgCommonGroupTest(TestCase):
         # 判断消息页面有新的会话窗口
         mess = MessagePage()
         if mess.is_on_this_page():
-            self.assertTrue(mess.is_text_present("和飞信电话"))
-            mess.click_element_by_text("和飞信电话")
+            self.assertTrue(mess.is_text_present("飞信电话"))
+            mess.click_element_by_text("飞信电话")
             chat = SingleChatPage()
             if chat.is_text_present("用户须知"):
                 chat.click_i_have_read()
@@ -4600,7 +4600,7 @@ class MsgCommonGroupTest(TestCase):
                 raise AssertionError("不支持转发的消息体没有被过滤掉")
             chat.click_back()
             time.sleep(2)
-            mess.press_file_to_do("和飞信电话", "删除聊天")
+            mess.press_file_to_do("飞信电话", "删除聊天")
 
     def tearDown_test_msg_common_group_0116(self):
         #重连网络
@@ -6478,7 +6478,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         cgacp = ChatGroupAddContactsPage()
         if not cgacp.is_text_present("添加群成员"):
             raise AssertionError("不可以跳转到联系人选择器页面")
-        cgacp.click_one_contact("和飞信电话")
+        cgacp.click_one_contact("飞信电话")
         time.sleep(1)
         cgacp.click_sure()
         time.sleep(2)
@@ -8374,7 +8374,7 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.wait_for_page_load()
         gcp.click_profile()
         time.sleep(2)
-        gcp.click_one_contact("和飞信电话")
+        gcp.click_one_contact("飞信电话")
         time.sleep(2)
         gcp.click_text("发送名片")
         # 验证是否发送成功
@@ -8389,7 +8389,7 @@ class MsgCommonGroupAllTest(TestCase):
         Preconditions.change_mobile('Android-移动-移动')
         Preconditions.go_to_group_double(group_name)
         gcp.wait_for_page_load()
-        gcp.click_text("和飞信电话")
+        gcp.click_text("飞信电话")
         time.sleep(3)
         if not gcp.is_text_present("邀请使用"):
             raise AssertionError("无法进入到卡片链接页")

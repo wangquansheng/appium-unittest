@@ -105,6 +105,7 @@ class GroupChatPage(BaseChatPage):
                   '多方视频挂断': (MobileBy.ID, 'com.chinasofti.rcs:id/ivCancel'),
                   '结束多方视频': (MobileBy.ID, 'com.chinasofti.rcs:id/end_video_call_btn'),
                   '多方视频缩放按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_hide'),
+                  '结束双人视频': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_term'),
 
                   }
 
@@ -434,7 +435,8 @@ class GroupChatPage(BaseChatPage):
     @TestLogger.log()
     def click_expression_button(self):
         """点击表情按钮"""
-        self.click_element(self.__class__.__locators["表情按钮"])
+        if self._is_element_present(self.__class__.__locators["表情按钮"]):
+            self.click_element(self.__class__.__locators["表情按钮"])
 
     @TestLogger.log()
     def is_exist_expression_page(self):
