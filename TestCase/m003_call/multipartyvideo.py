@@ -460,60 +460,60 @@ class CallMultipartyVideo(TestCase):
     表格：通话--消息--多方视频
     """
 
-    @classmethod
-    def setUpClass(cls):
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
-        # 导入测试联系人、群聊
-        fail_time1 = 0
-        flag1 = False
-        import dataproviders
-        while fail_time1 < 3:
-            try:
-                required_contacts = dataproviders.get_preset_contacts()
-                conts = ContactsPage()
-                current_mobile().hide_keyboard_if_display()
-                Preconditions.make_already_in_call()
-                conts.open_contacts_page()
-                try:
-                    if conts.is_text_present("发现SIM卡联系人"):
-                        conts.click_text("显示")
-                except:
-                    pass
-                for name, number in required_contacts:
-                    # 创建联系人
-                    conts.create_contacts_if_not_exits(name, number)
-                required_group_chats = dataproviders.get_preset_group_chats()
-                conts.open_group_chat_list()
-                group_list = GroupListPage()
-                for group_name, members in required_group_chats:
-                    group_list.wait_for_page_load()
-                    # 创建群
-                    group_list.create_group_chats_if_not_exits(group_name, members)
-                group_list.click_back()
-                conts.open_message_page()
-                flag1 = True
-            except:
-                fail_time1 += 1
-            if flag1:
-                break
-
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_call()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4", "English"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("Lily", "13800138050")]
-                Preconditions.create_he_contacts2(contact_names2)
-                department_names = ["测试部门1", "测试部门2"]
-                WorkbenchPreconditions.create_department_and_add_member(department_names)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
+    # @classmethod
+    # def setUpClass(cls):
+    #     preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+    #     # 导入测试联系人、群聊
+    #     fail_time1 = 0
+    #     flag1 = False
+    #     import dataproviders
+    #     while fail_time1 < 3:
+    #         try:
+    #             required_contacts = dataproviders.get_preset_contacts()
+    #             conts = ContactsPage()
+    #             current_mobile().hide_keyboard_if_display()
+    #             Preconditions.make_already_in_call()
+    #             conts.open_contacts_page()
+    #             try:
+    #                 if conts.is_text_present("发现SIM卡联系人"):
+    #                     conts.click_text("显示")
+    #             except:
+    #                 pass
+    #             for name, number in required_contacts:
+    #                 # 创建联系人
+    #                 conts.create_contacts_if_not_exits(name, number)
+    #             required_group_chats = dataproviders.get_preset_group_chats()
+    #             conts.open_group_chat_list()
+    #             group_list = GroupListPage()
+    #             for group_name, members in required_group_chats:
+    #                 group_list.wait_for_page_load()
+    #                 # 创建群
+    #                 group_list.create_group_chats_if_not_exits(group_name, members)
+    #             group_list.click_back()
+    #             conts.open_message_page()
+    #             flag1 = True
+    #         except:
+    #             fail_time1 += 1
+    #         if flag1:
+    #             break
+    #
+    #     # 导入团队联系人
+    #     fail_time2 = 0
+    #     flag2 = False
+    #     while fail_time2 < 5:
+    #         try:
+    #             Preconditions.make_already_in_call()
+    #             contact_names = ["大佬1", "大佬2", "大佬3", "大佬4", "English"]
+    #             Preconditions.create_he_contacts(contact_names)
+    #             contact_names2 = [("Lily", "13800138050")]
+    #             Preconditions.create_he_contacts2(contact_names2)
+    #             department_names = ["测试部门1", "测试部门2"]
+    #             WorkbenchPreconditions.create_department_and_add_member(department_names)
+    #             flag2 = True
+    #         except:
+    #             fail_time2 += 1
+    #         if flag2:
+    #             break
 
     @classmethod
     def tearDownClass(cls):
@@ -2720,3 +2720,152 @@ class CallMultipartyVideo(TestCase):
         if not cpg.is_phone_in_calling_state():
             raise AssertionError("通话不成功")
         cpg.hang_up_the_call()
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_shenlisi_0330_03(self):
+        """检查通话记录产生（Android）"""
+        # 7.拨打和飞信电话
+        # 8.接收到和飞信电话来电
+        # Preconditions.select_mobile('Android-移动-移动')
+        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess = MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_element_("拨号盘")
+        for num in "12560":
+            cpg.click_element_(num)
+            time.sleep(2)
+        cpg.click_element_("拨打电话按键")
+        time.sleep(2)
+        # cpg.click_text("普通电话")
+        # time.sleep(2)
+        if cpg.is_text_present("设置"):
+            print("请开通拨打电话权限，再重试")
+            return
+        # Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(12)
+        if not cpg.is_phone_in_calling_state():
+            raise AssertionError("通话不成功")
+        cpg.hang_up_the_call()
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_shenlisi_0330_04(self):
+        """检查通话记录产生（Android）"""
+        # 3.拨打视频通话
+        # 4.接收到视频通话邀请
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess = MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_multi_party_video()
+        mppg = MultiPartyVideoPage()
+        sc = SelectContactsPage()
+        sc.input_search_keyword(phone_number)
+        time.sleep(2)
+        sc.click_text("tel")
+        mppg.click_tv_sure()
+        time.sleep(3)
+        gcp=GroupChatPage()
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        # gcp.pick_up_the_call()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(3)
+        if gcp.is_text_present("始终允许"):
+            gcp.click_text("始终允许")
+        time.sleep(2)
+        if gcp.is_text_present("始终允许"):
+            gcp.click_text("始终允许")
+        time.sleep(2)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        time.sleep(2)
+        gcp.click_element_("多方视频接听")
+        time.sleep(5)
+        gcp.click_element_("结束双人视频")
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_shenlisi_0089(self):
+        """检查语音通话--被叫接通"""
+        # 1.用户B点击语音邀请界面的“接通”按钮
+        # 2.用户A查看呼叫界面
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess=MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_element_("拨号盘")
+        for num in phone_number:
+            cpg.click_element_(num)
+            time.sleep(2)
+        cpg.click_element_("拨打电话按键")
+        time.sleep(2)
+        cpg.click_text("语音通话")
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(2)
+        if cpg.is_text_present("始终允许"):
+            cpg.click_text("始终允许")
+        time.sleep(2)
+        if cpg.is_text_present("始终允许"):
+            cpg.click_text("始终允许")
+        time.sleep(2)
+        if cpg.is_text_present("暂不开启"):
+            cpg.click_text("暂不开启")
+        time.sleep(2)
+        cpg.click_element_("语音通话接受按钮")
+        time.sleep(2)
+        cpg.click_element_("语音通话结束按钮")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_shenlisi_0090(self):
+        """检查语音通话--被叫接通后挂断"""
+        # 1.用户B在语音通话界面电话“挂断”按钮
+        # 2.用户A查看通话界面
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess=MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_element_("拨号盘")
+        for num in phone_number:
+            cpg.click_element_(num)
+            time.sleep(2)
+        cpg.click_element_("拨打电话按键")
+        time.sleep(2)
+        cpg.click_text("语音通话")
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(2)
+        if cpg.is_text_present("始终允许"):
+            cpg.click_text("始终允许")
+        time.sleep(2)
+        if cpg.is_text_present("始终允许"):
+            cpg.click_text("始终允许")
+        time.sleep(2)
+        if cpg.is_text_present("暂不开启"):
+            cpg.click_text("暂不开启")
+        time.sleep(2)
+        cpg.click_element_("语音通话接受按钮")
+        time.sleep(2)
+        cpg.click_element_("语音通话结束按钮")
