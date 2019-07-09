@@ -1770,8 +1770,261 @@ class MsgPrivateChatMyComputer(TestCase):
         cpe.click_picture_edit_crred()
         cpe.input_picture_text("我是python测试开发工程师")
         time.sleep(1)
-        # 9.点击保存
+        # 9.点击完成
+        cpe.click_picture_save()
+        # 10.点击保存
         cpe.click_picture_save()
         if not cpe.is_toast_exist("保存成功"):
             raise AssertionError("没有保存成功")
 
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0033(self):
+        """我的电脑会话页面，取消编辑图片"""
+        # 1、成功登录和飞信
+        # 2、当前页面在我的电脑聊天会话页面
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击输入框左上方的相册图标
+        cwp.click_img_msgs()
+        # 2.进入相片页面,选择一张图片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_pic_fk(1)
+        # 3.点击预览
+        cpg.click_preview()
+        cpp = ChatPicPreviewPage()
+        cpp.wait_for_page_load()
+        # 4.点击编辑（预览图片）
+        cpp.click_edit()
+        cpe = ChatPicEditPage()
+        # 5.点击文本编辑（预览图片）
+        cpe.click_picture_edit()
+        # 6.涂鸦动作
+        cpe.click_picture_edit_crred()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 7.马赛克动作
+        cpe.click_picture_mosaic()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 8.文本编辑动作
+        cpe.click_picture_text()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("我是python测试开发工程师")
+        time.sleep(1)
+        # 9.点击取消编辑
+        cpe.click_cancle()
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0034(self):
+        """我的电脑会话页面，取消编辑图片，点击发送按钮"""
+        # 1、成功登录和飞信
+        # 2、当前页面在我的电脑聊天会话页面
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击输入框左上方的相册图标
+        cwp.click_img_msgs()
+        # 2.进入相片页面,选择一张图片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_pic_fk(1)
+        # 3.点击预览
+        cpg.click_preview()
+        cpp = ChatPicPreviewPage()
+        cpp.wait_for_page_load()
+        # 4.点击编辑（预览图片）
+        cpp.click_edit()
+        cpe = ChatPicEditPage()
+        # 5.点击文本编辑（预览图片）
+        cpe.click_picture_edit()
+        # 6.涂鸦动作
+        cpe.click_picture_edit_crred()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 7.马赛克动作
+        cpe.click_picture_mosaic()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 8.文本编辑动作
+        cpe.click_picture_text()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("我是python测试开发工程师")
+        time.sleep(1)
+        # 9.点击取消编辑
+        cpe.click_cancle()
+        time.sleep(2)
+        # 10.点击发送
+        current_mobile().hide_keyboard_if_display()
+        cpe.click_picture_send()
+        # 10.判断是否发送成功
+        cwp.wait_for_msg_send_status_become_to("发送成功")
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0035(self):
+        """我的电脑会话页面，发送相册内的图片"""
+        # 1、成功登录和飞信
+        # 2、当前页面在我的电脑聊天会话页面
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击输入框左上方的相册图标
+        cwp.click_img_msgs()
+        # 2.选择一张图片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.click_pic_preview()
+        cppp = ChatPicPreviewPage()
+        cppp.wait_for_page_load()
+        # 3、当前图片的左上角是否会展示格式为：当前图片张数/当前相册的总张数
+        preview_info = cppp.get_pic_preview_info()
+        self.assertIsNotNone(re.match(r'预览\(\d+/\d+\)', preview_info))
+        time.sleep(3)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0041(self):
+        """我的电脑会话页面，使用拍照功能拍照编辑后发送照片"""
+        # 1、成功登录和飞信
+        # 2、当前页面在我的电脑聊天会话页面
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击富媒体行拍照图标
+        cwp.click_photo()
+        cpp = ChatPhotoPage()
+        cpp.wait_for_page_load()
+        # 2.进入相机拍照页面，点击拍照
+        cpp.take_photo()
+        # 3.点击编辑拍摄的照片
+        cpp.click_edit_pic()
+        cpe = ChatPicEditPage()
+        # 4.编辑照片
+        cpe.click_text_edit_btn()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("编辑照片")
+        time.sleep(1)
+        # 5.点击编辑完成
+        cpe.click_picture_save()
+        # 6.点击发送
+        cpe.click_send()
+        cwp.wait_for_page_load()
+        # 7.判断是否发送成功
+        cwp.wait_for_msg_send_status_become_to("发送成功", 30)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0042(self):
+        """我的电脑会话页面，使用拍照功能拍照之后编辑并保存"""
+        # 1、成功登录和飞信
+        # 2、当前页面在我的电脑聊天会话页面
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击富媒体行拍照图标
+        cwp.click_photo()
+        cpp = ChatPhotoPage()
+        cpp.wait_for_page_load()
+        # 2.进入相机拍照页面，点击拍照
+        cpp.take_photo()
+        # 3.点击编辑拍摄的照片
+        cpp.click_edit_pic()
+        cpe = ChatPicEditPage()
+        # 4.编辑照片
+        cpe.click_text_edit_btn()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("编辑照片")
+        time.sleep(1)
+        # 5.点击编辑完成
+        cpe.click_picture_save()
+        # 6.点击保存
+        cpe.click_picture_save()
+        if not cpe.is_toast_exist("保存成功"):
+            raise AssertionError("没有保存成功")
+        # 7.点击发送
+        cpe.click_send()
+        cwp.wait_for_page_load()
+        # 8.判断是否发送成功
+        cwp.wait_for_msg_send_status_become_to("发送成功", 30)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0043(self):
+        """我的电脑会话页面，使用拍照功能拍照编辑图片，再取消编辑并发送"""
+        # 1、成功登录和飞信
+        # 2、当前页面在我的电脑聊天会话页面
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击富媒体行拍照图标
+        cwp.click_photo()
+        cpp = ChatPhotoPage()
+        cpp.wait_for_page_load()
+        # 2.进入相机拍照页面，点击拍照
+        cpp.take_photo()
+        # 3.点击编辑拍摄的照片
+        cpp.click_edit_pic()
+        cpe = ChatPicEditPage()
+        # 4.编辑照片
+        cpe.click_text_edit_btn()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("编辑照片")
+        time.sleep(1)
+        # 5.点击取消编辑
+        cpe.click_cancle()
+        time.sleep(2)
+        # 6.点击发送
+        cpe.click_picture_send()
+        cwp.wait_for_page_load()
+        # 7.判断是否发送成功
+        cwp.wait_for_msg_send_status_become_to("发送成功", 30)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0050(self):
+        """在我的电脑会话窗，断网情况下发送表情搜搜"""
+        # 1、网络异常
+        # 2、已登录客户端
+        # 3、当前页面在我的电脑聊天会话页面
+        cwp = ChatWindowPage()
+        cwp.set_network_status(0)
+        cwp.wait_for_page_load()
+        cwp.click_expression()
+        time.sleep(2)
+        cwp.click_gif()
+        flag = cwp.is_toast_exist("网络不可用，请检查网络设置")
+        if not flag:
+            raise AssertionError("没有'网络异常，请重新设置网络'提示")
+
+    @staticmethod
+    def tearDown_test_msg_huangcaizui_D_0050():
+        """恢复网络连接"""
+        current_mobile().set_network_status(6)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0056(self):
+        """在我的电脑会话窗，趣图发送失败后出现重新发送按钮"""
+        # 1、网络正常
+        # 2、已登录客户端
+        # 3、在会话窗口页面
+        cwp = ChatWindowPage()
+        # 1.如果当前我的电脑会话窗已有消息发送失败标识，需要先清除消息发送失败标识
+        if not cwp.is_send_sucess():
+            cwp.click_send_again()
+        cwp.wait_for_page_load()
+        # 2.点击表情
+        cwp.click_expression()
+        time.sleep(2)
+        cwp.click_gif()
+        # 3.输入框输入1
+        cwp.input_gif("1")
+        cwp.wait_for_gif_ele_load()
+        # 4.断开网络
+        cwp.set_network_status(0)
+        # 断网后gif图片无法加载,不能点击gif图片发送
+        # cwp.click_1_gif()
+        # 点击发送
+        cwp.click_send_button()
+        # 5.检验发送失败的标识
+        if cwp.is_send_sucess():
+            raise AssertionError("没有显示消息发送失败标识")
+        cwp.wait_for_msg_send_status_become_to('发送失败', 30)
+        # 6.重新连接网络
+        cwp.set_network_status(6)
+        # 7.点击重发
+        cwp.click_send_again()
+        # 8.验证是否发送成功
+        cwp.wait_for_msg_send_status_become_to('发送成功', 30)

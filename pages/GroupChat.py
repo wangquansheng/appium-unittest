@@ -3,6 +3,8 @@ from appium.webdriver.common.mobileby import MobileBy
 from library.core.TestLogger import TestLogger
 from pages.components.BaseChat import BaseChatPage
 import time
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.remote.webelement import WebElement
 
 
 class GroupChatPage(BaseChatPage):
@@ -19,6 +21,7 @@ class GroupChatPage(BaseChatPage):
                   'com.chinasofti.rcs:id/back_arrow': (MobileBy.ID, 'com.chinasofti.rcs:id/back_arrow'),
                   '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/back_arrow'),
                   '返回2': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
+                  '返回3': (MobileBy.ID, 'com.chinasofti.rcs:id/left_back'),
                   '群聊001(2)': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
                   '消息免打扰': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_slient'),
                   '多方通话': (MobileBy.ID, 'com.chinasofti.rcs:id/action_multicall'),
@@ -49,6 +52,7 @@ class GroupChatPage(BaseChatPage):
                   '多选': (MobileBy.XPATH, "//*[contains(@text, '多选')]"),
                   '复制': (MobileBy.XPATH, "//*[contains(@text, '复制')]"),
                   '编辑': (MobileBy.XPATH, "//*[contains(@text, '编辑')]"),
+                  '发送': (MobileBy.XPATH, "//*[contains(@text, '发送')]"),
                   '保存图片': (MobileBy.XPATH, "//*[contains(@text, '保存图片')]"),
                   '我知道了': (MobileBy.ID, 'com.chinasofti.rcs:id/dialog_btn_ok'),
                   '勾': (MobileBy.ID, 'com.chinasofti.rcs:id/img_message_down_file'),
@@ -105,6 +109,15 @@ class GroupChatPage(BaseChatPage):
                   '多方视频挂断': (MobileBy.ID, 'com.chinasofti.rcs:id/ivCancel'),
                   '结束多方视频': (MobileBy.ID, 'com.chinasofti.rcs:id/end_video_call_btn'),
                   '多方视频缩放按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_hide'),
+                  '消息根节点': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/rv_message_chat"]/*'),
+                  '下拉菜单箭头': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/drop_down_image"]'),
+                  '下拉菜单选项': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/albumTitle"]'),
+                  '列表': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/recyclerView_gallery"]'),
+                  '列表项': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/recyclerView_gallery"]/*['
+                                          '@resource-id="com.chinasofti.rcs:id/rl_img"]'),
+                  '选择': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iv_select"]'),
+                  '原图': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/cb_original_photo"]'),
+                  '预览': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_preview"]'),
                   '结束双人视频': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_term'),
 
                   }
@@ -435,8 +448,7 @@ class GroupChatPage(BaseChatPage):
     @TestLogger.log()
     def click_expression_button(self):
         """点击表情按钮"""
-        if self._is_element_present(self.__class__.__locators["表情按钮"]):
-            self.click_element(self.__class__.__locators["表情按钮"])
+        self.click_element(self.__class__.__locators["表情按钮"])
 
     @TestLogger.log()
     def is_exist_expression_page(self):
@@ -860,3 +872,128 @@ class GroupChatPage(BaseChatPage):
             MobileBy.XPATH,
             '//*[@resource-id="com.chinasofti.rcs:id/textview_file_name" and contains(@text,"%s")]' % file_type)
         return self._is_element_present(locator)
+
+    @TestLogger.log('等待消息在指定时间内状态变为“加载中”、“发送失败”、“发送成功”中的一种')
+    def wait_for_msg_send_status_become_to(self, expected, max_wait_time=3, most_recent_index=1):
+        self.wait_until(
+            condition=lambda d: self.get_msg_status(msg=self.__locators['消息根节点'],
+                                                    most_recent_index=most_recent_index) == expected,
+            timeout=max_wait_time
+        )
+
+    @TestLogger.log('获取消息发送状态')
+    def get_msg_status(self, msg, most_recent_index=1):
+        """
+        获取消息的发送状态，如：
+            1、加载中
+            2、已发送
+            3、发送失败
+        如果传入的是定位器，默认寻找最新一条消息，没有则抛出 NoSuchElementException 异常
+        :param msg: 消息（必须传入消息根节点元素或者元素的定位器）
+        :param most_recent_index: 消息在列表中的序号，从消息列表底部往上数，从1开始计数
+        :return:
+        """
+        if not isinstance(msg, WebElement):
+            msgs = self.get_elements(msg)
+            if msgs:
+                msg = msgs[-most_recent_index]
+            else:
+                raise NoSuchElementException('找不到元素：{}'.format(msg))
+        # 找加载中
+        if msg.find_elements('xpath', '//*[@resource-id="com.chinasofti.rcs:id/progress_send_small"]'):
+            return '加载中'
+        elif msg.find_elements('xpath', '//*[@resource-id="com.chinasofti.rcs:id/imageview_msg_send_failed"]'):
+            return '发送失败'
+        else:
+            return '发送成功'
+
+    @TestLogger.log('切换到指定文件夹')
+    def switch_to_given_folder(self, path):
+        import re
+        if not self.get_elements(self.__locators['下拉菜单选项']):
+            self.click_element(self.__locators['下拉菜单箭头'])
+        menu_list = ['xpath', '//*[@resource-id="com.chinasofti.rcs:id/list_select"]']
+        self.swipe_by_direction(menu_list, 'down', 600)
+        menu_item = ['xpath', '//*[@resource-id="com.chinasofti.rcs:id/list_select"]/*']
+        for i in self.mobile.list_iterator(menu_list, menu_item):
+            del i
+            menus = self.get_elements(self.__locators['下拉菜单选项'])
+            for menu in menus:
+                menu_text = menu.text
+                assert re.match(r'.+\(\d+\)', menu_text), r'Assert menu text match Regex:."+\(\d+\)"'
+                display_name, total = re.findall(r'(.+)\((\d+)\)', menu_text)[0]
+                if len(display_name) > 3:
+                    result = re.findall(r'(.+)([.]{3})$', display_name)
+                    if result:
+                        if path.find(result[0][0]) == 0:
+                            menu.click()
+                            return result[0][0], int(total)
+                    else:
+                        if path.find(display_name) == 0:
+                            menu.click()
+                            return display_name, int(total)
+                else:
+                    if display_name == path:
+                        menu.click()
+                        return path, int(total)
+        raise NoSuchElementException('下拉菜单没有找到名称为"{}"的目录'.format(path))
+
+    @TestLogger.log('选择指定序号的图片（视频）')
+    def select_items_by_given_orders(self, *orders):
+        orders = sorted(list(set(orders)))
+        offset = 1
+        for i in self.mobile.list_iterator(self.__locators['列表'], self.__locators['列表项']):
+            if offset in orders:
+                if not self.is_list_item_selected(i):
+                    el = i.find_element(*self.__locators['选择'])
+                    el.click()
+                orders.remove(offset)
+            offset += 1
+            if not orders:
+                break
+
+    @TestLogger.log('获取列表项已选状态')
+    def is_list_item_selected(self, item):
+        if isinstance(item, (list, tuple)):
+            item = self.get_element(item)
+        elif isinstance(item, WebElement):
+            pass
+        else:
+            raise ValueError('参数类型错误')
+
+        selector = item.find_element(*self.__locators['选择'])
+        color = self.get_coordinate_color_of_element(selector, 5, 50, True)
+        white = (255, 255, 255, 255)
+        blue = (21, 124, 248, 255)
+        if color == white:
+            # 未选择状态为不透明白色
+            return False
+        elif color == blue:
+            # 已选状态为不透明蓝色
+            return True
+        else:
+            raise RuntimeError('RGBA颜色{}无法识别勾选状态'.format(color))
+
+    @TestLogger.log()
+    def click_original_photo(self):
+        """点击原图"""
+        self.click_element(self.__class__.__locators["原图"])
+
+    @TestLogger.log()
+    def click_send(self, times=3):
+        """点击发送"""
+        self.click_element(self.__class__.__locators["发送"])
+        # 发送图片需要时间
+        time.sleep(times)
+
+    @TestLogger.log('点击预览')
+    def click_preview(self):
+        """点击预览"""
+        self.click_element(self.__locators['预览'])
+
+    @TestLogger.log()
+    def click_group_setting_back(self):
+        """点击返回按钮"""
+        self.click_element(self.__class__.__locators["返回3"])
+
+

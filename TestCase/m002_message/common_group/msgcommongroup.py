@@ -1,6 +1,6 @@
 import time
 import unittest
-
+import warnings
 from selenium.common.exceptions import TimeoutException
 
 from library.core.TestCase import TestCase
@@ -6712,10 +6712,11 @@ class MsgCommonGroupAllTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+            pass
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
+        warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
         mess = MessagePage()
         if mess.is_on_this_page():

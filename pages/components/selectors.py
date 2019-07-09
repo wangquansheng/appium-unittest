@@ -1,3 +1,4 @@
+import time
 from appium.webdriver import WebElement
 from appium.webdriver.common.mobileby import MobileBy
 from selenium.common.exceptions import NoSuchElementException
@@ -260,3 +261,15 @@ class PictureSelector(BasePage):
             self.switch_to_given_folder(folder_name)
             self.select_items_by_given_orders(*orders)
         self.click_send_of_img_selector()
+
+    @TestLogger.log()
+    def click_send(self, times=3):
+        """点击发送"""
+        self.click_element(self.__class__.__locators["发送"])
+        # 发送图片需要时间
+        time.sleep(times)
+
+    @TestLogger.log()
+    def click_original_photo(self):
+        """点击原图"""
+        self.click_element(self.__class__.__locators["原图"])

@@ -144,3 +144,8 @@ class ChatPicPreviewPage(BasePage):
         self.click_element(self.__class__.__locators["发送(2)"])
         # 发送图片需要时间
         time.sleep(times)
+
+    @TestLogger.log()
+    def click_original_photo(self):
+        """点击原图"""
+        self.click_element(self.__class__.__locators["原图"])
