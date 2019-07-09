@@ -81,6 +81,8 @@ class GroupChatSetPage(BasePage):
                   '群名称': (MobileBy.ID, 'com.chinasofti.rcs:id/group_name'),
                   "邀请微信或QQ好友进群": (MobileBy.ID, 'com.chinasofti.rcs:id/group_password_line'),
                   "设置你在群内显示的昵称": (MobileBy.ID, 'com.chinasofti.rcs:id/edit_query'),
+                  '搜索结果列表': (MobileBy.ID, 'com.chinasofti.rcs:id/result_list'),
+                  '输入关键词快速搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/edit_query'),
 
                   }
 
@@ -626,3 +628,30 @@ class GroupChatSetPage(BasePage):
         if len(el) > 0:
             return True
         return False
+
+    # @TestLogger.log('搜索结果是否存在')
+    # def is_element_present_result(self):
+    #     return self._is_element_present(self.__locators['搜索结果列表'])
+
+    @TestLogger.log()
+    def is_exist_present_result(self):
+        """是否存在搜索结果"""
+        el = self.get_elements(self.__locators['搜索结果列表'])
+        if len(el) == 0:
+            return False
+        return True
+
+    @TestLogger.log()
+    def click_edit_query(self):
+        """点击 输入关键词快速搜索"""
+        self.click_element(self.__class__.__locators['输入关键词快速搜索'])
+
+    @TestLogger.log()
+    def input_search_message(self, message):
+        """输入搜索信息"""
+        self.input_text(self.__class__.__locators["输入关键词快速搜索"], message)
+        try:
+            self.driver.hide_keyboard()
+        except:
+            pass
+        return self

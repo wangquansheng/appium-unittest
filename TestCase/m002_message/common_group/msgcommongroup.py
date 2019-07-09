@@ -7,7 +7,7 @@ from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.utils.testcasefilter import tags
-from pages import AgreementDetailPage
+from pages import AgreementDetailPage, SelectHeContactsDetailPage, GroupListPage, ContactsPage
 from pages import ChatAudioPage
 from pages import ChatMorePage
 from pages import ChatSelectFilePage
@@ -543,6 +543,13 @@ class Preconditions(object):
         current_mobile().hide_keyboard_if_display()
         current_mobile().launch_app()
         Preconditions.make_in_message_page(moible_param)
+
+    @staticmethod
+    def activate_app(app_id=None):
+        """激活APP"""
+        if not app_id:
+            app_id = current_mobile().driver.desired_capabilities['appPackage']
+        current_mobile().driver.activate_app(app_id)
 
 class MsgCommonGroupTest(TestCase):
     """
@@ -6712,7 +6719,7 @@ class MsgCommonGroupAllTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-            pass
+        warnings.simplefilter('ignore', ResourceWarning)
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
@@ -10783,3 +10790,4 @@ class MsgCommonGroupAllTest(TestCase):
             self.assertEqual(exist, True)
             # if not mess.is_text_present("测试超长文字"):
             #     raise AssertionError("测试超长文字")
+

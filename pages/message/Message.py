@@ -960,3 +960,9 @@ class MessagePage(FooterPage):
             current += 1
             self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
         self.click_element(locator)
+
+    @TestLogger.log()
+    def is_exists_group_by_name(self, name):
+        """消息页面是否存在指定群名字会话窗口"""
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and contains(@text, "%s")]' % name)
+        return self._is_element_present(locator)

@@ -6,7 +6,7 @@ from library.core.TestLogger import TestLogger
 
 class CreateGroupNamePage(BasePage):
     """创建群聊名称页面"""
-    ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.EditGroupPageActivity'
+    ACTIVITY = 'com.cmicc.module_message.ui.activity.EditGroupPageActivity'
 
     __locators = {
         'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
@@ -31,3 +31,9 @@ class CreateGroupNamePage(BasePage):
     def click_sure(self):
         """点击确定"""
         self.click_element(self.__class__.__locators["确定"])
+
+    @TestLogger.log('检查当前搜索框内容')
+    def assert_current_search_keyword_is(self, keyword):
+        """检查当前搜索框内容"""
+        self.element_text_should_be(self.__locators['群聊名输入框'], keyword)
+        return self
