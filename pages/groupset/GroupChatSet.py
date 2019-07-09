@@ -81,7 +81,7 @@ class GroupChatSetPage(BasePage):
                   '群名称': (MobileBy.ID, 'com.chinasofti.rcs:id/group_name'),
                   "邀请微信或QQ好友进群": (MobileBy.ID, 'com.chinasofti.rcs:id/group_password_line'),
                   "设置你在群内显示的昵称": (MobileBy.ID, 'com.chinasofti.rcs:id/edit_query'),
-
+                  '删除联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_delete_contact'),
                   }
 
     @TestLogger.log("获取控件数量")
@@ -275,6 +275,12 @@ class GroupChatSetPage(BasePage):
         if self.get_elements(self.__locators["确定"]):
             self.click_element(self.__locators['确定'])
         time.sleep(3)
+
+    @TestLogger.log('删除联系人')
+    def click_delete_contact(self):
+        """点击删除联系人"""
+        self._find_menu(self.__locators['删除联系人'])
+        self.click_element(self.__locators['删除联系人'])
 
     @TestLogger.log()
     def click_delete_and_exit2(self):

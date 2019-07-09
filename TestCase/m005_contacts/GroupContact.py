@@ -2117,6 +2117,52 @@ class MygroupdetailPage(TestCase):
         contact_detail.page_should_contain_text('已发送')
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
+    def test_contacts_quxinli_0202(self):
+        """用户未加入任何企业"""
+        # 1.点击团队联系人进入我的团队页面，提示未加入任何企业
+        # 2.名片分享成功
+        group_contact = EnterpriseContactsPage()
+        group_contact.click_contacts_by_name('测试号码')
+        time.sleep(2)
+        contact_detail = ContactDetailsPage()
+        # 点击分享名片
+        contact_detail.click_share_business_card()
+        select_contact = SelectContactsPage()
+        select_contact.click_he_contacts()
+        time.sleep(1)
+        select_he = SelectHeContactsPage()
+        select_he.select_one_team_by_name('ateam7272')
+        time.sleep(1)
+        SelectHeContactsDetailPage().selecting_he_contacts_by_name('大佬1')
+        time.sleep(1)
+        SelectHeContactsDetailPage().page_should_contain_text('发送名片')
+        SelectHeContactsDetailPage().click_share_business_card()
+        contact_detail.page_should_contain_text('已发送')
+
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
+    def test_contacts_quxinli_0203(self):
+        """用户只在一个企业下，且在企业子一层级"""
+        # 1.点击团队联系人进入企业子一层级
+        # 2.名片分享成功
+        group_contact = EnterpriseContactsPage()
+        group_contact.click_contacts_by_name('测试号码')
+        time.sleep(2)
+        contact_detail = ContactDetailsPage()
+        # 点击分享名片
+        contact_detail.click_share_business_card()
+        select_contact = SelectContactsPage()
+        select_contact.click_he_contacts()
+        time.sleep(1)
+        select_he = SelectHeContactsPage()
+        select_he.select_one_team_by_name('bm0')
+        time.sleep(1)
+        SelectHeContactsDetailPage().selecting_he_contacts_by_name('b测算')
+        time.sleep(1)
+        SelectHeContactsDetailPage().page_should_contain_text('发送名片')
+        SelectHeContactsDetailPage().click_share_business_card()
+        contact_detail.page_should_contain_text('已发送')
+
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0207(self):
         """用户在多个企业下,分享名片"""
         group_contact = EnterpriseContactsPage()
