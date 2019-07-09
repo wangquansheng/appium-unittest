@@ -10791,3 +10791,78 @@ class MsgCommonGroupAllTest(TestCase):
             # if not mess.is_text_present("测试超长文字"):
             #     raise AssertionError("测试超长文字")
 
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0162(self):
+        """群主——清除旧名片——录入10个字母（不区分大、小写）"""
+        # 1、网络正常（4G/WIFI）
+        # 2、已创建一个普通群
+        # 3、在群聊设置页面
+        # 4、群主权限
+        gcp = GroupChatPage()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击群名片
+        gcsp.click_modify_my_group_name()
+        # 3.点击‘X’按钮
+        gcsp.click_iv_delete_button()
+        # 4.输入10个字母
+        gcsp.input_my_group_card_name("aaabbbcccd")
+        # 5.点击保存
+        gcsp.save_group_card_name()
+        # flag = gcsp.is_toast_exist("修改成功")
+        # if not flag:
+        #     raise AssertionError("没有'修改成功'提示框提示")
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0171(self):
+        """群主——清除旧名片——录入特殊字符"""
+        # 1、网络正常（4G/WIFI）
+        # 2、已创建一个普通群
+        # 3、在群聊设置页面
+        # 4、群主权限
+        gcp = GroupChatPage()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击群名片
+        gcsp.click_modify_my_group_name()
+        # 3.点击‘X’按钮
+        gcsp.click_iv_delete_button()
+        # 4.输入特殊字符
+        gcsp.input_my_group_card_name("！@#")
+        # 5.点击保存
+        gcsp.save_group_card_name()
+        time.sleep(1)
+        # 6.点击群名片
+        gcsp.click_modify_my_group_name()
+        time.sleep(1)
+        # 7.点击‘X’按钮清空群昵称
+        gcsp.click_iv_delete_button()
+        # 8.判断群名片为空时，是否可以点击完成按钮
+        self.assertFalse(gcsp.save_btn_is_enabled())
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0172(self):
+        """群二维码入口详情页"""
+        # 1、网络正常（4G/WIFI）
+        # 2、已创建一个普通群
+        # 3、在群聊设置页面
+        # 4、群主/群成员
+        gcp = GroupChatPage()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击群二维码
+        gcsp.click_QRCode()
+        gcsp.click_qecode_download_button()
+        gcsp.is_toast_exist("已保存")
+        # 3.点击返回
+        gcsp.click_back()
+        time.sleep(2)
+        # 4.判断当前页面是否在群聊设置页面
+        self.assertTrue(gcsp.is_on_this_page())
+
