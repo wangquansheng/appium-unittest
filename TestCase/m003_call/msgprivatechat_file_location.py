@@ -587,7 +587,7 @@ class Preconditions(WorkbenchPreconditions):
         slc = SelectLocalContactsPage()
         # 选择联系人加入团队
         slc.wait_for_page_load()
-        name_contacts = ["a a", "aa1122",  "大佬1", "给个红包1", "English", "特殊!@$"]
+        name_contacts = ["a a", "bb1122",  "大佬1", "给个红包1", "English", "特殊!@$"]
         for name_contact in name_contacts:
             time.sleep(2)
             slc.selecting_local_contacts_by_name(name_contact)
@@ -5153,9 +5153,31 @@ class MsgPrivateChatAllTest(TestCase):
         if not scp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
 
+    @staticmethod
+    def setUp_test_msg_weifenglian_1V1_0110():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        mess.click_contacts()
+        contact = ContactsPage()
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        contact.click_text("全部团队")
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        # 确保有这个'测试团队1'并且添加指定联系人
+        if contact.is_exist_team_by_name("测试团队1"):
+            contact.click_back()
+            contact.click_message_icon()
+        else:
+            contact.click_back()
+            contact.click_message_icon()
+            Preconditions.create_team_select_contacts("测试团队1")
+
     @tags('ALL', 'CMCC', 'full', 'high', 'yx')
     def test_msg_weifenglian_1V1_0110(self):
         """将自己发送的文件转发到在企业内搜索框输入多种字符搜索到的团队联系人"""
+        Preconditions.enter_single_chat_page("大佬1")
         scp = SingleChatPage()
         file_type = ".txt"
         # 1.确保当前聊天页面已有文件

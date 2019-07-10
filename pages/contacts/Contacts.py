@@ -1023,3 +1023,20 @@ class ContactsPage(FooterPage):
     def click_element_by_text(self, text):
         ele = ('xpath', '//*[contains(@text, "{}")]'.format(text))
         self.click_element(ele)
+
+    @TestLogger.log('点击群聊')
+    def click_group_chat(self):
+        """点击群聊"""
+        self.click_element(self.__locators['群聊'])
+
+    @TestLogger.log()
+    def is_exist_team_by_name(self, name):
+        """是否存在这个名字的团队"""
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title" and @text ="%s"]' % name)
+        try:
+            if len(self.get_elements(locator)) > 0:
+                return True
+            else:
+                return False
+        except:
+            return False

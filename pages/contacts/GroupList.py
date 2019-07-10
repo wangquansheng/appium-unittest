@@ -96,24 +96,25 @@ class GroupListPage(BasePage):
         '和通讯本人': (MobileBy.ID, '	com.chinasofti.rcs:id/tv_name_personal_contactlist'),
         '中软国际科技服务有限公司':(MobileBy.XPATH,'//*[@text="中软国际科技服务有限公司"]'),
         '广州': (MobileBy.XPATH, '//*[@text="	广州"]'),
-        '和通讯联系人':(MobileBy.ID,'com.chinasofti.rcs:id/img_icon_contactlist'),
-        '我已阅读':(MobileBy.ID,'com.chinasofti.rcs:id/btn_check'),
-        '已阅读_确定':(MobileBy.ID,'com.chinasofti.rcs:id/dialog_btn_ok'),
-        '群发_输入框':(MobileBy.ID,'com.chinasofti.rcs:id/et_message'),
-        '发送':(MobileBy.ID,'com.chinasofti.rcs:id/ib_send'),
+        '和通讯联系人': (MobileBy.ID,'com.chinasofti.rcs:id/img_icon_contactlist'),
+        '我已阅读': (MobileBy.ID,'com.chinasofti.rcs:id/btn_check'),
+        '已阅读_确定': (MobileBy.ID,'com.chinasofti.rcs:id/dialog_btn_ok'),
+        '群发_输入框': (MobileBy.ID,'com.chinasofti.rcs:id/et_message'),
+        '发送': (MobileBy.ID,'com.chinasofti.rcs:id/ib_send'),
         '标签设置': (MobileBy.ID, 'com.chinasofti.rcs:id/label_setting_toolbar_title'),
-        '表情按钮':(MobileBy.ID,"com.chinasofti.rcs:id/ib_expression"),
-        '表情_微笑':(MobileBy.XPATH,'//*[@text="[微笑1]"]'),
-        '已转短信送达':(MobileBy.XPATH,'//*[@text="已转短信送达"]'),
-        '添加图片':(MobileBy.ID,'com.chinasofti.rcs:id/ib_pic'),
-        '选择图片':(MobileBy.ID,'com.chinasofti.rcs:id/iv_select'),
-        '图片发送':(MobileBy.ID,'com.chinasofti.rcs:id/button_send'),
-        '发送失败':(MobileBy.ID,'com.chinasofti.rcs:id/imageview_msg_send_failed'),
-        '成员头像':(MobileBy.ID,'com.chinasofti.rcs:id/avator'),
-        "确定_可用":(MobileBy.XPATH,'//*[@text="确定"]'),
-        "版本更新":(MobileBy.ID,'com.chinasofti.rcs:id/dialog_title'),
-        "以后再说":(MobileBy.ID,"com.chinasofti.rcs:id/btn_cancel"),
-        '立即更新':(MobileBy.ID,"com.chinasofti.rcs:id/btn_ok"),
+        '表情按钮': (MobileBy.ID,"com.chinasofti.rcs:id/ib_expression"),
+        '表情_微笑': (MobileBy.XPATH,'//*[@text="[微笑1]"]'),
+        '已转短信送达': (MobileBy.XPATH,'//*[@text="已转短信送达"]'),
+        '添加图片': (MobileBy.ID,'com.chinasofti.rcs:id/ib_pic'),
+        '选择图片': (MobileBy.ID,'com.chinasofti.rcs:id/iv_select'),
+        '图片发送': (MobileBy.ID,'com.chinasofti.rcs:id/button_send'),
+        '发送失败': (MobileBy.ID,'com.chinasofti.rcs:id/imageview_msg_send_failed'),
+        '成员头像': (MobileBy.ID,'com.chinasofti.rcs:id/avator'),
+        "确定_可用": (MobileBy.XPATH,'//*[@text="确定"]'),
+        "版本更新": (MobileBy.ID,'com.chinasofti.rcs:id/dialog_title'),
+        "以后再说": (MobileBy.ID,"com.chinasofti.rcs:id/btn_cancel"),
+        '立即更新': (MobileBy.ID,"com.chinasofti.rcs:id/btn_ok"),
+        '搜索': (MobileBy.ID,"com.chinasofti.rcs:id/edit_query"),
 
     }
 
@@ -697,3 +698,16 @@ class GroupListPage(BasePage):
     #         self.find_star_by_name(el)
     #         time.sleep(2)
     #         self.click_text(el)
+
+    @TestLogger.log("输入群名")
+    def input_group_name(self,text):
+        self.input_text(self.__class__.__locators['搜索'], text)
+
+    def is_element_present_result(self):
+        return self._is_element_present(self.__locators['搜索结果展示'])
+
+    @TestLogger.log()
+    def is_exists_group_by_name(self, name):
+        """是否存在指定群名字的搜索结果"""
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and contains(@text, "%s")]' % name)
+        return self._is_element_present(locator)

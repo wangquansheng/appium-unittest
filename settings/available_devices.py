@@ -743,8 +743,8 @@ DEVICES_CONFIG_YX = {
         "DEFAULT_CAPABILITY": {
             "platformName": "Android",
             "platformVersion": "8.0.0",
-            "deviceName": "XPUGL18808000100",
-            "udid": "XPUGL18808000100",
+            "deviceName": "DWT7N18614014715",
+            "udid": "DWT7N18614014715",
             "automationName": "UiAutomator2",
             "newCommandTimeout": 600,
             "appPackage": "com.chinasofti.rcs",
@@ -753,7 +753,7 @@ DEVICES_CONFIG_YX = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '13602564065'
+                'CARD_NUMBER': '18822825240'
             },
         ]
     },
