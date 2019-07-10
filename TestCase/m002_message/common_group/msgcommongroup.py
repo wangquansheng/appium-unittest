@@ -10866,3 +10866,52 @@ class MsgCommonGroupAllTest(TestCase):
         # 4.判断当前页面是否在群聊设置页面
         self.assertTrue(gcsp.is_on_this_page())
 
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0210(self):
+        """群聊设置页面——聊天内容存在多条搜索结果时——排序"""
+        # 1.、成功登录和飞信
+        # 2、已创建或者加入群聊
+        # 3、群主、普通成员
+        # 4、存在对应的搜索结果
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        for i in range(3):
+            gcp.input_message("哈哈")
+            gcp.send_message()
+            time.sleep(10)
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击查找聊天内容
+        gcsp.click_find_chat_record()
+        # 3.点击输入框，输入搜索内容
+        gcsp.click_edit_query()
+        gcsp.input_search_message("哈哈")
+        # 4.判断是否有搜索结果
+        self.assertTrue(gcsp.is_exist_present_result())
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0210(self):
+        """群聊设置页面——聊天内容存在多条搜索结果时——排序"""
+        # 1.、成功登录和飞信
+        # 2、已创建或者加入群聊
+        # 3、群主、普通成员
+        # 4、存在对应的搜索结果
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        for i in range(3):
+            gcp.input_message("哈哈")
+            gcp.send_message()
+            time.sleep(10)
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击查找聊天内容
+        gcsp.click_find_chat_record()
+        # 3.点击输入框，输入搜索内容
+        gcsp.click_edit_query()
+        gcsp.input_search_message("哈哈")
+        # 4.判断是否有搜索结果
+        self.assertTrue(gcsp.is_exist_present_result())
