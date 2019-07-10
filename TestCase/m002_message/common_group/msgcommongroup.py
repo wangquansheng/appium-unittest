@@ -11210,3 +11210,256 @@ class MsgCommonGroupAllTest(TestCase):
         self.assertTrue(mess.is_exists_group_by_name("测试6"))
         time.sleep(2)
 
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0268():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0268(self):
+        """一对一聊天——点对点建群——网络异常"""
+        # 1、已成功登录和飞信
+        # 2、网络异常（4G/WIFI ）
+        # 3、手机通讯录中存在联系人
+        # 4、已加入企业
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 1.点击右上角‘+’号
+        mess.click_add_icon()
+        # 2.点击发起群聊
+        mess.click_group_chat()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        # 3.点击选择手机联系人
+        scp.click_phone_contact()
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        # 4.选择1个手机联系人
+        slc.selecting_local_contacts_by_name("大佬1")
+        time.sleep(2)
+        glp = GroupListPage()
+        # 5.点击已选择联系人头像取消选择
+        glp.click_selected_contacts()
+        time.sleep(2)
+        # 6.再次点击选择联系人
+        slc.selecting_local_contacts_by_name("大佬1")
+        slc.selecting_local_contacts_by_name("大佬3")
+        # 7.点击确定
+        scp.click_sure_forward()
+        cgnp = CreateGroupNamePage()
+        cgnp.wait_for_page_load()
+        # 8.判断群名称设置页面中的群名称是否默认展示为：群聊
+        self.assertTrue(cgnp.assert_current_search_keyword_is("群聊"))
+        # 9.输入群名
+        cgnp.input_group_name("测试7")
+        time.sleep(2)
+        # 10.断开网络
+        cgnp.set_network_status(0)
+        # 11.点击确定
+        cgnp.click_sure()
+        # 12.判断是否提示网络不可用，建群失败
+        self.assertTrue(cgnp.is_toast_exist("网络不可用，请检查网络设置"))
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0268():
+        # 重新连接网络
+        mess = MessagePage()
+        mess.set_network_status(6)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0272():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0272(self):
+        """通讯录——发起群聊——选择选择团队联系人"""
+        # 1、已成功登录和飞信
+        # 2、网络正常（4G/WIFI ）
+        # 3、已加入企业
+        # 4、通讯录-群聊
+        mess = MessagePage()
+        # 1.点击通讯录
+        mess.click_contacts()
+        contact = ContactsPage()
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        # 2.点击群聊
+        contact.click_group_chat()
+        glp = GroupListPage()
+        glp.wait_for_page_load()
+        # 3.点击新建群
+        glp.click_create_group()
+        # 4.点击选择团队联系人
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        scp.click_group_contact()
+        # 5.选择团队联系人
+        scp.input_search_keyword("大佬1")
+        scp.selecting_contacts_by_name("大佬1")
+        scp.input_search_keyword("大佬3")
+        scp.selecting_contacts_by_name("大佬3")
+        # 6.点击确定
+        scp.click_sure_forward()
+        cgnp = CreateGroupNamePage()
+        cgnp.wait_for_page_load()
+        # 7.输入群名
+        cgnp.input_group_name("测试8")
+        time.sleep(2)
+        # 8.点击确定
+        cgnp.click_sure()
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 9.判断是否在群聊页面
+        self.assertTrue(gcp.is_on_this_page())
+        time.sleep(1)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0273():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0273(self):
+        """通讯录——发起群聊——选择手机联系人+选择团队联系人——创建群聊"""
+        # 1、已成功登录和飞信
+        # 2、网络正常（4G/WIFI ）
+        # 3、手机通讯录中存在联系人
+        # 4、已加入企业
+        # 5、通讯录-群聊
+        mess = MessagePage()
+        # 1.点击通讯录
+        mess.click_contacts()
+        contact = ContactsPage()
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        # 2.点击群聊
+        contact.click_group_chat()
+        glp = GroupListPage()
+        glp.wait_for_page_load()
+        # 3.点击新建群
+        glp.click_create_group()
+        # 4.点击选择手机联系人
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        scp.click_phone_contact()
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        # 5.选择手机联系人
+        slc.selecting_local_contacts_by_name("大佬1")
+        slc.click_back()
+        # 6.点击选择团队联系人
+        scp.click_group_contact()
+        # 7.选择团队联系人
+        scp.input_search_keyword("大佬3")
+        scp.selecting_contacts_by_name("大佬3")
+        # 8.点击确定
+        scp.click_sure_forward()
+        cgnp = CreateGroupNamePage()
+        cgnp.wait_for_page_load()
+        # 9.输入群名
+        cgnp.input_group_name("测试9")
+        time.sleep(2)
+        # 10.点击确定
+        cgnp.click_sure()
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 11.判断是否在群聊页面
+        self.assertTrue(gcp.is_on_this_page())
+        time.sleep(1)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0275():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0275(self):
+        """通讯录——发起群聊——搜索选择陌生人"""
+        # 1、已成功登录和飞信
+        # 2、网络正常（4G/WIFI ）
+        # 3、手机通讯录中存在联系人
+        # 4、已加入企业
+        # 5、通讯录-群聊
+        mess = MessagePage()
+        # 1.点击通讯录
+        mess.click_contacts()
+        contact = ContactsPage()
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        # 2.点击群聊
+        contact.click_group_chat()
+        glp = GroupListPage()
+        glp.wait_for_page_load()
+        # 3.点击新建群
+        glp.click_create_group()
+        # 4.点击输入框输入陌生号码1
+        scp = SelectContactsPage()
+        scp.click_search_contact()
+        scp.input_search_keyword("13800238000")
+        scp.click_unknown_member()
+        # 5.点击输入框输入陌生号码2
+        scp.input_search_keyword("13800238001")
+        scp.click_unknown_member()
+        # 6.点击确定
+        scp.click_sure_forward()
+        cgnp = CreateGroupNamePage()
+        # 7.输入群名
+        cgnp.input_group_name("测试10")
+        # 8.点击确定
+        cgnp.click_sure()
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 9.判断是否在群聊页面
+        self.assertTrue(gcp.is_on_this_page())
+        time.sleep(1)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0276():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0276(self):
+        """通讯录——发起群聊——搜索选择陌生人+手机联系人——创建群聊"""
+        # 1、已成功登录和飞信
+        # 2、网络正常（4G/WIFI ）
+        # 3、手机通讯录中存在联系人
+        # 4、已加入企业
+        # 5、通讯录-群聊
+        mess = MessagePage()
+        # 1.点击通讯录
+        mess.click_contacts()
+        contact = ContactsPage()
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        # 2.点击群聊
+        contact.click_group_chat()
+        glp = GroupListPage()
+        glp.wait_for_page_load()
+        # 3.点击新建群
+        glp.click_create_group()
+        # 4.点击输入框输入陌生号码1
+        scp = SelectContactsPage()
+        scp.click_search_contact()
+        scp.input_search_keyword("13800238000")
+        scp.click_unknown_member()
+        # 5.点击选择手机联系人
+        scp.wait_for_page_load()
+        scp.click_phone_contact()
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        # 6.选择手机联系人
+        slc.selecting_local_contacts_by_name("大佬1")
+        # 7.点击确定
+        scp.click_sure_forward()
+        cgnp = CreateGroupNamePage()
+        # 8.输入群名
+        cgnp.input_group_name("测试10")
+        # 9.点击确定
+        cgnp.click_sure()
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 10.判断是否在群聊页面
+        self.assertTrue(gcp.is_on_this_page())
+        time.sleep(1)
