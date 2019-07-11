@@ -1118,7 +1118,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         sc.select_local_contacts()
         time.sleep(2)
         # 选择一个联系人
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         # 点击确认转发
         sc.click_sure_forward()
         # 验证转发成功
@@ -1181,7 +1181,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         sc.wait_for_page_load()
         sc.select_local_contacts()
         time.sleep(2)
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         # sc.click_one_local_contacts()
         # 点击取消按钮
         sc.click_cancel_forward()
@@ -1602,7 +1602,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         names = slcp.get_contacts_name()
         if names:
             # slcp.select_one_member_by_name(names[0])
-            scp.click_one_contact("和飞信电话")
+            scp.click_one_contact("飞信电话")
             # 3、点击确定
             slcp.click_sure_forward()
             flag = slcp.is_toast_exist("已转发")

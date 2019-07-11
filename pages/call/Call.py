@@ -94,7 +94,14 @@ class CallPage(FooterPage,BasePage):
         '语音通话接受按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_voice_call_answer'),
         '语音通话拒绝按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_voice_call_refuse'),
         '语音通话结束按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_call_out_term_new'),
-
+        '切换到视频按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_switch_video'),
+        '结束双人视频': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_term'),
+        '话筒开关按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/video_iv_mute'),
+        '多方视频接听': (MobileBy.ID, 'com.chinasofti.rcs:id/ivAnswer'),
+        '多方视频挂断': (MobileBy.ID, 'com.chinasofti.rcs:id/ivCancel'),
+        '结束多方视频': (MobileBy.ID, 'com.chinasofti.rcs:id/end_video_call_btn'),
+        '语音通话免提': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_call_speaker'),
+        '语音通话静音': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_call_mute'),
     }
 
     @TestLogger.log()
