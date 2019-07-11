@@ -489,3 +489,124 @@ class EnterpriseLogAllTest(TestCase):
         wlp.click_sure()
         # 10.判断是否删除成功
         self.assertEqual(wlp.is_toast_exist("删除成功"), True)
+
+    @tags('ALL', 'CMCC', 'workbench', 'yx')
+    def test_RZ_0008(self):
+        """已提交日报点赞"""
+        # 1.进入日志首页
+        Preconditions.enter_log_page()
+        wlp = WorkbenchLogPage()
+        wlp.wait_for_page_loads()
+        # 2.点击写日志
+        wlp.click_create_new_log()
+        # 3.点击日报
+        wlp.click_day_news()
+        wlp.wait_for_input_page_loads()
+        # 4.输入日报信息
+        wlp.input_title("工作台日志-日报-点赞")
+        wlp.input_work_summary("今日工作总结")
+        wlp.input_work_plan("明日工作计划")
+        wlp.input_coordination_help("需要协调与帮助")
+        wlp.input_remark("备注")
+        # 5.点击添加上次联系人
+        wlp.click_add_last_contact()
+        wlp.page_up()
+        # 6.点击提交
+        wlp.click_submit()
+        # 7.判断是否提交成功
+        self.assertEquals(wlp.is_text_present("工作台日志-日报-点赞"), True)
+        wlp.click_back()
+        time.sleep(1)
+        wlp.click_back()
+        wlp.wait_for_page_loads()
+        # 8.点击当前页面第一条日志
+        wlp.click_first_news()
+        # 9.点击❤点赞
+        wlp.click_like()
+        # 10.点击点赞信息
+        wlp.click_like_information()
+        time.sleep(3)
+        # 11.判断是否存在点赞人信息和数量
+        # self.assertEqual(wlp.is_exist_like_information(), True)
+        self.assertEqual(wlp.is_exist_like_number(), True)
+        time.sleep(3)
+
+    @tags('ALL', 'CMCC', 'workbench', 'yx')
+    def test_RZ_0009(self):
+        """已提交日报取消点赞"""
+        # 1.进入日志首页
+        Preconditions.enter_log_page()
+        wlp = WorkbenchLogPage()
+        wlp.wait_for_page_loads()
+        # 2.点击写日志
+        wlp.click_create_new_log()
+        # 3.点击日报
+        wlp.click_day_news()
+        wlp.wait_for_input_page_loads()
+        # 4.输入日报信息
+        wlp.input_title("工作台日志-日报-点赞")
+        wlp.input_work_summary("今日工作总结")
+        wlp.input_work_plan("明日工作计划")
+        wlp.input_coordination_help("需要协调与帮助")
+        wlp.input_remark("备注")
+        # 5.点击添加上次联系人
+        wlp.click_add_last_contact()
+        wlp.page_up()
+        # 6.点击提交
+        wlp.click_submit()
+        # 7.判断是否提交成功
+        self.assertEquals(wlp.is_text_present("工作台日志-日报-点赞"), True)
+        wlp.click_back()
+        time.sleep(1)
+        wlp.click_back()
+        wlp.wait_for_page_loads()
+        # 8.点击当前页面第一条日志
+        wlp.click_first_news()
+        # 9.点击❤点赞
+        wlp.click_like()
+        # 10.再次点击❤取消点赞
+        wlp.click_like()
+        # 11.判断是否存在点赞
+        self.assertEqual(wlp.is_exist_like(), True)
+
+    @tags('ALL', 'CMCC', 'workbench', 'yx')
+    def test_RZ_0010(self):
+        """已提交日报发表评论"""
+        # 1.进入日志首页
+        Preconditions.enter_log_page()
+        wlp = WorkbenchLogPage()
+        wlp.wait_for_page_loads()
+        # 2.点击写日志
+        wlp.click_create_new_log()
+        # 3.点击日报
+        wlp.click_day_news()
+        wlp.wait_for_input_page_loads()
+        # 4.输入日报信息
+        wlp.input_title("工作台日志-日报-发表评论")
+        wlp.input_work_summary("今日工作总结")
+        wlp.input_work_plan("明日工作计划")
+        wlp.input_coordination_help("需要协调与帮助")
+        wlp.input_remark("备注")
+        # 5.点击添加上次联系人
+        wlp.click_add_last_contact()
+        wlp.page_up()
+        # 6.点击提交
+        wlp.click_submit()
+        # 7.判断是否提交成功
+        self.assertEquals(wlp.is_text_present("工作台日志-日报-发表评论"), True)
+        wlp.click_back()
+        time.sleep(1)
+        wlp.click_back()
+        wlp.wait_for_page_loads()
+        # 8.点击当前页面第一条日志
+        wlp.click_first_news()
+        # 9.点击评论
+        wlp.click_comment()
+        # 10.输入评论内容
+        wlp.input_comment("评论内容")
+        # 11.点击发布
+        wlp.click_release()
+        time.sleep(1)
+        # 12.判断日报概览界面底部是否显示评论信息
+        self.assertEqual(wlp.is_text_present("评论内容"), True)
+        time.sleep(2)
