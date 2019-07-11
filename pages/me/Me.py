@@ -73,19 +73,98 @@ class MePage(FooterPage):
         '设置': (MobileBy.ID, 'com.chinasofti.rcs:id/setting_app_text'),
         '移动营业厅': (MobileBy.ID, 'com.chinasofti.rcs:id/onlinehall_text'),
         '姓名': (MobileBy.ID, 'com.chinasofti.rcs:id/card_name'),
-        "联系人管理":(MobileBy.ID,'com.chinasofti.rcs:id/manage_contact_text'),
+        '联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_setting_text'),
+        "联系人管理": (MobileBy.ID,'com.chinasofti.rcs:id/manage_contact_text'),
         '取消退出': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
         '确定退出': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
-
+        '和包支付': (MobileBy.ID, 'com.chinasofti.rcs:id/redpager'),
+        '和包支付卡片': (MobileBy.ID, 'com.chinasofti.rcs:id/id_tv_name'),
+        '请输入银行卡号': (MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),
+        '请输入持卡人姓名': (MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_userName_edit'),
+        '请输入身份证号': (MobileBy.ID, 'com.chinasofti.rcs:id/ipos_inputKjCardInfo_idCard'),
+        '请输入银行预留手机号': (MobileBy.ID, 'com.chinasofti.rcs:id/ipos_inputKjCardInfo_mobile'),
+        '下一步1': (MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addkjbankcard_next'),
+        '下一步2': (MobileBy.ID, 'com.chinasofti.rcs:id/ipos_inputKjCardInfo_nextBtn'),
+        '发红包': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_red_packet_send_btn'),
+        '红包金额': (MobileBy.ID, 'com.chinasofti.rcs:id/edt_red_packet_num'),
     }
 
     @TestLogger.log('点击个人名片头像')
     def click_head(self):
         self.click_element(self.__locators['个人头像'])
 
+    @TestLogger.log()
+    def click_hebao_pay(self):
+        """点击 和包支付"""
+        self._find_menu(self.__locators['和包支付'])
+        self.click_element(self.__locators['和包支付'])
+
+    @TestLogger.log()
+    def click_hebao_pay_card(self, card):
+        """点击 和包支付"""
+        self.click_element((MobileBy.XPATH, '//*[@text="%s"]' % card))
+
+    @TestLogger.log()
+    def input_text_cardno(self, message):
+        """请输入银行卡号"""
+        self.input_text(self.__class__.__locators["请输入银行卡号"], message)
+        return self
+
+    @TestLogger.log()
+    def input_text_red_packet_num(self, message):
+        """红包金额"""
+        self.input_text(self.__class__.__locators["红包金额"], message)
+        return self
+
+    @TestLogger.log()
+    def input_text_card_person_name(self, message):
+        """请输入持卡人姓名"""
+        self.input_text(self.__class__.__locators["请输入持卡人姓名"], message)
+        return self
+
+    @TestLogger.log()
+    def input_text_card_id(self, message):
+        """请输入身份证号"""
+        self.input_text(self.__class__.__locators["请输入身份证号"], message)
+        return self
+
+    @TestLogger.log()
+    def input_text_phoneno(self, message):
+        """请输入银行预留手机号"""
+        self.input_text(self.__class__.__locators["请输入银行预留手机号"], message)
+        return self
+
+    @TestLogger.log()
+    def is_enabled_next_btn(self):
+        """下一步1"""
+        return self._is_enabled(self.__class__.__locators['下一步1'])
+
+    @TestLogger.log()
+    def is_enabled_next_btn2(self):
+        """下一步2"""
+        return self._is_enabled(self.__class__.__locators['下一步2'])
+
+    @TestLogger.log()
+    def is_enabled_red_packet_send(self):
+        """发红包"""
+        return self._is_enabled(self.__class__.__locators['发红包'])
+
+    @TestLogger.log()
+    def is_enabled_sms_send_btn(self):
+        """短信发送按钮是否可点击"""
+        return self._is_enabled(self.__class__.__locators['短信发送按钮'])
+
     @TestLogger.log('点击联系人管理')
     def click_manage_contact(self):
         self.click_element(self.__class__.__locators['联系人管理'])
+
+    @TestLogger.log('点击联系人')
+    def click_manage_contact2(self):
+        self.click_element(self.__class__.__locators['联系人'])
+
+    @TestLogger.log('发红包')
+    def click_red_packet_send(self):
+        self.click_element(self.__class__.__locators['发红包'])
 
     @TestLogger.log('点击确认退出')
     def click_sure_drop(self):

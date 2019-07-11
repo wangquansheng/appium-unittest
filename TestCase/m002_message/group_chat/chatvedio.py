@@ -5436,85 +5436,85 @@ class MsgGroupChatVideoPicAllTest(TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
-        # Preconditions.select_mobile('Android-移动')
-        # # 导入测试联系人、群聊
-        # fail_time1 = 0
-        # flag1 = False
-        # import dataproviders
-        # while fail_time1 < 3:
-        #     try:
-        #         required_contacts = dataproviders.get_preset_contacts()
-        #         conts = ContactsPage()
-        #         current_mobile().hide_keyboard_if_display()
-        #         Preconditions.make_already_in_message_page()
-        #         conts.open_contacts_page()
-        #         try:
-        #             if conts.is_text_present("发现SIM卡联系人"):
-        #                 conts.click_text("显示")
-        #         except:
-        #             pass
-        #         for name, number in required_contacts:
-        #             # 创建联系人
-        #             conts.create_contacts_if_not_exits(name, number)
-        #         required_group_chats = dataproviders.get_preset_group_chats()
-        #         conts.open_group_chat_list()
-        #         group_list = GroupListPage()
-        #         for group_name, members in required_group_chats:
-        #             group_list.wait_for_page_load()
-        #             # 创建群
-        #             group_list.create_group_chats_if_not_exits(group_name, members)
-        #         group_list.click_back()
-        #         conts.open_message_page()
-        #         flag1 = True
-        #     except:
-        #         fail_time1 += 1
-        #     if flag1:
-        #         break
-        #
-        # # 导入团队联系人
-        # fail_time2 = 0
-        # flag2 = False
-        # while fail_time2 < 5:
-        #     try:
-        #         Preconditions.make_already_in_message_page()
-        #         contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-        #         Preconditions.create_he_contacts(contact_names)
-        #         flag2 = True
-        #     except:
-        #         fail_time2 += 1
-        #     if flag2:
-        #         break
-        #
-        # # 确保有企业群
-        # fail_time3 = 0
-        # flag3 = False
-        # while fail_time3 < 5:
-        #     try:
-        #         Preconditions.make_already_in_message_page()
-        #         Preconditions.ensure_have_enterprise_group()
-        #         flag3 = True
-        #     except:
-        #         fail_time3 += 1
-        #     if flag3:
-        #         break
-        #
-        # # 确保测试手机有resource文件夹
-        # name = "群聊1"
-        # Preconditions.get_into_group_chat_page(name)
-        # gcp = GroupChatPage()
-        # gcp.wait_for_page_load()
-        # cmp = ChatMorePage()
-        # cmp.click_file()
-        # csfp = ChatSelectFilePage()
-        # csfp.wait_for_page_load()
-        # csfp.click_local_file()
-        # local_file = ChatSelectLocalFilePage()
-        # # 没有预置文件，则上传
-        # local_file.push_preset_file()
-        # local_file.click_back()
-        # csfp.wait_for_page_load()
-        # csfp.click_back()
-        # gcp.wait_for_page_load()
+        Preconditions.select_mobile('Android-移动')
+        # 导入测试联系人、群聊
+        fail_time1 = 0
+        flag1 = False
+        import dataproviders
+        while fail_time1 < 3:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                current_mobile().hide_keyboard_if_display()
+                Preconditions.make_already_in_message_page()
+                conts.open_contacts_page()
+                try:
+                    if conts.is_text_present("发现SIM卡联系人"):
+                        conts.click_text("显示")
+                except:
+                    pass
+                for name, number in required_contacts:
+                    # 创建联系人
+                    conts.create_contacts_if_not_exits(name, number)
+                required_group_chats = dataproviders.get_preset_group_chats()
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name, members in required_group_chats:
+                    group_list.wait_for_page_load()
+                    # 创建群
+                    group_list.create_group_chats_if_not_exits(group_name, members)
+                group_list.click_back()
+                conts.open_message_page()
+                flag1 = True
+            except:
+                fail_time1 += 1
+            if flag1:
+                break
+
+        # 导入团队联系人
+        fail_time2 = 0
+        flag2 = False
+        while fail_time2 < 5:
+            try:
+                Preconditions.make_already_in_message_page()
+                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
+                Preconditions.create_he_contacts(contact_names)
+                flag2 = True
+            except:
+                fail_time2 += 1
+            if flag2:
+                break
+
+        # 确保有企业群
+        fail_time3 = 0
+        flag3 = False
+        while fail_time3 < 5:
+            try:
+                Preconditions.make_already_in_message_page()
+                Preconditions.ensure_have_enterprise_group()
+                flag3 = True
+            except:
+                fail_time3 += 1
+            if flag3:
+                break
+
+        # 确保测试手机有resource文件夹
+        name = "群聊1"
+        Preconditions.get_into_group_chat_page(name)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        cmp = ChatMorePage()
+        cmp.click_file()
+        csfp = ChatSelectFilePage()
+        csfp.wait_for_page_load()
+        csfp.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        # 没有预置文件，则上传
+        local_file.push_preset_file()
+        local_file.click_back()
+        csfp.wait_for_page_load()
+        csfp.click_back()
+        gcp.wait_for_page_load()
 
     def default_setUp(self):
         """
@@ -7392,4 +7392,231 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         cpe.click_picture_edit_crred()
         cpe.input_picture_text("图片编辑")
         time.sleep(1)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0178(self):
+        """在会话窗口点击图片按钮进入相册，选择多张大于20M的照片，进入图片预览页面勾选原图，然后进行发送"""
+        # 1、网络正常
+        # 2、当前在群聊（普通群和企业群）会话窗口页面
+        gcp = GroupChatPage()
+        # 1.判断当前群聊页面是否存在发送失败标识，存在清空聊天记录
+        if not gcp.is_send_sucess():
+            gcp.click_setting()
+            gcs = GroupChatSetPage()
+            gcs.wait_for_page_load()
+            gcs.click_clear_chat_record()
+            gcs.click_sure()
+            time.sleep(1)
+            gcp.click_group_setting_back()
+        gcp.wait_for_page_load()
+        # 2.点击输入框左上方的相册图标
+        gcp.click_picture()
+        time.sleep(1)
+        # 3.选择多张大于20m的图片
+        gcp.switch_to_given_folder("pic1")
+        gcp.select_items_by_given_orders(1, 2)
+        # 4.点击预览
+        gcp.click_preview()
+        time.sleep(1)
+        # 5.点击原图
+        gcp.click_original_photo()
+        # 6.点击发送
+        gcp.click_send()
+        # 7.判断存在发送失败按钮
+        self.assertFalse(gcp.is_send_sucess())
+        gcp.press_picture()
+        # 8.判断是否出现编辑选项
+        self.assertTrue(gcp.is_exist_edit_page())
+        gcp.click_edit()
+        cpe = ChatPicEditPage()
+        # 9.点击文本编辑（预览图片）
+        cpe.click_picture_edit()
+        # 10.涂鸦动作
+        cpe.click_picture_edit_crred()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 11.马赛克动作
+        cpe.click_picture_mosaic()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 12.文本编辑动作
+        cpe.click_picture_text()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("图片编辑")
+        time.sleep(1)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0179(self):
+        """在会话窗口点击图片按钮进入相册，直接勾选原图，选择多张包含大于20M的照片进行发送"""
+        # 1、网络正常
+        # 2、当前在群聊（普通群和企业群）会话窗口页面
+        gcp = GroupChatPage()
+        # 1.判断当前群聊页面是否存在发送失败标识，存在清空聊天记录
+        if not gcp.is_send_sucess():
+            gcp.click_setting()
+            gcs = GroupChatSetPage()
+            gcs.wait_for_page_load()
+            gcs.click_clear_chat_record()
+            gcs.click_sure()
+            time.sleep(1)
+            gcp.click_group_setting_back()
+        gcp.wait_for_page_load()
+        # 2.点击输入框左上方的相册图标
+        gcp.click_picture()
+        time.sleep(1)
+        gcp.switch_to_given_folder("pic3")
+        # 3.点击原图
+        gcp.click_original_photo()
+        # 4.选择多张包含大于20M的图片
+        gcp.select_items_by_given_orders(1, 2)
+        # 5.点击发送
+        gcp.click_send()
+        # 6.判断存在发送失败按钮
+        self.assertFalse(gcp.is_send_sucess())
+        gcp.press_picture()
+        # 7.判断是否出现编辑选项
+        self.assertTrue(gcp.is_exist_edit_page())
+        gcp.click_edit()
+        cpe = ChatPicEditPage()
+        # 8.点击文本编辑（预览图片）
+        cpe.click_picture_edit()
+        # 9.涂鸦动作
+        cpe.click_picture_edit_crred()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 10.马赛克动作
+        cpe.click_picture_mosaic()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 11.文本编辑动作
+        cpe.click_picture_text()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("图片编辑")
+        time.sleep(1)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0180(self):
+        """在会话窗口点击图片按钮进入相册，选择多张大于20M的照片，进入图片预览页面勾选原图，然后进行发送"""
+        # 1、网络正常
+        # 2、当前在群聊（普通群和企业群）会话窗口页面
+        gcp = GroupChatPage()
+        # 1.判断当前群聊页面是否存在发送失败标识，存在清空聊天记录
+        if not gcp.is_send_sucess():
+            gcp.click_setting()
+            gcs = GroupChatSetPage()
+            gcs.wait_for_page_load()
+            gcs.click_clear_chat_record()
+            gcs.click_sure()
+            time.sleep(1)
+            gcp.click_group_setting_back()
+        gcp.wait_for_page_load()
+        # 2.点击输入框左上方的相册图标
+        gcp.click_picture()
+        time.sleep(1)
+        # 3.选择多张包含大于20m的图片
+        gcp.switch_to_given_folder("pic3")
+        gcp.select_items_by_given_orders(1, 2)
+        # 4.点击预览
+        gcp.click_preview()
+        time.sleep(1)
+        # 5.点击原图
+        gcp.click_original_photo()
+        # 6.点击发送
+        gcp.click_send()
+        # 7.判断存在发送失败按钮
+        self.assertFalse(gcp.is_send_sucess())
+        gcp.press_picture()
+        # 8.判断是否出现编辑选项
+        self.assertTrue(gcp.is_exist_edit_page())
+        gcp.click_edit()
+        cpe = ChatPicEditPage()
+        # 9.点击文本编辑（预览图片）
+        cpe.click_picture_edit()
+        # 10.涂鸦动作
+        cpe.click_picture_edit_crred()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 11.马赛克动作
+        cpe.click_picture_mosaic()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 12.文本编辑动作
+        cpe.click_picture_text()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("图片编辑")
+        time.sleep(1)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0184(self):
+        """在会话窗口点击文件按钮-照片，选择一张小于20M的图片进行发送（Android）"""
+        # 1、网络正常
+        # 2、当前在群聊（普通群和企业群）会话窗口页面
+        gcp = GroupChatPage()
+        # 1.点击文件
+        gcp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        # 2.点击照片
+        csf.click_pic()
+        csf.wait_for_page_load()
+        local_file = ChatSelectLocalFilePage()
+        # 3.选择一张小于20M的图片
+        local_file.select_file_by_text('large_pic_2M')
+        # 4.选择一张大于20M的图片
+        local_file.select_file_by_text('large_pic_20M')
+        # 5.判断发送按钮是否可以点击
+        self.assertFalse(local_file.send_btn_is_enabled())
+        # 6.判断是否有弹框提示
+        flag = local_file.is_toast_exist('暂不支持发送大于20M的图片')
+        if not flag:
+            raise AssertionError("没有'暂不支持发送大于20M的图片'弹窗提示")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0185(self):
+        """在会话窗口点击文件按钮-照片，选择一张等于20M的图片进行发送（Android）"""
+        # 1、网络正常
+        # 2、当前在群聊（普通群和企业群）会话窗口页面
+        gcp = GroupChatPage()
+        # 1.点击文件
+        gcp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        # 2.点击照片
+        csf.click_pic()
+        csf.wait_for_page_load()
+        local_file = ChatSelectLocalFilePage()
+        # 3.选择一张等于20M的图片
+        local_file.select_file_by_text('20M')
+        time.sleep(1)
+        # 4.选择一张大于20M的图片
+        local_file.select_file_by_text('large_pic_20M')
+        # 5.判断发送按钮是否可以点击
+        self.assertFalse(local_file.send_btn_is_enabled())
+        # 6.判断是否有弹框提示
+        flag = local_file.is_toast_exist('暂不支持发送大于20M的图片')
+        if not flag:
+            raise AssertionError("没有'暂不支持发送大于20M的图片'弹窗提示")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0186(self):
+        """在会话窗口点击文件按钮-照片，选择一张大于20M的图片进行发送（Android）"""
+        # 1、网络正常
+        # 2、当前在群聊（普通群和企业群）会话窗口页面
+        gcp = GroupChatPage()
+        # 1.点击文件
+        gcp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        # 2.点击照片
+        csf.click_pic()
+        csf.wait_for_page_load()
+        local_file = ChatSelectLocalFilePage()
+        # 3.选择一张大于20M的图片
+        local_file.select_file_by_text('large_pic_20M')
+        # 4.判断发送按钮是否可以点击
+        self.assertFalse(local_file.send_btn_is_enabled())
+        # 5.判断是否有弹框提示
+        flag = local_file.is_toast_exist('暂不支持发送大于20M的图片')
+        if not flag:
+            raise AssertionError("没有'暂不支持发送大于20M的图片'弹窗提示")
 

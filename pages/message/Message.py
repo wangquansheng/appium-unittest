@@ -326,6 +326,17 @@ class MessagePage(FooterPage):
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text ="%s"]' % point))
 
     @TestLogger.log()
+    def search_and_enter2(self, point):
+        """消息页全局搜索内容并进入"""
+        self.click_search()
+        from pages import SearchPage
+        SearchPage().input_search_keyword(point)
+        time.sleep(2)
+        self.click_element(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and @text ="%s"]' % point))
+
+
+    @TestLogger.log()
     def search_and_enter_631(self, point):
         """消息页全局搜索内容并进入"""
         self.click_search()
@@ -960,3 +971,9 @@ class MessagePage(FooterPage):
             current += 1
             self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
         self.click_element(locator)
+
+    @TestLogger.log()
+    def is_exists_group_by_name(self, name):
+        """消息页面是否存在指定群名字会话窗口"""
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and contains(@text, "%s")]' % name)
+        return self._is_element_present(locator)

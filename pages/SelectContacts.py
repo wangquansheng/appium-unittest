@@ -337,6 +337,7 @@ class SelectContactsPage(BasePage):
     def input_search_keyword(self, keyword):
         """输入搜索内容"""
         self.input_text(self.__locators['搜索或输入手机号'], keyword)
+        self.driver.hide_keyboard()
 
     @TestLogger.log()
     def click_search_keyword(self):
@@ -946,4 +947,19 @@ class SelectContactsPage(BasePage):
     @TestLogger.log('清空搜索框')
     def clear_serchbar_keyword(self):
         self.click_element(self.__locators['X'])
+
+    @TestLogger.log()
+    def selecting_contacts_by_name(self, name):
+        """根据名字选择一个团队联系人"""
+        locator = (
+            MobileBy.XPATH,
+            '//*[@resource-id="com.chinasofti.rcs:id/tv_name_personal_contactlist" and contains(@text,"%s")]' % name)
+        max_try = 20
+        current = 0
+        while current < max_try:
+            if self._is_element_present(locator):
+                break
+            current += 1
+            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        self.click_element(locator)
 

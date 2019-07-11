@@ -419,6 +419,97 @@ class MygroupSearchPage(TestCase):
         MessagePage().click_contacts()
         ContactsPage().select_group_by_name('ateam7272')
 
+    @staticmethod
+    def setUp_test_contacts_quxinli_0040():
+        Preconditions.connect_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        MessagePage().click_contacts()
+
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
+    def test_contacts_quxinli_0040(self):
+        """用户未加入任何企业"""
+        contact = ContactsPage()
+        contact.click_text("全部团队")
+        time.sleep(1)
+        group_names = contact.get_cur_group_name()
+        exsit = len(group_names) == 0
+        self.assertEqual(exsit, True)
+
+    @staticmethod
+    def setUp_test_contacts_quxinli_0041():
+        Preconditions.connect_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        MessagePage().click_contacts()
+
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
+    def test_contacts_quxinli_0041(self):
+        """用户只在一个企业下，且在企业子一层级"""
+        contact = ContactsPage()
+        contact.click_text("全部团队")
+        time.sleep(1)
+        group_names = contact.get_all_group_name2()
+        result = contact.is_contain_group_name(group_names, "ateam7272")
+        self.assertTrue(result)
+
+    @staticmethod
+    def setUp_test_contacts_quxinli_0042():
+        Preconditions.connect_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        MessagePage().click_contacts()
+
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
+    def test_contacts_quxinli_0042(self):
+        """用户只在一个企业下，且在企业子层级"""
+        contact = ContactsPage()
+        contact.click_text("全部团队")
+        time.sleep(1)
+        group_names = contact.get_all_group_name2()
+        result = contact.is_contain_group_name(group_names, "ateam7272")
+        self.assertTrue(result)
+        result = contact.is_contain_group_name(group_names,"bm0")
+        self.assertTrue(result)
+
+    @staticmethod
+    def setUp_test_contacts_quxinli_0043():
+        Preconditions.connect_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        MessagePage().click_contacts()
+
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
+    def test_contacts_quxinli_0043(self):
+        """用户只在一个企业下，且同时在企业子一层级和子层级"""
+        contact = ContactsPage()
+        contact.click_text("全部团队")
+        time.sleep(1)
+        group_names = contact.get_all_group_name2()
+        result = contact.is_contain_group_name(group_names, "ateam7272")
+        self.assertTrue(result)
+        result = contact.is_contain_group_name(group_names, "bm0")
+        self.assertTrue(result)
+
+    @staticmethod
+    def setUp_test_contacts_quxinli_0044():
+        Preconditions.connect_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        MessagePage().click_contacts()
+
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
+    def test_contacts_quxinli_0044(self):
+        """用户只在一个企业下，且同时在两个子层级"""
+        contact = ContactsPage()
+        contact.click_text("全部团队")
+        time.sleep(1)
+        group_names = contact.get_all_group_name2()
+        result = contact.is_contain_group_name(group_names, "ateam7272")
+        self.assertTrue(result)
+        result = contact.is_contain_group_name(group_names, "bm0")
+        self.assertTrue(result)
+
     @tags('ALL', 'CMCC', 'contact','my_group')
     def test_contacts_quxinli_0045(self):
         """用户在多个企业下"""
@@ -427,7 +518,7 @@ class MygroupSearchPage(TestCase):
         time.sleep(2)
         contact=ContactsPage()
         group_name=contact.get_all_group_name()
-        self.assertTrue(len(group_name) > 1 )
+        self.assertTrue(len(group_name) > 1)
 
     @tags('ALL', 'CMCC', 'contact','my_group')
     def test_contacts_quxinli_0048(self):
@@ -2111,6 +2202,52 @@ class MygroupdetailPage(TestCase):
         select_he.select_one_team_by_name('ateam7272')
         time.sleep(1)
         SelectHeContactsDetailPage().selecting_he_contacts_by_name('陈丹丹')
+        time.sleep(1)
+        SelectHeContactsDetailPage().page_should_contain_text('发送名片')
+        SelectHeContactsDetailPage().click_share_business_card()
+        contact_detail.page_should_contain_text('已发送')
+
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
+    def test_contacts_quxinli_0202(self):
+        """用户未加入任何企业"""
+        # 1.点击团队联系人进入我的团队页面，提示未加入任何企业
+        # 2.名片分享成功
+        group_contact = EnterpriseContactsPage()
+        group_contact.click_contacts_by_name('测试号码')
+        time.sleep(2)
+        contact_detail = ContactDetailsPage()
+        # 点击分享名片
+        contact_detail.click_share_business_card()
+        select_contact = SelectContactsPage()
+        select_contact.click_he_contacts()
+        time.sleep(1)
+        select_he = SelectHeContactsPage()
+        select_he.select_one_team_by_name('ateam7272')
+        time.sleep(1)
+        SelectHeContactsDetailPage().selecting_he_contacts_by_name('大佬1')
+        time.sleep(1)
+        SelectHeContactsDetailPage().page_should_contain_text('发送名片')
+        SelectHeContactsDetailPage().click_share_business_card()
+        contact_detail.page_should_contain_text('已发送')
+
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
+    def test_contacts_quxinli_0203(self):
+        """用户只在一个企业下，且在企业子一层级"""
+        # 1.点击团队联系人进入企业子一层级
+        # 2.名片分享成功
+        group_contact = EnterpriseContactsPage()
+        group_contact.click_contacts_by_name('测试号码')
+        time.sleep(2)
+        contact_detail = ContactDetailsPage()
+        # 点击分享名片
+        contact_detail.click_share_business_card()
+        select_contact = SelectContactsPage()
+        select_contact.click_he_contacts()
+        time.sleep(1)
+        select_he = SelectHeContactsPage()
+        select_he.select_one_team_by_name('bm0')
+        time.sleep(1)
+        SelectHeContactsDetailPage().selecting_he_contacts_by_name('b测算')
         time.sleep(1)
         SelectHeContactsDetailPage().page_should_contain_text('发送名片')
         SelectHeContactsDetailPage().click_share_business_card()

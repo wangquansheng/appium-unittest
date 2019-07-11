@@ -42,6 +42,7 @@ class ChatLocationPage(BasePage):
         '允许': (MobileBy.XPATH, '//android.widget.Button[@text="允许"]'),
         '拒绝': (MobileBy.XPATH, '//android.widget.Button[@text="拒绝"]'),
         '要允许 和飞信 通过网络或者卫星对您的手机定位吗？': (MobileBy.XPATH, '//*[contains(@text,"定位")] | //*[contains(@text,"位置")]'),
+        '弹出框点击允许': (MobileBy.ID, 'com.android.packageinstaller:id/permission_allow_button'),
     }
 
     @TestLogger.log()
@@ -120,4 +121,10 @@ class ChatLocationPage(BasePage):
                 message
             )
         return self
+
+    @TestLogger.log()
+    def click_always_allowed(self):
+        """点击始终允许"""
+        if self.get_elements(self.__class__.__locators['弹出框点击允许']):
+            self.click_element(self.__class__.__locators['弹出框点击允许'])
 

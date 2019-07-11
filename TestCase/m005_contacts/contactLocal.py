@@ -3208,6 +3208,59 @@ class ContactsLocalhigh(TestCase):
         self.assertTrue(contact.is_contacts_exist('香港大佬'))
 
     @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0380(self):
+        """云端联系人手机号码和本地通讯录手机号码不一样，名称不一样"""
+        # 1、点击我-设置-联系人管理-通讯录备份
+        # 2、点击下载
+        contact = ContactsPage()
+        contact.click_back()
+        # 进入我页面 备份通讯录
+        contact.click_me_icon()
+        me = MePage()
+        me.page_up()
+        me.click_setting_menu()
+        me.click_manage_contact2()
+        manage_contact = MeSetContactsManagerPage()
+        manage_contact.click_text('通讯录备份')
+        time.sleep(2)
+        manage_contact.click_text('上传通讯录')
+        manage_contact.wait_for_contact_upload_success()
+        # 删除联系人,联系人不存在
+        manage_contact.click_back_by_android(times=3)
+        me.open_contacts_page()
+        contacts = ContactsPage()
+        time.sleep(1)
+        contacts.click_mobile_contacts()
+        contact.select_contacts_by_name('大佬1')
+        ContactDetailsPage().click_edit_contact()
+        gc = GroupChatSetPage()
+        gc.hide_keyboard()
+        gc.click_delete_contact()
+        EditContactPage().click_sure_delete()
+        time.sleep(1)
+        # self.assertFalse(contact.is_contacts_exist('大佬1'))
+        # 进入我页面 备份通讯录
+        gc.click_back_by_android()
+        time.sleep(1)
+        contact.click_me_icon()
+        me = MePage()
+        me.page_up()
+        me.click_setting_menu()
+        me.click_manage_contact2()
+        manage_contact = MeSetContactsManagerPage()
+        manage_contact.click_text('通讯录备份')
+        time.sleep(2)
+        manage_contact.click_text('下载通讯录')
+        manage_contact.wait_for_contact_dowmload_success()
+        # 进入通讯录界面 查看是否下载成功
+        manage_contact.click_back_by_android(times=3)
+        me.open_contacts_page()
+        contacts = ContactsPage()
+        time.sleep(1)
+        contacts.click_mobile_contacts()
+        self.assertTrue(contact.is_contacts_exist('大佬1'))
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0260(self):
         """测试本地系统通讯录联系人，有姓名，头像，无号码，profile页是否正常"""
         # 返回桌面,添加SIM卡联系人:无手机号

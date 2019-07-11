@@ -290,8 +290,6 @@ class Preconditions(WorkbenchPreconditions):
     @staticmethod
     def create_team_select_contacts(team_name):
         """创建团队并添加指定名字联系人为团队成员"""
-        gcp = GroupChatPage()
-        gcp.click_back()
         mess = MessagePage()
         mess.wait_for_page_load()
         mess.open_workbench_page()
@@ -599,38 +597,38 @@ class MsgGroupChatFileLocationTest(TestCase):
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
         # 创建联系
-        fail_time = 0
-        import dataproviders
-        while fail_time < 3:
-            try:
-                required_contacts = dataproviders.get_preset_contacts()
-                conts = ContactsPage()
-                Preconditions.connect_mobile('Android-移动')
-                current_mobile().hide_keyboard_if_display()
-                Preconditions.make_already_in_message_page()
-                conts.open_contacts_page()
-                try:
-                    if conts.is_text_present("发现SIM卡联系人"):
-                        conts.click_text("显示")
-                except:
-                    pass
-                for name, number in required_contacts:
-                    conts.create_contacts_if_not_exits(name, number)
-                # 创建群
-                required_group_chats = dataproviders.get_preset_group_chats()
-                conts.open_group_chat_list()
-                group_list = GroupListPage()
-                for group_name, members in required_group_chats:
-                    group_list.wait_for_page_load()
-                    group_list.create_group_chats_if_not_exits(group_name, members)
-                group_list.click_back()
-                conts.open_message_page()
-                return
-            except:
-                fail_time += 1
-                import traceback
-                msg = traceback.format_exc()
-                print(msg)
+        # fail_time = 0
+        # import dataproviders
+        # while fail_time < 3:
+        #     try:
+        #         required_contacts = dataproviders.get_preset_contacts()
+        #         conts = ContactsPage()
+        #         Preconditions.connect_mobile('Android-移动')
+        #         current_mobile().hide_keyboard_if_display()
+        #         Preconditions.make_already_in_message_page()
+        #         conts.open_contacts_page()
+        #         try:
+        #             if conts.is_text_present("发现SIM卡联系人"):
+        #                 conts.click_text("显示")
+        #         except:
+        #             pass
+        #         for name, number in required_contacts:
+        #             conts.create_contacts_if_not_exits(name, number)
+        #         # 创建群
+        #         required_group_chats = dataproviders.get_preset_group_chats()
+        #         conts.open_group_chat_list()
+        #         group_list = GroupListPage()
+        #         for group_name, members in required_group_chats:
+        #             group_list.wait_for_page_load()
+        #             group_list.create_group_chats_if_not_exits(group_name, members)
+        #         group_list.click_back()
+        #         conts.open_message_page()
+        #         return
+        #     except:
+        #         fail_time += 1
+        #         import traceback
+        #         msg = traceback.format_exc()
+        #         print(msg)
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
@@ -2623,8 +2621,9 @@ class MsgGroupChatFileLocationTest(TestCase):
         slcp.click_search_box()
         # 3.在搜索框输入多种字符点击搜索到的手机联系人
         slcp.search_and_select_contact("大佬1")
-        if gcp.is_on_this_page():
+        if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
+        time.sleep(1)
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0340(self):
@@ -2642,8 +2641,9 @@ class MsgGroupChatFileLocationTest(TestCase):
         slcp.click_search_box()
         # 3.在搜索框输入数字点击搜索到的手机联系人
         slcp.search_and_select_contact("1122")
-        if gcp.is_on_this_page():
+        if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
+        time.sleep(1)
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0341(self):
@@ -2664,6 +2664,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         time.sleep(1)
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
+        time.sleep(1)
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0342(self):
@@ -2684,6 +2685,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         time.sleep(1)
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
+        time.sleep(1)
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0343(self):
@@ -2704,6 +2706,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         time.sleep(1)
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
+        time.sleep(1)
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0344(self):
@@ -2753,6 +2756,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         slcp.search_and_select_contact("012560")
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
+        time.sleep(1)
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0346(self):
@@ -2799,6 +2803,7 @@ class MsgGroupChatFileLocationTest(TestCase):
             raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊天会话页面")
+        time.sleep(1)
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0348(self):
@@ -2820,33 +2825,46 @@ class MsgGroupChatFileLocationTest(TestCase):
         if not slcp.is_on_this_page():
             raise AssertionError("当前页面不在选择联系人页面")
 
+    @staticmethod
+    def setUp_test_msg_weifenglian_qun_0349():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        mess.click_contacts()
+        contact = ContactsPage()
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        contact.click_text("全部团队")
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        # 确保有这个'测试团队1'并且添加指定联系人
+        if contact.is_exist_team_by_name("测试团队1"):
+            contact.click_back()
+            contact.click_message_icon()
+        else:
+            contact.click_back()
+            contact.click_message_icon()
+            Preconditions.create_team_select_contacts("测试团队1")
+
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0349(self):
         """将自己发送的位置转发到团队未置灰的联系人"""
-        # 1.创建测试团队1
-        Preconditions.create_team_select_contacts("测试团队1")
-        gcp = GroupChatPage()
-        #gcp.click_back()
         Preconditions.enter_group_chat_page()
-        # # 2.创建测试团队2
-        # Preconditions.create_team_select_contacts("测试团队2")
-        # gcp = GroupChatPage()
-        # gcp.click_back()
-        # Preconditions.enter_group_chat_page()
         Preconditions.public_send_location()
-        # 3.长按位置消息体转发
+        # 1.长按位置消息体转发
+        gcp = GroupChatPage()
         gcp.press_message_to_do("转发")
         scp = SelectContactsPage()
         scp.wait_for_page_load()
-        # 4.点击“选择和通讯录联系人”菜单
+        # 2.点击“选择和通讯录联系人”菜单
         scp.click_he_contacts()
         shc = SelectHeContactsDetailPage()
         shc.wait_for_he_contacts_page_load()
-        # 5.选择团队
+        # 3.选择团队
         shc.click_department_name("测试团队1")
-        # 6.在搜索框输入多种字符
+        # 4.在搜索框输入多种字符
         shc.input_search("大佬1")
-        # 7.点击搜索的团队联系人
+        # 5.点击搜索的团队联系人
         shc.click_search_team_contacts()
         shc.click_sure_forward()
         flag = gcp.is_toast_exist("已转发")
@@ -3940,9 +3958,11 @@ class MsgGroupChatFileLocationTest(TestCase):
         # 3.点击位置
         cmp.click_location()
         clp = ChatLocationPage()
-        flag = clp.is_toast_exist("网络异常，请稍后重试！")
+        if clp.is_text_present('始终允许'):
+            clp.click_always_allowed()
+        flag = clp.is_toast_exist("请检查网络后重试")
         if not flag:
-            raise AssertionError("没有'网络异常，请稍后重试！'提示")
+            raise AssertionError("没有'请检查网络后重试'提示")
 
     def tearDown_test_msg_weifenglian_qun_0306(self):
         # 重新连接网络

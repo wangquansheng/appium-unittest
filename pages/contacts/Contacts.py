@@ -100,6 +100,7 @@ class ContactsPage(FooterPage):
         # 标签分组(6.3.1版本)
         '标签分组_631': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_tag_group'),
         '手机联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/first_item'),
+        '团队列表名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title'),
     }
 
     @TestLogger.log()
@@ -249,6 +250,64 @@ class ContactsPage(FooterPage):
             raise AssertionError("No m005_group, please add m005_group in address book.")
         return group_name
 
+    @TestLogger.log("获取当前页面显示的团队名称")
+    def get_cur_group_name(self):
+        """获取当前页面显示的团队名称"""
+        max_try = 5
+        current = 0
+        group_name = []
+        while current < max_try:
+            if self._is_element_present(self.__class__.__locators["团队列表名称"]):
+                break
+            else:
+                return group_name
+            current += 1
+            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        els = self.get_elements(self.__class__.__locators["团队列表名称"])
+        if els:
+            for el in els:
+                group_name.append(el.text)
+        else:
+            raise AssertionError("No m005_group, please add m005_group in address book.")
+        return group_name
+
+    @TestLogger.log()
+    def is_contain_group_name(self,group_names, group_name):
+        if group_name not in group_names:
+            return False
+        else:
+            return True
+
+    @TestLogger.log()
+    def get_all_group_name2(self):
+        """获取所有团队列表名称"""
+        max_try = 5
+        current = 0
+        while current < max_try:
+            if self._is_element_present(self.__class__.__locators["团队列表名称"]):
+                break
+            current += 1
+            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        els = self.get_elements(self.__class__.__locators["团队列表名称"])
+        group_name = []
+        if els:
+            for el in els:
+                group_name.append(el.text)
+        else:
+            raise AssertionError("get_all_group_name2.")
+
+        flag = True
+        while flag:
+            self.swipe_half_page_up()
+            els = self.get_elements(self.__class__.__locators["团队列表名称"])
+            for el in els:
+                if el.text not in group_name:
+                    group_name.append(el.text)
+                    flag = True
+                else:
+                    flag = False
+        return group_name
+
 
     @TestLogger.log()
     def find_element_by_swipe(self, locator, times=15):
@@ -362,6 +421,7 @@ class ContactsPage(FooterPage):
                 contacts_name.append(el.text)
         else:
             raise AssertionError("No m005_contacts, please add m005_contacts in address book.")
+
         flag = True
         while flag:
             self.swipe_half_page_up()
@@ -1023,3 +1083,20 @@ class ContactsPage(FooterPage):
     def click_element_by_text(self, text):
         ele = ('xpath', '//*[contains(@text, "{}")]'.format(text))
         self.click_element(ele)
+
+    @TestLogger.log('点击群聊')
+    def click_group_chat(self):
+        """点击群聊"""
+        self.click_element(self.__locators['群聊'])
+
+    @TestLogger.log()
+    def is_exist_team_by_name(self, name):
+        """是否存在这个名字的团队"""
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title" and @text ="%s"]' % name)
+        try:
+            if len(self.get_elements(locator)) > 0:
+                return True
+            else:
+                return False
+        except:
+            return False
