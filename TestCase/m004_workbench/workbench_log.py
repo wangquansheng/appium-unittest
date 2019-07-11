@@ -283,3 +283,107 @@ class EnterpriseLogAllTest(TestCase):
         wbp.wait_for_workbench_page_load()
         self.assertTrue(wbp.is_on_this_page())
 
+    @tags('ALL', 'CMCC', 'workbench', 'yx')
+    def test_RZ_0002(self):
+        """新建日志"""
+        # 1.进入日志首页
+        Preconditions.enter_log_page()
+        wlp = WorkbenchLogPage()
+        # 2.点击写日志
+        wlp.click_create_new_log()
+        # 3.点击日报
+        wlp.click_day_news()
+        wlp.wait_for_input_page_loads()
+        # 4.输入日报信息
+        wlp.input_title("工作台日志-日报001")
+        wlp.input_work_summary("今日工作总结")
+        wlp.input_work_plan("明日工作计划")
+        wlp.input_coordination_help("需要协调与帮助")
+        wlp.input_remark("备注")
+        # 5.点击“+”按钮
+        wlp.click_add_contact()
+        sccp = SelectCompanyContactsPage()
+        sccp.wait_for_page_load()
+        # 6.选择提交人
+        sccp.click_contacts_by_name("大佬1")
+        # 7.点击确认
+        sccp.click_sure_button()
+        wlp.wait_for_input_page_loads()
+        wlp.page_up()
+        # 8.点击提交
+        wlp.click_submit()
+        wlp.wait_for_input_page_loads()
+        # 9.判断是否提交成功
+        self.assertEquals(wlp.is_text_present("工作台日志-日报001"), True)
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'workbench', 'yx')
+    def test_RZ_0003(self):
+        """新建日志 -- 提交人使用上次提交人"""
+        # 1.进入日志首页
+        Preconditions.enter_log_page()
+        wlp = WorkbenchLogPage()
+        # 2.点击写日志
+        wlp.click_create_new_log()
+        # 3.点击日报
+        wlp.click_day_news()
+        wlp.wait_for_input_page_loads()
+        # 4.输入日报信息
+        wlp.input_title("工作台日志-日报002")
+        wlp.input_work_summary("今日工作总结")
+        wlp.input_work_plan("明日工作计划")
+        wlp.input_coordination_help("需要协调与帮助")
+        wlp.input_remark("备注")
+        # 5.点击添加上次联系人
+        wlp.click_add_last_contact()
+        wlp.page_up()
+        # 6.点击提交
+        wlp.click_submit()
+        wlp.wait_for_input_page_loads()
+        # 7.判断是否提交成功
+        self.assertEquals(wlp.is_text_present("工作台日志-日报002"), True)
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'workbench', 'yx')
+    def test_RZ_0004(self):
+        """新建日志 -- 删除已选择的提交人"""
+        # 1.进入日志首页
+        Preconditions.enter_log_page()
+        wlp = WorkbenchLogPage()
+        # 2.点击写日志
+        wlp.click_create_new_log()
+        # 3.点击日报
+        wlp.click_day_news()
+        wlp.wait_for_input_page_loads()
+        # 4.输入日报信息
+        wlp.input_title("工作台日志-日报003")
+        wlp.input_work_summary("今日工作总结")
+        wlp.input_work_plan("明日工作计划")
+        wlp.input_coordination_help("需要协调与帮助")
+        wlp.input_remark("备注")
+        # 5.点击“+”按钮
+        wlp.click_add_contact()
+        sccp = SelectCompanyContactsPage()
+        sccp.wait_for_page_load()
+        # 6.选择接收人
+        sccp.click_contacts_by_name("大佬1")
+        # 7.点击确认
+        sccp.click_sure_button()
+        # 8.点击头像删除
+        wlp.wait_for_input_page_loads()
+        wlp.click_avatar_delete()
+        # 9.点击“+”按钮
+        wlp.click_add_contact()
+        sccp.wait_for_page_load()
+        # 10.选择接收人
+        sccp.click_contacts_by_name("大佬2")
+        # 11.点击确认
+        sccp.click_sure_button()
+        wlp.wait_for_input_page_loads()
+        wlp.page_up()
+        # 12.点击提交
+        wlp.click_submit()
+        wlp.wait_for_input_page_loads()
+        # 13.判断是否提交成功
+        self.assertEquals(wlp.is_text_present("工作台日志-日报003"), True)
+        time.sleep(2)
