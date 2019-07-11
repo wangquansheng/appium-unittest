@@ -2600,7 +2600,8 @@ class MsgGroupChatFileLocationTest(TestCase):
         else:
             raise AssertionError("需要创建联系人")
 
-    def tearDown_test_msg_weifenglian_qun_0338(self):
+    @staticmethod
+    def tearDown_test_msg_weifenglian_qun_0338():
         # 重新连接网络
         mess = MessagePage()
         mess.set_network_status(6)
@@ -2641,6 +2642,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         slcp.click_search_box()
         # 3.在搜索框输入数字点击搜索到的手机联系人
         slcp.search_and_select_contact("1122")
+        gcp.wait_for_page_load()
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
         time.sleep(1)
@@ -2754,6 +2756,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         slcp.click_search_box()
         # 3.在搜索框输入号码点击搜索到的手机联系人
         slcp.search_and_select_contact("012560")
+        gcp.wait_for_page_load()
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
         time.sleep(1)
@@ -3958,13 +3961,12 @@ class MsgGroupChatFileLocationTest(TestCase):
         # 3.点击位置
         cmp.click_location()
         clp = ChatLocationPage()
-        if clp.is_text_present('始终允许'):
-            clp.click_always_allowed()
         flag = clp.is_toast_exist("请检查网络后重试")
         if not flag:
             raise AssertionError("没有'请检查网络后重试'提示")
 
-    def tearDown_test_msg_weifenglian_qun_0306(self):
+    @staticmethod
+    def tearDown_test_msg_weifenglian_qun_0306():
         # 重新连接网络
         mess = MessagePage()
         mess.set_network_status(6)
