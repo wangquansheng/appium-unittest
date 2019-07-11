@@ -387,3 +387,105 @@ class EnterpriseLogAllTest(TestCase):
         # 13.判断是否提交成功
         self.assertEquals(wlp.is_text_present("工作台日志-日报003"), True)
         time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'workbench', 'yx')
+    def test_RZ_0005(self):
+        """新建草稿日志"""
+        # 1.进入日志首页
+        Preconditions.enter_log_page()
+        wlp = WorkbenchLogPage()
+        # 2.点击写日志
+        wlp.click_create_new_log()
+        # 3.点击日报
+        wlp.click_day_news()
+        wlp.wait_for_input_page_loads()
+        # 4.输入日报信息
+        wlp.input_title("工作台日志-日报-草稿")
+        wlp.input_work_summary("今日工作总结")
+        wlp.input_work_plan("明日工作计划")
+        wlp.input_coordination_help("需要协调与帮助")
+        wlp.input_remark("备注")
+        # 5.点击添加上次联系人
+        wlp.click_add_last_contact()
+        wlp.page_up()
+        # 6.点击存草稿
+        wlp.click_save_draft()
+        wlp.wait_for_page_loads()
+        # 7.判断是否返回我发出的日志列表
+        self.assertEqual(wlp.is_text_present("我发出的"), True)
+
+    @tags('ALL', 'CMCC', 'workbench', 'yx')
+    def test_RZ_0006(self):
+        """新建草稿日志 -- 修改并提交"""
+        # 1.进入日志首页
+        Preconditions.enter_log_page()
+        wlp = WorkbenchLogPage()
+        # 2.点击写日志
+        wlp.click_create_new_log()
+        # 3.点击日报
+        wlp.click_day_news()
+        wlp.wait_for_input_page_loads()
+        # 4.输入日报信息
+        wlp.input_title("工作台日志-日报-草稿")
+        wlp.input_work_summary("今日工作总结")
+        wlp.input_work_plan("明日工作计划")
+        wlp.input_coordination_help("需要协调与帮助")
+        wlp.input_remark("备注")
+        # 5.点击添加上次联系人
+        wlp.click_add_last_contact()
+        wlp.page_up()
+        # 6.点击存草稿
+        wlp.click_save_draft()
+        wlp.wait_for_page_loads()
+        # 7.判断是否返回我发出的日志列表
+        self.assertEqual(wlp.is_text_present("我发出的"), True)
+        # 8.点击草稿日报记录
+        wlp.click_text("工作台日志-日报-草稿")
+        wlp.wait_for_input_page_loads()
+        # 9.更改日报信息
+        wlp.input_title("工作台日志-日报")
+        wlp.input_work_summary("更改后今日工作总结")
+        wlp.input_work_plan("更改后明日工作计划")
+        wlp.input_coordination_help("更改后需要协调与帮助")
+        wlp.input_remark("更改后备注")
+        # 10.点击添加上次联系人
+        wlp.click_add_last_contact()
+        wlp.page_up()
+        # 11.点击提交
+        wlp.click_submit()
+        wlp.wait_for_input_page_loads()
+        # 12.判断是否提交成功
+        self.assertEquals(wlp.is_text_present("工作台日志-日报"), True)
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'workbench', 'yx')
+    def test_RZ_0007(self):
+        """新建草稿日志 -- 删除"""
+        # 1.进入日志首页
+        Preconditions.enter_log_page()
+        wlp = WorkbenchLogPage()
+        # 2.点击写日志
+        wlp.click_create_new_log()
+        # 3.点击日报
+        wlp.click_day_news()
+        wlp.wait_for_input_page_loads()
+        # 4.输入日报信息
+        wlp.input_title("工作台日志-日报-草稿")
+        wlp.input_work_summary("今日工作总结")
+        wlp.input_work_plan("明日工作计划")
+        wlp.input_coordination_help("需要协调与帮助")
+        wlp.input_remark("备注")
+        # 5.点击添加上次联系人
+        wlp.click_add_last_contact()
+        wlp.page_up()
+        # 6.点击存草稿
+        wlp.click_save_draft()
+        wlp.wait_for_page_loads()
+        # 7.判断是否返回我发出的日志列表
+        self.assertEqual(wlp.is_text_present("我发出的"), True)
+        # 8.点击删除
+        wlp.click_delete()
+        # 9.点击确定
+        wlp.click_sure()
+        # 10.判断是否删除成功
+        self.assertEqual(wlp.is_toast_exist("删除成功"), True)
