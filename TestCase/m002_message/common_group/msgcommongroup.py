@@ -7710,6 +7710,7 @@ class MsgCommonGroupAllTest(TestCase):
         info = "哈"
         gcp.input_message(info)
         # 点击表情按钮
+        time.sleep(2)
         gcp.click_expression_button()
         time.sleep(2)
         # 任意点击一个表情
