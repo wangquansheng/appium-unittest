@@ -102,6 +102,9 @@ class CallPage(FooterPage,BasePage):
         '结束多方视频': (MobileBy.ID, 'com.chinasofti.rcs:id/end_video_call_btn'),
         '语音通话免提': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_call_speaker'),
         '语音通话静音': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_call_mute'),
+        '切换到语音': (MobileBy.ID, 'com.chinasofti.rcs:id/video_iv_change_to_voice'),
+        '切换摄像头': (MobileBy.ID, 'com.chinasofti.rcs:id/video_iv_switch_camera'),
+
     }
 
     @TestLogger.log()
