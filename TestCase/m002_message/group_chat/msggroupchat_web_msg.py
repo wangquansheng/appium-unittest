@@ -1076,6 +1076,118 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         self.assertEqual(exist, False)
 
     @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0090(self):
+        """企业群——群内功能"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        time.sleep(1)
+        gcp.click_back()
+        result = gcp.is_text_present("消息")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0091(self):
+        """企业群——群内功能"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        time.sleep(1)
+        # 1、群名称过长时最后两个字前加“...”-暂无名字超长企业群
+        # 2、群名称后括号内显示群人数（群成员最多2000人）：1位数成员、2位数成员、3位数成员、4位数成员 --无法判断
+        #   不是单独控件
+        # 3、党群名称前有“党徽”标识 --群聊界面 没有“党徽”标识
+        result = gcp.is_text_present("测试企业群")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0092(self):
+        """企业群——群内功能——多方电话、多方视频入口——选择弹窗"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        time.sleep(1)
+        # 1、点击右上角“多方电话/多方视频”按钮
+        # 2、检查弹窗样式是否正常
+        gcp.click_mutilcall()
+        time.sleep(1)
+        result = gcp.is_text_present("飞信电话(免费)")
+        self.assertEqual(result, True)
+        result = gcp.is_text_present("多方视频")
+        self.assertEqual(result, True)
+        # 3、点击弹窗外区域弹窗是否收回
+        gcp.click_back()
+        time.sleep(1)
+        result = gcp.is_text_present("多方视频")
+        self.assertEqual(result, False)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0093(self):
+        """企业群——群内功能——多方电话、多方视频入口——多方电话"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        # Preconditions.delete_record_group_chat()
+        time.sleep(1)
+        gcp.click_mutilcall()
+        time.sleep(1)
+        result = gcp.is_text_present("飞信电话(免费)")
+        self.assertEqual(result, True)
+        gcp.click_hf_tel()
+        # 正常弹出联系人选择器
+        result = gcp.is_text_present("呼叫")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0094(self):
+        """企业群——群内功能——多方电话、多方视频入口——多方电话"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        # Preconditions.delete_record_group_chat()
+        time.sleep(1)
+        gcp.click_mutilcall()
+        time.sleep(1)
+        result = gcp.is_text_present("飞信电话(免费)")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0097(self):
+        """企业群——群内功能——多方电话、多方视频入口——多方视频"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        # Preconditions.delete_record_group_chat()
+        time.sleep(1)
+        gcp.click_mutilcall()
+        time.sleep(1)
+        result = gcp.is_text_present("多方视频")
+        self.assertEqual(result, True)
+        gcp.click_multi_videos()
+        result = gcp.is_text_present("呼叫")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0098(self):
+        """企业群——群内功能——多方电话、多方视频入口——多方视频"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        # Preconditions.delete_record_group_chat()
+        time.sleep(1)
+        gcp.click_mutilcall()
+        result = gcp.is_text_present("多方视频")
+        self.assertEqual(result, True)
+        gcp.click_back()
+
+    @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0101(self):
         """在群聊设置页面，群成员头像展示"""
         gcp = GroupChatPage()
@@ -1214,6 +1326,59 @@ class MsgGroupChatVideoPicAllTest(TestCase):
             time.sleep(1)
         # 回到信息列表界面
         gcp.click_back()
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0115(self):
+        """群主——添加一个成员"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('群聊1')
+        if gcp.is_on_this_page():
+            gcp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            gcp.click_element_("添加群成员加号")
+            time.sleep(1)
+            # 1、点击添加成员的“+”号按钮，可以跳转到联系人选择器页面
+            result = gcp.is_text_present("添加群成员")
+            self.assertEqual(result, True)
+            # 2、任意选中一个联系人，点击右上角的确定按钮，会向邀请人发送一条消息
+            gcp.click_text("给个红包2")
+            time.sleep(1)
+            gcp.click_text("确定")
+            result = gcp.is_text_present("发出群邀请")
+            self.assertEqual(result, True)
+        else:
+            raise AssertionError("不在群聊页面")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0116(self):
+        """选择已在群聊中的联系人"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('群聊1')
+        if gcp.is_on_this_page():
+            gcp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            gcp.click_element_("添加群成员加号")
+            time.sleep(1)
+            # 1、点击添加成员的“+”号按钮，可以跳转到联系人选择器页面
+            result = gcp.is_text_present("添加群成员")
+            self.assertEqual(result, True)
+            # 2、任意选中一个联系人，点击右上角的确定按钮，会向邀请人发送一条消息
+            sc = SelectContactsPage()
+            phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+            sc.input_search_keyword(phone_number)
+            time.sleep(2)
+            sc.hide_keyboard()
+            sc.click_text("tel")
+            result = gcp.is_toast_exist("该联系人不可选择")
+            self.assertEqual(result, True)
+        else:
+            raise AssertionError("不在群聊页面")
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0204(self):
@@ -1565,6 +1730,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.set_network_status(6)
 
+
+
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_hanjiabin_0057(self):
         """普通企业群/长ID企业群：三种用户类型打开“+”后是否都展示正常——本网号"""
@@ -1880,10 +2047,12 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 搜索群
         mess = MessagePage()
         mess.click_search()
-        mess.input_search_message_631("ag6421")
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "ag" + phone_number[-4:]
+        mess.input_search_message_631(group_name)
         mess.hide_keyboard()
         time.sleep(1)
-        mess.selecting_one_group_scroll_by_name('ag6421')
+        mess.selecting_one_group_scroll_by_name(group_name)
         gcp.click_setting()
         time.sleep(1)
         # 判断
@@ -1974,10 +2143,12 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 搜索群
         mess = MessagePage()
         mess.click_search()
-        mess.input_search_message_631("ag6421")
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "ag" + phone_number[-4:]
+        mess.input_search_message_631(group_name)
         mess.hide_keyboard()
         time.sleep(1)
-        mess.selecting_one_group_scroll_by_name('ag6421')
+        mess.selecting_one_group_scroll_by_name(group_name)
         gcp.click_setting()
         time.sleep(1)
         # 判断
@@ -2060,10 +2231,12 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 搜索群
         mess = MessagePage()
         mess.click_search()
-        mess.input_search_message_631("ag6421")
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "ag" + phone_number[-4:]
+        mess.input_search_message_631(group_name)
         mess.hide_keyboard()
         time.sleep(1)
-        mess.selecting_one_group_scroll_by_name('ag6421')
+        mess.selecting_one_group_scroll_by_name(group_name)
         # 发送消息
         gcp.input_text_message("哈哈")
         gcp.send_message()
@@ -2072,7 +2245,9 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         time.sleep(1)
         gcp.click_back_by_android()
         # 消息列表进入群
-        mess.selecting_one_group_click_by_name('ag6421')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "ag" + phone_number[-4:]
+        mess.selecting_one_group_click_by_name(group_name)
         time.sleep(1)
         gcp.click_setting()
         time.sleep(1)
@@ -2114,7 +2289,9 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         time.sleep(1)
         # 打开企业群
         sog = SelectOneGroupPage()
-        sog.selecting_one_group_by_name('ag6421')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "ag" + phone_number[-4:]
+        sog.selecting_one_group_by_name(group_name)
         time.sleep(1)
         gcp.click_setting()
         time.sleep(1)
@@ -2226,10 +2403,12 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         #搜索企业群
         sog = SelectOneGroupPage()
         sog.click_search_group()
-        sog.input_search_keyword("ag6421")
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "ag" + phone_number[-4:]
+        sog.input_search_keyword(group_name)
         time.sleep(1)
         # 打开企业群
-        sog.selecting_one_group_by_name('ag6421')
+        sog.selecting_one_group_by_name(group_name)
         time.sleep(1)
         gcp.click_setting()
         time.sleep(1)
@@ -2649,7 +2828,9 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.click_back()
         # 打开企业群
-        Preconditions.get_into_group_chat_page('ag6421')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "ag" + phone_number[-4:]
+        Preconditions.get_into_group_chat_page(group_name)
         Preconditions.delete_record_group_chat()
         # 发送消息
         gcp.input_text_message("哈哈")
@@ -2685,7 +2866,9 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.click_back()
         # 打开企业群
-        Preconditions.get_into_group_chat_page('ag6421')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "ag" + phone_number[-4:]
+        Preconditions.get_into_group_chat_page(group_name)
         Preconditions.delete_record_group_chat()
         # 发送消息
         gcp.input_text_message("哈哈")
@@ -2721,7 +2904,9 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.click_back()
         # 打开企业群
-        Preconditions.get_into_group_chat_page('ag6421')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "ag" + phone_number[-4:]
+        Preconditions.get_into_group_chat_page(group_name)
         Preconditions.delete_record_group_chat()
         # 发送消息
         gcp.input_text_message("哈哈")
@@ -2757,7 +2942,9 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.click_back()
         # 打开企业群
-        Preconditions.get_into_group_chat_page('ag6421')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "ag" + phone_number[-4:]
+        Preconditions.get_into_group_chat_page(group_name)
         Preconditions.delete_record_group_chat()
         # 发送消息
         gcp.input_text_message("哈哈")
@@ -3225,6 +3412,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         time.sleep(10)
         result = gcp.is_text_present("绑定新的银行卡")
         self.assertEqual(result, True)
+
+
 
 
 
