@@ -2970,6 +2970,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         Preconditions.public_send_location()
         # 1.长按位置消息体转发
         gcp = GroupChatPage()
+        time.sleep(1)
         gcp.press_message_to_do("转发")
         scp = SelectContactsPage()
         scp.wait_for_page_load()
@@ -3307,6 +3308,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.wait_for_he_contacts_page_load()
         # 3.在搜索框输入号码
         shc.input_search("13800138000")
+        time.sleep(1)
         # 4.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 5.点击确认转发
@@ -3334,6 +3336,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.click_department_name("测试团队1")
         # 4.在搜索框输入号码
         shc.input_search("13800138000")
+        time.sleep(1)
         # 5.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 6.点击确认转发
@@ -3994,6 +3997,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         Preconditions.public_send_location()
         # 1.长按位置消息体转发
         gcp = GroupChatPage()
+        time.sleep(1)
         gcp.press_message_to_do("转发")
         scp = SelectContactsPage()
         scp.wait_for_page_load()

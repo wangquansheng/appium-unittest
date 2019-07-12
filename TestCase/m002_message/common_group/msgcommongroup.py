@@ -10867,6 +10867,7 @@ class MsgCommonGroupAllTest(TestCase):
         gcsp.click_iv_delete_button()
         # 4.输入特殊字符
         gcsp.input_my_group_card_name("！@#")
+        time.sleep(1)
         # 5.点击保存
         gcsp.save_group_card_name()
         time.sleep(1)
