@@ -2852,6 +2852,7 @@ class MsgGroupChatTest(TestCase):
         current_mobile().turn_on_wifi()
         current_mobile().turn_on_mobile_data()
 
+
 class MsgGroupChatPrior(TestCase):
 
     def default_setUp(self):

@@ -115,6 +115,7 @@ class GroupListPage(BasePage):
         "以后再说": (MobileBy.ID,"com.chinasofti.rcs:id/btn_cancel"),
         '立即更新': (MobileBy.ID,"com.chinasofti.rcs:id/btn_ok"),
         '搜索': (MobileBy.ID,"com.chinasofti.rcs:id/edit_query"),
+        '索引字母容器': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_index_bar_container'),
 
     }
 
@@ -711,3 +712,20 @@ class GroupListPage(BasePage):
         """是否存在指定群名字的搜索结果"""
         locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and contains(@text, "%s")]' % name)
         return self._is_element_present(locator)
+
+    def get_letters_index(self):
+        """获取所有索引字母"""
+        container_el = self.get_element(self.__class__.__locators['索引字母容器'])
+        letter_els = container_el.find_elements(MobileBy.XPATH, "//android.widget.TextView")
+        if not letter_els:
+            raise AssertionError("No m005_contacts, please add m005_contacts in address book.")
+        letters = []
+        for el in letter_els:
+            letters.append(el.text)
+        return letters
+
+    @TestLogger.log()
+    def click_letter_index(self, letter):
+        """点击字母索引"""
+        container_el = self.get_element(self.__class__.__locators['索引字母容器'])
+        container_el.find_element(MobileBy.XPATH, "//android.widget.TextView[@text='%s']" % letter).click()
