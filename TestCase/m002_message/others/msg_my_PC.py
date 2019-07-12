@@ -3,6 +3,7 @@ import time
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
+from pages.workbench.group_messenger.SelectCompanyContacts import SelectCompanyContactsPage
 from preconditions.BasePreconditions import LoginPreconditions
 from library.core.utils.testcasefilter import tags
 from pages import *
@@ -1735,3 +1736,179 @@ class MsgMyPcTest(TestCase):
         MePage().click_back()
         MePage().wait_for_page_load()
         MePage().open_message_page()
+
+
+class MsgXiaoQiu(TestCase):
+
+    def default_setUp(self):
+        """确保每个用例运行前在我的电脑会话页面"""
+        LoginPreconditions.make_already_in_message_page()
+        msg_page = MessagePage()
+        msg_page.wait_for_page_load()
+        msg_page.click_add_icon()
+        msg_page.click_group_chat()
+        SelectContactsPage().click_he_contacts()
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0637(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面的文案展示"""
+        self.assertTrue(current_mobile().is_text_present('选择联系人'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0638(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面搜索框中默认文案展示"""
+        self.assertEquals(SelectContactsPage().get_element_text('搜索或输入手机号'), '搜索或输入手机号')
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0639(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-点击搜索框"""
+        SelectContactsPage().click_search_keyword()
+        time.sleep(3)
+        self.assertTrue(current_mobile().is_keyboard_shown())
+        current_mobile().hide_keyboard()
+        self.assertFalse(current_mobile().is_keyboard_shown())
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0640(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-搜索框为空时"""
+        self.assertFalse(SelectContactsPage().is_element_present_by_locator('X'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0641(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入框存在内容时"""
+        SelectContactsPage().search('123')
+        self.assertTrue(SelectContactsPage().is_element_present_by_locator('X'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0642(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-搜索联系人"""
+        SelectContactsPage().search('a')
+        self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('a'))
+        elements = current_mobile().get_elements(('id','com.chinasofti.rcs:id/tv_name_personal_contactlist'))
+        time.sleep(6)
+        first_page_element = [el.text for el in elements]
+        SelectContactsPage().page_up()
+        elements2 = current_mobile().get_elements(('id', 'com.chinasofti.rcs:id/tv_name_personal_contactlist'))
+        sec_page_element = [el.text for el in elements2]
+        self.assertFalse(first_page_element==sec_page_element)
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0643(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-上滑联系人"""
+        shcp = SelectHeContactsPage()
+        time.sleep(3)
+        teams = shcp.get_team_names()
+        print(teams)
+        if teams:
+            shcp.select_one_team_by_name(teams[0])
+            time.sleep(2)
+        shcp.page_up()
+        self.assertTrue(SelectContactsPage().is_element_present_by_locator('搜索或输入手机号'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0644(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入一个大写字母搜索联系人"""
+        SelectContactsPage().search('A')
+        time.sleep(5)
+        self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('A'))
+        SelectHeContactsDetailPage().click_search_team_contacts()
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0645(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入一个大写字母搜索联系人"""
+        SelectContactsPage().search('X')
+        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0646(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入2个大写字母搜索联系人"""
+        SelectContactsPage().search('AA')
+        # self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('AA'.lower()))
+        time.sleep(2)
+        SelectHeContactsDetailPage().click_search_team_contacts()
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0647(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入2个大写字母搜索联系人"""
+        SelectContactsPage().search('XX')
+        time.sleep(2)
+        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0648(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入一个小写字母搜索联系人"""
+        SelectContactsPage().search('a')
+        time.sleep(5)
+        self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('a'))
+        SelectHeContactsDetailPage().click_search_team_contacts()
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0649(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入一个小写字母搜索联系人"""
+        SelectContactsPage().search('x')
+        time.sleep(2)
+        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0650(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入2个小写字母搜索联系人"""
+        SelectContactsPage().search('aa')
+        # self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('AA'.lower()))
+        time.sleep(2)
+        SelectHeContactsDetailPage().click_search_team_contacts()
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0651(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入2个小写字母搜索联系人"""
+        SelectContactsPage().search('xx')
+        time.sleep(3)
+        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0652(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入联系人的姓名拼音"""
+        SelectContactsPage().search('dalao')
+        elements = current_mobile().get_elements(('id', 'com.chinasofti.rcs:id/tv_name_personal_contactlist'))
+        time.sleep(6)
+        first_page_element = [el.text for el in elements]
+        SelectContactsPage().page_up()
+        elements2 = current_mobile().get_elements(('id', 'com.chinasofti.rcs:id/tv_name_personal_contactlist'))
+        sec_page_element = [el.text for el in elements2]
+        self.assertFalse(first_page_element == sec_page_element)
+        SelectHeContactsDetailPage().click_search_team_contacts()
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0653(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入联系人的姓名拼音-搜索"""
+        SelectContactsPage().search('caixukun')
+        time.sleep(3)
+        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0654(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入任何一个汉字——搜索"""
+        SelectContactsPage().search('大')
+        time.sleep(3)
+        self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('大'))
+        SelectHeContactsDetailPage().click_search_team_contacts()
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0655(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入任何一个汉字——搜索"""
+        SelectContactsPage().search('變')
+        time.sleep(3)
+        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0656(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入号码规则的3位数字——搜索"""
+        SelectContactsPage().search('138')
+        time.sleep(3)
+        SelectHeContactsDetailPage().click_search_team_contacts()
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0657(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的3位数字——搜索"""
+        SelectContactsPage().search('999')
+        time.sleep(3)
+        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
