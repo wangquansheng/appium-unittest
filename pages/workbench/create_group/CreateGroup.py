@@ -15,6 +15,7 @@ class CreateGroupPage(BasePage):
         '马上创建群': (MobileBy.XPATH, '//*[@text="马上创建群" or @content-desc="马上创建群"]'),
         '群名输入框': (MobileBy.XPATH, '//*[@resource-id="gp_name"]'),
         '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
+        '发起群聊': (MobileBy.XPATH, '//*[@text="发起群聊" or @content-desc="发起群聊"]'),
     }
 
     @TestLogger.log()
@@ -50,5 +51,10 @@ class CreateGroupPage(BasePage):
     def click_back(self):
         """点击返回"""
         self.click_element(self.__class__.__locators["返回"])
+
+    @TestLogger.log()
+    def click_initiate_group_chat(self):
+        """点击发起群聊"""
+        self.click_element(self.__class__.__locators["发起群聊"])
 
 

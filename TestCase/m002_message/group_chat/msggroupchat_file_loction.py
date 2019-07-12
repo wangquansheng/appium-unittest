@@ -1116,7 +1116,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         sc.select_local_contacts()
         time.sleep(2)
         # 选择一个联系人
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         # 点击确认转发
         sc.click_sure_forward()
         # 验证转发成功
@@ -1179,7 +1179,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         sc.wait_for_page_load()
         sc.select_local_contacts()
         time.sleep(2)
-        sc.click_one_contact("和飞信电话")
+        sc.click_one_contact("飞信电话")
         # sc.click_one_local_contacts()
         # 点击取消按钮
         sc.click_cancel_forward()
@@ -1600,7 +1600,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         names = slcp.get_contacts_name()
         if names:
             # slcp.select_one_member_by_name(names[0])
-            scp.click_one_contact("和飞信电话")
+            scp.click_one_contact("飞信电话")
             # 3、点击确定
             slcp.click_sure_forward()
             flag = slcp.is_toast_exist("已转发")
@@ -2600,7 +2600,8 @@ class MsgGroupChatFileLocationTest(TestCase):
         else:
             raise AssertionError("需要创建联系人")
 
-    def tearDown_test_msg_weifenglian_qun_0338(self):
+    @staticmethod
+    def tearDown_test_msg_weifenglian_qun_0338():
         # 重新连接网络
         mess = MessagePage()
         mess.set_network_status(6)
@@ -2641,6 +2642,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         slcp.click_search_box()
         # 3.在搜索框输入数字点击搜索到的手机联系人
         slcp.search_and_select_contact("1122")
+        gcp.wait_for_page_load()
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
         time.sleep(1)
@@ -2754,6 +2756,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         slcp.click_search_box()
         # 3.在搜索框输入号码点击搜索到的手机联系人
         slcp.search_and_select_contact("012560")
+        gcp.wait_for_page_load()
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
         time.sleep(1)
@@ -2967,6 +2970,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         Preconditions.public_send_location()
         # 1.长按位置消息体转发
         gcp = GroupChatPage()
+        time.sleep(1)
         gcp.press_message_to_do("转发")
         scp = SelectContactsPage()
         scp.wait_for_page_load()
@@ -3304,6 +3308,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.wait_for_he_contacts_page_load()
         # 3.在搜索框输入号码
         shc.input_search("13800138000")
+        time.sleep(1)
         # 4.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 5.点击确认转发
@@ -3331,6 +3336,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.click_department_name("测试团队1")
         # 4.在搜索框输入号码
         shc.input_search("13800138000")
+        time.sleep(1)
         # 5.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 6.点击确认转发
@@ -3958,13 +3964,12 @@ class MsgGroupChatFileLocationTest(TestCase):
         # 3.点击位置
         cmp.click_location()
         clp = ChatLocationPage()
-        if clp.is_text_present('始终允许'):
-            clp.click_always_allowed()
         flag = clp.is_toast_exist("请检查网络后重试")
         if not flag:
             raise AssertionError("没有'请检查网络后重试'提示")
 
-    def tearDown_test_msg_weifenglian_qun_0306(self):
+    @staticmethod
+    def tearDown_test_msg_weifenglian_qun_0306():
         # 重新连接网络
         mess = MessagePage()
         mess.set_network_status(6)
@@ -3992,6 +3997,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         Preconditions.public_send_location()
         # 1.长按位置消息体转发
         gcp = GroupChatPage()
+        time.sleep(1)
         gcp.press_message_to_do("转发")
         scp = SelectContactsPage()
         scp.wait_for_page_load()

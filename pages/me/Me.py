@@ -314,7 +314,7 @@ class MePage(FooterPage):
         if self._is_element_present(self.__locators['收藏']):
             self.click_element(self.__locators['收藏'])
         else:
-            self.page_up()
+            self.page_down()
             self.click_element(self.__locators['收藏'])
 
     @TestLogger.log()
