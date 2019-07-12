@@ -1316,13 +1316,11 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         Preconditions.get_into_group_chat_page('测试企业群')
         if gcp.is_on_this_page():
             gcp.click_setting()
-            gcsp = GroupChatSetPage()
-            gcsp.wait_for_page_load()
             # Checkpoint 校验群主头像皇冠
             GroupChatSetPage().group_chairman_tag_is_exist()
             time.sleep(1)
             # 回到聊天界面
-            gcsp.click_back()
+            gcp.click_back_by_android()
             time.sleep(1)
         # 回到信息列表界面
         gcp.click_back()
@@ -1336,8 +1334,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         Preconditions.get_into_group_chat_page('群聊1')
         if gcp.is_on_this_page():
             gcp.click_setting()
-            gcsp = GroupChatSetPage()
-            gcsp.wait_for_page_load()
             gcp.click_element_("添加群成员加号")
             time.sleep(1)
             # 1、点击添加成员的“+”号按钮，可以跳转到联系人选择器页面
@@ -1361,16 +1357,14 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         Preconditions.get_into_group_chat_page('群聊1')
         if gcp.is_on_this_page():
             gcp.click_setting()
-            gcsp = GroupChatSetPage()
-            gcsp.wait_for_page_load()
             gcp.click_element_("添加群成员加号")
-            time.sleep(1)
+            time.sleep(3)
             # 1、点击添加成员的“+”号按钮，可以跳转到联系人选择器页面
             result = gcp.is_text_present("添加群成员")
             self.assertEqual(result, True)
             # 2、任意选中一个联系人，点击右上角的确定按钮，会向邀请人发送一条消息
-            sc = SelectContactsPage()
             phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+            sc = SelectContactsPage()
             sc.input_search_keyword(phone_number)
             time.sleep(2)
             sc.hide_keyboard()

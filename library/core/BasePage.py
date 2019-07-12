@@ -83,7 +83,7 @@ class BasePage(object):
     @TestLogger.log()
     def is_text_present(self, text):
         """检查屏幕是否包含文本"""
-        return self.mobile.is_text_presnent(text)
+        return self.mobile.is_text_present(text)
 
     def _is_element_present(self, locator):
         elements = self.get_elements(locator)
