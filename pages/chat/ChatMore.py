@@ -57,6 +57,7 @@ class ChatMorePage(BasePage):
                   '文件1': (MobileBy.XPATH, '//*[(@resource-id="com.chinasofti.rcs:id/iocn_tv") and (@text="文件")]'),
                   '音视频通话': (MobileBy.XPATH, '//*[(@resource-id="com.chinasofti.rcs:id/iocn_tv") and (@text="音视频通话")]'),
                   '和飞信电话': (MobileBy.XPATH, '//*[(@resource-id="com.chinasofti.rcs:id/iocn_tv") and (@text="和飞信电话")]'),
+                  '文件2': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_file'),
                   }
 
     @TestLogger.log()
@@ -87,7 +88,7 @@ class ChatMorePage(BasePage):
     @TestLogger.log()
     def click_file1(self):
         """点击文件"""
-        self.click_element(self.__class__.__locators["文件1"])
+        self.click_element(self.__class__.__locators["文件2"])
 
     @TestLogger.log()
     def click_voice_and_video_call(self):
