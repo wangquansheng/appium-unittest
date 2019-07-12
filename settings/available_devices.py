@@ -667,33 +667,10 @@ DEVICES_CONFIG_DEBUG_YYX = {
     },
 }
 
-DEVICES_CONFIG_DEBUG_YX = {
-    'M960BDQN229CH': {
-        "MODEL": SupportedModel.HUAWEI_P20,
-        "SERVER_URL": 'http://127.0.0.1:4727/wd/hub',
-        "DEFAULT_CAPABILITY": {
-            "platformName": "Android",
-            "platformVersion": "9",
-            "deviceName": "DWT7N18614014715",
-            "udid": "DWT7N18614014715",
-            "automationName": "UiAutomator2",
-            "newCommandTimeout": 600,
-            "appPackage": "com.chinasofti.rcs",
-            "appActivity": "com.cmic.module_main.ui.activity.WelcomeActivity",
-        },
-        'CARDS': [
-            {
-                'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '18822825240'
-            },
-        ]
-    },
-}
-
 DEVICES_CONFIG_DEBUG_YMS = {
     'M960BDQN229CH': {
         "MODEL": SupportedModel.HUAWEI_P20,
-        "SERVER_URL": 'http://127.0.0.1:4728/wd/hub',
+        "SERVER_URL": 'http://127.0.0.1:4727/wd/hub',
         "DEFAULT_CAPABILITY": {
             "platformName": "Android",
             "platformVersion": "9",
@@ -708,6 +685,29 @@ DEVICES_CONFIG_DEBUG_YMS = {
             {
                 'TYPE': CardType.CHINA_MOBILE,
                 'CARD_NUMBER': '19849476421'
+            },
+        ]
+    },
+}
+
+DEVICES_CONFIG_DEBUG_YX = {
+    'M960BDQN229CH': {
+        "MODEL": SupportedModel.HUAWEI_P20,
+        "SERVER_URL": 'http://127.0.0.1:4728/wd/hub',
+        "DEFAULT_CAPABILITY": {
+            "platformName": "Android",
+            "platformVersion": "9",
+            "deviceName": "DWT7N18614014715",
+            "udid": "DWT7N18614014715",
+            "automationName": "UiAutomator2",
+            "newCommandTimeout": 600,
+            "appPackage": "com.chinasofti.rcs",
+            "appActivity": "com.cmic.module_main.ui.activity.WelcomeActivity",
+        },
+        'CARDS': [
+            {
+                'TYPE': CardType.CHINA_MOBILE,
+                'CARD_NUMBER': '18822825240'
             },
         ]
     },
@@ -800,7 +800,7 @@ DEVICES_CONFIG_DEBUG_YL = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '19849476421'
+                'CARD_NUMBER': '15013708130'
             },
         ]
     },
