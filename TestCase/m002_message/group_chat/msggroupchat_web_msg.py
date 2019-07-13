@@ -1375,6 +1375,36 @@ class MsgGroupChatVideoPicAllTest(TestCase):
             raise AssertionError("不在群聊页面")
 
     @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0120(self):
+        """群聊设置页面——查找聊天内容"""
+        # 1、点击聊天内容入口，跳转到聊天内容页面
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 输入信息
+        gcp.input_message("哈哈")
+        # 点击发送
+        gcp.send_message()
+        time.sleep(1)
+        gcp.click_back()
+        time.sleep(1)
+        mess = MessagePage()
+        # 长按 "测试企业群"
+        mess.selecting_one_group_click_by_name('测试企业群')
+        time.sleep(1)
+        result = mess.is_text_present("哈哈")
+        self.assertEqual(result, True)
+        # 2、点击顶部的搜索框，调起小键盘
+        gcp.click_back()
+        time.sleep(1)
+        mess.click_search()
+        time.sleep(1)
+        result = mess.is_keyboard_shown()
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0204(self):
         """
             消息列表——长按——删除会话窗口
