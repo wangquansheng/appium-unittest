@@ -1405,6 +1405,268 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         self.assertEqual(result, True)
 
     @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0123(self):
+        """群聊设置页面——关闭消息免打扰——网络异常"""
+        # 1、点击关闭消息免打扰开关，会提示：上传失败
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        gcp.click_setting()
+        time.sleep(1)
+        # 消息免打扰按钮(打开)
+        gcsp = GroupChatSetPage()
+        gcsp.click_switch_undisturb()
+        time.sleep(1)
+        # 断网
+        gcp.set_network_status(0)
+        time.sleep(3)
+        # 点击 消息免打扰按钮
+        gcsp.click_switch_undisturb()
+        result = gcp.is_text_present("没有网络，请连接网络再试")
+        self.assertEqual(result, True)
+
+    def tearDown_test_msg_huangmianhua_0123(self):
+        gcp = GroupChatPage()
+        gcp.set_network_status(6)
+        time.sleep(3)
+        # 消息免打扰按钮(关闭)
+        gcsp = GroupChatSetPage()
+        gcsp.click_switch_undisturb()
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0124(self):
+        """群聊设置页面——关闭消息免打扰——网络异常"""
+        # 1、点击关闭消息免打扰开关，会提示：上传失败
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        gcp.click_setting()
+        time.sleep(1)
+        # 消息免打扰按钮(打开)
+        gcsp = GroupChatSetPage()
+        gcsp.click_switch_undisturb()
+        time.sleep(1)
+        # 断网
+        gcp.set_network_status(0)
+        time.sleep(3)
+        # 点击 消息免打扰按钮
+        gcsp.click_switch_undisturb()
+        result = gcp.is_text_present("没有网络，请连接网络再试")
+        self.assertEqual(result, True)
+
+    def tearDown_test_msg_huangmianhua_0124(self):
+        gcp = GroupChatPage()
+        gcp.set_network_status(6)
+        time.sleep(3)
+        # 消息免打扰按钮(关闭)
+        gcsp = GroupChatSetPage()
+        gcsp.click_switch_undisturb()
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0125(self):
+        """群聊设置页面——开启消息免打扰——网络断网"""
+        # 1、点击开启消息免打扰开关，会弹出toast提示：无网络，请连接网络重试
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        gcp.click_setting()
+        time.sleep(1)
+        # 断网
+        gcp.set_network_status(0)
+        time.sleep(3)
+        # 点击 消息免打扰按钮
+        gcsp = GroupChatSetPage()
+        gcsp.click_switch_undisturb()
+        result = gcp.is_text_present("没有网络，请连接网络再试")
+        self.assertEqual(result, True)
+
+    def tearDown_test_msg_huangmianhua_0125(self):
+        gcp = GroupChatPage()
+        gcp.set_network_status(6)
+        time.sleep(1)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0140(self):
+        """在聊天会话页面，长按文本消息——转发——选择一个群作为转发对象"""
+        # 1、长按文本消息，选择转发功能，跳转到联系人选择器页面
+        # 2、选择一个群，进入到群聊列表展示页面，任意选中一个群聊，确认转发，会在消息列表，重新产生一个新的会话窗口或者在已有窗口中增加一条记录
+        # 3、进入到聊天会话窗口页面，转发的消息，已发送成功并正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        # group_name = "ag" + phone_number[-4:]
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0140")
+        gcp.send_message()
+        # 长按信息并点击转发
+        gcp.press_file_to_do("哈哈0140", "转发")
+        sc = SelectContactsPage()
+        sc.wait_for_page_local_contact_load()
+        # 选择一个群
+        sc.click_text("选择一个群")
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name("群聊1")
+        time.sleep(1)
+        # 点击-确定
+        sc.click_sure_forward()
+        time.sleep(1)
+        # 返回消息页面
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        flag = sc.is_toast_exist("群聊1")
+        self.assertTrue(flag)
+        flag = sc.is_toast_exist("哈哈0140")
+        self.assertTrue(flag)
+        mess = MessagePage()
+        mess.selecting_one_group_click_by_name("群聊1")
+        time.sleep(1)
+        flag = sc.is_toast_exist("哈哈0140")
+        self.assertTrue(flag)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0141(self):
+        """在聊天会话页面，长按文本消息——转发——选择和通讯录联系人--团队联系人"""
+        # 1、长按文本消息，选择转发功能，跳转到联系人选择器页面
+        # 2、选择和通讯录人联系人，确认转发，会在消息列表，重新产生一个新的会话窗口或者在已有窗口中增加一条记录
+        # 3、进入到聊天会话窗口页面，转发的消息，已发送成功并正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        # group_name = "ag" + phone_number[-4:]
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0141")
+        gcp.send_message()
+        # 长按信息并点击转发
+        gcp.press_file_to_do("哈哈0141", "转发")
+        sc = SelectContactsPage()
+        sc.wait_for_page_local_contact_load()
+        # 选择团队联系人
+        sc.click_text("选择团队联系人")
+        # 选择bm0子一层级
+        group_contact = EnterpriseContactsPage()
+        group_contact.click_sub_level_department_by_name2('bm0')
+        # 选择“b测算”联系人进行转发
+        sc.click_one_contact("b测算")
+        sc.click_sure_forward()
+        flag = sc.is_toast_exist("已转发")
+        self.assertTrue(flag)
+        time.sleep(1)
+        # 返回消息页面
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        flag = sc.is_toast_exist("b测算")
+        self.assertTrue(flag)
+        flag = sc.is_toast_exist("哈哈0141")
+        self.assertTrue(flag)
+        mess = MessagePage()
+        mess.selecting_one_group_click_by_name("b测算")
+        time.sleep(1)
+        flag = sc.is_toast_exist("哈哈0141")
+        self.assertTrue(flag)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0142(self):
+        """在聊天会话页面，长按文本消息——转发——选择本地联系人"""
+        # 1、长按文本消息，选择转发功能，跳转到联系人选择器页面
+        # 2、选择本地联系人，确认转发，会在消息列表，重新产生一个新的会话窗口或者在已有窗口中增加一条记录
+        # 3、进入到聊天会话窗口页面，转发的消息，已发送成功并正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        # group_name = "ag" + phone_number[-4:]
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0142")
+        gcp.send_message()
+        # 长按信息并点击转发
+        gcp.press_file_to_do("哈哈0142", "转发")
+        sc = SelectContactsPage()
+        sc.wait_for_page_local_contact_load()
+        # 选择手机联系人
+        sc.click_text("选择手机联系人")
+        # 选择“给个红包2”联系人进行转发
+        sc.click_one_contact("给个红包2")
+        sc.click_sure_forward()
+        flag = sc.is_toast_exist("已转发")
+        self.assertTrue(flag)
+        time.sleep(1)
+        # 返回消息页面
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        flag = sc.is_toast_exist("给个红包2")
+        self.assertTrue(flag)
+        flag = sc.is_toast_exist("哈哈0142")
+        self.assertTrue(flag)
+        mess = MessagePage()
+        mess.selecting_one_group_click_by_name("给个红包2")
+        time.sleep(1)
+        flag = sc.is_toast_exist("哈哈0142")
+        self.assertTrue(flag)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0143(self):
+        """在聊天会话页面，长按文本消息——转发——选择最近聊天"""
+        # 1、长按文本消息，选择转发功能，跳转到联系人选择器页面
+        # 2、选择最近聊天，确认转发，会在消息列表，重新产生一个新的会话窗口或者在已有窗口中增加一条记录
+        # 3、进入到聊天会话窗口页面，转发的消息，已发送成功并正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        # group_name = "ag" + phone_number[-4:]
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0143")
+        gcp.send_message()
+        # 长按信息并点击转发
+        gcp.press_file_to_do("哈哈0143", "转发")
+        sc = SelectContactsPage()
+        sc.wait_for_page_local_contact_load()
+        # 选择手机联系人
+        # sc.click_text("选择手机联系人")
+        # 选择“给个红包2”联系人进行转发
+        sc.click_one_contact("给个红包2")
+        sc.click_sure_forward()
+        flag = sc.is_toast_exist("已转发")
+        self.assertTrue(flag)
+        time.sleep(1)
+        # 返回消息页面
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        flag = sc.is_toast_exist("给个红包2")
+        self.assertTrue(flag)
+        flag = sc.is_toast_exist("哈哈0143")
+        self.assertTrue(flag)
+        mess = MessagePage()
+        mess.selecting_one_group_click_by_name("给个红包2")
+        time.sleep(1)
+        flag = sc.is_toast_exist("哈哈0143")
+        self.assertTrue(flag)
+
+    @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0204(self):
         """
             消息列表——长按——删除会话窗口
