@@ -5632,7 +5632,7 @@ class MsgCommonGroupTest(TestCase):
             Preconditions.enter_group_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
-    def test_msg_common_group_0243(self):
+    def test_msg_huangmianhua_0243(self):
         """聊天会话页面——长按——撤回——不足一分钟的文本消息"""
         gcp = GroupChatPage()
         Preconditions.delete_record_group_chat()
@@ -10867,6 +10867,7 @@ class MsgCommonGroupAllTest(TestCase):
         gcsp.click_iv_delete_button()
         # 4.输入特殊字符
         gcsp.input_my_group_card_name("！@#")
+        time.sleep(1)
         # 5.点击保存
         gcsp.save_group_card_name()
         time.sleep(1)

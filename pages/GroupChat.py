@@ -837,11 +837,16 @@ class GroupChatPage(BaseChatPage):
         """点击始终允许"""
         self.click_element(self.__locators['始终允许'])
 
-
     @TestLogger.log()
     def press_last_file(self):
         """长按最后一个文件"""
         el = self.get_elements(('id', 'com.chinasofti.rcs:id/ll_msg'))[-1]
+        self.press(el)
+
+    @TestLogger.log()
+    def press_last_message(self):
+        """长按最后一个文本消息"""
+        el = self.get_elements(('id', 'com.chinasofti.rcs:id/tv_message'))[-1]
         self.press(el)
 
     @TestLogger.log()

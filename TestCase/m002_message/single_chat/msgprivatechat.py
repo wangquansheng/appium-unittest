@@ -1668,7 +1668,7 @@ class MsgPrivateChatMyComputer(TestCase):
         # 3.点击预览
         cpg.click_preview()
         cpp = ChatPicPreviewPage()
-        cpp.wait_for_page_load()
+        time.sleep(1)
         # 4.点击编辑（预览图片）
         cpp.click_edit()
         cpe = ChatPicEditPage()
@@ -1710,7 +1710,7 @@ class MsgPrivateChatMyComputer(TestCase):
         # 3.点击预览
         cpg.click_preview()
         cpp = ChatPicPreviewPage()
-        cpp.wait_for_page_load()
+        time.sleep(1)
         # 4.点击编辑（预览图片）
         cpp.click_edit()
         cpe = ChatPicEditPage()
@@ -1751,7 +1751,7 @@ class MsgPrivateChatMyComputer(TestCase):
         # 3.点击预览
         cpg.click_preview()
         cpp = ChatPicPreviewPage()
-        cpp.wait_for_page_load()
+        time.sleep(1)
         # 4.点击编辑（预览图片）
         cpp.click_edit()
         cpe = ChatPicEditPage()
@@ -1793,7 +1793,7 @@ class MsgPrivateChatMyComputer(TestCase):
         # 3.点击预览
         cpg.click_preview()
         cpp = ChatPicPreviewPage()
-        cpp.wait_for_page_load()
+        time.sleep(1)
         # 4.点击编辑（预览图片）
         cpp.click_edit()
         cpe = ChatPicEditPage()
@@ -1832,7 +1832,7 @@ class MsgPrivateChatMyComputer(TestCase):
         # 3.点击预览
         cpg.click_preview()
         cpp = ChatPicPreviewPage()
-        cpp.wait_for_page_load()
+        time.sleep(1)
         # 4.点击编辑（预览图片）
         cpp.click_edit()
         cpe = ChatPicEditPage()
