@@ -637,6 +637,15 @@ class SelectContactsPage(BasePage):
             return False
 
     @TestLogger.log()
+    def is_exsit_group_member(self):
+        """群聊联系人成员数量 True:没有 False:存在群成员"""
+        els = self.get_elements(self.__class__.__locators["local联系人"])
+        if len(els) == 0:
+            return True
+        else:
+            return False
+
+    @TestLogger.log()
     def is_element_present_by_locator(self,text):
         """判断指定元素是否存在"""
         return self._is_element_present(self.__class__.__locators[text])

@@ -25,6 +25,11 @@ class GlobalSearchMessagePage(Keyboard, BasePage):
     def click_back(self):
         self.click_element(self.__locators['返回'])
 
+    @TestLogger.log('长按头像')
+    def press_head_icon(self):
+        el = self.get_element(self.__locators['头像'])
+        self.press(el)
+
     @TestLogger.log('输入搜索关键字')
     def search(self, keyword):
         self.input_text(self.__locators['输入关键字搜索'], keyword)
