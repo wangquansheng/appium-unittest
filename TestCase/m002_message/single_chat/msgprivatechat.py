@@ -2169,3 +2169,103 @@ class MsgPrivateChatMyComputer(TestCase):
         # 8.验证是否发送成功
         cwp.wait_for_msg_send_status_become_to('发送成功', 30)
 
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0532(self):
+        """我的电脑聊天会话页面——放大发送一段表情文本内容"""
+        # 1、网络正常
+        # 2、已登录和飞信
+        # 3、我的电脑会话窗口
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击表情
+        cwp.click_expression()
+        # 2.选择1个表情正常发送，获取文本宽度
+        cwp.select_expression()
+        cwp.click_send_button()
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        time.sleep(1)
+        cwp.click_expression()
+        cwp.hide_keyboard()
+        time.sleep(2)
+        width1 = cwp.get_width_of_last_msg_of_text()
+        time.sleep(1)
+        # 3.选择1个表情放大发送，获取文本宽度
+        cwp.click_expression()
+        cwp.select_expression()
+        time.sleep(1)
+        cwp.press_and_move_up('发送按钮')
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        cwp.click_expression()
+        cwp.hide_keyboard()
+        time.sleep(2)
+        width2 = cwp.get_width_of_last_msg_of_text()
+        # 5.判断是否放大
+        if not width2 > width1:
+            raise AssertionError("表情没有放大展示")
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0533(self):
+        """我的电脑聊天会话页面——缩小发送一段表情文本内容"""
+        # 1、网络正常
+        # 2、已登录和飞信
+        # 3、我的电脑会话窗口
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击表情
+        cwp.click_expression()
+        # 2.选择1个表情正常发送，获取文本宽度
+        cwp.select_expression()
+        cwp.click_send_button()
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        time.sleep(1)
+        cwp.click_expression()
+        cwp.hide_keyboard()
+        width1 = cwp.get_width_of_last_msg_of_text()
+        time.sleep(1)
+        # 3.选择1个表情缩小发送，获取文本宽度
+        cwp.click_expression()
+        cwp.select_expression()
+        time.sleep(1)
+        cwp.press_and_move_down('发送按钮')
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        cwp.click_expression()
+        cwp.hide_keyboard()
+        width2 = cwp.get_width_of_last_msg_of_text()
+        # 5.判断是否缩小
+        if not width2 < width1:
+            raise AssertionError("表情没有缩小展示")
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_weifenglian_PC_0336(self):
+        """我的电脑发送位置成功"""
+        # 1、网络正常
+        # 2、已开启手机定位
+        # 3、当前在我的电脑会话窗口页面
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击更多
+        cwp.click_add_icon()
+        # 2.点击位置
+        cwp.click_location()
+        clp = ChatLocationPage()
+        clp.wait_for_page_load()
+        time.sleep(1)
+        # 3.点击发送按钮
+        if not clp.send_btn_is_enabled():
+            raise AssertionError("位置页面发送按钮不可点击")
+        clp.click_send()
+        # 4.判断在消息聊天窗口是否展示缩略位置消息体
+        self.assertTrue(cwp.is_address_text_present())
+
