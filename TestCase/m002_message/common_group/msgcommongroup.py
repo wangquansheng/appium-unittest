@@ -11789,3 +11789,136 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(3)
         self.assertTrue(mess.is_text_present("大佬1"))
         time.sleep(1)
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0110(self):
+        """在群聊设置页面，群成员头像展示"""
+        # 1、网络正常
+        # 2、已加入普通群
+        # 3、在群聊设置页面
+        gcp = GroupChatPage()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击群成员
+        gcsp.click_text("群成员")
+        time.sleep(1)
+        # 3.判断群成员头像是否存在
+        self.assertTrue(gcsp.group_member_avatar_is_exist())
+        time.sleep(1)
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0213(self):
+        """群聊设置页面——开启消息免打扰"""
+        # 1.、成功登录和飞信
+        # 2、已创建或者加入群聊
+        # 3、群主、普通成员
+        # 4、网络正常（4G/WIFI）
+        # 5、消息免打扰关闭状态
+        gcp = GroupChatPage()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.判断消息免打扰是否开启
+        if not gcsp.get_switch_undisturb_status():
+            gcsp.click_switch_undisturb()
+        # 3.点击返回群聊页面
+        gcsp.click_back()
+        # 4.发送消息
+        gcp.input_message("测试")
+        gcp.send_message()
+        # 5.判断是否存在消息免打扰图标
+        self.assertTrue(gcp.is_exist_undisturb())
+        time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0267():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0267(self):
+        """一对一聊天——点对点建群——网络正常"""
+        # 1、已成功登录和飞信
+        # 2、网络正常（4G/WIFI ）
+        # 3、手机通讯录中存在联系人
+        # 4、已加入企业
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 1.点击右上角‘+’号
+        mess.click_add_icon()
+        # 2.点击发起群聊
+        mess.click_group_chat()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        # 3.点击选择手机联系人
+        scp.click_phone_contact()
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        # 4.选择1个手机联系人
+        slc.selecting_local_contacts_by_name("大佬1")
+        time.sleep(2)
+        glp = GroupListPage()
+        # 5.点击已选择联系人头像取消选择
+        glp.click_selected_contacts()
+        time.sleep(2)
+        # 6.再次点击选择联系人
+        slc.selecting_local_contacts_by_name("大佬1")
+        slc.selecting_local_contacts_by_name("大佬3")
+        # 7.点击确定
+        scp.click_sure_forward()
+        cgnp = CreateGroupNamePage()
+        cgnp.wait_for_page_load()
+        # 8.判断群名称设置页面中的群名称是否默认展示为：群聊
+        self.assertTrue(cgnp.assert_current_search_keyword_is("群聊"))
+        # 9.输入群名
+        cgnp.input_group_name("测试测试")
+        time.sleep(2)
+        # 11.点击确定
+        cgnp.click_sure()
+        # 12.判断建群成功都是否跳转至群聊页面
+        time.sleep(2)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        self.assertTrue(gcp.is_on_this_page())
+        time.sleep(1)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0270():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.build_one_new_group("未进群提示测试群")
+        Preconditions.get_into_group_chat_page("未进群提示测试群")
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0270(self):
+        """群聊设置——群成员列表——未进群提示展示"""
+        # 1、已成功登录和飞信
+        # 2、网络正常（4G/WIFI ）
+        # 3、群主权限
+        gcp = GroupChatPage()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击群成员
+        gcsp.click_text("群成员")
+        time.sleep(1)
+        gcs = GroupChatSetSeeMembersPage()
+        # 3.判断是否有提示“还有人未进群，再次邀请提示”
+        self.assertTrue(gcs.is_others_not_in_group())
+        # 4.点击“还有人未进群，再次邀请提示”
+        gcs.click_invite_prompt()
+        time.sleep(2)
+        # 5.点击再次邀请
+        gcs.click_again_invite()
+        # 6.判断是否有“群邀请已发送”提示框
+        self.assertTrue(gcs.is_toast_exist("群邀请已发送"))
+        time.sleep(1)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 6.判断是否在群聊页面
+        self.assertTrue(gcp.is_on_this_page())
+        time.sleep(2)
