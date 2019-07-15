@@ -104,6 +104,10 @@ class CallPage(FooterPage,BasePage):
         '语音通话静音': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_call_mute'),
         '切换到语音': (MobileBy.ID, 'com.chinasofti.rcs:id/video_iv_change_to_voice'),
         '切换摄像头': (MobileBy.ID, 'com.chinasofti.rcs:id/video_iv_switch_camera'),
+        '语音通话缩放按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_voice_hide'),
+        '视频通话缩放按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_video_hide'),
+        '飞信电话按钮': (MobileBy.ID, "com.chinasofti.rcs:id/btnFreeCall"),
+        '多方视频缩放按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_hide'),
 
     }
 

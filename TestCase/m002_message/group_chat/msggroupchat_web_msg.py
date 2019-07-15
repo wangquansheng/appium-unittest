@@ -1375,6 +1375,628 @@ class MsgGroupChatVideoPicAllTest(TestCase):
             raise AssertionError("不在群聊页面")
 
     @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0120(self):
+        """群聊设置页面——查找聊天内容"""
+        # 1、点击聊天内容入口，跳转到聊天内容页面
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 输入信息
+        gcp.input_message("哈哈")
+        # 点击发送
+        gcp.send_message()
+        time.sleep(1)
+        gcp.click_back()
+        time.sleep(1)
+        mess = MessagePage()
+        # 长按 "测试企业群"
+        mess.selecting_one_group_click_by_name('测试企业群')
+        time.sleep(1)
+        result = mess.is_text_present("哈哈")
+        self.assertEqual(result, True)
+        # 2、点击顶部的搜索框，调起小键盘
+        gcp.click_back()
+        time.sleep(1)
+        mess.click_search()
+        time.sleep(1)
+        result = mess.is_keyboard_shown()
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0123(self):
+        """群聊设置页面——关闭消息免打扰——网络异常"""
+        # 1、点击关闭消息免打扰开关，会提示：上传失败
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        gcp.click_setting()
+        time.sleep(1)
+        # 消息免打扰按钮(打开)
+        gcsp = GroupChatSetPage()
+        gcsp.click_switch_undisturb()
+        time.sleep(1)
+        # 断网
+        gcp.set_network_status(0)
+        time.sleep(3)
+        # 点击 消息免打扰按钮
+        gcsp.click_switch_undisturb()
+        result = gcp.is_text_present("没有网络，请连接网络再试")
+        self.assertEqual(result, True)
+
+    def tearDown_test_msg_huangmianhua_0123(self):
+        gcp = GroupChatPage()
+        gcp.set_network_status(6)
+        time.sleep(3)
+        # 消息免打扰按钮(关闭)
+        gcsp = GroupChatSetPage()
+        gcsp.click_switch_undisturb()
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0124(self):
+        """群聊设置页面——关闭消息免打扰——网络异常"""
+        # 1、点击关闭消息免打扰开关，会提示：上传失败
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        gcp.click_setting()
+        time.sleep(1)
+        # 消息免打扰按钮(打开)
+        gcsp = GroupChatSetPage()
+        gcsp.click_switch_undisturb()
+        time.sleep(1)
+        # 断网
+        gcp.set_network_status(0)
+        time.sleep(3)
+        # 点击 消息免打扰按钮
+        gcsp.click_switch_undisturb()
+        result = gcp.is_text_present("没有网络，请连接网络再试")
+        self.assertEqual(result, True)
+
+    def tearDown_test_msg_huangmianhua_0124(self):
+        gcp = GroupChatPage()
+        gcp.set_network_status(6)
+        time.sleep(3)
+        # 消息免打扰按钮(关闭)
+        gcsp = GroupChatSetPage()
+        gcsp.click_switch_undisturb()
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0125(self):
+        """群聊设置页面——开启消息免打扰——网络断网"""
+        # 1、点击开启消息免打扰开关，会弹出toast提示：无网络，请连接网络重试
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        gcp.click_setting()
+        time.sleep(1)
+        # 断网
+        gcp.set_network_status(0)
+        time.sleep(3)
+        # 点击 消息免打扰按钮
+        gcsp = GroupChatSetPage()
+        gcsp.click_switch_undisturb()
+        result = gcp.is_text_present("没有网络，请连接网络再试")
+        self.assertEqual(result, True)
+
+    def tearDown_test_msg_huangmianhua_0125(self):
+        gcp = GroupChatPage()
+        gcp.set_network_status(6)
+        time.sleep(1)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0140(self):
+        """在聊天会话页面，长按文本消息——转发——选择一个群作为转发对象"""
+        # 1、长按文本消息，选择转发功能，跳转到联系人选择器页面
+        # 2、选择一个群，进入到群聊列表展示页面，任意选中一个群聊，确认转发，会在消息列表，重新产生一个新的会话窗口或者在已有窗口中增加一条记录
+        # 3、进入到聊天会话窗口页面，转发的消息，已发送成功并正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        # group_name = "ag" + phone_number[-4:]
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0140")
+        gcp.send_message()
+        # 长按信息并点击转发
+        gcp.press_file_to_do("哈哈0140", "转发")
+        sc = SelectContactsPage()
+        sc.wait_for_page_local_contact_load()
+        # 选择一个群
+        sc.click_text("选择一个群")
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name("群聊1")
+        time.sleep(1)
+        # 点击-确定
+        sc.click_sure_forward()
+        time.sleep(1)
+        # 返回消息页面
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        flag = sc.is_toast_exist("群聊1")
+        self.assertTrue(flag)
+        flag = sc.is_toast_exist("哈哈0140")
+        self.assertTrue(flag)
+        mess = MessagePage()
+        mess.selecting_one_group_click_by_name("群聊1")
+        time.sleep(1)
+        flag = sc.is_toast_exist("哈哈0140")
+        self.assertTrue(flag)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0141(self):
+        """在聊天会话页面，长按文本消息——转发——选择和通讯录联系人--团队联系人"""
+        # 1、长按文本消息，选择转发功能，跳转到联系人选择器页面
+        # 2、选择和通讯录人联系人，确认转发，会在消息列表，重新产生一个新的会话窗口或者在已有窗口中增加一条记录
+        # 3、进入到聊天会话窗口页面，转发的消息，已发送成功并正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        # group_name = "ag" + phone_number[-4:]
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0141")
+        gcp.send_message()
+        # 长按信息并点击转发
+        gcp.press_file_to_do("哈哈0141", "转发")
+        sc = SelectContactsPage()
+        sc.wait_for_page_local_contact_load()
+        # 选择团队联系人
+        sc.click_text("选择团队联系人")
+        # 选择bm0子一层级
+        group_contact = EnterpriseContactsPage()
+        group_contact.click_sub_level_department_by_name2('bm0')
+        # 选择“b测算”联系人进行转发
+        sc.click_one_contact("b测算")
+        sc.click_sure_forward()
+        flag = sc.is_toast_exist("已转发")
+        self.assertTrue(flag)
+        time.sleep(1)
+        # 返回消息页面
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        flag = sc.is_toast_exist("b测算")
+        self.assertTrue(flag)
+        flag = sc.is_toast_exist("哈哈0141")
+        self.assertTrue(flag)
+        mess = MessagePage()
+        mess.selecting_one_group_click_by_name("b测算")
+        time.sleep(1)
+        flag = sc.is_toast_exist("哈哈0141")
+        self.assertTrue(flag)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0142(self):
+        """在聊天会话页面，长按文本消息——转发——选择本地联系人"""
+        # 1、长按文本消息，选择转发功能，跳转到联系人选择器页面
+        # 2、选择本地联系人，确认转发，会在消息列表，重新产生一个新的会话窗口或者在已有窗口中增加一条记录
+        # 3、进入到聊天会话窗口页面，转发的消息，已发送成功并正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        # group_name = "ag" + phone_number[-4:]
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0142")
+        gcp.send_message()
+        # 长按信息并点击转发
+        gcp.press_file_to_do("哈哈0142", "转发")
+        sc = SelectContactsPage()
+        sc.wait_for_page_local_contact_load()
+        # 选择手机联系人
+        sc.click_text("选择手机联系人")
+        # 选择“给个红包2”联系人进行转发
+        sc.click_one_contact("给个红包2")
+        sc.click_sure_forward()
+        flag = sc.is_toast_exist("已转发")
+        self.assertTrue(flag)
+        time.sleep(1)
+        # 返回消息页面
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        flag = sc.is_toast_exist("给个红包2")
+        self.assertTrue(flag)
+        flag = sc.is_toast_exist("哈哈0142")
+        self.assertTrue(flag)
+        mess = MessagePage()
+        mess.selecting_one_group_click_by_name("给个红包2")
+        time.sleep(1)
+        flag = sc.is_toast_exist("哈哈0142")
+        self.assertTrue(flag)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0143(self):
+        """在聊天会话页面，长按文本消息——转发——选择最近聊天"""
+        # 1、长按文本消息，选择转发功能，跳转到联系人选择器页面
+        # 2、选择最近聊天，确认转发，会在消息列表，重新产生一个新的会话窗口或者在已有窗口中增加一条记录
+        # 3、进入到聊天会话窗口页面，转发的消息，已发送成功并正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        # group_name = "ag" + phone_number[-4:]
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0143")
+        gcp.send_message()
+        # 长按信息并点击转发
+        gcp.press_file_to_do("哈哈0143", "转发")
+        sc = SelectContactsPage()
+        sc.wait_for_page_local_contact_load()
+        # 选择手机联系人
+        # sc.click_text("选择手机联系人")
+        # 选择“给个红包2”联系人进行转发
+        sc.click_one_contact("给个红包2")
+        sc.click_sure_forward()
+        flag = sc.is_toast_exist("已转发")
+        self.assertTrue(flag)
+        time.sleep(1)
+        # 返回消息页面
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        flag = sc.is_toast_exist("给个红包2")
+        self.assertTrue(flag)
+        flag = sc.is_toast_exist("哈哈0143")
+        self.assertTrue(flag)
+        mess = MessagePage()
+        mess.selecting_one_group_click_by_name("给个红包2")
+        time.sleep(1)
+        flag = sc.is_toast_exist("哈哈0143")
+        self.assertTrue(flag)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0144(self):
+        """在聊天会话页面，长按文本消息——收藏"""
+        # 1、长按文本消息，选择收藏功能，收藏成功后，弹出toast提示：已收藏
+        # 2、在我的页面，点击收藏入口，检查刚收藏的消息内容，可以正常展示出来
+        # 3、点击收藏成功的消息体，可以进入到消息展示详情页面
+        # 4、左滑收藏消息体，会展示删除按钮
+        # 5、点击删除按钮，可以删除收藏的消息体
+        gcp = GroupChatPage()
+        gcp.click_back()
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0144")
+        gcp.send_message()
+        # 长按信息并点击转发
+        gcp.press_file_to_do("哈哈0144", "收藏")
+        flag = gcp.is_toast_exist("已收藏")
+        self.assertTrue(flag)
+        time.sleep(1)
+        # 返回消息页面
+        gcp.click_back()
+        time.sleep(1)
+        # 进入我页面
+        mess = MessagePage()
+        mess.open_me_page()
+        me = MePage()
+        me.click_collection2()
+        time.sleep(1)
+        if not me.is_text_present("哈哈0144"):
+            raise AssertionError("收藏的消息内容不能正常展示出来")
+        mcp = MeCollectionPage()
+        mcp.click_text("哈哈0144")
+        time.sleep(1)
+        # 收藏内容展示列表，点击收藏内容，会跳转到收藏内容详情页面
+        if not mcp.is_text_present("详情"):
+            raise AssertionError("不能进入到消息展示详情页面")
+        # 返回收藏列表
+        mcp.click_back_by_android()
+        time.sleep(1)
+        # 左滑收藏消息体
+        mcp.press_and_move_left()
+        time.sleep(1)
+        # 判断是否有删除按钮
+        if mcp.is_delete_element_present():
+            mcp.click_delete_collection()
+            mcp.click_sure_forward()
+            if not mcp.is_toast_exist("取消收藏成功"):
+                raise AssertionError("不可以删除收藏的消息体")
+            time.sleep(1)
+            mcp.click_back()
+            mess.open_message_page()
+        else:
+            raise AssertionError("没有删除收藏按钮")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0145(self):
+        """企业群，发送文本消息——已读状态——已读分类展示"""
+        # 1、在输入框录入内容，然后点击发送按钮，进行发送，发送成功后的消息体下方会展示：已读动态，4个字的文案
+        # 2、点击下方的已读动态，会跳转页面已读动态详情页面
+        # 3、在已读动态详情页面，已读分类会展示，已读此条消息的用户信息并且点击其头像可以跳转到个人profile页面
+        gcp = GroupChatPage()
+        gcp.click_back()
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0145")
+        gcp.send_message()
+        time.sleep(1)
+        flag = gcp.is_toast_exist("已读动态")
+        self.assertTrue(flag)
+        # 点击"已读动态"
+        gcp.click_text("已读动态")
+        time.sleep(1)
+        if not gcp.is_text_present("未读"):
+            raise AssertionError("不能进入到已读动态详情页面")
+        hr = HasRead()
+        hr.wait_for_page_load()
+        hr.click_has_not_read()
+        # 如果有已读联系人，点击第一个
+        hr.click_first_contact()
+        cdp = ContactDetailsPage()
+        cdp.wait_for_page_load()
+        if not cdp.is_on_this_page():
+            raise RuntimeError('打开联系人详情页面出错')
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0146(self):
+        """企业群，发送文本消息——已读状态——未读分类展示"""
+        # 1、点击消息体下方的已读动态，跳转页面已读动态详情页面
+        # 2、在已读动态详情页面，未读分类会展示，未读此条消息的用户信息并且点击其头像可以跳转到个人profile页面
+        gcp = GroupChatPage()
+        gcp.click_back()
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0146")
+        gcp.send_message()
+        time.sleep(1)
+        flag = gcp.is_toast_exist("已读动态")
+        self.assertTrue(flag)
+        # 点击"已读动态"
+        gcp.click_text("已读动态")
+        time.sleep(1)
+        if not gcp.is_text_present("未读"):
+            raise AssertionError("不能进入到已读动态详情页面")
+        hr = HasRead()
+        hr.wait_for_page_load()
+        hr.click_has_not_read()
+        # 如果有已读联系人，点击第一个
+        hr.click_first_contact()
+        cdp = ContactDetailsPage()
+        cdp.wait_for_page_load()
+        if not cdp.is_on_this_page():
+            raise RuntimeError('打开联系人详情页面出错')
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0147(self):
+        """企业群，发送语音消息——已读状态——已读分类"""
+        # 1、点击语音按钮，设置模式后，开始录制，输入框中识别出内容后，点击发送按钮，进行发送，发送成功后的消息体下方是否会展示：已读动态，4个字的文案
+        # 2、点击下方的已读动态，是否会跳转页面已读动态详情页面
+        # 3、在已读动态详情页面，已读分类是否会展示，已读此条消息的用户信息并且点击其头像可以跳转到个人profile页面
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        gcp.click_audio_btn()
+        audio = ChatAudioPage()
+        if audio.wait_for_audio_type_select_page_load():
+            # 点击只发送语音模式
+            audio.click_only_voice()
+            audio.click_sure()
+        # 权限申请允许弹窗判断
+        time.sleep(1)
+        if gcp.is_text_present("允许"):
+            audio.click_allow()
+        time.sleep(3)
+        audio.click_send_bottom()
+        # 验证是否发送成功
+        cwp = ChatWindowPage()
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        # 点击下方的已读动态，会跳转页面已读动态详情页面
+        if gcp.is_exist_msg_has_read_icon():
+            gcp.click_has_read_icon()
+            time.sleep(1)
+            exist = gcp.is_text_present("已读动态")
+            self.assertEqual(exist, True)
+            hr = HasRead()
+            hr.wait_for_page_load()
+            hr.click_has_not_read()
+            # 如果有已读联系人，点击第一个
+            hr.click_first_contact()
+            cdp = ContactDetailsPage()
+            cdp.wait_for_page_load()
+            if not cdp.is_on_this_page():
+                raise RuntimeError('打开联系人详情页面出错')
+        else:
+            raise RuntimeError('没有找到[已读动态]标识')
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0148(self):
+        """企业群，发送语音消息——已读状态——未读分类"""
+        # 1、点击消息体下方的已读动态，跳转页面已读动态详情页面
+        # 2、在已读动态详情页面，未读分类是否会展示，未读此条消息的用户信息并且点击其头像可以跳转到个人profile页面
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        gcp.click_audio_btn()
+        audio = ChatAudioPage()
+        if audio.wait_for_audio_type_select_page_load():
+            # 点击只发送语音模式
+            audio.click_only_voice()
+            audio.click_sure()
+        # 权限申请允许弹窗判断
+        time.sleep(1)
+        if gcp.is_text_present("允许"):
+            audio.click_allow()
+        time.sleep(3)
+        audio.click_send_bottom()
+        # 验证是否发送成功
+        cwp = ChatWindowPage()
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        # 点击下方的已读动态，会跳转页面已读动态详情页面
+        if gcp.is_exist_msg_has_read_icon():
+            gcp.click_has_read_icon()
+            time.sleep(1)
+            exist = gcp.is_text_present("已读动态")
+            self.assertEqual(exist, True)
+            hr = HasRead()
+            hr.wait_for_page_load()
+            hr.click_has_not_read()
+            # 如果有已读联系人，点击第一个
+            hr.click_first_contact()
+            cdp = ContactDetailsPage()
+            cdp.wait_for_page_load()
+            if not cdp.is_on_this_page():
+                raise RuntimeError('打开联系人详情页面出错')
+        else:
+            raise RuntimeError('没有找到[已读动态]标识')
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0149(self):
+        """企业群，发送表情消息——已读状态——已读分类"""
+        # 1、在输入框右边的表情图标，展示表情列表，任意点击选中几个表情展示到输入框中，然后点击发送按钮，进行发送，发送成功后的消息体下方是否会展示：已读动态，4个字的文案
+        # 2、点击下方的已读动态，是否会跳转页面已读动态详情页面
+        # 3、在已读动态详情页面，已读分类是否会展示，已读此条消息的用户信息并且点击其头像可以跳转到个人profile页面
+        gcp = GroupChatPage()
+        gcp.click_back()
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("[微笑1]")
+        gcp.send_message()
+        time.sleep(1)
+        flag = gcp.is_toast_exist("已读动态")
+        self.assertTrue(flag)
+        # 点击"已读动态"
+        gcp.click_text("已读动态")
+        time.sleep(1)
+        if not gcp.is_text_present("未读"):
+            raise AssertionError("不能进入到已读动态详情页面")
+        hr = HasRead()
+        hr.wait_for_page_load()
+        hr.click_has_not_read()
+        # 如果有已读联系人，点击第一个
+        hr.click_first_contact()
+        cdp = ContactDetailsPage()
+        cdp.wait_for_page_load()
+        if not cdp.is_on_this_page():
+            raise RuntimeError('打开联系人详情页面出错')
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0150(self):
+        """企业群，发送表情消息——已读状态——未读分类"""
+        # 1、点击消息体下方的已读动态，跳转页面已读动态详情页面
+        # 2、在已读动态详情页面，未读分类是否会展示，未读此条消息的用户信息并且点击其头像可以跳转到个人profile页面
+        gcp = GroupChatPage()
+        gcp.click_back()
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("[微笑1]")
+        gcp.send_message()
+        time.sleep(1)
+        flag = gcp.is_toast_exist("已读动态")
+        self.assertTrue(flag)
+        # 点击"已读动态"
+        gcp.click_text("已读动态")
+        time.sleep(1)
+        if not gcp.is_text_present("未读"):
+            raise AssertionError("不能进入到已读动态详情页面")
+        hr = HasRead()
+        hr.wait_for_page_load()
+        hr.click_has_not_read()
+        # 如果有已读联系人，点击第一个
+        hr.click_first_contact()
+        cdp = ContactDetailsPage()
+        cdp.wait_for_page_load()
+        if not cdp.is_on_this_page():
+            raise RuntimeError('打开联系人详情页面出错')
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0158(self):
+        """群聊天会话页面——输入框输入@字符——@联系人"""
+        # 1、在群聊天会话窗口
+        # 2、在输入框中，输入@字符，是否会调起联系人选择器页面
+        # 3、选择一个联系人后，是否会自动返回到聊天会话页面并且在输入框中展示选中联系人的信息
+        # 4、点击右边的发送按钮，发送出去后，被@的联系人是否会在消息列表收到@提示 ？双机
+        gcp = GroupChatPage()
+        gcp.click_back()
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 输入消息
+        gcp.input_text_message("@")
+        result = gcp.is_text_present("选择群成员")
+        self.assertEqual(result, True)
+        gcp.click_text("大佬1")
+        time.sleep(1)
+        result = gcp.is_text_present("测试企业群")
+        self.assertEqual(result, True)
+        result = gcp.is_text_present("@大佬1")
+        self.assertEqual(result, True)
+        # 发送消息
+        gcp.send_message()
+        gcp.click_back_by_android()
+        time.sleep(1)
+        result = gcp.is_text_present("@大佬1")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0162(self):
+        """普通群聊天会话页面——自己@自己"""
+        # 1、在输入框输入@符号，跳转到的联系人选择页面，用户本身不会展示出来
+        # 2、在聊天会话页面长按自己，不可以发起@操作
+        gcp = GroupChatPage()
+        # gcp.click_back()
+        # Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 输入消息
+        gcp.input_text_message("@")
+        time.sleep(1)
+        result = gcp.is_text_present("选择群成员")
+        self.assertEqual(result, True)
+        # 列表不包含自己
+        scp = SelectContactsPage()
+        result = scp.is_exsit_group_member()
+        self.assertEqual(result, True)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        # 发送消息
+        gcp.input_text_message("0162")
+        gcp.send_message()
+        time.sleep(2)
+        # 长按头像
+        gsm = GlobalSearchMessagePage()
+        gsm.press_head_icon()
+        time.sleep(3)
+        result = gcp.is_text_present("@")
+        self.assertEqual(result, False)
+
+
+    @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0204(self):
         """
             消息列表——长按——删除会话窗口
@@ -1724,7 +2346,92 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.set_network_status(6)
 
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0265(self):
+        """已读动态——“已读动态”标识"""
+        # 1、全部消息皆正常
+        gcp = GroupChatPage()
+        gcp.click_back()
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0265")
+        gcp.send_message()
+        time.sleep(1)
+        flag = gcp.is_toast_exist("已读动态")
+        self.assertTrue(flag)
 
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0266(self):
+        """已读动态——“已读动态”标识——已读/未读成员列表"""
+        # 1、正常进入
+        # 2、人数正常
+        # 3、成员数据展示正常
+        # 4、正常进入
+        gcp = GroupChatPage()
+        gcp.click_back()
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0266")
+        gcp.send_message()
+        time.sleep(1)
+        flag = gcp.is_toast_exist("已读动态")
+        self.assertTrue(flag)
+        # 点击"已读动态"
+        gcp.click_text("已读动态")
+        time.sleep(1)
+        if not gcp.is_text_present("未读"):
+            raise AssertionError("不能进入到已读动态详情页面")
+        if not gcp.is_text_present("(0)"):
+            raise AssertionError("人数错误")
+        if not gcp.is_text_present("(2)"):
+            raise AssertionError("人数错误")
+        hr = HasRead()
+        hr.wait_for_page_load()
+        hr.click_has_not_read()
+        result = gcp.is_toast_exist("大佬1")
+        self.assertTrue(result)
+        # 如果有已读联系人，点击第一个
+        hr.click_first_contact()
+        cdp = ContactDetailsPage()
+        cdp.wait_for_page_load()
+        if not cdp.is_on_this_page():
+            raise RuntimeError('打开联系人详情页面出错')
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0268(self):
+        """已读动态——“已读动态”标识——已读/未读成员列表——进入个人profile页"""
+        # 1.未在个人本地通讯录成员profile页：保存到通讯录
+        # 2.已在个人本地通讯录成员profile页:全部正常显示且功能正常
+        gcp = GroupChatPage()
+        gcp.click_back()
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_text_message("哈哈0268")
+        gcp.send_message()
+        time.sleep(1)
+        flag = gcp.is_toast_exist("已读动态")
+        self.assertTrue(flag)
+        # 点击"已读动态"
+        gcp.click_text("已读动态")
+        time.sleep(1)
+        hr = HasRead()
+        hr.wait_for_page_load()
+        # 点击 "未读"tab
+        hr.click_has_not_read()
+        # 如果有已读联系人，点击第一个
+        hr.click_first_contact()
+        cdp = ContactDetailsPage()
+        cdp.wait_for_page_load()
+        if not cdp.is_on_this_page():
+            raise RuntimeError('打开联系人详情页面出错')
+        if gcp.is_toast_exist("保存到通讯录"):
+            gcp.click_text("保存到通讯录")
+        else:
+            flag = gcp.is_toast_exist("邀请使用")
+            self.assertTrue(flag)
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_hanjiabin_0057(self):

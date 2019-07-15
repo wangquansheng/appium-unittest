@@ -3270,3 +3270,508 @@ class CallMultipartyVideo(TestCase):
         cpg.click_element_("多方视频接听")
         time.sleep(3)
         cpg.click_element_("结束双人视频")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_shenlisi_0249(self):
+        """检查发起视频通话--被叫接通后挂断"""
+        # 1.用户B在视频通话界面电话“挂断”按钮
+        # 2.用户A查看通话界面
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess = MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_multi_party_video()
+        mppg = MultiPartyVideoPage()
+        time.sleep(2)
+        sc = SelectContactsPage()
+        sc.input_search_keyword(phone_number)
+        time.sleep(2)
+        sc.click_text("tel")
+        time.sleep(2)
+        mppg.click_tv_sure()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(1)
+        if cpg.is_text_present("现在去开启"):
+            cpg.click_text("暂不开启")
+            time.sleep(2)
+        cpg.click_element_("多方视频接听")
+        time.sleep(3)
+        cpg.click_element_("结束双人视频")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_shenlisi_0250(self):
+        """检查发起视频通话--被叫拒接"""
+        # 1.用户B点击视频邀请界面的“挂断”按钮
+        # 2.用户A查看呼叫界面
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess = MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_multi_party_video()
+        mppg = MultiPartyVideoPage()
+        time.sleep(2)
+        sc = SelectContactsPage()
+        sc.input_search_keyword(phone_number)
+        time.sleep(2)
+        sc.click_text("tel")
+        time.sleep(2)
+        mppg.click_tv_sure()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(1)
+        if cpg.is_text_present("现在去开启"):
+            cpg.click_text("暂不开启")
+            time.sleep(2)
+        cpg.click_element_("多方视频挂断")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_shenlisi_0252(self):
+        """检查视频通话中--被叫接通主叫挂断"""
+        # 1.用户A点击视频呼叫界面的“挂断”按钮
+        # 2.用户B查看邀请界面
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess = MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_multi_party_video()
+        mppg = MultiPartyVideoPage()
+        time.sleep(2)
+        sc = SelectContactsPage()
+        sc.input_search_keyword(phone_number)
+        time.sleep(2)
+        sc.click_text("tel")
+        time.sleep(2)
+        mppg.click_tv_sure()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(1)
+        if cpg.is_text_present("现在去开启"):
+            cpg.click_text("暂不开启")
+            time.sleep(2)
+        cpg.click_element_("多方视频接听")
+        Preconditions.select_mobile('Android-移动')
+        time.sleep(3)
+        cpg.click_element_("结束双人视频")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_shenlisi_0256(self):
+        """检查主叫发起视频通话转语音通话"""
+        # 1.用户A点击“切换到语音”按钮
+        # 2.用户B查看视频通话界面
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess = MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_multi_party_video()
+        mppg = MultiPartyVideoPage()
+        time.sleep(2)
+        sc = SelectContactsPage()
+        sc.input_search_keyword(phone_number)
+        time.sleep(2)
+        sc.click_text("tel")
+        time.sleep(2)
+        mppg.click_tv_sure()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(1)
+        if cpg.is_text_present("现在去开启"):
+            cpg.click_text("暂不开启")
+            time.sleep(2)
+        cpg.click_element_("多方视频接听")
+        Preconditions.select_mobile('Android-移动')
+        time.sleep(3)
+        cpg.click_element_("切换到语音")
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(3)
+        cpg.click_element_("语音通话结束按钮")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_shenlisi_0257(self):
+        """检查被叫发起视频通话转视语音通话"""
+        # 1.用户B点击“切换到语音”按钮
+        # 2.用户A查看视频通话界面
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess = MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_multi_party_video()
+        mppg = MultiPartyVideoPage()
+        time.sleep(2)
+        sc = SelectContactsPage()
+        sc.input_search_keyword(phone_number)
+        time.sleep(2)
+        sc.click_text("tel")
+        time.sleep(2)
+        mppg.click_tv_sure()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(1)
+        if cpg.is_text_present("现在去开启"):
+            cpg.click_text("暂不开启")
+            time.sleep(2)
+        cpg.click_element_("多方视频接听")
+        time.sleep(3)
+        cpg.click_element_("切换到语音")
+        Preconditions.select_mobile('Android-移动')
+        time.sleep(3)
+        cpg.click_element_("语音通话结束按钮")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_shenlisi_0258(self):
+        """检查视频通话--通话界面切换摄像头"""
+        # 1.用户A点击“切换摄像头”按钮
+        # 2.用户B点击“切换摄像头”按钮
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess = MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_multi_party_video()
+        mppg = MultiPartyVideoPage()
+        time.sleep(2)
+        sc = SelectContactsPage()
+        sc.input_search_keyword(phone_number)
+        time.sleep(2)
+        sc.click_text("tel")
+        time.sleep(2)
+        mppg.click_tv_sure()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(1)
+        if cpg.is_text_present("现在去开启"):
+            cpg.click_text("暂不开启")
+            time.sleep(2)
+        cpg.click_element_("多方视频接听")
+        time.sleep(3)
+        cpg.click_element_("切换摄像头")
+        Preconditions.select_mobile('Android-移动')
+        time.sleep(3)
+        cpg.click_element_("切换摄像头")
+        time.sleep(2)
+        cpg.click_element_("结束双人视频")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_shenlisi_0260(self):
+        """检查视频通话--通话界面静音按钮"""
+        # 1.A点击“静音”按钮
+        # 2.A对方开始通话
+        # 3.用户B听对方的讲话的声音
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess = MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_multi_party_video()
+        mppg = MultiPartyVideoPage()
+        time.sleep(2)
+        sc = SelectContactsPage()
+        sc.input_search_keyword(phone_number)
+        time.sleep(2)
+        sc.click_text("tel")
+        time.sleep(2)
+        mppg.click_tv_sure()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(1)
+        if cpg.is_text_present("现在去开启"):
+            cpg.click_text("暂不开启")
+            time.sleep(2)
+        cpg.click_element_("多方视频接听")
+        time.sleep(3)
+        Preconditions.select_mobile('Android-移动')
+        time.sleep(3)
+        cpg.click_element_("话筒开关按钮")
+        time.sleep(3)
+        cpg.click_element_("结束双人视频")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zengxi_0003(self):
+        """主叫在语音通话中，消息页支持语音通话入口功能"""
+        # 1.在拨号盘输入11位号码，发起语音通话呼叫，被叫接通，然后点击：缩小按钮
+        # 2.返回到消息列表页，查看界面显示
+        # 3.点击正在通话入口（整个蓝条可以进入）
+        # 4.被叫点击挂断，查看主叫界面显示。
+        # 5.返回消息列表（作为被叫消息入口显示操作也正常）
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess=MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_element_("拨号盘")
+        for num in phone_number:
+            cpg.click_element_(num)
+            time.sleep(2)
+        cpg.click_element_("拨打电话按键")
+        time.sleep(2)
+        cpg.click_text("语音通话")
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(2)
+        if cpg.is_text_present("始终允许"):
+            cpg.click_text("始终允许")
+        time.sleep(2)
+        if cpg.is_text_present("始终允许"):
+            cpg.click_text("始终允许")
+        time.sleep(2)
+        if cpg.is_text_present("暂不开启"):
+            cpg.click_text("暂不开启")
+        time.sleep(2)
+        cpg.click_element_("语音通话接受按钮")
+        time.sleep(3)
+        cpg.click_element_("语音通话缩放按钮")
+        time.sleep(2)
+        if not mess.is_on_this_page():
+            raise AssertionError("缩放按钮不可用")
+        time.sleep(2)
+        cpg.click_text("你正在语音通话")
+        time.sleep(3)
+        cpg.click_element_("语音通话结束按钮")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zengxi_0007(self):
+        """主叫在视频通话中，消息页支持视频通话入口功能"""
+        # 1.在单聊会话窗口，发起视频通话呼叫，被叫接通，然后点击：缩小按钮
+        # 2.返回到消息列表页，查看界面显示
+        # 3.点击正在通话入口（整个蓝条可以进入）
+        # 4.被叫点击挂断，查看主叫界面显示。
+        # 5.返回消息列表（作为被叫消息入口显示操作也正常）
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess = MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_multi_party_video()
+        mppg = MultiPartyVideoPage()
+        time.sleep(2)
+        sc = SelectContactsPage()
+        sc.input_search_keyword(phone_number)
+        time.sleep(2)
+        sc.click_text("tel")
+        time.sleep(2)
+        mppg.click_tv_sure()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(1)
+        if cpg.is_text_present("现在去开启"):
+            cpg.click_text("暂不开启")
+            time.sleep(2)
+        cpg.click_element_("多方视频接听")
+        time.sleep(3)
+        cpg.click_element_("视频通话缩放按钮")
+        time.sleep(2)
+        if not mess.is_on_this_page():
+            raise AssertionError("缩放按钮不可用")
+        time.sleep(2)
+        cpg.click_text("视频通话")
+        time.sleep(3)
+        cpg.click_element_("结束双人视频")
+
+    @staticmethod
+    def setUp_test_call_zengxi_0011():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zengxi_0011(self):
+        """主叫在多方视频通话中，消息页支持多方视频通话入口功能"""
+        # 1.在群聊会话窗口，发起多方视频通话呼叫，被叫接通，然后点击：缩小按钮
+        # 2.返回到消息列表页，查看界面显示
+        # 3.点击正在通话入口（整个蓝条可以进入）
+        # 4.主叫点击挂断，查看主叫界面显示。
+        # 5.返回消息列表（作为被叫消息入口显示操作也正常）
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_mutilcall()
+        time.sleep(2)
+        gcp.click_text("多方视频")
+        # 选择联系人
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        names = slc.get_contacts_name()
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_text("呼叫")
+        time.sleep(3)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        # gcp.pick_up_the_call()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(3)
+        if gcp.is_text_present("始终允许"):
+            gcp.click_text("始终允许")
+        time.sleep(2)
+        if gcp.is_text_present("始终允许"):
+            gcp.click_text("始终允许")
+        time.sleep(2)
+        if gcp.is_text_present("暂不开启"):
+            gcp.click_text("暂不开启")
+        time.sleep(2)
+        gcp.click_element_("多方视频接听")
+        time.sleep(3)
+        cpg = CallPage()
+        cpg.click_element_("多方视频缩放按钮")
+        time.sleep(2)
+        mess=MessagePage()
+        if not mess.is_on_this_page():
+            raise AssertionError("缩放按钮不可用")
+        time.sleep(2)
+        cpg.click_text("多方视频")
+        time.sleep(2)
+        Preconditions.select_mobile('Android-移动')
+        time.sleep(1)
+        gcp.click_element_("结束多方视频")
+        time.sleep(2)
+        gcp.click_element_("确定移除")
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_zengxi_0015(self):
+        """主叫在多方电话通话中，消息页支持多方电话通话入口功能"""
+        # 1.在通话发起多方电话呼叫，接通系统回呼进入会控界面，被叫接通，然后点击：缩小按钮
+        # 2.返回到消息列表页，查看界面显示
+        # 3.点击正在通话入口（整个蓝条可以进入）
+        # 4.主叫点击挂断，查看主叫界面显示。
+        # 5.返回消息列表
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        mess=MessagePage()
+        mess.open_call_page()
+        cpg = CallPage()
+        time.sleep(2)
+        if not cpg.is_element_exit_("多方视频图标"):
+            print("通话模块权限没有开通，请开通后重试")
+            return
+        cpg.click_element_("拨号盘")
+        for num in phone_number:
+            cpg.click_element_(num)
+            time.sleep(2)
+        cpg.click_element_("拨打电话按键")
+        time.sleep(2)
+        cpg.click_text("语音通话")
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(2)
+        if cpg.is_text_present("始终允许"):
+            cpg.click_text("始终允许")
+        time.sleep(2)
+        if cpg.is_text_present("始终允许"):
+            cpg.click_text("始终允许")
+        time.sleep(2)
+        if cpg.is_text_present("暂不开启"):
+            cpg.click_text("暂不开启")
+        time.sleep(2)
+        cpg.click_element_("语音通话接受按钮")
+        time.sleep(3)
+        cpg.click_element_("语音通话缩放按钮")
+        time.sleep(2)
+        if not mess.is_on_this_page():
+            raise AssertionError("缩放按钮不可用")
+        time.sleep(2)
+        cpg.click_text("语音通话")
+        time.sleep(3)
+        Preconditions.select_mobile('Android-移动')
+        cpg.click_element_("语音通话结束按钮")
+
+    @staticmethod
+    def setUp_test_call_wangqiong_0402():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_wangqiong_0402(self):
+        """成功创建会场成功后（12560回呼接通）编辑拒接的、被叫正在通话的、未接听的成员信息"""
+        # 1、在和飞信入口（各入口），发起呼叫和飞信，成功创建会场时，进入会控页，点击拒接的、被叫正在通话的、未接听的成员头像
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_mutilcall()
+        time.sleep(2)
+        gcp.click_text("免费")
+        # 选择联系人
+        slc = SelectLocalContactsPage()
+        names = slc.get_contacts_name()
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_text("呼叫")
+        time.sleep(3)
+        if gcp.is_text_present("我知道了"):
+            gcp.click_text("我知道了")
+        if gcp.is_text_present("始终允许"):
+            gcp.click_text("始终允许")
+        time.sleep(8)
+        if not gcp.is_phone_in_calling_state():
+            raise AssertionError("没有出现通话界面")
+        gcp.pick_up_the_call()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(10)
+        if not gcp.is_phone_in_calling_state():
+            raise AssertionError("没有成功发起呼叫")
+        gcp.hang_up_the_call()
+        Preconditions.select_mobile('Android-移动')
+        gcp.hang_up_the_call()
