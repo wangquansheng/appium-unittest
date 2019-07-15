@@ -28,6 +28,7 @@ class ChatPicPreviewPage(BasePage):
                   '选择': (MobileBy.ID, ''),
                   '原图': (MobileBy.ID, 'com.chinasofti.rcs:id/cb_original_photo'),
                   '发送(2)': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_send'),
+                  '发送': (MobileBy.XPATH, "//*[contains(@text, '发送')]"),
                   # 视频预览页面
                   '视频播放三角形': (MobileBy.ID, 'com.chinasofti.rcs:id/pv_item'),
                   '视频页面': (MobileBy.ID, 'com.chinasofti.rcs:id/vp_preview'),
@@ -142,6 +143,13 @@ class ChatPicPreviewPage(BasePage):
     def click_send(self, times=3):
         """点击发送"""
         self.click_element(self.__class__.__locators["发送(2)"])
+        # 发送图片需要时间
+        time.sleep(times)
+
+    @TestLogger.log()
+    def click_picture_send(self, times=3):
+        """点击发送"""
+        self.click_element(self.__class__.__locators["发送"])
         # 发送图片需要时间
         time.sleep(times)
 

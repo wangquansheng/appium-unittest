@@ -67,6 +67,8 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
         '表情按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_expression'),
         'gif按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_gif'),
         '指定1_gif表情': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.HorizontalScrollView/android.widget.LinearLayout/android.widget.ImageView[1]'),
+        '位置': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="位置"]'),
+
     }
 
     @TestLogger.log('')
@@ -304,4 +306,9 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
         if len(el) > 0:
             return False
         return True
+
+    @TestLogger.log()
+    def click_location(self):
+        """点击位置 """
+        self.click_element(self.__class__.__locators['位置'])
 

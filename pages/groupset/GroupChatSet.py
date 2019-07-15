@@ -85,6 +85,7 @@ class GroupChatSetPage(BasePage):
                   '输入关键词快速搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/edit_query'),
 
                   '删除联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_delete_contact'),
+                  '群成员头像': (MobileBy.ID, 'com.chinasofti.rcs:id/head_tv'),
                   }
 
     @TestLogger.log("获取控件数量")
@@ -656,3 +657,8 @@ class GroupChatSetPage(BasePage):
         except:
             pass
         return self
+
+    @TestLogger.log()
+    def group_member_avatar_is_exist(self):
+        """群成员头像存在性校验"""
+        return self.page_should_contain_element(self.__class__.__locators['群成员头像'])

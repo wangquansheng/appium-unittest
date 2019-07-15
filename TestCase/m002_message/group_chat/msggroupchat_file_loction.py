@@ -2622,6 +2622,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         slcp.click_search_box()
         # 3.在搜索框输入多种字符点击搜索到的手机联系人
         slcp.search_and_select_contact("大佬1")
+        gcp.wait_for_page_load()
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
         time.sleep(1)
@@ -3063,6 +3064,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.click_search_team_contacts()
         # 6.点击确认转发
         shc.click_sure_forward()
+        gcp.wait_for_page_load()
         flag = gcp.is_toast_exist("已转发")
         if not flag:
             raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")

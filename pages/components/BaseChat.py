@@ -696,6 +696,15 @@ class BaseChatPage(BasePage):
         rect=els.rect
         return rect["width"]
 
+    @TestLogger.log()
+    def get_width_of_last_msg_of_text(self):
+        """获取最近一条聊天记录文本信息框的大小"""
+        time.sleep(1)
+        el = self.get_elements((MobileBy.ID,'com.chinasofti.rcs:id/tv_message'))[-1]
+        rect = el.rect
+        return rect["width"]
+
+
 
 
 
