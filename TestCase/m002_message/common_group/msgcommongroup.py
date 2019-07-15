@@ -7,7 +7,7 @@ from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.utils.testcasefilter import tags
-from pages import AgreementDetailPage, SelectHeContactsDetailPage, GroupListPage, ContactsPage
+from pages import AgreementDetailPage, SelectHeContactsDetailPage, GroupListPage, ContactsPage, ContactDetailsPage
 from pages import ChatAudioPage
 from pages import ChatMorePage
 from pages import ChatSelectFilePage
@@ -29,6 +29,7 @@ from pages import SelectLocalContactsPage
 from pages import SelectOneGroupPage
 from pages import SingleChatPage
 from pages.chat.ChatGroupAddContacts import ChatGroupAddContactsPage
+from pages.groupset import GroupChatSetSeeMembersPage
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -550,6 +551,40 @@ class Preconditions(object):
         if not app_id:
             app_id = current_mobile().driver.desired_capabilities['appPackage']
         current_mobile().driver.activate_app(app_id)
+
+    @staticmethod
+    def get_into_group_chat_page(name):
+        """进入群聊聊天会话页面"""
+
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        # 点击 +
+        mp.click_add_icon()
+        # 点击发起群聊
+        mp.click_group_chat()
+        scg = SelectContactsPage()
+        times = 15
+        n = 0
+        # 重置应用时需要再次点击才会出现选择一个群
+        while n < times:
+            # 等待选择联系人页面加载
+            flag = scg.wait_for_page_load()
+            if not flag:
+                scg.click_back()
+                time.sleep(2)
+                mp.click_add_icon()
+                mp.click_group_chat()
+            else:
+                break
+            n += 1
+        scg.click_select_one_group()
+        sog = SelectOneGroupPage()
+        # 等待“选择一个群”页面加载
+        sog.wait_for_page_load()
+        # 选择一个普通群
+        sog.selecting_one_group_by_name(name)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
 
 class MsgCommonGroupTest(TestCase):
     """
@@ -11638,4 +11673,119 @@ class MsgCommonGroupAllTest(TestCase):
         glp.input_group_name("138138138")
         # 5.判断是否有匹配结果
         self.assertTrue(glp.is_exists_group_by_name("138138138"))
+        time.sleep(1)
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0468(self):
+        """在群聊设置页面——打开置顶聊天功能——背景色展示"""
+        # 1、网络正常
+        # 2、已登录和飞信
+        # 3、已加入普通群
+        # 4、置顶聊天开关，关闭状态
+        gcp = GroupChatPage()
+        gcp.input_message("测试")
+        gcp.send_message()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.page_up()
+        # 2.判断置顶聊天开关是否开启
+        if not gcsp.get_chat_set_to_top_switch_status():
+            gcsp.click_chat_set_to_top_switch()
+        time.sleep(1)
+        gcsp.click_back()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 3.给其他联系人发送一条消息，看群聊是否设置成功置顶
+        Preconditions.get_into_group_chat_page("群聊1")
+        gcp.input_message("群聊1：测试")
+        gcp.send_message()
+        # 4.返回到消息列表，当前打开置顶聊天功能的群聊是否成功置顶
+        gcp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        group_name = Preconditions.get_group_chat_name()
+        top_name = mess.get_top_news_name()
+        # 名字一致，则置顶成功
+        self.assertTrue(group_name, top_name)
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0471(self):
+        """群聊会话窗口——长按——删除消息"""
+        # 1、网络正常
+        # 2、已登录和飞信
+        # 3、已加入普通群
+        # 4、停留在群聊会话页面
+        gcp = GroupChatPage()
+        # 1.先删除聊天记录，以免影响后面验证消息是否删除
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.click_clear_chat_record()
+        gcsp.wait_clear_chat_record_confirmation_box_load()
+        gcsp.click_sure()
+        gcsp.click_back()
+        # 2.发送消息
+        info = "测试测试测试"
+        gcp.input_message(info)
+        gcp.send_message()
+        try:
+            gcp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        # 3.长按消息删除
+        gcp.press_last_message_to_do("删除")
+        # 4.验证消息是否删除
+        self.assertFalse(gcp.is_text_present(info))
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0052():
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        current_mobile().reset_app()
+        Preconditions.enter_group_chat_page()
+
+    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    def test_msg_xiaoqiu_0052(self):
+        """在聊天会话页面，长按文本消息——转发——选择选择团队联系人"""
+        gcp = GroupChatPage()
+        info = "测试测试测试"
+        # 1.发送消息
+        gcp.input_message(info)
+        gcp.send_message()
+        try:
+            gcp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        # 2.长按消息转发
+        gcp.press_last_message_to_do("转发")
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        # 3.点击“选择团队联系人”菜单
+        scp.click_he_contacts()
+        shc = SelectHeContactsDetailPage()
+        shc.wait_for_he_contacts_page_load()
+        # 4.在搜索框输入团队联系人
+        shc.input_search("大佬1")
+        # 5.点击搜索的团队联系人
+        shc.click_search_team_contacts()
+        # 6.点击确认转发
+        shc.click_sure_forward()
+        gcp.wait_for_page_load()
+        # 7.判断是否发送成功
+        flag = gcp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not gcp.is_on_this_page():
+            raise AssertionError("当前页面不在群聊页面")
+        # 8.返回消息页面判断是否有新的会话窗口
+        gcp.click_back()
+        if scp.is_on_this_page():
+            scp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        time.sleep(3)
+        self.assertTrue(mess.is_text_present("大佬1"))
         time.sleep(1)

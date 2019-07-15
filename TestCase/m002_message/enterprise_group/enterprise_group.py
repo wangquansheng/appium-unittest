@@ -822,7 +822,7 @@ class MsgEnterpriseGroupChatAllTest(TestCase):
         Preconditions.get_into_group_chat_page("测试企业群")
         gcp = GroupChatPage()
         # 2.输入信息
-        gcp.input_message("测试超长文字测试超长文字测试超长文字")
+        gcp.input_message("测试测试测试测试测试测试测试测试测试测试测试测试测试")
         # 3.点击发送
         gcp.send_message()
         # 4.验证是否发送成功

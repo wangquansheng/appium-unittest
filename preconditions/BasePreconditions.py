@@ -177,6 +177,9 @@ class LoginPreconditions(object):
         contacts.wait_for_page_load()
         contacts.click_tel_contacts_631()
         time.sleep(3)
+        # if contacts.is_text_present("显示"):
+        #     contacts.click_text("显示")
+        contacts.click_sim_contact_ok()
         names = contacts.get_contacts_name()
         if '本机' in names:
             names.remove('本机')
