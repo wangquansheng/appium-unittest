@@ -11366,7 +11366,7 @@ class MsgCommonGroupAllTest(TestCase):
         # 5、通讯录-群聊
         mess = MessagePage()
         # 1.点击通讯录
-        mess.click_contacts()
+        mess.click_contacts_only()
         contact = ContactsPage()
         if contact.is_text_present('始终允许'):
             contact.click_text('始终允许')
@@ -11919,6 +11919,73 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(1)
         gcp = GroupChatPage()
         gcp.wait_for_page_load()
-        # 6.判断是否在群聊页面
+        # 7.判断是否在群聊页面
         self.assertTrue(gcp.is_on_this_page())
         time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0300():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊1")
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0300(self):
+        """消息列表——长按——删除会话窗口"""
+        # 1、网络正常
+        # 2、已登录和飞信
+        # 3、消息列表存在会话窗口
+        # 4、android端
+        gcp = GroupChatPage()
+        # 1.发送消息，确保在消息页面可以看到
+        info = "哈哈哈哈"
+        gcp.input_message(info)
+        gcp.send_message()
+        try:
+            gcp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        # 2.点击返回消息页面
+        gcp.click_back()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            pass
+        else:
+            scp = SelectContactsPage()
+            scp.click_back()
+        # 3.长按指定群名消息
+        mess.selecting_one_group_press_by_name("群聊1")
+        # 4.点击删除
+        mess.press_groupname_to_do("删除聊天")
+        time.sleep(1)
+        # 5.重新进入群，查看是否存在聊天记录
+        Preconditions.get_into_group_chat_page("群聊1")
+        # 6.判断是否存在刚刚发发送文本消息
+        self.assertFalse(gcp.is_exists_message_by_text(info))
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0314(self):
+        """群聊设置页面——点击已保存在手机通讯录中——群成员头像"""
+        # 1、网络正常
+        # 2、已登录和飞信
+        # 3、已加入普通群
+        # 4、群聊设置页面
+        # 5、已保存到手机通讯录中的联系人
+        gcp = GroupChatPage()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击群成员头像
+        gcsp.click_group_member_avatar()
+        gcss = GroupChatSetSeeMembersPage()
+        gcss.wait_for_profile_page_load()
+        # 3.判断当前页面是否在群成员页面
+        if not gcss.is_text_present("编辑"):
+            raise AssertionError("当前页面没有跳转到到联系人的个人profile页")
+
+
+
+
+

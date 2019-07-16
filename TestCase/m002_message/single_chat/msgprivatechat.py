@@ -2268,3 +2268,4 @@ class MsgPrivateChatMyComputer(TestCase):
         clp.click_send()
         # 4.判断在消息聊天窗口是否展示缩略位置消息体
         self.assertTrue(cwp.is_address_text_present())
+

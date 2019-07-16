@@ -339,7 +339,7 @@ class Preconditions(WorkbenchPreconditions):
         """发送位置信息"""
         gcp = GroupChatPage()
         gcp.click_more()
-        time.sleep(1)
+        time.sleep(3)
         more_page = ChatMorePage()
         more_page.click_location()
         # 等待位置页面加载
@@ -2838,6 +2838,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         contact = ContactsPage()
         if contact.is_text_present('始终允许'):
             contact.click_text('始终允许')
+        contact.wait_for_page_load()
         contact.click_text("全部团队")
         if contact.is_text_present('始终允许'):
             contact.click_text('始终允许')
