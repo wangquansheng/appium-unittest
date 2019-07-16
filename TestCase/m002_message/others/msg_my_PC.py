@@ -1912,3 +1912,45 @@ class MsgXiaoQiu(TestCase):
         SelectContactsPage().search('999')
         time.sleep(3)
         self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0658(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入号码规则的6位数字——搜索"""
+        SelectContactsPage().search('138001')
+        time.sleep(3)
+        SelectHeContactsDetailPage().click_search_team_contacts()
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0659(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的6位数字——搜索"""
+        SelectContactsPage().search('123456')
+        time.sleep(3)
+        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0660(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入号码规则的11位数字——搜索"""
+        SelectContactsPage().search('13800137000')
+        time.sleep(3)
+        SelectHeContactsDetailPage().click_search_team_contacts()
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0661(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的11位数字——搜索"""
+        SelectContactsPage().search('12345678912')
+        time.sleep(3)
+        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0662(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的11位数字——搜索"""
+        SelectContactsPage().search('1234567891')
+        time.sleep(3)
+        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+
+    @tags('ALL', 'CMCC', 'MSG')
+    def test_msg_xiaoqiu_0663(self):
+        """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的12位数字——搜索"""
+        SelectContactsPage().search('123456789123')
+        time.sleep(3)
+        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))

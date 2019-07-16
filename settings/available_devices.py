@@ -693,7 +693,7 @@ DEVICES_CONFIG_DEBUG_YMS = {
 DEVICES_CONFIG_DEBUG_YX = {
     'M960BDQN229CH': {
         "MODEL": SupportedModel.HUAWEI_P20,
-        "SERVER_URL": 'http://127.0.0.1:4728/wd/hub',
+        "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
         "DEFAULT_CAPABILITY": {
             "platformName": "Android",
             "platformVersion": "9",
