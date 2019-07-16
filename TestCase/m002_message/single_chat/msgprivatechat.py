@@ -2439,3 +2439,104 @@ class MsgPrivateChatPicture(TestCase):
         if mess.is_iv_fail_status_present():
             raise AssertionError("消息列表显示消息发送失败标识")
 
+    @staticmethod
+    def setUp_test_msg_xiaoliping_C_0307():
+        """确保当前页面在标签分组会话页面"""
+        Preconditions.connect_mobile('Android-移动')
+        # 确保应用在消息页面
+        Preconditions.make_already_in_message_page()
+        # 确保当前消息列表没有消息发送失败的标识影响验证结果
+        Preconditions.make_no_message_send_failed_status()
+        # 进入标签分组会话页面
+        Preconditions.enter_label_grouping_chat_page()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoliping_C_0307(self):
+        """在会话窗口点击图片按钮进入相册，直接勾选原图，选择一张等于20M的照片进行发送"""
+        # 1、网络正常
+        # 2、当前在标签分组会话窗口页面
+        lgcp = LabelGroupingChatPage()
+        # 1.点击输入框左上方照片
+        lgcp.click_picture()
+        ps = PictureSelector()
+        time.sleep(1)
+        # 2.选择等于20M的图片
+        ps.switch_to_given_folder("pic2")
+        ps.select_items_by_given_orders(1)
+        cpp = ChatPicPreviewPage()
+        # 3.点击原图
+        cpp.click_original_photo()
+        # 4.点击发送
+        cpp.click_picture_send()
+        # 5.判断是否发送成功
+        lgcp.wait_for_msg_send_status_become_to("发送成功", 30)
+        time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_xiaoliping_C_0308():
+        """确保当前页面在标签分组会话页面"""
+        Preconditions.connect_mobile('Android-移动')
+        # 确保应用在消息页面
+        Preconditions.make_already_in_message_page()
+        # 确保当前消息列表没有消息发送失败的标识影响验证结果
+        Preconditions.make_no_message_send_failed_status()
+        # 进入标签分组会话页面
+        Preconditions.enter_label_grouping_chat_page()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoliping_C_0308(self):
+        """在会话窗口点击图片按钮进入相册，选择一张等于20M的照片，进入图片预览页面勾选原图，然后进行发送"""
+        # 1、网络正常
+        # 2、当前在标签分组会话窗口页面
+        lgcp = LabelGroupingChatPage()
+        # 1.点击输入框左上方照片
+        lgcp.click_picture()
+        ps = PictureSelector()
+        time.sleep(1)
+        # 2.选择等于20M的图片
+        ps.switch_to_given_folder("pic2")
+        ps.select_items_by_given_orders(1)
+        # 3.点击预览
+        ps.click_preview()
+        cpp = ChatPicPreviewPage()
+        # 4.点击原图
+        cpp.click_original_photo()
+        # 5.点击发送
+        cpp.click_picture_send()
+        # 6.判断是否发送成功
+        lgcp.wait_for_msg_send_status_become_to("发送成功", 30)
+        time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_xiaoliping_C_0309():
+        """确保当前页面在标签分组会话页面"""
+        Preconditions.connect_mobile('Android-移动')
+        # 确保应用在消息页面
+        Preconditions.make_already_in_message_page()
+        # 确保当前消息列表没有消息发送失败的标识影响验证结果
+        Preconditions.make_no_message_send_failed_status()
+        # 进入标签分组会话页面
+        Preconditions.enter_label_grouping_chat_page()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoliping_C_0309(self):
+        """在会话窗口点击图片按钮进入相册，直接勾选原图，选择一张小于20M的照片进行发送"""
+        # 1、网络正常
+        # 2、当前在标签分组会话窗口页面
+        lgcp = LabelGroupingChatPage()
+        # 1.点击输入框左上方照片
+        lgcp.click_picture()
+        ps = PictureSelector()
+        time.sleep(1)
+        # 2.选择小于20M的图片
+        ps.switch_to_given_folder("pic")
+        ps.select_items_by_given_orders(1)
+        cpp = ChatPicPreviewPage()
+        # 3.点击原图
+        cpp.click_original_photo()
+        # 4.点击发送
+        cpp.click_picture_send()
+        # 5.判断是否发送成功
+        lgcp.wait_for_msg_send_status_become_to("发送成功", 30)
+        time.sleep(2)
+
