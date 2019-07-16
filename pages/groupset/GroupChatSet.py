@@ -662,3 +662,8 @@ class GroupChatSetPage(BasePage):
     def group_member_avatar_is_exist(self):
         """群成员头像存在性校验"""
         return self.page_should_contain_element(self.__class__.__locators['群成员头像'])
+
+    @TestLogger.log()
+    def click_group_member_avatar(self):
+        """点击群成员头像"""
+        self.click_element(self.__class__.__locators['群成员头像'])
