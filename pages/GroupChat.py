@@ -93,6 +93,7 @@ class GroupChatPage(BaseChatPage):
                   '确定移除': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
                   '取消移除': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
                   '富媒体拍照': ('id', 'com.chinasofti.rcs:id/ib_take_photo'),
+                  '语音按钮': ('id', 'com.chinasofti.rcs:id/ib_audio'),
                   '加入群聊': (MobileBy.ID, 'com.chinasofti.rcs:id/group_qr_apply_enter'),
                   '添加群成员加号': (MobileBy.XPATH, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.RelativeLayout[2]/android.view.View"),
                   '文件': ('id', 'com.chinasofti.rcs:id/ib_file'),
@@ -168,6 +169,11 @@ class GroupChatPage(BaseChatPage):
     def click_edit(self):
         """点击编辑"""
         self.click_element(self.__class__.__locators["编辑"])
+
+    @TestLogger.log()
+    def is_exist_btn(self, text):
+        """是否存在各个功能按钮"""
+        return self._is_element_present(self.__class__.__locators[text])
 
     @TestLogger.log()
     def is_exist_edit_page(self):
