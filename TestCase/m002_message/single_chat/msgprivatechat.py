@@ -2269,3 +2269,173 @@ class MsgPrivateChatMyComputer(TestCase):
         # 4.判断在消息聊天窗口是否展示缩略位置消息体
         self.assertTrue(cwp.is_address_text_present())
 
+
+class MsgPrivateChatPicture(TestCase):
+    """
+    模块：单聊->图片过大发送逻辑优化
+    文件位置：
+    表格：
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        warnings.simplefilter('ignore', ResourceWarning)
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
+
+    def default_setUp(self):
+        """确保每个用例运行前在单聊会话页面"""
+        Preconditions.select_mobile('Android-移动')
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            Preconditions.enter_private_chat_page()
+            return
+        chat = SingleChatPage()
+        if chat.is_on_this_page():
+            current_mobile().hide_keyboard_if_display()
+            return
+        else:
+            current_mobile().launch_app()
+            Preconditions.enter_private_chat_page()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoliping_C_0211(self):
+        """在会话窗口点击图片按钮进入相册，都选原图再选择一张大于20M的照片，然后进行发送"""
+        # 1、网络正常
+        # 2、当前在单聊会话窗口页面
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        # 1.点击输入框左上方的相册图标
+        scp.click_picture()
+        time.sleep(1)
+        scp.switch_to_given_folder("pic1")
+        # 2.点击原图
+        scp.click_original_photo()
+        # 3.选择大于20M的图片
+        scp.select_items_by_given_orders(1)
+        cpp = ChatPicPreviewPage()
+        # 4.点击发送
+        cpp.click_picture_send()
+        # 5.判断存在发送失败按钮
+        self.assertFalse(scp.is_send_sucess())
+        # 6.点击图片
+        scp.click_msg_image(0)
+        # 7.长按图片
+        scp.press_xy()
+        time.sleep(1)
+        # 8.判断是否出现编辑选项
+        self.assertTrue(scp.is_exist_picture_edit_page())
+        # 9.点击图片编辑
+        scp.click_edit()
+        cpe = ChatPicEditPage()
+        # 10.点击文本编辑（预览图片）
+        cpe.click_picture_edit()
+        # 11.涂鸦动作
+        cpe.click_picture_edit_crred()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 12.马赛克动作
+        cpe.click_picture_mosaic()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 13.文本编辑动作
+        cpe.click_picture_text()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("图片编辑")
+        time.sleep(1)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoliping_C_0212(self):
+        """在会话窗口点击图片按钮进入相册，选择一张大于20M的照片，进入图片预览页面勾选原图，然后进行发送"""
+        # 1、网络正常
+        # 2、当前在单聊会话窗口页面
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        # 1.点击输入框左上方的相册图标
+        scp.click_picture()
+        time.sleep(1)
+        # 2.选择大于20M的图片
+        scp.switch_to_given_folder("pic1")
+        scp.select_items_by_given_orders(1)
+        # 3.点击预览
+        scp.click_preview()
+        time.sleep(1)
+        cpp = ChatPicPreviewPage()
+        # 4.点击原图
+        scp.click_original_photo()
+        # 5.点击发送
+        cpp.click_picture_send()
+        # 6.判断是否存在发送失败按钮
+        self.assertFalse(scp.is_send_sucess())
+        # 7.点击图片
+        scp.click_msg_image(0)
+        # 8.长按图片
+        scp.press_xy()
+        time.sleep(1)
+        # 9.判断是否出现编辑选项
+        self.assertTrue(scp.is_exist_picture_edit_page())
+        # 10.点击图片编辑
+        scp.click_edit()
+        cpe = ChatPicEditPage()
+        # 11.点击文本编辑（预览图片）
+        cpe.click_picture_edit()
+        # 12.涂鸦动作
+        cpe.click_picture_edit_crred()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 13.马赛克动作
+        cpe.click_picture_mosaic()
+        cpe.click_picture_edit_switch()
+        time.sleep(1)
+        # 14.文本编辑动作
+        cpe.click_picture_text()
+        cpe.click_picture_edit_crred()
+        cpe.input_picture_text("图片编辑")
+        time.sleep(1)
+
+    @staticmethod
+    def setUp_test_msg_xiaoliping_C_0306():
+        """确保当前页面在标签分组会话页面"""
+        Preconditions.connect_mobile('Android-移动')
+        # 确保应用在消息页面
+        Preconditions.make_already_in_message_page()
+        # 确保当前消息列表没有消息发送失败的标识影响验证结果
+        Preconditions.make_no_message_send_failed_status()
+        # 进入标签分组会话页面
+        Preconditions.enter_label_grouping_chat_page()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoliping_C_0306(self):
+        """在会话窗口点击图片按钮进入相册，直接勾选原图，选择一张等于20M的照片进行发送"""
+        # 1、网络正常
+        # 2、当前在标签分组会话窗口页面
+        lgcp = LabelGroupingChatPage()
+        # 1.点击输入框左上方照片
+        lgcp.click_picture()
+        ps = PictureSelector()
+        time.sleep(1)
+        # 2.选择大于20M的图片
+        ps.switch_to_given_folder("pic1")
+        ps.select_items_by_given_orders(1)
+        cpp = ChatPicPreviewPage()
+        # 3.点击原图
+        cpp.click_original_photo()
+        # 4.点击发送
+        cpp.click_picture_send()
+        # 5.判断存在发送失败按钮
+        self.assertFalse(lgcp.is_send_sucess())
+        # 6.点击返回消息列表
+        lgcp.click_back()
+        lgp = LabelGroupingPage()
+        lgp.click_back()
+        cdp = ContactDetailsPage()
+        cdp.click_back()
+        contacts = ContactsPage()
+        contacts.click_back()
+        contacts.click_message_icon()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 7.判断是否显示消息发送失败的标识
+        if mess.is_iv_fail_status_present():
+            raise AssertionError("消息列表显示消息发送失败标识")
+
