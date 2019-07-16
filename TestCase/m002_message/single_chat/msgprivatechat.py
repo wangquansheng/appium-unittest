@@ -2,9 +2,14 @@ import random
 import time
 import re
 import warnings
+
+from selenium.common.exceptions import TimeoutException
+
 from library.core.TestCase import TestCase
-from library.core.utils.applicationcache import current_mobile
-from preconditions.BasePreconditions import LoginPreconditions
+from library.core.common.simcardtype import CardType
+from library.core.utils.applicationcache import current_mobile, switch_to_mobile
+from pages.components.selectors import PictureSelector
+from preconditions.BasePreconditions import LoginPreconditions, REQUIRED_MOBILES
 from library.core.utils.testcasefilter import tags
 from pages import *
 import uuid
@@ -12,6 +17,13 @@ import uuid
 
 class Preconditions(LoginPreconditions):
     """前置条件"""
+
+    @staticmethod
+    def connect_mobile(category):
+        """选择手机手机"""
+        client = switch_to_mobile(REQUIRED_MOBILES[category])
+        client.connect_mobile()
+        return client
 
     @staticmethod
     def enter_message_page(reset=False):
@@ -27,6 +39,130 @@ class Preconditions(LoginPreconditions):
         chat.click_setting()
         setting = SingleChatSetPage()
         setting.wait_for_page_load()
+
+    @staticmethod
+    def delete_record_group_chat():
+        # 删除聊天记录
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            scp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            # 点击删除聊天记录
+            gcsp.click_clear_chat_record()
+            gcsp.wait_clear_chat_record_confirmation_box_load()
+            # 点击确认
+            gcsp.click_determine()
+            time.sleep(3)
+            # if not gcsp.is_toast_exist("聊天记录清除成功"):
+            #     raise AssertionError("没有聊天记录清除成功弹窗")
+            # 点击返回群聊页面
+            gcsp.click_back()
+            time.sleep(2)
+            # 判断是否返回到群聊页面
+            if not scp.is_on_this_page():
+                raise AssertionError("没有返回到群聊页面")
+        else:
+            try:
+                raise AssertionError("没有返回到群聊页面，无法删除记录")
+            except AssertionError as e:
+                raise e
+
+    @staticmethod
+    def make_no_message_send_failed_status():
+        """确保当前消息列表没有消息发送失败的标识影响验证结果"""
+
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        # 确保当前消息列表没有消息发送失败的标识影响验证结果
+        if mp.is_iv_fail_status_present():
+            mp.clear_fail_in_send_message()
+
+    @staticmethod
+    def enter_label_grouping_chat_page(enterLabelGroupingChatPage=True):
+        """进入标签分组会话页面"""
+        # 登录进入消息页面
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        # 点击‘通讯录’
+        mess.open_contacts_page()
+        contacts = ContactsPage()
+        time.sleep(1)
+        contacts.click_mobile_contacts()
+        contacts.click_label_grouping()
+        label_grouping = LabelGroupingPage()
+        label_grouping.wait_for_page_load()
+        # 不存在标签分组则创建
+        group_name = Preconditions.get_label_grouping_name()
+        group_names = label_grouping.get_label_grouping_names()
+        time.sleep(1)
+        if not group_names:
+            label_grouping.click_new_create_group()
+            label_grouping.wait_for_create_label_grouping_page_load()
+            label_grouping.input_label_grouping_name(group_name)
+            label_grouping.click_sure()
+            # 选择成员
+            slc = SelectLocalContactsPage()
+            slc.wait_for_page_load()
+            names = slc.get_contacts_name()
+            if not names:
+                raise AssertionError("No m005_contacts, please add m005_contacts in address book.")
+            for name in names:
+                slc.select_one_member_by_name(name)
+            slc.click_sure()
+            label_grouping.wait_for_page_load()
+            label_grouping.select_group(group_name)
+        else:
+            # 选择一个标签分组
+            label_grouping.select_group(group_names[0])
+        lgdp = LableGroupDetailPage()
+        time.sleep(1)
+        # 标签分组成员小于2人，需要添加成员
+        members_name = lgdp.get_members_names()
+        if lgdp.is_text_present("该标签分组内暂无成员") or len(members_name) < 2:
+            lgdp.click_add_members()
+            # 选择成员
+            slc = SelectLocalContactsPage()
+            slc.wait_for_page_load()
+            names = slc.get_contacts_name()
+            if not names:
+                raise AssertionError("No m005_contacts, please add m005_contacts in address book.")
+            for name in names:
+                slc.select_one_member_by_name(name)
+            slc.click_sure()
+        # 点击群发信息
+        if enterLabelGroupingChatPage:
+            lgdp.click_send_group_info()
+            chat = LabelGroupingChatPage()
+            chat.wait_for_page_load()
+
+    @staticmethod
+    def get_label_grouping_name():
+        """获取群名"""
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "alg" + phone_number[-4:]
+        return group_name
+
+    @staticmethod
+    def make_already_in_message_page(reset=False):
+        """确保应用在消息页面"""
+        Preconditions.select_mobile('Android-移动', reset)
+        current_mobile().hide_keyboard_if_display()
+        time.sleep(1)
+        # 如果在消息页，不做任何操作
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            return
+        # 进入一键登录页
+        else:
+            try:
+                current_mobile().launch_app()
+                mess.wait_for_page_load()
+            except:
+                # 进入一键登录页
+                Preconditions.make_already_in_one_key_login_page()
+                #  从一键登录页面登录
+                Preconditions.login_by_one_key_login()
 
 
 class MsgPrivateChatMsgList(TestCase):
@@ -1602,8 +1738,12 @@ class MsgPrivateChatMyComputer(TestCase):
         """当前页面在我的电脑聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
         mess = MessagePage()
+        mess.wait_for_page_load()
+        time.sleep(1)
         mess.click_search()
         # 搜索
+        if SearchPage().is_text_present('始终允许'):
+            SearchPage().click_text("始终允许")
         SearchPage().input_search_keyword("我的电脑")
         time.sleep(2)
         current_mobile().hide_keyboard_if_display()
@@ -2028,3 +2168,103 @@ class MsgPrivateChatMyComputer(TestCase):
         cwp.click_send_again()
         # 8.验证是否发送成功
         cwp.wait_for_msg_send_status_become_to('发送成功', 30)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0532(self):
+        """我的电脑聊天会话页面——放大发送一段表情文本内容"""
+        # 1、网络正常
+        # 2、已登录和飞信
+        # 3、我的电脑会话窗口
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击表情
+        cwp.click_expression()
+        # 2.选择1个表情正常发送，获取文本宽度
+        cwp.select_expression()
+        cwp.click_send_button()
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        time.sleep(1)
+        cwp.click_expression()
+        cwp.hide_keyboard()
+        time.sleep(2)
+        width1 = cwp.get_width_of_last_msg_of_text()
+        time.sleep(1)
+        # 3.选择1个表情放大发送，获取文本宽度
+        cwp.click_expression()
+        cwp.select_expression()
+        time.sleep(1)
+        cwp.press_and_move_up('发送按钮')
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        cwp.click_expression()
+        cwp.hide_keyboard()
+        time.sleep(2)
+        width2 = cwp.get_width_of_last_msg_of_text()
+        # 5.判断是否放大
+        if not width2 > width1:
+            raise AssertionError("表情没有放大展示")
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0533(self):
+        """我的电脑聊天会话页面——缩小发送一段表情文本内容"""
+        # 1、网络正常
+        # 2、已登录和飞信
+        # 3、我的电脑会话窗口
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击表情
+        cwp.click_expression()
+        # 2.选择1个表情正常发送，获取文本宽度
+        cwp.select_expression()
+        cwp.click_send_button()
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        time.sleep(1)
+        cwp.click_expression()
+        cwp.hide_keyboard()
+        width1 = cwp.get_width_of_last_msg_of_text()
+        time.sleep(1)
+        # 3.选择1个表情缩小发送，获取文本宽度
+        cwp.click_expression()
+        cwp.select_expression()
+        time.sleep(1)
+        cwp.press_and_move_down('发送按钮')
+        try:
+            cwp.wait_for_msg_send_status_become_to('发送成功', 10)
+        except TimeoutException:
+            raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
+        cwp.click_expression()
+        cwp.hide_keyboard()
+        width2 = cwp.get_width_of_last_msg_of_text()
+        # 5.判断是否缩小
+        if not width2 < width1:
+            raise AssertionError("表情没有缩小展示")
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_weifenglian_PC_0336(self):
+        """我的电脑发送位置成功"""
+        # 1、网络正常
+        # 2、已开启手机定位
+        # 3、当前在我的电脑会话窗口页面
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.点击更多
+        cwp.click_add_icon()
+        # 2.点击位置
+        cwp.click_location()
+        clp = ChatLocationPage()
+        clp.wait_for_page_load()
+        time.sleep(1)
+        # 3.点击发送按钮
+        if not clp.send_btn_is_enabled():
+            raise AssertionError("位置页面发送按钮不可点击")
+        clp.click_send()
+        # 4.判断在消息聊天窗口是否展示缩略位置消息体
+        self.assertTrue(cwp.is_address_text_present())

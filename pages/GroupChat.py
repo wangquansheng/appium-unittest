@@ -850,6 +850,13 @@ class GroupChatPage(BaseChatPage):
         self.press(el)
 
     @TestLogger.log()
+    def press_last_message_to_do(self, text):
+        """长按最后一个文本消息进行操作"""
+        el = self.get_elements(('id', 'com.chinasofti.rcs:id/tv_message'))[-1]
+        self.press(el)
+        self.click_element(self.__class__.__locators[text])
+
+    @TestLogger.log()
     def press_last_file_to_do(self, text):
         """长按最后一个文件进行操作"""
         el = self.get_elements(('id', 'com.chinasofti.rcs:id/ll_msg'))[-1]
