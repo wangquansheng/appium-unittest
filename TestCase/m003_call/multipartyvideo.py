@@ -3933,3 +3933,161 @@ class CallMultipartyVideo(TestCase):
         gcp.hang_up_the_call()
         Preconditions.select_mobile('Android-移动')
         gcp.hang_up_the_call()
+
+    @staticmethod
+    def setUp_test_call_wangqiong_0218_02():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_wangqiong_0218_02(self):
+        """多方电话被叫接通时--会控界面各按钮功能正常"""
+        # 1.向ABCDE发起多方电话呼叫，进入会控界面
+        # 2.被叫依次：B拒接，
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_mutilcall()
+        time.sleep(2)
+        gcp.click_text("免费")
+        # 选择联系人
+        slc = SelectLocalContactsPage()
+        names = slc.get_contacts_name()
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_text("呼叫")
+        time.sleep(3)
+        if gcp.is_text_present("我知道了"):
+            gcp.click_text("我知道了")
+        if gcp.is_text_present("始终允许"):
+            gcp.click_text("始终允许")
+        time.sleep(8)
+        if not gcp.is_phone_in_calling_state():
+            raise AssertionError("没有出现通话界面")
+        gcp.pick_up_the_call()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(10)
+        if not gcp.is_phone_in_calling_state():
+            raise AssertionError("没有成功发起呼叫")
+        time.sleep(3)
+        gcp.hang_up_the_call()
+        Preconditions.select_mobile('Android-移动')
+        gcp.hang_up_the_call()
+
+    @staticmethod
+    def setUp_test_call_wangqiong_0218_03():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_wangqiong_0218_03(self):
+        """多方电话被叫接通时--会控界面各按钮功能正常"""
+        # 1.向ABCDE发起多方电话呼叫，进入会控界面
+        # 2.被叫依次：C一直未接听未挂断
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_mutilcall()
+        time.sleep(2)
+        gcp.click_text("免费")
+        # 选择联系人
+        slc = SelectLocalContactsPage()
+        names = slc.get_contacts_name()
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_text("呼叫")
+        time.sleep(3)
+        if gcp.is_text_present("我知道了"):
+            gcp.click_text("我知道了")
+        if gcp.is_text_present("始终允许"):
+            gcp.click_text("始终允许")
+        time.sleep(8)
+        if not gcp.is_phone_in_calling_state():
+            raise AssertionError("没有出现通话界面")
+        gcp.pick_up_the_call()
+        time.sleep(75)
+        # Preconditions.select_mobile('Android-移动-移动')
+        # time.sleep(10)
+        # if not gcp.is_phone_in_calling_state():
+        #     raise AssertionError("没有成功发起呼叫")
+        # time.sleep(3)
+        # gcp.hang_up_the_call()
+        # Preconditions.select_mobile('Android-移动')
+        # gcp.hang_up_the_call()
+
+    @staticmethod
+    def setUp_test_call_wangqiong_0218_04():
+        """确保有一个多人的群聊"""
+        Preconditions.select_mobile('Android-移动-移动')
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        Preconditions.change_mobile('Android-移动')
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        if not flag:
+            Preconditions.change_mobile('Android-移动-移动')
+            mess = MessagePage()
+            mess.wait_for_page_load()
+            mess.click_text("系统消息")
+            time.sleep(3)
+            mess.click_text("同意")
+        Preconditions.change_mobile('Android-移动')
+        Preconditions.go_to_group_double(group_name)
+
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
+    def test_call_wangqiong_0218_04(self):
+        """多方电话被叫接通时--会控界面各按钮功能正常"""
+        # 1.向ABCDE发起多方电话呼叫，进入会控界面
+        # 2.被叫A接通后再点击挂断电话，查看查看主叫会控被叫A状态显示
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_mutilcall()
+        time.sleep(2)
+        gcp.click_text("免费")
+        # 选择联系人
+        slc = SelectLocalContactsPage()
+        names = slc.get_contacts_name()
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_text("呼叫")
+        time.sleep(3)
+        if gcp.is_text_present("我知道了"):
+            gcp.click_text("我知道了")
+        if gcp.is_text_present("始终允许"):
+            gcp.click_text("始终允许")
+        time.sleep(8)
+        if not gcp.is_phone_in_calling_state():
+            raise AssertionError("没有出现通话界面")
+        gcp.pick_up_the_call()
+        Preconditions.select_mobile('Android-移动-移动')
+        time.sleep(10)
+        if not gcp.is_phone_in_calling_state():
+            raise AssertionError("没有成功发起呼叫")
+        gcp.pick_up_the_call()
+        time.sleep(3)
+        gcp.hang_up_the_call()
+        Preconditions.select_mobile('Android-移动')
+        gcp.hang_up_the_call()
