@@ -473,87 +473,87 @@ class MsgGroupChatVideoPicAllTest(TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore',ResourceWarning)
-    #
-    #     Preconditions.select_mobile('Android-移动')
-    #     # 导入测试联系人、群聊
-    #     fail_time1 = 0
-    #     flag1 = False
-    #     import dataproviders
-    #     while fail_time1 < 3:
-    #         try:
-    #             required_contacts = dataproviders.get_preset_contacts()
-    #             conts = ContactsPage()
-    #             current_mobile().hide_keyboard_if_display()
-    #             Preconditions.make_already_in_message_page()
-    #             conts.open_contacts_page()
-    #             try:
-    #                 if conts.is_text_present("发现SIM卡联系人"):
-    #                     conts.click_text("显示")
-    #             except:
-    #                 pass
-    #             for name, number in required_contacts:
-    #                 # 创建联系人
-    #                 conts.create_contacts_if_not_exits(name, number)
-    #             required_group_chats = dataproviders.get_preset_group_chats()
-    #             conts.open_group_chat_list()
-    #             group_list = GroupListPage()
-    #             for group_name, members in required_group_chats:
-    #                 group_list.wait_for_page_load()
-    #                 # 创建群
-    #                 group_list.create_group_chats_if_not_exits(group_name, members)
-    #             group_list.click_back()
-    #             conts.open_message_page()
-    #             flag1 = True
-    #         except:
-    #             fail_time1 += 1
-    #         if flag1:
-    #             break
-    #
-    #     # 导入团队联系人
-    #     fail_time2 = 0
-    #     flag2 = False
-    #     while fail_time2 < 5:
-    #         try:
-    #             Preconditions.make_already_in_message_page()
-    #             contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-    #             Preconditions.create_he_contacts(contact_names)
-    #             flag2 = True
-    #         except:
-    #             fail_time2 += 1
-    #         if flag2:
-    #             break
-    #
-    #     # 确保有企业群
-    #     fail_time3 = 0
-    #     flag3 = False
-    #     while fail_time3 < 5:
-    #         try:
-    #             Preconditions.make_already_in_message_page()
-    #             Preconditions.ensure_have_enterprise_group()
-    #             flag3 = True
-    #         except:
-    #             fail_time3 += 1
-    #         if flag3:
-    #             break
-    #
-    #     # 确保测试手机有resource文件夹
-    #     name = "群聊1"
-    #     Preconditions.get_into_group_chat_page(name)
-    #     gcp = GroupChatPage()
-    #     gcp.wait_for_page_load()
-    #     gcp.click_more()
-    #     cmp = ChatMorePage()
-    #     cmp.click_file()
-    #     csfp = ChatSelectFilePage()
-    #     csfp.wait_for_page_load()
-    #     csfp.click_local_file()
-    #     local_file = ChatSelectLocalFilePage()
-    #     # 没有预置文件，则上传
-    #     local_file.push_preset_file()
-    #     local_file.click_back()
-    #     csfp.wait_for_page_load()
-    #     csfp.click_back()
-    #     gcp.wait_for_page_load()
+
+        Preconditions.select_mobile('Android-移动')
+        # 导入测试联系人、群聊
+        # fail_time1 = 0
+        # flag1 = False
+        # import dataproviders
+        # while fail_time1 < 3:
+        #     try:
+        #         required_contacts = dataproviders.get_preset_contacts()
+        #         conts = ContactsPage()
+        #         current_mobile().hide_keyboard_if_display()
+        #         Preconditions.make_already_in_message_page()
+        #         conts.open_contacts_page()
+        #         try:
+        #             if conts.is_text_present("发现SIM卡联系人"):
+        #                 conts.click_text("显示")
+        #         except:
+        #             pass
+        #         for name, number in required_contacts:
+        #             # 创建联系人
+        #             conts.create_contacts_if_not_exits(name, number)
+        #         required_group_chats = dataproviders.get_preset_group_chats()
+        #         conts.open_group_chat_list()
+        #         group_list = GroupListPage()
+        #         for group_name, members in required_group_chats:
+        #             group_list.wait_for_page_load()
+        #             # 创建群
+        #             group_list.create_group_chats_if_not_exits(group_name, members)
+        #         group_list.click_back()
+        #         conts.open_message_page()
+        #         flag1 = True
+        #     except:
+        #         fail_time1 += 1
+        #     if flag1:
+        #         break
+        #
+        # # 导入团队联系人
+        # fail_time2 = 0
+        # flag2 = False
+        # while fail_time2 < 5:
+        #     try:
+        #         Preconditions.make_already_in_message_page()
+        #         contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
+        #         Preconditions.create_he_contacts(contact_names)
+        #         flag2 = True
+        #     except:
+        #         fail_time2 += 1
+        #     if flag2:
+        #         break
+
+        # 确保有企业群
+        fail_time3 = 0
+        flag3 = False
+        while fail_time3 < 5:
+            try:
+                Preconditions.make_already_in_message_page()
+                Preconditions.ensure_have_enterprise_group()
+                flag3 = True
+            except:
+                fail_time3 += 1
+            if flag3:
+                break
+
+        # 确保测试手机有resource文件夹
+        # name = "群聊1"
+        # Preconditions.get_into_group_chat_page(name)
+        # gcp = GroupChatPage()
+        # gcp.wait_for_page_load()
+        # gcp.click_more()
+        # cmp = ChatMorePage()
+        # cmp.click_file()
+        # csfp = ChatSelectFilePage()
+        # csfp.wait_for_page_load()
+        # csfp.click_local_file()
+        # local_file = ChatSelectLocalFilePage()
+        # # 没有预置文件，则上传
+        # local_file.push_preset_file()
+        # local_file.click_back()
+        # csfp.wait_for_page_load()
+        # csfp.click_back()
+        # gcp.wait_for_page_load()
 
     def default_setUp(self):
         """
@@ -2832,6 +2832,103 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mess = MessagePage()
         if mess.is_on_this_page():
             self.assertTrue(mess.is_text_present("b测算"))
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0303(self):
+        """群聊设置--群成员预览内非RCS用户头像置灰"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 设置界面
+        gcp.click_setting()
+        time.sleep(1)
+        gcp.click_text("大佬1")
+        time.sleep(1)
+        # 1、非RCS用户头像应置灰
+        # 2、能正常进入其profile页
+        result = gcp.is_text_present("邀请使用")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0304(self):
+        """群聊设置--群成员预览内非RCS用户头像置灰"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 设置界面
+        gcp.click_setting()
+        time.sleep(1)
+        gcs = GroupChatSetPage()
+        gcs.click_group_member_show()
+        time.sleep(1)
+        # 1、非RCS用户头像应置灰不再显示“未开通”且后方还有“邀请”按钮
+        # 2、能正常进入其profile页
+        result = gcp.is_text_present("邀请")
+        self.assertEqual(result, True)
+        gcp.click_text("大佬1")
+        time.sleep(1)
+        result = gcp.is_text_present("邀请使用")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0304(self):
+        """群聊设置--群成员预览内非RCS用户头像置灰"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        # Preconditions.delete_record_group_chat()
+        # 设置界面
+        gcp.click_setting()
+        time.sleep(1)
+        gcs = GroupChatSetPage()
+        gcs.click_group_member_show()
+        time.sleep(2)
+        # 1、搜索结果内非RCS用户头像应置灰不再显示“未开通”且后方还有“邀请”按钮
+        result = gcp.is_text_present("邀请")
+        self.assertEqual(result, True)
+        # 2、能正常进入其profile页
+        gcp.click_element_("搜索成员输入框")
+        gcp.input_member_message("大佬")
+        gcp.hide_keyboard()
+        time.sleep(3)
+        gcp.click_text("大佬1")
+        time.sleep(3)
+        result = gcp.is_text_present("邀请使用")
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0344(self):
+        """其他创建群入口"""
+        # 正常创建
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mess = MessagePage()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        mess.click_contact_group()
+        sog = SelectOneGroupPage()
+        sog.select_contact_by_name("大佬2")
+        time.sleep(1)
+        sog.select_contact_by_name("大佬3")
+        time.sleep(1)
+        mess.click_sure_button()
+        time.sleep(1)
+        mess.click_group_name()
+        time.sleep(1)
+        mess.set_group_name("群聊测试1")
+        time.sleep(1)
+        mess.click_sure_button()
+        time.sleep(3)
+        result = mess.is_text_present("群聊测试1")
+        self.assertEqual(result, True)
+
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_hanjiabin_0057(self):
