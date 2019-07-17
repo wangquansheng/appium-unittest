@@ -56,6 +56,7 @@ class GroupChatSetPage(BasePage):
                   "确定": (MobileBy.XPATH, '//*[@text ="确定"]'),
                   "取消": (MobileBy.XPATH, '//*[@text ="取消"]'),
                   "退出": (MobileBy.XPATH, '//*[@text ="退出"]'),
+                  "分享至当前群(开启后将发送至当前群)": (MobileBy.XPATH, '//*[@text ="分享至当前群(开启后将发送至当前群)"]'),
                   '群成员': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_head'),
                   '完成': (MobileBy.ID, 'com.chinasofti.rcs:id/group_name_save'),
                   '修改群名或群名片返回': (MobileBy.ID, 'com.chinasofti.rcs:id/back'),
@@ -269,6 +270,14 @@ class GroupChatSetPage(BasePage):
         """群聊设置页面 点击清空聊天记录2"""
         self._find_menu(self.__locators['清空聊天记录2'])
         self.click_element(self.__locators['清空聊天记录2'])
+
+    @TestLogger.log()
+    def find_element_share2group_text(self):
+        """分享至当前群"""
+        self._find_menu(self.__locators['分享至当前群(开启后将发送至当前群)'])
+        el = self.get_element(self.__locators['分享至当前群(开启后将发送至当前群)'])
+        return el.get_attribute("checked")
+
 
     @TestLogger.log()
     def click_delete_and_exit(self):

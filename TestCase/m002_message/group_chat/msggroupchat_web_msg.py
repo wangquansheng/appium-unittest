@@ -17,6 +17,7 @@ from pages.components import BaseChatPage
 from pages.groupset.GroupChatSetPicVideo import GroupChatSetPicVideoPage
 from pages.otherpages.HasRead import HasRead
 from pages.workbench.enterprise_contacts.EnterpriseContacts import EnterpriseContactsPage
+from pages.workbench.voice_notice.VoiceNotice import VoiceNoticePage
 
 from preconditions.BasePreconditions import WorkbenchPreconditions
 
@@ -474,7 +475,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
     def setUpClass(cls):
         warnings.simplefilter('ignore',ResourceWarning)
 
-        Preconditions.select_mobile('Android-移动')
+        # Preconditions.select_mobile('Android-移动')
         # 导入测试联系人、群聊
         # fail_time1 = 0
         # flag1 = False
@@ -524,17 +525,17 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         #         break
 
         # 确保有企业群
-        fail_time3 = 0
-        flag3 = False
-        while fail_time3 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                Preconditions.ensure_have_enterprise_group()
-                flag3 = True
-            except:
-                fail_time3 += 1
-            if flag3:
-                break
+        # fail_time3 = 0
+        # flag3 = False
+        # while fail_time3 < 5:
+        #     try:
+        #         Preconditions.make_already_in_message_page()
+        #         Preconditions.ensure_have_enterprise_group()
+        #         flag3 = True
+        #     except:
+        #         fail_time3 += 1
+        #     if flag3:
+        #         break
 
         # 确保测试手机有resource文件夹
         # name = "群聊1"
@@ -3197,6 +3198,77 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 1、正常返回进入前的群聊页面且群内“+”保持打开状态
         exist = gcp.is_text_present("飞信电话")
         self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0070(self):
+        """普通企业群/长ID企业群：进入审批应用后右上角“？”内部页面样式、文案及交互是否正常（本网号为例）"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        # 选择 测试企业群
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 点击 + 号
+        gcp.click_more()
+        # 1、正常进入审批应用问题解答页面且内部样式文案等与工作台内审批应用一致
+        exist = gcp.is_text_present("审批")
+        self.assertEqual(exist, True)
+        # 点击 审批
+        gcp.click_text("审批")
+        time.sleep(10)
+        # 点击 问号 ？
+        vnp = VoiceNoticePage()
+        vnp.click_enter_more()
+        time.sleep(3)
+        # 2、全部二级页面样式、文案及相关操作正常，关闭页面后应直接返回到群聊页面
+        exist = gcp.is_text_present("审批PC版已上线")
+        self.assertEqual(exist, True)
+        vnp.click_close_more()
+        exist = gcp.is_text_present("测试企业群")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0074(self):
+        """普通企业群/长ID企业群：发起任意审批类型时页面样式检查"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        # 选择 测试企业群
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 点击 + 号
+        gcp.click_more()
+        exist = gcp.is_text_present("审批")
+        self.assertEqual(exist, True)
+        # 点击 审批
+        gcp.click_text("审批")
+        time.sleep(10)
+        gcp.click_text("请假")
+        time.sleep(3)
+        # 1、检查页面样式均正常，“使用上次审批人、使用上次抄送人”按钮被隐藏，页面下方“分享至当前群”栏目后方按钮默认关闭
+        exist = gcp.is_text_present("使用上次审批人")
+        self.assertEqual(exist, False)
+        exist = gcp.is_text_present("使用上次抄送人")
+        self.assertEqual(exist, False)
+        gcsp = GroupChatSetPage()
+        result = gcsp.find_element_share2group_text()
+        result = 'false' == result
+        print("result = " + str(result))
+        self.assertEqual(result, True)
+
+
+
+
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0353(self):
