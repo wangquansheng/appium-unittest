@@ -3,8 +3,10 @@ import re
 import time
 import unittest
 import uuid
+import warnings
 
 import preconditions
+from pages.chat.ChatGroupSMS import ChatGroupSMSPage
 from pages.components import BaseChatPage
 from preconditions.BasePreconditions import  WorkbenchPreconditions
 from library.core.TestCase import TestCase
@@ -262,6 +264,95 @@ class Preconditions(WorkbenchPreconditions):
             shc.wait_for_he_contacts_page_load()
             # 选择当前团队
             shc.click_department_name(workbench_name)
+
+    @staticmethod
+    def build_one_new_group_with_number(puhone_number, group_name):
+        """新建一个指定成员和名称的群，如果已存在，不建群"""
+        # 消息页面
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        times = 15
+        n = 0
+        # 重置应用时需要再次点击才会出现选择一个群
+        while n < times:
+            flag = sc.wait_for_page_load()
+            if not flag:
+                sc.click_back()
+                time.sleep(2)
+                mess.click_add_icon()
+                mess.click_group_chat()
+                sc = SelectContactsPage()
+            else:
+                break
+            n = n + 1
+        time.sleep(3)
+        sc.click_select_one_group()
+        # 群名
+        # group_name = Preconditions.get_group_chat_name()
+        # 获取已有群名
+        sog = SelectOneGroupPage()
+        sog.wait_for_page_load()
+        sog.click_search_group()
+        time.sleep(2)
+        sog.input_search_keyword(group_name)
+        time.sleep(2)
+        if sog.is_element_exit("群聊名"):
+            current_mobile().back()
+            time.sleep(2)
+            current_mobile().back()
+            return True
+        current_mobile().back()
+        time.sleep(2)
+        current_mobile().back()
+        current_mobile().back()
+        time.sleep(2)
+        current_mobile().back()
+        time.sleep(2)
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 添加指定电话成员
+        time.sleep(2)
+        sc.input_search_keyword(puhone_number)
+        time.sleep(2)
+        sog.click_text("tel")
+        time.sleep(2)
+        # 从本地联系人中选择成员创建群
+        sc.click_local_contacts()
+        time.sleep(2)
+        slc = SelectLocalContactsPage()
+        a = 0
+        names = ["大佬1", "大佬2", "发个红包1", "发个红包2"]
+        while a < 3:
+            # names = slc.get_contacts_name()
+            num = len(names)
+            if not names:
+                raise AssertionError("No contacts, please add contacts in address book.")
+            if num == 1:
+                sog.page_up()
+                a += 1
+                if a == 3:
+                    raise AssertionError("联系人只有一个，请再添加多个不同名字联系人组成群聊")
+            else:
+                break
+        # 选择成员
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_sure()
+        # 创建群
+        cgnp = CreateGroupNamePage()
+        cgnp.input_group_name(group_name)
+        cgnp.click_sure()
+        # 等待群聊页面加载
+        GroupChatPage().wait_for_page_load()
+        return False
 
 
 class MsgGroupChatTest(TestCase):
@@ -3571,7 +3662,7 @@ class MessageGroupChatAllTest(TestCase):
         time.sleep(2)
 
     @tags('ALL', 'CMCC', 'group_chat',"high")
-    def test_msg_xiaoqiu_0229(self):
+    def test_msg_huangcaizui_C_0006(self):
         """聊天设置页面——删除并退出群聊——群主"""
         scp = SelectContactsPage()
         scp.create_message_group2()
@@ -3586,3 +3677,6 @@ class MessageGroupChatAllTest(TestCase):
         group_set.click_delete_and_exit()
         group_set.is_toast_exist("已退出群聊")
         gcp.click_back_by_android(times=2)
+
+
+

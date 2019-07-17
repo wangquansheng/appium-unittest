@@ -119,6 +119,12 @@ class GroupChatPage(BaseChatPage):
                   '原图': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/cb_original_photo"]'),
                   '预览': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_preview"]'),
                   '结束双人视频': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_term'),
+                  '设置小红点': (MobileBy.ID, 'com.chinasofti.rcs:id/red_view'),
+                  '群短信': (MobileBy.XPATH, '//*[@text="群短信"]'),
+                  '名片': (MobileBy.XPATH, '//*[@text="名片"]'),
+                  '位置': (MobileBy.XPATH, '//*[@text="位置"]'),
+                  '红包': (MobileBy.XPATH, '//*[@text="红包"]'),
+                  '飞信电话': (MobileBy.XPATH, '//*[@text="飞信电话"]'),
 
                   }
 
@@ -1007,5 +1013,29 @@ class GroupChatPage(BaseChatPage):
     def click_group_setting_back(self):
         """点击返回按钮"""
         self.click_element(self.__class__.__locators["返回3"])
+
+    @TestLogger.log()
+    def is_exist_setting_red_dot(self):
+        """是否存在设置小红点"""
+        return self._is_element_present(self.__class__.__locators["设置小红点"])
+
+    @TestLogger.log()
+    def click_group_sms(self):
+        """点击群短信"""
+        self.click_element(self.__class__.__locators["群短信"])
+
+    @TestLogger.log()
+    def is_exist_more_page(self):
+        """是否存在更多选项"""
+        for option in ["飞信电话", "多方通话", "群短信", "名片", "位置", "红包"]:
+            el = self.get_elements(self.__locators[option])
+            if len(el) == 0:
+                return False
+        return True
+
+    @TestLogger.log()
+    def click_i_know(self):
+        """点击我知道了"""
+        self.click_element(self.__class__.__locators["我知道了"])
 
 

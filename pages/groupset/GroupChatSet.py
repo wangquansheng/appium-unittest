@@ -86,6 +86,10 @@ class GroupChatSetPage(BasePage):
 
                   '删除联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_delete_contact'),
                   '群成员头像': (MobileBy.ID, 'com.chinasofti.rcs:id/head_tv'),
+                  '邀请微信或QQ好友进群小红点': (MobileBy.ID, 'com.chinasofti.rcs:id/group_password_red'),
+                  '分享群口令框内容': (MobileBy.ID, 'com.chinasofti.rcs:id/cpntent_tv'),
+                  '分享到QQ': (MobileBy.ID, 'com.chinasofti.rcs:id/qq_view'),
+                  '分享到微信': (MobileBy.ID, 'com.chinasofti.rcs:id/wechat_view'),
                   }
 
     @TestLogger.log("获取控件数量")
@@ -667,3 +671,39 @@ class GroupChatSetPage(BasePage):
     def click_group_member_avatar(self):
         """点击群成员头像"""
         self.click_element(self.__class__.__locators['群成员头像'])
+
+    @TestLogger.log()
+    def is_exist_invite_red_dot(self):
+        """是否存在邀请微信或QQ好友进群小红点"""
+        return self._is_element_present(self.__class__.__locators["邀请微信或QQ好友进群小红点"])
+
+    @TestLogger.log()
+    def click_share_now(self):
+        """点击立即分享"""
+        self.click_element(self.__class__.__locators['立即分享'])
+
+    @TestLogger.log()
+    def wait_for_share_group_password_invite_friend(self, timeout=10, auto_accept_alerts=True):
+        """等待 分享群口令邀请好友进群"""
+        try:
+            self.wait_until(
+                timeout=timeout,
+                auto_accept_permission_alert=auto_accept_alerts,
+                condition=lambda d: self.is_text_present("分享群口令邀请好友进群")
+            )
+        except:
+            message = "页面在{}s内，没有加载成功".format(timeout)
+            raise AssertionError(
+                message
+            )
+        return self
+
+    @TestLogger.log()
+    def click_share_qq(self):
+        """点击分享到QQ"""
+        self.click_element(self.__class__.__locators['分享到QQ'])
+
+    @TestLogger.log()
+    def click_share_wechat(self):
+        """点击分享到微信"""
+        self.click_element(self.__class__.__locators['分享到微信'])
