@@ -3266,9 +3266,44 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         print("result = " + str(result))
         self.assertEqual(result, True)
 
-
-
-
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0076(self):
+        """普通企业群/长ID企业群：审批--“分享至当前群”功能验证"""
+        # 1、“分享至当前群”按钮正常开启
+        # 2、toast提示“提交成功”、自动跳转到群聊界面且发送该审批卡片消息到群内
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        # 选择 测试企业群
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 点击 + 号
+        gcp.click_more()
+        exist = gcp.is_text_present("审批")
+        self.assertEqual(exist, True)
+        # 点击 审批
+        gcp.click_text("审批")
+        time.sleep(6)
+        gcp.click_text("请假")
+        time.sleep(3)
+        # 无法选择 审批人和抄送人--只做需要选择判断
+        exist = gcp.is_text_present("审批人")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("抄送人")
+        self.assertEqual(exist, True)
+        # “分享至当前群”按钮正常开启
+        gcsp = GroupChatSetPage()
+        gcsp.click_text("分享至当前群")
+        # 无法获取 开启后按钮状态
+        result = gcsp.click_element_share2group_text()
+        result = 'false' == result
+        print("result = " + str(result))
+        self.assertEqual(result, True)
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0353(self):

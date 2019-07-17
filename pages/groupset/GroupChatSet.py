@@ -278,6 +278,18 @@ class GroupChatSetPage(BasePage):
         el = self.get_element(self.__locators['分享至当前群(开启后将发送至当前群)'])
         return el.get_attribute("checked")
 
+    @TestLogger.log()
+    def click_element_share2group_text(self):
+        """分享至当前群"""
+        # self._find_menu(self.__locators['分享至当前群(开启后将发送至当前群)'])
+        self.swipe_by_percent_on_screen(50, 72, 50, 36, 800)
+        time.sleep(1)
+        el = self.get_element(self.__locators['分享至当前群(开启后将发送至当前群)'])
+        el.click()
+        time.sleep(3)
+        print("---------- = "+str(el.get_attribute("checked")))
+        return el.get_attribute("checked")
+
 
     @TestLogger.log()
     def click_delete_and_exit(self):
