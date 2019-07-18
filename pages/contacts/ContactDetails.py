@@ -603,6 +603,8 @@ class ContactDetailsPage(BasePage):
         return self.get_element(self.__class__.__locators['手机号']).text
 
 
+
+
 def add(func):
     def wrapper(*args):
         try:
@@ -622,5 +624,7 @@ def add(func):
             # raise ArithmeticError
 
     return wrapper
+
+
 
 

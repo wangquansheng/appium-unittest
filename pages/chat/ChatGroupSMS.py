@@ -213,6 +213,14 @@ class ChatGroupSMSPage(BasePage):
             return True
         return False
 
+    @TestLogger.log()
+    def input_search_message(self, message):
+        """输入搜索成员信息"""
+        self.input_text(self.__class__.__locators["搜索成员"], message)
+        if self.driver.is_keyboard_shown():
+            self.driver.hide_keyboard()
+        return self
+
 
 
 

@@ -12289,4 +12289,3 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(1)
         # 3.验证是否有消息免打扰标识
         self.assertFalse(gcp.is_exist_undisturb())
-

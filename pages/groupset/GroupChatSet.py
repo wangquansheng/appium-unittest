@@ -91,6 +91,7 @@ class GroupChatSetPage(BasePage):
                   '分享群口令框内容': (MobileBy.ID, 'com.chinasofti.rcs:id/cpntent_tv'),
                   '分享到QQ': (MobileBy.ID, 'com.chinasofti.rcs:id/qq_view'),
                   '分享到微信': (MobileBy.ID, 'com.chinasofti.rcs:id/wechat_view'),
+                  '第一个群成员头像': (MobileBy.XPATH, '(//*[contains(@resource-id,"com.chinasofti.rcs:id/head_tv")])[1]'),
                   }
 
     @TestLogger.log("获取控件数量")
@@ -728,3 +729,8 @@ class GroupChatSetPage(BasePage):
     def click_share_wechat(self):
         """点击分享到微信"""
         self.click_element(self.__class__.__locators['分享到微信'])
+
+    @TestLogger.log()
+    def click_first_group_member_avatar(self):
+        """点击第一个群成员头像"""
+        self.click_element(self.__class__.__locators['第一个群成员头像'])
