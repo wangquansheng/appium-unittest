@@ -473,23 +473,24 @@ class Preconditions(WorkbenchPreconditions):
         sc.click_local_contacts()
         time.sleep(2)
         slc = SelectLocalContactsPage()
-        a = 0
-        names = {}
-        while a < 3:
-            names = slc.get_contacts_name()
-            num = len(names)
-            if not names:
-                raise AssertionError("No contacts, please add contacts in address book.")
-            if num == 1:
-                sog.page_up()
-                a += 1
-                if a == 3:
-                    raise AssertionError("联系人只有一个，请再添加多个不同名字联系人组成群聊")
-            else:
-                break
-        # 选择成员
-        for name in names:
-            slc.select_one_member_by_name(name)
+        slc.click_one_contact("飞信电话")
+        # a = 0
+        # names = {}
+        # while a < 3:
+        #     names = slc.get_contacts_name()
+        #     num = len(names)
+        #     if not names:
+        #         raise AssertionError("No contacts, please add contacts in address book.")
+        #     if num == 1:
+        #         sog.page_up()
+        #         a += 1
+        #         if a == 3:
+        #             raise AssertionError("联系人只有一个，请再添加多个不同名字联系人组成群聊")
+        #     else:
+        #         break
+        # # 选择成员
+        # for name in names:
+        #     slc.select_one_member_by_name(name)
         slc.click_sure()
         # 创建群
         cgnp = CreateGroupNamePage()

@@ -127,6 +127,10 @@ class GroupChatPage(BaseChatPage):
                   '红包': (MobileBy.XPATH, '//*[@text="红包"]'),
                   '飞信电话': (MobileBy.XPATH, '//*[@text="飞信电话"]'),
 
+                  '飞信电话缩放按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_multi_call_hide'),
+                  '飞信电话会控加号': (MobileBy.ID, 'com.chinasofti.rcs:id/ivAvatar'),
+                  '飞信电话会控全员禁音': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_group_mute'),
+                  '挂断和飞信电话': (MobileBy.ID, 'com.chinasofti.rcs:id/ivDecline'),
                   }
 
     @TestLogger.log()
