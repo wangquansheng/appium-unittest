@@ -587,6 +587,13 @@ class Preconditions(object):
         gcp = GroupChatPage()
         gcp.wait_for_page_load()
 
+    @staticmethod
+    def enter_message_page(reset=False):
+        """进入消息页面"""
+        # 登录进入消息页面
+        Preconditions.make_already_in_message_page(reset)
+
+
 class MsgCommonGroupTest(TestCase):
     """
         模块：消息-普通群
@@ -11987,7 +11994,301 @@ class MsgCommonGroupAllTest(TestCase):
         if not gcss.is_text_present("编辑"):
             raise AssertionError("当前页面没有跳转到到联系人的个人profile页")
 
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0423(self):
+        """聊天会话页面——长按——撤回——发送失败的文本消息"""
+        # 1、网络正常
+        # 2、登录和飞信
+        # 3、已加入普通群
+        # 4、聊天会话页面，存在发送失败的消息
+        # 5、普通群/单聊/企业群/我的电脑/标签分组
+        gcp = GroupChatPage()
+        # 1.点击设置清空聊天记录，确保不影响验证
+        gcp.click_setting()
+        gcs = GroupChatSetPage()
+        gcs.wait_for_page_load()
+        gcs.click_clear_chat_record()
+        time.sleep(1)
+        gcs.click_sure()
+        gcs.wait_for_page_load()
+        gcs.click_back()
+        gcp.wait_for_page_load()
+        # 2.返回群聊页面发送消息
+        gcp.input_text_message("哈哈")
+        gcp.set_network_status(0)
+        gcp.send_message()
+        gcp.set_network_status(6)
+        # 3.验证是否存在消息发送失败消息
+        self.assertFalse(gcp.is_send_sucess())
+        # 4.长按最后一条消息
+        gcp.press_last_message()
+        # 5.验证是否存在撤回功能
+        self.assertEqual(gcp.is_text_present("撤回"), False)
 
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0424(self):
+        """聊天会话页面——长按——撤回——发送失败的文本消息"""
+        # 1、网络正常
+        # 2、登录和飞信
+        # 3、已加入普通群
+        # 4、聊天会话页面，存在发送中途的消息
+        # 5、普通群/单聊/企业群/我的电脑/标签分组
+        gcp = GroupChatPage()
+        # 1.点击设置清空聊天记录，确保不影响验证
+        gcp.click_setting()
+        gcs = GroupChatSetPage()
+        gcs.wait_for_page_load()
+        gcs.click_clear_chat_record()
+        time.sleep(1)
+        gcs.click_sure()
+        gcs.wait_for_page_load()
+        gcs.click_back()
+        gcp.wait_for_page_load()
+        # 2.返回群聊页面发送消息
+        gcp.input_text_message("哈哈")
+        gcp.set_network_status(0)
+        gcp.send_message()
+        gcp.set_network_status(6)
+        # 3.验证是否存在消息发送失败消息
+        self.assertFalse(gcp.is_send_sucess())
+        # 4.长按最后一条消息
+        gcp.press_last_message()
+        # 5.验证是否存在撤回功能
+        self.assertEqual(gcp.is_text_present("撤回"), False)
 
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0426(self):
+        """聊天会话页面——长按——撤回——不足一分钟的文本消息"""
+        # 1、网络正常
+        # 2、登录和飞信
+        # 3、已加入普通群
+        # 4、聊天会话页面
+        # 5、存在发送成功时间，小于1分钟的消息
+        # 6、普通群/单聊/企业群/我的电脑/标签分组
+        gcp = GroupChatPage()
+        # 1.点击设置清空聊天记录，确保不影响验证
+        gcp.click_setting()
+        gcs = GroupChatSetPage()
+        gcs.wait_for_page_load()
+        gcs.click_clear_chat_record()
+        time.sleep(1)
+        gcs.click_sure()
+        gcs.wait_for_page_load()
+        gcs.click_back()
+        gcp.wait_for_page_load()
+        # 2.返回群聊页面发送消息
+        gcp.input_text_message("哈哈")
+        gcp.send_message()
+        gcp.wait_for_msg_send_status_become_to('发送成功', 30)
+        # 3.长按消息
+        gcp.press_last_message()
+        # 4.验证是否存在撤回功能
+        self.assertTrue(gcp.is_text_present("撤回"))
+        # 5.点击撤回
+        gcp.click_text("撤回")
+        time.sleep(1)
+        if gcp.is_text_present("我知道了"):
+            gcp.click_i_know()
+        # 6.验证消息是否撤回
+        time.sleep(1)
+        self.assertFalse(gcp.is_text_present("哈哈"))
+        # 7.是否在会话窗口展示：你撤回了一条消息
+        time.sleep(1)
+        self.assertTrue(gcp.page_should_contain_text("你撤回了一条信息"))
+        time.sleep(2)
 
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0545(self):
+        """普通群，群聊设置按钮上方的红点展示"""
+        # 1、网络正常
+        # 2、已加入或创建普通群
+        # 3、未消除红点
+        # 4、仅限大陆本网和异网号码
+        gcp = GroupChatPage()
+        # 验证是否存在群聊设置按钮上方的红点展示
+        self.assertTrue(gcp.is_exist_setting_red_dot())
+        time.sleep(1)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0546(self):
+        """普通群， 【邀请微信或QQ好友进群】入口右侧红点展示"""
+        # 1、网络正常
+        # 2、已加入或创建普通群
+        # 3、未消除红点
+        gcp = GroupChatPage()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.验证是否存在邀请微信或QQ好友进群入口右侧红点展示
+        self.assertTrue(gcsp.is_exist_invite_red_dot())
+        time.sleep(1)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0547():
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().reset_app()
+        Preconditions.enter_message_page()
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊1")
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0547(self):
+        """ 普通群，消除【邀请微信或QQ好友进群】入口右侧红点展示"""
+        # 1、网络正常
+        # 2、已加入或创建普通群
+        # 3、未消除红点
+        # 4、仅限大陆本网和异网号码
+        gcp = GroupChatPage()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.验证是否存在邀请微信或QQ好友进群入口右侧红点展示
+        self.assertTrue(gcsp.is_exist_invite_red_dot())
+        time.sleep(1)
+        # 3.点击邀请微信或QQ好友进群
+        gcsp.click_avetor_qq_wechat_friend()
+        gcsp.wait_for_share_group_password_invite_friend()
+        gcsp.click_text("下次再说")
+        # 4.点击返回群聊页面
+        gcsp.click_back()
+        # 5.验证是否存在群聊设置按钮上方的红点展示
+        self.assertFalse(gcp.is_exist_setting_red_dot())
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0551(self):
+        """普通群，点击口令弹窗的立即分享按钮，分享群口令"""
+        # 1、网络正常
+        # 2、已加入或创建普通群
+        # 3、已消除红点
+        # 4、群主、群成员
+        # 5、未安装QQ
+        # 6、仅限大陆本网和异网号码
+        gcp = GroupChatPage()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击邀请微信或QQ好友进群
+        gcsp.click_avetor_qq_wechat_friend()
+        gcsp.wait_for_share_group_password_invite_friend()
+        # 3.验证群口令是否生成成功
+        self.assertTrue(gcsp.is_text_present("分享群口令邀请好友进群"))
+        # 3.点击立即分享
+        gcsp.click_share_now()
+        # 4.点击分享到qq
+        gcsp.click_share_qq()
+        # 5.验证是否提示‘该应用尚未安装，请安装后重试’
+        self.assertTrue(gcsp.is_toast_exist("该应用尚未安装，请安装后重试"))
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0555(self):
+        """普通群，点击口令弹窗的立即分享按钮，分享群口令"""
+        # 1、网络正常
+        # 2、已加入或创建普通群
+        # 3、已消除红点
+        # 4、群主、群成员
+        # 5、未安装微信
+        # 6、仅限大陆本网和异网号码
+        gcp = GroupChatPage()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击邀请微信或QQ好友进群
+        gcsp.click_avetor_qq_wechat_friend()
+        gcsp.wait_for_share_group_password_invite_friend()
+        # 3.验证群口令是否生成成功
+        self.assertTrue(gcsp.is_text_present("分享群口令邀请好友进群"))
+        # 3.点击立即分享
+        gcsp.click_share_now()
+        # 4.点击分享到微信
+        gcsp.click_share_wechat()
+        # 5.验证是否提示‘该应用尚未安装，请安装后重试’
+        self.assertTrue(gcsp.is_toast_exist("该应用尚未安装，请安装后重试"))
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0609():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊1")
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击设置
+        gcsp = GroupChatSetPage()
+        gcp.click_setting()
+        gcsp.wait_for_page_load()
+        # 2.消息免打扰,如果开启状态，需要点击关闭
+        if not gcsp.get_switch_undisturb_status():
+            pass
+        else:
+            gcsp.click_switch_undisturb()
+        gcsp.click_back()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0609(self):
+        """开启免打扰后，同时出现未读消息条数和草稿时，该消息列表窗口只展示：草稿"""
+        # 1、当前在群聊（普通群/企业群）会话窗口页面
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击设置
+        gcsp = GroupChatSetPage()
+        gcp.click_setting()
+        gcsp.wait_for_page_load()
+        # 2.点击消息免打扰开启
+        gcsp.click_switch_undisturb()
+        gcsp.click_back()
+        # 3.验证是否有消息免打扰标识
+        self.assertTrue(gcp.is_exist_undisturb())
+        # 4.返回到会话窗口，在输入框中进行输入内容，然后点击左上角的返回按钮
+        gcp.input_text_message('呵呵呵1')
+        gcp.send_message()
+        gcp.input_text_message('呵呵呵2')
+        # 5.点击返回消息列表
+        gcp.click_back()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            pass
+        else:
+            scp = SelectContactsPage()
+            scp.click_back()
+        # 6.验证该消息列表窗口直接展示：草稿
+        self.assertTrue(mess.page_should_contain_text('[草稿] '))
+        self.assertTrue(mess.page_should_contain_text('呵呵呵2'))
+        time.sleep(1)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0611():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊1")
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击设置
+        gcsp = GroupChatSetPage()
+        gcp.click_setting()
+        gcsp.wait_for_page_load()
+        # 2.消息免打扰,如果未开启状态，需要点击开启
+        if not gcsp.get_switch_undisturb_status():
+            gcsp.click_switch_undisturb()
+        gcsp.click_back()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0611(self):
+        """未开启免打扰，接收到新消息时，该消息列表窗口展示消息数字红点"""
+        # 1、当前在群聊（普通群/企业群）会话窗口页面
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击设置
+        gcsp = GroupChatSetPage()
+        gcp.click_setting()
+        gcsp.wait_for_page_load()
+        # 2.点击消息免打扰关闭
+        gcsp.click_switch_undisturb()
+        gcsp.click_back()
+        time.sleep(1)
+        # 3.验证是否有消息免打扰标识
+        self.assertFalse(gcp.is_exist_undisturb())
 

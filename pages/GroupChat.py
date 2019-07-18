@@ -93,6 +93,7 @@ class GroupChatPage(BaseChatPage):
                   '确定移除': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
                   '取消移除': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
                   '富媒体拍照': ('id', 'com.chinasofti.rcs:id/ib_take_photo'),
+                  '语音按钮': ('id', 'com.chinasofti.rcs:id/ib_audio'),
                   '加入群聊': (MobileBy.ID, 'com.chinasofti.rcs:id/group_qr_apply_enter'),
                   '添加群成员加号': (MobileBy.XPATH, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.RelativeLayout[2]/android.view.View"),
                   '文件': ('id', 'com.chinasofti.rcs:id/ib_file'),
@@ -119,6 +120,13 @@ class GroupChatPage(BaseChatPage):
                   '原图': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/cb_original_photo"]'),
                   '预览': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_preview"]'),
                   '结束双人视频': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_term'),
+                  '设置小红点': (MobileBy.ID, 'com.chinasofti.rcs:id/red_view'),
+                  '群短信': (MobileBy.XPATH, '//*[@text="群短信"]'),
+                  '名片': (MobileBy.XPATH, '//*[@text="名片"]'),
+                  '位置': (MobileBy.XPATH, '//*[@text="位置"]'),
+                  '红包': (MobileBy.XPATH, '//*[@text="红包"]'),
+                  '飞信电话': (MobileBy.XPATH, '//*[@text="飞信电话"]'),
+
                   '飞信电话缩放按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_multi_call_hide'),
                   '飞信电话会控加号': (MobileBy.ID, 'com.chinasofti.rcs:id/ivAvatar'),
                   '飞信电话会控全员禁音': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_group_mute'),
@@ -171,6 +179,11 @@ class GroupChatPage(BaseChatPage):
     def click_edit(self):
         """点击编辑"""
         self.click_element(self.__class__.__locators["编辑"])
+
+    @TestLogger.log()
+    def is_exist_btn(self, text):
+        """是否存在各个功能按钮"""
+        return self._is_element_present(self.__class__.__locators[text])
 
     @TestLogger.log()
     def is_exist_edit_page(self):
@@ -1010,5 +1023,29 @@ class GroupChatPage(BaseChatPage):
     def click_group_setting_back(self):
         """点击返回按钮"""
         self.click_element(self.__class__.__locators["返回3"])
+
+    @TestLogger.log()
+    def is_exist_setting_red_dot(self):
+        """是否存在设置小红点"""
+        return self._is_element_present(self.__class__.__locators["设置小红点"])
+
+    @TestLogger.log()
+    def click_group_sms(self):
+        """点击群短信"""
+        self.click_element(self.__class__.__locators["群短信"])
+
+    @TestLogger.log()
+    def is_exist_more_page(self):
+        """是否存在更多选项"""
+        for option in ["飞信电话", "多方通话", "群短信", "名片", "位置", "红包"]:
+            el = self.get_elements(self.__locators[option])
+            if len(el) == 0:
+                return False
+        return True
+
+    @TestLogger.log()
+    def click_i_know(self):
+        """点击我知道了"""
+        self.click_element(self.__class__.__locators["我知道了"])
 
 

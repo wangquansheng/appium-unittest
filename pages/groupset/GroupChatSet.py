@@ -56,6 +56,7 @@ class GroupChatSetPage(BasePage):
                   "确定": (MobileBy.XPATH, '//*[@text ="确定"]'),
                   "取消": (MobileBy.XPATH, '//*[@text ="取消"]'),
                   "退出": (MobileBy.XPATH, '//*[@text ="退出"]'),
+                  "分享至当前群(开启后将发送至当前群)": (MobileBy.XPATH, '//*[@text ="分享至当前群(开启后将发送至当前群)"]'),
                   '群成员': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_head'),
                   '完成': (MobileBy.ID, 'com.chinasofti.rcs:id/group_name_save'),
                   '修改群名或群名片返回': (MobileBy.ID, 'com.chinasofti.rcs:id/back'),
@@ -86,6 +87,10 @@ class GroupChatSetPage(BasePage):
 
                   '删除联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_delete_contact'),
                   '群成员头像': (MobileBy.ID, 'com.chinasofti.rcs:id/head_tv'),
+                  '邀请微信或QQ好友进群小红点': (MobileBy.ID, 'com.chinasofti.rcs:id/group_password_red'),
+                  '分享群口令框内容': (MobileBy.ID, 'com.chinasofti.rcs:id/cpntent_tv'),
+                  '分享到QQ': (MobileBy.ID, 'com.chinasofti.rcs:id/qq_view'),
+                  '分享到微信': (MobileBy.ID, 'com.chinasofti.rcs:id/wechat_view'),
                   }
 
     @TestLogger.log("获取控件数量")
@@ -269,6 +274,26 @@ class GroupChatSetPage(BasePage):
         """群聊设置页面 点击清空聊天记录2"""
         self._find_menu(self.__locators['清空聊天记录2'])
         self.click_element(self.__locators['清空聊天记录2'])
+
+    @TestLogger.log()
+    def find_element_share2group_text(self):
+        """分享至当前群"""
+        self._find_menu(self.__locators['分享至当前群(开启后将发送至当前群)'])
+        el = self.get_element(self.__locators['分享至当前群(开启后将发送至当前群)'])
+        return el.get_attribute("checked")
+
+    @TestLogger.log()
+    def click_element_share2group_text(self):
+        """分享至当前群"""
+        # self._find_menu(self.__locators['分享至当前群(开启后将发送至当前群)'])
+        self.swipe_by_percent_on_screen(50, 72, 50, 36, 800)
+        time.sleep(1)
+        el = self.get_element(self.__locators['分享至当前群(开启后将发送至当前群)'])
+        el.click()
+        time.sleep(3)
+        print("---------- = "+str(el.get_attribute("checked")))
+        return el.get_attribute("checked")
+
 
     @TestLogger.log()
     def click_delete_and_exit(self):
@@ -667,3 +692,39 @@ class GroupChatSetPage(BasePage):
     def click_group_member_avatar(self):
         """点击群成员头像"""
         self.click_element(self.__class__.__locators['群成员头像'])
+
+    @TestLogger.log()
+    def is_exist_invite_red_dot(self):
+        """是否存在邀请微信或QQ好友进群小红点"""
+        return self._is_element_present(self.__class__.__locators["邀请微信或QQ好友进群小红点"])
+
+    @TestLogger.log()
+    def click_share_now(self):
+        """点击立即分享"""
+        self.click_element(self.__class__.__locators['立即分享'])
+
+    @TestLogger.log()
+    def wait_for_share_group_password_invite_friend(self, timeout=10, auto_accept_alerts=True):
+        """等待 分享群口令邀请好友进群"""
+        try:
+            self.wait_until(
+                timeout=timeout,
+                auto_accept_permission_alert=auto_accept_alerts,
+                condition=lambda d: self.is_text_present("分享群口令邀请好友进群")
+            )
+        except:
+            message = "页面在{}s内，没有加载成功".format(timeout)
+            raise AssertionError(
+                message
+            )
+        return self
+
+    @TestLogger.log()
+    def click_share_qq(self):
+        """点击分享到QQ"""
+        self.click_element(self.__class__.__locators['分享到QQ'])
+
+    @TestLogger.log()
+    def click_share_wechat(self):
+        """点击分享到微信"""
+        self.click_element(self.__class__.__locators['分享到微信'])

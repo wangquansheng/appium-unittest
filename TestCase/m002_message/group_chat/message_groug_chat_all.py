@@ -391,6 +391,7 @@ class MsgAllPrior(TestCase):
         single_chat_page.delete_mess('this is a test message')
         single_chat_page.page_should_not_contain_text('this is a test message')
 
+
 class MsgGroupChatTest(TestCase):
     """
     模块：消息->群聊
