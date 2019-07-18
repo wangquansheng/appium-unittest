@@ -12291,3 +12291,30 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(1)
         # 3.验证是否有消息免打扰标识
         self.assertFalse(gcp.is_exist_undisturb())
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0549(self):
+        """普通群， 分享群聊邀请口令"""
+        # 1、网络异常
+        # 2、已加入或创建普通群
+        # 3、已消除红点
+        # 4、群主、群成员
+        # 5、仅限大陆本网和异网号码
+        gcp = GroupChatPage()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.断开网络
+        gcsp.set_network_status(0)
+        # 3.点击邀请微信或QQ好友进群
+        gcsp.click_avetor_qq_wechat_friend()
+        # 4.验证是否提示‘网络不可用，请检查网络设置’
+        self.assertTrue(gcsp.is_toast_exist("网络不可用，请检查网络设置"))
+        time.sleep(1)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0549():
+        # 重新连接网络
+        scp = GroupChatPage()
+        scp.set_network_status(6)
