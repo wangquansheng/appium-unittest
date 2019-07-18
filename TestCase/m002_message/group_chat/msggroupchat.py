@@ -3897,3 +3897,116 @@ class MessageGroupChatSendGroupMessage(TestCase):
         cgs.wait_for_page_load()
         self.assertTrue(cgs.is_on_message_edit_this_page())
         time.sleep(1)
+
+    @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
+    def test_msg_huangcaizui_C_0020(self):
+        """点击左上角返回键时候返回群聊天页面"""
+        # 1.网络正常，本网用户
+        # 2.客户端已登录
+        # 3.首次使用发送短信，短信设置开关已开启
+        # 4.（普通群群主、企业群/党群的成员或群主）已进入的群聊页面
+        gcp = GroupChatPage()
+        # 1.点击更多富媒体按钮
+        gcp.click_more()
+        # 2.点击群短信
+        gcp.click_group_sms()
+        time.sleep(1)
+        cgs = ChatGroupSMSPage()
+        # 3.如果在资费介绍页，点击确定
+        if cgs.is_on_this_page():
+            cgs.click_coordinate()
+        time.sleep(1)
+        # 3.点击返回
+        cgs.click_back()
+        # 4.验证是否在群聊页面
+        self.assertTrue(gcp.is_on_this_page())
+
+    @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
+    def test_msg_huangcaizui_C_0021(self):
+        """从群短信列表进入群发短信页面"""
+        # 1.网络正常，本网用户
+        # 2.客户端已登录
+        # 3.首次使用发送短信，短信设置开关已开启
+        # 4.（普通群群主、企业群/党群的成员或群主）已进入的群聊页面
+        gcp = GroupChatPage()
+        # 1.点击更多富媒体按钮
+        gcp.click_more()
+        # 2.点击群短信
+        gcp.click_group_sms()
+        cgs = ChatGroupSMSPage()
+        # 3.如果在资费介绍页，点击确定
+        if cgs.is_on_this_page():
+            cgs.click_coordinate()
+        # 4.等待群短信记录页面加载
+        cgs.wait_for_record_page_load()
+        # 5.点击底部的编辑新短信的按钮
+        cgs.click_add()
+        # 6.验证是否跳转到群短信编辑页面
+        cgs.wait_for_page_load()
+        self.assertTrue(cgs.is_on_message_edit_this_page())
+        time.sleep(1)
+
+    @staticmethod
+    def setUp_test_msg_huangcaizui_C_0025():
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().reset_app()
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊1")
+
+    @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
+    def test_msg_huangcaizui_C_0025(self):
+        """进入群短信收件人联系人选择器"""
+        # 1.网络正常，本网用户
+        # 2.客户端已登录
+        # 3.首次使用发送短信，短信设置开关已开启
+        # 4.（普通群群主、企业群/党群的成员或群主）已进入的群聊页面
+        gcp = GroupChatPage()
+        # 1.点击更多富媒体按钮
+        gcp.click_more()
+        # 2.点击群短信
+        gcp.click_group_sms()
+        cgs = ChatGroupSMSPage()
+        # 3.如果在资费介绍页，点击确定
+        if cgs.is_on_this_page():
+            cgs.click_coordinate()
+        cgs.wait_for_page_load()
+        # 4.输入文本消息
+        cgs.input_text_message("测试测试")
+        # 5.点击发送消息
+        cgs.click_send()
+        # 6.验证是否弹框提示'请选择收件人'
+        self.assertTrue(cgs.is_toast_exist("请选择收件人"))
+        # 7.点击接收人右边头像按钮
+        cgs.click_add_contact()
+        cgs.wait_for_select_contact_page_load()
+        # 8.验证是否存在全选按钮
+        self.assertTrue(cgs.is_exist_select_all())
+        # 9.选择第一个联系人
+        cgs.click_first_contact()
+        # 10.验证是否存在已选择人数和可选择的最高上限人数显示
+        self.assertTrue(cgs.is_exist_select_and_all())
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
+    def test_msg_huangcaizui_C_0026(self):
+        """进入群短信收件人联系人选择器"""
+        # 1.网络正常，本网用户
+        # 2.客户端已登录
+        # 3.首次使用发送短信，短信设置开关已开启
+        # 4.（普通群群主、企业群/党群的成员或群主）已进入的群聊页面
+        gcp = GroupChatPage()
+        # 1.点击更多富媒体按钮
+        gcp.click_more()
+        # 2.点击群短信
+        gcp.click_group_sms()
+        cgs = ChatGroupSMSPage()
+        # 3.如果在资费介绍页，点击确定
+        if cgs.is_on_this_page():
+            cgs.click_coordinate()
+        cgs.wait_for_page_load()
+        # 4.点击接收人右边头像按钮
+        cgs.click_add_contact()
+        cgs.wait_for_select_contact_page_load()
+        # 5.点击全选
+        cgs.click_select_all()
+        time.sleep(2)
