@@ -3299,11 +3299,154 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # “分享至当前群”按钮正常开启
         gcsp = GroupChatSetPage()
         gcsp.click_text("分享至当前群")
-        # 无法获取 开启后按钮状态
+        # # #无法获取 开启后按钮状态
         result = gcsp.click_element_share2group_text()
         result = 'false' == result
         print("result = " + str(result))
         self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0124(self):
+        """普通企业群/长ID企业群：进入日志应用后页面样式检查（本网号为例）"""
+        # 1、正常进入该企业下日志应用一级页面且页面样式及文案与工作台进入日志一致
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        # 选择 测试企业群
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 点击 + 号
+        gcp.click_more()
+        # 点击 日志
+        gcp.click_text("日志")
+        time.sleep(3)
+        exist = gcp.is_text_present("我发出的")
+        self.assertEqual(exist, True)
+        exist = gcp.is_text_present("我收到的")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0125(self):
+        """普通企业群/长ID企业群：进入日志应用后能否正常返回群聊页面（本网号为例）"""
+        # 1、正常返回进入前的群聊页面且群内“+”保持打开状态
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        # 选择 测试企业群
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 点击 + 号
+        gcp.click_more()
+        # 点击 日志
+        gcp.click_text("日志")
+        time.sleep(3)
+        gcp.click_back2()
+        time.sleep(1)
+        exist = gcp.is_text_present("日志")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0129(self):
+        """普通企业群/长ID企业群：写日志--日志编写界面样式检查（本网号为例）"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        # 选择 测试企业群
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 点击 + 号
+        gcp.click_more()
+        # 点击 日志
+        gcp.click_text("日志")
+        time.sleep(3)
+        gcp.click_text("写日志")
+        time.sleep(1)
+        # 1、弹出“日报、周报、月报、取消”的选择框
+        exist = gcp.is_text_present("日报")
+        self.assertEqual(exist, True)
+        gcp.click_text("日报")
+        time.sleep(1)
+        # 2、正常进入日志编写界面
+        exist = gcp.is_text_present("今日工作总结")
+        self.assertEqual(exist, True)
+        # 3、隐藏“添加上次联系人”按钮、“日志转聊天”按钮默认关闭、“分享至当前群”按钮默认关闭
+        # “分享至当前群”按钮默认关闭
+        gcsp = GroupChatSetPage()
+        result = gcsp.find_element_share2group_text()
+        result = 'false' == result
+        self.assertEqual(result, True)
+        # “日志转聊天”按钮默认关闭
+        gcsp = GroupChatSetPage()
+        result = gcsp.find_element_daily2chat_text()
+        result = 'false' == result
+        self.assertEqual(result, True)
+        # 4、返回到应用上一级页面
+        gcp.click_back2()
+        time.sleep(1)
+        exist = gcp.is_text_present("日志类型")
+        self.assertEqual(exist, True)
+        # 5、关闭应用返回到群聊
+        gcp.click_close_back()
+        time.sleep(1)
+        exist = gcp.is_text_present("测试企业群")
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_hanjiabin_0130(self):
+        """普通企业群/长ID企业群：写日志--选择接收人（本网号为例）"""
+        # 1、点击“接收人”下方“+”选择接收人
+        # 2、选择了接收人后再次点击下方“+”选择接收人
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        # 选择 测试企业群
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name('测试企业群')
+        time.sleep(1)
+        # 点击 + 号
+        gcp.click_more()
+        # 点击 日志
+        gcp.click_text("日志")
+        time.sleep(3)
+        gcp.click_text("写日志")
+        time.sleep(1)
+        gcp.click_text("日报")
+        time.sleep(1)
+        # 1、调起企业联系人选择器、内部成员数据与工作台内一致、可以正常选择接收人（最多可选100人）
+        self.swipe_by_percent_on_screen(50, 72, 50, 36, 800)
+        gcp.click_text("+")
+        time.sleep(1)
+        exist = gcp.is_text_present("选择联系人")
+        self.assertEqual(exist, True)
+        gcp.click_text("bm0")
+        time.sleep(1)
+        gcp.click_text("a加1")
+        time.sleep(1)
+        gcp.click_text("确定")
+        exist = gcp.is_text_present("a加1")
+        self.assertEqual(exist, True)
+
+
+
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0353(self):
