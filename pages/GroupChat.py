@@ -119,7 +119,10 @@ class GroupChatPage(BaseChatPage):
                   '原图': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/cb_original_photo"]'),
                   '预览': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_preview"]'),
                   '结束双人视频': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_term'),
-
+                  '飞信电话缩放按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_multi_call_hide'),
+                  '飞信电话会控加号': (MobileBy.ID, 'com.chinasofti.rcs:id/ivAvatar'),
+                  '飞信电话会控全员禁音': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_group_mute'),
+                  '挂断和飞信电话': (MobileBy.ID, 'com.chinasofti.rcs:id/ivDecline'),
                   }
 
     @TestLogger.log()

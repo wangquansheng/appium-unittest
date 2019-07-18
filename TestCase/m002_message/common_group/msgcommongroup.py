@@ -460,23 +460,24 @@ class Preconditions(object):
         sc.click_local_contacts()
         time.sleep(2)
         slc = SelectLocalContactsPage()
-        a = 0
-        names = {}
-        while a < 3:
-            names = slc.get_contacts_name()
-            num = len(names)
-            if not names:
-                raise AssertionError("No contacts, please add contacts in address book.")
-            if num == 1:
-                sog.page_up()
-                a += 1
-                if a == 3:
-                    raise AssertionError("联系人只有一个，请再添加多个不同名字联系人组成群聊")
-            else:
-                break
-        # 选择成员
-        for name in names:
-            slc.select_one_member_by_name(name)
+        slc.click_one_contact("飞信电话")
+        # a = 0
+        # names = {}
+        # while a < 3:
+        #     names = slc.get_contacts_name()
+        #     num = len(names)
+        #     if not names:
+        #         raise AssertionError("No contacts, please add contacts in address book.")
+        #     if num == 1:
+        #         sog.page_up()
+        #         a += 1
+        #         if a == 3:
+        #             raise AssertionError("联系人只有一个，请再添加多个不同名字联系人组成群聊")
+        #     else:
+        #         break
+        # # 选择成员
+        # for name in names:
+        #     slc.select_one_member_by_name(name)
         slc.click_sure()
         # 创建群
         cgnp = CreateGroupNamePage()
@@ -10495,6 +10496,7 @@ class MsgCommonGroupAllTest(TestCase):
         gcsp.wait_for_page_load()
         gcp.click_element_("添加群成员加号")
         sc = SelectContactsPage()
+        time.sleep(2)
         sc.input_search_keyword(phone_number)
         time.sleep(2)
         sc.click_text("tel")
