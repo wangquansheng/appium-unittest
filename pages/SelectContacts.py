@@ -361,12 +361,11 @@ class SelectContactsPage(BasePage):
         print("els---------------------------")
         return False
 
-
-
-        # if el is None:
-        #     return True
-        # else:
-        #     return False
+    @TestLogger.log('获取群主名称')
+    def get_contact_name(self):
+        """获取群主名称"""
+        els = self.get_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name"]'))
+        return els.text
 
     @TestLogger.log('点击联系人头像')
     def click_cantact_avatar(self):

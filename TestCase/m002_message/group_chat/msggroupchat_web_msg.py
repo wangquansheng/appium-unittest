@@ -2930,7 +2930,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         result = mess.is_text_present("群聊测试1")
         self.assertEqual(result, True)
 
-
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_hanjiabin_0057(self):
         """普通企业群/长ID企业群：三种用户类型打开“+”后是否都展示正常——本网号"""
@@ -3445,9 +3444,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         exist = gcp.is_text_present("a加1")
         self.assertEqual(exist, True)
 
-
-
-
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0353(self):
         """全局搜索入口——搜索企业群/党群名称默认的三个结果"""
@@ -3641,6 +3637,61 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         self.assertEqual(exist, False)
 
     @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0365(self):
+        """群聊设置--群成员预览内非RCS用户头像置灰消息--右上角“+”--发起群聊--选择一个群——选择一个企业群/党群"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        # 点击 +
+        mp.click_add_icon()
+        # 点击-发起群聊
+        mp.click_group_chat()
+        # 点击-选择一个群
+        scg = SelectContactsPage()
+        scg.click_select_one_group()
+        # 1、正常进入群聊选择器界面
+        # 2、全部正常
+        result = gcp.is_text_present("选择一个群")
+        self.assertEqual(result, True)
+        mp.is_exist_the_element("企业头像")
+        mp.is_exist_the_element("企业标识")
+        mp.is_exist_the_element("企业群名")
+        mp.is_exist_the_element("企业成员数量")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0366(self):
+        """消息--右上角“+”--发起群聊--选择一个群——选择一个企业群/党群"""
+        # 普通成员在群聊设置页没有拉人“+”和踢人“-”按钮
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        # 设置
+        gcp.click_setting()
+        time.sleep(1)
+        # 判断
+        sc = SelectContactsPage()
+        exist = sc.is_exisit_null_contact(None)
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0367(self):
+        """消息--右上角“+”--发起群聊--选择一个群——选择一个企业群/党群"""
+        # 群主在群聊设置页有拉人“+”和踢人“-”按钮
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        # 设置
+        gcp.click_setting()
+        time.sleep(1)
+        # 判断
+        sc = SelectContactsPage()
+        exist = sc.is_exisit_null_contact(None)
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0370(self):
         """消息--右上角“+”--发起群聊--选择一个群——选择一个企业群/党群"""
         gcp = GroupChatPage()
@@ -3670,6 +3721,27 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         self.assertEqual(exist, False)
         exist = gcp.is_text_present("123456")
         self.assertEqual(exist, False)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0371(self):
+        """消息列表入口"""
+        # 群主在群聊设置页有拉人“+”和踢人“-”按钮
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        gcp.input_message('哈哈0371')
+        gcp.send_message()
+        time.sleep(1)
+        gcp.click_back()
+        gcp.click_text("测试企业群")
+        # 设置
+        gcp.click_setting()
+        time.sleep(1)
+        sc = SelectContactsPage()
+        exist = sc.is_exisit_null_contact(None)
+        self.assertEqual(exist, True)
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0372(self):
@@ -3723,6 +3795,145 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 2、企群头像右下角“企”标识；党群的群名称后党徽标识
         mess.is_exist_the_element("企业头像")
         mess.is_exist_the_element("企业标识")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0382(self):
+        """企业群/党群在消息列表内展示——最新消息展示"""
+        # 正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 设置
+        gcp.click_setting()
+        time.sleep(1)
+        sc = SelectContactsPage()
+        result = sc.get_contact_name()
+        print("result ==== " + result)
+        gcp.click_back_by_android()
+        # 发送消息
+        gcp.input_message('哈哈0382')
+        gcp.send_message()
+        time.sleep(1)
+        gcp.click_back()
+        exist = gcp.is_text_present(result)
+        self.assertEqual(exist, False)
+        exist = gcp.is_text_present('哈哈0382')
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0395(self):
+        """企业群/党群在消息列表内展示——最新消息展示——草稿"""
+        # 自己在输入框内填写信息未发出时展示红色“[草稿]“+消息内容-正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_message('哈哈0395')
+        #gcp.send_message()
+        gcp.click_back()
+        time.sleep(1)
+        exist = gcp.is_text_present('[草稿]')
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0396(self):
+        """企业群/党群在消息列表内展示——最新消息展示——撤回消息"""
+        # 1、.撤回消息提示:自己撤回的消息展示为“你撤回了一条信息”
+        # 正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 发送消息
+        gcp.input_message('哈哈0396')
+        gcp.send_message()
+        time.sleep(1)
+        gcp.press_file_to_do("哈哈0396", "撤回")
+        time.sleep(1)
+        if gcp.is_text_present('我知道了'):
+            gcp.click_text("我知道了")
+        time.sleep(1)
+        exist = gcp.is_text_present('你撤回了一条信息')
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0397(self):
+        """企业群/党群在消息列表内展示——红点展示规则"""
+        # 1、展示未读消息数（超过99条显示“99+”）-涉及双机
+        # 2、免打扰时仅显示一个小红点-涉及双机
+        # 3、自己发送失败的最新消息时展示一个“！”
+        # 正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 断网
+        gcp.set_network_status(0)
+        # 发送消息
+        gcp.input_message('哈哈0397')
+        gcp.send_message()
+        time.sleep(1)
+        # 返回到消息列表
+        gcp.click_back()
+        time.sleep(1)
+        # 判断
+        mess = MessagePage()
+        if not mess.is_element_exit_("消息发送失败感叹号"):
+            raise AssertionError("自己发送失败的最新消息时不会展示一个‘！’")
+
+    def tearDown_test_msg_huangmianhua_0397(self):
+        gcp = GroupChatPage()
+        gcp.set_network_status(6)
+        time.sleep(1)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0398(self):
+        """企业群/党群在消息列表内展示——免打扰"""
+        # 免打扰时右下角免打扰标识
+        # 正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 设置
+        gcp.click_setting()
+        time.sleep(1)
+        # 消息免打扰按钮(打开)
+        gcsp = GroupChatSetPage()
+        gcsp.click_switch_undisturb()
+        time.sleep(3)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        # 发送消息
+        gcp.input_message('哈哈0398')
+        gcp.send_message()
+        time.sleep(1)
+        # 返回到消息列表
+        gcp.click_back()
+        time.sleep(1)
+        # 判断
+        mess = MessagePage()
+        result = mess.is_exist_undisturb('测试企业群')
+        if not result:
+            raise AssertionError("在消息列表，开启免打扰的聊天窗口上没有展示免打扰标志")
+
+    def tearDown_test_msg_huangmianhua_0398(self):
+        # 恢复群聊免打扰状态 -- 设置
+        gcp = GroupChatPage()
+        gcp.click_text("测试企业群")
+        gcp.click_setting()
+        time.sleep(1)
+        # 消息免打扰按钮(打开)
+        gcsp = GroupChatSetPage()
+        gcsp.click_switch_undisturb()
+        time.sleep(3)
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0420(self):
