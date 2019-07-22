@@ -3481,7 +3481,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 普通成员在群聊设置页没有拉人“+”和踢人“-”按钮
         sc = SelectContactsPage()
         exist = sc.is_exisit_null_contact(None)
-        self.assertEqual(exist, False)
+        self.assertEqual(exist, True)
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0355(self):
@@ -3577,7 +3577,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 普通成员在群聊设置页没有拉人“+”和踢人“-”按钮
         sc = SelectContactsPage()
         exist = sc.is_exisit_null_contact(None)
-        self.assertEqual(exist, False)
+        self.assertEqual(exist, True)
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0361(self):
@@ -3936,6 +3936,33 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         time.sleep(3)
 
     @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0418(self):
+        """通讯录——群聊入口——群聊列表入口"""
+        # 新加入的企业群应及时在列表展示
+        # 全部正常
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        if not gcp.is_text_present("测试企业群"):
+            raise AssertionError("企业群应没有在列表展示")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0419(self):
+        """通讯录——群聊入口——群聊列表入口"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        gcp.click_setting()
+        time.sleep(1)
+        # 判断
+        # 普通成员在群聊设置页没有拉人“+”和踢人“-”按钮
+        sc = SelectContactsPage()
+        exist = sc.is_exisit_null_contact(None)
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0420(self):
         """通讯录——群聊入口——群聊列表入口"""
         gcp = GroupChatPage()
@@ -3946,7 +3973,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         contact = ContactsPage()
         contact.click_group_chat_631()
         time.sleep(1)
-        # 打开企业群
         sog = SelectOneGroupPage()
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         group_name = "ag" + phone_number[-4:]
