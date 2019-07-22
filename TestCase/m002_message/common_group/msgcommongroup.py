@@ -6752,6 +6752,64 @@ class MsgCommonGroupPriorityTest(TestCase):
         exist = mess.is_text_present(":")
         self.assertEqual(exist, True)
 
+    @tags('ALL', 'Priority', 'CMCC', 'high')
+    def test_msg_huangmianhua_0401(self):
+        """系统消息入口——系统消息展示规则"""
+        # 1.默认头像
+        # 2.群名称：超长时后面加“...”（是否超长按宽度来计算）
+        # 全部正常
+        gcp = GroupChatPage()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.click_modify_group_name()
+        time.sleep(1)
+        gcsp.clear_group_name()
+        time.sleep(1)
+        # 录入新群名 "adcdefghijklmnopqrstuvwxyzjkhuuibb"
+        gcsp.input_new_group_name("adcdefghijklmnopqrstuvwxyzjkhuuibb")
+        time.sleep(1)
+        # 保存群名
+        gcsp.save_group_name()
+        time.sleep(1)
+        gcsp.click_back()
+        gcp.wait_for_page_load()
+        # 输入信息
+        gcp.input_message("哈哈")
+        # 点击发送
+        gcp.send_message()
+        # 回到消息列表界面
+        gcp.click_back()
+        time.sleep(1)
+        # 判定
+        mess = MessagePage()
+        exist = mess.is_text_present("…")
+        self.assertEqual(exist, True)
+
+    def tearDown_test_msg_huangmianhua_0401(self):
+        mess = MessagePage()
+        mess.selecting_one_group_click_by_name("adcdefghijklmnopqrstuvwxyzjkhuuibb")
+        # 恢复群名
+        gcp = GroupChatPage()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.click_modify_group_name()
+        time.sleep(1)
+        gcsp.clear_group_name()
+        time.sleep(1)
+        group_name = Preconditions.get_group_chat_name()
+        gcsp.input_new_group_name(group_name)
+        time.sleep(1)
+        if not gcsp.is_enabled_of_group_name_save_button():
+            raise AssertionError("页面右上角的确定按钮没有高亮展示")
+        gcsp.save_group_name()
+        if not gcsp.is_toast_exist("修改成功"):
+            raise AssertionError("群名称更改为新名称失败")
+        gcsp.click_back()
+
+
+
 class MsgCommonGroupAllTest(TestCase):
     """
             模块：消息-普通群
