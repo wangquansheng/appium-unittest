@@ -949,6 +949,31 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
 
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0013(self):
+        """消息--右上角“+”--发起群聊--选择一个群——选择一个企业群/党群"""
+        # 1、正常进入群聊选择器界面
+        # 2、全部正常
+        gcp = GroupChatPage()
+        gcp.click_back()
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        # 点击 +
+        mp.click_add_icon()
+        # 点击-发起群聊
+        mp.click_group_chat()
+        # 点击-选择一个群
+        scg = SelectContactsPage()
+        scg.click_select_one_group()
+        # 1、正常进入群聊选择器界面
+        # 2、全部正常
+        result = gcp.is_text_present("选择一个群")
+        self.assertEqual(result, True)
+        mp.is_exist_the_element("企业头像")
+        mp.is_exist_the_element("企业标识")
+        mp.is_exist_the_element("企业群名")
+        mp.is_exist_the_element("企业成员数量")
+
     @tags('ALL', 'CMCC', 'YL')
     def test_msg_huangmianhua_0046(self):
         """
@@ -1996,7 +2021,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         result = gcp.is_text_present("@")
         self.assertEqual(result, False)
 
-
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0204(self):
         """
@@ -2876,7 +2900,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         self.assertEqual(result, True)
 
     @tags('ALL', 'CMCC', 'group_chat')
-    def test_msg_huangmianhua_0304(self):
+    def test_msg_huangmianhua_0305(self):
         """群聊设置--群成员预览内非RCS用户头像置灰"""
         gcp = GroupChatPage()
         gcp.click_back()
@@ -3660,22 +3684,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mp.is_exist_the_element("企业成员数量")
 
     @tags('ALL', 'CMCC', 'group_chat')
-    def test_msg_huangmianhua_0366(self):
-        """消息--右上角“+”--发起群聊--选择一个群——选择一个企业群/党群"""
-        # 普通成员在群聊设置页没有拉人“+”和踢人“-”按钮
-        gcp = GroupChatPage()
-        gcp.click_back()
-        # 打开企业群
-        Preconditions.get_into_group_chat_page('测试企业群')
-        # 设置
-        gcp.click_setting()
-        time.sleep(1)
-        # 判断
-        sc = SelectContactsPage()
-        exist = sc.is_exisit_null_contact(None)
-        self.assertEqual(exist, True)
-
-    @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0367(self):
         """消息--右上角“+”--发起群聊--选择一个群——选择一个企业群/党群"""
         # 群主在群聊设置页有拉人“+”和踢人“-”按钮
@@ -3721,27 +3729,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         self.assertEqual(exist, False)
         exist = gcp.is_text_present("123456")
         self.assertEqual(exist, False)
-
-    @tags('ALL', 'CMCC', 'group_chat')
-    def test_msg_huangmianhua_0371(self):
-        """消息列表入口"""
-        # 群主在群聊设置页有拉人“+”和踢人“-”按钮
-        gcp = GroupChatPage()
-        gcp.click_back()
-        # 打开企业群
-        Preconditions.get_into_group_chat_page('测试企业群')
-        Preconditions.delete_record_group_chat()
-        gcp.input_message('哈哈0371')
-        gcp.send_message()
-        time.sleep(1)
-        gcp.click_back()
-        gcp.click_text("测试企业群")
-        # 设置
-        gcp.click_setting()
-        time.sleep(1)
-        sc = SelectContactsPage()
-        exist = sc.is_exisit_null_contact(None)
-        self.assertEqual(exist, True)
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0372(self):
@@ -3946,21 +3933,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         Preconditions.get_into_group_chat_page('测试企业群')
         if not gcp.is_text_present("测试企业群"):
             raise AssertionError("企业群应没有在列表展示")
-
-    @tags('ALL', 'CMCC', 'group_chat')
-    def test_msg_huangmianhua_0419(self):
-        """通讯录——群聊入口——群聊列表入口"""
-        gcp = GroupChatPage()
-        gcp.click_back()
-        # 打开企业群
-        Preconditions.get_into_group_chat_page('测试企业群')
-        gcp.click_setting()
-        time.sleep(1)
-        # 判断
-        # 普通成员在群聊设置页没有拉人“+”和踢人“-”按钮
-        sc = SelectContactsPage()
-        exist = sc.is_exisit_null_contact(None)
-        self.assertEqual(exist, True)
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0420(self):
