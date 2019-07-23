@@ -56,6 +56,7 @@ class GroupChatSetPage(BasePage):
                   "确定": (MobileBy.XPATH, '//*[@text ="确定"]'),
                   "取消": (MobileBy.XPATH, '//*[@text ="取消"]'),
                   "退出": (MobileBy.XPATH, '//*[@text ="退出"]'),
+                  "日志转聊天(开启后会将单聊消息发送给接收人)": (MobileBy.XPATH, '//*[@text ="日志转聊天(开启后会将单聊消息发送给接收人)"]'),
                   "分享至当前群(开启后将发送至当前群)": (MobileBy.XPATH, '//*[@text ="分享至当前群(开启后将发送至当前群)"]'),
                   '群成员': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_head'),
                   '完成': (MobileBy.ID, 'com.chinasofti.rcs:id/group_name_save'),
@@ -285,8 +286,17 @@ class GroupChatSetPage(BasePage):
     @TestLogger.log()
     def find_element_share2group_text(self):
         """分享至当前群"""
+        self.swipe_by_percent_on_screen(50, 72, 50, 36, 800)
         self._find_menu(self.__locators['分享至当前群(开启后将发送至当前群)'])
         el = self.get_element(self.__locators['分享至当前群(开启后将发送至当前群)'])
+        return el.get_attribute("checked")
+
+    @TestLogger.log()
+    def find_element_daily2chat_text(self):
+        """日志转聊天"""
+        self.swipe_by_percent_on_screen(50, 72, 50, 36, 800)
+        self._find_menu(self.__locators['日志转聊天(开启后会将单聊消息发送给接收人)'])
+        el = self.get_element(self.__locators['日志转聊天(开启后会将单聊消息发送给接收人)'])
         return el.get_attribute("checked")
 
     @TestLogger.log()
