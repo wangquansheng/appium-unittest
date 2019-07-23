@@ -270,6 +270,28 @@ class Preconditions(WorkbenchPreconditions):
         """后台运行"""
         current_mobile().press_home_key()
 
+    @staticmethod
+    def enter_single_chat_page(name):
+        """进入单聊聊天会话页面"""
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        # 点击 +
+        mp.click_add_icon()
+        # 点击“新建消息”
+        mp.click_new_message()
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        # 进入单聊会话页面
+        slc.selecting_local_contacts_by_name(name)
+        bcp = BaseChatPage()
+        if bcp.is_exist_dialog():
+            # 点击我已阅读
+            bcp.click_i_have_read()
+        scp = SingleChatPage()
+        # 等待单聊会话页面加载
+        scp.wait_for_page_load()
+
+
 class MsgGroupChatTest(TestCase):
     """
     模块：消息->群聊
@@ -4246,459 +4268,212 @@ class MessageGroupChatSendGroupMessage(TestCase):
         self.assertTrue(cgs.is_on_message_record_this_page())
 
     @staticmethod
-    def setUp_test_msg_xiaoqiu_0380():
-        """创建群添加团队人，确保有成员可删除"""
+    def setUp_test_msg_xiaoqiu_0615():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        mess = MessagePage()
-        # 1.点击通讯录
-        mess.click_contacts()
-        contact = ContactsPage()
-        if contact.is_text_present('始终允许'):
-            contact.click_text('始终允许')
-        # 2.点击群聊
-        contact.click_group_chat()
-        glp = GroupListPage()
-        glp.wait_for_page_load()
-        # 3.点击新建群
-        glp.click_create_group()
-        # 4.点击选择团队联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_load()
-        scp.click_group_contact()
-        # 5.选择团队联系人
-        scp.input_search_keyword("大佬1")
-        scp.selecting_contacts_by_name("大佬1")
-        scp.input_search_keyword("大佬2")
-        scp.selecting_contacts_by_name("大佬2")
-        # 6.点击确定
-        scp.click_sure_forward()
-        cgnp = CreateGroupNamePage()
-        cgnp.wait_for_page_load()
-        # 7.输入群名
-        cgnp.input_group_name("测试群删除群成员")
-        time.sleep(2)
-        # 8.点击确定
-        cgnp.click_sure()
-        gcp = GroupChatPage()
-        gcp.wait_for_page_load()
+        Preconditions.get_into_group_chat_page("群聊1")
 
     @tags('ALL', 'CMCC', 'yx')
-    def test_msg_xiaoqiu_0380(self):
-        """群主A——在群设置页面点击——移除群成员B后——收到的群消息"""
-        # 1、已登录客户端
-        # 2、网络正常
-        # 3、A当前在群设置页面
+    def test_msg_xiaoqiu_0615(self):
+        """首次创建群聊桌面快捷方式"""
+        # 1、手机存在桌面快捷方式权限
+        # 2、已开启此权限或者此权限默认为开启状态
+        # 3、登录和飞信
+        # 4、进入到群聊设置页面
+        # 5、勾选弹窗中复选框
         gcp = GroupChatPage()
         gcp.wait_for_page_load()
         # 1.点击设置
         gcp.click_setting()
         gcsp = GroupChatSetPage()
         gcsp.wait_for_page_load()
-        # 2.点击“—”移除成员
-        gcsp.click_delete_member()
-        # 3.选择第一个成员
-        gcsp.click_first_group_member_avatar()
-        # 4.点击确定移除
-        gcsp.click_delete_member_sure()
-        gcsp.click_sure()
-        # 5.返回群聊页面
-        gcsp.click_back()
-        gcp.wait_for_page_load()
+        # 2.点击添加桌面快捷方式
+        gcsp.click_add_destop_link()
+        # 3.点击不再提醒
+        if gcsp.is_text_present("我知道了"):
+            gcsp.click_no_show_again()
+            gcsp.click_text("我知道了")
         time.sleep(3)
-        # 6.验证是否提示‘你已将 XX 移出群’
-        self.assertTrue(gcp.page_should_contain_text("移出群"))
-        time.sleep(2)
+        if gcsp.is_text_present("添加到主屏幕"):
+            gcsp.click_sure_add_desktop_shortcut()
+        # 4.再次点击添加桌面快捷方式
+        gcsp.wait_for_page_load()
+        gcsp.click_add_destop_link()
+        # 5.验证是否再次弹框提示‘已尝试添加到桌面’
+        self.assertFalse(gcsp.is_text_present("我知道了"))
 
     @staticmethod
-    def setUp_test_msg_xiaoqiu_0387():
-        """创建群添加团队人，确保有成员可删除"""
+    def setUp_test_msg_xiaoqiu_0616():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
         Preconditions.make_already_in_message_page()
-        mess = MessagePage()
-        # 1.点击通讯录
-        mess.click_contacts()
-        contact = ContactsPage()
-        if contact.is_text_present('始终允许'):
-            contact.click_text('始终允许')
-        # 2.点击群聊
-        contact.click_group_chat()
-        glp = GroupListPage()
-        glp.wait_for_page_load()
-        # 3.点击新建群
-        glp.click_create_group()
-        # 4.点击选择团队联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_load()
-        scp.click_group_contact()
-        # 5.选择团队联系人
-        scp.input_search_keyword("大佬1")
-        scp.selecting_contacts_by_name("大佬1")
-        scp.input_search_keyword("大佬2")
-        scp.selecting_contacts_by_name("大佬2")
-        # 6.点击确定
-        scp.click_sure_forward()
-        cgnp = CreateGroupNamePage()
-        cgnp.wait_for_page_load()
-        # 7.输入群名
-        cgnp.input_group_name("测试群删除群成员2")
-        time.sleep(2)
-        # 8.点击确定
-        cgnp.click_sure()
-        gcp = GroupChatPage()
-        gcp.wait_for_page_load()
+        Preconditions.get_into_group_chat_page("群聊1")
 
     @tags('ALL', 'CMCC', 'yx')
-    def test_msg_xiaoqiu_0387(self):
-        """验证群主在群设置页面——将所有群成员——移出群后——群主收到的群消息"""
+    def test_msg_xiaoqiu_0616(self):
+        """首次创建群聊桌面快捷方式"""
+        # 1、手机存在桌面快捷方式权限
+        # 2、已开启此权限或者此权限默认为开启状态
+        # 3、登录和飞信
+        # 4、进入到群聊设置页面
+        # 5、勾选弹窗中复选框
         gcp = GroupChatPage()
         gcp.wait_for_page_load()
         # 1.点击设置
         gcp.click_setting()
         gcsp = GroupChatSetPage()
         gcsp.wait_for_page_load()
-        # 2.点击“—”移除成员
-        for i in range(2):
-            gcsp.click_delete_member()
-            # 3.选择成员
-            gcsp.click_first_group_member_avatar()
-            # 4.点击确定移除
-            gcsp.click_delete_member_sure()
-            gcsp.click_sure()
-        # 5.返回群聊页面
-        gcsp.click_back()
-        gcp.wait_for_page_load()
+        # 2.点击添加桌面快捷方式
+        gcsp.click_add_destop_link()
+        # 3.点击不再提醒
+        if gcsp.is_text_present("我知道了"):
+            gcsp.click_no_show_again()
+            gcsp.click_text("我知道了")
         time.sleep(3)
-        # 6.验证是否提示‘你已将 XX 移出群’
-        self.assertTrue(gcp.page_should_contain_text("移出群"))
-        time.sleep(2)
-        # 7.验证是否提示‘该群已解散’
-        self.assertTrue(gcp.page_should_contain_text("该群已解散"))
-        time.sleep(1)
+        if gcsp.is_text_present("添加到主屏幕"):
+            gcsp.click_sure_add_desktop_shortcut()
+        # 4.重置APP
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊1")
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 5.点击添加桌面快捷方式
+        gcsp.click_add_destop_link()
+        # 6.点击不再提醒
+        if gcsp.is_text_present("我知道了"):
+            gcsp.click_no_show_again()
+            gcsp.click_text("我知道了")
+        time.sleep(3)
+        if gcsp.is_text_present("添加到主屏幕"):
+            gcsp.click_sure_add_desktop_shortcut()
 
     @staticmethod
-    def setUp_test_msg_xiaoqiu_0388():
-        """创建群添加团队人，确保有成员可删除"""
+    def setUp_test_msg_xiaoqiu_0617():
+        """进入群聊创建快捷方式，退出登录"""
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        mess = MessagePage()
-        # 先删除系统消息记录，以免影响后面验证是否有系统消息提示
-        if mess.is_text_present("系统消息"):
-            mess.press_file_to_do("系统消息", "删除聊天")
-        # 1.点击通讯录
-        mess.click_contacts()
-        contact = ContactsPage()
-        if contact.is_text_present('始终允许'):
-            contact.click_text('始终允许')
-        # 2.点击群聊
-        contact.click_group_chat()
-        glp = GroupListPage()
-        glp.wait_for_page_load()
-        # 3.点击新建群
-        glp.click_create_group()
-        # 4.点击选择团队联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_load()
-        scp.click_group_contact()
-        # 5.选择团队联系人
-        scp.input_search_keyword("大佬1")
-        scp.selecting_contacts_by_name("大佬1")
-        scp.input_search_keyword("大佬2")
-        scp.selecting_contacts_by_name("大佬2")
-        # 6.点击确定
-        scp.click_sure_forward()
-        cgnp = CreateGroupNamePage()
-        cgnp.wait_for_page_load()
-        # 7.输入群名
-        cgnp.input_group_name("测试群删除群成员3")
-        time.sleep(2)
-        # 8.点击确定
-        cgnp.click_sure()
-        gcp = GroupChatPage()
-        gcp.wait_for_page_load()
-
-    @tags('ALL', 'CMCC', 'yx')
-    def test_msg_xiaoqiu_0388(self):
-        """验证群主在群设置页面——将所有群成员移出群后——群主收到的系统消息"""
-        # 1、已登录客户端
-        # 2、网络正常
-        # 3、当前群设置页面
+        Preconditions.get_into_group_chat_page("群聊1")
         gcp = GroupChatPage()
         gcp.wait_for_page_load()
         # 1.点击设置
         gcp.click_setting()
         gcsp = GroupChatSetPage()
         gcsp.wait_for_page_load()
-        # 2.点击“—”移除成员
-        for i in range(2):
-            gcsp.click_delete_member()
-            # 3.选择成员
-            gcsp.click_first_group_member_avatar()
-            # 4.点击确定移除
-            gcsp.click_delete_member_sure()
-            gcsp.click_sure()
-        # 5.返回消息页面
+        # 2.点击添加桌面快捷方式
+        gcsp.click_add_destop_link()
+        # 3.点击不再提醒
+        if gcsp.is_text_present("我知道了"):
+            gcsp.click_no_show_again()
+            gcsp.click_text("我知道了")
+        if gcsp.is_text_present("添加到主屏幕"):
+            gcsp.click_sure_add_desktop_shortcut()
+        # 4.点击返回消息页面
         gcsp.click_back()
-        gcp.wait_for_page_load()
         gcp.click_back()
-        scp = SelectContactsPage()
-        scp.click_back()
-        glp = GroupListPage()
-        glp.click_back()
-        contact = ContactsPage()
-        contact.click_message_icon()
         mess = MessagePage()
-        # 6.验证是否提示'该群已解散'
-        mess.wait_for_message_list_load()
-        mess.click_text("系统消息")
-        self.assertTrue(mess.is_text_present("该群已解散"))
+        mess.click_me_icon()
+        # 5.点击我
+        me_page = MePage()
+        me_page.click_setting_menu()
+        setting = SettingPage()
+        # 6.点击退出登录
+        setting.click_logout()
+        setting.click_ok_of_alert()
+        time.sleep(3)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0617(self):
+        """退出登录，点击桌面已创建成功的桌面快捷方式"""
+        # 1、当前桌面已存在和飞信群聊的快捷方式
+        # 2、和飞信是退出登录状态
+        Preconditions.background_app()
+        gcp = GroupChatPage()
+        time.sleep(2)
+        # 1.点击桌面已存在的群聊快捷方式
+        gcp.is_element_present_on_desktop("群聊1")
+        gcp.click_text("群聊1")
+        time.sleep(2)
+        one_key = OneKeyLoginPage()
+        # 2.验证是否会跳转到和飞信登录页
+        one_key.is_on_this_page()
         time.sleep(2)
 
     @staticmethod
-    def setUp_test_msg_xiaoqiu_0391():
-        """创建群添加团队人，确保有成员"""
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
+    def tearDown_test_msg_xiaoqiu_0617():
+        # 1.重新登录
+        one_key = OneKeyLoginPage()
+        one_key.wait_for_page_load()
+        one_key.click_one_key_login()
         mess = MessagePage()
-        # 先删除系统消息记录，以免影响后面验证是否有系统消息提示
-        if mess.is_text_present("系统消息"):
-            mess.press_file_to_do("系统消息", "删除聊天")
-        # 1.点击通讯录
-        mess.click_contacts_only()
-        contact = ContactsPage()
-        if contact.is_text_present('始终允许'):
-            contact.click_text('始终允许')
-        # 2.点击群聊
-        contact.click_group_chat()
-        glp = GroupListPage()
-        glp.wait_for_page_load()
-        # 3.点击新建群
-        glp.click_create_group()
-        # 4.点击选择团队联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_load()
-        scp.click_group_contact()
-        # 5.选择团队联系人
-        scp.input_search_keyword("大佬1")
-        scp.selecting_contacts_by_name("大佬1")
-        scp.input_search_keyword("大佬2")
-        scp.selecting_contacts_by_name("大佬2")
-        # 6.点击确定
-        scp.click_sure_forward()
-        cgnp = CreateGroupNamePage()
-        cgnp.wait_for_page_load()
-        # 7.输入群名
-        cgnp.input_group_name("测试群删除群成员4")
+        mess.wait_login_success(60)
+        Preconditions.background_app()
         time.sleep(2)
-        # 8.点击确定
-        cgnp.click_sure()
-        gcp = GroupChatPage()
-        gcp.wait_for_page_load()
-
-    @tags('ALL', 'CMCC', 'yx')
-    def test_msg_xiaoqiu_0391(self):
-        """验证群成员A在群设置页面——点击删除并退出按钮——后A收到的系统消息"""
-        # 1、已登录客户端
-        # 2、网络正常
-        # 3、A为退群的群成员
-        # 4、A当前在群设置页面
-        gcp = GroupChatPage()
-        gcp.wait_for_page_load()
-        # 1.点击设置
-        gcp.click_setting()
-        gcsp = GroupChatSetPage()
-        gcsp.wait_for_page_load()
-        # 2.点击删除并退出
-        gcsp.click_delete_and_exit2()
-        gcsp.click_sure()
-        gcsp.click_first_group_member_avatar()
-        gcsp.click_sure()
-        # 3.返回消息页面
-        scp = SelectContactsPage()
-        scp.click_back()
-        glp = GroupListPage()
-        glp.click_back()
-        contact = ContactsPage()
-        contact.click_message_icon()
-        mess = MessagePage()
-        mess.wait_for_message_list_load()
-        # 4.点击系统消息，验证是否提示‘你已退出群’
-        mess.click_text("系统消息")
-        self.assertTrue(mess.page_should_contain_text("你已退出群"))
+        # 2.长按删除桌面已存在的群聊快捷方式
+        mess.is_element_present_on_desktop("群聊1")
+        mess.press_text("群聊1")
+        mess.click_text("移除")
         time.sleep(2)
 
     @staticmethod
-    def setUp_test_msg_xiaoqiu_0392():
-        """创建群添加团队人，确保有成员可点击转让"""
+    def setUp_test_msg_xiaoqiu_0618():
+        """进入群聊创建快捷方式，退出登录"""
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        mess = MessagePage()
-        # 1.点击通讯录
-        mess.click_contacts_only()
-        contact = ContactsPage()
-        if contact.is_text_present('始终允许'):
-            contact.click_text('始终允许')
-        # 2.点击群聊
-        contact.click_group_chat()
-        glp = GroupListPage()
-        glp.wait_for_page_load()
-        # 3.点击新建群
-        glp.click_create_group()
-        # 4.点击选择团队联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_load()
-        scp.click_group_contact()
-        # 5.选择团队联系人
-        scp.input_search_keyword("大佬1")
-        scp.selecting_contacts_by_name("大佬1")
-        scp.input_search_keyword("大佬2")
-        scp.selecting_contacts_by_name("大佬2")
-        # 6.点击确定
-        scp.click_sure_forward()
-        cgnp = CreateGroupNamePage()
-        cgnp.wait_for_page_load()
-        # 7.输入群名
-        cgnp.input_group_name("测试群删除群成员5")
-        time.sleep(2)
-        # 8.点击确定
-        cgnp.click_sure()
+        Preconditions.get_into_group_chat_page("群聊1")
         gcp = GroupChatPage()
         gcp.wait_for_page_load()
-
-    @tags('ALL', 'CMCC', 'yx')
-    def test_msg_xiaoqiu_0392(self):
-        """验证群主在设置页面——点击群管理——点击群主管理权转让——转让给群成员A后——原群主收到的群消息"""
-        # 1、已登录客户端
-        # 2、网络正常
-        # 3、当前在群设置页面
-        gcp = GroupChatPage()
-        gcp.wait_for_page_load()
-        # 1.点击设置
         gcp.click_setting()
         gcsp = GroupChatSetPage()
         gcsp.wait_for_page_load()
-        # 2.点击群管理
-        gcsp.click_group_manage()
-        # 3.点击转让群主管理权限
-        gcsp.click_group_manage_transfer_button()
-        # 4.点击第一个联系人
-        gcsp.click_first_group_member_avatar()
-        gcsp.click_sure()
-        # 5.返回群聊页面
+        gcsp.click_add_destop_link()
+        if gcsp.is_text_present("我知道了"):
+            gcsp.click_no_show_again()
+            gcsp.click_text("我知道了")
+        if gcsp.is_text_present("添加到主屏幕"):
+            gcsp.click_sure_add_desktop_shortcut()
         gcsp.click_back()
-        gcp.wait_for_page_load()
-        # 6.验证是否提示'已成为新群主'
-        self.assertTrue(gcp.is_text_present("已成为新群主"))
+        gcp.click_back()
+        mess = MessagePage()
+        mess.click_me_icon()
+        me_page = MePage()
+        me_page.click_setting_menu()
+        setting = SettingPage()
+        setting.click_logout()
+        setting.click_ok_of_alert()
+        time.sleep(3)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0618(self):
+        """退出登录，点击桌面已创建成功的桌面快捷方式"""
+        # 1、当前桌面已存在和飞信群聊的快捷方式
+        # 2、和飞信是退出登录状态
+        Preconditions.background_app()
+        contact_detail = ContactDetailsPage()
+        time.sleep(2)
+        # 1.点击桌面已存在的群聊快捷方式
+        contact_detail.is_element_present_on_desktop("群聊1")
+        contact_detail.click_text("群聊1")
+        time.sleep(2)
+        one_key = OneKeyLoginPage()
+        one_key.wait_for_page_load()
+        # 2.点击一键登录
+        one_key.click_one_key_login()
+        mess = MessagePage()
+        mess.wait_login_success(60)
+        # 3.验证是否在消息页面
+        self.assertTrue(mess.is_on_this_page())
         time.sleep(2)
 
     @staticmethod
-    def setUp_test_msg_xiaoqiu_0407():
-        """进入单聊会话页面"""
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        Preconditions.enter_single_chat_page("大佬1")
-
-    @tags('ALL', 'CMCC', 'yx')
-    def test_msg_xiaoqiu_0407(self):
-        """在点对点建群——新创建的群会话窗口和群设置页面"""
-        # 1、已登录客户端
-        # 2、网络正常
-        # 3、当前在单聊会话窗口页面
-        scp = SingleChatPage()
-        scp.wait_for_page_load()
-        # 1.点击设置
-        scp.click_setting()
-        scs = SingleChatSetPage()
-        scs.wait_for_page_load()
-        # 2.点击+号
-        scs.click_add_icon()
-        scp = SelectContactsPage()
-        scp.wait_for_page_load()
-        # 3.选择联系人
-        scp.input_search_keyword("大佬3")
-        scp.select_one_contact_by_name("大佬3")
-        scp.click_sure_forward()
-        cgnp = CreateGroupNamePage()
-        # 4.输入群名
-        cgnp.input_group_name("测试1")
-        # 5.点击确定
-        cgnp.click_sure()
-        gcp = GroupChatPage()
-        gcp.wait_for_page_load()
-        # 6.判断是否在群聊页面
-        self.assertTrue(gcp.is_on_this_page())
-        # 7.点击设置是否在设置页面
-        gcp.click_setting()
-        gcsp = GroupChatSetPage()
-        gcsp.wait_for_page_load()
-        # 8.验证是否在设置页面
-        self.assertTrue(gcsp.is_on_this_page())
-        time.sleep(1)
-
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0594():
-        """重置APP，确保和飞信群聊，邀请微信、QQ好友进群入口红点展示"""
-        Preconditions.select_mobile('Android-移动')
-        current_mobile().reset_app()
-        Preconditions.make_already_in_message_page()
-        Preconditions.get_into_group_chat_page("群聊1")
-
-    @tags('ALL', 'CMCC', 'yx')
-    def test_msg_xiaoqiu_0594(self):
-        """清除【邀请微信、QQ好友进群】红点，清除和飞信数据"""
-        # 1、网络正常
-        gcp = GroupChatPage()
-        # 1.点击设置
-        gcp.click_setting()
-        # 2.验证是否存在邀请微信或QQ好友进群小红点
-        gcsp = GroupChatSetPage()
+    def tearDown_test_msg_xiaoqiu_0618():
+        mess = MessagePage()
+        Preconditions.background_app()
         time.sleep(2)
-        self.assertTrue(gcsp.is_exist_invite_red_dot())
-        # 3.点击邀请微信或QQ好友进群（消除红点）
-        gcsp.click_avetor_qq_wechat_friend()
-        gcsp.wait_for_share_group_password_invite_friend()
-        gcsp.click_text("下次再说")
-        # 4.重置APP,进入群聊设置页面
-        Preconditions.select_mobile('Android-移动')
-        current_mobile().reset_app()
-        Preconditions.make_already_in_message_page()
-        Preconditions.get_into_group_chat_page("群聊1")
-        gcp.click_setting()
-        # 5.再次验证是否还存在邀请微信或QQ好友进群小红点
-        gcsp = GroupChatSetPage()
-        gcsp.wait_for_page_load()
-        self.assertTrue(gcsp.is_exist_invite_red_dot())
+        # 长按删除桌面已存在的群聊快捷方式
+        mess.is_element_present_on_desktop("群聊1")
+        mess.press_text("群聊1")
+        mess.click_text("移除")
         time.sleep(2)
-
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0595():
-        """重置APP，确保和飞信群聊，邀请微信、QQ好友进群入口红点展示"""
-        Preconditions.select_mobile('Android-移动')
-        current_mobile().reset_app()
-        Preconditions.make_already_in_message_page()
-        Preconditions.get_into_group_chat_page("群聊1")
-
-    @tags('ALL', 'CMCC', 'yx')
-    def test_msg_xiaoqiu_0595(self):
-        """不清除【邀请微信、QQ好友进群】红点，清除和飞信数据"""
-        # 1、网络正常
-        gcp = GroupChatPage()
-        # 1.点击设置
-        gcp.click_setting()
-        # 2.验证是否存在邀请微信或QQ好友进群小红点
-        gcsp = GroupChatSetPage()
-        gcsp.wait_for_page_load()
-        time.sleep(2)
-        self.assertTrue(gcsp.is_exist_invite_red_dot())
-        # 3.重置APP,进入群聊设置页面
-        Preconditions.select_mobile('Android-移动')
-        current_mobile().reset_app()
-        Preconditions.make_already_in_message_page()
-        Preconditions.get_into_group_chat_page("群聊1")
-        gcp.click_setting()
-        # 4.再次验证是否还存在邀请微信或QQ好友进群小红点
-        gcsp = GroupChatSetPage()
-        gcsp.wait_for_page_load()
-        time.sleep(2)
-        self.assertTrue(gcsp.is_exist_invite_red_dot())
-        time.sleep(1)
