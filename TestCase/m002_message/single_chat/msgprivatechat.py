@@ -1738,6 +1738,11 @@ class MsgPrivateChatMyComputer(TestCase):
         """当前页面在我的电脑聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
         mess = MessagePage()
+        if mess.is_on_this_page():
+            return
+        else:
+            current_mobile().launch_app()
+            Preconditions.make_already_in_message_page()
         mess.wait_for_page_load()
         time.sleep(1)
         mess.click_search()

@@ -977,3 +977,8 @@ class MessagePage(FooterPage):
         """消息页面是否存在指定群名字会话窗口"""
         locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and contains(@text, "%s")]' % name)
         return self._is_element_present(locator)
+
+    @TestLogger.log()
+    def click_me_icon(self):
+        """点击我"""
+        self.click_element(self.__locators['我'])

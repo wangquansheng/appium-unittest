@@ -265,6 +265,10 @@ class Preconditions(WorkbenchPreconditions):
             # 选择当前团队
             shc.click_department_name(workbench_name)
 
+    @staticmethod
+    def background_app():
+        """后台运行"""
+        current_mobile().press_home_key()
 
 class MsgGroupChatTest(TestCase):
     """
@@ -3623,7 +3627,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
     @staticmethod
     def setUp_test_msg_huangcaizui_C_0006():
         Preconditions.select_mobile('Android-移动')
-        current_mobile().reset_app()
+        # current_mobile().reset_app()
         Preconditions.make_already_in_message_page()
         Preconditions.get_into_group_chat_page("群聊1")
 
@@ -3635,6 +3639,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         # 3.首次使用发送短信，短信设置开关已开启
         # 4.（普通群群主、企业群/党群的成员或群主）已进入的群聊页面
         gcp = GroupChatPage()
+        gcp.wait_for_page_load()
         # 1.点击更多富媒体按钮
         gcp.click_more()
         # 2.点击群短信
@@ -3654,7 +3659,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
     @staticmethod
     def setUp_test_msg_huangcaizui_C_0008():
         Preconditions.select_mobile('Android-移动')
-        current_mobile().reset_app()
+        # current_mobile().reset_app()
         Preconditions.make_already_in_message_page()
         Preconditions.get_into_group_chat_page("群聊1")
 
@@ -3666,6 +3671,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         # 3.首次使用发送短信，短信设置开关已开启
         # 4.（普通群群主、企业群/党群的成员或群主）已进入的群聊页面
         gcp = GroupChatPage()
+        gcp.wait_for_page_load()
         # 1.点击更多富媒体按钮
         gcp.click_more()
         # 2.点击群短信
@@ -3691,7 +3697,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
     @staticmethod
     def setUp_test_msg_huangcaizui_C_0010():
         Preconditions.select_mobile('Android-移动')
-        current_mobile().reset_app()
+        # current_mobile().reset_app()
         Preconditions.make_already_in_message_page()
         Preconditions.get_into_group_chat_page("群聊1")
 
@@ -3703,6 +3709,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         # 3.首次使用发送短信，短信设置开关已开启
         # 4.（普通群群主、企业群/党群的成员或群主）已进入的群聊页面
         gcp = GroupChatPage()
+        gcp.wait_for_page_load()
         # 1.点击更多富媒体按钮
         gcp.click_more()
         # 2.是否存在更多选项
@@ -3731,6 +3738,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         Preconditions.make_already_in_message_page()
         Preconditions.get_into_group_chat_page("群聊1")
         gcp = GroupChatPage()
+        gcp.wait_for_page_load()
         gcp.click_more()
         gcp.click_group_sms()
         cgs = ChatGroupSMSPage()
@@ -3756,6 +3764,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         # 3.首次使用发送短信，短信设置开关已开启
         # 4.（普通群群主、企业群/党群的成员或群主）已进入的群聊页面
         gcp = GroupChatPage()
+        gcp.wait_for_page_load()
         # 1.点击更多富媒体按钮
         gcp.click_more()
         # 2.是否存在更多选项

@@ -708,3 +708,9 @@ class BasePage(object):
             current += 1
             self.page_right()
         return False
+
+    @TestLogger.log()
+    def press_text(self, file):
+        """长按指定文件进行操作"""
+        el = self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file))
+        self.press(el)

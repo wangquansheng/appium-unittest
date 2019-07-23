@@ -131,6 +131,8 @@ class GroupChatPage(BaseChatPage):
                   '飞信电话会控加号': (MobileBy.ID, 'com.chinasofti.rcs:id/ivAvatar'),
                   '飞信电话会控全员禁音': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_group_mute'),
                   '挂断和飞信电话': (MobileBy.ID, 'com.chinasofti.rcs:id/ivDecline'),
+                  '同时发送语音+文字(语音识别)': (MobileBy.ID, 'com.chinasofti.rcs:id/select_send_audio_and_text'),
+                  '语音发送模式确定': (MobileBy.ID, 'com.chinasofti.rcs:id/select_send_audio_type_confirm'),
                   }
 
     @TestLogger.log()
@@ -1047,5 +1049,20 @@ class GroupChatPage(BaseChatPage):
     def click_i_know(self):
         """点击我知道了"""
         self.click_element(self.__class__.__locators["我知道了"])
+
+    @TestLogger.log()
+    def click_voice_button(self):
+        """点击语音按钮"""
+        self.click_element(self.__class__.__locators["语音按钮"])
+
+    @TestLogger.log()
+    def click_voice_send_sure(self):
+        """点击语音按钮"""
+        self.click_element(self.__class__.__locators["语音发送模式确定"])
+
+    @TestLogger.log()
+    def click_select_send_audio_and_text(self):
+        """点击同时发送语音+文字(语音识别)"""
+        self.click_element(self.__class__.__locators["同时发送语音+文字(语音识别)"])
 
 

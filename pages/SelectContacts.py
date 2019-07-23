@@ -972,3 +972,11 @@ class SelectContactsPage(BasePage):
             self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
         self.click_element(locator)
 
+    @TestLogger.log()
+    def is_on_select_contact_page(self):
+        """当前页面是否在选择联系人页面"""
+        el = self.get_elements(self.__locators['选择手机联系人'])
+        if len(el) > 0:
+            return True
+        return False
+

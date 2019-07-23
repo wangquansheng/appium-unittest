@@ -92,6 +92,12 @@ class GroupChatSetPage(BasePage):
                   '分享到QQ': (MobileBy.ID, 'com.chinasofti.rcs:id/qq_view'),
                   '分享到微信': (MobileBy.ID, 'com.chinasofti.rcs:id/wechat_view'),
                   '第一个群成员头像': (MobileBy.XPATH, '(//*[contains(@resource-id,"com.chinasofti.rcs:id/head_tv")])[1]'),
+                  '删除成员': (MobileBy.XPATH, '(//*[contains(@resource-id,"com.chinasofti.rcs:id/iv_head")])[last()]'),
+                  '移除群成员确定': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'),
+                  '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
+                  '不再提醒': (MobileBy.ID, 'com.chinasofti.rcs:id/cb_show_again'),
+                  '快捷方式-确定添加': (MobileBy.ID, 'android:id/button1'),
+
                   }
 
     @TestLogger.log("获取控件数量")
@@ -734,3 +740,29 @@ class GroupChatSetPage(BasePage):
     def click_first_group_member_avatar(self):
         """点击第一个群成员头像"""
         self.click_element(self.__class__.__locators['第一个群成员头像'])
+
+    @TestLogger.log()
+    def click_delete_member(self):
+        """点击删除成员"""
+        self.click_element(self.__class__.__locators['删除成员'])
+
+    @TestLogger.log()
+    def click_delete_member_sure(self):
+        """点击移除群成员确定"""
+        self.click_element(self.__class__.__locators['移除群成员确定'])
+
+    @TestLogger.log()
+    def click_sure(self):
+        """点击确定"""
+        self.click_element(self.__class__.__locators['确定'])
+
+    @TestLogger.log()
+    def click_no_show_again(self):
+        """点击不再提醒"""
+        self.click_element(self.__class__.__locators['不再提醒'])
+
+    @TestLogger.log()
+    def click_sure_add_desktop_shortcut(self):
+        """点击确定添加快捷方式"""
+        time.sleep(1)
+        self.click_element(self.__locators["快捷方式-确定添加"])

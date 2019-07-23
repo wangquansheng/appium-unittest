@@ -7621,3 +7621,21 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         if not flag:
             raise AssertionError("没有'暂不支持发送大于20M的图片'弹窗提示")
 
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx', 'yx')
+    def test_msg_xiaoliping_D_0088(self):
+        """在群聊聊天会话，收藏已下载的图片"""
+        # 1、成功登录和飞信
+        # 2、当前页面在单聊聊天会话页面
+        # 3、接收的图片已下载
+        gcp = GroupChatPage()
+        gcp.click_picture()
+        # 1.进入相片页面,选择一张相片
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_pic_fk(1)
+        # 2.点击发送，长按图片收藏
+        cpg.click_send()
+        gcp.press_last_picture_to_do("收藏")
+        # 3.是否提示“已收藏”
+        self.assertTrue(gcp.is_toast_exist("已收藏"))
+
