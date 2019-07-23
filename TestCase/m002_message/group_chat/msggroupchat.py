@@ -4825,3 +4825,225 @@ class MessageGroupChatSendGroupMessage(TestCase):
         mess.press_text("群聊1")
         mess.click_text("移除")
         time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0626():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊1")
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0626(self):
+        """无网络状态下，创建的桌面快捷方式"""
+        # 1、当前桌面已存在和飞信群聊的快捷方式
+        # 2、已登录和飞信
+        # 3、无网络状态
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击添加桌面快捷方式
+        gcsp.click_add_destop_link()
+        # 3.点击不再提醒
+        if gcsp.is_text_present("我知道了"):
+            gcsp.click_no_show_again()
+            gcsp.click_text("我知道了")
+        time.sleep(3)
+        if gcsp.is_text_present("添加到主屏幕"):
+            gcsp.click_sure_add_desktop_shortcut()
+        # 4.再次点击添加桌面快捷方式
+        gcsp.click_add_destop_link()
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0626():
+        Preconditions.background_app()
+        time.sleep(2)
+        # 长按删除桌面已存在的群聊快捷方式
+        mess = MessagePage()
+        mess.is_element_present_on_desktop("群聊1")
+        mess.press_text("群聊1")
+        mess.click_text("移除")
+        time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0627():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0627(self):
+        """不同的群，相同的名称，创建快捷方式"""
+        # 1、当前桌面已存在和飞信群聊的快捷方式
+        # 2、已登录和飞信
+        Preconditions.make_already_in_message_page()
+        # 创建相同名字的群，创建快捷方式
+        for i in range(2):
+            mess = MessagePage()
+            # 1.点击通讯录
+            mess.click_contacts_only()
+            contact = ContactsPage()
+            if contact.is_text_present('始终允许'):
+                contact.click_text('始终允许')
+            # 2.点击群聊
+            contact.click_group_chat()
+            glp = GroupListPage()
+            glp.wait_for_page_load()
+            # 3.点击新建群
+            glp.click_create_group()
+            # 4.点击选择团队联系人
+            scp = SelectContactsPage()
+            scp.wait_for_page_load()
+            scp.click_group_contact()
+            # 5.选择团队联系人
+            scp.input_search_keyword("大佬1")
+            scp.selecting_contacts_by_name("大佬1")
+            scp.input_search_keyword("大佬2")
+            scp.selecting_contacts_by_name("大佬2")
+            # 6.点击确定
+            scp.click_sure_forward()
+            cgnp = CreateGroupNamePage()
+            cgnp.wait_for_page_load()
+            # 7.输入群名
+            cgnp.input_group_name("创建快捷方式群聊")
+            time.sleep(2)
+            # 8.点击确定
+            cgnp.click_sure()
+            gcp = GroupChatPage()
+            gcp.wait_for_page_load()
+            gcp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            # 9.点击添加快捷方式
+            gcsp.click_add_destop_link()
+            if gcsp.is_text_present("我知道了"):
+                gcsp.click_no_show_again()
+                gcsp.click_text("我知道了")
+            time.sleep(3)
+            if gcsp.is_text_present("添加到主屏幕"):
+                gcsp.click_sure_add_desktop_shortcut()
+            time.sleep(3)
+            # 10.点击群管理,解散群
+            gcsp.click_group_manage()
+            gcsp.click_group_manage_disband_button()
+            gcsp.click_sure()
+            time.sleep(1)
+            # 11.返回消息列表页面
+            gcp.click_back()
+            glp = GroupListPage()
+            time.sleep(1)
+            glp.click_back()
+            contacts = ContactsPage()
+            contacts.click_message_icon()
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0627():
+        for i in range(2):
+            Preconditions.background_app()
+            time.sleep(2)
+            # 长按删除桌面已存在的群聊快捷方式
+            mess = MessagePage()
+            mess.is_element_present_on_desktop("创建快捷方式群聊")
+            mess.press_text("创建快捷方式群聊")
+            mess.click_text("移除")
+            time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0632():
+        """创建快捷方式"""
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("给个红包4")
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.click_add_destop_link()
+        if gcsp.is_text_present("我知道了"):
+            gcsp.click_no_show_again()
+            gcsp.click_text("我知道了")
+        time.sleep(2)
+        if gcsp.is_text_present("添加到主屏幕"):
+            gcsp.click_sure_add_desktop_shortcut()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0632(self):
+        """创建A群聊桌面快捷方式后，修改当前A群聊的昵称"""
+        # 1、当前桌面已存在和飞信群聊的快捷方式
+        # 2、已登录和飞信
+        gcsp = GroupChatSetPage()
+        # 1.修改群名
+        gcsp.click_modify_group_name()
+        gcsp.input_new_group_name("修改-给个红包4")
+        gcsp.save_group_name()
+        self.assertEquals(gcsp.is_toast_exist("修改成功"), True)
+        gcsp.wait_for_page_load()
+        Preconditions.background_app()
+        contact_detail = ContactDetailsPage()
+        time.sleep(2)
+        # 2.点击桌面未修改名字前创建的群聊快捷方式
+        contact_detail.is_element_present_on_desktop("给个红包4")
+        contact_detail.click_text("给个红包4")
+        # 3.验证是否进入群聊会话页面
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        self.assertTrue(gcp.is_on_this_page())
+        time.sleep(3)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0632():
+        """恢复修改前群名"""
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.click_modify_group_name()
+        gcsp.input_new_group_name("给个红包4")
+        gcsp.save_group_name()
+        gcsp.wait_for_page_load()
+        Preconditions.background_app()
+        time.sleep(2)
+        # 长按删除桌面已存在的群聊快捷方式
+        mess = MessagePage()
+        mess.is_element_present_on_desktop("给个红包4")
+        mess.press_text("给个红包4")
+        mess.click_text("移除")
+        time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0634():
+        """创建快捷方式"""
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊1")
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.click_add_destop_link()
+        if gcsp.is_text_present("我知道了"):
+            gcsp.click_no_show_again()
+            gcsp.click_text("我知道了")
+        time.sleep(2)
+        if gcsp.is_text_present("添加到主屏幕"):
+            gcsp.click_sure_add_desktop_shortcut()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0634(self):
+        """桌面快捷方式，删除操作"""
+        # 1、当前桌面已存在和飞信群聊的快捷方式
+        # 2、已登录和飞信
+        Preconditions.background_app()
+        contact_detail = ContactDetailsPage()
+        time.sleep(2)
+        # 1.长按桌面已存在的群聊快捷方式
+        contact_detail.is_element_present_on_desktop("群聊1")
+        contact_detail.press_text("群聊1")
+        # 2.点击移除
+        contact_detail.click_text("移除")
+        # 3.验证桌面是否还存在群聊1的群聊快捷方式
+        self.assertFalse(contact_detail.is_element_present_on_desktop("群聊1"))
+        time.sleep(2)
