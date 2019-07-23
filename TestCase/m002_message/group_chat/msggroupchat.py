@@ -4477,3 +4477,201 @@ class MessageGroupChatSendGroupMessage(TestCase):
         mess.press_text("群聊1")
         mess.click_text("移除")
         time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0619():
+        """创建群，创建快捷方式，退出群聊"""
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        # 1.点击通讯录
+        mess.click_contacts_only()
+        contact = ContactsPage()
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        # 2.点击群聊
+        contact.click_group_chat()
+        glp = GroupListPage()
+        glp.wait_for_page_load()
+        # 3.点击新建群
+        glp.click_create_group()
+        # 4.点击选择团队联系人
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        scp.click_group_contact()
+        # 5.选择团队联系人
+        scp.input_search_keyword("大佬1")
+        scp.selecting_contacts_by_name("大佬1")
+        scp.input_search_keyword("大佬2")
+        scp.selecting_contacts_by_name("大佬2")
+        # 6.点击确定
+        scp.click_sure_forward()
+        cgnp = CreateGroupNamePage()
+        cgnp.wait_for_page_load()
+        # 7.输入群名
+        cgnp.input_group_name("创建快捷方式群聊1")
+        time.sleep(2)
+        # 8.点击确定
+        cgnp.click_sure()
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 9.点击添加快捷方式
+        gcsp.click_add_destop_link()
+        if gcsp.is_text_present("我知道了"):
+            gcsp.click_no_show_again()
+            gcsp.click_text("我知道了")
+        time.sleep(3)
+        if gcsp.is_text_present("添加到主屏幕"):
+            gcsp.click_sure_add_desktop_shortcut()
+        time.sleep(3)
+        gcsp.wait_for_page_load()
+        # 10.点击删除并退出
+        gcsp.click_delete_and_exit2()
+        gcsp.click_sure()
+        gcsp.click_first_group_member_avatar()
+        gcsp.click_sure()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0619(self):
+        """退出当前创建快捷方式的群聊"""
+        # 1、当前桌面已存在和飞信群聊的快捷方式
+        # 2、已登录和飞信
+        Preconditions.background_app()
+        gcp = GroupChatPage()
+        time.sleep(2)
+        # 1.点击桌面已存在的群聊快捷方式
+        gcp.is_element_present_on_desktop("创建快捷方式群聊1")
+        time.sleep(2)
+        gcp.click_text("创建快捷方式群聊1")
+        time.sleep(3)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0619():
+        mess = MessagePage()
+        Preconditions.background_app()
+        time.sleep(2)
+        # 长按删除桌面已存在的群聊快捷方式
+        mess.is_element_present_on_desktop("创建快捷方式群聊1")
+        mess.press_text("创建快捷方式群聊1")
+        mess.click_text("移除")
+        time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0620():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊1")
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0620(self):
+        """杀死和飞信后，点击桌面快捷方式"""
+        # 1、当前桌面已存在和飞信群聊的快捷方式
+        # 2、已登录和飞信
+        # 3、登录未失效
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击添加桌面快捷方式
+        gcsp.click_add_destop_link()
+        # 3.点击不再提醒
+        if gcsp.is_text_present("我知道了"):
+            gcsp.click_no_show_again()
+            gcsp.click_text("我知道了")
+        time.sleep(2)
+        if gcsp.is_text_present("添加到主屏幕"):
+            gcsp.click_sure_add_desktop_shortcut()
+        # 4.返回群聊页面
+        gcsp.click_back()
+        gcp.wait_for_page_load()
+        # 5.杀掉进程
+        current_mobile().launch_app()
+        Preconditions.background_app()
+        contact_detail = ContactDetailsPage()
+        time.sleep(2)
+        # 6.点击桌面已存在的群聊快捷方式
+        contact_detail.is_element_present_on_desktop("群聊1")
+        contact_detail.click_text("群聊1")
+        # 7.验证是否在群聊会话页面
+        gcp.wait_for_page_load()
+        self.assertTrue(gcp.is_on_this_page())
+        time.sleep(2)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0620():
+        mess = MessagePage()
+        Preconditions.background_app()
+        time.sleep(2)
+        # 长按删除桌面已存在的群聊快捷方式
+        mess.is_element_present_on_desktop("群聊1")
+        mess.press_text("群聊1")
+        mess.click_text("移除")
+        time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0621():
+        """进入群聊创建快捷方式，杀死和飞信进程（退出和飞信）"""
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊1")
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.click_add_destop_link()
+        if gcsp.is_text_present("我知道了"):
+            gcsp.click_no_show_again()
+            gcsp.click_text("我知道了")
+        time.sleep(2)
+        if gcsp.is_text_present("添加到主屏幕"):
+            gcsp.click_sure_add_desktop_shortcut()
+        gcsp.click_back()
+        gcp.click_back()
+        mess = MessagePage()
+        mess.click_me_icon()
+        me_page = MePage()
+        me_page.click_setting_menu()
+        setting = SettingPage()
+        setting.click_logout()
+        setting.click_ok_of_alert()
+        time.sleep(3)
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0621(self):
+        """杀死和飞信后，点击桌面快捷方式"""
+        # 1、当前桌面已存在和飞信群聊的快捷方式
+        # 2、已登录和飞信
+        # 3、登录已失效
+        Preconditions.background_app()
+        contact_detail = ContactDetailsPage()
+        time.sleep(2)
+        # 1.点击桌面已存在的群聊快捷方式
+        contact_detail.is_element_present_on_desktop("群聊1")
+        contact_detail.click_text("群聊1")
+        time.sleep(2)
+        one_key = OneKeyLoginPage()
+        one_key.wait_for_page_load()
+        # 2.点击一键登录
+        one_key.click_one_key_login()
+        mess = MessagePage()
+        mess.wait_login_success(60)
+        # 3.验证是否在消息页面
+        self.assertTrue(mess.is_on_this_page())
+        time.sleep(2)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0621():
+        mess = MessagePage()
+        Preconditions.background_app()
+        time.sleep(2)
+        # 长按删除桌面已存在的群聊快捷方式
+        mess.is_element_present_on_desktop("群聊1")
+        mess.press_text("群聊1")
+        mess.click_text("移除")
+        time.sleep(2)
