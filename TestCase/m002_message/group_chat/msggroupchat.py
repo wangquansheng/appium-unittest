@@ -4244,3 +4244,285 @@ class MessageGroupChatSendGroupMessage(TestCase):
         # 10.验证是否进入短信列表页面
         cgs.wait_for_record_page_load()
         self.assertTrue(cgs.is_on_message_record_this_page())
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0380():
+        """创建群添加团队人，确保有成员可删除"""
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        # 1.点击通讯录
+        mess.click_contacts()
+        contact = ContactsPage()
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        # 2.点击群聊
+        contact.click_group_chat()
+        glp = GroupListPage()
+        glp.wait_for_page_load()
+        # 3.点击新建群
+        glp.click_create_group()
+        # 4.点击选择团队联系人
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        scp.click_group_contact()
+        # 5.选择团队联系人
+        scp.input_search_keyword("大佬1")
+        scp.selecting_contacts_by_name("大佬1")
+        scp.input_search_keyword("大佬2")
+        scp.selecting_contacts_by_name("大佬2")
+        # 6.点击确定
+        scp.click_sure_forward()
+        cgnp = CreateGroupNamePage()
+        cgnp.wait_for_page_load()
+        # 7.输入群名
+        cgnp.input_group_name("测试群删除群成员")
+        time.sleep(2)
+        # 8.点击确定
+        cgnp.click_sure()
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0380(self):
+        """群主A——在群设置页面点击——移除群成员B后——收到的群消息"""
+        # 1、已登录客户端
+        # 2、网络正常
+        # 3、A当前在群设置页面
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击“—”移除成员
+        gcsp.click_delete_member()
+        # 3.选择第一个成员
+        gcsp.click_first_group_member_avatar()
+        # 4.点击确定移除
+        gcsp.click_delete_member_sure()
+        gcsp.click_sure()
+        # 5.返回群聊页面
+        gcsp.click_back()
+        gcp.wait_for_page_load()
+        time.sleep(3)
+        # 6.验证是否提示‘你已将 XX 移出群’
+        self.assertTrue(gcp.page_should_contain_text("移出群"))
+        time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0387():
+        """创建群添加团队人，确保有成员可删除"""
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        # 1.点击通讯录
+        mess.click_contacts()
+        contact = ContactsPage()
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        # 2.点击群聊
+        contact.click_group_chat()
+        glp = GroupListPage()
+        glp.wait_for_page_load()
+        # 3.点击新建群
+        glp.click_create_group()
+        # 4.点击选择团队联系人
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        scp.click_group_contact()
+        # 5.选择团队联系人
+        scp.input_search_keyword("大佬1")
+        scp.selecting_contacts_by_name("大佬1")
+        scp.input_search_keyword("大佬2")
+        scp.selecting_contacts_by_name("大佬2")
+        # 6.点击确定
+        scp.click_sure_forward()
+        cgnp = CreateGroupNamePage()
+        cgnp.wait_for_page_load()
+        # 7.输入群名
+        cgnp.input_group_name("测试群删除群成员2")
+        time.sleep(2)
+        # 8.点击确定
+        cgnp.click_sure()
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0387(self):
+        """验证群主在群设置页面——将所有群成员——移出群后——群主收到的群消息"""
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击“—”移除成员
+        for i in range(2):
+            gcsp.click_delete_member()
+            # 3.选择成员
+            gcsp.click_first_group_member_avatar()
+            # 4.点击确定移除
+            gcsp.click_delete_member_sure()
+            gcsp.click_sure()
+        # 5.返回群聊页面
+        gcsp.click_back()
+        gcp.wait_for_page_load()
+        time.sleep(3)
+        # 6.验证是否提示‘你已将 XX 移出群’
+        self.assertTrue(gcp.page_should_contain_text("移出群"))
+        time.sleep(2)
+        # 7.验证是否提示‘该群已解散’
+        self.assertTrue(gcp.page_should_contain_text("该群已解散"))
+        time.sleep(1)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0388():
+        """创建群添加团队人，确保有成员可删除"""
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        # 先删除系统消息记录，以免影响后面验证是否有系统消息提示
+        if mess.is_text_present("系统消息"):
+            mess.press_file_to_do("系统消息", "删除聊天")
+        # 1.点击通讯录
+        mess.click_contacts()
+        contact = ContactsPage()
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        # 2.点击群聊
+        contact.click_group_chat()
+        glp = GroupListPage()
+        glp.wait_for_page_load()
+        # 3.点击新建群
+        glp.click_create_group()
+        # 4.点击选择团队联系人
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        scp.click_group_contact()
+        # 5.选择团队联系人
+        scp.input_search_keyword("大佬1")
+        scp.selecting_contacts_by_name("大佬1")
+        scp.input_search_keyword("大佬2")
+        scp.selecting_contacts_by_name("大佬2")
+        # 6.点击确定
+        scp.click_sure_forward()
+        cgnp = CreateGroupNamePage()
+        cgnp.wait_for_page_load()
+        # 7.输入群名
+        cgnp.input_group_name("测试群删除群成员3")
+        time.sleep(2)
+        # 8.点击确定
+        cgnp.click_sure()
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0388(self):
+        """验证群主在群设置页面——将所有群成员移出群后——群主收到的系统消息"""
+        # 1、已登录客户端
+        # 2、网络正常
+        # 3、当前群设置页面
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击“—”移除成员
+        for i in range(2):
+            gcsp.click_delete_member()
+            # 3.选择成员
+            gcsp.click_first_group_member_avatar()
+            # 4.点击确定移除
+            gcsp.click_delete_member_sure()
+            gcsp.click_sure()
+        # 5.返回消息页面
+        gcsp.click_back()
+        gcp.wait_for_page_load()
+        gcp.click_back()
+        scp = SelectContactsPage()
+        scp.click_back()
+        glp = GroupListPage()
+        glp.click_back()
+        contact = ContactsPage()
+        contact.click_message_icon()
+        mess = MessagePage()
+        # 6.验证是否提示'该群已解散'
+        mess.wait_for_message_list_load()
+        mess.click_text("系统消息")
+        self.assertTrue(mess.is_text_present("该群已解散"))
+        time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0391():
+        """创建群添加团队人，确保有成员"""
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        # 先删除系统消息记录，以免影响后面验证是否有系统消息提示
+        if mess.is_text_present("系统消息"):
+            mess.press_file_to_do("系统消息", "删除聊天")
+        # 1.点击通讯录
+        mess.click_contacts_only()
+        contact = ContactsPage()
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        # 2.点击群聊
+        contact.click_group_chat()
+        glp = GroupListPage()
+        glp.wait_for_page_load()
+        # 3.点击新建群
+        glp.click_create_group()
+        # 4.点击选择团队联系人
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        scp.click_group_contact()
+        # 5.选择团队联系人
+        scp.input_search_keyword("大佬1")
+        scp.selecting_contacts_by_name("大佬1")
+        scp.input_search_keyword("大佬2")
+        scp.selecting_contacts_by_name("大佬2")
+        # 6.点击确定
+        scp.click_sure_forward()
+        cgnp = CreateGroupNamePage()
+        cgnp.wait_for_page_load()
+        # 7.输入群名
+        cgnp.input_group_name("测试群删除群成员4")
+        time.sleep(2)
+        # 8.点击确定
+        cgnp.click_sure()
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0391(self):
+        """验证群成员A在群设置页面——点击删除并退出按钮——后A收到的系统消息"""
+        # 1、已登录客户端
+        # 2、网络正常
+        # 3、A为退群的群成员
+        # 4、A当前在群设置页面
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击删除并退出
+        gcsp.click_delete_and_exit2()
+        gcsp.click_sure()
+        gcsp.click_first_group_member_avatar()
+        gcsp.click_sure()
+        # 3.返回消息页面
+        scp = SelectContactsPage()
+        scp.click_back()
+        glp = GroupListPage()
+        glp.click_back()
+        contact = ContactsPage()
+        contact.click_message_icon()
+        mess = MessagePage()
+        mess.wait_for_message_list_load()
+        # 4.点击系统消息，验证是否提示‘你已退出群’
+        mess.click_text("系统消息")
+        self.assertTrue(mess.page_should_contain_text("你已退出群"))
+        time.sleep(2)
