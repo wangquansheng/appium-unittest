@@ -743,6 +743,7 @@ class WorkbenchPreconditions(LoginPreconditions):
         cgp.wait_for_page_load()
         cgp.click_create_group()
         time.sleep(3)
+        # 适配部分手机
         if cgp.is_text_present("ateam7272"):
             cgp.click_text("ateam7272")
         sec = SelectEnterpriseContactsPage()
