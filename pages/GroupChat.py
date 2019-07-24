@@ -627,6 +627,12 @@ class GroupChatPage(BaseChatPage):
         self.press(el)
 
     @TestLogger.log()
+    def get_text_message(self):
+        """长按语言消息体"""
+        el = self.get_element((MobileBy.ID, 'com.chinasofti.rcs:id/tv_message'))
+        return el.text
+
+    @TestLogger.log()
     def click_return(self):
         """返回上一级"""
         self.click_element(self.__class__.__locators["返回上一级"])

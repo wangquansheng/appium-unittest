@@ -473,7 +473,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        warnings.simplefilter('ignore',ResourceWarning)
+        warnings.simplefilter('ignore', ResourceWarning)
 
         # Preconditions.select_mobile('Android-移动')
         # 导入测试联系人、群聊
@@ -524,18 +524,25 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         #     if flag2:
         #         break
 
-        # 确保有企业群
-        # fail_time3 = 0
-        # flag3 = False
-        # while fail_time3 < 5:
-        #     try:
-        #         Preconditions.make_already_in_message_page()
-        #         Preconditions.ensure_have_enterprise_group()
-        #         flag3 = True
-        #     except:
-        #         fail_time3 += 1
-        #     if flag3:
-        #         break
+        #确保有企业群
+        fail_time3 = 0
+        flag3 = False
+        while fail_time3 < 5:
+            try:
+                Preconditions.make_already_in_message_page()
+                groupname = "测试企业群2"
+                Preconditions.ensure_have_enterprise_group2(groupname)
+                Preconditions.make_already_in_message_page()
+                groupname = "测试企业群3"
+                Preconditions.ensure_have_enterprise_group2(groupname)
+                Preconditions.make_already_in_message_page()
+                groupname = "测试企业群4"
+                Preconditions.ensure_have_enterprise_group2(groupname)
+                flag3 = True
+            except:
+                fail_time3 += 1
+            if flag3:
+                break
 
         # 确保测试手机有resource文件夹
         # name = "群聊1"
@@ -1196,6 +1203,279 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         time.sleep(1)
         if not gcp.is_text_present("[语音]"):
             raise AssertionError("不能正常展示[语音]")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0033(self):
+        """企业群/党群在消息列表内展示——最新消息展示——图片、拍照"""
+        # 发送图片、拍照消息展示“[图片]”（收+发）
+        # 正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        gcp.click_picture()
+        cpg = ChatPicPage()
+        cpg.wait_for_page_load()
+        cpg.select_pic()
+        time.sleep(1)
+        cpg.click_send()
+        time.sleep(5)
+        gcp.hide_keyboard()
+        time.sleep(1)
+        gcp.click_back()
+        time.sleep(1)
+        if not gcp.is_text_present("[图片]"):
+            raise AssertionError("不能正常展示[图片]")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0034(self):
+        """企业群/党群在消息列表内展示——最新消息展示——GIF"""
+        # GIF的消息展示“[表情]”（收+发）
+        # 正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 点击表情按钮
+        gcp.click_expression_button()
+        time.sleep(2)
+        # 任意点击一个表情
+        els = gcp.get_expressions()
+        els[0].click()
+        gcp.send_message()
+        # 获取表情文本信息 [微笑1]
+        text = gcp.get_text_message()
+        print("----"+str(text))
+        gcp.click_back()
+        time.sleep(1)
+        mess = MessagePage()
+        result = mess.msg_is_contain_text(text)
+        self.assertEqual(result, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0035(self):
+        """企业群/党群在消息列表内展示——最新消息展示——视频及拍摄视频"""
+        # 发送视频及拍摄视频的消息展示“[视频]”（收+发）
+        # 正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # gcp.click_picture()
+        # cpg = ChatPicPage()
+        # cpg.wait_for_page_load()
+        # cpg.select_pic()
+        # time.sleep(1)
+        # cpg.click_send()
+        # time.sleep(5)
+        chat = SingleChatPage()
+        chat.click_pic()
+        cpp = ChatPicPage()
+        cpp.wait_for_page_load()
+        # 2、选中一个视频点击预览
+        cpp.select_video()
+        #cpp.click_preview()
+        cpp.click_send()
+        time.sleep(3)
+        gcp.hide_keyboard()
+        gcp.click_back()
+        time.sleep(1)
+        if not gcp.is_text_present("[视频]"):
+            raise AssertionError("不能正常展示[视频]")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0036(self):
+        """企业群/党群在消息列表内展示——最新消息展示——富媒体--本地文件"""
+        # 富媒体--本地文件展示“[文件]+<文件名>":仅展示一行（超长后加“...”）（收+发）
+        # 正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 2、点击本地文件
+        more_page = ChatMorePage()
+        more_page.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        # 3、选择任意文件，点击发送按钮
+        local_file = ChatSelectLocalFilePage()
+        # 没有预置文件，则上传
+        flag = local_file.push_preset_file()
+        if flag:
+            local_file.click_back()
+            csf.click_local_file()
+        # 进入预置文件目录，选择文件发送
+        local_file.click_preset_file_dir()
+        file = local_file.select_file_by_text(".html")
+        if file:
+            local_file.click_send()
+        else:
+            local_file.click_back()
+            local_file.click_back()
+            csf.click_back()
+        gcp.wait_for_page_load()
+        gcp.click_back()
+        time.sleep(1)
+        if not gcp.is_text_present("[文件]"):
+            raise AssertionError("不能正常展示[文件]")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0037(self):
+        """企业群/党群在消息列表内展示——最新消息展示——富媒体--视频"""
+        # 富媒体--视频展示“[视频]”（收+发）
+        # 正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 2、点击本地文件
+        more_page = ChatMorePage()
+        more_page.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        # 3、选择任意文件，点击发送按钮
+        local_file = ChatSelectLocalFilePage()
+        # 没有预置文件，则上传
+        flag = local_file.push_preset_file()
+        if flag:
+            local_file.click_back()
+            csf.click_local_file()
+        # 进入预置文件目录，选择文件发送
+        local_file.click_preset_file_dir()
+        file = local_file.select_file_by_text(".mp4")
+        if file:
+            local_file.click_send()
+        else:
+            local_file.click_back()
+            local_file.click_back()
+            csf.click_back()
+        gcp.wait_for_page_load()
+        gcp.click_back()
+        time.sleep(1)
+        if not gcp.is_text_present("[视频]"):
+            raise AssertionError("不能正常展示[视频]")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0038(self):
+        """企业群/党群在消息列表内展示——最新消息展示——富媒体--照片"""
+        # 富媒体--视频展示“[图片]”（收+发）
+        # 正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 2、点击本地文件
+        more_page = ChatMorePage()
+        more_page.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        # 3、选择任意文件，点击发送按钮
+        local_file = ChatSelectLocalFilePage()
+        # 没有预置文件，则上传
+        flag = local_file.push_preset_file()
+        if flag:
+            local_file.click_back()
+            csf.click_local_file()
+        # 进入预置文件目录，选择文件发送
+        local_file.click_preset_file_dir()
+        file = local_file.select_file_by_text(".jpg")
+        if file:
+            local_file.click_send()
+        else:
+            local_file.click_back()
+            local_file.click_back()
+            csf.click_back()
+        gcp.wait_for_page_load()
+        gcp.click_back()
+        time.sleep(1)
+        if not gcp.is_text_present("[图片]"):
+            raise AssertionError("不能正常展示[图片]")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0039(self):
+        """企业群/党群在消息列表内展示——最新消息展示——富媒体--音乐"""
+        # 富媒体--音乐展示“[文件]+<文件名>”（iOS无此入口）（收+发）
+        # 正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        # 2、点击本地文件
+        more_page = ChatMorePage()
+        more_page.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        # 3、选择任意文件，点击发送按钮
+        local_file = ChatSelectLocalFilePage()
+        # 没有预置文件，则上传
+        flag = local_file.push_preset_file()
+        if flag:
+            local_file.click_back()
+            csf.click_local_file()
+        # 进入预置文件目录，选择文件发送
+        local_file.click_preset_file_dir()
+        file = local_file.select_file_by_text(".jpg")
+        if file:
+            local_file.click_send()
+        else:
+            local_file.click_back()
+            local_file.click_back()
+            csf.click_back()
+        gcp.wait_for_page_load()
+        gcp.click_back()
+        time.sleep(1)
+        if not gcp.is_text_present("[图片]"):
+            raise AssertionError("不能正常展示[图片]")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0040(self):
+        """企业群/党群在消息列表内展示——最新消息展示——位置"""
+        # 位置消息展示“[位置]”（收+发）
+        # 正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        gcp.click_more()
+        gcp.click_text("位置")
+        time.sleep(1)
+        gcp.click_text("发送")
+        gcp.wait_for_page_load()
+        gcp.click_back()
+        time.sleep(1)
+        if not gcp.is_text_present("[位置]"):
+            raise AssertionError("不能正常展示[位置]")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0043(self):
+        """企业群/党群在消息列表内展示——最新消息展示——草稿"""
+        # 自己在输入框内填写信息未发出时展示红色“[草稿]“+消息内容
+        # 正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入企业群
+        Preconditions.get_into_group_chat_page("测试企业群")
+        Preconditions.delete_record_group_chat()
+        # 输入消息
+        gcp.input_text_message("123456")
+        gcp.click_back()
+        time.sleep(1)
+        result = gcp.is_text_present("[草稿]")
+        self.assertEqual(result, True)
+        result = gcp.is_text_present("123456")
+        self.assertEqual(result, True)
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0044(self):

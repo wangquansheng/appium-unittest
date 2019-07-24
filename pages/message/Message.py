@@ -627,6 +627,17 @@ class MessagePage(FooterPage):
                 return True
         raise AssertionError("消息列表的消息无省略号")
 
+    @TestLogger.log("判断消息列表的消息是否包含省略号")
+    def msg_is_contain_text(self, text):
+        contents = []
+        els = self.get_elements(self.__locators['消息简要内容'])
+        for el in els:
+            contents.append(el.text)
+        for msg in contents:
+            if text in msg:
+                return True
+        raise AssertionError("消息列表的消息无指定文本")
+
     @TestLogger.log()
     def click_set_message(self, locator):
         """点击已发文件类型"""

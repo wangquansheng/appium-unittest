@@ -742,6 +742,9 @@ class WorkbenchPreconditions(LoginPreconditions):
         # 等待创建群首页加载
         cgp.wait_for_page_load()
         cgp.click_create_group()
+        time.sleep(3)
+        if cgp.is_text_present("ateam7272"):
+            cgp.click_text("ateam7272")
         sec = SelectEnterpriseContactsPage()
         sec.wait_for_page_load()
         time.sleep(2)
@@ -778,6 +781,27 @@ class WorkbenchPreconditions(LoginPreconditions):
         mp.wait_for_page_load()
         if flag:
             WorkbenchPreconditions.create_enterprise_group("测试企业群")
+
+    @staticmethod
+    def ensure_have_enterprise_group2(groupname):
+        """确保有企业群 """
+        # 如果没有，创建制定企业群名groupname的企业群
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        mp.open_contacts_page()
+        cp = ContactsPage()
+        cp.wait_for_page_load()
+        cp.open_group_chat_list()
+        time.sleep(2)
+        flag = False
+        if not cp.is_exist_enterprise_group():
+            flag = True
+        cp.click_return()
+        cp.wait_for_page_load()
+        mp.open_message_page()
+        mp.wait_for_page_load()
+        if flag:
+            WorkbenchPreconditions.create_enterprise_group(groupname)
 
     @staticmethod
     def ensure_have_enterprise_group2(groupname):
