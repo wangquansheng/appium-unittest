@@ -101,6 +101,9 @@ class ContactsPage(FooterPage):
         '标签分组_631': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_tag_group'),
         '手机联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/first_item'),
         '团队列表名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title'),
+        '搜索团队通讯录': (MobileBy.ID, 'com.chinasofti.rcs:id/search_edit'),
+        '搜索团队通讯录2': (MobileBy.ID, 'com.chinasofti.rcs:id/et_search_view'),
+        '搜索结果': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
     }
 
     @TestLogger.log()
@@ -1100,3 +1103,17 @@ class ContactsPage(FooterPage):
                 return False
         except:
             return False
+
+    @TestLogger.log()
+    def input_search(self, text):
+        """输入搜索团队通讯录"""
+        self.input_text(self.__locators["搜索团队通讯录2"], text)
+        time.sleep(2.5)
+        # current_mobile().hide_keyboard_if_display()
+
+    @TestLogger.log("点击搜索第一个联系人")
+    def click_search_team_contacts(self):
+        self.wait_until(
+            condition=lambda x: self.get_elements(self.__locators['搜索结果'])[0],
+            auto_accept_permission_alert=False
+        ).click()

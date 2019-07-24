@@ -599,6 +599,27 @@ class Preconditions(WorkbenchPreconditions):
         slc.click_cancle()
         workbench.click_message_icon()
 
+    @staticmethod
+    def get_into_group_chat_page(name):
+        """进入群聊聊天会话页面"""
+
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        # 点击 +
+        mp.click_add_icon()
+        # 点击发起群聊
+        mp.click_group_chat()
+        scg = SelectContactsPage()
+        scg.wait_for_page_load()
+        scg.click_select_one_group()
+        sog = SelectOneGroupPage()
+        # 等待“选择一个群”页面加载
+        sog.wait_for_page_load()
+        # 选择一个普通群
+        sog.selecting_one_group_by_name(name)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+
 
 class MsgPrivateChatFileLocationTest(TestCase):
     """
@@ -5460,3 +5481,176 @@ class MsgPrivateChatAllTest(TestCase):
             raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
         if not scp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0213(self):
+        """单聊聊天文件列表页点击文件进行打开"""
+        scp = SingleChatPage()
+        # 1.确保当前聊天页面已有文件
+        if not scp.is_exist_file_by_type(".txt"):
+            Preconditions.send_file_by_type(".txt")
+        scp.wait_for_page_load()
+        # 2.点击打开自己发送的txt文件
+        scp.click_open_file(".txt")
+        time.sleep(2)
+        # 3.返回单聊页面查找html文件
+        current_mobile().back()
+        if not scp.is_exist_file_by_type(".html"):
+            Preconditions.send_file_by_type(".html")
+        scp.wait_for_page_load()
+        # 4.点击打开自己发送的html文件
+        scp.click_open_file(".html")
+        time.sleep(2)
+        # 5.验证是否提示调起第三方打开软件，选择弹窗
+        self.assertTrue(scp.is_toast_exist("使用以下方式打开"))
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_huangcaizui_A_0066(self):
+        """消息-一对一消息-关闭消息免打扰"""
+        # 1、正常联网环境
+        # 2、成功登录
+        # 3、当前一对一设置页面
+        # 4、消息免打扰已开启
+        scp = SingleChatPage()
+        # 1.点击设置
+        scp.click_setting()
+        scsp = SingleChatSetPage()
+        scsp.wait_for_page_load()
+        # 2.消息免打扰,如果开启状态，需要点击关闭
+        if not scsp.is_selected_no_disturb():
+            pass
+        else:
+            scsp.click_no_disturb()
+        scsp.click_back()
+        scp.wait_for_page_load()
+        # 3.验证是否存在消息免打扰标识
+        self.assertFalse(scp.is_exist_no_disturb_icon())
+        # 4.返回消息列表页面
+        scp.click_back()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        self.assertTrue(mess.is_on_this_page())
+
+    @staticmethod
+    def setUp_test_msg_huangcaizui_A_0207():
+        """确保聊天会话窗口中已存在多条消息体"""
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_single_chat_page("大佬2")
+        scp = SingleChatPage()
+        for i in range(3):
+            scp.input_message("哈哈")
+            scp.send_message()
+            time.sleep(3)
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_huangcaizui_A_0207(self):
+        """当转发的消息体中包含不支持转发的类型：①未下载的图片/视频/文件  ②语音、红包、卡券等特殊消息体——网络正常"""
+        # 1.网络正常
+        # 2.单聊/群聊/我的电脑/分组群发--聊天会话窗中，已存在多条消息体
+        # 3.选中的消息体为（2—100条）
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        # 1.长按消息选择多选
+        scp.press_last_message_to_do("多选")
+        # 2.选择多条消息
+        scp.click_select_many_messages()
+        # 3.点击转发
+        scp.click_text("转发")
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 4.点击最近聊天中的联系人
+        select_contacts.click_recent_contact()
+        time.sleep(2)
+        # 5.点击确定
+        select_contacts.click_text("确定")
+        self.assertTrue(scp.is_toast_exist("已转发"))
+        time.sleep(2)
+
+    @staticmethod
+    def setUp_test_msg_huangcaizui_A_0281():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        mess.click_contacts_only()
+        contact = ContactsPage()
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        contact.wait_for_page_load()
+        time.sleep(1)
+        contact.click_text("全部团队")
+        if contact.is_text_present('始终允许'):
+            contact.click_text('始终允许')
+        # 确保有这个'测试团队1'并且添加指定联系人
+        if contact.is_exist_team_by_name("测试团队1"):
+            contact.click_back()
+        else:
+            contact.click_back()
+            contact.click_message_icon()
+            Preconditions.create_team_select_contacts("测试团队1")
+            mess.click_contacts_only()
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_huangcaizui_A_0281(self):
+        """联系——选择团队联系人——进入单聊页面"""
+        # 1.客户端已登录
+        # 2.网络正常
+        # 3.在联系模块
+        contact = ContactsPage()
+        contact.wait_for_page_load()
+        # 1.点击全部团队
+        contact.click_text("全部团队")
+        time.sleep(2)
+        contact.click_text("测试团队1")
+        time.sleep(2)
+        contact.click_text("大佬1")
+        time.sleep(2)
+        cdp = ContactDetailsPage()
+        time.sleep(2)
+        # 3.点击消息
+        cdp.click_text("消息")
+        bcp = BaseChatPage()
+        if bcp.is_exist_dialog():
+            # 点击我已阅读
+            bcp.click_i_have_read()
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        # 4.验证是否在单聊页面
+        self.assertTrue(scp.is_on_this_page())
+
+    @staticmethod
+    def setUp_test_msg_huangcaizui_A_0291():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊1")
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_huangcaizui_A_0291(self):
+        """通过点击群聊中头像进入单聊"""
+        # 1.客户端已登录
+        # 2.网络正常
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        # 2.点击第一个群成员头像
+        gcsp.click_first_group_member_avatar()
+        cdp = ContactDetailsPage()
+        time.sleep(2)
+        cdp.click_text("消息")
+        bcp = BaseChatPage()
+        if bcp.is_exist_dialog():
+            # 点击我已阅读
+            bcp.click_i_have_read()
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        # 4.验证是否在单聊页面
+        self.assertTrue(scp.is_on_this_page())
+
+
+
+
+
+

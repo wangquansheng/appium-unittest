@@ -1731,15 +1731,15 @@ class MsgPrivateChatMyComputer(TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.select_mobile('Android-移动')
-        current_mobile().launch_app()
+        # Preconditions.select_mobile('Android-移动')
+        # current_mobile().launch_app()
 
     def default_setUp(self):
         """当前页面在我的电脑聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
         mess = MessagePage()
         if mess.is_on_this_page():
-            return
+            pass
         else:
             current_mobile().launch_app()
             Preconditions.make_already_in_message_page()
@@ -1754,7 +1754,7 @@ class MsgPrivateChatMyComputer(TestCase):
         current_mobile().hide_keyboard_if_display()
         mess.click_search_my_computer()
 
-    @tags('ALL', 'CMCC', 'yx')
+    @tags('ALL', 'CMCC', 'yxyx')
     def test_msg_huangcaizui_D_0029(self):
         """我的电脑会话页面，编辑图片发送"""
         # 1、成功登录和飞信
@@ -1797,7 +1797,7 @@ class MsgPrivateChatMyComputer(TestCase):
         cwp.wait_for_msg_send_status_become_to("发送成功", 30)
         time.sleep(2)
 
-    @tags('ALL', 'CMCC', 'yx')
+    @tags('ALL', 'CMCC', 'yxyx')
     def test_msg_huangcaizui_D_0030(self):
         """我的电脑会话页面，编辑图片不保存发送"""
         # 1、成功登录和飞信
@@ -1839,7 +1839,7 @@ class MsgPrivateChatMyComputer(TestCase):
         cwp.wait_for_msg_send_status_become_to("发送成功", 30)
         time.sleep(2)
 
-    @tags('ALL', 'CMCC', 'yx')
+    @tags('ALL', 'CMCC', 'yxyx')
     def test_msg_huangcaizui_D_0031(self):
         """我的电脑会话页面，编辑图片中途直接发送"""
         # 1、成功登录和飞信

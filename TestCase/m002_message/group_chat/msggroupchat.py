@@ -3778,7 +3778,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
             gcp.click_more()
             time.sleep(1)
 
-    @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
+    @tags('ALL', 'CMCC_RESET', 'group_chat', "high", "yx")
     def test_msg_huangcaizui_C_0011(self):
         """群聊中群短信无记录"""
         # 1.网络正常，本网用户
@@ -3812,7 +3812,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         Preconditions.make_already_in_message_page()
         Preconditions.get_into_group_chat_page("群聊1")
 
-    @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
+    @tags('ALL', 'CMCC_RESET', 'group_chat', "high", "yx")
     def test_msg_huangcaizui_C_0013(self):
         """群短信输入1个字符的文本内容进行发送"""
         # 1.网络正常，本网用户
@@ -3872,7 +3872,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         Preconditions.make_already_in_message_page()
         Preconditions.get_into_group_chat_page("群聊1")
 
-    @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
+    @tags('ALL', 'CMCC_RESET', 'group_chat', "high", "yx")
     def test_msg_huangcaizui_C_0017(self):
         """观察群短信内容以及群成员的展示"""
         # 1.网络正常，本网用户
@@ -3984,7 +3984,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         Preconditions.make_already_in_message_page()
         Preconditions.get_into_group_chat_page("群聊1")
 
-    @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
+    @tags('ALL', 'CMCC_RESET', 'group_chat', "high", "yx")
     def test_msg_huangcaizui_C_0025(self):
         """进入群短信收件人联系人选择器"""
         # 1.网络正常，本网用户
@@ -4049,7 +4049,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         Preconditions.make_already_in_message_page()
         Preconditions.get_into_group_chat_page("群聊1")
 
-    @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
+    @tags('ALL', 'CMCC_RESET', 'group_chat', "high", "yx")
     def test_msg_huangcaizui_C_0033(self):
         """昵称搜索群成员"""
         # 1.网络正常，本网用户
@@ -4101,7 +4101,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         Preconditions.make_already_in_message_page()
         Preconditions.get_into_group_chat_page("群聊1")
 
-    @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
+    @tags('ALL', 'CMCC_RESET', 'group_chat', "high", "yx")
     def test_msg_huangcaizui_C_0034(self):
         """昵称搜索群成员"""
         # 1.网络正常，本网用户
@@ -4192,7 +4192,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         Preconditions.make_already_in_message_page()
         Preconditions.get_into_group_chat_page("群聊1")
 
-    @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
+    @tags('ALL', 'CMCC_RESET', 'group_chat', "high", "yx")
     def test_msg_huangcaizui_C_0037(self):
         """编辑群短信字符数为1"""
         # 1.网络正常，本网用户
@@ -4233,7 +4233,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         Preconditions.make_already_in_message_page()
         Preconditions.get_into_group_chat_page("群聊1")
 
-    @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
+    @tags('ALL', 'CMCC_RESET', 'group_chat', "high", "yx")
     def test_msg_huangcaizui_C_0040(self):
         """编辑群短信字符数为1"""
         # 1.网络正常，本网用户
