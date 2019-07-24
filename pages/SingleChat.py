@@ -491,8 +491,8 @@ class SingleChatPage(BaseChatPage):
         """当前页面是否有发送失败标识"""
         el = self.get_elements(self.__locators['发送失败标识'])
         if len(el) > 0:
-            return False
-        return True
+            return True
+        return False
 
     @TestLogger.log()
     def click_msg_image(self, number):

@@ -287,6 +287,7 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
     @TestLogger.log('点击短信')
     def click_sms_btn(self):
         self.click_element(self.__locators['短信'])
+
     def is_current_activity_match_this_page(self):
         if self.ACTIVITY == self.is_current_activity_match_this_page():
             return True
@@ -311,4 +312,13 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
     def click_location(self):
         """点击位置 """
         self.click_element(self.__class__.__locators['位置'])
+
+    @TestLogger.log('点击返回')
+    def is_page_contain_element(self):
+        """判断页面包含元素"""
+        return self.page_should_contain_element(self.__class__.__locators["照片"])
+        return self.page_should_contain_element(self.__class__.__locators["拍照"])
+        return self.page_should_contain_element(self.__class__.__locators["表情按钮"])
+        return self.page_should_contain_element(self.__class__.__locators["更多"])
+        return self.page_should_contain_element(self.__class__.__locators["设置"])
 

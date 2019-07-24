@@ -2274,6 +2274,18 @@ class MsgPrivateChatMyComputer(TestCase):
         # 4.判断在消息聊天窗口是否展示缩略位置消息体
         self.assertTrue(cwp.is_address_text_present())
 
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_huangcaizui_D_0005(self):
+        """在我的电脑面板点击发消息到我的电脑按钮后进入我的电脑会话窗口"""
+        # 1、当前页面在我的电脑面板
+        cwp = ChatWindowPage()
+        cwp.wait_for_page_load()
+        # 1.验证是否在我的电脑会话窗口
+        self.assertTrue(cwp.is_text_present("我的电脑"))
+        # 2.验证各个功能是否正常显示
+        self.assertTrue(cwp.is_page_contain_element())
+        time.sleep(2)
+
 
 class MsgPrivateChatPicture(TestCase):
     """
@@ -2322,7 +2334,7 @@ class MsgPrivateChatPicture(TestCase):
         # 4.点击发送
         cpp.click_picture_send()
         # 5.判断存在发送失败按钮
-        self.assertFalse(scp.is_send_sucess())
+        self.assertTrue(scp.is_send_sucess())
         # 6.点击图片
         scp.click_msg_image(0)
         # 7.长按图片
@@ -2371,7 +2383,7 @@ class MsgPrivateChatPicture(TestCase):
         # 5.点击发送
         cpp.click_picture_send()
         # 6.判断是否存在发送失败按钮
-        self.assertFalse(scp.is_send_sucess())
+        self.assertTrue(scp.is_send_sucess())
         # 7.点击图片
         scp.click_msg_image(0)
         # 8.长按图片
