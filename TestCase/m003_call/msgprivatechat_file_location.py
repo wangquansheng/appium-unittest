@@ -5649,6 +5649,53 @@ class MsgPrivateChatAllTest(TestCase):
         # 4.验证是否在单聊页面
         self.assertTrue(scp.is_on_this_page())
 
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0356():
+        """确保消息列表没有发送失败标识，聊天会话窗口中已存在多条消息体"""
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_single_chat_page("大佬2")
+        Preconditions.make_no_message_send_failed_status("大佬2")
+        scp = SingleChatPage()
+        for i in range(3):
+            scp.input_message("哈哈")
+            scp.send_message()
+            time.sleep(3)
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_xiaoqiu_0356(self):
+        """转发——支持转发的——默认选中项（1条）"""
+        # 1.网络异常
+        # 2.单聊/群聊/我的电脑/分组群发--聊天会话窗中，已存在多条消息体
+        # 3、当前消息支持转发）
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        # 1.长按消息选择多选
+        scp.press_last_message_to_do("多选")
+        # 2.选择多条消息
+        scp.click_select_many_messages()
+        # 3.点击转发
+        scp.click_text("转发")
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 4.点击最近聊天中的联系人
+        select_contacts.click_recent_contact()
+        time.sleep(2)
+        # 5.断开网络
+        select_contacts.set_network_status(0)
+        # 6.点击确定
+        select_contacts.click_text("确定")
+        self.assertTrue(scp.is_toast_exist("已转发"))
+        # 7.验证当前页面是否有发送失败标识
+        self.assertTrue(scp.is_send_sucess())
+        time.sleep(2)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0356():
+        # 重新连接网络
+        mess = MessagePage()
+        mess.set_network_status(6)
+
 
 
 
