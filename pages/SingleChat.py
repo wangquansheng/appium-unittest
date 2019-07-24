@@ -519,4 +519,22 @@ class SingleChatPage(BaseChatPage):
         """点击原图"""
         self.click_element(self.__class__.__locators["原图"])
 
+    @TestLogger.log()
+    def press_last_message_to_do(self, text):
+        """长按最后一个文本消息进行操作"""
+        el = self.get_elements(('id', 'com.chinasofti.rcs:id/tv_message'))[-1]
+        self.press(el)
+        self.click_element(self.__class__.__locators[text])
+
+        # (//*[contains(@resource-id,"com.chinasofti.rcs:id/multi_check")])[4]
+
+    @TestLogger.log()
+    def click_select_many_messages(self):
+        """点击选择多条消息"""
+        time.sleep(1)
+        self.click_element((MobileBy.XPATH, '(//*[contains(@resource-id,"com.chinasofti.rcs:id/multi_check")])[1]'))
+        time.sleep(1)
+        self.click_element((MobileBy.XPATH, '(//*[contains(@resource-id,"com.chinasofti.rcs:id/multi_check")])[2]'))
+        time.sleep(1)
+
 

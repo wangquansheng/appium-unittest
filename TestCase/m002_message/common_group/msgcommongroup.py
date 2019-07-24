@@ -12858,3 +12858,49 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(2)
         self.assertTrue(gcsp.is_exist_invite_red_dot())
         time.sleep(1)
+
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0312():
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊1")
+
+    @tags('ALL', 'CMCC', 'yx')
+    def test_msg_xiaoqiu_0312(self):
+        """群聊会话页面，发起名片交换申请——网络异常"""
+        # 1、网络异常
+        # 2、已登录和飞信
+        # 3、已加入普通群
+        # 4、群聊会话页
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        # 2.点击第一个群成员头像
+        gcsp.click_first_group_member_avatar()
+        cdp = ContactDetailsPage()
+        # 3.点击分享名片
+        cdp.click_share_business_card()
+        scg = SelectContactsPage()
+        scg.wait_for_page_load()
+        # 4.点击“选择一个群”菜单
+        scg.click_select_one_group()
+        sog = SelectOneGroupPage()
+        sog.wait_for_page_load()
+        # 4.选择一个普通群
+        sog.selecting_one_group_by_name("群聊2")
+        # 5.断开网络
+        sog.set_network_status(0)
+        # 6.点击发送名片
+        sog.click_text("发送名片")
+        self.assertTrue(sog.is_toast_exist("网络不可用，请检查网络设置"))
+        time.sleep(2)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0312():
+        # 重新连接网络
+        mess = MessagePage()
+        mess.set_network_status(6)
+
+

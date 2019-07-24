@@ -704,6 +704,11 @@ class BaseChatPage(BasePage):
         rect = el.rect
         return rect["width"]
 
+    @TestLogger.log()
+    def click_open_file(self, file):
+        """点击打开指定文件"""
+        self.click_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file))
+
 
 
 

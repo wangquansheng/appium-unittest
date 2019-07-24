@@ -2559,6 +2559,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         names = slcp.get_contacts_name_list()
         name = random.choice(names)
         slcp.selecting_local_contacts_by_name(name)
+        time.sleep(1)
         # 3.点击取消
         slcp.click_cancel_forward()
         if not slcp.is_on_this_page():
