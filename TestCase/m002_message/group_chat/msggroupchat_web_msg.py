@@ -1,11 +1,6 @@
-import random
-import re
 import time
-import unittest
-import uuid
 import warnings
 
-from appium.webdriver.common.mobileby import MobileBy
 from selenium.common.exceptions import TimeoutException
 
 from library.core.TestCase import TestCase
@@ -13,12 +8,11 @@ from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile, current_driver
 from library.core.utils.testcasefilter import tags
 from pages import *
-from pages.components import BaseChatPage
-from pages.groupset.GroupChatSetPicVideo import GroupChatSetPicVideoPage
 from pages.otherpages.HasRead import HasRead
+from pages.workbench.create_group.CreateGroup import CreateGroupPage
+from pages.workbench.create_group.SelectEnterpriseContacts import SelectEnterpriseContactsPage
 from pages.workbench.enterprise_contacts.EnterpriseContacts import EnterpriseContactsPage
 from pages.workbench.voice_notice.VoiceNotice import VoiceNoticePage
-
 from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
@@ -1034,6 +1028,101 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         self.assertEqual(exist, False)
         exist = gcp.is_text_present("123456")
         self.assertEqual(exist, False)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0007(self):
+        """全局搜索入口——搜索企业群/党群名结果——查看更多列表页"""
+        # 1、正常搜索到相应结果且进入相关界面
+        # 2、全部正常
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 搜索企业群
+        mess = MessagePage()
+        mess.click_search()
+        mess.input_search_message_631("测试企业群")
+        mess.hide_keyboard()
+        time.sleep(2)
+        if not mess.is_text_present("查看更多"):
+            raise AssertionError("没有查看更多")
+        mess.click_text("查看更多")
+        mess.hide_keyboard()
+        time.sleep(1)
+        # 判断
+        # 1、全局搜索企业群/党群名称超过3个结果时点击“查看更多”
+        # 2、检查群头像、企业/党群标识、群名称、搜索字符高亮、群人数等元素
+        mess.is_exist_the_element("企业头像")
+        mess.is_exist_the_element("企业标识")
+        mess.is_exist_the_element("企业群名")
+        mess.is_exist_the_element("企业成员数量")
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0009(self):
+        """全局搜索入口——搜索企业群/党群名结果——查看更多列表页"""
+        # 群主在群聊设置页有拉人“+”和踢人“-”按钮
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 搜索企业群
+        mess = MessagePage()
+        mess.click_search()
+        mess.input_search_message_631("测试企业群")
+        mess.hide_keyboard()
+        time.sleep(2)
+        if not mess.is_text_present("查看更多"):
+            raise AssertionError("没有查看更多")
+        mess.click_text("查看更多")
+        mess.hide_keyboard()
+        time.sleep(1)
+        # 判断
+        sc = SelectContactsPage()
+        sc.select_one_group_by_name("测试企业群")
+        time.sleep(1)
+        gcp.click_setting()
+        time.sleep(1)
+        sc = SelectContactsPage()
+        exist = sc.is_exisit_null_contact(None)
+        self.assertEqual(exist, True)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0012(self):
+        """全局搜索入口——搜索企业群/党群名结果——查看更多列表页"""
+        # 正常进入和消息记录正常展示
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 搜索企业群
+        mess = MessagePage()
+        mess.click_search()
+        mess.input_search_message_631("测试企业群")
+        mess.hide_keyboard()
+        time.sleep(2)
+        if not mess.is_text_present("查看更多"):
+            raise AssertionError("没有查看更多")
+        mess.click_text("查看更多")
+        mess.hide_keyboard()
+        time.sleep(1)
+        # 判断
+        sc = SelectContactsPage()
+        sc.select_one_group_by_name("测试企业群")
+        time.sleep(1)
+        gcp.input_text_message("0012")
+        gcp.send_message()
+        time.sleep(1)
+        gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        result = mess.is_text_present("0012")
+        self.assertEqual(result, True)
+        sc.select_one_group_by_name("测试企业群")
+        result = gcp.is_text_present("0012")
+        self.assertEqual(result, True)
+        Preconditions.delete_record_group_chat()
+        gcp.click_back()
+        result = mess.is_text_present("0012")
+        self.assertEqual(result, False)
+        sc.select_one_group_by_name("测试企业群")
+        result = gcp.is_text_present("0012")
+        self.assertEqual(result, False)
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0013(self):
@@ -2133,6 +2222,86 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         self.assertEqual(result, True)
 
     @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0121(self):
+        """群聊设置页面——开启消息免打扰"""
+        # 1、点击打开消息免打扰开关，可以开启消息免打扰的开关
+        # 2、返回到消息列表，接收到新消息时，会话窗口上方会展示红点，不展示数量并且还会有一个被划掉的小铃铛
+        # 3、进入到聊天会话窗口页面，左上角的群名称右边会同样展示一个被划掉的小铃铛
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 判断消息免打扰是否开启
+        if not gcsp.get_switch_undisturb_status():
+            gcsp.click_switch_undisturb()
+        result = gcsp.get_switch_undisturb_status()
+        self.assertEqual(result, True)
+        # 点击返回群聊页面
+        gcsp.click_back()
+        # 发送消息
+        gcp.input_message("0121")
+        gcp.send_message()
+        gcp.click_back()
+        time.sleep(3)
+        # 判断是否存在消息免打扰图标
+        mess = MessagePage()
+        result = mess.is_exist_no_disturb_icon()
+        self.assertTrue(result)
+        time.sleep(3)
+        sc = SelectContactsPage()
+        sc.select_one_group_by_name("测试企业群")
+        time.sleep(1)
+        # 判断是否存在消息免打扰图标
+        self.assertTrue(gcp.is_exist_undisturb())
+
+    def tearDown_test_msg_huangmianhua_0121(self):
+        gcp = GroupChatPage()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        # 消息免打扰按钮 开启状态-》关闭
+        if gcsp.get_switch_undisturb_status():
+            gcsp.click_switch_undisturb()
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0122(self):
+        """群聊设置页面——关闭消息免打扰"""
+        # 1、点击关闭消息免打扰开关，可以关闭消息免打扰的开关
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 打开企业群
+        Preconditions.get_into_group_chat_page('测试企业群')
+        Preconditions.delete_record_group_chat()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 判断消息免打扰是否开启
+        if gcsp.get_switch_undisturb_status():
+            # 开启状态：关闭
+            gcsp.click_switch_undisturb()
+            result = gcsp.get_switch_undisturb_status()
+            self.assertEqual(result, False)
+        else:
+            # 关闭状态：先开启，再关闭
+            gcsp.click_switch_undisturb()
+            time.sleep(3)
+            result = gcsp.get_switch_undisturb_status()
+            self.assertEqual(result, True)
+            gcsp.click_switch_undisturb()
+            time.sleep(3)
+            result = gcsp.get_switch_undisturb_status()
+            self.assertEqual(result, False)
+
+    def tearDown_test_msg_huangmianhua_0122(self):
+        gcsp = GroupChatSetPage()
+        # 消息免打扰按钮 开启状态-》关闭
+        if gcsp.get_switch_undisturb_status():
+            gcsp.click_switch_undisturb()
+
+    @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0123(self):
         """群聊设置页面——关闭消息免打扰——网络异常"""
         # 1、点击关闭消息免打扰开关，会提示：上传失败
@@ -2722,6 +2891,143 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         time.sleep(3)
         result = gcp.is_text_present("@")
         self.assertEqual(result, False)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0180(self):
+        """通讯录——发起群聊——选择本地联系人"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        time.sleep(1)
+        GroupListPage().click_create_group()
+        time.sleep(1)
+        mess.click_text("选择手机联系人")
+        sec = SelectEnterpriseContactsPage()
+        sec.click_contacts_by_name2("大佬1")
+        sec.click_contacts_by_name2("大佬2")
+        mess.click_sure_button()
+        time.sleep(1)
+        cgp = CreateGroupPage()
+        cgp.input_group_name2("测试0180")
+        mess.click_sure_button()
+        time.sleep(2)
+        result = gcp.is_text_present("发出群邀请")
+        self.assertEqual(result, True)
+
+    def tearDown_test_msg_huangmianhua_0180(self):
+        gcp = GroupChatPage()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.click_group_manage()
+        time.sleep(1)
+        gcsp.click_group_manage_disband_button()
+        time.sleep(1)
+        gc = GroupChatPage()
+        # 解散
+        gc.click_resend_confirm()
+        time.sleep(5)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0181(self):
+        """通讯录——发起群聊——选择和通讯录联系人"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        time.sleep(1)
+        GroupListPage().click_create_group()
+        time.sleep(1)
+        mess.click_text("选择团队联系人")
+        time.sleep(3)
+        ec = EnterpriseContactsPage()
+        ec.click_sub_level_department_by_name2("ateam7272")
+        time.sleep(1)
+        sec = SelectEnterpriseContactsPage()
+        sec.click_contacts_by_name("大佬1")
+        sec.click_contacts_by_name("大佬2")
+        sec = SelectEnterpriseContactsPage()
+        sec.click_sure()
+        time.sleep(1)
+        cgp = CreateGroupPage()
+        cgp.input_group_name2("测试0181")
+        mess.click_sure_button()
+        time.sleep(2)
+        result = gcp.is_text_present("发出群邀请")
+        self.assertEqual(result, True)
+
+    def tearDown_test_msg_huangmianhua_0181(self):
+        gcp = GroupChatPage()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.click_group_manage()
+        time.sleep(1)
+        gcsp.click_group_manage_disband_button()
+        time.sleep(1)
+        gc = GroupChatPage()
+        # 解散
+        gc.click_resend_confirm()
+        time.sleep(5)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0182(self):
+        """通讯录——发起群聊——选择和通讯录联系人"""
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        time.sleep(1)
+        GroupListPage().click_create_group()
+        time.sleep(1)
+        # 选择团队联系人
+        mess.click_text("选择团队联系人")
+        time.sleep(3)
+        ec = EnterpriseContactsPage()
+        ec.click_sub_level_department_by_name2("ateam7272")
+        time.sleep(1)
+        sec = SelectEnterpriseContactsPage()
+        sec.click_contacts_by_name("大佬1")
+        sec = SelectEnterpriseContactsPage()
+        sec.click_sure()
+        time.sleep(1)
+        sec.click_back_by_android()
+        time.sleep(1)
+        # 选择手机联系人
+        mess.click_text("选择手机联系人")
+        sec.click_contacts_by_name2("大佬2")
+        mess.click_sure_button()
+        time.sleep(1)
+        cgp = CreateGroupPage()
+        cgp.input_group_name2("测试0182")
+        mess.click_sure_button()
+        time.sleep(2)
+        result = gcp.is_text_present("发出群邀请")
+        self.assertEqual(result, True)
+
+    def tearDown_test_msg_huangmianhua_0182(self):
+        gcp = GroupChatPage()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.click_group_manage()
+        time.sleep(1)
+        gcsp.click_group_manage_disband_button()
+        time.sleep(1)
+        gc = GroupChatPage()
+        # 解散
+        gc.click_resend_confirm()
+        time.sleep(5)
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0204(self):

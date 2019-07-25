@@ -45,6 +45,21 @@ class SelectEnterpriseContactsPage(BasePage):
         self.click_element(locator)
 
     @TestLogger.log()
+    def click_contacts_by_name2(self, name):
+        """选择指定联系人"""
+        locator = (
+            MobileBy.XPATH,
+            '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and contains(@text,"%s")]' % name)
+        max_try = 20
+        current = 0
+        while current < max_try:
+            if self._is_element_present(locator):
+                break
+            current += 1
+            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        self.click_element(locator)
+
+    @TestLogger.log()
     def click_sure(self):
         """点击确定"""
         self.click_element(self.__class__.__locators["确定"])

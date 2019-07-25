@@ -16,6 +16,7 @@ class CreateGroupPage(BasePage):
         '群名输入框': (MobileBy.XPATH, '//*[@resource-id="gp_name"]'),
         '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
         '发起群聊': (MobileBy.XPATH, '//*[@text="发起群聊" or @content-desc="发起群聊"]'),
+        '群名输入框2': (MobileBy.ID, 'com.chinasofti.rcs:id/et_group_name'),
     }
 
     @TestLogger.log()
@@ -41,6 +42,16 @@ class CreateGroupPage(BasePage):
     def input_group_name(self, name):
         """输入企业群名称"""
         self.input_text(self.__class__.__locators["群名输入框"], name)
+        try:
+            self.driver.hide_keyboard()
+        except:
+            pass
+        return self
+
+    @TestLogger.log()
+    def input_group_name2(self, name):
+        """输入企业群名称"""
+        self.input_text(self.__class__.__locators["群名输入框2"], name)
         try:
             self.driver.hide_keyboard()
         except:
