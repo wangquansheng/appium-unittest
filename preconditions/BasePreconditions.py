@@ -26,12 +26,15 @@ REQUIRED_MOBILES = {
     'Android-移动-移动': 'double_mobile',
     'Android-XX-XX': 'others_double',
 }
+
+import os
+curPath = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+filePath = curPath + "\Resources\\test_datas\contacts_call.csv"
 # contacts_call.csv文件的绝对路径如有变动，请在此处页面更新
 # 如果修改contacts_call.csv文件名，请同步修改此页面方法get_contacts_by_row_linename中变量
 File_Paths = {
-    'contacts_call.csv': 'D:\\201902_UiScripts\\自动化框架\\appium-unittest\\Resources\\test_datas\\contacts_call.csv',
+    'contacts_call.csv': filePath,
 }
-
 
 class LoginPreconditions(object):
     """登录前置条件"""
@@ -44,6 +47,13 @@ class LoginPreconditions(object):
         if reset:
             current_mobile().reset_app()
         return client
+
+    @staticmethod
+    def disconnect_mobile(category, reset=False):
+        """选择手机"""
+        client = switch_to_mobile(REQUIRED_MOBILES[category])
+        client.disconnect_mobile()
+
 
     @staticmethod
     def make_already_in_one_key_login_page():
@@ -471,6 +481,25 @@ class LoginPreconditions(object):
             from pages.components import ContactsSelector
             ContactsSelector().select_local_contacts(*member_list)
             BuildGroupChatPage().create_group_chat(group_name)
+
+    @staticmethod
+    def enter_my_computer_page(reset=False):
+        """从消息进入我的电脑页面"""
+        # 登录进入消息页面
+        LoginPreconditions.make_already_in_message_page(reset)
+        mess = MessagePage()
+        # 从消息进入我的电脑
+        mess.click_search()
+        mess.input_search_message_631("我的电脑")
+        time.sleep(1)
+        if mess._is_element_present(
+                (
+                        MobileBy.XPATH,
+                        '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text ="%s"]' % "我的电脑")):
+            mess.click_element(
+                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text ="%s"]' % "我的电脑"))
+        else:
+            raise AssertionError('没有我的电脑选项!')
 
 
 class WorkbenchPreconditions(LoginPreconditions):
