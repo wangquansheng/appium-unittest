@@ -3030,6 +3030,181 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         time.sleep(5)
 
     @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0183(self):
+        """通讯录——发起群聊——选择SIM卡联系人——创建群聊"""
+        # 1、通讯录-群聊-右上角的发起群聊-联系人选择器页-选择SIM卡联系人，点击右上角的确定按钮，可以创建普通群聊成功
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        time.sleep(1)
+        GroupListPage().click_create_group()
+        time.sleep(1)
+        mess.click_text("选择手机联系人")
+        sec = SelectEnterpriseContactsPage()
+        sec.click_contacts_by_name2("大佬1")
+        sec.click_contacts_by_name2("大佬2")
+        mess.click_sure_button()
+        time.sleep(1)
+        cgp = CreateGroupPage()
+        cgp.input_group_name2("测试0183")
+        mess.click_sure_button()
+        time.sleep(2)
+        result = gcp.is_text_present("发出群邀请")
+        self.assertEqual(result, True)
+
+    def tearDown_test_msg_huangmianhua_0183(self):
+        gcp = GroupChatPage()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.click_group_manage()
+        time.sleep(1)
+        gcsp.click_group_manage_disband_button()
+        time.sleep(1)
+        gc = GroupChatPage()
+        # 解散
+        gc.click_resend_confirm()
+        time.sleep(5)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0184(self):
+        """通讯录——发起群聊——搜索选择陌生人"""
+        # 1、通讯录-群聊-右上角的发起群聊-联系人选择器页-搜索选择陌生人，点击右上角的确定按钮，可以创建普通群聊成功
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        time.sleep(1)
+        GroupListPage().click_create_group()
+        time.sleep(1)
+        #mess.click_text("选择手机联系人")
+        gcp.input_member_message("大佬1")
+        sec = SelectEnterpriseContactsPage()
+        sec.click_contacts_by_name2("大佬1")
+        gcp.input_member_message("大佬2")
+        sec.click_contacts_by_name2("大佬2")
+        mess.click_sure_button()
+        time.sleep(1)
+        cgp = CreateGroupPage()
+        cgp.input_group_name2("测试0184")
+        mess.click_sure_button()
+        time.sleep(2)
+        result = gcp.is_text_present("发出群邀请")
+        self.assertEqual(result, True)
+
+    def tearDown_test_msg_huangmianhua_0184(self):
+        gcp = GroupChatPage()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.click_group_manage()
+        time.sleep(1)
+        gcsp.click_group_manage_disband_button()
+        time.sleep(1)
+        gc = GroupChatPage()
+        # 解散
+        gc.click_resend_confirm()
+        time.sleep(5)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0185(self):
+        """通讯录——发起群聊——搜索选择陌生人+本地联系人——创建群聊"""
+        # 1、通讯录-群聊-右上角的发起群聊-联系人选择器页-搜索选择陌生人+本地联系人，点击右上角的确定按钮，可以创建普通群聊成功
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        time.sleep(1)
+        GroupListPage().click_create_group()
+        time.sleep(1)
+        gcp.input_member_message("大佬1")
+        sec = SelectEnterpriseContactsPage()
+        sec.click_contacts_by_name2("大佬1")
+        mess.click_text("选择手机联系人")
+        time.sleep(1)
+        #gcp.input_member_message("大佬2")
+        sec.click_contacts_by_name2("大佬2")
+        mess.click_sure_button()
+        time.sleep(1)
+        cgp = CreateGroupPage()
+        cgp.input_group_name2("测试0185")
+        mess.click_sure_button()
+        time.sleep(2)
+        result = gcp.is_text_present("发出群邀请")
+        self.assertEqual(result, True)
+
+    def tearDown_test_msg_huangmianhua_0185(self):
+        gcp = GroupChatPage()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.click_group_manage()
+        time.sleep(1)
+        gcsp.click_group_manage_disband_button()
+        time.sleep(1)
+        gc = GroupChatPage()
+        # 解散
+        gc.click_resend_confirm()
+        time.sleep(5)
+
+    @tags('ALL', 'CMCC', 'group_chat')
+    def test_msg_huangmianhua_0186(self):
+        """通讯录——发起群聊——搜索选择陌生人+和通讯录联系人——创建群聊"""
+        # 1、通讯录-群聊-右上角的发起群聊-联系人选择器页-搜索选择陌生人+和通讯录联系人，点击右上角的确定按钮，可以创建普通群聊成功
+        gcp = GroupChatPage()
+        gcp.click_back()
+        # 进入"联系"标签
+        mess = MessagePage()
+        mess.open_contacts_page()
+        contact = ContactsPage()
+        contact.click_group_chat_631()
+        time.sleep(1)
+        GroupListPage().click_create_group()
+        time.sleep(1)
+        gcp.input_member_message("大佬1")
+        sec = SelectEnterpriseContactsPage()
+        sec.click_contacts_by_name2("大佬1")
+        # 进入团队联系人
+        mess.click_text("选择团队联系人")
+        time.sleep(3)
+        ec = EnterpriseContactsPage()
+        ec.click_sub_level_department_by_name2("ateam7272")
+        time.sleep(1)
+        sec.click_contacts_by_name("大佬2")
+        sec.click_sure()
+        time.sleep(1)
+        cgp = CreateGroupPage()
+        cgp.input_group_name2("测试0186")
+        mess.click_sure_button()
+        time.sleep(2)
+        result = gcp.is_text_present("发出群邀请")
+        self.assertEqual(result, True)
+
+    def tearDown_test_msg_huangmianhua_0186(self):
+        gcp = GroupChatPage()
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        gcsp.click_group_manage()
+        time.sleep(1)
+        gcsp.click_group_manage_disband_button()
+        time.sleep(1)
+        gc = GroupChatPage()
+        # 解散
+        gc.click_resend_confirm()
+        time.sleep(5)
+
+    @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0204(self):
         """
             消息列表——长按——删除会话窗口

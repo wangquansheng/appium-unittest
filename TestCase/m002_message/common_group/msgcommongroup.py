@@ -5549,6 +5549,55 @@ class MsgCommonGroupTest(TestCase):
             raise AssertionError("多选-点击失败2")
 
     @staticmethod
+    def setUp_test_msg_huangmianhua_0226():
+        Preconditions.select_mobile('Android-移动')
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            Preconditions.enter_group_chat_page()
+            return
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            current_mobile().hide_keyboard_if_display()
+            return
+        else:
+            current_mobile().launch_app()
+            # current_mobile().reset_app()
+            Preconditions.enter_group_chat_page()
+
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
+    def test_msg_huangmianhua_0226(self):
+        """转发默认选中项（1条）—删除"""
+        gcp = GroupChatPage()
+        Preconditions.delete_record_group_chat()
+        for num in range(3):
+            gcp.input_message("哈哈"+str(num))
+            gcp.send_message()
+        gcp.hide_keyboard()
+        time.sleep(2)
+        # 1.消息会话框中长按消息体
+        # 2.点击“多选”
+        # 3.查看页面选中的消息体数量
+        # 4.点击删除
+        # 5.点击确定
+        # 6.查看聊天会话窗口
+        # gcp.press_message_longclick2() 长按的是第一个
+        gcp.press_the_message_by_text("哈哈1")
+        if not gcp.is_toast_exist("多选"):
+            raise AssertionError("多选-功能项没找到")
+        gcp.click_message("多选")
+        if not gcp.is_toast_exist("已选择"):
+            raise AssertionError("多选-点击失败1")
+        # 多选-底部-删除按钮
+        gcp.click_multiple_selection_delete()
+        time.sleep(2)
+        # 弹出框-点击删除
+        gcp.click_multiple_selection_delete_sure()
+        exist = gcp.is_toast_exist("删除成功")
+        self.assertEqual(exist, True)
+        if gcp.is_text_present("哈哈1"):
+            raise AssertionError("没有成功删除掉消息体")
+
+    @staticmethod
     def setUp_test_msg_huangmianhua_0240():
         Preconditions.select_mobile('Android-移动')
         mess = MessagePage()

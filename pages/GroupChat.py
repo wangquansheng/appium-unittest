@@ -135,6 +135,7 @@ class GroupChatPage(BaseChatPage):
                   '同时发送语音+文字(语音识别)': (MobileBy.ID, 'com.chinasofti.rcs:id/select_send_audio_and_text'),
                   '语音发送模式确定': (MobileBy.ID, 'com.chinasofti.rcs:id/select_send_audio_type_confirm'),
                   '发送者姓名': (MobileBy.ID, 'com.chinasofti.rcs:id/text_name'),
+                  '信息体': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_message'),
                   }
 
     @TestLogger.log()
@@ -441,6 +442,21 @@ class GroupChatPage(BaseChatPage):
         """长按文本消息体"""
         el = self.get_element((MobileBy.ID, 'com.chinasofti.rcs:id/tv_message'))
         self.press(el)
+
+    @TestLogger.log()
+    def press_the_message_by_text(self, text):
+        """长按指定文本消息"""
+        els = self.get_elements(self.__class__.__locators["信息体"])
+
+        if els:
+            for el in els:
+                print("------------"+el.text)
+                if el.text == text:
+                    print("------------" + el.text)
+                    tmpel = el
+                    break
+        self.press(tmpel)
+
 
     @TestLogger.log()
     def click_message(self, text):
