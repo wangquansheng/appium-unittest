@@ -64,6 +64,7 @@ class WorkbenchPage(FooterPage):
                   '帮助中心': (MobileBy.XPATH, '//*[@text="帮助中心"]'),
                   '网易考拉': (MobileBy.XPATH, '//*[@text="网易考拉"]'),
                   '政企优惠': (MobileBy.XPATH, '//*[@text="政企优惠"]'),
+                  '同事圈': (MobileBy.XPATH, '//*[@text="同事圈"]'),
                   '人事管理': (MobileBy.XPATH, '//*[@text="人事管理"]'),
                   '考试评测': (MobileBy.XPATH, '//*[@text="考试评测"]'),
                   '移动报销': (MobileBy.XPATH, '//*[@text="移动报销"]'),

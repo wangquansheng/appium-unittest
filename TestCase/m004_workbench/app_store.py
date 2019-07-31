@@ -239,7 +239,7 @@ class AppStoreAllTest(TestCase):
         """搜索未添加个人应用进入应用介绍页添加"""
 
         # 确保不存在指定个人应用
-        app_name = "网易考拉"
+        app_name = "同事圈"
         Preconditions.ensure_not_exists_personal_app_by_name(app_name)
         # 添加工作台里的应用
         wbp = WorkbenchPage()
