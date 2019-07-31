@@ -278,6 +278,7 @@ class EnterpriseLogAllTest(TestCase):
         wlp = WorkbenchLogPage()
         # 2.点击返回
         wlp.click_back()
+        time.sleep(2)
         # 3.验证是否在工作台页面
         wbp = WorkbenchPage()
         wbp.wait_for_workbench_page_load()
@@ -588,8 +589,9 @@ class EnterpriseLogAllTest(TestCase):
         wlp.input_coordination_help("需要协调与帮助")
         wlp.input_remark("备注")
         # 5.点击添加上次联系人
-        wlp.click_add_last_contact()
         wlp.page_up()
+        time.sleep(2)
+        wlp.click_add_last_contact()
         # 6.点击提交
         wlp.click_submit()
         # 7.判断是否提交成功
