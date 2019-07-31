@@ -26,6 +26,7 @@ class AnnouncementMessagePage(BasePage):
         '创建时间': (MobileBy.XPATH, '//*[@resource-id ="gg_time"]'),
         '浏览人数': (MobileBy.XPATH, '//*[@resource-id ="gg_traffic"]'),
         '图文发布': (MobileBy.XPATH, '//*[@text="图文发布"]'),
+        '文字发布': (MobileBy.XPATH, '//*[@text="文字发布"]'),
         '链接发布': (MobileBy.XPATH, '//*[@text="链接发布"]'),
         '消息推送': (MobileBy.XPATH, '//*[@text="消息推送"]'),
         '保存': (MobileBy.XPATH, '//*[@text="保存"]'),
