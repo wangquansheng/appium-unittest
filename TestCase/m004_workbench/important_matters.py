@@ -370,10 +370,12 @@ class ImportantMattersAllTest(TestCase):
         # 3.界面未读人员显示可删除按钮
         self.assertEquals(imp.is_exists_delete_icon_by_name("佬3"), True)
         imp.click_delete_icon_by_name("佬3")
+        time.sleep(3)
         # 4.删除的联系人从界面消失
         self.assertEquals(imp.is_text_present("佬3"), False)
         # 5.退出删除状态
         imp.click_delete_personnel()
+        time.sleep(1)
         imp.click_back()
         imp.wait_for_check_item_page_load()
         imp.click_back()
