@@ -290,7 +290,8 @@ class MassMessengerTest(TestCase):
             raise AssertionError("没有提示 无搜索结果")
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         mgp.wait_for_edit_message_page_load()
         mgp.click_close()
 
@@ -305,15 +306,18 @@ class MassMessengerTest(TestCase):
         wp.click_organization()
         org=Organization()
         org.wait_for_page_load()
-        if not org.is_exit_element_by_text_swipe("和飞信电话"):
+        if not org.is_exit_element_by_text_swipe("飞信电话"):
             org.click_text("添加联系人")
             time.sleep(2)
             org.click_text("从手机通讯录添加")
             sccp = SelectCompanyContactsPage()
             sccp.wait_for_page_load()
-            sccp.click_one_contact("和飞信电话")
+            # 飞信电话 or 和飞信电话
+            sccp.click_one_contact("飞信电话")
             sccp.click_sure()
-            org.click_back()
+            time.sleep(1)
+            org.click_back_by_android()
+            time.sleep(2)
             org.wait_for_page_load()
         org.click_back()
         wp.wait_for_page_load()
@@ -330,15 +334,16 @@ class MassMessengerTest(TestCase):
         # 点击指定联系人
         sccp = SelectCompanyContactsPage()
         sccp.wait_for_page_load()
-        sccp.click_one_contact("和飞信电话")
+        sccp.click_one_contact("飞信电话")
         time.sleep(3)
-        sccp.click_text("和飞信电话")
+        sccp.click_text("飞信电话")
         if sccp.is_left_head_exit():
             raise AssertionError("搜索栏左侧被取消人员人名和头像没有被移除")
         #返回
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         mgp.wait_for_edit_message_page_load()
         mgp.click_close()
 
@@ -363,13 +368,14 @@ class MassMessengerTest(TestCase):
         # 点击指定联系人
         sccp = SelectCompanyContactsPage()
         sccp.wait_for_page_load()
-        sccp.click_one_contact("和飞信电话")
+        sccp.click_one_contact("飞信电话")
         if not sccp.is_left_head_exit():
             raise AssertionError("找不到搜索栏左侧被点击人员人名和头像")
         #返回
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         mgp.wait_for_edit_message_page_load()
         mgp.click_close()
 
@@ -382,62 +388,62 @@ class MassMessengerAllTest(TestCase):
     Author：刘晓东
     """
 
-    @classmethod
-    def setUpClass(cls):
-
-        Preconditions.select_mobile('Android-移动')
-        # 导入测试联系人、群聊
-        fail_time1 = 0
-        flag1 = False
-        import dataproviders
-        while fail_time1 < 3:
-            try:
-                required_contacts = dataproviders.get_preset_contacts()
-                conts = ContactsPage()
-                current_mobile().hide_keyboard_if_display()
-                Preconditions.make_already_in_message_page()
-                conts.open_contacts_page()
-                try:
-                    if conts.is_text_present("发现SIM卡联系人"):
-                        conts.click_text("显示")
-                except:
-                    pass
-                for name, number in required_contacts:
-                    # 创建联系人
-                    conts.create_contacts_if_not_exits(name, number)
-                required_group_chats = dataproviders.get_preset_group_chats()
-                conts.open_group_chat_list()
-                group_list = GroupListPage()
-                for group_name, members in required_group_chats:
-                    group_list.wait_for_page_load()
-                    # 创建群
-                    group_list.create_group_chats_if_not_exits(group_name, members)
-                group_list.click_back()
-                conts.open_message_page()
-                flag1 = True
-            except:
-                fail_time1 += 1
-            if flag1:
-                break
-
-        # 导入团队联系人、企业部门
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296")]
-                Preconditions.create_he_contacts2(contact_names2)
-                department_names = ["测试部门1", "测试部门2"]
-                Preconditions.create_department_and_add_member(department_names)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
+    # @classmethod
+    # def setUpClass(cls):
+    #
+    #     Preconditions.select_mobile('Android-移动')
+    #     # 导入测试联系人、群聊
+    #     fail_time1 = 0
+    #     flag1 = False
+    #     import dataproviders
+    #     while fail_time1 < 3:
+    #         try:
+    #             required_contacts = dataproviders.get_preset_contacts()
+    #             conts = ContactsPage()
+    #             current_mobile().hide_keyboard_if_display()
+    #             Preconditions.make_already_in_message_page()
+    #             conts.open_contacts_page()
+    #             try:
+    #                 if conts.is_text_present("发现SIM卡联系人"):
+    #                     conts.click_text("显示")
+    #             except:
+    #                 pass
+    #             for name, number in required_contacts:
+    #                 # 创建联系人
+    #                 conts.create_contacts_if_not_exits(name, number)
+    #             required_group_chats = dataproviders.get_preset_group_chats()
+    #             conts.open_group_chat_list()
+    #             group_list = GroupListPage()
+    #             for group_name, members in required_group_chats:
+    #                 group_list.wait_for_page_load()
+    #                 # 创建群
+    #                 group_list.create_group_chats_if_not_exits(group_name, members)
+    #             group_list.click_back()
+    #             conts.open_message_page()
+    #             flag1 = True
+    #         except:
+    #             fail_time1 += 1
+    #         if flag1:
+    #             break
+    #
+    #     # 导入团队联系人、企业部门
+    #     fail_time2 = 0
+    #     flag2 = False
+    #     while fail_time2 < 5:
+    #         try:
+    #             Preconditions.make_already_in_message_page()
+    #             contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
+    #             Preconditions.create_he_contacts(contact_names)
+    #             contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
+    #                               ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296")]
+    #             Preconditions.create_he_contacts2(contact_names2)
+    #             department_names = ["测试部门1", "测试部门2"]
+    #             Preconditions.create_department_and_add_member(department_names)
+    #             flag2 = True
+    #         except:
+    #             fail_time2 += 1
+    #         if flag2:
+    #             break
 
     def default_setUp(self):
         """
@@ -631,7 +637,7 @@ class MassMessengerAllTest(TestCase):
         time.sleep(2)
         # 2.页面是否跳转到企业层级
         self.assertEquals(sccp.is_exist_corporate_grade(), False)
-        self.assertEquals(sccp.is_exist_department_name(), True)
+        self.assertEquals(sccp.is_exist_corporate_name(), True)
         sccp.click_back()
         nmp.wait_for_page_load()
         nmp.click_back()
@@ -910,7 +916,8 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(sccp.is_exist_text(), True)
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         nmp.wait_for_page_load()
         nmp.click_back()
         # 等待群发信使首页加载
@@ -944,7 +951,8 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(sccp.is_clear_search_box(search_number), True)
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         nmp.wait_for_page_load()
         nmp.click_back()
         # 等待群发信使首页加载
@@ -978,7 +986,8 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(sccp.is_clear_search_box(search_number), True)
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         nmp.wait_for_page_load()
         nmp.click_back()
         # 等待群发信使首页加载
@@ -1014,7 +1023,8 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(sccp.is_exist_select_and_all("1"), True)
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         nmp.wait_for_page_load()
         nmp.click_back()
         # 等待群发信使首页加载
@@ -1050,7 +1060,8 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(sccp.is_exist_select_and_all("1"), True)
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         nmp.wait_for_page_load()
         nmp.click_back()
         # 等待群发信使首页加载
@@ -1079,7 +1090,8 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(sccp.is_exist_corporate_grade(), True)
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         nmp.wait_for_page_load()
         nmp.click_back()
         # 等待群发信使首页加载
@@ -1115,7 +1127,8 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(sccp.is_exist_select_and_all("1"), True)
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         nmp.wait_for_page_load()
         nmp.click_back()
         # 等待群发信使首页加载
@@ -1150,7 +1163,8 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(sccp.is_exist_select_and_all("1"), True)
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         nmp.wait_for_page_load()
         nmp.click_back()
         # 等待群发信使首页加载
@@ -1185,7 +1199,8 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(sccp.is_exist_select_and_all("1"), True)
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         nmp.wait_for_page_load()
         nmp.click_back()
         # 等待群发信使首页加载
@@ -1214,7 +1229,8 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(sccp.is_exist_text(), True)
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         nmp.wait_for_page_load()
         nmp.click_back()
         # 等待群发信使首页加载
@@ -1247,7 +1263,8 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(sccp.is_exist_select_and_all("1"), True)
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         nmp.wait_for_page_load()
         nmp.click_back()
         # 等待群发信使首页加载
@@ -1288,7 +1305,8 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(sccp.is_exist_select_and_all("2"), True)
         sccp.click_back()
         time.sleep(2)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
         nmp.wait_for_page_load()
         nmp.click_back()
         # 等待群发信使首页加载
@@ -1324,7 +1342,9 @@ class MassMessengerAllTest(TestCase):
         time.sleep(1)
         sccp.click_back()
         time.sleep(1)
-        sccp.click_back()
+        if sccp.is_exist_corporate_name():
+            sccp.click_back_by_android()
+            time.sleep(1)
         nmp.wait_for_page_load()
         nmp.click_back()
         # 等待群发信使首页加载
