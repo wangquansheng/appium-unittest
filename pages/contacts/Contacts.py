@@ -72,6 +72,7 @@ class ContactsPage(FooterPage):
         '企业群名称': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
         '群聊列表返回': (MobileBy.ID, 'com.chinasofti.rcs:id/select_picture_custom_toolbar_back_btn'),
         '团队名称': (MobileBy.ID, 'com.chinasofti.rcs:id/img_icon_department'),
+        '团队图标': (MobileBy.ID, 'com.chinasofti.rcs:id/img_icon'),
         '标签分组返回': (MobileBy.ID, 'com.chinasofti.rcs:id/toolbar_back_btn'),
         '搜索返回': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.View/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.ImageView'),
         '创建团队': (MobileBy.XPATH,"//*[contains(@text,'创建团队')]"),
@@ -680,6 +681,11 @@ class ContactsPage(FooterPage):
     def click_one_firm(self):
         """点击一个团队"""
         self.click_element(self.__class__.__locators['团队名称'])
+
+    @TestLogger.log()
+    def click_one_firm2(self):
+        """点击一个团队2"""
+        self.click_element(self.__class__.__locators['团队图标'])
 
     @TestLogger.log()
     def wait_for_contacts_page_load(self, timeout=20, auto_accept_alerts=True):
