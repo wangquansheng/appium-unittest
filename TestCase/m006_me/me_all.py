@@ -498,17 +498,19 @@ class MeAllTest(TestCase):
         self.assertEquals(mep.is_element_exist("查看并编辑个人资料"), True)
         self.assertEquals(mep.is_element_exist("个人头像"), True)
         self.assertEquals(mep.is_element_exist("二维码入口"), True)
-        self.assertEquals(mep.is_text_exist("多方电话可用时长"), True)
-        self.assertEquals(mep.is_text_exist("每天领时长"), True)
+        # self.assertEquals(mep.is_text_exist("多方电话可用时长"), True)
+        self.assertEquals(mep.is_text_exist("飞信电话可用时长"), True)
+        # self.assertEquals(mep.is_text_exist("每天领时长"), True)
+        self.assertEquals(mep.is_text_exist("每天领积分"), True)
         self.assertEquals(mep.is_text_exist("和包支付"), True)
         self.assertEquals(mep.is_text_exist("移动营业厅"), True)
         self.assertEquals(mep.is_text_exist("福利"), True)
         mep.page_down()
         time.sleep(1)
         # 3.检查页面包含关于和飞信,推荐和飞信、帮助与反馈、设置
-        self.assertEquals(mep.is_text_exist("关于和飞信"), True)
-        self.assertEquals(mep.is_text_exist("推荐和飞信"), True)
-        self.assertEquals(mep.is_text_exist("帮助与反馈"), True)
+        # self.assertEquals(mep.is_text_exist("关于和飞信"), True)
+        # self.assertEquals(mep.is_text_exist("推荐和飞信"), True)
+        # self.assertEquals(mep.is_text_exist("帮助与反馈"), True)
         self.assertEquals(mep.is_text_exist("设置"), True)
         mep.page_up()
 
@@ -700,40 +702,14 @@ class MeAllTest(TestCase):
         scp.wait_for_page_load()
         # 2.点击选择和通讯录
         scp.click_he_contacts()
-        shp = SelectHeContactsPage()
-        shp.wait_for_page_load()
-        team_name = shp.get_team_names()[0]
-        if not len(team_name) > 0:
-            raise AssertionError("团队名为空，请新建团队")
-        # 3.点击任意和通讯录名称
-        shp.select_one_team_by_name(team_name)
-        sdp = SelectHeContactsDetailPage()
-        sdp.wait_for_page_load()
-        name = sdp.get_contacts_names()[1]
-        if not len(name) > 1:
-            raise AssertionError("和通讯录为空，请新建通讯录")
-        sdp.select_one_linkman(name)
+        shcd = SelectHeContactsDetailPage()
+        shcd.click_department_name("ateam7272")
+        time.sleep(2)
+        sc = SelectContactsPage()
+        sc.selecting_contacts_by_name("大佬1")
+        time.sleep(1)
         mnp = MeCardNamePage()
-        mnp.wait_for_page_load()
-        # self.assertTrue(mnp.get_name_cards_info())
-        # # 默认不勾选
-        # # default = (255, 255, 255, 255)
-        # # select = mnp.check_select_box("职位选框")
-        # # self.assertEquals(default, select)
-        # # 4.点击字段选项
-        # mnp.click_el_text("职位")
-        # # select1 = mnp.check_select_box("职位选框")
-        # # 5.点击已选中字段
-        # # self.assertIsNot(select, select1)
-        # mnp.click_el_text("职位")
-        # # select2 = mnp.check_select_box("职位选框")
-        # # self.assertEquals(select, select2)
-        # 6.点击弹窗左上角X
-        mnp.click_el_text("关闭")
-        #7.再次选择任意和通讯录
-        sdp.select_one_linkman(name)
-        mnp.wait_for_page_load()
-        # 8.点击发送名片按钮
+        # 点击发送名片按钮
         mnp.click_el_text("发送名片")
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
@@ -751,39 +727,14 @@ class MeAllTest(TestCase):
         scp.wait_for_page_load()
         # 2.点击选择和通讯录
         scp.click_he_contacts()
-        shp = SelectHeContactsPage()
-        shp.wait_for_page_load()
-        team_name = shp.get_team_names()[0]
-        if not len(team_name) > 0:
-            raise AssertionError("群名为空，请新建群聊")
-        # 3.点击任意和通讯录团队名称
-        shp.select_one_team_by_name(team_name)
-        sdp = SelectHeContactsDetailPage()
-        sdp.wait_for_page_load()
-        name = sdp.get_contacts_names()[1]
-        sdp.input_search(name)
-        sdp.select_one_he_contact_by_name(name)
+        sc = SelectContactsPage()
+        sc.click_search_contact()
+        time.sleep(1)
+        sc.input_search_keyword("大佬")
+        sc.hide_keyboard()
+        time.sleep(3)
+        sc.selecting_contacts_by_name("大佬1")
         mnp = MeCardNamePage()
-        mnp.wait_for_page_load()
-        # self.assertTrue(mnp.get_name_cards_info())
-        # # 默认不勾选
-        # # default = (255, 255, 255, 255)
-        # # select = mnp.check_select_box("职位选框")
-        # # self.assertEquals(default, select)
-        # # 4.点击字段选项
-        # mnp.click_el_text("职位")
-        # # select1 = mnp.check_select_box("职位选框")
-        # # 5.点击已选中字段
-        # # self.assertIsNot(select, select1)
-        # mnp.click_el_text("职位")
-        # # select2 = mnp.check_select_box("职位选框")
-        # # self.assertEquals(select, select2)
-        # # 6.点击弹窗左上角X
-        mnp.click_el_text("关闭")
-        # 7.再次选择任意群聊
-        sdp.select_one_he_contact_by_name(name)
-        mnp.wait_for_page_load()
-        # 8.点击发送名片按钮
         mnp.click_el_text("发送名片")
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
@@ -869,27 +820,13 @@ class MeAllTest(TestCase):
         scp.select_local_contacts()
         slp = SelectLocalContactsPage()
         slp.wait_for_page_load()
-        slp.select_one_member_by_name("大佬1")
+        slp.select_one_member_by_name("给个红包1")
         # 3.跳转到卡名
         mnp = MeCardNamePage()
-        mnp.wait_for_page_load()
-        # self.assertTrue(mnp.get_name_cards_info())
-        # # 默认不勾选
-        # # default = (255, 255, 255, 255)
-        # # select = mnp.check_select_box("职位选框")
-        # # self.assertEquals(default, select)
-        # # 4.点击字段选项
-        # mnp.click_el_text("职位")
-        # # select1 = mnp.check_select_box("职位选框")
-        # # 5.点击已选中字段
-        # # self.assertIsNot(select, select1)
-        # mnp.click_el_text("职位")
-        # # select2 = mnp.check_select_box("职位选框")
-        # # self.assertEquals(select, select2)
-        # # 6.点击弹窗左上角X
-        mnp.click_el_text("关闭")
+        # mnp.wait_for_page_load()
+        # mnp.click_el_text("关闭")
         # 7.再次选择任意群聊
-        slp.select_one_member_by_name("大佬1")
+        # slp.select_one_member_by_name("给个红包1")
         mnp.wait_for_page_load()
         # 8.点击发送名片按钮
         mnp.click_el_text("发送名片")
@@ -1000,36 +937,6 @@ class MeAllTest(TestCase):
         mup.click_back()
         mup.click_back()
 
-    @staticmethod
-    def setUp_test_me_zhangshuli_020():
-        Preconditions.connect_mobile('Android-移动')
-        current_mobile().hide_keyboard_if_display()
-        Preconditions.make_already_in_me_all_page()
-        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
-        mep = MePage()
-        mep.click_view_edit()
-        mup = MeViewUserProfilePage()
-        mup.wait_for_page_load()
-        # 获取卡名信息
-        info = mup.get_name_cards_info()
-        print(info)
-        # 1.点击分享名片
-        mup.click_share_card()
-        scp = SelectContactsPage()
-        scp.wait_for_page_load()
-        # 2.点击选择本地联系人
-        scp.select_local_contacts()
-        slp = SelectLocalContactsPage()
-        slp.wait_for_page_load()
-        # 3.在页面顶部输入姓名关键字或手机号码搜索
-        name = "给个红包4"
-        slp.search_and_select_one_member_by_name(name)
-        mnp = MeCardNamePage()
-        mnp.wait_for_page_load()
-        # 9.点击发送名片按钮
-        mnp.click_el_text("发送名片")
-        mnp.click_back()
-
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
     def test_me_zhangshuli_020(self):
         """分享名片-选择最近聊天联系人   """
@@ -1054,17 +961,6 @@ class MeAllTest(TestCase):
         # 4.再次点击联系人/群聊名称
         scp.select_one_recently_contact_by_name(name)  # 默认不勾选
         time.sleep(1.8)
-        # # select = mnp.check_select_box("职位选框")
-        # # 5.点击字段选项
-        # mnp.click_el_text("职位")
-        # time.sleep(1.8)
-        # # select1 = mnp.check_select_box("职位选框")
-        # # 6.点击已选中字段
-        # # self.assertIsNot(select, select1)
-        # mnp.click_el_text("职位")
-        # time.sleep(1.8)
-        # # select2 = mnp.check_select_box("职位选框")
-        # # self.assertEquals(select, select2)
         # # 7.点击已选中字段
         mnp.click_el_text("发送名片")
         time.sleep(5)
@@ -1967,10 +1863,7 @@ class MeAllTest(TestCase):
         scg.select_local_contacts()
         slp = SelectLocalContactsPage()
         slp.wait_for_page_load()
-        # name = slp.get_contacts_name()
-        # name1 = [name]
-        # name = name1[1]
-        name = "和飞信电话"
+        name = "飞信电话"
         slp.swipe_select_one_member_by_name(name)
         # 4.点击取消
         slp.click_cancel_forward()
@@ -2156,7 +2049,11 @@ class MeAllTest(TestCase):
         scg.input_search_keyword(phone_number)
         time.sleep(1)
         # 4.检验有未保存在本地的手机号码
-        scg.click_one_local_contacts()
+        sc = SelectContactsPage()
+        name = sc.get_contact_name2()
+        print("--" + str(name))
+        sc.select_one_contact_by_name(name)
+        # scg.click_one_local_contacts()
         self.assertEquals(scg.is_toast_exist("该联系人不可选"), True)
         # 6.点击返回
         scg.click_back()
@@ -2248,9 +2145,9 @@ class MeAllTest(TestCase):
         # 2.显示无搜索结果
         self.assertEquals(scg.is_text_present("无搜索结果"), True)
         # 点击返回
-        scg.click_back()
-        scg.click_back()
-        qr_code.click_back()
+        scg.click_back_by_android()
+        scg.click_back_by_android()
+        qr_code.click_back_by_android()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me2')
     def test_me_zhangshuli_074(self):
@@ -2698,7 +2595,7 @@ class MeAllTest(TestCase):
         # 2.等待福利页面跳转
         mwp.wait_for_page_load()
         # 3.点击任意一个福利活动
-        mwp.click_welfare_activities()
+        mwp.click_welfare_activities2()
         mwp.wait_for_page_load_welfare_activities()
         time.sleep(10)
         # mwp.page_should_contain_text("活动规则")
@@ -2713,10 +2610,10 @@ class MeAllTest(TestCase):
         scp.select_local_contacts()
         slp = SelectLocalContactsPage()
         slp.wait_for_page_load()
-        slp.selecting_local_contacts_by_name("和飞信电话")
+        slp.selecting_local_contacts_by_name("飞信电话")
         slp.click_cancel_forward()
         # 6.选择联系人，确定
-        slp.selecting_local_contacts_by_name("和飞信电话")
+        slp.selecting_local_contacts_by_name("飞信电话")
         slp.click_sure_forward()
         self.assertEquals(slp.is_toast_exist("已转发"), True)
         # mwp.wait_for_page_load_welfare_activities()
@@ -2909,16 +2806,17 @@ class MeAll(TestCase):
         self.assertEquals(mep.is_element_exist("查看并编辑个人资料"), True)
         self.assertEquals(mep.is_element_exist("个人头像"), True)
         self.assertEquals(mep.is_element_exist("二维码入口"), True)
-        self.assertEquals(mep.is_text_exist("多方电话可用时长"), True)
+        # self.assertEquals(mep.is_text_exist("多方电话可用时长"), True)
+        self.assertEquals(mep.is_text_exist("飞信电话可用时长"), True)
         self.assertEquals(mep.is_text_exist("和包支付"), True)
         self.assertEquals(mep.is_text_exist("移动营业厅"), True)
         self.assertEquals(mep.is_text_exist("福利"), True)
         mep.page_down()
         time.sleep(1)
         # 3.检查页面包含关于和飞信,推荐和飞信、帮助与反馈、设置
-        self.assertEquals(mep.is_text_exist("关于和飞信"), True)
-        self.assertEquals(mep.is_text_exist("推荐和飞信"), True)
-        self.assertEquals(mep.is_text_exist("帮助与反馈"), True)
+        # self.assertEquals(mep.is_text_exist("关于和飞信"), True)
+        # self.assertEquals(mep.is_text_exist("推荐和飞信"), True)
+        # self.assertEquals(mep.is_text_exist("帮助与反馈"), True)
         self.assertEquals(mep.is_text_exist("设置"), True)
         mep.page_up()
 

@@ -417,6 +417,11 @@ class SelectContactsPage(BasePage):
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text ="%s"]' % name))
 
     @TestLogger.log()
+    def get_contact_name2(self):
+        els = self.get_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name"]'))
+        return els.text
+
+    @TestLogger.log()
     def select_one_group_by_name(self, name):
         """通过群名选择一个群"""
         self.click_element(

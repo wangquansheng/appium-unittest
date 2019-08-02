@@ -13,6 +13,7 @@ class MeSetWefarePage(BasePage):
                   '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
                   '免费领取每月10G': (MobileBy.XPATH, "//*[contains(@text, '免费领取每月10G')]"),
                   '福利活动': (MobileBy.XPATH, "//*[@class='android.widget.Image']"),
+                  '福利活动2': (MobileBy.XPATH, "//*[@class='android.view.View']"),
                   # 打开福利活动也
                   '每月10G订购首页': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_actionbar'),
                   '关闭流量活动': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_close_actionbar'),
@@ -29,6 +30,10 @@ class MeSetWefarePage(BasePage):
         self.click_element(self.__locators["返回"])
 
     @TestLogger.log()
+    def click_welfare_activities2(self):
+        """点击福利活动"""
+        self.click_element(self.__locators["福利活动2"])
+
     def click_welfare_activities(self):
         """点击福利活动"""
         self.click_element(self.__locators["福利活动"])
