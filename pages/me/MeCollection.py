@@ -326,6 +326,15 @@ class MeCollectionPage(BasePage):
                     flag = False
         return file_names
 
+    def get_all_collection2(self):
+        """获取所有收藏的内容"""
+        els = self.get_elements(self.__class__.__locators["收藏消息体"])
+        if els:
+            return els
+        else:
+            return None
+
+
     @TestLogger.log()
     def click_collection_file_name(self, i=0):
         """点击收藏文件"""

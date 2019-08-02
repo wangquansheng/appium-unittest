@@ -148,7 +148,7 @@ class Preconditions(object):
         # 2.选择联系人发送一条消息
         scp = SelectContactsPage()
         scp.wait_for_page_local_contact_load()
-        scp.click_one_contact("大佬2")
+        scp.click_one_contact("给个红包1")
         bcp = BaseChatPage()
         if bcp.is_exist_dialog():
             bcp.click_i_have_read()
@@ -344,15 +344,21 @@ class Preconditions(object):
     def make_already_set_chart_group_name_card():
         """确保群聊已经发送一个名片，且已收藏"""
         Preconditions.enter_group_chat_page()
+        Preconditions.delete_record_group_chat()
         # 1.点击新建消息
         mess = MessagePage()
         scp = GroupChatPage()
         if scp.is_exist_dialog():
             scp.click_i_have_read()
-        scp.click_name_card()
+        scp.click_more()
+        time.sleep(3)
+        scp.click_text("名片")
+        time.sleep(1)
+        # scp.click_name_card()
         ssp = SelectContactsPage()
         ssp.wait_for_page_local_contact_load()
-        ssp.click_one_local_contacts()
+        ssp.select_one_contact_by_name("给个红包1")
+        time.sleep(3)
         ssp.click_element([MobileBy.XPATH, "//*[contains(@text,'发送名片')]"], 15)
         time.sleep(3)
         # 3.点击该信息收藏
@@ -360,6 +366,9 @@ class Preconditions(object):
         if not scp.is_toast_exist("已收藏"):
             raise AssertionError("没有此弹框")
         scp.click_back()
+        time.sleep(2)
+        scp.click_back_by_android()
+        time.sleep(2)
 
     @staticmethod
     def make_already_set_chart_group_location():
@@ -418,6 +427,34 @@ class Preconditions(object):
         cmp.click_back()
 
     @staticmethod
+    def delete_record_group_chat():
+        # 删除聊天记录
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            scp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            # 点击删除聊天记录
+            gcsp.click_clear_chat_record()
+            gcsp.wait_clear_chat_record_confirmation_box_load()
+            # 点击确认
+            gcsp.click_determine()
+            time.sleep(3)
+            # if not gcsp.is_toast_exist("聊天记录清除成功"):
+            #     raise AssertionError("没有聊天记录清除成功弹窗")
+            # 点击返回群聊页面
+            gcsp.click_back()
+            time.sleep(2)
+            # 判断是否返回到群聊页面
+            if not scp.is_on_this_page():
+                raise AssertionError("没有返回到群聊页面")
+        else:
+            try:
+                raise AssertionError("没有返回到群聊页面，无法删除记录")
+            except AssertionError as e:
+                raise e
+
+    @staticmethod
     def delete_all_my_collection():
         """确保群聊已经发送一个文件信息，且已收藏"""
         mep = MePage()
@@ -426,6 +463,23 @@ class Preconditions(object):
         mcp.wait_for_page_load()
         file_names = mcp.get_all_collection()
         for i in range(len(file_names)):
+            mcp.press_and_move_left()
+            if mcp.is_delete_element_present():
+                mcp.click_delete_collection()
+                mcp.click_sure_forward()
+                # 4.点击返回
+        mep.click_back()
+        mep.open_message_page()
+
+    @staticmethod
+    def delete_all_my_collection2():
+        """确保群聊已经发送一个文件信息，且已收藏"""
+        mep = MePage()
+        mep.click_collection()
+        mcp = MeCollectionPage()
+        mcp.wait_for_page_load()
+        els = mcp.get_all_collection2()
+        for i in range(len(els)):
             mcp.press_and_move_left()
             if mcp.is_delete_element_present():
                 mcp.click_delete_collection()
@@ -468,7 +522,7 @@ class MeAllCollect(TestCase):
         mep.click_collection()
         mcp = MeCollectionPage()
         mcp.wait_for_page_load()
-        mcp.element_contain_text("我", "我")
+        mcp.element_contain_text("今天", "今天")
         mep.click_back()
         mep.open_message_page()
 
@@ -604,18 +658,18 @@ class MeAllCollect(TestCase):
         Preconditions.make_already_set_chart_group_name_card()
         # 1.点击跳转到我的页面
         mess = MessagePage()
-        mess.wait_for_page_load()
+        # mess.wait_for_page_load()
         # 进入群聊获取卡名
-        mess.click_set_message("名片")
-        scp = GroupChatPage()
-        scp.wait_for_page_load()
-        name = scp.get_name_card()
-        mess.click_back()
-        time.sleep(1.8)
+        # mess.click_set_message("名片")
+        # scp = GroupChatPage()
+        # scp.wait_for_page_load()
+        # name = scp.get_name_card()
+        # mess.click_back()
+        # time.sleep(1.8)
         # 2.点击我的收藏,进入收藏页面
         mess.open_me_page()
         mep = MePage()
-        mep.is_on_this_page()
+        # mep.is_on_this_page()
         mep.click_collection()
         mcp = MeCollectionPage()
         mcp.wait_for_page_load()
@@ -624,7 +678,7 @@ class MeAllCollect(TestCase):
         flag1 = mcp.get_video_len("[位置]广东省深圳市龙岗区居里夫人大道与环城路交叉口")
         # 名片名称最多显示两行
         self.assertEquals(mcp.get_width_of_collection("[位置]广东省深圳市龙岗区居里夫人大道与环城路交叉口", 2), True)
-        flag2 = "[名片]" + name + "的个人名片"
+        flag2 = "[名片]" + "给个红包1" + "的个人名片"
         self.assertEquals(flag1, flag2)
         # 4.点击返回
         mep.click_back()
