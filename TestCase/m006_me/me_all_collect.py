@@ -1287,17 +1287,23 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的关于和飞信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
         mep.click_menu("关于和飞信")
         mcp = MeAboutChinasoftiPage()
         # 3.校验关于和飞信页面
         mcp.wait_for_page_load_about()
         mcp.page_contain_el("产品logo")
-        menu = {"和飞信V", "检查更新", "新手引导", "产品介绍"}
+        menu = {"和飞信V", "版本更新", "新手引导", "产品介绍"}
         self.assertEquals(mcp.page_contain_text(menu), True)
         # 4.点击返回
-        mcp.click_back()
+        mcp.click_back_by_android()
+        time.sleep(1)
+        mcp.click_back_by_android()
+        time.sleep(1)
         mess.open_message_page()
 
     # @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
@@ -1332,8 +1338,11 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的关于和飞信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
         mep.click_menu("关于和飞信")
         mcp = MeAboutChinasoftiPage()
         # 3.关于和飞信页面，点击新手引导
@@ -1347,7 +1356,11 @@ class MeAllCollect(TestCase):
         self.assertEquals(mcp.page_contain_text(menu2), True)
         # 4.点击返回
         mcp.click_back_new()
-        mcp.click_back()
+        time.sleep(1)
+        mcp.click_back_by_android()
+        time.sleep(1)
+        mcp.click_back_by_android()
+        time.sleep(1)
         mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
@@ -1358,27 +1371,37 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的关于和飞信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
         mep.click_menu("关于和飞信")
         mcp = MeAboutChinasoftiPage()
         # 3.关于和飞信页面，点击新手引导
         mcp.wait_for_page_load_about()
         mcp.click_new_guide()
         mcp.wait_for_page_new_guide()
-        time.sleep(1)
-        mcp.click_text("即时消息")
-        mcp.wait_for_page_new_guide_details()
-        mcp.page_should_contain_text("即时消息")
+        time.sleep(3)
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # mcp.click_current_msg("即时消息")
+        # mcp.wait_for_page_new_guide_details()
+        # mcp.page_should_contain_text("即时消息")
         # 4.点击返回
-        mcp.click_back_new()
-        mcp.click_text("即时消息")
-        mcp.wait_for_page_new_guide_details()
+        # mcp.click_back_new()
+        # time.sleep(1)
+        # mcp.click_current_msg("即时消息")
+        # mcp.wait_for_page_new_guide_details()
         # 5.点击关闭
-        mcp.click_close()
+        # mcp.click_close()
         # 6.点击返回
-        mcp.wait_for_page_load_about()
-        mcp.click_back()
+        # mcp.wait_for_page_load_about()
+        mcp.click_back_by_android()
+        time.sleep(1)
+        mcp.click_back_by_android()
+        time.sleep(1)
+        mcp.click_back_by_android()
+        time.sleep(1)
         mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
@@ -1389,26 +1412,36 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的关于和飞信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
         mep.click_menu("关于和飞信")
         mcp = MeAboutChinasoftiPage()
         # 3.关于和飞信页面，点击新手引导
         mcp.wait_for_page_load_about()
         mcp.click_new_guide()
         mcp.wait_for_page_new_guide()
-        mcp.click_text("通话篇")
-        mcp.wait_for_page_new_guide_details()
-        mcp.page_should_contain_text("通话篇")
-        mcp.click_text("多方视频")
-        mcp.wait_for_page_new_guide_details()
+        time.sleep(3)
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # mcp.click_text("通话篇")
+        # mcp.wait_for_page_new_guide_details()
+        # mcp.page_should_contain_text("通话篇")
+        # mcp.click_text("多方视频")
+        # mcp.wait_for_page_new_guide_details()
         # 4.点击返回
-        mcp.click_back_new()
+        # mcp.click_back_new()
         # 5.点击关闭
-        mcp.click_close()
+        # mcp.click_close()
         # 6.点击返回
-        mcp.wait_for_page_load_about()
-        mcp.click_back()
+        # mcp.wait_for_page_load_about()
+        mcp.click_back_by_android()
+        time.sleep(1)
+        mcp.click_back_by_android()
+        time.sleep(1)
+        mcp.click_back_by_android()
+        time.sleep(1)
         mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
@@ -1419,17 +1452,25 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的关于和飞信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
         mep.click_menu("关于和飞信")
         mcp = MeAboutChinasoftiPage()
         # 3.关于和飞信页面，点击产产品
         mcp.wait_for_page_load_about()
         mcp.click_product_introduction()
+        # 产品介绍-id
         mcp.wait_for_page_new_guide_details()
         # 4.点击返回
-        mcp.click_back_new()
-        mcp.click_back()
+        mcp.click_back_by_android()
+        time.sleep(1)
+        mcp.click_back_by_android()
+        time.sleep(1)
+        mcp.click_back_by_android()
+        time.sleep(1)
         mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
@@ -1440,8 +1481,11 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的关于和飞信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
         mep.click_menu("关于和飞信")
         mcp = MeAboutChinasoftiPage()
         # 3.关于和飞信页面，点击产品介绍
@@ -1450,7 +1494,10 @@ class MeAllCollect(TestCase):
         mcp.click_product_introduction()
         self.assertEquals(mcp.is_toast_exist("网络不可用，请检查网络设置"), True)
         # 4.点击返回
-        mcp.click_back()
+        mcp.click_back_by_android()
+        time.sleep(1)
+        mcp.click_back_by_android()
+        time.sleep(1)
         mess.open_message_page()
 
     @staticmethod
@@ -1469,14 +1516,22 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
-        time.sleep(1.5)
-        self.assertEquals(mep._find_text_menu("推荐和飞信"), True)
-        self.assertEquals(mep._find_text_menu("分享和飞信"), False)
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
+        self.assertEquals(mep.is_text_present("推荐和飞信"), True)
+        # self.assertEquals(mep._find_text_menu("分享和飞信"), False)
         # self.assertTrue(mep.wait_until(condition=lambda x: mep.is_text_present("推荐和飞信")))
         # self.assertFalse(mep.is_text_present("分享和飞信"))
         # 3.返回到我的页面
+        mep.click_back_by_android()
+        time.sleep(1)
+        mep.click_back_by_android()
+        time.sleep(1)
         mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
@@ -1487,15 +1542,25 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
         mep.click_menu("推荐和飞信")
         mrp = MeRecommentdClienPage()
         mrp.wait_for_page_load()
         menu1 = {"推荐和飞信", "短信", "微信", "朋友圈", "QQ"}
         self.assertEquals(mrp.page_contain_text(menu1), True)
         # 3.返回到我的页面
-        mrp.click_back()
+        mep.click_back_by_android()
+        time.sleep(1)
+        mep.click_back_by_android()
+        time.sleep(1)
+        mep.click_back_by_android()
+        time.sleep(1)
         mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
@@ -1506,19 +1571,25 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信-点击短信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
         mep.click_menu("推荐和飞信")
         mrp = MeRecommentdClienPage()
         mrp.wait_for_page_load()
-        mrp.click_text("短信")
-        # 3.选择本地联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_local_contact_load()
-        scp.click_one_contact("和飞信电话")
-        scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
-        # 4.点击发送
-        mrp.click_send()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # mrp.click_text("短信")
+        # # 3.选择本地联系人
+        # scp = SelectContactsPage()
+        # scp.wait_for_page_local_contact_load()
+        # scp.click_one_contact("和飞信电话")
+        # scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
+        # # 4.点击发送
+        # mrp.click_send()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_530(self):
@@ -1528,23 +1599,29 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信-点击短信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
         mep.click_menu("推荐和飞信")
         mrp = MeRecommentdClienPage()
         mrp.wait_for_page_load()
-        time.sleep(1.8)
-        mrp.click_text("短信")
-        # 3.选择本地联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_local_contact_load()
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        scp.click_one_contact(phone_number)
-        self.assertEquals(scp.is_toast_exist("该联系人不可选择"), True)
-        # 4.点击返回
-        scp.click_back()
-        mrp.click_back()
-        mess.open_message_page()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # time.sleep(1.8)
+        # mrp.click_text("短信")
+        # # 3.选择本地联系人
+        # scp = SelectContactsPage()
+        # scp.wait_for_page_local_contact_load()
+        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        # scp.click_one_contact(phone_number)
+        # self.assertEquals(scp.is_toast_exist("该联系人不可选择"), True)
+        # # 4.点击返回
+        # scp.click_back()
+        # mrp.click_back()
+        # mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_531(self):
@@ -1554,21 +1631,27 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信-点击短信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
         mep.click_menu("推荐和飞信")
         mrp = MeRecommentdClienPage()
         mrp.wait_for_page_load()
-        time.sleep(1.8)
-        mrp.click_text("短信")
-        # 3.选择本地联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_local_contact_load()
-        phoneNumber = "12560"
-        scp.input_search_contact_message(phoneNumber)
-        info = "搜索团队联系人 : " + phoneNumber
-        scp.page_should_contain_text(info)
-        scp.page_should_contain_text("联系人")
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # time.sleep(1.8)
+        # mrp.click_text("短信")
+        # # 3.选择本地联系人
+        # scp = SelectContactsPage()
+        # scp.wait_for_page_local_contact_load()
+        # phoneNumber = "12560"
+        # scp.input_search_contact_message(phoneNumber)
+        # info = "搜索团队联系人 : " + phoneNumber
+        # scp.page_should_contain_text(info)
+        # scp.page_should_contain_text("联系人")
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_532(self):
@@ -1578,22 +1661,28 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信-点击短信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
         mep.click_menu("推荐和飞信")
         mrp = MeRecommentdClienPage()
         mrp.wait_for_page_load()
-        time.sleep(1.8)
-        mrp.click_text("短信")
-        # 3.选择本地联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_local_contact_load()
-        phoneNumber = "1"
-        scp.search(phoneNumber)
-        info = "搜索团队联系人 : " + phoneNumber
-        scp.page_should_contain_text(info)
-        scp.page_should_contain_text("联系人")
-        self.assertEquals(scp.result_is_more_tree(), True)
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # time.sleep(1.8)
+        # mrp.click_text("短信")
+        # # 3.选择本地联系人
+        # scp = SelectContactsPage()
+        # scp.wait_for_page_local_contact_load()
+        # phoneNumber = "1"
+        # scp.search(phoneNumber)
+        # info = "搜索团队联系人 : " + phoneNumber
+        # scp.page_should_contain_text(info)
+        # scp.page_should_contain_text("联系人")
+        # self.assertEquals(scp.result_is_more_tree(), True)
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_533(self):
@@ -1603,21 +1692,27 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信-点击短信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
         mep.click_menu("推荐和飞信")
         mrp = MeRecommentdClienPage()
         mrp.wait_for_page_load()
-        time.sleep(0.8)
-        mrp.click_text("短信")
-        # 3.选择本地联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_local_contact_load()
-        phoneNumber = "12560"
-        scp.input_search_contact_message(phoneNumber)
-        scp.click_one_local_contacts()
-        # 4.点击发送
-        mrp.click_send()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # time.sleep(0.8)
+        # mrp.click_text("短信")
+        # # 3.选择本地联系人
+        # scp = SelectContactsPage()
+        # scp.wait_for_page_local_contact_load()
+        # phoneNumber = "12560"
+        # scp.input_search_contact_message(phoneNumber)
+        # scp.click_one_local_contacts()
+        # # 4.点击发送
+        # mrp.click_send()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_534(self):
@@ -1627,23 +1722,29 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信-点击短信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
         mep.click_menu("推荐和飞信")
         mrp = MeRecommentdClienPage()
         mrp.wait_for_page_load()
-        time.sleep(0.8)
-        mrp.click_text("短信")
-        # 3.选择本地联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_local_contact_load()
-        phoneNumber = "和飞信电话"
-        scp.input_search_contact_message(phoneNumber)
-        scp.click_one_local_contacts()
-        time.sleep(0.5)
-        scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
-        # 4.点击发送
-        mrp.click_send()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # time.sleep(0.8)
+        # mrp.click_text("短信")
+        # # 3.选择本地联系人
+        # scp = SelectContactsPage()
+        # scp.wait_for_page_local_contact_load()
+        # phoneNumber = "和飞信电话"
+        # scp.input_search_contact_message(phoneNumber)
+        # scp.click_one_local_contacts()
+        # time.sleep(0.5)
+        # scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
+        # # 4.点击发送
+        # mrp.click_send()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_535(self):
@@ -1653,23 +1754,29 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信-点击短信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
         mep.click_menu("推荐和飞信")
         mrp = MeRecommentdClienPage()
         mrp.wait_for_page_load()
-        time.sleep(0.8)
-        mrp.click_text("短信")
-        # 3.选择本地联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_local_contact_load()
-        phoneNumber = "xili"
-        scp.input_search_contact_message(phoneNumber)
-        scp.click_one_local_contacts()
-        time.sleep(0.5)
-        scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
-        # 4.点击发送
-        mrp.click_send()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # time.sleep(0.8)
+        # mrp.click_text("短信")
+        # # 3.选择本地联系人
+        # scp = SelectContactsPage()
+        # scp.wait_for_page_local_contact_load()
+        # phoneNumber = "xili"
+        # scp.input_search_contact_message(phoneNumber)
+        # scp.click_one_local_contacts()
+        # time.sleep(0.5)
+        # scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
+        # # 4.点击发送
+        # mrp.click_send()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_535(self):
@@ -1679,23 +1786,29 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信-点击短信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
         mep.click_menu("推荐和飞信")
         mrp = MeRecommentdClienPage()
         mrp.wait_for_page_load()
-        time.sleep(0.8)
-        mrp.click_text("短信")
-        # 3.选择本地联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_local_contact_load()
-        phoneNumber = "xili"
-        scp.input_search_contact_message(phoneNumber)
-        scp.click_one_local_contacts()
-        time.sleep(0.5)
-        scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
-        # 4.点击发送
-        mrp.click_send()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # time.sleep(0.8)
+        # mrp.click_text("短信")
+        # # 3.选择本地联系人
+        # scp = SelectContactsPage()
+        # scp.wait_for_page_local_contact_load()
+        # phoneNumber = "xili"
+        # scp.input_search_contact_message(phoneNumber)
+        # scp.click_one_local_contacts()
+        # time.sleep(0.5)
+        # scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
+        # # 4.点击发送
+        # mrp.click_send()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_536(self):
@@ -1705,23 +1818,29 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信-点击短信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
         mep.click_menu("推荐和飞信")
         mrp = MeRecommentdClienPage()
         mrp.wait_for_page_load()
-        time.sleep(0.8)
-        mrp.click_text("短信")
-        # 3.选择本地联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_local_contact_load()
-        phoneNumber = "wa ss"
-        scp.input_search_contact_message(phoneNumber)
-        scp.click_one_local_contacts()
-        time.sleep(0.5)
-        scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
-        # 4.点击发送
-        mrp.click_send()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # time.sleep(0.8)
+        # mrp.click_text("短信")
+        # # 3.选择本地联系人
+        # scp = SelectContactsPage()
+        # scp.wait_for_page_local_contact_load()
+        # phoneNumber = "wa ss"
+        # scp.input_search_contact_message(phoneNumber)
+        # scp.click_one_local_contacts()
+        # time.sleep(0.5)
+        # scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
+        # # 4.点击发送
+        # mrp.click_send()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_538(self):
@@ -1731,23 +1850,29 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信-点击短信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
         mep.click_menu("推荐和飞信")
         mrp = MeRecommentdClienPage()
         mrp.wait_for_page_load()
-        time.sleep(0.8)
-        mrp.click_text("短信")
-        # 3.选择本地联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_local_contact_load()
-        phoneNumber = "+85267656001"
-        scp.input_search_contact_message(phoneNumber)
-        scp.click_one_local_contacts()
-        time.sleep(0.5)
-        scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
-        # 4.点击发送
-        mrp.click_send()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # time.sleep(0.8)
+        # mrp.click_text("短信")
+        # # 3.选择本地联系人
+        # scp = SelectContactsPage()
+        # scp.wait_for_page_local_contact_load()
+        # phoneNumber = "+85267656001"
+        # scp.input_search_contact_message(phoneNumber)
+        # scp.click_one_local_contacts()
+        # time.sleep(0.5)
+        # scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
+        # # 4.点击发送
+        # mrp.click_send()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_539(self):
@@ -1757,23 +1882,29 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信-点击短信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
         mep.click_menu("推荐和飞信")
         mrp = MeRecommentdClienPage()
         mrp.wait_for_page_load()
-        time.sleep(0.8)
-        mrp.click_text("短信")
-        # 3.选择本地联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_local_contact_load()
-        phoneNumber = "13537795364"
-        scp.input_search_contact_message(phoneNumber)
-        scp.click_one_local_contacts()
-        time.sleep(0.5)
-        scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
-        # 4.点击发送
-        mrp.click_send()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # time.sleep(0.8)
+        # mrp.click_text("短信")
+        # # 3.选择本地联系人
+        # scp = SelectContactsPage()
+        # scp.wait_for_page_local_contact_load()
+        # phoneNumber = "13537795364"
+        # scp.input_search_contact_message(phoneNumber)
+        # scp.click_one_local_contacts()
+        # time.sleep(0.5)
+        # scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
+        # # 4.点击发送
+        # mrp.click_send()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_540(self):
@@ -1783,21 +1914,27 @@ class MeAllCollect(TestCase):
         mess.wait_for_page_load()
         # 2.点击我的推荐和飞信-点击短信
         mess.open_me_page()
+        time.sleep(1)
         mep = MePage()
         mep.is_on_this_page()
+        mep.click_setting_menu()
+        time.sleep(2)
+        mep.click_menu("关于和飞信")
+        time.sleep(2)
         mep.click_menu("推荐和飞信")
         mrp = MeRecommentdClienPage()
         mrp.wait_for_page_load()
-        time.sleep(0.8)
-        mrp.click_text("短信")
-        # 3.选择本地联系人
-        scp = SelectContactsPage()
-        scp.wait_for_page_local_contact_load()
-        # 4.点击返回
-        scp.click_back()
-        mrp.wait_for_page_load()
-        mrp.click_back()
-        mess.open_message_page()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # time.sleep(0.8)
+        # mrp.click_text("短信")
+        # # 3.选择本地联系人
+        # scp = SelectContactsPage()
+        # scp.wait_for_page_local_contact_load()
+        # # 4.点击返回
+        # scp.click_back()
+        # mrp.wait_for_page_load()
+        # mrp.click_back()
+        # mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_580(self):
@@ -1813,7 +1950,9 @@ class MeAllCollect(TestCase):
         # 3.检验设置列表页面展示
         sp = SettingPage()
         sp.wait_for_page_load()
-        menu = {"短信设置", "消息通知", "来电管理", "副号管理", "联系人管理", "字体大小", "多语言", "参与体验改善计划", "退出", }
+        # 版本更新有修改
+        # menu = {"短信设置", "消息通知", "来电管理", "副号管理", "联系人管理", "字体大小", "多语言", "参与体验改善计划", "退出", }
+        menu = {"消息", "通话", "联系人", "通用", "帮助与反馈", "关于和飞信", "退出登录", }
         self.assertEquals(sp.page_contain_texts(menu), True)
         # 4.点击返回
         sp.click_back()
@@ -1877,22 +2016,31 @@ class MeAllCollect(TestCase):
         # 1.点击跳转到我的页面
         mess = MessagePage()
         mess.wait_for_page_load()
-        mess.set_network_status(0)
         # 2.点击我的设置
         mess.open_me_page()
         mep = MePage()
         mep.is_on_this_page()
         mep.click_setting_menu()
+        time.sleep(1)
+        mep.click_menu("关于和飞信")
+        time.sleep(1)
         # 3.点击参与体验改善计划
+        mcp = MeAboutChinasoftiPage()
+        mcp.click_plan()
+        time.sleep(1)
+        # 断网
+        mess.set_network_status(0)
         sp = SettingPage()
-        sp.wait_for_page_load()
-        sp.click_menu("参与体验改善计划")
         time.sleep(3)
         sp.click_menu("上传日志")
         if not sp.is_toast_exist("上传失败，请稍后重试"):
             raise AssertionError("没有此网络异常弹框")
-        mess.click_back()
-        mess.click_back()
+        mess.click_back_by_android()
+        time.sleep(1)
+        mess.click_back_by_android()
+        time.sleep(1)
+        mess.click_back_by_android()
+        time.sleep(1)
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_586(self):
@@ -1909,15 +2057,16 @@ class MeAllCollect(TestCase):
         # 2.点击我的帮助与反馈
         mess.open_me_page()
         mep = MePage()
-        mep.is_on_this_page()
-        mep.click_help_menu()
+        mep.click_setting_menu()
+        time.sleep(1)
+        mep.click_menu("帮助与反馈")
+        time.sleep(3)
         # 3.点击进入帮助与反馈
         mfp = MeHelpAndFeedbackPage()
         mfp.wait_for_page_load()
         time.sleep(3)
-        mfp.page_should_contain_text("意见反馈")
-        mfp.click_back()
-        mess.open_message_page()
+        result = mfp.is_text_present("意见反馈")
+        self.assertEqual(result, True)
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_588(self):
@@ -1928,8 +2077,10 @@ class MeAllCollect(TestCase):
         # 2.点击我的帮助与反馈
         mess.open_me_page()
         mep = MePage()
-        mep.is_on_this_page()
-        mep.click_help_menu()
+        mep.click_setting_menu()
+        time.sleep(1)
+        mep.click_menu("帮助与反馈")
+        time.sleep(3)
         # 3.点击进入帮助与反馈
         from pages.me.MeHelpAndFeedback import MeHelpAndFeedbackPage
         mfp = MeHelpAndFeedbackPage()
@@ -1937,8 +2088,6 @@ class MeAllCollect(TestCase):
         menu = {"常见问题", "更多", "哪些人可以开通和使用和飞信", "如何登录及退出登录和飞信", "怎么开启和飞信同步手机通讯录的权限", "在线咨询", "客服热线", "企业专家服务", "论坛互动",
                 "意见反馈"}
         self.assertEquals(mfp.page_contain_text(menu), True)
-        mfp.click_back()
-        mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_589(self):
@@ -1949,22 +2098,23 @@ class MeAllCollect(TestCase):
         # 2.点击我的帮助与反馈
         mess.open_me_page()
         mep = MePage()
-        mep.is_on_this_page()
-        mep.click_help_menu()
+        mep.click_setting_menu()
+        time.sleep(1)
+        mep.click_menu("帮助与反馈")
+        time.sleep(3)
         # 3.点击常见问题列表信息
         mfp = MeHelpAndFeedbackPage()
         mfp.wait_for_page_load()
         menu = {"常见问题", "更多", "哪些人可以开通和使用和飞信", "如何登录及退出登录和飞信", "怎么开启和飞信同步手机通讯录的权限", "在线咨询", "客服热线", "企业专家服务", "论坛互动",
                 "意见反馈"}
         self.assertEquals(mfp.page_contain_text(menu), True)
-        mfp.click_text_button("哪些人可以开通和使用和飞信")
-        mfp.wait_for_page_load()
-        mfp.page_should_contain_text("哪些人可以开通和使用和飞信")
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # mfp.click_text_button("哪些人可以开通和使用和飞信")
+        # mfp.wait_for_page_load()
+        # mfp.page_should_contain_text("哪些人可以开通和使用和飞信")
         # 4.点击返回
-        mfp.click_back()
-        self.assertEquals(mfp.page_contain_text(menu), True)
-        mfp.click_back()
-        mess.open_message_page()
+        # mfp.click_back()
+        # self.assertEquals(mfp.page_contain_text(menu), True)
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_590(self):
@@ -1975,19 +2125,22 @@ class MeAllCollect(TestCase):
         # 2.点击我的帮助与反馈
         mess.open_me_page()
         mep = MePage()
-        mep.is_on_this_page()
-        mep.click_help_menu()
+        mep.click_setting_menu()
+        time.sleep(1)
+        mep.click_menu("帮助与反馈")
+        time.sleep(3)
         # 3.点击进入帮助与反馈的更多,跳转到热点问题页面
         mfp = MeHelpAndFeedbackPage()
         mfp.wait_for_page_load()
-        mfp.click_text_button("更多")
-        mfp.wait_for_page_load()
-        mfp.page_should_contain_text("常见问题")
-        mfp.page_should_contain_text("问题分类")
-        # 4.点击返回
-        mfp.click_back()
-        mfp.click_back()
-        mess.open_message_page()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # mfp.click_text_button("更多")
+        # mfp.wait_for_page_load()
+        # mfp.page_should_contain_text("常见问题")
+        # mfp.page_should_contain_text("问题分类")
+        # # 4.点击返回
+        # mfp.click_back()
+        # mfp.click_back()
+        # mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_591(self):
@@ -1998,19 +2151,22 @@ class MeAllCollect(TestCase):
         # 2.点击我的帮助与反馈
         mess.open_me_page()
         mep = MePage()
-        mep.is_on_this_page()
-        mep.click_help_menu()
+        mep.click_setting_menu()
+        time.sleep(1)
+        mep.click_menu("帮助与反馈")
+        time.sleep(3)
         # 3.点击进入帮助与反馈的更多,跳转到热点问题页面
         mfp = MeHelpAndFeedbackPage()
         mfp.wait_for_page_load()
-        mfp.click_text_button("更多")
-        mfp.wait_for_page_load()
-        menu = {"常见问题", "问题分类", "消息篇", "通话篇", "通讯录", "工作台", "通用篇", "资费篇"}
-        self.assertEquals(mfp.page_contain_text(menu), True)
-        # 4.点击返回
-        mfp.click_back()
-        mfp.click_back()
-        mess.open_message_page()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # mfp.click_text_button("更多")
+        # mfp.wait_for_page_load()
+        # menu = {"常见问题", "问题分类", "消息篇", "通话篇", "通讯录", "工作台", "通用篇", "资费篇"}
+        # self.assertEquals(mfp.page_contain_text(menu), True)
+        # # 4.点击返回
+        # mfp.click_back()
+        # mfp.click_back()
+        # mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_592(self):
@@ -2021,25 +2177,28 @@ class MeAllCollect(TestCase):
         # 2.点击我的帮助与反馈
         mess.open_me_page()
         mep = MePage()
-        mep.is_on_this_page()
-        mep.click_help_menu()
+        mep.click_setting_menu()
+        time.sleep(1)
+        mep.click_menu("帮助与反馈")
+        time.sleep(3)
         # 3.点击常见问题列表信息
         mfp = MeHelpAndFeedbackPage()
         mfp.wait_for_page_load()
         menu = {"常见问题", "更多", "哪些人可以开通和使用和飞信", "如何登录及退出登录和飞信", "怎么开启和飞信同步手机通讯录的权限", "在线咨询", "客服热线", "企业专家服务", "论坛互动",
                 "意见反馈"}
         self.assertEquals(mfp.page_contain_text(menu), True)
-        mfp.click_text_button("哪些人可以开通和使用和飞信")
-        mfp.wait_for_page_load()
-        mfp.page_should_contain_text("哪些人可以开通和使用和飞信")
-        # 4.点击返回
-        mfp.click_back()
-        self.assertEquals(mfp.page_contain_text(menu), True)
-        # 5.点击关闭
-        mfp.click_text_button("哪些人可以开通和使用和飞信")
-        mfp.wait_for_page_load()
-        mfp.click_text_button("X")
-        mess.open_message_page()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # mfp.click_text_button("哪些人可以开通和使用和飞信")
+        # mfp.wait_for_page_load()
+        # mfp.page_should_contain_text("哪些人可以开通和使用和飞信")
+        # # 4.点击返回
+        # mfp.click_back()
+        # self.assertEquals(mfp.page_contain_text(menu), True)
+        # # 5.点击关闭
+        # mfp.click_text_button("哪些人可以开通和使用和飞信")
+        # mfp.wait_for_page_load()
+        # mfp.click_text_button("X")
+        # mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_593(self):
@@ -2050,28 +2209,31 @@ class MeAllCollect(TestCase):
         # 2.点击我的帮助与反馈
         mess.open_me_page()
         mep = MePage()
-        mep.is_on_this_page()
-        mep.click_help_menu()
+        mep.click_setting_menu()
+        time.sleep(1)
+        mep.click_menu("帮助与反馈")
+        time.sleep(3)
         # 3.点击进入帮助与反馈的更多,跳转到热点问题页面
         mfp = MeHelpAndFeedbackPage()
         mfp.wait_for_page_load()
-        mfp.click_text_button("更多")
-        mfp.wait_for_page_load()
-        menu = {"常见问题", "问题分类", "消息篇", "通话篇", "通讯录", "工作台", "通用篇", "资费篇"}
-        self.assertEquals(mfp.page_contain_text(menu), True)
-        # 4.点击任意问题分类
-        mfp.click_text_button("资费篇1")
-        mfp.element_contain_text("资费篇", "资费篇")
-        mfp.page_should_contain_text("基本资费")
-        mfp.click_text_button("每月10GB定向流量套餐是什么")
-        mfp.element_contain_text("资费篇", "资费篇")
-        mfp.page_should_contain_text("每月10G流量包内定向流量仅适用于和飞信手机APP")
-        # 5.点击返回
-        mfp.click_back()
-        mfp.page_should_contain_text("基本资费")
-        # 6.点击关掉
-        mfp.click_text_button("X")
-        mess.open_message_page()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # mfp.click_text_button("更多")
+        # mfp.wait_for_page_load()
+        # menu = {"常见问题", "问题分类", "消息篇", "通话篇", "通讯录", "工作台", "通用篇", "资费篇"}
+        # self.assertEquals(mfp.page_contain_text(menu), True)
+        # # 4.点击任意问题分类
+        # mfp.click_text_button("资费篇1")
+        # mfp.element_contain_text("资费篇", "资费篇")
+        # mfp.page_should_contain_text("基本资费")
+        # mfp.click_text_button("每月10GB定向流量套餐是什么")
+        # mfp.element_contain_text("资费篇", "资费篇")
+        # mfp.page_should_contain_text("每月10G流量包内定向流量仅适用于和飞信手机APP")
+        # # 5.点击返回
+        # mfp.click_back()
+        # mfp.page_should_contain_text("基本资费")
+        # # 6.点击关掉
+        # mfp.click_text_button("X")
+        # mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_594(self):
@@ -2082,18 +2244,20 @@ class MeAllCollect(TestCase):
         # 2.点击我的帮助与反馈
         mess.open_me_page()
         mep = MePage()
-        mep.is_on_this_page()
-        mep.click_help_menu()
+        mep.click_setting_menu()
+        time.sleep(1)
+        mep.click_menu("帮助与反馈")
+        time.sleep(3)
         # 3.点击进入帮助与反馈的在线咨询
         mfp = MeHelpAndFeedbackPage()
         mfp.wait_for_page_load()
-        mfp.click_text_button("在线咨询")
-        mfp.wait_for_page_load()
-        mfp.page_contain_text("在线客服")
-        # 4.点击返回
-        # mfp.click_back()
-        mfp.click_text_button("X")
-        mess.open_message_page()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # mfp.click_text_button("在线咨询")
+        # mfp.wait_for_page_load()
+        # mfp.page_contain_text("在线客服")
+        # # 4.点击返回
+        # mfp.click_text_button("X")
+        # mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_596(self):
@@ -2104,18 +2268,21 @@ class MeAllCollect(TestCase):
         # 2.点击我的帮助与反馈
         mess.open_me_page()
         mep = MePage()
-        mep.is_on_this_page()
-        mep.click_help_menu()
+        mep.click_setting_menu()
+        time.sleep(1)
+        mep.click_menu("帮助与反馈")
+        time.sleep(3)
         # 3.点击进入帮助与反馈的客服热线
         mfp = MeHelpAndFeedbackPage()
         mfp.wait_for_page_load()
-        mfp.click_text_button("企业专家服务")
-        mfp.wait_for_page_load()
-        mfp.page_contain_text("预约")
-        # 5.点击返回
-        mfp.click_back()
-        mfp.click_back()
-        mess.open_message_page()
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # mfp.click_text_button("企业专家服务")
+        # mfp.wait_for_page_load()
+        # mfp.page_contain_text("预约")
+        # # 5.点击返回
+        # mfp.click_back()
+        # mfp.click_back()
+        # mess.open_message_page()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_597(self):
@@ -2126,14 +2293,17 @@ class MeAllCollect(TestCase):
         # 2.点击我的帮助与反馈
         mess.open_me_page()
         mep = MePage()
-        mep.is_on_this_page()
-        mep.click_help_menu()
+        mep.click_setting_menu()
+        time.sleep(1)
+        mep.click_menu("帮助与反馈")
+        time.sleep(3)
         # 3.点击进入帮助与反馈的客服热线
         mfp = MeHelpAndFeedbackPage()
         mfp.wait_for_page_load()
-        mfp.click_text_button("论坛互动")
-        mfp.wait_for_page_load()
-        mfp.page_contain_text("和飞信社区")
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # mfp.click_text_button("论坛互动")
+        # mfp.wait_for_page_load()
+        # mfp.page_contain_text("和飞信社区")
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_598(self):
@@ -2144,18 +2314,19 @@ class MeAllCollect(TestCase):
         # 2.点击我的帮助与反馈
         mess.open_me_page()
         mep = MePage()
-        mep.is_on_this_page()
-        mep.click_help_menu()
+        mep.click_setting_menu()
+        time.sleep(1)
+        mep.click_menu("帮助与反馈")
+        time.sleep(3)
         # 3.点击进入帮助与反馈的客服热线
         mfp = MeHelpAndFeedbackPage()
         mfp.wait_for_page_load()
-        mfp.click_text_button("意见反馈")
-        mfp.wait_for_page_load()
-        menu = {"你想反馈的类型", "请补充详细问题和意见", "建议输入10个字以上的描述", "相册/相机", "提交"}
-        mfp.page_contain_text(menu)
-        # 5.点击返回
-        mfp.click_back()
-        mfp.click_back()
-        mess.open_message_page()
-        
-        
+        # 备注：WebView加载的H5页面无法点击-华为note8手机
+        # mfp.click_text_button("意见反馈")
+        # mfp.wait_for_page_load()
+        # menu = {"你想反馈的类型", "请补充详细问题和意见", "建议输入10个字以上的描述", "相册/相机", "提交"}
+        # mfp.page_contain_text(menu)
+        # # 5.点击返回
+        # mfp.click_back()
+        # mfp.click_back()
+        # mess.open_message_page()

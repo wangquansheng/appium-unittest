@@ -14,6 +14,7 @@ class MeAboutChinasoftiPage(BasePage):
         '和飞信V6.2.8.0129 Beta': (MobileBy.ID, 'com.chinasofti.rcs:id/version'),
         '产品介绍': (MobileBy.ID, 'com.chinasofti.rcs:id/introduce_layout'),
         '新手引导': (MobileBy.ID, 'com.chinasofti.rcs:id/newer_guide_layout'),
+        '参与体验改善计划': (MobileBy.ID, 'com.chinasofti.rcs:id/upload_log_text'),
         '检查更新': (MobileBy.ID, 'com.chinasofti.rcs:id/check_update_layout'),
         '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/about_app'),
         # 打开检查更新页面
@@ -22,6 +23,7 @@ class MeAboutChinasoftiPage(BasePage):
         # 打开新手引导页面
         '返回1': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
         '及时消息': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_actionbar'),
+        '即时消息': (MobileBy.XPATH, '//*[@class="android.view.View" and @text="即时消息"]'),
         '关闭': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_close_actionbar'),
         # 打开产品页面
 
@@ -70,7 +72,12 @@ class MeAboutChinasoftiPage(BasePage):
             raise AssertionError(
                 message
             )
-        return self
+        return
+
+    @TestLogger.log()
+    def click_current_msg(self):
+        """点击查看进行中的事项"""
+        self.click_element(self.__class__.__locators["即时消息"])
 
     @TestLogger.log("等待关于和飞信新手引导—及时消息页面加载")
     def wait_for_page_new_guide_details(self, timeout=8, auto_accept_alerts=True):
@@ -113,6 +120,11 @@ class MeAboutChinasoftiPage(BasePage):
     def click_new_guide(self):
         self.click_element(self.__locators["新手引导"])
 
+    @TestLogger.log('参与体验改善计划')
+    def click_plan(self):
+        self.page_up()
+        self.click_element(self.__locators["参与体验改善计划"])
+
     @TestLogger.log('点击返回1')
     def click_back_new(self):
         self.click_element(self.__locators["返回1"])
@@ -121,6 +133,6 @@ class MeAboutChinasoftiPage(BasePage):
     def click_close(self):
         self.click_element(self.__locators["关闭"])
 
-    @TestLogger.log('点击新手引导')
+    @TestLogger.log('点击产品介绍')
     def click_product_introduction(self):
         self.click_element(self.__locators["产品介绍"])
