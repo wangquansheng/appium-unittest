@@ -143,6 +143,7 @@ class WorkbenchLogPage(BasePage):
     @TestLogger.log()
     def click_add_contact(self):
         """点击添加联系人"""
+        self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
         self.click_element(self.__class__.__locators['+'])
 
     @TestLogger.log()
@@ -194,6 +195,7 @@ class WorkbenchLogPage(BasePage):
     @TestLogger.log()
     def click_like(self):
         """点击点赞"""
+        self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
         self.click_element(self.__class__.__locators['点赞'])
 
     @TestLogger.log()

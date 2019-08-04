@@ -32,6 +32,7 @@ from pages import SingleChatPage
 from pages.chat.ChatGroupAddContacts import ChatGroupAddContactsPage
 from pages.components import BaseChatPage
 from pages.groupset import GroupChatSetSeeMembersPage
+from pages.workbench.create_group.SelectEnterpriseContacts import SelectEnterpriseContactsPage
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -5549,6 +5550,146 @@ class MsgCommonGroupTest(TestCase):
             raise AssertionError("多选-点击失败2")
 
     @staticmethod
+    def setUp_test_msg_huangmianhua_0224():
+        Preconditions.select_mobile('Android-移动')
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            Preconditions.enter_group_chat_page()
+            return
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            current_mobile().hide_keyboard_if_display()
+            return
+        else:
+            current_mobile().launch_app()
+            # current_mobile().reset_app()
+            Preconditions.enter_group_chat_page()
+
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
+    def test_msg_huangmianhua_0224(self):
+        """转发——支持转发的——默认选中项（1条）"""
+        gcp = GroupChatPage()
+        Preconditions.delete_record_group_chat()
+        for num in range(3):
+            gcp.input_message("哈哈" + str(num))
+            gcp.send_message()
+        gcp.hide_keyboard()
+        time.sleep(2)
+        # 1.弹出操作列表
+        # 2.进入聊天会话窗口的批量选择器页面
+        # 3.默认选中长按的那一条消息体
+        # 4.进入最近聊天选择器页面
+        # 5.弹出确认弹框
+        # 6.弹框消失，停留在最近聊天选择器页面
+        # 7.弹框消失，自动返回原会话窗口，toast提示“已转发”
+        # 8.显示消息体是按照时间顺序排序
+        gcp.press_the_message_by_text("哈哈1")
+        if not gcp.is_toast_exist("多选"):
+            raise AssertionError("多选-功能项没找到")
+        gcp.click_message("多选")
+        if not gcp.is_toast_exist("已选择"):
+            raise AssertionError("多选-点击失败1")
+        # 多选-底部-转发按钮
+        gcp.click_multiple_selection_forward()
+        time.sleep(2)
+        mess = MessagePage()
+        mess.click_text("选择手机联系人")
+        time.sleep(1)
+        # 第一次选择联系人
+        sec = SelectEnterpriseContactsPage()
+        sec.click_contacts_by_name2("大佬1")
+        time.sleep(1)
+        # 弹出框-取消
+        result = gcp.is_text_present("发送给")
+        self.assertEqual(result, True)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        result = gcp.is_text_present("选择联系人")
+        self.assertEqual(result, True)
+        # 第二次选择联系人
+        sec.click_contacts_by_name2("大佬1")
+        time.sleep(1)
+        # 弹出框-确定
+        result = gcp.is_text_present("确定")
+        self.assertEqual(result, True)
+        # 弹出框-点击确定
+        gcp.click_resend_confirm()
+        exist = gcp.is_toast_exist("已转发")
+        self.assertEqual(exist, True)
+        if not gcp.is_text_present("说点什么"):
+            raise AssertionError("没有自动返回原会话窗口")
+
+    @staticmethod
+    def setUp_test_msg_huangmianhua_0225():
+        Preconditions.select_mobile('Android-移动')
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            Preconditions.enter_group_chat_page()
+            return
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            current_mobile().hide_keyboard_if_display()
+            return
+        else:
+            current_mobile().launch_app()
+            # current_mobile().reset_app()
+            Preconditions.enter_group_chat_page()
+
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
+    def test_msg_huangmianhua_0225(self):
+        """转发——支持转发的——默认选中项（1条）"""
+        gcp = GroupChatPage()
+        Preconditions.delete_record_group_chat()
+        for num in range(3):
+            gcp.input_message("哈哈" + str(num))
+            gcp.send_message()
+        gcp.hide_keyboard()
+        time.sleep(2)
+        # 1.弹出操作列表
+        # 2.进入聊天会话窗口的批量选择器页面
+        # 3.默认选中长按的那一条消息体
+        # 4.进入最近聊天选择器页面
+        # 5.弹出确认弹框
+        # 6.弹框消失，停留在最近聊天选择器页面
+        # 7.弹框消失，自动返回原会话窗口
+        # 8.消息体显示发送失败状态
+        gcp.press_the_message_by_text("哈哈1")
+        if not gcp.is_toast_exist("多选"):
+            raise AssertionError("多选-功能项没找到")
+        gcp.click_message("多选")
+        if not gcp.is_toast_exist("已选择"):
+            raise AssertionError("多选-点击失败1")
+        # 多选-底部-转发按钮
+        gcp.click_multiple_selection_forward()
+        time.sleep(2)
+        mess = MessagePage()
+        mess.click_text("选择手机联系人")
+        time.sleep(1)
+        # 第一次选择联系人
+        sec = SelectEnterpriseContactsPage()
+        sec.click_contacts_by_name2("大佬1")
+        time.sleep(1)
+        # 弹出框-取消
+        result = gcp.is_text_present("发送给")
+        self.assertEqual(result, True)
+        gcp.click_back_by_android()
+        time.sleep(1)
+        result = gcp.is_text_present("选择联系人")
+        self.assertEqual(result, True)
+        # 第二次选择联系人
+        sec.click_contacts_by_name2("大佬1")
+        time.sleep(1)
+        # 弹出框-确定
+        result = gcp.is_text_present("确定")
+        self.assertEqual(result, True)
+        # 弹出框-点击确定
+        gcp.click_resend_confirm()
+        # exist = gcp.is_toast_exist("已转发")
+        # self.assertEqual(exist, True)
+        if not gcp.is_text_present("说点什么"):
+            raise AssertionError("没有自动返回原会话窗口")
+
+    @staticmethod
     def setUp_test_msg_huangmianhua_0226():
         Preconditions.select_mobile('Android-移动')
         mess = MessagePage()
@@ -5596,6 +5737,56 @@ class MsgCommonGroupTest(TestCase):
         self.assertEqual(exist, True)
         if gcp.is_text_present("哈哈1"):
             raise AssertionError("没有成功删除掉消息体")
+
+    @staticmethod
+    def setUp_test_msg_huangmianhua_0227():
+        Preconditions.select_mobile('Android-移动')
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            Preconditions.enter_group_chat_page()
+            return
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            current_mobile().hide_keyboard_if_display()
+            return
+        else:
+            current_mobile().launch_app()
+            # current_mobile().reset_app()
+            Preconditions.enter_group_chat_page()
+
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
+    def test_msg_huangmianhua_0227(self):
+        """转发默认选中项（1条）—取消删除"""
+        gcp = GroupChatPage()
+        Preconditions.delete_record_group_chat()
+        for num in range(3):
+            gcp.input_message("哈哈" + str(num))
+            gcp.send_message()
+        gcp.hide_keyboard()
+        time.sleep(2)
+        # 1.弹出操作列表
+        # 2.进入聊天会话窗口的批量选择器页面
+        # 3.默认选中长按的那一条消息体
+        # 4.弹出确认提示框
+        # 5.弹框关闭，停留在批量选择器页面
+        # 6.选中的消息体还是选中的状态 ?
+        gcp.press_the_message_by_text("哈哈1")
+        if not gcp.is_toast_exist("多选"):
+            raise AssertionError("多选-功能项没找到")
+        gcp.click_message("多选")
+        if not gcp.is_toast_exist("已选择"):
+            raise AssertionError("多选-点击失败1")
+        # 多选-底部-删除按钮
+        gcp.click_multiple_selection_delete()
+        time.sleep(2)
+        exist = gcp.is_toast_exist("删除")
+        self.assertEqual(exist, True)
+        time.sleep(1)
+        # 弹出框-关闭
+        gcp.click_back_by_android()
+        time.sleep(1)
+        exist = gcp.is_toast_exist("已选择")
+        self.assertEqual(exist, True)
 
     @staticmethod
     def setUp_test_msg_huangmianhua_0240():

@@ -15,10 +15,10 @@ class HelpCenterPage(BasePage):
         '操作指引': (MobileBy.XPATH, '//*[@text="操作指引"]'),
         '资费说明': (MobileBy.XPATH, '//*[@text="资费说明"]'),
         '常见问题': (MobileBy.XPATH, '//*[@text="常见问题"]'),
-        '应用简介页面标题': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title_actionbar" and @text ="群发信使"]'),
-        '操作指引页面标题': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title_actionbar" and @text ="群发信使"]'),
-        '资费说明页面标题': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title_actionbar" and @text ="群发信使"]'),
-        '常见问题页面标题': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title_actionbar" and @text ="群发信使"]'),
+        '应用简介页面标题': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title_actionbar" and @text ="应用简介"]'),
+        '操作指引页面标题': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title_actionbar" and @text ="操作指引"]'),
+        '资费说明页面标题': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title_actionbar" and @text ="资费说明"]'),
+        '常见问题页面标题': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title_actionbar" and @text ="常见问题"]'),
         '返回': (MobileBy.ID, "com.chinasofti.rcs:id/btn_back_actionbar")
     }
 

@@ -80,8 +80,8 @@ class OrganizationTest(TestCase):
         if ContactsPage().is_text_present('需要使用通讯录权限'):
             ContactsPage().click_allow()
         contacts.wait_for_page_load()
-        contacts.click_one_firm()
-        time.sleep(5)
+        contacts.click_one_firm2()
+        time.sleep(2)
         # contacts.click_one_he_contacts()
         # time.sleep(1)
         contacts.click_he_more()

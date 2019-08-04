@@ -239,7 +239,7 @@ class AppStoreAllTest(TestCase):
         """搜索未添加个人应用进入应用介绍页添加"""
 
         # 确保不存在指定个人应用
-        app_name = "网易考拉"
+        app_name = "同事圈"
         Preconditions.ensure_not_exists_personal_app_by_name(app_name)
         # 添加工作台里的应用
         wbp = WorkbenchPage()
@@ -336,6 +336,7 @@ class AppStoreAllTest(TestCase):
         asp.click_personal_area()
         asp.wait_for_personal_area_page_load()
         # 进入应用介绍页
+        asp.page_up()
         asp.click_text(app_name)
         # 2.等待应用介绍详情页加载
         asp.wait_for_app_details_page_load()
@@ -526,12 +527,13 @@ class AppStoreAllTest(TestCase):
         # 添加工作台里的应用
         wbp = WorkbenchPage()
         wbp.click_app_store()
+        time.sleep(3)
         asp = AppStorePage()
-        asp.wait_for_page_load()
+        # asp.wait_for_page_load()
         # 解决工作台不稳定的问题
-        asp.click_back()
-        wbp.click_app_store()
-        asp.wait_for_page_load()
+        # asp.click_back()
+        # wbp.click_app_store()
+        # asp.wait_for_page_load()
         # 1.点击分类
         asp.click_text("分类")
         time.sleep(3)
@@ -541,7 +543,7 @@ class AppStoreAllTest(TestCase):
         # 进入应用介绍页
         asp.click_text_by_name(app_name)
         # 3.等待应用介绍详情页加载
-        asp.wait_for_app_details_page_load()
+        asp.wait_for_app_details_page_load2()
         time.sleep(2)
         asp.click_join()
         # 4.等待应用分组页加载

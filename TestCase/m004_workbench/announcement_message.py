@@ -356,14 +356,14 @@ class AnnouncementMessageTest(TestCase):
         # 1、管理员登录移动端和飞信工作台
         # 2、点击进入【公告信息】页面
         # 3、点击【发布公告】
-        # 4、检查发布公告页面是否默认选择图文方式
+        # 4、检查发布公告页面是否默认选择图文方式--文字发布
         # 5、检查消息推送是否默认不推送
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
         amp.click_text("发布公告")
         time.sleep(2)
-        if not amp.is_element_exit("图文发布"):
-            raise AssertionError("没有图文发布")
+        if not amp.is_element_exit("文字发布"):
+            raise AssertionError("没有文字发布")
         if not amp.is_element_exit("链接发布"):
             raise AssertionError("没有链接发布")
         if not amp.is_element_exit("消息推送"):
