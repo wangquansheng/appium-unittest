@@ -805,3 +805,31 @@ class CallPage(FooterPage,BasePage):
     def is_element_exit_(self, text):
         """指定元素是否存在"""
         return self._is_element_present(self.__class__.__locators[text])
+
+    @TestLogger.log()
+    def click_voice_call_small(self):
+        self.click_element(self.__locators['语音通话缩放按钮'])
+
+    @TestLogger.log()
+    def click_video_call_small(self):
+        time.sleep(1)
+        self.click_element((MobileBy.ID, "com.chinasofti.rcs:id/iv_switch"))
+
+    @TestLogger.log()
+    def click_more_video_call_small(self):
+        time.sleep(1)
+        print(self.get_source())
+        self.click_element((MobileBy.ID, "com.chinasofti.rcs:id/iv_hide"))
+
+    @TestLogger.log()
+    def click_call_cancel(self):
+        self.click_element((MobileBy.ID, "com.chinasofti.rcs:id/iv_normal_call_end"))
+
+
+
+    @TestLogger.log()
+    def end_multi_video_phone(self):
+        self.click_element(self.__locators['结束多方视频'])
+        self.click_element(self.__class__.__locators["结束通话提示框-确定"])
+
+

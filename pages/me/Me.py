@@ -391,3 +391,8 @@ class MePage(FooterPage):
                     return True
                 if self._is_on_the_end_of_menu_view():
                     return False
+
+    @TestLogger.log("点击设置菜单")
+    def click_setting_menu_631(self):
+        """点击设置菜单"""
+        self.click_element(self.__locators['设置'])

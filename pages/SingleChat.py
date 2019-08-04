@@ -3,6 +3,7 @@ from appium.webdriver.common.mobileby import MobileBy
 from selenium.common.exceptions import NoSuchElementException
 
 from library.core.TestLogger import TestLogger
+from pages.message import ChatWindowPage
 from pages.components.BaseChat import BaseChatPage
 import time
 
@@ -88,6 +89,9 @@ class SingleChatPage(BaseChatPage):
                   '发送失败标识': (MobileBy.ID, 'com.chinasofti.rcs:id/imageview_msg_send_failed'),
                   '保存图片': (MobileBy.XPATH, "//*[contains(@text, '保存图片')]"),
                   '发送': (MobileBy.ID, "com.chinasofti.rcs:id/button_send"),
+                  '文件列表': (MobileBy.ID, "com.chinasofti.rcs:id/lv_choose"),
+                  '文件项': (MobileBy.ID, "com.chinasofti.rcs:id/rl_sd_file"),
+                  '文件名称项': (MobileBy.ID, "com.chinasofti.rcs:id/tv_file_name"),
                   }
 
     @TestLogger.log()
@@ -537,4 +541,167 @@ class SingleChatPage(BaseChatPage):
         self.click_element((MobileBy.XPATH, '(//*[contains(@resource-id,"com.chinasofti.rcs:id/multi_check")])[2]'))
         time.sleep(1)
 
+    @TestLogger.log()
+    def send_file_messages(self, path, file_name):
+        """单聊发送文件"""
+        chatWindowPage = ChatWindowPage()
+        for i in range(1, 10):
+            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'down', 600)
+        elements = chatWindowPage.get_elements(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
+        # 文件系统找文件目录
+        while len(elements) == 0:
+            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up', 600)
+            time.sleep(1)
+            elements = chatWindowPage.get_elements(
+                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
+        chatWindowPage.click_element((MobileBy.XPATH,
+                                      '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
+        # 文件系统找文件
+        time.sleep(2)
+        for i in range(1, 10):
+            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'down', 600)
+        elements = chatWindowPage.get_elements(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
+
+        while len(elements) == 0:
+            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+            time.sleep(1)
+            elements = chatWindowPage.get_elements(
+                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
+        chatWindowPage.click_element((MobileBy.XPATH,
+                                      '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % file_name))
+        # 发送
+        chatWindowPage.click_element((MobileBy.XPATH,
+                                      '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'))
+        time.sleep(1)
+
+    @TestLogger.log()
+    def re_send_file_messages(self, file_name):
+        """单聊转发文件"""
+        chatWindowPage = ChatWindowPage()
+        file_elements = chatWindowPage.get_elements(
+            (MobileBy.XPATH,
+             '//*[@resource-id="com.chinasofti.rcs:id/textview_file_name" and @text="%s"]' % file_name))
+        file_elements[0].click()
+        # 点击文件右上方的 ... 图标
+        chatWindowPage.click_element(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/menu"]'))
+        chatWindowPage.click_element(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/forward"  and @text="转发"]'))
+        # 点击联系人名称
+        chatWindowPage.click_element(
+            (MobileBy.XPATH,
+             '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and @index="0"]'))
+        chatWindowPage.click_element((MobileBy.XPATH,
+                                      '//*[@resource-id="com.chinasofti.rcs:id/btn_ok" and @text="确定"]'))
+        chatWindowPage.is_toast_exist("已转发")
+
+    @TestLogger.log()
+    def search_chat_record_file(self, file_name):
+        self.click_element((MobileBy.XPATH,'//*[@text="查找聊天内容"]'))
+        self.click_element((MobileBy.XPATH, '//*[@text="文件"]'))
+        self.click_element((MobileBy.XPATH, '//*[@text="%s"]' % file_name))
+
+    @TestLogger.log()
+    def assert_collect_record_file(self):
+        self.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/menu"]'))
+        self.click_element((MobileBy.XPATH, '//*[@text="收藏"]'))
+        if not self.is_toast_exist("已收藏"):
+            raise AssertionError("收藏失败")
+
+    @TestLogger.log()
+    def assert_transmit_record_file(self):
+        chatWindowPage = ChatWindowPage()
+        chatWindowPage.click_element(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/menu"]'))
+        chatWindowPage.click_element(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/forward"  and @text="转发"]'))
+        # 点击联系人名称
+        chatWindowPage.click_element(
+            (MobileBy.XPATH,
+             '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and @index="0"]'))
+        chatWindowPage.click_element((MobileBy.XPATH,
+                                      '//*[@resource-id="com.chinasofti.rcs:id/btn_ok" and @text="确定"]'))
+        if not self.is_toast_exist("已转发"):
+            raise AssertionError("转发失败")
+
+    @TestLogger.log()
+    def other_app_open_file(self):
+        self.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/menu"]'))
+        self.click_element((MobileBy.XPATH, '//*[@text="其他应用打开"]'))
+        self.click_back_by_android()
+
+    @TestLogger.log()
+    def more_select_item(self):
+        self.click_element(self.__locators['多选'])
+
+    @TestLogger.log()
+    def select_collect_item(self):
+        self.click_element(self.__locators['收藏'])
+
+    @TestLogger.log()
+    def assert_id_menu_more(self):
+        time.sleep(4)
+        self.page_should_contain_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/menu"]'))
+
+    @TestLogger.log('选择文件目录')
+    def select_local_file_directory(self, *file_directory_list):
+        name_list = list(file_directory_list)
+        self.wait_until(
+            condition=lambda d: self._is_element_present((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/select_picture_custom_toolbar_title_text"]'))
+        )
+        for cont in self.mobile.list_iterator(self.__locators['文件列表'], self.__locators['文件项']):
+            name = cont.find_element(*self.__locators['文件名称项']).text
+            if name in name_list:
+                cont.click()
+                name_list.remove(name)
+            if not name_list:
+                break
+        if name_list:
+            print('没有找到以下文件目录：{}'.format(name_list))
+            return False
+        return True
+
+    @TestLogger.log('选择文件')
+    def select_local_file(self, *file_list):
+        name_list = list(file_list)
+        self.wait_until(
+            condition=lambda d: self._is_element_present(
+                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/select_picture_custom_toolbar_title_text"]'))
+        )
+        for cont in self.mobile.list_iterator(self.__locators['文件列表'], self.__locators['文件项']):
+            name = cont.find_element(*self.__locators['文件名称项']).text
+            if name in name_list:
+                cont.click()
+                name_list.remove(name)
+            if not name_list:
+                break
+        if name_list:
+            print('没有找到以下联系人：{}'.format(name_list))
+            return False
+        return True
+
+    @TestLogger.log()
+    def send_file_messages_631(self, path, file_name):
+        """单聊发送文件"""
+        chatWindowPage = ChatWindowPage()
+        for i in range(1, 5):
+            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'down', 600)
+        self.select_local_file_directory(path)
+
+        # 文件系统找文件
+        time.sleep(2)
+        for i in range(1, 5):
+            chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'down', 600)
+        self.select_local_file(file_name)
+        # 发送
+        chatWindowPage.click_element((MobileBy.XPATH,
+                                      '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'))
+        time.sleep(1)
+
+    @TestLogger.log()
+    def click_mess_text(self, mess):
+        """发送消息如果当前页不存在该消息"""
+        self.click_element((MobileBy.XPATH, '//*[@text ="%s"]' % mess))
 
