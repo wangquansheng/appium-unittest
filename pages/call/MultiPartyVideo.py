@@ -187,3 +187,22 @@ class MultiPartyVideoPage(BasePage):
         """点击联系人"""
         self.click_element(self.__locators["联系人item"])
 
+    @TestLogger.log()
+    def click_contact_by_phone(self, phone):
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_number" and @text ="%s"]' % phone)
+        self.click_element(locator)
+
+    @TestLogger.log()
+    def click_end_ok(self):
+        """点击联系人"""
+        self.click_element(self.__locators["确定"])
+
+    @TestLogger.log()
+    def click_end_cancel(self):
+        """点击联系人"""
+        self.click_element(self.__locators["取消"])
+
+    @TestLogger.log()
+    def is_enabled_tv_sure(self):
+        """判断呼叫按钮是否可用"""
+        return self._is_enabled(self.__locators["呼叫"])

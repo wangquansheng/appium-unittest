@@ -21,6 +21,7 @@ class MessageNoticeSettingPage(BasePage):
         '震动提醒': (MobileBy.ID, 'com.chinasofti.rcs:id/switch_shake'),
         '接收OA消息': (MobileBy.ID, 'com.chinasofti.rcs:id/switch_oa'),
         '接收139邮箱助手消息': (MobileBy.ID, 'com.chinasofti.rcs:id/switch_139'),
+        '新消息开关': (MobileBy.ID, 'com.android.settings:id/switch_bar'),
     }
 
     @TestLogger.log('点击返回上一页图标')
@@ -198,3 +199,34 @@ class MessageNoticeSettingPage(BasePage):
             timeout=timeout,
             auto_accept_permission_alert=auto_accept_alerts
         )
+
+    @TestLogger.log('接收新消息通知')
+    def get_new_message_notice_setting(self):
+        self.click_element(self.__locators['接收新消息通知'])
+
+    @TestLogger.log("打开新消息通知设置项")
+    def new_message_switch_bar_turn_off(self):
+        switch_locator = [
+            MobileBy.XPATH,
+            '//*[@resource-id="com.android.settings:id/switch_bar" and @text="已开启"]'
+        ]
+        try:
+            ele = self.get_element(switch_locator)
+            if ele:
+                ele.click()
+        except:
+            pass
+
+    @TestLogger.log("关闭新消息通知设置项")
+    def new_message_switch_bar_turn_on(self):
+        switch_locator = [
+            MobileBy.XPATH,
+            '//*[@resource-id="com.android.settings:id/switch_bar" and @text="已关闭"]'
+        ]
+        try:
+            ele = self.get_element(switch_locator)
+            if ele:
+                ele.click()
+        except:
+            pass
+

@@ -91,6 +91,8 @@ class MessagePage(FooterPage):
         '企业群名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_conv_name'),
         '企业成员数量': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_member_count'),
         '搜索我的电脑': (MobileBy.ID, 'com.chinasofti.rcs:id/svd_head'),
+        '相册': (MobileBy.ID, 'com.chinasofti.rcs:id/capture_scan_photo'),
+
     }
 
     @TestLogger.log()
@@ -993,3 +995,20 @@ class MessagePage(FooterPage):
     def click_me_icon(self):
         """点击我"""
         self.click_element(self.__locators['我'])
+
+    @TestLogger.log()
+    def click_enter_photo(self):
+        self.wait_until(
+            condition=lambda d: self.is_text_present('将二维码放入扫描框内,即可自动扫描')
+        )
+        self.click_element(self.__locators['相册'])
+
+    @TestLogger.log()
+    def click_qecode_photo(self):
+        self.wait_until(
+            condition=lambda d: self.is_text_present('选择图片')
+        )
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/album_picture"]')
+        aphone_all = self.get_elements(locator)
+        aphone_all[0].click()
+

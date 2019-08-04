@@ -40,6 +40,7 @@ class LabelGroupingPage(ContactsSelector, BasePage):
         '多方电话': (MobileBy.ID, 'com.chinasofti.rcs:id/image_third_colum'),
         # 6.3.1版本
         '飞信电话': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_third_item'),
+        '多方视频': (MobileBy.XPATH, '//*[@text="多方视频"]'),
     }
 
     @TestLogger.log('删除全部标签分组')
@@ -436,3 +437,29 @@ class LabelGroupingPage(ContactsSelector, BasePage):
         member_list = list(member_list)
         # multiparty.input_contact_search(member_list)
         multiparty.click_one_contact(member_list)
+
+    @TestLogger.log('标签分组详情页点击第四个图标多方视频')
+    def click_four_image_call(self):
+        self.click_element(self.__locators['多方视频'])
+
+    @TestLogger.log('创建分组')
+    def create_group_631(self, group_name, *member_list):
+        """
+        一键创建分组
+        :param group_name: 分组名
+        :param member_list: 成员列表
+        :return:
+        """
+        self.click_new_create_group()
+        self.wait_for_create_label_grouping_page_load()
+        actual = self.input_label_grouping_name(group_name)
+        self.click_sure()
+
+        # 增加等待步骤，防止点击确定后，系统权限弹窗阻塞下一步操作
+        self.wait_for_contacts_selector_page_load()
+        if not member_list:
+            self.click_back()
+            self.click_back()
+            return actual
+        self.select_local_contacts(*member_list)
+        return actual

@@ -42,6 +42,7 @@ class SettingPage(BasePage):
         '取消': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
         '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
         # 打开参与体验改善计划
+		'消息': (MobileBy.ID, 'com.chinasofti.rcs:id/message'),
         '上传日志': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_send')
 
     }
@@ -180,3 +181,6 @@ class SettingPage(BasePage):
     def click_dial_setting(self):
         self.click_element(self.__locators['拨号设置'])
 
+    @TestLogger.log('点击消息')
+    def click_message_setting(self):
+        self.click_element(self.__locators['消息'])
