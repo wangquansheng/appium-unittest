@@ -5696,6 +5696,336 @@ class MsgPrivateChatAllTest(TestCase):
         mess = MessagePage()
         mess.set_network_status(6)
 
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0055(self):
+        """将系统文件分享到普通群"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        # 2.长按最后一个文件转发
+        scp.press_last_file_to_do("转发")
+        select_contacts = SelectContactsPage()
+        # 3.等待选择联系人页面加载
+        select_contacts.wait_for_page_load()
+        # 4.点击选择一个群
+        select_contacts.click_select_one_group()
+        sogp = SelectOneGroupPage()
+        sogp.wait_for_page_load()
+        # 6.根据名字选择一个群
+        sogp.selecting_one_group_by_name("群聊1")
+        sogp.click_sure_forward()
+        time.sleep(1)
+        self.assertTrue(scp.is_toast_exist("已转发"))
+        # 7.验证是否在消息页面
+        self.assertTrue(scp.is_on_this_page())
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0057(self):
+        """将系统文件分享到企业群"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        # 2.长按最后一个文件转发
+        scp.press_last_file_to_do("转发")
+        select_contacts = SelectContactsPage()
+        # 3.等待选择联系人页面加载
+        select_contacts.wait_for_page_load()
+        # 4.点击选择一个群
+        select_contacts.click_select_one_group()
+        sogp = SelectOneGroupPage()
+        sogp.wait_for_page_load()
+        # 6.根据名字选择一个企业群
+        sogp.selecting_one_group_by_name("测试企业群")
+        sogp.click_sure_forward()
+        time.sleep(1)
+        self.assertTrue(scp.is_toast_exist("已转发"))
+        # 7.验证是否在消息页面
+        self.assertTrue(scp.is_on_this_page())
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0061(self):
+        """将系统文件分享到团队联系人"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        # 2.长按最后一个文件转发
+        scp.press_last_file_to_do("转发")
+        select_contacts = SelectContactsPage()
+        # 3.等待选择联系人页面加载
+        select_contacts.wait_for_page_load()
+        select_contacts.click_group_contact()
+        # 4.选择团队联系人
+        select_contacts.input_search_keyword("大佬1")
+        select_contacts.selecting_contacts_by_name("大佬1")
+        # 5.点击确定
+        select_contacts.click_sure_forward()
+        self.assertTrue(scp.is_toast_exist("已转发"))
+        # 6.验证是否在消息页面
+        self.assertTrue(scp.is_on_this_page())
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0065(self):
+        """将系统文件分享到手机联系人"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        # 2.长按最后一个文件转发
+        scp.press_last_file_to_do("转发")
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 3.点击手机联系人
+        select_contacts.click_phone_contact()
+        slcp = SelectLocalContactsPage()
+        slcp.wait_for_page_load()
+        names = slcp.get_contacts_name_list()
+        # 4.随机选择一个手机联系人
+        name = random.choice(names)
+        if name:
+            slcp.selecting_local_contacts_by_name(name)
+        # 4.点击确定
+        select_contacts.click_sure_forward()
+        self.assertTrue(scp.is_toast_exist("已转发"))
+        # 5.验证是否在消息页面
+        self.assertTrue(scp.is_on_this_page())
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0068(self):
+        """将系统文件分享到最近聊天"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        # 2.长按最后一个文件转发
+        scp.press_last_file_to_do("转发")
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 3.选择最近聊天联系人列表的第一个
+        select_contacts.select_recent_chat_by_number(0)
+        # 4.点击确定
+        select_contacts.click_sure_forward()
+        self.assertTrue(scp.is_toast_exist("已转发"))
+        # 5.验证是否在消息页面
+        self.assertTrue(scp.is_on_this_page())
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0071(self):
+        """将系统文件分享到我的电脑"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        # 2.长按最后一个文件转发
+        scp.press_last_file_to_do("转发")
+        select_contacts = SelectContactsPage()
+        select_contacts.wait_for_page_load()
+        # 3.搜索框输入我的电脑
+        select_contacts.search("我的电脑")
+        select_contacts.select_one_contact_by_name("我的电脑")
+        # 4.点击确定
+        select_contacts.click_sure_forward()
+        self.assertTrue(scp.is_toast_exist("已转发"))
+        # 5.验证是否在消息页面
+        self.assertTrue(scp.is_on_this_page())
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0244_01(self):
+        """验证在收藏页面是否可以正常打开查阅文件"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        # 2.长按最后一个文件收藏
+        scp.press_last_file_to_do("收藏")
+        # 3.验证是否收藏成功
+        self.assertTrue(scp.is_toast_exist("已收藏"))
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0244_02(self):
+        """验证在收藏页面是否可以正常打开查阅文件"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.doc')
+        local_file.click_send()
+        # 2.长按最后一个文件收藏
+        scp.press_last_file_to_do("收藏")
+        # 3.验证是否收藏成功
+        self.assertTrue(scp.is_toast_exist("已收藏"))
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0244_03(self):
+        """验证在收藏页面是否可以正常打开查阅文件"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.docx')
+        local_file.click_send()
+        # 2.长按最后一个文件收藏
+        scp.press_last_file_to_do("收藏")
+        # 3.验证是否收藏成功
+        self.assertTrue(scp.is_toast_exist("已收藏"))
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0244_04(self):
+        """验证在收藏页面是否可以正常打开查阅文件"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.ppt')
+        local_file.click_send()
+        # 2.长按最后一个文件收藏
+        scp.press_last_file_to_do("收藏")
+        # 3.验证是否收藏成功
+        self.assertTrue(scp.is_toast_exist("已收藏"))
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0244_05(self):
+        """验证在收藏页面是否可以正常打开查阅文件"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.pptx')
+        local_file.click_send()
+        # 2.长按最后一个文件收藏
+        scp.press_last_file_to_do("收藏")
+        # 3.验证是否收藏成功
+        self.assertTrue(scp.is_toast_exist("已收藏"))
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0244_06(self):
+        """验证在收藏页面是否可以正常打开查阅文件"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.pdf')
+        local_file.click_send()
+        # 2.长按最后一个文件收藏
+        scp.press_last_file_to_do("收藏")
+        # 3.验证是否收藏成功
+        self.assertTrue(scp.is_toast_exist("已收藏"))
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0244_07(self):
+        """验证在收藏页面是否可以正常打开查阅文件"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.xls')
+        local_file.click_send()
+        # 2.长按最后一个文件收藏
+        scp.press_last_file_to_do("收藏")
+        # 3.验证是否收藏成功
+        self.assertTrue(scp.is_toast_exist("已收藏"))
+
+    @tags('ALL', 'CMCC', 'full', 'high', 'yx')
+    def test_msg_weifenglian_1V1_0244_08(self):
+        """验证在收藏页面是否可以正常打开查阅文件"""
+        scp = SingleChatPage()
+        # 1.点击本地文件，选择文件发送
+        scp.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.xlsx')
+        local_file.click_send()
+        # 2.长按最后一个文件收藏
+        scp.press_last_file_to_do("收藏")
+        # 3.验证是否收藏成功
+        self.assertTrue(scp.is_toast_exist("已收藏"))
+
+
 
 
 
