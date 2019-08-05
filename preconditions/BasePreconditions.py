@@ -257,8 +257,17 @@ class LoginPreconditions(object):
         if LoginPreconditions.check_in_message_page():
             return
         else:
-            LoginPreconditions.make_already_in_one_key_login_page()
-            LoginPreconditions.login_by_one_key_login()
+            # LoginPreconditions.make_already_in_one_key_login_page()
+            # LoginPreconditions.login_by_one_key_login()
+            try:
+                mess=MessagePage()
+                current_mobile().launch_app()
+                mess.wait_for_page_load()
+            except:
+                # 进入一键登录页
+                LoginPreconditions.make_already_in_one_key_login_page()
+                #  从一键登录页面登录
+                LoginPreconditions.login_by_one_key_login()
 
     @staticmethod
     def force_enter_message_page_631():
