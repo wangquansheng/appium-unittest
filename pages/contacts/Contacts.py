@@ -42,6 +42,7 @@ class ContactsPage(FooterPage):
         'F': (MobileBy.ID, ''),
         'frank': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
         '联系人名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name'),
+        '联系人名2': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
         '18681151872': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_phone'),
         'H': (MobileBy.ID, ''),
         '和飞信电话': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
@@ -233,6 +234,31 @@ class ContactsPage(FooterPage):
             contacts_name.remove("和飞信电话")
         if "本机" in contacts_name:
             contacts_name.remove("本机")
+        return contacts_name
+
+    @TestLogger.log("获取所有联系人名2")
+    def get_contacts_name2(self):
+        """获取所有联系人名2"""
+        max_try = 5
+        current = 0
+        while current < max_try:
+            if self._is_element_present(self.__class__.__locators["联系人名2"]):
+                break
+            current += 1
+            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        els = self.get_elements(self.__class__.__locators["联系人名2"])
+        contacts_name = []
+        if els:
+            for el in els:
+                contacts_name.append(el.text)
+        else:
+            raise AssertionError("No m005_contacts, please add m005_contacts in address book.")
+        # if "和通讯录" in contacts_name:
+        #     contacts_name.remove("和通讯录")
+        # if "和飞信电话" in contacts_name:
+        #     contacts_name.remove("和飞信电话")
+        # if "本机" in contacts_name:
+        #     contacts_name.remove("本机")
         return contacts_name
 
     @TestLogger.log("获取所有团队名称")

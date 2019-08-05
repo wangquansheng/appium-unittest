@@ -1169,11 +1169,18 @@ class MsgContactSelector(TestCase):
         chat.send_message()
         chat.press_mess('hehe')
         chat.click_to_do('转发')
+        result = chat.is_text_present("选择联系人")
+        self.assertEqual(result, True)
         scp = SelectContactsPage()
         scp.wait_for_page_load()
         scp.click_back()
+        time.sleep(1)
         chat.click_back()
+        time.sleep(1)
         ContactDetailsPage().click_back()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
         ContactsPage().open_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'DEBUG')
@@ -1184,6 +1191,7 @@ class MsgContactSelector(TestCase):
         chat.input_message("hello")
         chat.send_message()
         chat.press_mess('hello')
+        time.sleep(1)
         chat.click_to_do('转发')
         # 1、在联系人选择器页面，点击选择一个群
         scp = SelectContactsPage()
@@ -1220,7 +1228,11 @@ class MsgContactSelector(TestCase):
         sogp.click_text("确定")
         chat.wait_for_page_load()
         chat.click_back()
+        time.sleep(1)
         ContactDetailsPage().click_back()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
         ContactsPage().open_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'DEBUG')
@@ -1265,7 +1277,11 @@ class MsgContactSelector(TestCase):
         slcp.click_text("确定")
         chat.wait_for_page_load()
         chat.click_back()
+        time.sleep(1)
         ContactDetailsPage().click_back()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
         ContactsPage().open_message_page()
 
 
@@ -1275,7 +1291,6 @@ class MsgPrivateChatDialog(TestCase):
     文件位置：113整理全量测试用例-黄彩最.xlsx
     表格：单聊
     """
-
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')
@@ -1317,8 +1332,8 @@ class MsgPrivateChatDialog(TestCase):
         chat.page_should_contains_element('翻页小圆点')
         chat.page_should_contains_element('删除表情按钮')
         # 表情‘键盘’
-        chat.page_should_contains_element('关闭表情')
-        chat.close_expression()
+        chat.is_exist_element('关闭表情')
+        chat.close_chat_expression()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'DEBUG')
     def test_msg_huangcaizui_A_0104(self):
@@ -1334,7 +1349,7 @@ class MsgPrivateChatDialog(TestCase):
         input_msg = chat.get_input_message()
         if input_msg not in emoji_texts:
             raise AssertionError("选择表情后，消息输入框中未出现选中的表情")
-        chat.close_expression()
+        chat.close_chat_expression()
         chat.input_message('')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'DEBUG')
@@ -1356,7 +1371,7 @@ class MsgPrivateChatDialog(TestCase):
         input_msg2 = chat.get_input_message()
         if input_msg2 in emoji_texts:
             raise AssertionError("删除选择表情后，消息输入框中的表情依然存在")
-        chat.close_expression()
+        chat.close_chat_expression()
         chat.input_message('')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'DEBUG')
@@ -1407,10 +1422,26 @@ class MsgPrivateChatDialog(TestCase):
         if '说点什么...' != txt:
             raise AssertionError("输入框文本不是 ‘说点什么...’")
 
+    @staticmethod
+    def setUp_test_msg_huangcaizui_A_0128():
+        Preconditions.make_already_in_message_page()
+        mes = MessagePage()
+        mes.click_add_icon()
+        mes.click_free_sms()
+        time.sleep(1)
+        contacts = ContactsPage()
+        names = contacts.get_contacts_name2()
+        contacts.select_people_by_name(names[0])
+        gcp = GroupChatPage()
+        gcp.click_back()
+        time.sleep(3)
+        Preconditions.enter_private_chat_page()
+
+
     @tags('ALL', 'SMOKE', 'CMCC', 'DEBUG')
     def test_msg_huangcaizui_A_0128(self):
         """进入发送页面"""
-        # 1、进入一对一天界面
+        # 1、进入一对一聊天界面
         chat = SingleChatPage()
         # 2、选择短信功能，进入短信发送模式
         try:
@@ -1418,7 +1449,6 @@ class MsgPrivateChatDialog(TestCase):
             chat.click_text("退出短信")
         except:
             pass
-        chat.click_sms()
         try:
             time.sleep(1)
             chat.page_should_contain_text("欢迎使用免费短信")
@@ -1427,8 +1457,8 @@ class MsgPrivateChatDialog(TestCase):
         except:
             pass
         chat.page_should_contain_text("发送短信")
-        chat.page_should_contain_text("退出短信")
-        chat.click_text("退出短信")
+        chat.page_should_contain_text("退出")
+        chat.click_text("退出")
 
     @staticmethod
     def setUp_test_msg_huangcaizui_A_0129():
@@ -1472,6 +1502,21 @@ class MsgPrivateChatDialog(TestCase):
         chat.page_should_contain_text("退出短信")
         chat.click_text("退出短信")
 
+    @staticmethod
+    def setUp_test_msg_huangcaizui_B_0074():
+        Preconditions.make_already_in_message_page()
+        mes = MessagePage()
+        mes.click_add_icon()
+        mes.click_free_sms()
+        time.sleep(1)
+        contacts = ContactsPage()
+        names = contacts.get_contacts_name2()
+        contacts.select_people_by_name(names[0])
+        gcp = GroupChatPage()
+        gcp.click_back()
+        time.sleep(3)
+        Preconditions.enter_private_chat_page()
+
     @tags('ALL', 'SMOKE', 'CMCC', 'DEBUG')
     def test_msg_huangcaizui_B_0074(self):
         """进入发送页面"""
@@ -1483,7 +1528,7 @@ class MsgPrivateChatDialog(TestCase):
             chat.click_text("退出短信")
         except:
             pass
-        chat.click_sms()
+        #chat.click_sms()
         try:
             time.sleep(1)
             chat.page_should_contain_text("欢迎使用免费短信")
@@ -1492,10 +1537,29 @@ class MsgPrivateChatDialog(TestCase):
         except:
             pass
         chat.page_should_contain_text("发送短信")
+        chat.input_sms_message("123")
+        time.sleep(1)
+        chat.input_sms_message("")
+        time.sleep(1)
         flag = chat.is_enabled_sms_send_btn()
         if flag:
             raise AssertionError('未输入信息时，短信发送按钮应该不可点击')
-        chat.click_text("退出短信")
+        chat.click_text("退出")
+
+    @staticmethod
+    def setUp_test_msg_huangcaizui_B_0075():
+        Preconditions.make_already_in_message_page()
+        mes = MessagePage()
+        mes.click_add_icon()
+        mes.click_free_sms()
+        time.sleep(1)
+        contacts = ContactsPage()
+        names = contacts.get_contacts_name2()
+        contacts.select_people_by_name(names[0])
+        gcp = GroupChatPage()
+        gcp.click_back()
+        time.sleep(3)
+        Preconditions.enter_private_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'DEBUG')
     def test_msg_huangcaizui_B_0075(self):
@@ -1508,7 +1572,7 @@ class MsgPrivateChatDialog(TestCase):
             chat.click_text("退出短信")
         except:
             pass
-        chat.click_sms()
+        #chat.click_sms()
         try:
             time.sleep(1)
             chat.page_should_contain_text("欢迎使用免费短信")
@@ -1525,10 +1589,27 @@ class MsgPrivateChatDialog(TestCase):
         # 返回消息列表则看见本条消息提示为[短信]
         chat.click_back()
         ContactDetailsPage().click_back()
+        chat.click_back_by_android()
+        time.sleep(1)
         mess = MessagePage()
         mess.open_message_page()
         mess.wait_for_page_load()
         mess.page_should_contain_text('[短信]')
+
+    @staticmethod
+    def setUp_test_msg_huangcaizui_B_0080():
+        Preconditions.make_already_in_message_page()
+        mes = MessagePage()
+        mes.click_add_icon()
+        mes.click_free_sms()
+        time.sleep(1)
+        contacts = ContactsPage()
+        names = contacts.get_contacts_name2()
+        contacts.select_people_by_name(names[0])
+        gcp = GroupChatPage()
+        gcp.click_back()
+        time.sleep(3)
+        Preconditions.enter_private_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'DEBUG')
     def test_msg_huangcaizui_B_0080(self):
@@ -1541,7 +1622,7 @@ class MsgPrivateChatDialog(TestCase):
             chat.click_text("退出短信")
         except:
             pass
-        chat.click_sms()
+        #chat.click_sms()
         try:
             time.sleep(1)
             chat.page_should_contain_text("欢迎使用免费短信")
@@ -1560,7 +1641,7 @@ class MsgPrivateChatDialog(TestCase):
             chat.click_text('发送', exact_match=True)
         if not chat.is_msg_send_fail():
             raise AssertionError('断网发送短信，无发送失败标志！')
-        chat.click_text("退出短信")
+        chat.click_text("退出")
 
     @staticmethod
     def tearDown_test_msg_huangcaizui_B_0080():
