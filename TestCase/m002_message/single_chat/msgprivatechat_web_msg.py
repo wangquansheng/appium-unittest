@@ -146,7 +146,7 @@ class MsgPrivateChatWebMsgTest(TestCase):
     global findExec
     findExec = 'findstr' if sys.platform == 'win32' else 'grep'
 
-    @classmethod
+    # @classmethod
     # def setUpClass(cls):
     #
     #     Preconditions.select_mobile('Android-移动')
@@ -229,9 +229,6 @@ class MsgPrivateChatWebMsgTest(TestCase):
             current_mobile().launch_app()
             Preconditions.make_already_in_message_page()
             Preconditions.enter_single_chat_page(name)
-
-    def default_tearDown(self):
-        pass
 
     @staticmethod
     def send_one_web_msg_rscp(msg):
@@ -375,9 +372,7 @@ class MsgPrivateChatWebMsgTest(TestCase):
 
     @tags('ALL', 'CMCC', 'WJH')
     def test_msg_hanjiabin_0222(self):
-        """
-        网页消息——打开链接后的通用浏览器——右上角更多——转发给朋友
-        """
+        """网页消息——打开链接后的通用浏览器——右上角更多——转发给朋友"""
         msg = 'http://www.baidu.com'
         cwp = self.send_one_web_msg_rcwp(msg)
         # 点击网页消息，打开网页

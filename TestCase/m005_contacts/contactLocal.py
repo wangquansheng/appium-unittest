@@ -142,12 +142,19 @@ class Preconditions(LoginPreconditions):
             contact_search.click_back()
         else:
             contact_search.click_back()
+            time.sleep(1)
+            # 联系人界面有修改，适配创建联系人
+            contacts_page.click_text("手机联系人")
             contacts_page.click_add()
             create_page = CreateContactPage()
             create_page.hide_keyboard_if_display()
             create_page.create_contact(name, number)
             detail_page.wait_for_page_load()
             detail_page.click_back_icon()
+            time.sleep(2)
+            # 返回到联系tab页面
+            detail_page.click_back_by_android()
+            time.sleep(1)
 
 @unittest.skip("本地调试不执行")
 class ContactLocal(TestCase):
