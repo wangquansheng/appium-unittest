@@ -2100,6 +2100,7 @@ class MsgPrivateChatMyComputer(TestCase):
         # 10.点击发送
         current_mobile().hide_keyboard_if_display()
         cpe.click_picture_send()
+        time.sleep(10)
         # 10.判断是否发送成功
         cwp.wait_for_msg_send_status_become_to("发送成功")
         time.sleep(2)
