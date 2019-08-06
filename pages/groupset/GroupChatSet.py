@@ -4,6 +4,7 @@ from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 import time
 
+
 class GroupChatSetPage(BasePage):
     """群聊设置页面"""
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.GroupSettingActivity'
@@ -53,7 +54,7 @@ class GroupChatSetPage(BasePage):
                   '清空聊天记录': (MobileBy.ID, 'com.chinasofti.rcs:id/left_empty_chat_tv'),
                   '删除并退出': (MobileBy.ID, 'com.chinasofti.rcs:id/delete_and_exit'),
                   "确认": (MobileBy.XPATH, '//*[@text ="确认"]'),
-                  "确定": (MobileBy.XPATH, '//*[@text ="确定"]'),
+                  # "确定": (MobileBy.XPATH, '//*[@text ="确定"]'),
                   "取消": (MobileBy.XPATH, '//*[@text ="取消"]'),
                   "退出": (MobileBy.XPATH, '//*[@text ="退出"]'),
                   "日志转聊天(开启后会将单聊消息发送给接收人)": (MobileBy.XPATH, '//*[@text ="日志转聊天(开启后会将单聊消息发送给接收人)"]'),
@@ -69,16 +70,16 @@ class GroupChatSetPage(BasePage):
                   '群管理返回': (MobileBy.ID, 'com.chinasofti.rcs:id/back'),
                   '群主管理权转让': (MobileBy.ID, 'com.chinasofti.rcs:id/group_transfer'),
                   '解散群': (MobileBy.ID, 'com.chinasofti.rcs:id/group_disband'),
-                  '添加桌面快捷方式': (MobileBy.XPATH,  '//*[@text ="添加桌面快捷方式"]'),
+                  '添加桌面快捷方式': (MobileBy.XPATH, '//*[@text ="添加桌面快捷方式"]'),
                   '我知道': (MobileBy.XPATH, '//*[@text ="我知道了"]'),
 
-                  "二维码重置":(MobileBy.ID,'com.chinasofti.rcs:id/group_qr_icon'),
+                  "二维码重置": (MobileBy.ID, 'com.chinasofti.rcs:id/group_qr_icon'),
 
                   # 邀请分享群口令
-                  '分享群口令框': (MobileBy.XPATH,  '//*[@text ="分享群口令邀请好友进群"]'),
+                  '分享群口令框': (MobileBy.XPATH, '//*[@text ="分享群口令邀请好友进群"]'),
                   '下次再说': (MobileBy.XPATH, '//*[@text ="下次再说"]'),
                   '立即分享': (MobileBy.XPATH, '//*[@text ="立即分享"]'),
-                  "再次邀请":(MobileBy.XPATH,'//*[@text="还有人未进群,再次邀请"]'),
+                  "再次邀请": (MobileBy.XPATH, '//*[@text="还有人未进群,再次邀请"]'),
                   '群名片': (MobileBy.ID, 'com.chinasofti.rcs:id/my_group_name'),
                   '群名称': (MobileBy.ID, 'com.chinasofti.rcs:id/group_name'),
                   "邀请微信或QQ好友进群": (MobileBy.ID, 'com.chinasofti.rcs:id/group_password_line'),
@@ -103,7 +104,7 @@ class GroupChatSetPage(BasePage):
 
     @TestLogger.log("获取控件数量")
     def get_element_count(self):
-        els=self.get_elements(self.__locators["再次邀请"])
+        els = self.get_elements(self.__locators["再次邀请"])
         return len(els)
 
     @TestLogger.log()
@@ -308,9 +309,8 @@ class GroupChatSetPage(BasePage):
         el = self.get_element(self.__locators['分享至当前群(开启后将发送至当前群)'])
         el.click()
         time.sleep(3)
-        print("---------- = "+str(el.get_attribute("checked")))
+        print("---------- = " + str(el.get_attribute("checked")))
         return el.get_attribute("checked")
-
 
     @TestLogger.log()
     def click_delete_and_exit(self):
@@ -339,6 +339,22 @@ class GroupChatSetPage(BasePage):
             )
         except:
             message = "页面在{}s内，没有加载成功".format(timeout)
+            raise AssertionError(
+                message
+            )
+        return self
+
+    @TestLogger.log()
+    def wait_for_text(self, text, timeout=10, auto_accept_alerts=True):
+        """等待文字"""
+        try:
+            self.wait_until(
+                timeout=timeout,
+                auto_accept_permission_alert=auto_accept_alerts,
+                condition=lambda d: self.is_text_present(text)
+            )
+        except:
+            message = "文字在{}s内，没有加载成功".format(timeout)
             raise AssertionError(
                 message
             )
@@ -495,8 +511,8 @@ class GroupChatSetPage(BasePage):
     @TestLogger.log()
     def click_qecode_share_button(self):
         """点击群二维码分享按钮"""
-        times=10
-        while times>0:
+        times = 10
+        while times > 0:
             time.sleep(1)
             if self.get_elements(self.__class__.__locators['二维码转发']):
                 self.click_element(self.__class__.__locators['二维码转发'])
@@ -504,8 +520,8 @@ class GroupChatSetPage(BasePage):
             else:
                 times -= 1
                 if self.get_elements(self.__class__.__locators['二维码重置']):
-                   self.click_element(self.__class__.__locators['二维码重置'])
-                   time.sleep(1)
+                    self.click_element(self.__class__.__locators['二维码重置'])
+                    time.sleep(1)
 
         return False
 
@@ -599,6 +615,7 @@ class GroupChatSetPage(BasePage):
     def click_element_(self, text):
         """点击元素"""
         self.click_element(self.__class__.__locators[text])
+
     @TestLogger.log()
     def click_say_next(self):
         """点击下次再说"""
@@ -776,3 +793,7 @@ class GroupChatSetPage(BasePage):
         """点击确定添加快捷方式"""
         time.sleep(1)
         self.click_element(self.__locators["快捷方式-确定添加"])
+
+    @TestLogger.log()
+    def get_element_c(self, locator):
+       return self.get_element(self.__locators[locator])

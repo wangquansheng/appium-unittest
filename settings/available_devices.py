@@ -810,12 +810,12 @@ DEVICES_CONFIG_DEBUG_YL = {
 DEVICES_CONFIG_WJH = {
     'M960BDQN229CH': {
         "MODEL": SupportedModel.HUAWEI_P20,
-        "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
+        "SERVER_URL": 'http://192.168.0.117:4723/wd/hub',
         "DEFAULT_CAPABILITY": {
             "platformName": "Android",
             "platformVersion": "8.1.0",
-            "deviceName": "LKX0218814000312",
-            "udid": "LKX0218814000312",
+            "deviceName": "8DF6R17216002254",
+            "udid": "8DF6R17216002254",
             "automationName": "UiAutomator2",
             "newCommandTimeout": 600,
             "appPackage": "com.chinasofti.rcs",
