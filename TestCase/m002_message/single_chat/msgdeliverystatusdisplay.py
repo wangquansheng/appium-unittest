@@ -73,40 +73,40 @@ class MsgDeliveryStatusDisplay(TestCase):
     文件位置：114整理全量测试用例-黄彩最.xlsx
     表格：单聊
     """
-    # @classmethod
-    # def setUpClass(cls):
-    #     # 创建联系人
-    #     fail_time = 0
-    #     import dataproviders
-    #     while fail_time < 3:
-    #         try:
-    #             required_contacts = dataproviders.get_preset_contacts()
-    #             conts = ContactsPage()
-    #             preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
-    #             current_mobile().hide_keyboard_if_display()
-    #             preconditions.make_already_in_message_page()
-    #             for name, number in required_contacts:
-    #                 conts.open_contacts_page()
-    #                 if conts.is_text_present("显示"):
-    #                     conts.click_text("不显示")
-    #                 conts.create_contacts_if_not_exits(name, number)
-    #
-    #             # 创建群
-    #             # required_group_chats = dataproviders.get_preset_group_chats()
-    #             #
-    #             # conts.open_group_chat_list()
-    #             # group_list = GroupListPage()
-    #             # for group_name, members in required_group_chats:
-    #             #     group_list.wait_for_page_load()
-    #             #     group_list.create_group_chats_if_not_exits(group_name, members)
-    #             # group_list.click_back()
-    #             # conts.open_message_page()
-    #             return
-    #         except:
-    #             fail_time += 1
-    #             import traceback
-    #             msg = traceback.format_exc()
-    #             print(msg)
+    @classmethod
+    def setUpClass(cls):
+        # 创建联系人
+        fail_time = 0
+        import dataproviders
+        while fail_time < 3:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+                current_mobile().hide_keyboard_if_display()
+                preconditions.make_already_in_message_page()
+                for name, number in required_contacts:
+                    conts.open_contacts_page()
+                    if conts.is_text_present("显示"):
+                        conts.click_text("不显示")
+                    conts.create_contacts_if_not_exits(name, number)
+
+                # 创建群
+                # required_group_chats = dataproviders.get_preset_group_chats()
+                #
+                # conts.open_group_chat_list()
+                # group_list = GroupListPage()
+                # for group_name, members in required_group_chats:
+                #     group_list.wait_for_page_load()
+                #     group_list.create_group_chats_if_not_exits(group_name, members)
+                # group_list.click_back()
+                # conts.open_message_page()
+                return
+            except:
+                fail_time += 1
+                import traceback
+                msg = traceback.format_exc()
+                print(msg)
 
     @classmethod
     def tearDownClass(cls):
