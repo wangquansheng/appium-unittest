@@ -1,18 +1,13 @@
-import unittest
 import time
+
+from selenium.common.exceptions import TimeoutException
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
-from pages.workbench.group_messenger.SelectCompanyContacts import SelectCompanyContactsPage
-from preconditions.BasePreconditions import LoginPreconditions
 from library.core.utils.testcasefilter import tags
 from pages import *
-from selenium.common.exceptions import TimeoutException
-
-import re
-import random
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
-
+from pages.workbench.group_messenger.SelectCompanyContacts import SelectCompanyContactsPage
+from preconditions.BasePreconditions import LoginPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -40,22 +35,22 @@ class Preconditions(LoginPreconditions):
         """确保我的电脑页面有文件记录"""
         chat=ChatWindowPage()
         time.sleep(2)
-        if chat.is_element_present_file():
-            chat.wait_for_page_load()
-        else:
-            chat.click_more()
-            ChatMorePage().click_file()
-            csf = ChatSelectFilePage()
-            csf.wait_for_page_load()
-            csf.click_local_file()
-            # 3、选择任意文件，点击发送按钮
-            local_file = ChatSelectLocalFilePage()
-            # 进入预置文件目录，选择文件发送
-            local_file.push_preset_file()
-            local_file.click_preset_file_dir()
-            local_file.select_file('.txt')
-            local_file.click_send()
-            chat.wait_for_page_load()
+        # if chat.is_element_present_file():
+        #     chat.wait_for_page_load()
+        # else:
+        chat.click_more()
+        ChatMorePage().click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        # 3、选择任意文件，点击发送按钮
+        local_file = ChatSelectLocalFilePage()
+        # 进入预置文件目录，选择文件发送
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        chat.wait_for_page_load()
 
     @staticmethod
     def get_group_chat_name():
@@ -64,14 +59,12 @@ class Preconditions(LoginPreconditions):
         group_name = "aatest" + phone_number[-4:]
         return group_name
 
-
 class MsgMyPCChating(TestCase):
     """
     文件位置：全量/115 和飞信测试用例(分)-消息(4294).xlsx
     表格：我的电脑-文件
     author: 余梦思
     """
-
     def default_setUp(self):
         """确保每个用例运行前在我的电脑会话页面"""
         Preconditions.select_mobile('Android-移动')
@@ -189,7 +182,6 @@ class MsgMyPCChating(TestCase):
             mep = MePage()
             mep.set_network_status(6)
 
-
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0306(self):
         """断网 我的电脑预览文件页面,点击收藏"""
@@ -204,7 +196,6 @@ class MsgMyPCChating(TestCase):
         chat.click_collection_Preview()
         self.assertTrue(chat.is_toast_exist('已收藏'))
         chat.click_back_in_open_file_page()
-
 
     @tags('ALL', 'CMCC', 'DEBUG_1', 'my_PC')
     def test_msg_weifenglian_PC_0307(self):
@@ -247,7 +238,7 @@ class MsgMyPCChating(TestCase):
         # 判断是否放大,一个表情文本框信息正常宽度为107
         if not chat.get_width_of_msg_of_text() > 107:
             raise AssertionError("表情没有放大展示")
-        chat.close_expression()
+        chat.close_expression2()
         chat.hide_keyboard()
 
     @tags('ALL', 'CMCC', 'my_PC')
@@ -264,9 +255,9 @@ class MsgMyPCChating(TestCase):
         local_file = ChatSelectLocalFilePage()
         local_file.select_file('.jpg')
         local_file.click_send()
-        chat.wait_for_msg_send_status_become_to('发送成功',10)
+        chat.wait_for_msg_send_status_become_to('发送成功', 10)
         #返回消息页面
-        chat.click_back()
+        chat.click_back_by_android()
         time.sleep(2)
         MessagePage().page_should_contain_text('图片')
 
@@ -284,9 +275,9 @@ class MsgMyPCChating(TestCase):
         local_file = ChatSelectLocalFilePage()
         local_file.select_file('.mp4')
         local_file.click_send()
-        chat.wait_for_msg_send_status_become_to('发送成功',10)
+        chat.wait_for_msg_send_status_become_to('发送成功', 10)
         #返回消息页面
-        chat.click_back()
+        chat.click_back_by_android()
         time.sleep(2)
         MessagePage().page_should_contain_text('视频')
 
@@ -304,9 +295,9 @@ class MsgMyPCChating(TestCase):
         local_file = ChatSelectLocalFilePage()
         local_file.select_file('.mp3')
         local_file.click_send()
-        chat.wait_for_msg_send_status_become_to('发送成功',10)
+        chat.wait_for_msg_send_status_become_to('发送成功', 10)
         #返回消息页面
-        chat.click_back()
+        chat.click_back_by_android()
         time.sleep(2)
         MessagePage().page_should_contain_text('文件')
 

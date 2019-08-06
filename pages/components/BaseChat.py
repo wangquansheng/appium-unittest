@@ -588,6 +588,11 @@ class BaseChatPage(BasePage):
         self.click_element(self.__class__.__locators["关闭表情"])
 
     @TestLogger.log()
+    def close_expression2(self):
+        """关闭表情"""
+        self.click_element(self.__class__.__locators["打开表情"])
+
+    @TestLogger.log()
     def select_expression(self, n=1):
         """选择表情"""
         els = self.get_elements(self.__class__.__locators['表情id'])
