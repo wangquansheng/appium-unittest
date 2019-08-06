@@ -12,6 +12,7 @@ class CallTypeSelectPage(BasePage):
         '普通电话': (MobileBy.XPATH, "//*[contains(@text, '普通电话')]"),
         '语音通话': (MobileBy.XPATH, "//*[contains(@text, '语音通话')]"),
         '和飞信电话': (MobileBy.XPATH, "//*[contains(@text, '和飞信电话')]"),
+        '飞信电话': (MobileBy.XPATH, "//*[contains(@text, '飞信电话')]"),
         '知道了': (MobileBy.XPATH, "//*[contains(@text, '知道了')]"),
         '允许': (MobileBy.XPATH, "//*[contains(@text, '允许')]"),
         '和飞信通话挂断': (MobileBy.ID, "com.chinasofti.rcs:id/ivDecline"),
@@ -64,6 +65,12 @@ class CallTypeSelectPage(BasePage):
     def click_call_by_app(self):
         """点击选择和飞信电话"""
         self.click_element(self.__locators["和飞信电话"])
+
+    TestLogger.log()
+
+    def click_call_by_app2(self):
+        """点击选择飞信电话"""
+        self.click_element(self.__locators["飞信电话"])
 
     @TestLogger.log()
     def click_call_by_app_631(self):
