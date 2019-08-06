@@ -684,6 +684,11 @@ class MessagePage(FooterPage):
         return self.is_text_present("网络连接异常，请检查你的无线网络设置")
 
     @TestLogger.log()
+    def is_exist_network_anomaly2(self):
+        """是否存在网络异常"""
+        return self.is_text_present("当前网络不可用，请检查网络设置")
+
+    @TestLogger.log()
     def is_exist_unread_messages(self):
         """是否存在未读消息"""
         els = self.get_elements(self.__class__.__locators["未读消息气泡"])
