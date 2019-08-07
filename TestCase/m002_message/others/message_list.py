@@ -1,16 +1,14 @@
+import time
 import unittest
-
 from selenium.common.exceptions import TimeoutException
-
+from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, current_driver
+from library.core.utils.testcasefilter import tags
+from pages import *
 from pages.components import BaseChatPage
 from pages.contacts import OfficialAccountPage, SearchOfficialAccountPage
 from preconditions.BasePreconditions import WorkbenchPreconditions
-from library.core.TestCase import TestCase
-from library.core.utils.testcasefilter import tags
-from pages import *
-import time
 
 
 class Preconditions(WorkbenchPreconditions):
@@ -103,6 +101,8 @@ class Preconditions(WorkbenchPreconditions):
         else:
             cls.click_back()
             ctp.wait_for_page_load()
+            ctp.click_text("手机联系人")
+            time.sleep(1)
             ctp.click_add()
             ccp = CreateContactPage()
             ccp.wait_for_page_load()
@@ -113,6 +113,9 @@ class Preconditions(WorkbenchPreconditions):
             cdp = ContactDetailsPage()
             cdp.wait_for_page_load()
             cdp.click_back_icon()
+            time.sleep(1)
+            cdp.click_back_by_android()
+            time.sleep(1)
         ctp.wait_for_page_load()
         mp.open_message_page()
         mp.wait_for_page_load()
@@ -392,7 +395,6 @@ class Preconditions(WorkbenchPreconditions):
             except AssertionError as e:
                 raise e
 
-
 class MessageListAllTest(TestCase):
     """
     模块：消息列表
@@ -482,7 +484,6 @@ class MessageListAllTest(TestCase):
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_B_0005(self):
         """消息列表载入"""
-
         mp = MessagePage()
         # 设置手机网络断开
         mp.set_network_status(0)
@@ -496,22 +497,21 @@ class MessageListAllTest(TestCase):
         self.assertEquals(mp.contacts_icon_is_enabled(), True)
         self.assertEquals(mp.me_icon_is_enabled(), True)
         self.assertEquals(mp.add_icon_is_enabled(), True)
+        time.sleep(3)
         # 2.搜索框下方提示当前网络不可用，请检查网络设置或稍后重试
-        self.assertEquals(mp.is_exist_network_anomaly(), True)
+        self.assertEquals(mp.is_exist_network_anomaly2(), True)
         # 3.底部消息图标是否高亮显示
         self.assertEquals(mp.message_icon_is_selected(), True)
 
     @staticmethod
     def tearDown_test_msg_xiaoliping_B_0005():
         """恢复网络"""
-
         mp = MessagePage()
         mp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_B_0006(self):
         """消息列表进入到会话页面"""
-
         mp = MessagePage()
         # 等待消息列表页加载
         mp.wait_for_page_load()
@@ -519,8 +519,7 @@ class MessageListAllTest(TestCase):
         name = "大佬1"
         Preconditions.enter_single_chat_page(name)
         scp = SingleChatPage()
-        text = "111"
-        scp.input_text_message(text)
+        scp.input_text_message("test_msg_xiaoliping_B_0006")
         time.sleep(2)
         scp.send_text()
         scp.click_back()
@@ -571,27 +570,24 @@ class MessageListAllTest(TestCase):
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_B_0017(self):
         """消息列表网络异常显示"""
-
         mp = MessagePage()
         # 设置手机网络断开
         mp.set_network_status(0)
         time.sleep(5)
         # 1.是否提示当前网络不可用，请检查网络设置或稍后重试
-        self.assertEquals(mp.is_exist_network_anomaly(), True)
+        self.assertEquals(mp.is_exist_network_anomaly2(), True)
         # 2.等待消息页面加载
         mp.wait_for_page_load()
 
     @staticmethod
     def tearDown_test_msg_xiaoliping_B_0017():
         """恢复网络"""
-
         mp = MessagePage()
         mp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_B_0019(self):
         """消息列表显示未发送成功"""
-
         mp = MessagePage()
         # 确保消息页面当前没有未发送成功消息标记
         if mp.is_iv_fail_status_present():
@@ -602,9 +598,8 @@ class MessageListAllTest(TestCase):
         # 设置手机网络断开
         mp.set_network_status(0)
         scp = SingleChatPage()
-        text = "222"
         # 1.输入文本信息
-        scp.input_text_message(text)
+        scp.input_text_message("test_msg_xiaoliping_B_0019")
         time.sleep(2)
         scp.send_text()
         # 2.是否显示消息发送失败标识
@@ -618,34 +613,31 @@ class MessageListAllTest(TestCase):
     @staticmethod
     def tearDown_test_msg_xiaoliping_B_0019():
         """恢复网络"""
-
         mp = MessagePage()
         mp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_B_0022(self):
         """消息列表网络异常显示"""
-
         mp = MessagePage()
         # 设置手机网络断开
         mp.set_network_status(0)
         time.sleep(5)
         # 1.是否提示当前网络不可用，请检查网络设置或稍后重试
-        self.assertEquals(mp.is_exist_network_anomaly(), True)
+        # 备注：当前网络不可用，请检查网络设置
+        self.assertEquals(mp.is_exist_network_anomaly2(), True)
         # 2.等待消息页面加载
         mp.wait_for_page_load()
 
     @staticmethod
     def tearDown_test_msg_xiaoliping_B_0022():
         """恢复网络"""
-
         mp = MessagePage()
         mp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_B_0023(self):
         """导航栏-点击导航条切换页签"""
-
         mp = MessagePage()
         # 1.等待消息页加载
         mp.wait_for_page_load()
@@ -715,7 +707,6 @@ class MessageListAllTest(TestCase):
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_B_0027(self):
         """消息列表界面消息列表页面元素检查"""
-
         mp = MessagePage()
         # 1.等待消息页加载
         mp.wait_for_page_load()
@@ -834,7 +825,6 @@ class MessageListAllTest(TestCase):
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_B_0035(self):
         """消息列表窗口长按删除（Android）"""
-
         mp = MessagePage()
         # 等待消息页加载
         mp.wait_for_page_load()
@@ -911,7 +901,6 @@ class MessageListAllTest(TestCase):
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_B_0048(self):
         """已开启免打扰的群聊，未收到新消息"""
-
         mp = MessagePage()
         # 等待消息页加载
         mp.wait_for_page_load()
@@ -950,7 +939,6 @@ class MessageListAllTest(TestCase):
     @staticmethod
     def tearDown_test_msg_xiaoliping_B_0048():
         """消息免打扰关闭"""
-
         mp = MessagePage()
         if not mp.is_on_this_page():
             current_mobile().launch_app()

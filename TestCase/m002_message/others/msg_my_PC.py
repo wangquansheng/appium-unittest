@@ -1,5 +1,4 @@
 import time
-
 from selenium.common.exceptions import TimeoutException
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
@@ -13,6 +12,7 @@ REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
     'Android-XX': ''  # 用来发短信
 }
+
 
 class Preconditions(LoginPreconditions):
     """前置条件"""
@@ -58,6 +58,28 @@ class Preconditions(LoginPreconditions):
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         group_name = "aatest" + phone_number[-4:]
         return group_name
+
+    @staticmethod
+    def make_already_in_message_page2(reset=False):
+        """确保应用在消息页面"""
+        Preconditions.select_mobile('Android-移动', reset)
+        current_mobile().hide_keyboard_if_display()
+        time.sleep(1)
+        # 如果在消息页，不做任何操作
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            return
+        # 进入一键登录页
+        else:
+            try:
+                current_mobile().launch_app()
+                mess.wait_for_page_load()
+            except:
+                # 进入一键登录页
+                Preconditions.make_already_in_one_key_login_page()
+                #  从一键登录页面登录
+                Preconditions.login_by_one_key_login()
+
 
 class MsgMyPCChating(TestCase):
     """
@@ -425,11 +447,35 @@ class MsgMyPcTest(TestCase):
         current_mobile().turn_on_wifi()
         current_mobile().turn_on_mobile_data()
 
+    @staticmethod
+    def setUp_test_msg_weifenglian_PC_0003():
+        Preconditions.make_already_in_message_page2()
+        msg_page = MessagePage()
+        msg_page.wait_for_page_load()
+        if msg_page.message_list_is_exist_name('我的电脑', max_try=3):
+            try:
+                msg_page.choose_chat_by_name('我的电脑')
+                time.sleep(3)
+            except:
+                msg_page.click_search()
+                SearchPage().input_search_keyword('我的电脑')
+                msg_page.choose_chat_by_name('我的电脑')
+                time.sleep(3)
+        else:
+            try:
+                msg_page.clear_message_record()
+            except Exception as e:
+                print(e)
+            msg_page.click_search()
+            SearchPage().input_search_keyword('我的电脑')
+            msg_page.choose_chat_by_name('我的电脑')
+            time.sleep(3)
+
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0003(self):
         """会话页面有文件发送失败时查看消息列表是否有消息发送失败的标识"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        mess = MessagePage()
+        mess.set_network_status(0)
         self.wait_for_MyPc_page_load()
         if GroupChatPage().is_exist_msg_send_failed_button():
             pass
@@ -437,12 +483,14 @@ class MsgMyPcTest(TestCase):
             self.public_make_sure_have_faild_massege()
         self.wait_for_MyPc_page_load()
         ChatWindowPage().click_back1()
-        self.assertTrue(MessagePage().is_iv_fail_status_present())
+        time.sleep(3)
+        result = mess.is_iv_fail_status_present()
+        self.assertTrue(result)
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0003():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        mess = MessagePage()
+        mess.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0004(self):
@@ -630,6 +678,30 @@ class MsgMyPcTest(TestCase):
         current_mobile().turn_on_wifi()
         current_mobile().turn_on_mobile_data()
 
+    @staticmethod
+    def setUp_test_msg_weifenglian_PC_0018():
+        Preconditions.make_already_in_message_page2()
+        msg_page = MessagePage()
+        msg_page.wait_for_page_load()
+        if msg_page.message_list_is_exist_name('我的电脑', max_try=3):
+            try:
+                msg_page.choose_chat_by_name('我的电脑')
+                time.sleep(3)
+            except:
+                msg_page.click_search()
+                SearchPage().input_search_keyword('我的电脑')
+                msg_page.choose_chat_by_name('我的电脑')
+                time.sleep(3)
+        else:
+            try:
+                msg_page.clear_message_record()
+            except Exception as e:
+                print(e)
+            msg_page.click_search()
+            SearchPage().input_search_keyword('我的电脑')
+            msg_page.choose_chat_by_name('我的电脑')
+            time.sleep(3)
+
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0018(self):
         """对发送失败的图片进行重发后，消息列表页面的消息发送失败的标识消失"""
@@ -637,11 +709,10 @@ class MsgMyPcTest(TestCase):
         if pc_chat_page.is_exist_msg_send_failed_button():
             pass
         else:
-            current_mobile().turn_off_wifi()
-            current_mobile().turn_off_mobile_data()
+            mess = MessagePage()
+            mess.set_network_status(0)
             self.public_select_pic_send('23e.jpg')
-            current_mobile().turn_on_wifi()
-            current_mobile().turn_on_mobile_data()
+            mess.set_network_status(6)
             self.wait_for_MyPc_page_load()
         pc_chat_page.click_msg_send_failed_button()
         pc_chat_page.click_resend_confirm()
@@ -653,8 +724,8 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0018():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        mess = MessagePage()
+        mess.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0019(self):
@@ -879,15 +950,41 @@ class MsgMyPcTest(TestCase):
     def tearDown_test_msg_weifenglian_PC_0035():
         current_mobile().turn_on_wifi()
 
+    @staticmethod
+    def setUp_test_msg_weifenglian_PC_0037():
+        Preconditions.make_already_in_message_page2()
+        msg_page = MessagePage()
+        msg_page.wait_for_page_load()
+        if msg_page.message_list_is_exist_name('我的电脑', max_try=3):
+            try:
+                msg_page.choose_chat_by_name('我的电脑')
+                time.sleep(3)
+            except:
+                msg_page.click_search()
+                SearchPage().input_search_keyword('我的电脑')
+                msg_page.choose_chat_by_name('我的电脑')
+                time.sleep(3)
+        else:
+            try:
+                msg_page.clear_message_record()
+            except Exception as e:
+                print(e)
+            msg_page.click_search()
+            SearchPage().input_search_keyword('我的电脑')
+            msg_page.choose_chat_by_name('我的电脑')
+            time.sleep(3)
+
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0037(self):
         """点击订购免流特权后可正常返回”"""
-        current_mobile().turn_off_wifi()
+        mess = MessagePage()
+        mess.set_network_status(0)
         self.public_select_video('2M_vedio.mp4')
         local_file = ChatSelectLocalFilePage()
         local_file.click_single_send()
         local_file.click_free_data_button()
-        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('和飞信'), timeout=15,
+        time.sleep(3)
+        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('网页无法打开'), timeout=15,
                                     auto_accept_permission_alert=False)
         self.assertTrue(bol)
         local_file.click_free_data_back()
@@ -898,7 +995,8 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0037():
-        current_mobile().turn_on_wifi()
+        mess = MessagePage()
+        mess.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0039(self):
@@ -1396,9 +1494,11 @@ class MsgMyPcTest(TestCase):
         phone_contacts.click_first_phone_contacts()
         phone_contacts.click_sure_forward()
         # 转发成功并回到聊天页面
-        self.assertTrue(GroupChatPage().is_exist_forward())
-        GroupChatPage().wait_for_page_load()
-        self.assertTrue(GroupChatPage().is_on_this_page())
+        gcp = GroupChatPage()
+        result = gcp.is_exist_forward()
+        self.assertTrue(result)
+        result = gcp.is_exist_setting_btn()
+        self.assertTrue(result)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_PC_0093(self):

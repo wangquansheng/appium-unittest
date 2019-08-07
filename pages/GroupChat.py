@@ -286,6 +286,11 @@ class GroupChatPage(BaseChatPage):
         self.click_element(self.__class__.__locators["设置"])
 
     @TestLogger.log()
+    def is_exist_setting_btn(self):
+        """是否存在 设置按钮"""
+        return self.is_element_exit_("设置")
+
+    @TestLogger.log()
     def wait_for_page_load(self, timeout=60, auto_accept_alerts=True):
         """等待群聊页面加载"""
         try:
