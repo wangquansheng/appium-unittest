@@ -6660,6 +6660,7 @@ class MsgCommonGroupTest(TestCase):
         if gcp.is_text_present("你撤回了一条信息"):
             raise AssertionError("成功撤回了信息")
 
+
 class MsgCommonGroupPriorityTest(TestCase):
     """
         模块：消息-普通群
@@ -7137,6 +7138,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         if not gcsp.is_toast_exist("修改成功"):
             raise AssertionError("群名称更改为新名称失败")
         gcsp.click_back()
+
 
 class MsgCommonGroupAllTest(TestCase):
     """
@@ -11766,41 +11768,6 @@ class MsgCommonGroupAllTest(TestCase):
         self.assertTrue(gcp.is_on_this_page())
         time.sleep(1)
 
-class MsgCommonGroupAllTest22(TestCase):
-    """
-            模块：消息-普通群
-
-            文件位置：1.1.3全量测试用例\113和飞信全量测试用例-肖秋.xlsx
-            表格：和飞信全量测试用例
-        """
-
-    @classmethod
-    def setUpClass(cls):
-        warnings.simplefilter('ignore', ResourceWarning)
-        # Preconditions.create_contacts_groups()
-
-    def default_setUp(self):
-        """确保每个用例运行前在群聊聊天会话页面"""
-        warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.select_mobile('Android-移动')
-        current_mobile().launch_app()
-        mess = MessagePage()
-        if mess.is_on_this_page():
-            Preconditions.enter_group_chat_page()
-            return
-        scp = GroupChatPage()
-        if scp.is_on_this_page():
-            current_mobile().hide_keyboard_if_display()
-            return
-        else:
-            current_mobile().launch_app()
-            # current_mobile().reset_app()
-            Preconditions.enter_group_chat_page()
-
-    def default_tearDown(self):
-        pass
-        # current_mobile().disconnect_mobile()
-
     @staticmethod
     def setUp_test_msg_xiaoqiu_0275():
         Preconditions.select_mobile('Android-移动')
@@ -11846,7 +11813,6 @@ class MsgCommonGroupAllTest22(TestCase):
         # 9.判断是否在群聊页面
         self.assertTrue(gcp.is_on_this_page())
         time.sleep(1)
-
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0276():
@@ -12011,8 +11977,6 @@ class MsgCommonGroupAllTest22(TestCase):
         # 5.判断展示提示：无搜索结果
         self.assertTrue(glp.is_text_present("无搜索结果"))
         time.sleep(1)
-
-class MsgCommonGroupAllTest(TestCase):
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0287():
