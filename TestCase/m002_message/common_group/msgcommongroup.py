@@ -634,6 +634,43 @@ class Preconditions(object):
         time.sleep(3)
         page.wait_for_text('该群已解散')
 
+    @staticmethod
+    def create_contacts_groups():
+        # 创建联系
+        fail_time = 0
+        import dataproviders
+        while fail_time < 3:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                Preconditions.select_mobile('Android-移动')
+                current_mobile().hide_keyboard_if_display()
+                Preconditions.make_already_in_message_page()
+                conts.open_contacts_page()
+                try:
+                    if conts.is_text_present("发现SIM卡联系人"):
+                        conts.click_text("显示")
+                except:
+                    pass
+                for name, number in required_contacts:
+                    conts.create_contacts_if_not_exits(name, number)
+                # 创建群
+                required_group_chats = dataproviders.get_preset_group_chats()
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name, members in required_group_chats:
+                    group_list.wait_for_page_load()
+                    group_list.create_group_chats_if_not_exits(group_name, members)
+                group_list.click_back()
+                conts.open_message_page()
+                return
+            except:
+                fail_time += 1
+                import traceback
+                msg = traceback.format_exc()
+                print(msg)
+
+
 class MsgCommonGroupTest(TestCase):
     """
         模块：消息-普通群
@@ -648,6 +685,7 @@ class MsgCommonGroupTest(TestCase):
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
         mess = MessagePage()
         if mess.is_on_this_page():
             Preconditions.enter_group_chat_page()
@@ -6637,6 +6675,7 @@ class MsgCommonGroupPriorityTest(TestCase):
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
         mess = MessagePage()
         if mess.is_on_this_page():
             Preconditions.enter_group_chat_page()
@@ -7110,44 +7149,13 @@ class MsgCommonGroupAllTest(TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
-        # 创建联系
-        # fail_time = 0
-        # import dataproviders
-        # while fail_time < 3:
-        #     try:
-        #         required_contacts = dataproviders.get_preset_contacts()
-        #         conts = ContactsPage()
-        #         Preconditions.select_mobile('Android-移动')
-        #         current_mobile().hide_keyboard_if_display()
-        #         Preconditions.make_already_in_message_page()
-        #         conts.open_contacts_page()
-        #         try:
-        #             if conts.is_text_present("发现SIM卡联系人"):
-        #                 conts.click_text("显示")
-        #         except:
-        #             pass
-        #         for name, number in required_contacts:
-        #             conts.create_contacts_if_not_exits(name, number)
-        #         # 创建群
-        #         required_group_chats = dataproviders.get_preset_group_chats()
-        #         conts.open_group_chat_list()
-        #         group_list = GroupListPage()
-        #         for group_name, members in required_group_chats:
-        #             group_list.wait_for_page_load()
-        #             group_list.create_group_chats_if_not_exits(group_name, members)
-        #         group_list.click_back()
-        #         conts.open_message_page()
-        #         return
-        #     except:
-        #         fail_time += 1
-        #         import traceback
-        #         msg = traceback.format_exc()
-        #         print(msg)
+        # Preconditions.create_contacts_groups()
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
         mess = MessagePage()
         if mess.is_on_this_page():
             Preconditions.enter_group_chat_page()
@@ -11758,6 +11766,41 @@ class MsgCommonGroupAllTest(TestCase):
         self.assertTrue(gcp.is_on_this_page())
         time.sleep(1)
 
+class MsgCommonGroupAllTest22(TestCase):
+    """
+            模块：消息-普通群
+
+            文件位置：1.1.3全量测试用例\113和飞信全量测试用例-肖秋.xlsx
+            表格：和飞信全量测试用例
+        """
+
+    @classmethod
+    def setUpClass(cls):
+        warnings.simplefilter('ignore', ResourceWarning)
+        # Preconditions.create_contacts_groups()
+
+    def default_setUp(self):
+        """确保每个用例运行前在群聊聊天会话页面"""
+        warnings.simplefilter('ignore', ResourceWarning)
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            Preconditions.enter_group_chat_page()
+            return
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            current_mobile().hide_keyboard_if_display()
+            return
+        else:
+            current_mobile().launch_app()
+            # current_mobile().reset_app()
+            Preconditions.enter_group_chat_page()
+
+    def default_tearDown(self):
+        pass
+        # current_mobile().disconnect_mobile()
+
     @staticmethod
     def setUp_test_msg_xiaoqiu_0275():
         Preconditions.select_mobile('Android-移动')
@@ -11803,6 +11846,7 @@ class MsgCommonGroupAllTest(TestCase):
         # 9.判断是否在群聊页面
         self.assertTrue(gcp.is_on_this_page())
         time.sleep(1)
+
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0276():
@@ -11908,6 +11952,7 @@ class MsgCommonGroupAllTest(TestCase):
     @staticmethod
     def setUp_test_msg_xiaoqiu_0280():
         Preconditions.select_mobile('Android-移动')
+        # Preconditions.create_contacts_groups()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'yx')
@@ -11966,6 +12011,8 @@ class MsgCommonGroupAllTest(TestCase):
         # 5.判断展示提示：无搜索结果
         self.assertTrue(glp.is_text_present("无搜索结果"))
         time.sleep(1)
+
+class MsgCommonGroupAllTest(TestCase):
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0287():
