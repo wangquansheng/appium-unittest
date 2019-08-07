@@ -677,6 +677,7 @@ class MsgGroupChatvedioTest(TestCase):
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
         mess = MessagePage()
         if mess.is_on_this_page():
             Preconditions.enter_group_chat_page()
@@ -5451,6 +5452,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         """
 
         Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
         mp = MessagePage()
         name = "群聊1"
         if mp.is_on_this_page():
