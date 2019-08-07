@@ -17,7 +17,7 @@ class BaseChatPage(BasePage):
                   '选择图片': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_pic'),
                   '选择相机': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_take_photo'),
                   '选择名片': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_profile'),
-                  '选择gif': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_gif'),
+                  '选择gif': (MobileBy.ID, 'com.chinasofti.rcs:id/rel_gif'),
                   '选择更多': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'),
                   'com.chinasofti.rcs:id/input_divider_inside': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/input_divider_inside'),
