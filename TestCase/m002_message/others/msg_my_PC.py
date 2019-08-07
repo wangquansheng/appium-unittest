@@ -1,5 +1,4 @@
 import time
-
 from selenium.common.exceptions import TimeoutException
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
@@ -13,6 +12,7 @@ REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
     'Android-XX': ''  # 用来发短信
 }
+
 
 class Preconditions(LoginPreconditions):
     """前置条件"""
@@ -79,6 +79,7 @@ class Preconditions(LoginPreconditions):
                 Preconditions.make_already_in_one_key_login_page()
                 #  从一键登录页面登录
                 Preconditions.login_by_one_key_login()
+
 
 class MsgMyPCChating(TestCase):
     """
