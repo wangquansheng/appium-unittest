@@ -142,6 +142,17 @@ class SelectLocalContactsPage(BasePage):
         return b
 
     @TestLogger.log()
+    def get_contacts_name2(self):
+        """获取联系人名"""
+        els = self.get_elements(self.__class__.__locators["联系人名"])
+        contacts_name = []
+        if els:
+            for el in els:
+                contacts_name.append(el.text)
+        # b = set(contacts_name)
+        return contacts_name
+
+    @TestLogger.log()
     def click_back(self):
         """点击返回"""
         self.click_element(self.__class__.__locators["返回"])
