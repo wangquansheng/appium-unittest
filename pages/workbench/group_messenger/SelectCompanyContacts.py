@@ -163,11 +163,29 @@ class SelectCompanyContactsPage(BasePage):
         for el in els:
             text = el.text
             if text:
+                print("text == " +text)
                 texts.append(text)
         for t in texts:
+            print("ttttttttttttttt == " + t)
             if name in t:
                 return True
         raise AssertionError('搜索结果"{}"没有找到包含关键字"{}"的文本'.format(texts, name))
+
+    @TestLogger.log()
+    def is_search_contacts_name_match2(self, name):
+        """搜索联系人名是否模糊匹配"""
+        els = self.get_elements(self.__class__.__locators["联系人名"])
+        texts = []
+        for el in els:
+            text = el.text
+            if text:
+                print("text == " + text)
+                texts.append(text)
+        for t in texts:
+            print("ttttttttttttttt == " + t)
+            if name in t:
+                return True
+        return False
 
     @TestLogger.log()
     def click_contacts_by_name(self, name):

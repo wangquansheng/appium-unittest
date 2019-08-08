@@ -1,13 +1,13 @@
-import unittest
+import random
+import re
 import time
+
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
-from preconditions.BasePreconditions import LoginPreconditions
 from library.core.utils.testcasefilter import tags
 from pages import *
-import re
-import random
+from preconditions.BasePreconditions import LoginPreconditions
 
 
 class Preconditions(LoginPreconditions):
@@ -1321,11 +1321,17 @@ class MsgLabelGroupingTest(TestCase):
         cppp = ChatPicPreviewPage()
         cppp.wait_for_page_load()
         cppp.click_edit()
+        # 备注 版本有修改
         flag = cppp.is_toast_exist("仅支持勾选单张图片时进行编辑")
-        if not flag:
+        if flag:
             raise AssertionError("勾选多张图片时编辑按钮没有隐藏,点击‘编辑’按钮无‘仅支持勾选单张图片时进行编辑’提示")
-        cppp.click_back()
-        cpg.click_back()
+        time.sleep(1)
+        cppp.click_back_by_android()
+        time.sleep(1)
+        cpg.click_back_by_android()
+        time.sleep(1)
+        cpg.click_back_by_android()
+        time.sleep(1)
         chat.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'label_grouping')
@@ -2090,7 +2096,6 @@ class MsgLabelGroupingTestAll(TestCase):
     表格：标签分组
     author: 方康
     """
-
     def default_setUp(self):
         """确保每个用例运行前在标签分组会话页面"""
         Preconditions.select_mobile('Android-移动')
@@ -2208,7 +2213,15 @@ class MsgLabelGroupingTestAll(TestCase):
         # 6.返回消息列表是否有重发的标示
         label_name = chat.get_label_name()
         chat.click_back()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
         mess = MessagePage()
+        mess.open_message_page()
         mess.wait_for_page_load()
         mess.click_text(label_name)
         cwp.wait_for_msg_send_status_become_to('发送失败', 10)

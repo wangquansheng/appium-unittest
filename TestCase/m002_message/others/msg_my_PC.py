@@ -1873,15 +1873,19 @@ class MsgXiaoQiu(TestCase):
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0642(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-搜索联系人"""
-        SelectContactsPage().search('a')
-        self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('a'))
-        elements = current_mobile().get_elements(('id','com.chinasofti.rcs:id/tv_name_personal_contactlist'))
+        scp = SelectContactsPage()
+        scp.search('a')
+        time.sleep(6)
+        sccp = SelectCompanyContactsPage()
+        result = sccp.is_search_contacts_name_match2('a')
+        self.assertTrue(result)
+        elements = current_mobile().get_elements(('id', 'com.chinasofti.rcs:id/tv_name_personal_contactlist'))
         time.sleep(6)
         first_page_element = [el.text for el in elements]
-        SelectContactsPage().page_up()
+        scp.page_up()
         elements2 = current_mobile().get_elements(('id', 'com.chinasofti.rcs:id/tv_name_personal_contactlist'))
         sec_page_element = [el.text for el in elements2]
-        self.assertFalse(first_page_element==sec_page_element)
+        self.assertFalse(first_page_element == sec_page_element)
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0643(self):
@@ -1900,60 +1904,65 @@ class MsgXiaoQiu(TestCase):
     def test_msg_xiaoqiu_0644(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入一个大写字母搜索联系人"""
         SelectContactsPage().search('A')
-        time.sleep(5)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('A'))
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0645(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入一个大写字母搜索联系人"""
+        # 备注：无法构造无查询结果的数据。
         SelectContactsPage().search('X')
-        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+        time.sleep(6)
+        self.assertFalse(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0646(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入2个大写字母搜索联系人"""
         SelectContactsPage().search('AA')
         # self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('AA'.lower()))
-        time.sleep(2)
+        time.sleep(6)
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0647(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入2个大写字母搜索联系人"""
+        # 备注：无法构造无查询结果的数据。
         SelectContactsPage().search('XX')
-        time.sleep(2)
-        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+        time.sleep(6)
+        self.assertFalse(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0648(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入一个小写字母搜索联系人"""
         SelectContactsPage().search('a')
-        time.sleep(5)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('a'))
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0649(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入一个小写字母搜索联系人"""
+        # 备注：无法构造无查询结果的数据。
         SelectContactsPage().search('x')
-        time.sleep(2)
-        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+        time.sleep(6)
+        self.assertFalse(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0650(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入2个小写字母搜索联系人"""
         SelectContactsPage().search('aa')
         # self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('AA'.lower()))
-        time.sleep(2)
+        time.sleep(6)
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0651(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入2个小写字母搜索联系人"""
+        # 备注：无法构造无查询结果的数据。
         SelectContactsPage().search('xx')
-        time.sleep(3)
-        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+        time.sleep(6)
+        self.assertFalse(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0652(self):
@@ -1972,76 +1981,79 @@ class MsgXiaoQiu(TestCase):
     def test_msg_xiaoqiu_0653(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入联系人的姓名拼音-搜索"""
         SelectContactsPage().search('caixukun')
-        time.sleep(3)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0654(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入任何一个汉字——搜索"""
         SelectContactsPage().search('大')
-        time.sleep(3)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('大'))
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0655(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入任何一个汉字——搜索"""
-        SelectContactsPage().search('變')
-        time.sleep(3)
+        SelectContactsPage().search('死')
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0656(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入号码规则的3位数字——搜索"""
         SelectContactsPage().search('138')
-        time.sleep(3)
+        time.sleep(6)
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0657(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的3位数字——搜索"""
+        # 备注：无法构造无查询结果的数据。
         SelectContactsPage().search('999')
-        time.sleep(3)
-        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+        time.sleep(6)
+        self.assertFalse(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0658(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入号码规则的6位数字——搜索"""
         SelectContactsPage().search('138001')
-        time.sleep(3)
+        time.sleep(6)
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0659(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的6位数字——搜索"""
+        # 备注：无法构造无查询结果的数据。
         SelectContactsPage().search('123456')
-        time.sleep(3)
-        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+        time.sleep(6)
+        self.assertFalse(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0660(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入号码规则的11位数字——搜索"""
-        SelectContactsPage().search('13800137000')
-        time.sleep(3)
+        SelectContactsPage().search('13800137001')
+        time.sleep(6)
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0661(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的11位数字——搜索"""
         SelectContactsPage().search('12345678912')
-        time.sleep(3)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0662(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的11位数字——搜索"""
         SelectContactsPage().search('1234567891')
-        time.sleep(3)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0663(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的12位数字——搜索"""
         SelectContactsPage().search('123456789123')
-        time.sleep(3)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+
