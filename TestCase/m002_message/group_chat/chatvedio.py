@@ -5474,8 +5474,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
-        # Preconditions.create_contacts_groups()
-        # Preconditions.push_resources()
+        Preconditions.create_contacts_groups()
+        Preconditions.push_resources()
 
     def default_setUp(self):
         """
