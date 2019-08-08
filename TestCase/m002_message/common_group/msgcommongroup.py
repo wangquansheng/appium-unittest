@@ -11396,6 +11396,20 @@ class MsgCommonGroupAllTest(TestCase):
         self.assertTrue(gcp.is_on_this_page())
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0260():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0262():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
@@ -11433,6 +11447,20 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.wait_for_page_load()
         # 8.判断是否在群聊页面
         self.assertTrue(gcp.is_on_this_page())
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0262():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0263():
@@ -11477,6 +11505,20 @@ class MsgCommonGroupAllTest(TestCase):
         self.assertTrue(gcp.is_on_this_page())
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0263():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0264():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
@@ -11519,6 +11561,20 @@ class MsgCommonGroupAllTest(TestCase):
         self.assertTrue(gcp.is_on_this_page())
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0264():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0265():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
@@ -11558,6 +11614,20 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.wait_for_page_load()
         # 10.判断是否在群聊页面
         self.assertTrue(gcp.is_on_this_page())
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0265():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0266():
@@ -11609,6 +11679,20 @@ class MsgCommonGroupAllTest(TestCase):
         # 11.判断消息列表是否自动创建了一个群聊会话窗
         self.assertTrue(mess.is_exists_group_by_name("测试6"))
         time.sleep(2)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0266():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0268():
@@ -11715,6 +11799,20 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(1)
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0272():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0273():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
@@ -11769,6 +11867,20 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(1)
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0273():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0275():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
@@ -11813,6 +11925,20 @@ class MsgCommonGroupAllTest(TestCase):
         # 9.判断是否在群聊页面
         self.assertTrue(gcp.is_on_this_page())
         time.sleep(1)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0275():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0276():
@@ -11866,6 +11992,20 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(1)
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0276():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0277():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
@@ -11914,6 +12054,20 @@ class MsgCommonGroupAllTest(TestCase):
         # 10.判断是否在群聊页面
         self.assertTrue(gcp.is_on_this_page())
         time.sleep(1)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0277():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0280():
@@ -11974,6 +12128,7 @@ class MsgCommonGroupAllTest(TestCase):
         glp.click_search_input()
         # 4.输入中文群名
         glp.input_group_name("群聊是你的开始")
+        time.sleep(2)
         # 5.判断展示提示：无搜索结果
         self.assertTrue(glp.is_text_present("无搜索结果"))
         time.sleep(1)
@@ -12005,6 +12160,7 @@ class MsgCommonGroupAllTest(TestCase):
         glp.click_search_input()
         # 4.输入数字群名
         glp.input_group_name("1122333456780")
+        time.sleep(2)
         # 5.判断展示提示：无搜索结果
         self.assertTrue(glp.is_text_present("无搜索结果"))
         time.sleep(1)
@@ -12196,6 +12352,7 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.input_message("测试")
         gcp.send_message()
         # 5.判断是否存在消息免打扰图标
+        time.sleep(1)
         self.assertTrue(gcp.is_exist_undisturb())
         time.sleep(2)
 
@@ -12747,6 +12904,20 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(2)
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0380():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0387():
         """创建群添加团队人，确保有成员可删除"""
         Preconditions.select_mobile('Android-移动')
@@ -12944,23 +13115,24 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.click_setting()
         gcsp = GroupChatSetPage()
         gcsp.wait_for_page_load()
-        # 2.点击删除并退出
-        gcsp.click_delete_and_exit2()
-        gcsp.click_sure()
-        gcsp.click_first_group_member_avatar()
-        gcsp.click_sure()
+        # # 2.点击删除并退出
+        # gcsp.click_delete_and_exit2()
+        # gcsp.click_sure()
+        # gcsp.click_first_group_member_avatar()
+        # gcsp.click_sure()
+        gcsp.click_dismiss()
+        time.sleep(1)
         # 3.返回消息页面
-        scp = SelectContactsPage()
-        scp.click_back()
-        glp = GroupListPage()
-        glp.click_back()
+        gcsp.click_back_by_android()
+        time.sleep(1)
+        gcsp.click_back_by_android()
         contact = ContactsPage()
         contact.click_message_icon()
         mess = MessagePage()
         mess.wait_for_message_list_load()
         # 4.点击系统消息，验证是否提示‘你已退出群’
         mess.click_text("系统消息")
-        self.assertTrue(mess.page_should_contain_text("你已退出群"))
+        self.assertTrue(mess.page_should_contain_text("该群已解散"))
         time.sleep(2)
 
     @staticmethod
@@ -13026,6 +13198,15 @@ class MsgCommonGroupAllTest(TestCase):
         # 6.验证是否提示'已成为新群主'
         self.assertTrue(gcp.is_text_present("已成为新群主"))
         time.sleep(2)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0392():
+        """删除并退出群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_delete_and_exit()
+        time.sleep(1)
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0407():

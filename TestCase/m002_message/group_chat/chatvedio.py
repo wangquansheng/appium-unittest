@@ -219,7 +219,7 @@ class Preconditions(WorkbenchPreconditions):
     @staticmethod
     def get_into_group_chat_page(name):
         """进入群聊聊天会话页面"""
-
+        current_mobile().launch_app()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 点击 +
@@ -659,23 +659,9 @@ class Preconditions(WorkbenchPreconditions):
 
     @staticmethod
     def push_resources():
-        # 确保测试手机有resource文件夹
-        name = "群聊1"
-        Preconditions.get_into_group_chat_page(name)
-        gcp = GroupChatPage()
-        gcp.wait_for_page_load()
-        cmp = ChatMorePage()
-        cmp.click_file()
-        csfp = ChatSelectFilePage()
-        csfp.wait_for_page_load()
-        csfp.click_local_file()
         local_file = ChatSelectLocalFilePage()
-        # 没有预置文件，则上传
-        local_file.push_preset_file()
-        local_file.click_back()
-        csfp.wait_for_page_load()
-        csfp.click_back()
-        gcp.wait_for_page_load()
+        # 上传预置文件
+        local_file.push_resource_file()
 
 
 class MsgGroupChatvedioTest(TestCase):
@@ -694,6 +680,7 @@ class MsgGroupChatvedioTest(TestCase):
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
         # 创建联系
+        Preconditions.select_mobile('Android-移动')
         Preconditions.create_contacts_groups()
         Preconditions.push_resources()
 
@@ -1787,6 +1774,8 @@ class MsgGroupChatvedioTest(TestCase):
         gcs.click_back()
         gcp.wait_for_page_load()
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # gcp.click_element([MobileBy.XPATH, "//*[contains(@resource-id,'back')]"], 15)
@@ -1935,6 +1924,8 @@ class MsgGroupChatvedioTest(TestCase):
         gcs.click_back()
         gcp.wait_for_page_load()
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # sog = SelectOneGroupPage()
@@ -2237,6 +2228,8 @@ class MsgGroupChatvedioTest(TestCase):
         gsp.click_group_manage()
         gsp.click_group_manage_disband_button()
         gsp.click_sure()
+        time.sleep(1)
+        gcp.click_back_by_android()
         # 3.返回群聊主页
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -2254,14 +2247,15 @@ class MsgGroupChatvedioTest(TestCase):
         gsp = GroupChatSetPage()
         gsp.wait_for_page_load()
         # 2.点击删除并退出
-        gsp.click_delete_and_exit()
-        # gsp.click_sure()
+        gsp.click_dismiss()
+        time.sleep(1)
+        gcp.click_back_by_android()        # gsp.click_sure()
         # 3.返回消息页，提示你已退出群
         mess = MessagePage()
         mess.wait_for_page_load()
         mess.click_text("系统消息")
         time.sleep(3)
-        mess.page_should_contain_text("你已退出群")
+        mess.page_should_contain_text("该群已解散", timeout=30)
 
     @tags('ALL', 'CMCC', 'message114', 'debug_fk1', 'high')
     def test_msg_xiaoqiu_0421(self):
@@ -2279,6 +2273,8 @@ class MsgGroupChatvedioTest(TestCase):
         group_name = "和飞信电话"
         slc.swipe_select_one_member_by_name(group_name)
         slc.click_sure()
+        time.sleep(1)
+        gcp.click_back_by_android()
         # 3.返回消息页，提示你已退出群
         gcp.wait_for_page_load()
         gcp.page_should_contain_text("你向 " + group_name + "... 发出群邀请")
@@ -2294,7 +2290,9 @@ class MsgGroupChatvedioTest(TestCase):
         gcp.click_setting()
         gcs = GroupChatSetPage()
         gcs.wait_for_page_load()
-        gcs.click_delete_and_exit()
+        gcs.click_dismiss()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mess = MessagePage()
         mess.wait_for_page_load()
         mess.click_add_icon()
@@ -2328,7 +2326,11 @@ class MsgGroupChatvedioTest(TestCase):
         if group_name in group_names:
             return
         sog.click_back()
+        time.sleep(1)
+        sog.click_back_by_android()
+        time.sleep(1)
         mess.click_add_icon()
+        time.sleep(1)
         mess.click_group_chat()
         # 从本地联系人中选择成员创建群
         sc.click_local_contacts()
@@ -2358,7 +2360,7 @@ class MsgGroupChatvedioTest(TestCase):
         cgnp.click_sure()
         # 等待群聊页面加载
         gcp.wait_for_page_load()
-        gcp.page_should_contain_text("发出群邀请")
+        gcp.page_should_contain_text("你向")
 
     @tags('ALL', 'CMCC', 'message114', 'debug_fk1', 'high')
     def test_msg_xiaoqiu_0534(self):
@@ -2371,7 +2373,9 @@ class MsgGroupChatvedioTest(TestCase):
         gcp.click_setting()
         gcs = GroupChatSetPage()
         gcs.wait_for_page_load()
-        gcs.click_delete_and_exit()
+        gcs.click_dismiss()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mess = MessagePage()
         mess.wait_for_page_load()
         mess.click_add_icon()
@@ -2405,6 +2409,9 @@ class MsgGroupChatvedioTest(TestCase):
         if group_name in group_names:
             return
         sog.click_back()
+        time.sleep(1)
+        sog.click_back_by_android()
+        time.sleep(1)
         mess.click_add_icon()
         mess.click_group_chat()
         # 从本地联系人中选择成员创建群
@@ -2435,7 +2442,7 @@ class MsgGroupChatvedioTest(TestCase):
         cgnp.click_sure()
         # 等待群聊页面加载
         gcp.wait_for_page_load()
-        gcp.page_should_contain_text("发出群邀请")
+        gcp.page_should_contain_text("你向")
 
     @unittest.skip("用例不稳定，跳过")
     def test_msg_xiaoqiu_0535(self):

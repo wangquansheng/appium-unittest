@@ -323,6 +323,16 @@ class GroupChatSetPage(BasePage):
         time.sleep(3)
 
     @TestLogger.log()
+    def click_dismiss(self):
+        """解散群"""
+        self.click_group_manage()
+        time.sleep(2)
+        self.click_group_manage_disband_button()
+        time.sleep(2)
+        self.click_sure()
+        time.sleep(3)
+
+    @TestLogger.log()
     def click_delete_and_exit2(self):
         """点击删除并退出"""
         self._find_menu(self.__locators['删除并退出'])

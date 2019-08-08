@@ -158,6 +158,7 @@ class BaseChatPage(BasePage):
         """转发文件"""
         el = self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file))
         self.press(el)
+        time.sleep(3)
         self.click_element(self.__class__.__locators['转发'])
 
     @TestLogger.log()

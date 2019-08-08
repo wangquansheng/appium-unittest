@@ -829,6 +829,28 @@ DEVICES_CONFIG_WJH = {
         ]
     },
 }
+DEVICES_CONFIG_WJH2 = {
+    'M960BDQN229CH': {
+            "MODEL": SupportedModel.HUAWEI_P20,
+            "SERVER_URL": 'http://192.168.0.117:4725/wd/hub',
+            "DEFAULT_CAPABILITY": {
+                "platformName": "Android",
+                "platformVersion": "8.1.0",
+                "deviceName": "LMXNW18331006030",
+                "udid": "LMXNW18331006030",
+                "automationName": "UiAutomator2",
+                "newCommandTimeout": 600,
+                "appPackage": "com.chinasofti.rcs",
+                "appActivity": "com.cmic.module_main.ui.activity.WelcomeActivity",
+            },
+            'CARDS': [
+                {
+                    'TYPE': CardType.CHINA_MOBILE,
+                    'CARD_NUMBER': '14775451723'
+                },
+            ]
+    },
+}
 
 
 def getConf(conf):
