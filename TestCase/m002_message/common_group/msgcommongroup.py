@@ -7151,7 +7151,7 @@ class MsgCommonGroupAllTest(TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.create_contacts_groups()
+        # Preconditions.create_contacts_groups()
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
@@ -12128,6 +12128,7 @@ class MsgCommonGroupAllTest(TestCase):
         glp.click_search_input()
         # 4.输入中文群名
         glp.input_group_name("群聊是你的开始")
+        time.sleep(2)
         # 5.判断展示提示：无搜索结果
         self.assertTrue(glp.is_text_present("无搜索结果"))
         time.sleep(1)
@@ -12159,6 +12160,7 @@ class MsgCommonGroupAllTest(TestCase):
         glp.click_search_input()
         # 4.输入数字群名
         glp.input_group_name("1122333456780")
+        time.sleep(2)
         # 5.判断展示提示：无搜索结果
         self.assertTrue(glp.is_text_present("无搜索结果"))
         time.sleep(1)
@@ -12350,6 +12352,7 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.input_message("测试")
         gcp.send_message()
         # 5.判断是否存在消息免打扰图标
+        time.sleep(1)
         self.assertTrue(gcp.is_exist_undisturb())
         time.sleep(2)
 
@@ -13112,23 +13115,24 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.click_setting()
         gcsp = GroupChatSetPage()
         gcsp.wait_for_page_load()
-        # 2.点击删除并退出
-        gcsp.click_delete_and_exit2()
-        gcsp.click_sure()
-        gcsp.click_first_group_member_avatar()
-        gcsp.click_sure()
+        # # 2.点击删除并退出
+        # gcsp.click_delete_and_exit2()
+        # gcsp.click_sure()
+        # gcsp.click_first_group_member_avatar()
+        # gcsp.click_sure()
+        gcsp.click_dismiss()
+        time.sleep(1)
         # 3.返回消息页面
-        scp = SelectContactsPage()
-        scp.click_back()
-        glp = GroupListPage()
-        glp.click_back()
+        gcsp.click_back_by_android()
+        time.sleep(1)
+        gcsp.click_back_by_android()
         contact = ContactsPage()
         contact.click_message_icon()
         mess = MessagePage()
         mess.wait_for_message_list_load()
         # 4.点击系统消息，验证是否提示‘你已退出群’
         mess.click_text("系统消息")
-        self.assertTrue(mess.page_should_contain_text("你已退出群"))
+        self.assertTrue(mess.page_should_contain_text("该群已解散"))
         time.sleep(2)
 
     @staticmethod
