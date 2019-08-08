@@ -275,6 +275,8 @@ class Preconditions(WorkbenchPreconditions):
             scg.click_back()
             gcp.wait_for_page_load()
             gcp.click_back()
+            time.sleep(1)
+            gcp.click_back_by_android()
             mp.wait_for_page_load()
             mp.open_workbench_page()
             wbp = WorkbenchPage()
@@ -5473,7 +5475,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
         # Preconditions.create_contacts_groups()
-        Preconditions.push_resources()
+        # Preconditions.push_resources()
 
     def default_setUp(self):
         """
@@ -5587,9 +5589,11 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 确定转发
         scg.click_sure_forward()
         # 4.是否提示已转发,等待群聊页面加载
-        self.assertEquals(gcp.is_exist_forward(), True)
+        self.assertEqual(gcp.is_exist_forward(), True)
         gcp.wait_for_page_load()
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -5663,6 +5667,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -5717,6 +5723,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -5791,6 +5799,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -5845,6 +5855,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -5920,6 +5932,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -5973,6 +5987,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -6042,6 +6058,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -6092,6 +6110,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -6164,6 +6184,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -6213,6 +6235,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -6287,6 +6311,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -6341,6 +6367,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -6416,6 +6444,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -6470,6 +6500,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -6546,6 +6578,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         message = MessagePage()
         # 等待消息页面加载
         message.wait_for_page_load()
@@ -6600,6 +6634,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
