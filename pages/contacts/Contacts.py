@@ -525,7 +525,8 @@ class ContactsPage(FooterPage):
             create_page.create_contact(name, number)
             detail_page.wait_for_page_load()
             detail_page.click_back_icon()
-            current_mobile().back()
+            # current_mobile().back()
+            self.click_back()
 
 
 

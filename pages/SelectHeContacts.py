@@ -7,7 +7,7 @@ from library.core.TestLogger import TestLogger
 class SelectHeContactsPage(BasePage):
     """选择和通讯录页面"""
     """选择和通讯录联系人页面"""
-    ACTIVITY = 'com.cmicc.module_enterprise.ui.activity.EnterPriseContactSelectActivity'
+    ACTIVITY = 'com.cmicc.module_contact.enterprise.ui.activity.EnterPriseContactSelectActivity'
 
     __locators = {
                   '联系人名': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
@@ -35,6 +35,10 @@ class SelectHeContactsPage(BasePage):
                   'myteam02': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
                   '团队名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title'),
                   '清空搜索框': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_delect'),
+                  '无搜索结果': (MobileBy.ID, 'com.chinasofti.rcs:id/no_contact_text'),
+                  '用户名ID': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
+                  '团队联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/text_hint'),
+                  '联系人名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
 
                   }
 
@@ -135,3 +139,75 @@ class SelectHeContactsPage(BasePage):
     def is_element_present(self,locator='清空搜索框'):
         """判断元素是否存在"""
         return self._is_element_present(self.__class__.__locators[locator])
+
+    @TestLogger.log('判断选择联系人的控件文本内容是否为选择联系人')
+    def confirm_text_in_select_contacts(self):
+        """判断选择联系人的控件文本内容是否为选择联系人"""
+        els = self.get_element(self.__class__.__locators['选择联系人'])
+        print(els.text)
+        if els.text != "选择联系人":
+            return False
+        return True
+
+    @TestLogger.log('判断搜索框的控件文本内容是否为搜索或输入手机号')
+    def confirm_text_in_select_box(self):
+        """判断搜索框的控件文本内容是否为搜索或输入手机号"""
+        els = self.get_element(self.__class__.__locators['搜索或输入手机号'])
+        print("文本内容为：%s" % els.text)
+        if els.text != "搜索或输入手机号":
+            return False
+        return True
+
+    @TestLogger.log('判断键盘是否显示')
+    def confrim_is_keyboard_shown(self):
+        """判断键盘是否显示"""
+        return self.is_keyboard_shown()
+
+    @TestLogger.log("查看是否存在无搜索结果控件,切其文本内容为无搜索结果")
+    def no_result_is_element_present(self):
+        """查看是否存在无搜索结果控件,切其文本内容为无搜索结果"""
+        els = self.get_element(self.__class__.__locators['无搜索结果'])
+        print("文本内容为：%s"% els.text)
+        if els.text != "无搜索结果":
+            return False
+        return True
+
+    @TestLogger.log("页面向下滑动N次")
+    def scroll_to_bottom_on_times(self, times=5):
+        """页面向下滑动N次"""
+        current = 0
+        while current < times:
+            current += 1
+            self.page_down()
+
+    @TestLogger.log("查看是否存在多少个搜索结果")
+    def confirm_exist_result(self):
+        """查看是否存在搜索结果,若存在则返回搜索到的个数"""
+        els = self.get_elements(self.__class__.__locators['用户名ID'])
+        print("本页面搜索到的联系人数量%d " % (len(els)))
+        if len(els) > 0:
+            return len(els)
+        return len(els)
+
+    @TestLogger.log("在键盘上部向右滑动")
+    def swipe_right_on_the_keyboard(self):
+        self.swipe_by_percent_on_screen(30, 30, 70, 30, 800)
+
+    @TestLogger.log("在键盘上部向右滑动")
+    def swipe_up_on_the_keyboard(self):
+        self.swipe_by_percent_on_screen(50, 40, 50, 10, 800)
+
+    @TestLogger.log("判断是否存在搜索到的联系人")
+    def is_seach_exist_contacts(self):
+        """判断是否存在搜索到的联系人"""
+        if self._is_element_present(self.__class__.__locators["团队联系人"]):
+            return True
+        return False
+
+    @TestLogger.log("判断搜索结果是否为空")
+    def search_result_is_empty(self):
+        """判断搜索结果是否为空"""
+        els = self.get_elements(self.__class__.__locators["联系人名称"])
+        if len(els) < 1:
+            return False
+        return True
