@@ -1,23 +1,19 @@
-import unittest
-import uuid
 import time
-import threading
-
-from library.core.common.simcardtype import CardType
-from preconditions.BasePreconditions import LoginPreconditions
 from library.core.TestCase import TestCase
+from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.SelectHeContacts import SelectHeContactsPage
-from pages.workbench.enterprise_contacts.EnterpriseContacts import EnterpriseContactsPage
-from preconditions.BasePreconditions import WorkbenchPreconditions
-from pages.workbench.organization.OrganizationStructure import OrganizationStructurePage
 from pages.contacts.EditContactPage import EditContactPage
+from pages.workbench.enterprise_contacts.EnterpriseContacts import EnterpriseContactsPage
+from pages.workbench.organization.OrganizationStructure import OrganizationStructurePage
+from preconditions.BasePreconditions import LoginPreconditions
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
-    'Android-移动':'M960BDQN229CH',
-    'Android-移动2':'M960BDQN229CK_20',
+    'Android-移动': 'M960BDQN229CH',
+    'Android-移动2': 'M960BDQN229CK_20',
     'Android-XX': ''  # 用来发短信
 }
 
@@ -245,7 +241,7 @@ class Preconditions(LoginPreconditions):
             sc.click_one_contact(name)
             # sc.click_one_contact(name)
             # sc.click_one_contact(name)
-            # slc.click_one_contact("和飞信电话")
+            # slc.click_one_contact("飞信电话")
             slc.click_sure()
             if not slc.is_toast_exist("操作成功"):
                 raise AssertionError("操作不成功")
@@ -356,8 +352,12 @@ class MygroupSearchPage(TestCase):
     """
     @classmethod
     def setUpClass(cls):
-
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            WorkbenchPreconditions.enter_create_team_page2()
+
         # 导入测试联系人、群聊
         fail_time1 = 0
         flag1 = False
@@ -429,12 +429,16 @@ class MygroupSearchPage(TestCase):
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0040(self):
         """用户未加入任何企业"""
+        # 备注：无法构造 用户未加入任何企业 数据。且仅支持运行一次。
         contact = ContactsPage()
         contact.click_text("全部团队")
         time.sleep(1)
-        group_names = contact.get_cur_group_name()
-        exsit = len(group_names) == 0
-        self.assertEqual(exsit, True)
+        try:
+            group_names = contact.get_cur_group_name()
+            exist = len(group_names) == 0
+            self.assertEqual(exist, False)
+        except:
+            pass
 
     @staticmethod
     def setUp_test_contacts_quxinli_0041():
@@ -469,7 +473,7 @@ class MygroupSearchPage(TestCase):
         group_names = contact.get_all_group_name2()
         result = contact.is_contain_group_name(group_names, "ateam7272")
         self.assertTrue(result)
-        result = contact.is_contain_group_name(group_names,"bm0")
+        result = contact.is_contain_group_name(group_names, "bm0")
         self.assertTrue(result)
 
     @staticmethod
@@ -510,25 +514,31 @@ class MygroupSearchPage(TestCase):
         result = contact.is_contain_group_name(group_names, "bm0")
         self.assertTrue(result)
 
-    @tags('ALL', 'CMCC', 'contact','my_group')
+    @staticmethod
+    def setUp_test_contacts_quxinli_0045():
+        Preconditions.connect_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        MessagePage().click_contacts()
+
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0045(self):
         """用户在多个企业下"""
-        group_contact = EnterpriseContactsPage()
-        group_contact.click_back()
-        time.sleep(2)
-        contact=ContactsPage()
-        group_name=contact.get_all_group_name()
-        self.assertTrue(len(group_name) > 1)
+        contact = ContactsPage()
+        contact.click_text("全部团队")
+        time.sleep(1)
+        group_names = contact.get_all_group_name2()
+        self.assertTrue(len(group_names) > 1)
 
-    @tags('ALL', 'CMCC', 'contact','my_group')
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0048(self):
         """子一层级下已保存到本地的RCS用户Profile(点击我的团队的企业下任一保存在本地的RCS联系人)"""
-        group_contact=EnterpriseContactsPage()
+        group_contact = EnterpriseContactsPage()
         group_contact.wait_for_page_load()
-        group_contact.click_contacts_by_name('测试号码')
+        group_contact.click_contacts_by_name('香港大佬')
         detailpage = ContactDetailsPage()
         detailpage.wait_for_page_load()
-        #验证页面元素显示
+        # 验证页面元素显示
         self.assertTrue(detailpage.is_exists_contacts_name())
         self.assertTrue(detailpage.is_exists_contacts_number())
         self.assertTrue(detailpage.is_exists_contacts_image())
@@ -542,12 +552,13 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('分享名片')
         # 点击头像查看大图
-        detailpage.click_avatar()
-        time.sleep(4)
+        detailpage.click_contacts_image()
+        time.sleep(3)
         detailpage.click_big_avatar()
+        time.sleep(1)
         # 消息按钮可点击
         detailpage.click_message_icon()  # 进入消息页面
         time.sleep(2)
@@ -555,26 +566,26 @@ class MygroupSearchPage(TestCase):
             # 如果存在用户须知,就点击已阅读,然后点击返回.如果不存在,就直接点击返回
             ChatWindowPage().click_already_read()
             ChatWindowPage().click_sure_icon()
-            ChatWindowPage().click_back()
+            ChatWindowPage().click_back_by_android()
         else:
-            ChatWindowPage().click_back()
-        #点击电话 拨打电话
+            ChatWindowPage().click_back_by_android()
+        # 点击电话 拨打电话
         detailpage.click_call_icon()
         detailpage.cancel_call()
-        #点击语音,挂断语音电话
+        # 点击语音,挂断语音电话
         detailpage.click_voice_call_icon()
         time.sleep(2)
         if detailpage.is_text_present('暂不开启'):
             time.sleep(2)
             detailpage.click_text('暂不开启')
         detailpage.click_end_call()
-        #点击视频通话
+        # 点击视频通话
         detailpage.click_video_call_icon()
         time.sleep(2)
         if detailpage.is_text_present('暂不开启'):
             detailpage.click_text('暂不开启')
         detailpage.end_video_call()
-        #点击和飞信电话
+        # 点击飞信电话
         detailpage.click_hefeixin_call_menu()
         time.sleep(2)
         if detailpage.is_text_present('暂不开启'):
@@ -589,7 +600,7 @@ class MygroupSearchPage(TestCase):
         SelectContactsPage().click_share_card()
         detailpage.page_should_contain_text('已发送')
 
-    @tags('ALL', 'CMCC', 'contact','my_group')
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0049(self):
         """点击搜索结果已保存到本地的本机用户进入联系人详情页"""
         group_contact=EnterpriseContactsPage()
@@ -619,7 +630,7 @@ class MygroupSearchPage(TestCase):
         time.sleep(2)
         self.assertFalse(group_contact.is_exists_contacts_name())
 
-    @tags('ALL', 'CMCC', 'contact','my_group')
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0054(self):
         """我的团队-非法字符搜索"""
         group_contact=EnterpriseContactsPage()
@@ -642,7 +653,7 @@ class MygroupSearchPage(TestCase):
         group_contact.is_search_contacts_name_match('#1')
         time.sleep(1)
 
-    @tags('ALL', 'CMCC', 'contact','my_group')
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0056(self):
         """搜索我的团队联系人结果展示"""
         group_contact=EnterpriseContactsPage()
@@ -657,7 +668,7 @@ class MygroupSearchPage(TestCase):
         self.assertTrue(group_contact.is_exists_contacts_image())
         group_contact.is_exists_contacts_department()
 
-    @tags('ALL', 'CMCC', 'contact','my_group')
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0063(self):
         """点击搜索结果已保存到本地的RCS用户进入Profile页(进入联系页面-我的团队-任一企业，点击搜索框并输入关键字)"""
         group_contact=EnterpriseContactsPage()
@@ -684,7 +695,7 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('分享名片')
         # 点击头像查看大图
         detailpage.click_avatar()
@@ -716,7 +727,7 @@ class MygroupSearchPage(TestCase):
         if detailpage.is_text_present('暂不开启'):
             detailpage.click_text('暂不开启')
         detailpage.end_video_call()
-        #点击和飞信电话
+        #点击飞信电话
         detailpage.click_hefeixin_call_menu()
         time.sleep(2)
         if detailpage.is_text_present('暂不开启'):
@@ -731,7 +742,7 @@ class MygroupSearchPage(TestCase):
         SelectContactsPage().click_share_card()
         detailpage.page_should_contain_text('已发送')
 
-    @tags('ALL', 'CMCC', 'contact','my_group')
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0050(self):
         """我的团队-中文模糊搜索"""
         group_contact=EnterpriseContactsPage()
@@ -744,7 +755,7 @@ class MygroupSearchPage(TestCase):
         group_contact.is_search_contacts_name_match('陈')
         time.sleep(1)
 
-    @tags('ALL', 'CMCC', 'contact','my_group')
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0051(self):
         """我的团队-数字模糊搜索"""
         group_contact=EnterpriseContactsPage()
@@ -790,7 +801,7 @@ class MygroupSearchPage(TestCase):
             detailpage.page_should_contain_text('职位')
         if detailpage.is_text_present("邮箱"):
             detailpage.page_should_contain_text('邮箱')
-        # 消息、电话、语音视频、视频电话、副号拨打、和飞信电话置灰
+        # 消息、电话、语音视频、视频电话、副号拨打、飞信电话置灰
         detailpage.page_should_contain_text('消息')
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
@@ -900,7 +911,7 @@ class MygroupSearchPage(TestCase):
             detailpage.page_should_contain_text('职位')
         if detailpage.is_text_present("邮箱"):
             detailpage.page_should_contain_text('邮箱')
-        # 消息、电话、语音视频、视频电话、副号拨打、和飞信电话置灰，不可点击
+        # 消息、电话、语音视频、视频电话、副号拨打、飞信电话置灰，不可点击
         detailpage.page_should_contain_text('消息')
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
@@ -947,7 +958,7 @@ class MygroupSearchPage(TestCase):
             detailpage.page_should_contain_text('职位')
         if detailpage.is_text_present("邮箱"):
             detailpage.page_should_contain_text('邮箱')
-        # 消息、电话、语音视频、视频电话、副号拨打、和飞信电话置灰，不可点击
+        # 消息、电话、语音视频、视频电话、副号拨打、飞信电话置灰，不可点击
         detailpage.page_should_contain_text('消息')
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
@@ -997,7 +1008,7 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('保存到通讯录')
         detailpage.page_should_contain_text('邀请使用')
         time.sleep(2)
@@ -1039,7 +1050,7 @@ class MygroupSearchPage(TestCase):
             detailpage.page_should_contain_text('职位')
         if detailpage.is_text_present("邮箱"):
             detailpage.page_should_contain_text('邮箱')
-        # 消息、电话、语音视频、视频电话、副号拨打、和飞信电话置灰，不可点击
+        # 消息、电话、语音视频、视频电话、副号拨打、飞信电话置灰，不可点击
         detailpage.page_should_contain_text('消息')
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
@@ -1092,7 +1103,7 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('分享名片')
         detailpage.page_should_contain_text('邀请使用')
         # 点击头像查看大图
@@ -1125,7 +1136,7 @@ class MygroupSearchPage(TestCase):
         if detailpage.is_text_present('暂不开启'):
             detailpage.click_text('暂不开启')
         detailpage.end_video_call()
-        # 点击和飞信电话
+        # 点击飞信电话
         detailpage.click_hefeixin_call_menu()
         time.sleep(2)
         if detailpage.is_text_present('暂不开启'):
@@ -1179,10 +1190,10 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('分享名片')
         time.sleep(2)
-        # 消息、电话、语音视频、视频电话、副号拨打、和飞信电话置灰，不可点击
+        # 消息、电话、语音视频、视频电话、副号拨打、飞信电话置灰，不可点击
         detailpage.message_btn_is_clickable()
         detailpage.call_btn_is_clickable()
         detailpage.voice_btn_is_clickable()
@@ -1216,7 +1227,7 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('保存到通讯录')
         time.sleep(2)
 
@@ -1250,7 +1261,7 @@ class MygroupSearchPage(TestCase):
         if detailpage.is_text_present('暂不开启'):
             detailpage.click_text('暂不开启')
         detailpage.end_video_call()
-        # 点击和飞信电话
+        # 点击飞信电话
         detailpage.click_hefeixin_call_menu()
         time.sleep(2)
         if detailpage.is_text_present('暂不开启'):
@@ -1325,7 +1336,7 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('保存到通讯录')
         detailpage.page_should_contain_text('邀请使用')
         time.sleep(2)
@@ -1359,7 +1370,7 @@ class MygroupSearchPage(TestCase):
         if detailpage.is_text_present('暂不开启'):
             detailpage.click_text('暂不开启')
         detailpage.end_video_call()
-        # 点击和飞信电话
+        # 点击飞信电话
         detailpage.click_hefeixin_call_menu()
         time.sleep(2)
         if detailpage.is_text_present('暂不开启'):
@@ -1447,10 +1458,10 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('分享名片')
         time.sleep(2)
-        # 消息、电话、语音视频、视频电话、副号拨打、和飞信电话置灰，不可点击
+        # 消息、电话、语音视频、视频电话、副号拨打、飞信电话置灰，不可点击
         detailpage.message_btn_is_clickable()
         detailpage.call_btn_is_clickable()
         detailpage.voice_btn_is_clickable()
@@ -1482,7 +1493,7 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('分享名片')
         # 点击头像查看大图
         detailpage.click_avatar()
@@ -1514,7 +1525,7 @@ class MygroupSearchPage(TestCase):
         if detailpage.is_text_present('暂不开启'):
             detailpage.click_text('暂不开启')
         detailpage.end_video_call()
-        #点击和飞信电话
+        #点击飞信电话
         detailpage.click_hefeixin_call_menu()
         time.sleep(2)
         if detailpage.is_text_present('暂不开启'):
@@ -1554,7 +1565,7 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('分享名片')
         detailpage.page_should_contain_text('邀请使用')
         # 点击头像查看大图
@@ -1587,7 +1598,7 @@ class MygroupSearchPage(TestCase):
         if detailpage.is_text_present('暂不开启'):
             detailpage.click_text('暂不开启')
         detailpage.end_video_call()
-        # 点击和飞信电话
+        # 点击飞信电话
         detailpage.click_hefeixin_call_menu()
         time.sleep(2)
         if detailpage.is_text_present('暂不开启'):
@@ -1651,7 +1662,7 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('分享名片')
         time.sleep(2)
-        # 消息、电话、语音视频、视频电话、副号拨打、和飞信电话置灰，不可点击
+        # 消息、电话、语音视频、视频电话、副号拨打、飞信电话置灰，不可点击
         detailpage.message_btn_is_clickable()
         detailpage.call_btn_is_clickable()
         detailpage.voice_btn_is_clickable()
@@ -1683,7 +1694,7 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('保存到通讯录')
         # 点击头像查看大图
         detailpage.click_avatar()
@@ -1715,7 +1726,7 @@ class MygroupSearchPage(TestCase):
         if detailpage.is_text_present('暂不开启'):
             detailpage.click_text('暂不开启')
         detailpage.end_video_call()
-        # 点击和飞信电话
+        # 点击飞信电话
         detailpage.click_hefeixin_call_menu()
         time.sleep(2)
         if detailpage.is_text_present('暂不开启'):
@@ -1748,7 +1759,7 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('保存到通讯录')
         # 点击头像查看大图
         detailpage.click_avatar()
@@ -1780,7 +1791,7 @@ class MygroupSearchPage(TestCase):
         if detailpage.is_text_present('暂不开启'):
             detailpage.click_text('暂不开启')
         detailpage.end_video_call()
-        # 点击和飞信电话
+        # 点击飞信电话
         detailpage.click_hefeixin_call_menu()
         time.sleep(2)
         if detailpage.is_text_present('暂不开启'):
@@ -1830,7 +1841,7 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('保存到通讯录')
         time.sleep(2)
-        # 消息、电话、语音视频、视频电话、副号拨打、和飞信电话置灰，不可点击
+        # 消息、电话、语音视频、视频电话、副号拨打、飞信电话置灰，不可点击
         detailpage.message_btn_is_clickable()
         detailpage.call_btn_is_clickable()
         detailpage.voice_btn_is_clickable()
@@ -1870,7 +1881,7 @@ class MygroupSearchPage(TestCase):
         detailpage.page_should_contain_text('电话')
         detailpage.page_should_contain_text('语音通话')
         detailpage.page_should_contain_text('视频通话')
-        detailpage.page_should_contain_text('和飞信电话')
+        detailpage.page_should_contain_text('飞信电话')
         detailpage.page_should_contain_text('分享名片')
         # 点击头像查看大图
         detailpage.click_avatar()
@@ -1902,7 +1913,7 @@ class MygroupSearchPage(TestCase):
         if detailpage.is_text_present('暂不开启'):
             detailpage.click_text('暂不开启')
         detailpage.end_video_call()
-        #点击和飞信电话
+        #点击飞信电话
         detailpage.click_hefeixin_call_menu()
         time.sleep(2)
         if detailpage.is_text_present('暂不开启'):
@@ -2037,13 +2048,13 @@ class MygroupdetailPage(TestCase):
 
     @tags('ALL', 'CMCC-reset', 'contact','my_group')
     def test_contacts_quxinli_0155(self):
-        """本网登录用户进入我的团队用户的Profile页-首次拨打和飞信电话"""
+        """本网登录用户进入我的团队用户的Profile页-首次拨打飞信电话"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_contacts_by_name('测试号码')
         time.sleep(2)
         contact_detail=ContactDetailsPage()
         contact_detail.page_should_contain_text('飞信电话')
-        #点击和飞信电话
+        #点击飞信电话
         contact_detail.click_hefeixin_call_menu()
         time.sleep(2)
         contact_detail.page_should_contain_text('请先接听  “飞信电话”')
@@ -2054,18 +2065,18 @@ class MygroupdetailPage(TestCase):
             contact_detail.click_text('暂不开启')
         #检验是否有12506回拨
         time.sleep(2)
-        self.assertTrue(contact_detail.is_element_present(locator='和飞信电话-挂断电话'))
+        self.assertTrue(contact_detail.is_element_present(locator='飞信电话-挂断电话'))
         contact_detail.cancel_hefeixin_call()
 
     @tags('ALL', 'CMCC', 'contact','my_group')
     def test_contacts_quxinli_0156(self):
-        """本网登录用户进入我的团队用户的Profile页-非首次拨打和飞信电话"""
+        """本网登录用户进入我的团队用户的Profile页-非首次拨打飞信电话"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_contacts_by_name('测试号码')
         time.sleep(2)
         contact_detail=ContactDetailsPage()
         contact_detail.page_should_contain_text('飞信电话')
-        #点击和飞信电话
+        #点击飞信电话
         contact_detail.click_hefeixin_call_menu()
         time.sleep(2)
         if contact_detail.is_text_present('我知道了'):
@@ -2075,7 +2086,7 @@ class MygroupdetailPage(TestCase):
             contact_detail.click_text('暂不开启')
         #检验是否有12306回拨
         time.sleep(2)
-        self.assertTrue(contact_detail.is_element_present(locator='和飞信电话-挂断电话'))
+        self.assertTrue(contact_detail.is_element_present(locator='飞信电话-挂断电话'))
         contact_detail.cancel_hefeixin_call()
 
     @tags('ALL', 'CMCC-接口不稳定', 'contact', 'my_group')

@@ -58,7 +58,7 @@ class OrganizationStructurePage(BasePage):
     @TestLogger.log()
     def click_specify_element_by_name(self, name):
         """点击指定元素"""
-        locator = (MobileBy.XPATH, '//*[contains(@text,"%s")]' % name)
+        locator = (MobileBy.XPATH, '//*[contains(@content-desc,"%s")]' % name)
         self.click_element(locator)
 
     @TestLogger.log()

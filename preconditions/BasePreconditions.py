@@ -1,12 +1,12 @@
 import csv
+import random
 import time
 
 from appium.webdriver.common.mobileby import MobileBy
 
-from pages import *
-from library.core.utils.applicationcache import current_mobile, switch_to_mobile
-import random
 from library.core.common.simcardtype import CardType
+from library.core.utils.applicationcache import current_mobile, switch_to_mobile
+from pages import *
 from pages.workbench.announcement_message.AnnouncementMessage import AnnouncementMessagePage
 from pages.workbench.create_group.CreateGroup import CreateGroupPage
 from pages.workbench.create_group.SelectEnterpriseContacts import SelectEnterpriseContactsPage
@@ -35,6 +35,7 @@ filePath = curPath + "\Resources\\test_datas\contacts_call.csv"
 File_Paths = {
     'contacts_call.csv': filePath,
 }
+
 
 class LoginPreconditions(object):
     """登录前置条件"""
@@ -532,6 +533,45 @@ class WorkbenchPreconditions(LoginPreconditions):
         team.wait_for_page_load()
 
     @staticmethod
+    def enter_create_team_page2(reset=False, name="ateam7272"):
+        """创建团队及选择团队"""
+        mess = MessagePage()
+        mess.click_contacts()
+        time.sleep(1)
+        contact = ContactsPage()
+        contact.click_text("全部团队")
+        time.sleep(1)
+        group_names = contact.get_all_group_name2()
+        result = contact.is_contain_group_name(group_names, name)
+        contact.click_back_by_android()
+        # 当前在联系tab页面
+        if not result:
+            # 从消息进入创建团队页面
+            # 1、不存在ateam7272团队
+            mess.open_workbench_page()
+            workbench = WorkbenchPage()
+            if workbench.is_on_welcome_page():
+                workbench.click_now_create_team()
+            else:
+                workbench.wait_for_page_load()
+                workbench.click_create_team()
+            team = CreateTeamPage()
+            if team.is_on_this_page():
+                current_mobile().hide_keyboard_if_display()
+            time.sleep(3)
+            WorkbenchPreconditions.create_team(name)
+            # 进入联系Tab页面
+            workbench.open_contacts_page()
+            time.sleep(3)
+        # 1、保证当前在联系tab页面
+        # 2、无论是否存在ateam7272团队，重新选择
+        # 3、选择该团队(1、当前没有选择该团队 2、当前已选择该团队)
+        contact = ContactsPage()
+        contact.click_team_setting_btn()
+        contact.choose_team_by_name(name)
+        contact.open_message_page()
+
+    @staticmethod
     def get_team_name():
         """获取团队"""
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
@@ -559,6 +599,7 @@ class WorkbenchPreconditions(LoginPreconditions):
         team.click_enter_workbench()
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
+        time.sleep(3)
 
     @staticmethod
     def enter_organization_page(reset=False):
