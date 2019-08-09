@@ -534,9 +534,7 @@ class WorkbenchPreconditions(LoginPreconditions):
 
     @staticmethod
     def enter_create_team_page2(reset=False, name="ateam7272"):
-        """从消息进入创建团队页面"""
-        # 登录进入消息页面
-        LoginPreconditions.make_already_in_message_page(reset)
+        """创建团队及选择团队"""
         mess = MessagePage()
         mess.click_contacts()
         time.sleep(1)
@@ -571,7 +569,6 @@ class WorkbenchPreconditions(LoginPreconditions):
         contact = ContactsPage()
         contact.click_team_setting_btn()
         contact.choose_team_by_name(name)
-        print("--------------------")
         contact.open_message_page()
 
     @staticmethod
