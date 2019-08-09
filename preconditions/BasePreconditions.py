@@ -669,25 +669,26 @@ class WorkbenchPreconditions(LoginPreconditions):
         vnp.wait_for_page_loads()
 
     @staticmethod
-    def create_sub_department(departmentName):
+    def create_sub_department(departmentName="bm0"):
         """从消息列表开始创建子部门并添加部门成员"""
         WorkbenchPreconditions.enter_organization_page()
         osp = OrganizationStructurePage()
         osp.wait_for_page_load()
-        osp.click_text("添加子部门")
+        osp.click_specify_element_by_name("添加子部门")
         osp.wait_for_sub_department_page_load()
         osp.input_sub_department_name(departmentName)
-        osp.click_text("完成")
+        osp.click_specify_element_by_name("完成")
         if osp.is_toast_exist("部门已存在，请勿重复添加"):
             current_mobile().back()
             osp.wait_for_page_load()
         else:
             osp.wait_for_page_load()
             time.sleep(2)
-            osp.click_text(departmentName)
-            osp.click_text("添加联系人")
+            osp.click_specify_element_by_name(departmentName)
             time.sleep(1)
-            osp.click_text("从手机通讯录添加")
+            osp.click_specify_element_by_name("添加联系人")
+            time.sleep(1)
+            osp.click_specify_element_by_name("从手机通讯录添加")
             time.sleep(2)
             sc = SelectContactsPage()
             slc = SelectLocalContactsPage()
@@ -733,7 +734,7 @@ class WorkbenchPreconditions(LoginPreconditions):
 
     @staticmethod
     def create_he_contacts(names):
-        """选择手机联系人创建为团队联系人"""
+        """选择手机联系人创建为团队联系人-从手机通讯录添加"""
 
         mp = MessagePage()
         mp.wait_for_page_load()
@@ -771,7 +772,7 @@ class WorkbenchPreconditions(LoginPreconditions):
 
     @staticmethod
     def create_he_contacts2(contacts):
-        """手动输入联系人创建为团队联系人"""
+        """手动输入联系人创建为团队联系人-手动输入添加"""
 
         mp = MessagePage()
         mp.wait_for_page_load()
@@ -789,6 +790,44 @@ class WorkbenchPreconditions(LoginPreconditions):
             n += 1
             if n > 20:
                 break
+        time.sleep(3)
+        for name, number in contacts:
+            if not osp.is_exist_specify_element_by_name(name):
+                osp.click_specify_element_by_name("添加联系人")
+                time.sleep(4)
+                osp.click_specify_element_by_name("手动输入添加")
+                osp.input_contacts_name(name)
+                osp.input_contacts_number(number)
+                osp.click_confirm()
+                time.sleep(2)
+                osp.click_back()
+        osp.click_back()
+        wbp.wait_for_workbench_page_load()
+        mp.open_message_page()
+        mp.wait_for_page_load()
+
+    @staticmethod
+    def create_he_contacts_for_sub_department(departmentName, contacts):
+        """手动输入联系人创建为团队联系人-子部门手动添加联系人"""
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        mp.open_workbench_page()
+        wbp = WorkbenchPage()
+        wbp.wait_for_workbench_page_load()
+        wbp.click_organization()
+        osp = OrganizationStructurePage()
+        n = 1
+        # 解决工作台不稳定问题
+        while not osp.page_should_contain_text2("添加联系人"):
+            osp.click_back()
+            wbp.wait_for_workbench_page_load()
+            wbp.click_organization()
+            n += 1
+            if n > 20:
+                break
+        time.sleep(3)
+        # 进入部门 - subdepart
+        osp.click_specify_element_by_name(departmentName)
         time.sleep(3)
         for name, number in contacts:
             if not osp.is_exist_specify_element_by_name(name):
