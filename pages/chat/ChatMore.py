@@ -57,7 +57,17 @@ class ChatMorePage(BasePage):
                   '文件1': (MobileBy.XPATH, '//*[(@resource-id="com.chinasofti.rcs:id/iocn_tv") and (@text="文件")]'),
                   '音视频通话': (MobileBy.XPATH, '//*[(@resource-id="com.chinasofti.rcs:id/iocn_tv") and (@text="音视频通话")]'),
                   '和飞信电话': (MobileBy.XPATH, '//*[(@resource-id="com.chinasofti.rcs:id/iocn_tv") and (@text="和飞信电话")]'),
-                  '文件2': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_file'),
+                  '飞信电话': (MobileBy.XPATH, "//android.widget.TextView[@text='飞信电话']"),
+                  '多方视频': (MobileBy.XPATH, "//android.widget.TextView[@text='多方视频']"),
+                  # '群短信': (MobileBy.XPATH, "//android.widget.TextView[@text='群短信']"),
+                  '名片': (MobileBy.XPATH, "//android.widget.TextView[@text='名片']"),
+                  # '位置': (MobileBy.XPATH, "//android.widget.TextView[@text='位置']"),
+                  # '红包': (MobileBy.XPATH, "//android.widget.TextView[@text='红包']"),
+
+
+
+
+
                   }
 
     @TestLogger.log()
@@ -103,7 +113,7 @@ class ChatMorePage(BasePage):
     @TestLogger.log()
     def check_all_element_is_enable(self):
         """检查元素是否存在"""
-        ele_list = ['文件', '群短信', '位置', '红包']
+        ele_list = ['飞信电话', '多方视频', '群短信', '名片', '位置', '红包']
         for ele in ele_list:
             if not self._is_enabled(self.__locators[ele]):
                 return False

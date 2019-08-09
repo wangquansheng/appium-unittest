@@ -71,7 +71,7 @@ class BaseChatPage(BasePage):
                   '消息文本内容': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_message'),
                   "粘贴": (MobileBy.XPATH, '//*[@text="粘贴"]'),
                   '打开表情': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_expression'),
-                  '关闭表情': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_expression_keyboard'),
+                  '关闭表情': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_expression'),
                   '表情id': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_expression_image'),
                   '表情集选择栏': (MobileBy.ID, 'com.chinasofti.rcs:id/lltButton'),
                   '表情集选择栏btn1': (MobileBy.ID, 'com.chinasofti.rcs:id/first_emoji'),

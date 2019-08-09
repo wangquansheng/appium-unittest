@@ -44,7 +44,7 @@ class SingleChatPage(BaseChatPage):
                   MobileBy.ID, 'com.chinasofti.rcs:id/imageview_msg_image'),
                   'hello': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_message'),
                   'com.chinasofti.rcs:id/svd_head': (MobileBy.ID, 'com.chinasofti.rcs:id/svd_head'),
-                  '选择短信': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_profile'),
+                  '选择短信': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_sms_btn'),
                   '语音消息体': (MobileBy.ID, 'com.chinasofti.rcs:id/img_audio_play_icon'),
                   '消息图片': (MobileBy.ID, 'com.chinasofti.rcs:id/imageview_msg_image'),
                   '消息视频': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_video_time'),

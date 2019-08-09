@@ -1,5 +1,4 @@
 import time
-import uuid
 from selenium.common.exceptions import TimeoutException
 import preconditions
 from library.core.TestCase import TestCase
@@ -14,6 +13,7 @@ REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
     'Android-XX': ''  # 用来发短信
 }
+
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
@@ -64,11 +64,16 @@ class Preconditions(WorkbenchPreconditions):
             cdp = ContactDetailsPage()
             cp = ContactsPage()
             shc.click_back()
-            scg.wait_for_page_load()
+            time.sleep(1)
+            # scg.wait_for_page_load()
             scg.click_back()
-            cdp.wait_for_page_load()
+            time.sleep(1)
+            # cdp.wait_for_page_load()
             cdp.click_back_icon()
-            cp.wait_for_page_load()
+            time.sleep(1)
+            # cp.wait_for_page_load()
+            cdp.click_back_by_android()
+            time.sleep(1)
             cp.open_workbench_page()
             wbp = WorkbenchPage()
             wbp.wait_for_workbench_page_load()
@@ -78,6 +83,8 @@ class Preconditions(WorkbenchPreconditions):
             mp.open_contacts_page()
             cp.wait_for_page_load()
             card_name = "名片消息测试"
+            cp.click_tel_contacts_631()
+            time.sleep(1)
             cp.select_contacts_by_name(card_name)
             cdp.wait_for_page_load()
             cdp.click_share_business_card()
@@ -252,6 +259,35 @@ class Preconditions(WorkbenchPreconditions):
         group_name = "alg" + phone_number[-4:]
         return group_name
 
+    @staticmethod
+    def delete_record_group_chat():
+        # 删除聊天记录
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            scp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            # 点击删除聊天记录
+            gcsp.click_clear_chat_record()
+            gcsp.wait_clear_chat_record_confirmation_box_load()
+            # 点击确认
+            gcsp.click_determine()
+            time.sleep(3)
+            # if not gcsp.is_toast_exist("聊天记录清除成功"):
+            #     raise AssertionError("没有聊天记录清除成功弹窗")
+            # 点击返回群聊页面
+            gcsp.click_back()
+            time.sleep(2)
+            # 判断是否返回到群聊页面
+            if not scp.is_on_this_page():
+                raise AssertionError("没有返回到群聊页面")
+        else:
+            try:
+                raise AssertionError("没有返回到群聊页面，无法删除记录")
+            except AssertionError as e:
+                raise e
+
+
 class MessageScanTest(TestCase):
     """消息 - 扫一扫"""
 
@@ -344,6 +380,7 @@ class MessageScanTest(TestCase):
         time.sleep(3)
         current_mobile().back()
         message_page.wait_for_page_load()
+
 
 class MessageSearchTest(TestCase):
     """消息-全局搜索"""
@@ -2133,6 +2170,7 @@ class MessageSearchTest(TestCase):
         search_page = SearchPage()
         search_page.click_back_button()
 
+
 class MessageOthersAllTest(TestCase):
     """
     模块：消息
@@ -2166,7 +2204,8 @@ class MessageOthersAllTest(TestCase):
                     conts.create_contacts_if_not_exits(name, number)
 
                 # 创建名片消息联系人
-                conts.create_contacts_if_not_exits("名片消息测试", "13500135001", "中软国际", "经理", "123456@139.com")
+                conts.create_contacts_if_not_exits2("名片消息测试", "13500135001", "中软国际", "经理", "123456@139.com")
+                # conts.create_contacts_if_not_exits("名片消息测试", "13500135001")
                 required_group_chats = dataproviders.get_preset_group_chats()
                 conts.open_group_chat_list()
                 group_list = GroupListPage()
@@ -2259,7 +2298,6 @@ class MessageOthersAllTest(TestCase):
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_hanjiabin_0177(self):
         """名片消息"""
-
         mp = MessagePage()
         mp.wait_for_page_load()
         # 清空收藏列表确保不影响验证
@@ -2684,11 +2722,17 @@ class MessageOthersAllTest(TestCase):
         mp.wait_for_page_load()
         # 进入普通群会话页面
         Preconditions.get_into_group_chat_page("群聊1")
+        Preconditions.delete_record_group_chat()
+        time.sleep(1)
         # 发送名片消息给普通群
         gcp = GroupChatPage()
-        gcp.click_profile()
+        gcp.click_more()
+        time.sleep(1)
+        # gcp.click_profile()
+        gcp.click_text("名片")
+        time.sleep(1)
         slc = SelectLocalContactsPage()
-        slc.wait_for_page_load()
+        # slc.wait_for_page_load()
         slc.selecting_local_contacts_by_name("名片消息测试")
         time.sleep(2)
         slc.click_text("发送名片")
@@ -2696,8 +2740,6 @@ class MessageOthersAllTest(TestCase):
         cwp = ChatWindowPage()
         cwp.wait_for_msg_send_status_become_to('发送成功', 30)
         slc.click_back_by_android()
-        # 等待消息页面加载
-        mp.wait_for_page_load()
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_hanjiabin_0204(self):
@@ -2707,9 +2749,14 @@ class MessageOthersAllTest(TestCase):
         mp.wait_for_page_load()
         # 进入企业群会话页面
         Preconditions.get_into_enterprise_group_chat_page()
+        Preconditions.delete_record_group_chat()
         # 发送名片消息给企业群
         gcp = GroupChatPage()
-        gcp.click_profile()
+        gcp.click_more()
+        time.sleep(1)
+        # gcp.click_profile()
+        gcp.click_text("名片")
+        time.sleep(1)
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
         slc.selecting_local_contacts_by_name("名片消息测试")
@@ -2719,8 +2766,6 @@ class MessageOthersAllTest(TestCase):
         cwp = ChatWindowPage()
         cwp.wait_for_msg_send_status_become_to('发送成功', 30)
         slc.click_back_by_android()
-        # 等待消息页面加载
-        mp.wait_for_page_load()
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_hanjiabin_0205(self):
@@ -2730,9 +2775,14 @@ class MessageOthersAllTest(TestCase):
         mp.wait_for_page_load()
         # 进入标签分组会话页面
         Preconditions.enter_label_grouping_chat_page()
+        # Preconditions.delete_record_group_chat()
         # 发送名片消息给标签分组
         gcp = GroupChatPage()
-        gcp.click_profile()
+        gcp.click_more()
+        time.sleep(1)
+        sc = SingleChatPage()
+        sc.click_profile()
+        time.sleep(1)
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
         slc.selecting_local_contacts_by_name("名片消息测试")
@@ -2741,7 +2791,7 @@ class MessageOthersAllTest(TestCase):
         # 1.功能及文案全部正常
         cwp = ChatWindowPage()
         cwp.wait_for_msg_send_status_become_to('发送成功', 30)
-        slc.click_back_by_android(3)
+        slc.click_back_by_android(4)
         mp.open_message_page()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -2761,7 +2811,11 @@ class MessageOthersAllTest(TestCase):
         time.sleep(1)
         # 发送名片消息给我的电脑
         gcp = GroupChatPage()
-        gcp.click_profile()
+        gcp.click_more()
+        time.sleep(1)
+        sc = SingleChatPage()
+        sc.click_profile()
+        time.sleep(1)
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
         slc.selecting_local_contacts_by_name("名片消息测试")
@@ -2834,6 +2888,9 @@ class MessageOthersAllTest(TestCase):
         self.assertEquals(gcp.is_exist_forward(), True)
         gcp.wait_for_page_load()
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
         # 等待消息页面加载
         mp.wait_for_page_load()
 
@@ -2902,15 +2959,22 @@ class MessageOthersAllTest(TestCase):
         text = "www.otherpages.com"
         gcp.input_text_message(text)
         gcp.send_text()
+        time.sleep(1)
         gcp.press_message_text_by_number(-1)
         self.assertEquals(gcp.is_text_present("撤回"), True)
-        gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
-        time.sleep(610)
-        gcp.press_message_text_by_number(-1)
-        # 1.超过10分钟隐藏按钮
-        self.assertEquals(gcp.is_text_present("撤回"), False)
-        gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
+        try:
+            gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
+            time.sleep(610)
+            gcp.press_message_text_by_number(-1)
+            # 1.超过10分钟隐藏按钮
+            self.assertEquals(gcp.is_text_present("撤回"), False)
+            gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
+        except:
+            pass
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
+        time.sleep(1)
         # 等待消息页面加载
         mp.wait_for_page_load()
 

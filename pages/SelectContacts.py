@@ -11,7 +11,7 @@ from pages.GroupChat import GroupChatPage
 
 class SelectContactsPage(BasePage):
     """选择联系人页面"""
-    ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.ContactsSelectActivity'
+    ACTIVITY = 'com.cmicc.module_contact.activitys.ContactSelectorActivity'
 
     __locators = {
         '无搜索结果':(MobileBy.ID, 'com.chinasofti.rcs:id/no_contact_text'),
@@ -73,7 +73,7 @@ class SelectContactsPage(BasePage):
         "分组名":(MobileBy.ID,'com.chinasofti.rcs:id/img_icon_department'),
         "成员ID":(MobileBy.ID, 'com.chinasofti.rcs:id/img_icon_contactlist'),
         "我已阅读": (MobileBy.ID,'com.chinasofti.rcs:id/btn_check'),
-        "确定": (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
+        # "确定": (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
         "确定2": (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
         "确定3": (MobileBy.ID,'com.chinasofti.rcs:id/dialog_btn_ok'),
         "最近聊天联系人":(MobileBy.ID,'com.chinasofti.rcs:id/iv_photo'),
@@ -332,6 +332,11 @@ class SelectContactsPage(BasePage):
     def click_search_contact(self):
         """点击搜索或输入手机号"""
         self.click_element(self.__locators['搜索或输入手机号'])
+
+    @TestLogger.log('判断键盘是否显示')
+    def confrim_is_keyboard_shown(self):
+        """判断键盘是否显示"""
+        return self.is_keyboard_shown()
 
     @TestLogger.log('搜索或输入手机号')
     def input_search_keyword(self, keyword):
@@ -984,3 +989,97 @@ class SelectContactsPage(BasePage):
             return True
         return False
 
+    @TestLogger.log("全部导入成功")
+    def catch_message_in_page(self):
+        """全部导入成功"""
+        return self.is_toast_exist("全部导入成功")
+
+    @TestLogger.log("检查输入搜索内容后是否存在搜索团队联系人标签")
+    def search_team_contact_message_is_exsit(self, username):
+        """检查输入搜索内容后是否存在搜索团队联系人标签"""
+        tmp_path = "//*[@resource-id='com.chinasofti.rcs:id/text_hint' and @text='搜索团队联系人 : %s']" % username
+        print(tmp_path)
+        els = self.get_elements((MobileBy.XPATH, tmp_path))
+        print(len(els))
+        if len(els) > 0:
+            return True
+        return False
+
+    @TestLogger.log("点击进入搜索团队联系人标签")
+    def click_search_team_contact_message(self, username):
+        """点击进入搜索团队联系人标签"""
+        tmp_path = "//*[@resource-id='com.chinasofti.rcs:id/text_hint' and @text='搜索团队联系人 : %s']" % username
+        self.click_element((MobileBy.XPATH, tmp_path))
+
+    @TestLogger.log("点击进入团队联系人的搜索结果中")
+    def click_search_the_contact_in_team(self):
+        """点击进入团队联系人的搜索结果中"""
+        tmp_path = "//android.widget.TextView[@resource-id='com.chinasofti.rcs:id/tv_name_personal_contactlist']"
+        self.click_element((MobileBy.XPATH, tmp_path))
+
+    @TestLogger.log("查看是否存在搜索结果")
+    def search_contact_is_exsit_in_team(self):
+        """查看是否存在搜索结果"""
+        tmp_path = "//*[@resource-id='com.chinasofti.rcs:id/tv_name_personal_contactlist']"
+        els = self.get_elements((MobileBy.XPATH, tmp_path))
+        if len(els) > 0:
+            return True
+        return False
+
+    @TestLogger.log("查看是否存在搜索结果")
+    def search_contact_is_exsit(self):
+        """查看是否存在搜索结果"""
+        tmp_path = "//*[@resource-id='com.chinasofti.rcs:id/contact_name']"
+        els = self.get_elements((MobileBy.XPATH, tmp_path))
+        if len(els) > 0:
+            return True
+        return False
+
+    @TestLogger.log("查看是否存在搜索结果,并点击进入")
+    def click_search_the_contact(self, username):
+        """查看是否存在搜索结果,并点击进入"""
+        tmp_path = "//android.widget.TextView[@text='%s']" % username
+        self.click_element((MobileBy.XPATH, tmp_path))
+
+    @TestLogger.log("选择第一个搜索的结果点击进入")
+    def click_the_first_search_the_contact(self):
+        """查看是否存在搜索结果,并点击进入"""
+        tmp_path = 'com.chinasofti.rcs:id/contact_list_item_layout'
+        self.click_element((MobileBy.ID, tmp_path))
+
+
+    @TestLogger.log("查看是否存在手机联系人标签")
+    def phone_contact_is_exsit(self):
+        """查看是否存在手机联系人标签"""
+        tmp_path = "//*[@resource-id='com.chinasofti.rcs:id/text_hint' and @text='手机联系人']"
+        els = self.get_elements((MobileBy.XPATH, tmp_path))
+        if len(els) > 0:
+            return True
+        return False
+
+    @TestLogger.log("查看是否存在功能标签")
+    def function_is_exsit(self):
+        """查看是否存在功能标签"""
+        tmp_path = "//*[@resource-id='com.chinasofti.rcs:id/text_hint' and @text='功能']"
+        els = self.get_elements((MobileBy.XPATH, tmp_path))
+        if len(els) > 0:
+            return True
+        return False
+
+    @TestLogger.log("查看是否存在网络搜索标签")
+    def net_search_is_exsit(self):
+        """查看是否存在网络搜索标签"""
+        tmp_path = "//*[@resource-id='com.chinasofti.rcs:id/text_hint' and @text='网络搜索']"
+        els = self.get_elements((MobileBy.XPATH, tmp_path))
+        if len(els) > 0:
+            return True
+        return False
+
+    @TestLogger.log("查看是否存在团队联系人标签")
+    def team_contact_is_exsit(self):
+        """查看是否存在团队联系人标签"""
+        tmp_path = "//*[@resource-id='com.chinasofti.rcs:id/text_hint' and @text='团队联系人']"
+        els = self.get_elements((MobileBy.XPATH, tmp_path))
+        if len(els) > 0:
+            return True
+        return False

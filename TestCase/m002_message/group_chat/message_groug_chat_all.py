@@ -1,5 +1,7 @@
 import time
 import unittest
+import warnings
+
 import preconditions
 from preconditions.BasePreconditions import LoginPreconditions
 from library.core.TestCase import TestCase
@@ -122,6 +124,11 @@ class Preconditions(LoginPreconditions):
 
 
 class MsgAllPrior(TestCase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        warnings.simplefilter('ignore', ResourceWarning)
+
     @staticmethod
     def setUp_test_msg_xiaoqiu_0605():
         """确保在群聊聊天会话页面"""
@@ -399,8 +406,9 @@ class MsgGroupChatTest(TestCase):
     表格：消息-群聊
     """
 
-    # @classmethod
-    # def setUpClass(cls):
+    @classmethod
+    def setUpClass(cls):
+        warnings.simplefilter('ignore', ResourceWarning)
     #     # 创建联系人
     #     fail_time = 0
     #     import dataproviders
@@ -458,11 +466,9 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0001(self):
         """网络异常时勾选本地文件内任意文件点击发送按钮"""
         # 关闭网络发送文件
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.mobile.turn_off_mobile_data()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(0)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_local_file()
@@ -471,7 +477,6 @@ class MsgGroupChatTest(TestCase):
         local_file.enter_preset_file_dir()
         local_file.select_file(".xlsx")
         local_file.click_send()
-        group_chat_page = GroupChatPage()
         self.assertTrue(group_chat_page.is_exist_msg_send_failed_button())
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
@@ -490,8 +495,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0002():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0003(self):
@@ -516,8 +520,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0003():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0004(self):
@@ -551,8 +554,7 @@ class MsgGroupChatTest(TestCase):
         group_name = Preconditions.get_group_chat_name()
         MessagePage().wait_for_page_load()
         MessagePage().delete_message_record_by_name(group_name)
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0006(self):
@@ -601,9 +603,12 @@ class MsgGroupChatTest(TestCase):
         """点击订购免流特权后可正常返回"""
         # 关闭wifi发送文件
         chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        time.sleep(5)
+        if group_chat_page.is_text_present('切换'):
+            group_chat_page.click_element_('切换')
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_local_file()
@@ -625,7 +630,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0009():
-        current_mobile().turn_on_wifi()
+        GroupChatPage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0011(self):
@@ -720,8 +725,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0015():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0016(self):
@@ -774,8 +778,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0018():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0019(self):
@@ -902,11 +905,9 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0028(self):
         """网络异常时勾选本地文件内任意视频点击发送按钮"""
         # 1, 聊天页面打开文件夹
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.mobile.turn_off_mobile_data()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(0)
+        group_chat_page.click_file()
         # 2， 选择文件夹类型
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
@@ -935,8 +936,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0029():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0030(self):
@@ -976,8 +976,7 @@ class MsgGroupChatTest(TestCase):
             pass
         else:
             self.test_msg_weifenglian_qun_0028()
-            group_chat_page.mobile.turn_on_wifi()
-            group_chat_page.mobile.turn_on_mobile_data()
+            group_chat_page.set_network_status(0)
             import time
             time.sleep(2)
         group_chat_page.click_msg_send_failed_button()
@@ -991,8 +990,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0032():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0033(self):
@@ -1150,8 +1148,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0043():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0044(self):
@@ -1206,8 +1203,7 @@ class MsgGroupChatTest(TestCase):
         group_name = Preconditions.get_group_chat_name()
         MessagePage().wait_for_page_load()
         MessagePage().delete_message_record_by_name(group_name)
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0047(self):
@@ -1449,8 +1445,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0078():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     def press_group_file(self):
         group_chat_page = GroupChatPage()
@@ -1600,21 +1595,24 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0093(self):
         """将自己发送的文件转发到手机联系人时发送失败"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        # current_mobile().turn_off_wifi()
+        # current_mobile().turn_off_mobile_data()
+        mp = MessagePage()
+        mp.set_network_status(0)
         self.public_forward_mobile_phone_contacts()
         phone_contacts = SelectLocalContactsPage()
         phone_contacts.click_first_phone_contacts()
         phone_contacts.click_sure_forward()
         GroupChatPage().click_back()
-        MessagePage().wait_for_page_load()
+        time.sleep(1)
+        mp.click_back_by_android()
+        MessagePage().wait_for_page_load(timeout=60)
         self.assertTrue(MessagePage().is_iv_fail_status_present())
         MessagePage().clear_fail_in_send_message()
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0093():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     # 本地联系人搜索框里输入字符串搜索
     def pubilic_phone_contacts_search_text(self, text):
@@ -1741,8 +1739,7 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0127(self):
         """将自己发送的文件转发到最近聊天时转发失败"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.press_group_file()
         ChatFilePage().forward_file('.xlsx')
         select_recent_chat = SelectContactsPage()
@@ -1757,8 +1754,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0127():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0128(self):
@@ -1978,8 +1974,7 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0205(self):
         """网络异常选择其中一文件"""
         self.public_enter_file_select_page()
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         file = ChatSelectLocalFilePage()
         file.select_file('.xlsx')
         self.assertTrue(file.check_element_is_exist('文件显示大小'))
@@ -1990,8 +1985,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0205():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0206(self):
@@ -2009,8 +2003,7 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0207(self):
         """网络异常时发送文件"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_enter_file_select_page()
         file = ChatSelectLocalFilePage()
         file.select_file('.xlsx')
@@ -2023,8 +2016,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0207():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     def make_sure_have_file_msg(self, file_type='.xlsx'):
         group_chat_page = GroupChatPage()
@@ -2074,8 +2066,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0223():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0224(self):
@@ -2090,8 +2081,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0224():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0225(self):
@@ -2106,8 +2096,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0225():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0227(self):
@@ -2131,8 +2120,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0227():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0228(self):
@@ -2145,15 +2133,13 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0228():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0237(self):
         """验证转发文件到群聊会话窗口时发送失败，点击发送失败的文件是否可以正常打开"""
         self.make_sure_have_file_send_fail()
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         group_chat_page = GroupChatPage()
         ChatFilePage().forward_file('.xlsx')
         SelectContactsPage().wait_for_page_load()
@@ -2168,8 +2154,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0237():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0238(self):
@@ -2428,8 +2413,7 @@ class MsgGroupChatTest(TestCase):
         """验证在群聊会话窗口点击打开已下载的可预览文件时，标题显示是否正常"""
         self.make_sure_have_file_msg()
         group_chat_page = GroupChatPage()
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         group_chat_page.click_last_file_send_fail()
         group_chat_page.wait_until(condition=lambda x: group_chat_page.is_text_present('测试用例.xlsx'),
                                    auto_accept_permission_alert=False)
@@ -2437,32 +2421,28 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0276():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0277(self):
         """验证在群聊会话窗口点击打开已下载的可预览文件时，右上角是否新增更多功能入口"""
         self.make_sure_have_file_msg()
         group_chat_page = GroupChatPage()
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         group_chat_page.click_last_file_send_fail()
         self.assertTrue(group_chat_page.is_exist_more_button())
         group_chat_page.click_file_back()
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0277():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0278(self):
         """验证在群聊会话窗口点击打开已下载的可预览文件时，点击右上角的更多按钮是否正常调起选项"""
         self.make_sure_have_file_msg()
         group_chat_page = GroupChatPage()
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         group_chat_page.click_last_file_send_fail()
         group_chat_page.is_exist_more_button()
         group_chat_page.click_more_button()
@@ -2474,14 +2454,12 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0278():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0279(self):
         """验证在群聊会话窗口点击打开已下载的可预览文件-右上角的更多按钮-转发-返回时页面是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.make_sure_have_file_msg()
         group_chat_page = GroupChatPage()
         group_chat_page.click_last_file_send_fail()
@@ -2496,14 +2474,12 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0279():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0280(self):
         """验证在群聊会话窗口点击打开已下载的可预览文件-右上角的更多按钮-转发时是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_open_file_click_more_button()
         GroupChatPage().click_element_by_text('转发')
         self.public_select_recent_chat_send()
@@ -2513,14 +2489,12 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0280():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0281(self):
         """验证在群聊会话窗口点击打开已下载的可预览文件-右上角的更多按钮-收藏时是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_open_file_click_more_button()
         GroupChatPage().click_element_by_text('收藏')
         GroupChatPage().click_file_back()
@@ -2539,42 +2513,36 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0281():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0282(self):
         """验证在群聊会话窗口点击打开已下载的可预览文件-右上角的更多按钮-其他应用打开时是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_open_file_click_more_button()
         GroupChatPage().click_element_by_text('其他应用打开')
         self.assertFalse(GroupChatPage().is_text_present('其他应用打开'))
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0282():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0283(self):
         """验证在群聊会话窗口点击打开已下载的可预览文件-右上角的更多按钮-取消时是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_open_file_click_more_button()
         current_mobile().back()
         self.assertTrue(GroupChatPage().is_exist_more_button())
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0283():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0284(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的可预览文件时，标题显示是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_find_group_chat_open_file()
         group_chat_page = GroupChatPage()
         self.assertTrue(group_chat_page.is_exist_more_button())
@@ -2586,14 +2554,12 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0284():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0285(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的可预览文件时，右上角是否新增更多功能入口"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_find_group_chat_open_file()
         group_chat_page = GroupChatPage()
         self.assertTrue(group_chat_page.is_exist_more_button())
@@ -2603,14 +2569,12 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0285():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0286(self):
         """验证在在群聊-查找聊天内容-文件页面点击打开已下载的可预览文件时，点击右上角的更多按钮是否正常调起选项"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_find_group_chat_open_file()
         group_chat_page = GroupChatPage()
         self.assertTrue(group_chat_page.is_exist_more_button())
@@ -2625,8 +2589,7 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0286():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     def public_open_find_file_click_more_button(self):
         self.public_find_group_chat_open_file()
@@ -2640,8 +2603,7 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0287(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的可预览文件-右上角的更多按钮-转发-返回时页面是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_open_find_file_click_more_button()
         group_chat_page = GroupChatPage()
         self.assertTrue(group_chat_page.check_options_is_enable())
@@ -2654,14 +2616,12 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0287():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0288(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的可预览文件-右上角的更多按钮-转发时是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_open_find_file_click_more_button()
         group_chat_page = GroupChatPage()
         self.assertTrue(group_chat_page.check_options_is_enable())
@@ -2673,14 +2633,12 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0288():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0289(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的可预览文件-右上角的更多按钮-收藏时是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_open_find_file_click_more_button()
         GroupChatPage().click_element_by_text('收藏')
         GroupChatPage().is_exist_collection()
@@ -2702,14 +2660,12 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0289():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0290(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的可预览文件-右上角的更多按钮-其他应用打开时是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_open_find_file_click_more_button()
         GroupChatPage().click_element_by_text('其他应用打开')
         time.sleep(2)
@@ -2717,28 +2673,24 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0290():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0291(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的可预览文件-右上角的更多按钮-取消时是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_open_find_file_click_more_button()
         current_mobile().back()
         self.assertTrue(GroupChatPage().is_exist_more_button())
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0291():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0293(self):
         """验证在在群聊-查找聊天内容-文件页面点击打开已下载的不可预览文件时，点击右上角的更多按钮是否正常调起选项"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_find_group_chat_open_file(file_type='582.log')
         group_chat_page = GroupChatPage()
         self.assertTrue(group_chat_page.is_exist_more_button())
@@ -2753,14 +2705,12 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0293():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0294(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的不可预览文件-右上角的更多按钮-转发-返回时页面是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_find_group_chat_open_file(file_type='582.log')
         group_chat_page = GroupChatPage()
         self.assertTrue(group_chat_page.is_exist_more_button())
@@ -2776,14 +2726,12 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0294():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0295(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的不可预览文件-右上角的更多按钮-转发时是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_find_group_chat_open_file(file_type='582.log')
         group_chat_page = GroupChatPage()
         self.assertTrue(group_chat_page.is_exist_more_button())
@@ -2800,14 +2748,12 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0295():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0296(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的不可预览文件-右上角的更多按钮-收藏时是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_find_group_chat_open_file(file_type='582.log')
         group_chat_page = GroupChatPage()
         group_chat_page.click_more_button()
@@ -2831,14 +2777,12 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0296():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0297(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的不可预览文件-右上角的更多按钮-取消时是否正常"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_find_group_chat_open_file(file_type='582.log')
         group_chat_page = GroupChatPage()
         group_chat_page.click_more_button()
@@ -2850,11 +2794,14 @@ class MsgGroupChatTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0297():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
 
 class MsgGroupChatPrior(TestCase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        warnings.simplefilter('ignore', ResourceWarning)
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""

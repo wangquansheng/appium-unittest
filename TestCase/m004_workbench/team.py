@@ -1,14 +1,5 @@
-import unittest
-from preconditions.BasePreconditions import WorkbenchPreconditions
-from library.core.TestCase import TestCase
-from library.core.utils.testcasefilter import tags
-from library.core.utils.applicationcache import current_mobile
-from pages import *
-import time
-
-from pages.workbench.create_team.CreateTeam import CreateTeamPage
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from TestCase.m001_login.login import *
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 
 class Preconditions(WorkbenchPreconditions):

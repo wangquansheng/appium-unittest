@@ -12,7 +12,7 @@ from pages.contacts.Contacts import ContactsPage
 class MessagePage(FooterPage):
     """主页 - 消息页"""
 
-    ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
+    ACTIVITY = 'com.cmic.module_main.ui.activity.HomeActivity'
 
     __locators = {
         "+号": (MobileBy.ID, 'com.chinasofti.rcs:id/action_add'),
@@ -91,8 +91,11 @@ class MessagePage(FooterPage):
         '企业群名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_conv_name'),
         '企业成员数量': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_member_count'),
         '搜索我的电脑': (MobileBy.ID, 'com.chinasofti.rcs:id/svd_head'),
-        '相册': (MobileBy.ID, 'com.chinasofti.rcs:id/capture_scan_photo'),
-
+		'相册': (MobileBy.ID, 'com.chinasofti.rcs:id/capture_scan_photo'),
+		'全部团队': (MobileBy.ID, 'com.chinasofti.rcs:id/all_team'),
+        '创建团队': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_group_chat_item_id'),
+        '和飞信号': (MobileBy.ID, 'com.chinasofti.rcs:id/card_photo_num'),
+        
     }
 
     @TestLogger.log()
@@ -591,9 +594,9 @@ class MessagePage(FooterPage):
         return self._is_element_present(self.__locators['消息发送失败感叹号'])
 
     @TestLogger.log()
-    def is_message_fail_status_present(self,name):
+    def is_message_fail_status_present(self):
         """判断某条消息,消息发送失败“！”标致是否存在"""
-        return self._is_element_present(self.__locators['消息发送失败感叹号'],name)
+        return self._is_element_present(self.__locators['消息发送失败感叹号'])
 
 
     @TestLogger.log()
@@ -996,6 +999,32 @@ class MessagePage(FooterPage):
         locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and contains(@text, "%s")]' % name)
         return self._is_element_present(locator)
 
+    @TestLogger.log('点击全部团队')
+    def click_all_team(self):
+        """点击全部团队"""
+        self.click_element(self.__class__.__locators["全部团队"])
+
+    @TestLogger.log('点击创建团队')
+    def click_create_team(self):
+        """点击创建团队"""
+        self.click_element(self.__class__.__locators["创建团队"])
+
+    @TestLogger.log('获取和飞信号')
+    def get_number(self):
+        """获取和飞信号"""
+        el = self.get_element(self.__class__.__locators["和飞信号"])
+        return el.text
+		
+    @TestLogger.log("点击页头-消息")
+    def click_tag_messages(self):
+        self.click_element(self.__locators["页头-消息"])
+        time.sleep(1)
+
+    @TestLogger.log('点击我')
+    def click_me(self):
+        """点击我"""
+        self.click_element(self.__class__.__locators["我"])
+	
     @TestLogger.log()
     def click_me_icon(self):
         """点击我"""

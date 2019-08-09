@@ -106,7 +106,43 @@ class ContactsPage(FooterPage):
         '搜索团队通讯录': (MobileBy.ID, 'com.chinasofti.rcs:id/search_edit'),
         '搜索团队通讯录2': (MobileBy.ID, 'com.chinasofti.rcs:id/et_search_view'),
         '搜索结果': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
+        '选择团队设置按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/team_setting'),
+        '选择团队确定按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_more'),
     }
+
+    @TestLogger.log()
+    def choose_team_by_name(self, name):
+        """选择团队"""
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title" and @text="%s"]' % name)
+        max_try = 20
+        current = 0
+        while current < max_try:
+            if self._is_element_present(locator):
+                break
+            current += 1
+            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        self.click_element(locator)
+        time.sleep(1)
+        self.click_choose_team_sure_btn()
+        time.sleep(3)
+
+    @TestLogger.log('选择团队确定按钮')
+    def click_choose_team_sure_btn(self):
+        """选择团队确定按钮"""
+        # 判断是否可点击
+        # el = self.get_element(self.__locators['选择团队确定按钮'])
+        flag = self._is_enabled(self.__locators['选择团队确定按钮'])
+        # self._is_clickable(self.__class__.__locators["确定"])
+        if flag:
+            self.click_element(self.__locators['选择团队确定按钮'])
+        else:
+            self.click_back_by_android()
+
+    @TestLogger.log('选择团队设置按钮')
+    def click_team_setting_btn(self):
+        """选择团队设置按钮"""
+        self.click_element(self.__locators['选择团队设置按钮'])
+        time.sleep(1)
 
     @TestLogger.log()
     def is_on_this_page(self):
@@ -521,6 +557,41 @@ class ContactsPage(FooterPage):
     #         detail_page.click_back_icon()
 
     @TestLogger.log('创建通讯录联系人')
+    def create_contacts_if_not_exits2(self, name, number, company='', position='', email=''):
+        """
+        导入联系人数据
+        :param name:
+        :param number:
+        :return:
+        """
+        from pages import ContactDetailsPage
+        detail_page = ContactDetailsPage()
+
+        self.wait_for_page_load()
+        # 创建联系人
+        self.click_search_box()
+        from pages import ContactListSearchPage
+        contact_search = ContactListSearchPage()
+        contact_search.wait_for_page_load()
+        contact_search.input_search_keyword(name)
+        if contact_search.is_contact_in_list(name):
+            contact_search.click_back()
+        else:
+            contact_search.click_back()
+            self.click_element(self.__class__.__locators['联系-手机联系人'])
+            self.click_add()
+            from pages import CreateContactPage
+            create_page = CreateContactPage()
+            create_page.wait_for_page_load()
+            create_page.hide_keyboard_if_display()
+            # create_page.create_contact(name, number)
+            create_page.create_contact(name, number, company, position, email)
+            detail_page.wait_for_page_load()
+            detail_page.click_back_icon()
+            time.sleep(1)
+            current_mobile().back()
+
+    @TestLogger.log('创建通讯录联系人')
     def create_contacts_if_not_exits(self, name, number):
         """
         导入联系人数据
@@ -552,7 +623,8 @@ class ContactsPage(FooterPage):
             detail_page.wait_for_page_load()
             detail_page.click_back_icon()
             time.sleep(1)
-            current_mobile().back()
+            # current_mobile().back()
+            self.click_back()
 
 
 
@@ -1150,3 +1222,15 @@ class ContactsPage(FooterPage):
             condition=lambda x: self.get_elements(self.__locators['搜索结果'])[0],
             auto_accept_permission_alert=False
         ).click()
+
+    @TestLogger.log()
+    def get_element_c(self, locator):
+        return self.get_element(self.__locators[locator])
+
+    @TestLogger.log()
+    def click_element_c(self, locator):
+        self.click_element(self.__locators[locator])
+
+    @TestLogger.log()
+    def is_element_present(self, locator):
+        return self._is_element_present(locator)
