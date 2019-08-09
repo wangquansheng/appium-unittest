@@ -1,14 +1,13 @@
 import time
-
 from library.core.TestCase import TestCase
+from library.core.utils.applicationcache import current_mobile
 from library.core.utils.applicationcache import switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.contacts.local_contact import localContactPage
 from pages.workbench.enterprise_contacts.EnterpriseContacts import EnterpriseContactsPage
-from preconditions.BasePreconditions import WorkbenchPreconditions
 from pages.workbench.group_messenger.SelectCompanyContacts import SelectCompanyContactsPage
-from library.core.utils.applicationcache import current_mobile
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -22,9 +21,9 @@ REQUIRED_MOBILES = {
     'Android-XX-XX': 'others_double',
 }
 
+
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
-
     @staticmethod
     def make_already_in_message_page(reset=False):
         """确保应用在消息页面"""
@@ -114,7 +113,7 @@ class ContactSearchOpTest(TestCase):
         lcontact.set_network_status(6)
         pass
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0010(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -151,7 +150,7 @@ class ContactSearchOpTest(TestCase):
         sccp = SelectCompanyContactsPage()
         self.assertEquals(sccp.is_search_contacts_number_match(search_number), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0011(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -208,7 +207,7 @@ class ContactSearchOpTest(TestCase):
         search_page.hide_keyboard()
         self.assertEquals(sccp.is_search_contacts_number_match(search_number), False)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0012(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -245,7 +244,7 @@ class ContactSearchOpTest(TestCase):
         sccp = SelectCompanyContactsPage()
         self.assertEquals(sccp.is_search_contacts_name_match(search_name), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0013(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -287,7 +286,7 @@ class ContactSearchOpTest(TestCase):
         search_page.hide_keyboard()
         self.assertEquals(sccp.is_search_contacts_number_match(search_number), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0014(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -322,7 +321,7 @@ class ContactSearchOpTest(TestCase):
         sccp = SelectCompanyContactsPage()
         self.assertEquals(sccp.is_search_contacts_number_match(search_number), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0015(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -367,7 +366,7 @@ class ContactSearchOpTest(TestCase):
         search_page.hide_keyboard()
         self.assertEquals(sccp.is_search_contacts_name_match(search_name), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0016(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -403,7 +402,7 @@ class ContactSearchOpTest(TestCase):
         sccp = SelectCompanyContactsPage()
         self.assertEquals(sccp.is_search_contacts_number_match(search_number), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0017(self):
 
         Preconditions.make_already_in_message_page()
@@ -421,7 +420,7 @@ class ContactSearchOpTest(TestCase):
         sccp = SelectCompanyContactsPage()
         self.assertEquals(sccp.is_toast_exist("当前网络不可用，请检查网络设置"), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0018(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -462,7 +461,7 @@ class ContactSearchOpTest(TestCase):
         ecp = EnterpriseContactsPage()
         self.assertEquals(ecp.is_exists_value_by_name(search_name), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0025(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -499,7 +498,7 @@ class ContactSearchOpTest(TestCase):
         sccp = SelectCompanyContactsPage()
         self.assertEquals(sccp.is_search_contacts_number_match(search_number), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0026(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -558,7 +557,7 @@ class ContactSearchOpTest(TestCase):
         sccp = SelectCompanyContactsPage()
         self.assertEquals(sccp.is_search_contacts_number_match(search_number), False)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0027(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -596,7 +595,7 @@ class ContactSearchOpTest(TestCase):
         sccp = SelectCompanyContactsPage()
         self.assertEquals(sccp.is_search_contacts_name_match(search_name), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0736(self):
         Preconditions.make_already_in_message_page()
         # 点击‘通讯录’
@@ -614,7 +613,7 @@ class ContactSearchOpTest(TestCase):
         # 1.模糊匹配到正确的结果
         self.assertEquals(search_page.is_text_present("特殊!@$"), False)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0739(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -649,7 +648,7 @@ class ContactSearchOpTest(TestCase):
         # 1.模糊匹配到正确的结果
         self.assertEquals(search_page.is_text_present("大佬1"), False)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0740(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -684,7 +683,7 @@ class ContactSearchOpTest(TestCase):
         # 1.模糊匹配到正确的结果
         self.assertEquals(search_page.is_text_present("查看更多"), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0741(self):
         """查看更多联系人"""
         Preconditions.make_already_in_message_page()
@@ -700,7 +699,7 @@ class ContactSearchOpTest(TestCase):
         # 1.展示群聊搜索结果标签，标签右上角不展示查看更多按钮
         self.assertEquals(search_page.is_text_present("查看更多"), False)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0742(self):
         Preconditions.make_already_in_message_page()
         # 点击‘联系’
@@ -715,7 +714,7 @@ class ContactSearchOpTest(TestCase):
         # 1.展示群聊搜索结果标签，标签右上角展示查看更多按钮  群聊 & 查看更多
         self.assertEquals(search_page.is_text_present("查看更多"), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0743(self):
         Preconditions.make_already_in_message_page()
         # 点击‘联系’
@@ -731,7 +730,7 @@ class ContactSearchOpTest(TestCase):
         self.assertEquals(search_page.is_text_present("查看更多"), False)
         self.assertEquals(search_page.is_text_present("公众号"), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0744(self):
         Preconditions.make_already_in_message_page()
         # 点击‘联系’
@@ -747,7 +746,7 @@ class ContactSearchOpTest(TestCase):
         self.assertEquals(search_page.is_text_present("查看更多"), True)
         self.assertEquals(search_page.is_text_present("公众号"), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0760(self):
         Preconditions.make_already_in_message_page()
         # 点击‘联系’
@@ -762,7 +761,7 @@ class ContactSearchOpTest(TestCase):
         # 搜索时，不展示和通讯录搜索结果标签
         self.assertEquals(search_page.is_text_present("无搜索结果"), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0781(self):
         # 导入团队联系人
         fail_time2 = 0
@@ -797,7 +796,7 @@ class ContactSearchOpTest(TestCase):
         # 1.模糊匹配到正确的结果
         self.assertEquals(search_page.is_text_present("大佬1"), False)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0004(self):
         Preconditions.make_already_in_message_page()
         # 点击‘联系’
@@ -815,7 +814,7 @@ class ContactSearchOpTest(TestCase):
         self.assertEquals(search_page.is_text_present("公众号"), True)
         self.assertEquals(search_page.is_text_present("创建团队"), True)
 
-    @tags('ALL', 'CONTACT', 'YL')
+    @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0024(self):
         # 导入团队联系人
         fail_time2 = 0

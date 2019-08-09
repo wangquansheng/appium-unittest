@@ -1,16 +1,12 @@
-import unittest
 import time
-
-from library.core.TestCase import TestCase
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
-from library.core.utils.testcasefilter import tags
+from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from pages import *
-from pages.me.MeMobileAccunt import  MeMobileAccuntPage
-from pages.me.MeMobileCharge import  MeMobileChargePage
-from pages.me.MeMobileHall import  MeMobileHallPage
+
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
 }
+
+
 class Preconditions(object):
     """前置条件"""
 
