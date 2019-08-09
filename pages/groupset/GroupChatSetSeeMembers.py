@@ -1,3 +1,5 @@
+import traceback
+
 from appium.webdriver.common.mobileby import MobileBy
 
 from library.core.BasePage import BasePage
@@ -163,6 +165,7 @@ class GroupChatSetSeeMembersPage(BasePage):
                 condition=lambda d: self._is_element_present(self.__class__.__locators["还有人未进群,再次邀请"])
             )
             return True
-        except:
+        except Exception:
+            traceback.print_exc()
             return False
 

@@ -33,6 +33,9 @@ class SearchPage(SearchBar, Keyboard, BasePage):
         '公众号列表项': (MobileBy.XPATH, '//android.widget.RelativeLayout[*[@resource-id="com.chinasofti.rcs:id/svd_head"]]'),
         '公众号头像': (MobileBy.ID, 'com.chinasofti.rcs:id/svd_head'),
         '公众号名字': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_conv_name'),
+        '群聊名字': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_conv_name'),
+        '消息页面联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_conv_name'),
+        '群聊历史记录数量': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_content'),
         'android:id/statusBarBackground': (MobileBy.ID, 'android:id/statusBarBackground')
     }
 
@@ -286,6 +289,41 @@ class SearchPage(SearchBar, Keyboard, BasePage):
         contact_name = item.find_element(*[MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name" or ' +
                                            '@resource-id="com.chinasofti.rcs:id/tv_conv_name"]']).text
         return contact_name
+
+    @TestLogger.log('获取联系人数量')
+    def get_contact_count(self):
+        els = self.get_elements(self.__locators['联系人名字'])
+        return len(els)
+
+    @TestLogger.log('获取群聊数量')
+    def get_group_count(self):
+        els = self.get_elements(self.__locators['群聊名字'])
+        return len(els)
+
+    @TestLogger.log('获取群聊数量')
+    def get_meslist_contacts(self):
+        results = []
+        els = self.get_elements(self.__locators['消息页面联系人'])
+        if els:
+            for el in els:
+                results.append(el.text)
+        return results
+
+    @TestLogger.log('获取联系人列表名字')
+    def is_exist__contact_name(self, name):
+        els = self.get_elements(self.__locators['联系人名字'])
+        if els:
+            for el in els:
+                if name == el.text:
+                    return True
+                else:
+                    continue
+        return False
+
+    @TestLogger.log('获取群聊历史记录数量')
+    def get_chat_history_count(self):
+        els = self.get_elements(self.__locators['群聊历史记录数量'])
+        return len(els)
 
     @TestLogger.log('检查分栏是否显示"查看更多"')
     def assert_show_more_is_display(self, element):

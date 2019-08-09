@@ -92,6 +92,7 @@ class SingleChatPage(BaseChatPage):
                   '文件列表': (MobileBy.ID, "com.chinasofti.rcs:id/lv_choose"),
                   '文件项': (MobileBy.ID, "com.chinasofti.rcs:id/rl_sd_file"),
                   '文件名称项': (MobileBy.ID, "com.chinasofti.rcs:id/tv_file_name"),
+                  '关闭表情': (MobileBy.ID, "com.chinasofti.rcs:id/ib_expression"),
                   }
 
     @TestLogger.log()
@@ -262,6 +263,15 @@ class SingleChatPage(BaseChatPage):
     def is_exist_send_txt_button(self):
         """是否存在文本发送按钮"""
         return self._is_element_present(self.__locators["文本发送按钮"])
+
+    @TestLogger.log("页面元素判断")
+    def is_exist_element(self, locator):
+        self.page_should_contain_element(self.__class__.__locators[locator])
+
+    @TestLogger.log()
+    def close_chat_expression(self):
+        """关闭表情"""
+        self.click_element(self.__class__.__locators["关闭表情"])
 
     @TestLogger.log()
     def get_current_file_name(self):

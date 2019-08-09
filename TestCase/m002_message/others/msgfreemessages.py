@@ -64,6 +64,20 @@ class Preconditions(object):
         return
 
     @staticmethod
+    def make_already_have_used_free_sms2():
+        """确保非首次使用免费短信功能"""
+        mp = MessagePage()
+        mp.click_add_icon()
+        mp.click_free_sms()
+        time.sleep(1)
+        if FreeMsgPage().is_exist_cancle_btn():
+            FreeMsgPage().click_sure_btn()
+            time.sleep(1)
+            SelectContactsPage().click_search_contact()
+            current_mobile().hide_keyboard_if_display()
+        # mp.click_back_by_android()
+
+    @staticmethod
     def enter_single_chat_page(name):
         """进入单聊聊天会话页面"""
         mp = MessagePage()
@@ -106,7 +120,6 @@ class MessageScanTest(TestCase):
     文件位置：114全量测试用例-黄彩最0322.xlsx
     表格：免费短信
     """
-
     @classmethod
     def setUpClass(cls):
         # 创建联系人
@@ -149,6 +162,7 @@ class MessageScanTest(TestCase):
 
     def default_setUp(self):
         """确保进入消息界面"""
+        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC_RESET', 'freemsg')
@@ -297,23 +311,20 @@ class MessageScanTest(TestCase):
         # 1.网络正常，本网用户
         # 2.客户端已登录
         # 3.已经使用过发送短信功能，短信设置开关已开启
-        Preconditions.make_already_have_used_free_sms()
+        Preconditions.make_already_have_used_free_sms2()
         # 4.在单聊会话页面
-        Preconditions.enter_single_chat_page("测试号码")
+        slc = SelectLocalContactsPage()
+        slc.selecting_local_contacts_by_name("测试号码")
         # Step: 1.点击下方发送短信按钮
         basepg = BaseChatPage()
-        basepg.click_free_msg()
-        time.sleep(2)
         # CheckPoint: 1.直接进入短信编辑页面
         self.assertTrue(basepg.is_exist_exit_sms())
-
         # Step: 2.编辑好短信，点击发送按钮
         basepg.input_free_message("测试短信，请勿回复")
         basepg.click_send_sms()
         time.sleep(1)
         if basepg.is_exist_send_button():
             basepg.click_send_button()
-
         time.sleep(2)
         # CheckPoint: 2.短信发送成功并返回短信编辑页面
         self.assertTrue(basepg.is_exist_exit_sms())
@@ -337,24 +348,21 @@ class MessageScanTest(TestCase):
         # 1.网络异常，本网用户
         # 2.客户端已登录
         # 3.已经使用过发送短信功能，短信设置开关已开启
-        Preconditions.make_already_have_used_free_sms()
+        Preconditions.make_already_have_used_free_sms2()
         # 4.在单聊会话页面
-        Preconditions.enter_single_chat_page("测试号码")
+        slc = SelectLocalContactsPage()
+        slc.selecting_local_contacts_by_name("测试号码")
         # Step: 1.点击下方发送短信按钮
         basepg = BaseChatPage()
-        time.sleep(3)
-        basepg.click_free_msg()
         time.sleep(2)
         # CheckPoint: 1.直接进入短信编辑页面
         self.assertTrue(basepg.is_exist_exit_sms())
-
         # Step: 2.编辑好短信，点击发送按钮
         basepg.input_free_message("测试短信，请勿回复")
         basepg.click_send_sms()
         time.sleep(1)
         if basepg.is_exist_send_button():
             basepg.click_send_button()
-
         time.sleep(2)
         # CheckPoint: 2.短信发送失败，toast提示：网络异常，请检查网络设置(IOS)
         self.assertTrue(SingleChatPage().is_msg_send_fail())
@@ -374,16 +382,14 @@ class MessageScanTest(TestCase):
         # 1.网络正常，本网用户
         # 2.客户端已登录
         # 3.已经使用过发送短信功能，短信设置开关已开启
-        Preconditions.make_already_have_used_free_sms()
+        Preconditions.make_already_have_used_free_sms2()
         # 4.在单聊会话页面
-        Preconditions.enter_single_chat_page("测试号码")
+        slc = SelectLocalContactsPage()
+        slc.selecting_local_contacts_by_name("测试号码")
         # Step: 1.点击下方发送短信按钮
         basepg = BaseChatPage()
-        basepg.click_free_msg()
-        time.sleep(2)
         # CheckPoint: 1.直接进入短信编辑页面，无资费介绍页
         basepg.page_should_not_contain_text("欢迎使用免费短信")
-
         self.assertTrue(basepg.is_exist_exit_sms())
         basepg.click_exit_sms()
         basepg.click_back_by_android()
@@ -394,11 +400,15 @@ class MessageScanTest(TestCase):
         # 1.网络正常，本网用户
         # 2.客户端已登录
         # 3.本机已发送短信
-        Preconditions.select_contact_send_sms("测试号码")
+        Preconditions.make_already_have_used_free_sms2()
         # Step: 1、进入单聊会话页面
-        Preconditions.enter_single_chat_page("测试号码")
-        # 2、长按短信
+        slc = SelectLocalContactsPage()
+        slc.selecting_local_contacts_by_name("测试号码")
         basepg = BaseChatPage()
+        basepg.input_free_message("测试短信，请勿回复")
+        basepg.click_send_sms()
+        time.sleep(2)
+        # 2、长按短信
         basepg.press_mess("测试短信，请勿回复")
         # 3、点击转发按钮
         basepg.click_forward()
@@ -428,9 +438,14 @@ class MessageScanTest(TestCase):
         # 1.网络正常，本网用户
         # 2.客户端已登录
         # 3.本机已发送短信
-        Preconditions.select_contact_send_sms("测试号码")
+        Preconditions.make_already_have_used_free_sms2()
         # Step: 1、进入单聊会话页面
-        Preconditions.enter_single_chat_page("测试号码")
+        slc = SelectLocalContactsPage()
+        slc.selecting_local_contacts_by_name("测试号码")
+        basepg = BaseChatPage()
+        basepg.input_free_message("测试短信，请勿回复")
+        basepg.click_send_sms()
+        time.sleep(2)
         # 2、长按短信
         basepg = BaseChatPage()
         basepg.press_mess("测试短信，请勿回复")
@@ -457,9 +472,14 @@ class MessageScanTest(TestCase):
         # 1.网络正常，本网用户
         # 2.客户端已登录
         # 3.本机已发送短信
-        Preconditions.select_contact_send_sms("测试号码")
+        Preconditions.make_already_have_used_free_sms2()
         # Step: 1、进入单聊会话页面
-        Preconditions.enter_single_chat_page("测试号码")
+        slc = SelectLocalContactsPage()
+        slc.selecting_local_contacts_by_name("测试号码")
+        basepg = BaseChatPage()
+        basepg.input_free_message("测试短信，请勿回复")
+        basepg.click_send_sms()
+        time.sleep(2)
         # 2、长按短信
         basepg = BaseChatPage()
         basepg.press_mess("测试短信，请勿回复")
@@ -484,9 +504,14 @@ class MessageScanTest(TestCase):
         # 1.网络正常，本网用户
         # 2.客户端已登录
         # 3.本机已发送短信
-        Preconditions.select_contact_send_sms("测试号码")
+        Preconditions.make_already_have_used_free_sms2()
         # Step: 1、进入单聊会话页面
-        Preconditions.enter_single_chat_page("测试号码")
+        slc = SelectLocalContactsPage()
+        slc.selecting_local_contacts_by_name("测试号码")
+        basepg = BaseChatPage()
+        basepg.input_free_message("测试短信，请勿回复")
+        basepg.click_send_sms()
+        time.sleep(2)
         # 2、长按短信
         basepg = BaseChatPage()
         basepg.press_mess("测试短信，请勿回复")
@@ -511,9 +536,14 @@ class MessageScanTest(TestCase):
         # 1.网络正常，本网用户
         # 2.客户端已登录
         # 3.本机已发送短信
-        Preconditions.select_contact_send_sms("测试号码")
+        Preconditions.make_already_have_used_free_sms2()
         # Step: 1、进入单聊会话页面
-        Preconditions.enter_single_chat_page("测试号码")
+        slc = SelectLocalContactsPage()
+        slc.selecting_local_contacts_by_name("测试号码")
+        basepg = BaseChatPage()
+        basepg.input_free_message("测试短信，请勿回复")
+        basepg.click_send_sms()
+        time.sleep(2)
         # 2、长按短信
         basepg = BaseChatPage()
         basepg.press_mess("测试短信，请勿回复")

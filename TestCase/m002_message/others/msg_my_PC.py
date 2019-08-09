@@ -1,23 +1,18 @@
-import unittest
 import time
+from selenium.common.exceptions import TimeoutException
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
-from pages.workbench.group_messenger.SelectCompanyContacts import SelectCompanyContactsPage
-from preconditions.BasePreconditions import LoginPreconditions
 from library.core.utils.testcasefilter import tags
 from pages import *
-from selenium.common.exceptions import TimeoutException
-
-import re
-import random
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
-
+from pages.workbench.group_messenger.SelectCompanyContacts import SelectCompanyContactsPage
+from preconditions.BasePreconditions import LoginPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
     'Android-XX': ''  # 用来发短信
 }
+
 
 class Preconditions(LoginPreconditions):
     """前置条件"""
@@ -40,22 +35,22 @@ class Preconditions(LoginPreconditions):
         """确保我的电脑页面有文件记录"""
         chat=ChatWindowPage()
         time.sleep(2)
-        if chat.is_element_present_file():
-            chat.wait_for_page_load()
-        else:
-            chat.click_more()
-            ChatMorePage().click_file()
-            csf = ChatSelectFilePage()
-            csf.wait_for_page_load()
-            csf.click_local_file()
-            # 3、选择任意文件，点击发送按钮
-            local_file = ChatSelectLocalFilePage()
-            # 进入预置文件目录，选择文件发送
-            local_file.push_preset_file()
-            local_file.click_preset_file_dir()
-            local_file.select_file('.txt')
-            local_file.click_send()
-            chat.wait_for_page_load()
+        # if chat.is_element_present_file():
+        #     chat.wait_for_page_load()
+        # else:
+        chat.click_more()
+        ChatMorePage().click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        # 3、选择任意文件，点击发送按钮
+        local_file = ChatSelectLocalFilePage()
+        # 进入预置文件目录，选择文件发送
+        local_file.push_preset_file()
+        local_file.click_preset_file_dir()
+        local_file.select_file('.txt')
+        local_file.click_send()
+        chat.wait_for_page_load()
 
     @staticmethod
     def get_group_chat_name():
@@ -64,6 +59,27 @@ class Preconditions(LoginPreconditions):
         group_name = "aatest" + phone_number[-4:]
         return group_name
 
+    @staticmethod
+    def make_already_in_message_page2(reset=False):
+        """确保应用在消息页面"""
+        Preconditions.select_mobile('Android-移动', reset)
+        current_mobile().hide_keyboard_if_display()
+        time.sleep(1)
+        # 如果在消息页，不做任何操作
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            return
+        # 进入一键登录页
+        else:
+            try:
+                current_mobile().launch_app()
+                mess.wait_for_page_load()
+            except:
+                # 进入一键登录页
+                Preconditions.make_already_in_one_key_login_page()
+                #  从一键登录页面登录
+                Preconditions.login_by_one_key_login()
+
 
 class MsgMyPCChating(TestCase):
     """
@@ -71,7 +87,6 @@ class MsgMyPCChating(TestCase):
     表格：我的电脑-文件
     author: 余梦思
     """
-
     def default_setUp(self):
         """确保每个用例运行前在我的电脑会话页面"""
         Preconditions.select_mobile('Android-移动')
@@ -189,7 +204,6 @@ class MsgMyPCChating(TestCase):
             mep = MePage()
             mep.set_network_status(6)
 
-
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0306(self):
         """断网 我的电脑预览文件页面,点击收藏"""
@@ -204,7 +218,6 @@ class MsgMyPCChating(TestCase):
         chat.click_collection_Preview()
         self.assertTrue(chat.is_toast_exist('已收藏'))
         chat.click_back_in_open_file_page()
-
 
     @tags('ALL', 'CMCC', 'DEBUG_1', 'my_PC')
     def test_msg_weifenglian_PC_0307(self):
@@ -247,7 +260,7 @@ class MsgMyPCChating(TestCase):
         # 判断是否放大,一个表情文本框信息正常宽度为107
         if not chat.get_width_of_msg_of_text() > 107:
             raise AssertionError("表情没有放大展示")
-        chat.close_expression()
+        chat.close_expression2()
         chat.hide_keyboard()
 
     @tags('ALL', 'CMCC', 'my_PC')
@@ -264,9 +277,9 @@ class MsgMyPCChating(TestCase):
         local_file = ChatSelectLocalFilePage()
         local_file.select_file('.jpg')
         local_file.click_send()
-        chat.wait_for_msg_send_status_become_to('发送成功',10)
+        chat.wait_for_msg_send_status_become_to('发送成功', 10)
         #返回消息页面
-        chat.click_back()
+        chat.click_back_by_android()
         time.sleep(2)
         MessagePage().page_should_contain_text('图片')
 
@@ -284,9 +297,9 @@ class MsgMyPCChating(TestCase):
         local_file = ChatSelectLocalFilePage()
         local_file.select_file('.mp4')
         local_file.click_send()
-        chat.wait_for_msg_send_status_become_to('发送成功',10)
+        chat.wait_for_msg_send_status_become_to('发送成功', 10)
         #返回消息页面
-        chat.click_back()
+        chat.click_back_by_android()
         time.sleep(2)
         MessagePage().page_should_contain_text('视频')
 
@@ -304,9 +317,9 @@ class MsgMyPCChating(TestCase):
         local_file = ChatSelectLocalFilePage()
         local_file.select_file('.mp3')
         local_file.click_send()
-        chat.wait_for_msg_send_status_become_to('发送成功',10)
+        chat.wait_for_msg_send_status_become_to('发送成功', 10)
         #返回消息页面
-        chat.click_back()
+        chat.click_back_by_android()
         time.sleep(2)
         MessagePage().page_should_contain_text('文件')
 
@@ -434,11 +447,35 @@ class MsgMyPcTest(TestCase):
         current_mobile().turn_on_wifi()
         current_mobile().turn_on_mobile_data()
 
+    @staticmethod
+    def setUp_test_msg_weifenglian_PC_0003():
+        Preconditions.make_already_in_message_page2()
+        msg_page = MessagePage()
+        msg_page.wait_for_page_load()
+        if msg_page.message_list_is_exist_name('我的电脑', max_try=3):
+            try:
+                msg_page.choose_chat_by_name('我的电脑')
+                time.sleep(3)
+            except:
+                msg_page.click_search()
+                SearchPage().input_search_keyword('我的电脑')
+                msg_page.choose_chat_by_name('我的电脑')
+                time.sleep(3)
+        else:
+            try:
+                msg_page.clear_message_record()
+            except Exception as e:
+                print(e)
+            msg_page.click_search()
+            SearchPage().input_search_keyword('我的电脑')
+            msg_page.choose_chat_by_name('我的电脑')
+            time.sleep(3)
+
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0003(self):
         """会话页面有文件发送失败时查看消息列表是否有消息发送失败的标识"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        mess = MessagePage()
+        mess.set_network_status(0)
         self.wait_for_MyPc_page_load()
         if GroupChatPage().is_exist_msg_send_failed_button():
             pass
@@ -446,12 +483,14 @@ class MsgMyPcTest(TestCase):
             self.public_make_sure_have_faild_massege()
         self.wait_for_MyPc_page_load()
         ChatWindowPage().click_back1()
-        self.assertTrue(MessagePage().is_iv_fail_status_present())
+        time.sleep(3)
+        result = mess.is_iv_fail_status_present()
+        self.assertTrue(result)
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0003():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        mess = MessagePage()
+        mess.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0004(self):
@@ -639,6 +678,30 @@ class MsgMyPcTest(TestCase):
         current_mobile().turn_on_wifi()
         current_mobile().turn_on_mobile_data()
 
+    @staticmethod
+    def setUp_test_msg_weifenglian_PC_0018():
+        Preconditions.make_already_in_message_page2()
+        msg_page = MessagePage()
+        msg_page.wait_for_page_load()
+        if msg_page.message_list_is_exist_name('我的电脑', max_try=3):
+            try:
+                msg_page.choose_chat_by_name('我的电脑')
+                time.sleep(3)
+            except:
+                msg_page.click_search()
+                SearchPage().input_search_keyword('我的电脑')
+                msg_page.choose_chat_by_name('我的电脑')
+                time.sleep(3)
+        else:
+            try:
+                msg_page.clear_message_record()
+            except Exception as e:
+                print(e)
+            msg_page.click_search()
+            SearchPage().input_search_keyword('我的电脑')
+            msg_page.choose_chat_by_name('我的电脑')
+            time.sleep(3)
+
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0018(self):
         """对发送失败的图片进行重发后，消息列表页面的消息发送失败的标识消失"""
@@ -646,11 +709,10 @@ class MsgMyPcTest(TestCase):
         if pc_chat_page.is_exist_msg_send_failed_button():
             pass
         else:
-            current_mobile().turn_off_wifi()
-            current_mobile().turn_off_mobile_data()
+            mess = MessagePage()
+            mess.set_network_status(0)
             self.public_select_pic_send('23e.jpg')
-            current_mobile().turn_on_wifi()
-            current_mobile().turn_on_mobile_data()
+            mess.set_network_status(6)
             self.wait_for_MyPc_page_load()
         pc_chat_page.click_msg_send_failed_button()
         pc_chat_page.click_resend_confirm()
@@ -662,8 +724,8 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0018():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        mess = MessagePage()
+        mess.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0019(self):
@@ -888,15 +950,41 @@ class MsgMyPcTest(TestCase):
     def tearDown_test_msg_weifenglian_PC_0035():
         current_mobile().turn_on_wifi()
 
+    @staticmethod
+    def setUp_test_msg_weifenglian_PC_0037():
+        Preconditions.make_already_in_message_page2()
+        msg_page = MessagePage()
+        msg_page.wait_for_page_load()
+        if msg_page.message_list_is_exist_name('我的电脑', max_try=3):
+            try:
+                msg_page.choose_chat_by_name('我的电脑')
+                time.sleep(3)
+            except:
+                msg_page.click_search()
+                SearchPage().input_search_keyword('我的电脑')
+                msg_page.choose_chat_by_name('我的电脑')
+                time.sleep(3)
+        else:
+            try:
+                msg_page.clear_message_record()
+            except Exception as e:
+                print(e)
+            msg_page.click_search()
+            SearchPage().input_search_keyword('我的电脑')
+            msg_page.choose_chat_by_name('我的电脑')
+            time.sleep(3)
+
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0037(self):
         """点击订购免流特权后可正常返回”"""
-        current_mobile().turn_off_wifi()
+        mess = MessagePage()
+        mess.set_network_status(0)
         self.public_select_video('2M_vedio.mp4')
         local_file = ChatSelectLocalFilePage()
         local_file.click_single_send()
         local_file.click_free_data_button()
-        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('和飞信'), timeout=15,
+        time.sleep(3)
+        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('网页无法打开'), timeout=15,
                                     auto_accept_permission_alert=False)
         self.assertTrue(bol)
         local_file.click_free_data_back()
@@ -907,7 +995,8 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0037():
-        current_mobile().turn_on_wifi()
+        mess = MessagePage()
+        mess.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0039(self):
@@ -1405,9 +1494,11 @@ class MsgMyPcTest(TestCase):
         phone_contacts.click_first_phone_contacts()
         phone_contacts.click_sure_forward()
         # 转发成功并回到聊天页面
-        self.assertTrue(GroupChatPage().is_exist_forward())
-        GroupChatPage().wait_for_page_load()
-        self.assertTrue(GroupChatPage().is_on_this_page())
+        gcp = GroupChatPage()
+        result = gcp.is_exist_forward()
+        self.assertTrue(result)
+        result = gcp.is_exist_setting_btn()
+        self.assertTrue(result)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_PC_0093(self):
@@ -1782,15 +1873,19 @@ class MsgXiaoQiu(TestCase):
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0642(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-搜索联系人"""
-        SelectContactsPage().search('a')
-        self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('a'))
-        elements = current_mobile().get_elements(('id','com.chinasofti.rcs:id/tv_name_personal_contactlist'))
+        scp = SelectContactsPage()
+        scp.search('a')
+        time.sleep(6)
+        sccp = SelectCompanyContactsPage()
+        result = sccp.is_search_contacts_name_match2('a')
+        self.assertTrue(result)
+        elements = current_mobile().get_elements(('id', 'com.chinasofti.rcs:id/tv_name_personal_contactlist'))
         time.sleep(6)
         first_page_element = [el.text for el in elements]
-        SelectContactsPage().page_up()
+        scp.page_up()
         elements2 = current_mobile().get_elements(('id', 'com.chinasofti.rcs:id/tv_name_personal_contactlist'))
         sec_page_element = [el.text for el in elements2]
-        self.assertFalse(first_page_element==sec_page_element)
+        self.assertFalse(first_page_element == sec_page_element)
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0643(self):
@@ -1809,60 +1904,65 @@ class MsgXiaoQiu(TestCase):
     def test_msg_xiaoqiu_0644(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入一个大写字母搜索联系人"""
         SelectContactsPage().search('A')
-        time.sleep(5)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('A'))
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0645(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入一个大写字母搜索联系人"""
+        # 备注：无法构造无查询结果的数据。
         SelectContactsPage().search('X')
-        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+        time.sleep(6)
+        self.assertFalse(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0646(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入2个大写字母搜索联系人"""
         SelectContactsPage().search('AA')
         # self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('AA'.lower()))
-        time.sleep(2)
+        time.sleep(6)
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0647(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入2个大写字母搜索联系人"""
+        # 备注：无法构造无查询结果的数据。
         SelectContactsPage().search('XX')
-        time.sleep(2)
-        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+        time.sleep(6)
+        self.assertFalse(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0648(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入一个小写字母搜索联系人"""
         SelectContactsPage().search('a')
-        time.sleep(5)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('a'))
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0649(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入一个小写字母搜索联系人"""
+        # 备注：无法构造无查询结果的数据。
         SelectContactsPage().search('x')
-        time.sleep(2)
-        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+        time.sleep(6)
+        self.assertFalse(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0650(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入2个小写字母搜索联系人"""
         SelectContactsPage().search('aa')
         # self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('AA'.lower()))
-        time.sleep(2)
+        time.sleep(6)
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0651(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入2个小写字母搜索联系人"""
+        # 备注：无法构造无查询结果的数据。
         SelectContactsPage().search('xx')
-        time.sleep(3)
-        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+        time.sleep(6)
+        self.assertFalse(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0652(self):
@@ -1881,76 +1981,79 @@ class MsgXiaoQiu(TestCase):
     def test_msg_xiaoqiu_0653(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入联系人的姓名拼音-搜索"""
         SelectContactsPage().search('caixukun')
-        time.sleep(3)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0654(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入任何一个汉字——搜索"""
         SelectContactsPage().search('大')
-        time.sleep(3)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_search_contacts_name_match('大'))
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0655(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入任何一个汉字——搜索"""
-        SelectContactsPage().search('變')
-        time.sleep(3)
+        SelectContactsPage().search('死')
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0656(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入号码规则的3位数字——搜索"""
         SelectContactsPage().search('138')
-        time.sleep(3)
+        time.sleep(6)
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0657(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的3位数字——搜索"""
+        # 备注：无法构造无查询结果的数据。
         SelectContactsPage().search('999')
-        time.sleep(3)
-        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+        time.sleep(6)
+        self.assertFalse(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0658(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入号码规则的6位数字——搜索"""
         SelectContactsPage().search('138001')
-        time.sleep(3)
+        time.sleep(6)
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0659(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的6位数字——搜索"""
+        # 备注：无法构造无查询结果的数据。
         SelectContactsPage().search('123456')
-        time.sleep(3)
-        self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+        time.sleep(6)
+        self.assertFalse(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0660(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-输入号码规则的11位数字——搜索"""
-        SelectContactsPage().search('13800137000')
-        time.sleep(3)
+        SelectContactsPage().search('13800137001')
+        time.sleep(6)
         SelectHeContactsDetailPage().click_search_team_contacts()
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0661(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的11位数字——搜索"""
         SelectContactsPage().search('12345678912')
-        time.sleep(3)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0662(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的11位数字——搜索"""
         SelectContactsPage().search('1234567891')
-        time.sleep(3)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
     @tags('ALL', 'CMCC', 'MSG')
     def test_msg_xiaoqiu_0663(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的12位数字——搜索"""
         SelectContactsPage().search('123456789123')
-        time.sleep(3)
+        time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
+

@@ -1,22 +1,16 @@
-import unittest
 import time
+
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
-from library.core.utils.applicationcache import current_mobile
-from preconditions.BasePreconditions import LoginPreconditions
+from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
-import re
-import random
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
-
-
+from preconditions.BasePreconditions import LoginPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
     'Android-XX': ''  # 用来发短信
 }
-
 
 
 class Preconditions(LoginPreconditions):
@@ -293,8 +287,11 @@ class MsgLabelGroupingAll(TestCase):
             local_file.click_send()
         else:
             local_file.click_back()
+            time.sleep(1)
             local_file.click_back()
+            time.sleep(1)
             csf.click_back()
+            time.sleep(1)
         chat.wait_for_page_load()
 
     @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping')
@@ -351,9 +348,15 @@ class MsgLabelGroupingAll(TestCase):
         chat = LabelGroupingChatPage()
         label_name = chat.get_label_name()
         chat.click_back()
+        time.sleep(1)
         LableGroupDetailPage().click_back()
+        time.sleep(1)
         LabelGroupingPage().click_back()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
         ContactsPage().click_message_icon()
+        time.sleep(1)
         mess = MessagePage()
         mess.wait_for_page_load()
         mess.click_text(label_name)
@@ -514,7 +517,6 @@ class MsgLabelGroupingAll(TestCase):
         local_file.is_exist_free_flow_privilege()
         local_file.is_exist_no_longer_prompt()
 
-
     @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0008(self):
         """移动网络下,发送大于2M的文件会出现弹框,继续发送"""
@@ -630,8 +632,7 @@ class MsgLabelGroupingAll(TestCase):
             mep = MePage()
             mep.set_network_status(6)
 
-   #Android手机无取消按钮,IOS有
-
+   # Android手机无取消按钮,IOS有
     @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0012(self):
         """文件列表页面-点击取消"""
@@ -669,9 +670,15 @@ class MsgLabelGroupingAll(TestCase):
         chat = LabelGroupingChatPage()
         label_name = chat.get_label_name()
         chat.click_back()
+        time.sleep(1)
         LableGroupDetailPage().click_back()
+        time.sleep(1)
         LabelGroupingPage().click_back()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
         ContactsPage().click_message_icon()
+        time.sleep(1)
         mess = MessagePage()
         mess.wait_for_page_load()
         mess.page_should_contain_text(label_name)
@@ -716,8 +723,13 @@ class MsgLabelGroupingAll(TestCase):
         chat = LabelGroupingChatPage()
         label_name = chat.get_label_name()
         chat.click_back()
+        time.sleep(1)
         LableGroupDetailPage().click_back()
+        time.sleep(1)
         LabelGroupingPage().click_back()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
         ContactsPage().click_message_icon()
         MessagePage().wait_for_page_load()
         MessagePage().is_iv_fail_status_present()
@@ -782,15 +794,20 @@ class MsgLabelGroupingAll(TestCase):
             chat.click_resend_sure()
             time.sleep(2)
         #判断图片发送成功
-        chat.wait_for_msg_send_status_become_to('发送成功',10)
+        chat.wait_for_msg_send_status_become_to('发送成功', 10)
         #返回消息列表
         LabelGroupingChatPage().wait_for_page_load()
         time.sleep(2)
         chat = LabelGroupingChatPage()
         chat.click_back()
-        # LableGroupDetailPage().click_back()
-        # LabelGroupingPage().click_back()
-        # ContactsPage().click_message_icon()
+        time.sleep(1)
+        LableGroupDetailPage().click_back()
+        time.sleep(1)
+        LabelGroupingPage().click_back()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
+        ContactsPage().click_message_icon()
         MessagePage().wait_for_page_load()
         MessagePage().is_iv_fail_status_present()
 
@@ -942,7 +959,6 @@ class MsgLabelGroupingAll(TestCase):
         time.sleep(2)
         LabelGroupingChatPage().page_should_contain_text(label_name)
 
-
     @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0028(self):
         """文件列表页面-视频发送成功"""
@@ -956,9 +972,15 @@ class MsgLabelGroupingAll(TestCase):
         chat = LabelGroupingChatPage()
         label_name = chat.get_label_name()
         chat.click_back()
+        time.sleep(1)
         LableGroupDetailPage().click_back()
+        time.sleep(1)
         LabelGroupingPage().click_back()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
         ContactsPage().click_message_icon()
+        time.sleep(1)
         mess = MessagePage()
         mess.wait_for_page_load()
         mess.page_should_contain_text(label_name)
@@ -987,16 +1009,21 @@ class MsgLabelGroupingAll(TestCase):
         local_file = ChatSelectLocalFilePage()
         local_file.select_file('.mp4')
         local_file.click_send()
-        #返回对话框
+        # 返回对话框
         LabelGroupingChatPage().wait_for_page_load()
         time.sleep(2)
         cwp = ChatWindowPage()
         cwp.wait_for_msg_send_status_become_to('发送失败', 10)
-        #返回消息列表,有发送失败标志
+        # 返回消息列表,有发送失败标志
         time.sleep(2)
         LabelGroupingChatPage().click_back()
+        time.sleep(1)
         LableGroupDetailPage().click_back()
+        time.sleep(1)
         LabelGroupingPage().click_back()
+        time.sleep(1)
+        LabelGroupingPage().click_back_by_android()
+        time.sleep(1)
         ContactsPage().click_message_icon()
         MessagePage().wait_for_page_load()
         MessagePage().is_iv_fail_status_present()
@@ -1082,8 +1109,13 @@ class MsgLabelGroupingAll(TestCase):
         time.sleep(2)
         chat = LabelGroupingChatPage()
         chat.click_back()
+        time.sleep(1)
         LableGroupDetailPage().click_back()
+        time.sleep(1)
         LabelGroupingPage().click_back()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
         ContactsPage().click_message_icon()
         MessagePage().wait_for_page_load()
         MessagePage().is_iv_fail_status_present()
@@ -1233,12 +1265,17 @@ class MsgLabelGroupingAll(TestCase):
         local_file = ChatSelectLocalFilePage()
         local_file.select_file('.mp3')
         local_file.click_send()
-        #返回消息页面,查看页面显示
+        # 返回消息页面,查看页面显示
         LabelGroupingChatPage().wait_for_page_load()
         label_name = LabelGroupingChatPage().get_label_name()
         LabelGroupingChatPage().click_back()
+        time.sleep(1)
         LableGroupDetailPage().click_back()
+        time.sleep(1)
         LabelGroupingPage().click_back()
+        time.sleep(1)
+        LabelGroupingPage().click_back_by_android()
+        time.sleep(1)
         ContactsPage().click_message_icon()
         MessagePage().wait_for_page_load()
         MessagePage().page_should_contain_text(label_name)
@@ -1278,20 +1315,25 @@ class MsgLabelGroupingAll(TestCase):
                 chat.click_resend_sure()
                 time.sleep(2)
         Preconditions.enter_local_music_catalog()
-        #断网
+        # 断网
         local_file = ChatSelectLocalFilePage()
         local_file.set_network_status(0)
         local_file.select_file('.mp3')
         local_file.click_send()
         time.sleep(2)
-        #重发按钮是否存在
+        # 重发按钮是否存在
         cwp=ChatWindowPage()
         cwp.wait_for_page_load()
         cwp.is_element_present_resend()
-        #返回消息页面
-        cwp.click_back()
+        # 返回消息页面
+        cwp.click_back_by_android()
+        time.sleep(1)
         LableGroupDetailPage().click_back()
+        time.sleep(1)
         LabelGroupingPage().click_back()
+        time.sleep(1)
+        cwp.click_back_by_android()
+        time.sleep(1)
         ContactsPage().click_message_icon()
         # MessagePage().wait_for_page_load()
         time.sleep(5)
@@ -1351,16 +1393,20 @@ class MsgLabelGroupingAll(TestCase):
             chat.click_resend_button()
             chat.click_resend_sure()
             time.sleep(2)
-        #判断图片发送成功
-        chat.wait_for_msg_send_status_become_to('发送成功',10)
-        #返回消息页面
-        ChatWindowPage().click_back()
+        # 判断图片发送成功
+        chat.wait_for_msg_send_status_become_to('发送成功', 10)
+        # 返回消息页面
+        ChatWindowPage().click_back_by_android()
+        time.sleep(1)
         LableGroupDetailPage().click_back()
+        time.sleep(1)
         LabelGroupingPage().click_back()
+        time.sleep(1)
+        ChatWindowPage().click_back_by_android()
+        time.sleep(1)
         ContactsPage().click_message_icon()
         MessagePage().wait_for_page_load()
         MessagePage().is_iv_fail_status_present()
-
 
     @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0047(self):
@@ -1483,7 +1529,6 @@ class MsgLabelGroupingAll(TestCase):
         local_file.select_file('.mp3')
         #点击取消(ios才有)
 
-
     @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0054(self):
         """返回选择音乐页面"""
@@ -1540,7 +1585,6 @@ class MsgLabelGroupingAll(TestCase):
         else:
             sogp.page_should_contain_text('无搜索结果')
 
-
     @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping', 'yms')
     def test_msg_weifenglian_fenzu_0057(self):
         """断网状态,标签分组天会话页面，长按文件转发到任意群失败"""
@@ -1553,7 +1597,7 @@ class MsgLabelGroupingAll(TestCase):
             local_file = ChatSelectLocalFilePage()
             local_file.select_file(".txt")
             local_file.click_send()
-        #长按文件转发
+        # 长按文件转发
         chat.press_file()
         time.sleep(2)
         chat.page_should_contain_text('转发')
@@ -1584,11 +1628,15 @@ class MsgLabelGroupingAll(TestCase):
             sogp.page_should_contain_text('无搜索结果')
         # 返回消息页面,查看文件是否发送成功
         time.sleep(2)
-        ChatWindowPage().click_back()
+        ChatWindowPage().click_back_by_android()
+        time.sleep(1)
         LableGroupDetailPage().click_back()
+        time.sleep(1)
         LabelGroupingPage().click_back()
+        time.sleep(1)
+        ChatWindowPage().click_back_by_android()
+        time.sleep(1)
         ContactsPage().click_message_icon()
-        # MessagePage().wait_for_page_load()
         time.sleep(2)
         MessagePage().is_iv_fail_status_present()
 
@@ -2076,9 +2124,14 @@ class MsgLabelGroupingAll(TestCase):
         slcp.click_sure_forward()
         slcp.is_toast_exist('已转发')
         # 返回消息页面,查看文件是否发送成功
-        ChatWindowPage().click_back()
+        ChatWindowPage().click_back_by_android()
+        time.sleep(1)
         LableGroupDetailPage().click_back()
+        time.sleep(1)
         LabelGroupingPage().click_back()
+        time.sleep(1)
+        ChatWindowPage().click_back_by_android()
+        time.sleep(1)
         ContactsPage().click_message_icon()
         MessagePage().wait_for_page_load()
         MessagePage().is_iv_fail_status_present()
@@ -2126,7 +2179,6 @@ class MsgLabelGroupingAll(TestCase):
             slcp.click_sure_forward()
             flag = slcp.is_toast_exist("已转发")
             self.assertTrue(flag)
-
 
     @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0157(self):

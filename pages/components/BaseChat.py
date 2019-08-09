@@ -17,7 +17,7 @@ class BaseChatPage(BasePage):
                   '选择图片': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_pic'),
                   '选择相机': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_take_photo'),
                   '选择名片': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_profile'),
-                  '选择gif': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_gif'),
+                  '选择gif': (MobileBy.ID, 'com.chinasofti.rcs:id/rel_gif'),
                   '选择更多': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'),
                   'com.chinasofti.rcs:id/input_divider_inside': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/input_divider_inside'),
@@ -158,6 +158,7 @@ class BaseChatPage(BasePage):
         """转发文件"""
         el = self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file))
         self.press(el)
+        time.sleep(3)
         self.click_element(self.__class__.__locators['转发'])
 
     @TestLogger.log()
@@ -586,6 +587,11 @@ class BaseChatPage(BasePage):
     def close_expression(self):
         """关闭表情"""
         self.click_element(self.__class__.__locators["关闭表情"])
+
+    @TestLogger.log()
+    def close_expression2(self):
+        """关闭表情"""
+        self.click_element(self.__class__.__locators["打开表情"])
 
     @TestLogger.log()
     def select_expression(self, n=1):

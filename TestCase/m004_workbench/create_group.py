@@ -12,7 +12,7 @@ from pages.workbench.create_group.CreateGroup import CreateGroupPage
 from pages.workbench.group_messenger.SelectCompanyContacts import SelectCompanyContactsPage
 from pages.workbench.organization.OrganizationStructure import OrganizationStructurePage
 from preconditions.BasePreconditions import WorkbenchPreconditions, ContactsPage, GroupListPage, GroupChatPage, \
-    SelectContactsPage, SelectOneGroupPage
+    SelectContactsPage, SelectOneGroupPage, GroupChatSetPage
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -327,8 +327,6 @@ class EnterpriseLogAllTest(TestCase):
         # 3.添加企业联系人
         sccp.click_contacts_by_name("大佬1")
         sccp.click_contacts_by_name("大佬2")
-        sccp.click_contacts_by_name("大佬3")
-        sccp.click_contacts_by_name("大佬4")
         # 4.点击确认
         sccp.click_sure_button()
         # 5.输入企业群名
@@ -344,6 +342,30 @@ class EnterpriseLogAllTest(TestCase):
         self.assertEqual(gcp.is_on_this_page(), True)
         time.sleep(1)
 
+    @staticmethod
+    def tearDown_test_CJQ_0001():
+        """解散企业群"""
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        # 1.点击设置
+        gcp.click_setting()
+        gcsp = GroupChatSetPage()
+        gcsp.wait_for_page_load()
+        # 2.点击“—”移除成员
+        for i in range(2):
+            gcsp.click_delete_member()
+            # 3.选择成员
+            time.sleep(1)
+            gcsp.click_first_group_member_avatar()
+            time.sleep(1)
+            # 4.点击确定移除
+            gcsp.click_delete_member_sure()
+            time.sleep(1)
+            gcsp.click_sure()
+            time.sleep(1)
+        # 5.返回群聊页面
+        gcsp.click_back()
+
     @tags('ALL', 'CMCC', 'workbench', 'yx')
     def test_CJQ_0002(self):
         """发送群消息"""
@@ -351,7 +373,7 @@ class EnterpriseLogAllTest(TestCase):
         wbp.wait_for_workbench_page_load()
         # 1.进入消息页面，进入指定群名企业群
         wbp.click_message_icon()
-        Preconditions.get_into_group_chat_page("企业群创建测试1")
+        Preconditions.get_into_group_chat_page("测试企业群")
         gcp = GroupChatPage()
         # 2.输入发送信息
         gcp.input_message('大家好，这里是测试消息')

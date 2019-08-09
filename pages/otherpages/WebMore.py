@@ -16,8 +16,8 @@ class WebMore(BasePage):
         '转发给QQ好友': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_send_to_qq'),
         '转发到朋友圈': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_send_to_wechat_moment'),
         '转发给微信好友': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_send_wechat'),
-        '转发给朋友': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_send')
-
+        '转发给朋友': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_send'),
+        '允许': (MobileBy.XPATH, '//*[@text="允许"]'),
     }
 
     @TestLogger.log('等待加载完毕')
@@ -26,6 +26,12 @@ class WebMore(BasePage):
             condition=lambda d: self.get_element(self.__locators['com.chinasofti.rcs:id/btn_more']),
             timeout=60
         )
+
+    @TestLogger.log("点击允许权限")
+    def click_allow_button(self):
+        if self._is_element_present(self.__class__.__locators['允许']):
+            self.click_element(self.__class__.__locators['允许'])
+        return True
 
     @TestLogger.log('刷新')
     def click_refresh(self):

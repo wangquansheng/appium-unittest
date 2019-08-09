@@ -1,13 +1,13 @@
-import unittest
+import random
+import re
 import time
+
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
-from preconditions.BasePreconditions import LoginPreconditions
 from library.core.utils.testcasefilter import tags
 from pages import *
-import re
-import random
+from preconditions.BasePreconditions import LoginPreconditions
 
 
 class Preconditions(LoginPreconditions):
@@ -195,6 +195,7 @@ class MsgLabelGroupingTest(TestCase):
         csf = ChatSelectFilePage()
         csf.wait_for_page_load()
         csf.click_video()
+        time.sleep(3)
         # 3、选择视频，直接点击发送按钮
         local_file = ChatSelectLocalFilePage()
         # 页面没有加载出视频，则循环6次
@@ -202,7 +203,7 @@ class MsgLabelGroupingTest(TestCase):
             el = local_file.select_file2("视频")
             if el:
                 local_file.click_send()
-                chat.wait_for_page_load()
+                # chat.wait_for_page_load()
                 return
             else:
                 local_file.click_back()
@@ -211,7 +212,6 @@ class MsgLabelGroupingTest(TestCase):
         local_file.click_back()
         csf.click_back()
         chat.wait_for_page_load()
-        raise AssertionError("There is no video")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'label_grouping')
     def test_msg_label_grouping_0005(self):
@@ -250,6 +250,7 @@ class MsgLabelGroupingTest(TestCase):
         csf = ChatSelectFilePage()
         csf.wait_for_page_load()
         csf.click_pic()
+        time.sleep(3)
         # 3、选择照片，直接点击发送按钮
         local_file = ChatSelectLocalFilePage()
         # 页面没有加载出照片，则循环6次
@@ -305,6 +306,7 @@ class MsgLabelGroupingTest(TestCase):
         csf = ChatSelectFilePage()
         csf.wait_for_page_load()
         csf.click_music()
+        time.sleep(3)
         # 3、选择音乐，直接点击发送按钮
         local_file = ChatSelectLocalFilePage()
         # 页面没有加载出照片，则循环6次
@@ -552,10 +554,12 @@ class MsgLabelGroupingTest(TestCase):
             chat.click_more()
         more_page = ChatMorePage()
         more_page.click_file()
+        time.sleep(1)
         # 点击本地文件，进入到本地文件中
         csf = ChatSelectFilePage()
         csf.wait_for_page_load()
         csf.click_local_file()
+        time.sleep(3)
         local_file = ChatSelectLocalFilePage()
         # 没有预置文件，则上传
         flag = local_file.push_preset_file()
@@ -569,20 +573,27 @@ class MsgLabelGroupingTest(TestCase):
             local_file.click_send()
             # 2、选择转发，选择一个和通讯录联系人
             chat.forward_file(".txt")
+            time.sleep(1)
             scp = SelectContactsPage()
             scp.click_he_contacts()
             shcp = SelectHeContactsPage()
             shcp.wait_for_page_load()
             teams = shcp.get_team_names()
             if teams:
-                shcp.select_one_team_by_name(teams[0])
+                # shcp.select_one_team_by_name(teams[0])
+                sog = SelectOneGroupPage()
+                sog.selecting_one_group_by_name2("ateam7272")
+                time.sleep(2)
                 detail_page = SelectHeContactsDetailPage()
-                detail_page.wait_for_page_load()
+                # detail_page.wait_for_page_load()
                 names = detail_page.get_contacts_names()
                 if not names:
                     print("WARN: Please add m005_contacts in %s." % teams[0])
                 for name in names:
                     detail_page.select_one_linkman(name)
+                    time.sleep(0.5)
+                    if detail_page.is_text_present("确定"):
+                        break
                     flag = detail_page.is_toast_exist("该联系人不可选", timeout=3)
                     if not flag:
                         break
@@ -634,18 +645,25 @@ class MsgLabelGroupingTest(TestCase):
             shcp.wait_for_page_load()
             teams = shcp.get_team_names()
             if teams:
-                shcp.select_one_team_by_name(teams[0])
+                # shcp.select_one_team_by_name(teams[0])
+                sog = SelectOneGroupPage()
+                sog.selecting_one_group_by_name2("ateam7272")
+                time.sleep(2)
                 detail_page = SelectHeContactsDetailPage()
-                detail_page.wait_for_page_load()
+                # detail_page.wait_for_page_load()
                 names = detail_page.get_contacts_names()
                 if not names:
                     print("WARN: Please add m005_contacts in %s." % teams[0])
                 for name in names:
                     detail_page.select_one_linkman(name)
-                    flag = detail_page.is_toast_exist("该联系人不可选", timeout=3)
+                    time.sleep(0.5)
+                    if detail_page.is_text_present("确定"):
+                        break
+                    flag = detail_page.is_toast_exist("该联系人不可选择", timeout=3)
                     if not flag:
                         break
                 # 3、点击取消
+                time.sleep(3)
                 detail_page.click_cancel_forward()
                 detail_page.click_back()
             else:
@@ -684,15 +702,17 @@ class MsgLabelGroupingTest(TestCase):
         file = local_file.select_file(".txt")
         if file:
             local_file.click_send()
+            time.sleep(1)
             # 2、选择转发，选择一个本地通讯录联系人
             chat.forward_file(".txt")
             scp = SelectContactsPage()
             scp.select_local_contacts()
             slcp = SelectLocalContactsPage()
-            slcp.wait_for_page_load()
-            names = slcp.get_contacts_name()
+            # slcp.wait_for_page_load()
+            names = slcp.get_contacts_name2()
             if names:
                 slcp.select_one_member_by_name(names[0])
+                time.sleep(1)
                 # 3、点击确定
                 slcp.click_sure_forward()
                 flag = slcp.is_toast_exist("已转发")
@@ -739,9 +759,10 @@ class MsgLabelGroupingTest(TestCase):
             scp.select_local_contacts()
             slcp = SelectLocalContactsPage()
             slcp.wait_for_page_load()
-            names = slcp.get_contacts_name()
+            names = slcp.get_contacts_name2()
             if names:
                 slcp.select_one_member_by_name(names[0])
+                time.sleep(1)
                 # 3、点击取消
                 slcp.click_cancel_forward()
             else:
@@ -996,9 +1017,10 @@ class MsgLabelGroupingTest(TestCase):
         scp.select_local_contacts()
         slcp = SelectLocalContactsPage()
         slcp.wait_for_page_load()
-        names = slcp.get_contacts_name()
+        names = slcp.get_contacts_name2()
         if names:
             slcp.select_one_member_by_name(names[0])
+            time.sleep(1)
             # 3、点击确定
             slcp.click_sure_forward()
             flag = slcp.is_toast_exist("已转发")
@@ -1026,15 +1048,21 @@ class MsgLabelGroupingTest(TestCase):
         shcp.wait_for_page_load()
         teams = shcp.get_team_names()
         if teams:
-            shcp.select_one_team_by_name(teams[0])
+            # shcp.select_one_team_by_name(teams[0])
+            sog = SelectOneGroupPage()
+            sog.selecting_one_group_by_name2("ateam7272")
+            time.sleep(2)
             detail_page = SelectHeContactsDetailPage()
-            detail_page.wait_for_page_load()
+            # detail_page.wait_for_page_load()
             names = detail_page.get_contacts_names()
             if not names:
                 raise AssertionError("Please add linkman in HeContacts %s." % teams[0])
             for name in names:
                 detail_page.select_one_linkman(name)
-                flag = detail_page.is_toast_exist("该联系人不可选", timeout=3)
+                time.sleep(0.5)
+                if detail_page.is_text_present("确定"):
+                    break
+                flag = detail_page.is_toast_exist("该联系人不可选择", timeout=3)
                 if not flag:
                     break
             # 3、点击确定
@@ -1321,11 +1349,17 @@ class MsgLabelGroupingTest(TestCase):
         cppp = ChatPicPreviewPage()
         cppp.wait_for_page_load()
         cppp.click_edit()
+        # 备注 版本有修改
         flag = cppp.is_toast_exist("仅支持勾选单张图片时进行编辑")
-        if not flag:
+        if flag:
             raise AssertionError("勾选多张图片时编辑按钮没有隐藏,点击‘编辑’按钮无‘仅支持勾选单张图片时进行编辑’提示")
-        cppp.click_back()
-        cpg.click_back()
+        time.sleep(1)
+        cppp.click_back_by_android()
+        time.sleep(1)
+        cpg.click_back_by_android()
+        time.sleep(1)
+        cpg.click_back_by_android()
+        time.sleep(1)
         chat.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'label_grouping')
@@ -1493,7 +1527,8 @@ class MsgLabelGroupingTest(TestCase):
         scp.select_local_contacts()
         slcp = SelectLocalContactsPage()
         slcp.wait_for_page_load()
-        names = slcp.get_contacts_name()
+        # names = slcp.get_contacts_name()
+        names = slcp.get_contacts_name2()
         if names:
             slcp.select_one_member_by_name(names[0])
             # 3、点击确定
@@ -1503,8 +1538,8 @@ class MsgLabelGroupingTest(TestCase):
                 raise AssertionError("在标签分组会话页面转发图片时，没有‘已转发’提示")
         else:
             print("WARN: There is no linkman.")
-            slcp.click_back()
-            scp.click_back()
+            slcp.click_back_by_android()
+            scp.click_back_by_android()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'label_grouping')
     def test_Msg_PrivateChat_VideoPic_0089(self):
@@ -1521,15 +1556,22 @@ class MsgLabelGroupingTest(TestCase):
         shcp.wait_for_page_load()
         teams = shcp.get_team_names()
         if teams:
-            shcp.select_one_team_by_name(teams[0])
+            # ateam7272
+            # shcp.select_one_team_by_name("ateam7272")
+            sog = SelectOneGroupPage()
+            sog.selecting_one_group_by_name2("ateam7272")
+            time.sleep(2)
             detail_page = SelectHeContactsDetailPage()
-            detail_page.wait_for_page_load()
+            # detail_page.wait_for_page_load()
             names = detail_page.get_contacts_names()
             if not names:
                 print("WARN: Please add m005_contacts in %s." % teams[0])
             for name in names:
                 detail_page.select_one_linkman(name)
-                flag = detail_page.is_toast_exist("该联系人不可选", timeout=3)
+                time.sleep(0.5)
+                if detail_page.is_text_present("确定"):
+                    break
+                flag = detail_page.is_toast_exist("该联系人不可选择", timeout=3)
                 if not flag:
                     break
             # 3、点击确定
@@ -1590,11 +1632,16 @@ class MsgLabelGroupingTest(TestCase):
         if not flag:
             raise AssertionError("标签分组会话窗，收藏自己发送的照片无‘已收藏’提示")
         # 去我模块中看是否收藏
-        chat.click_back()
+        chat.click_back_by_android()
+        time.sleep(1)
         ldgp = LableGroupDetailPage()
-        ldgp.click_back()
+        ldgp.click_back_by_android()
+        time.sleep(1)
         label_grouping = LabelGroupingPage()
-        label_grouping.click_back()
+        label_grouping.click_back_by_android()
+        time.sleep(1)
+        label_grouping.click_back_by_android()
+        time.sleep(1)
         contacts_page = ContactsPage()
         # 点击‘我’
         contacts_page.open_me_page()
@@ -1644,7 +1691,7 @@ class MsgLabelGroupingTest(TestCase):
         scp.select_local_contacts()
         slcp = SelectLocalContactsPage()
         slcp.wait_for_page_load()
-        names = slcp.get_contacts_name()
+        names = slcp.get_contacts_name2()
         if names:
             slcp.select_one_member_by_name(names[0])
             # 3、点击确定
@@ -1673,15 +1720,22 @@ class MsgLabelGroupingTest(TestCase):
         shcp.wait_for_page_load()
         teams = shcp.get_team_names()
         if teams:
-            shcp.select_one_team_by_name(teams[0])
+            # shcp.select_one_team_by_name(teams[0])
+            sog = SelectOneGroupPage()
+            sog.selecting_one_group_by_name2("ateam7272")
+            time.sleep(2)
             detail = SelectHeContactsDetailPage()
-            detail.wait_for_page_load()
+            # detail.wait_for_page_load()
             names = detail.get_contacts_names()
             if not names:
                 raise AssertionError("Please add linkman in HeContacts %s." % teams[0])
             for name in names:
                 detail.select_one_linkman(name)
-                if not detail.is_toast_exist("该联系人不可选", timeout=3):
+                time.sleep(0.5)
+                if detail.is_text_present("确定"):
+                    break
+                flag = detail.is_toast_exist("该联系人不可选择", timeout=3)
+                if not flag:
                     break
             # 点击确定
             detail.click_sure_forward()
@@ -1752,11 +1806,16 @@ class MsgLabelGroupingTest(TestCase):
         if not chat.is_toast_exist("已收藏", timeout=5):
             raise AssertionError("在标签分组会话窗，收藏自己发送的视频没有提示‘已收藏’")
         # 在我模块中的收藏可见
-        chat.click_back()
+        chat.click_back_by_android()
+        time.sleep(1)
         ldgp = LableGroupDetailPage()
-        ldgp.click_back()
+        ldgp.click_back_by_android()
+        time.sleep(1)
         label_group = LabelGroupingPage()
-        label_group.click_back()
+        label_group.click_back_by_android()
+        time.sleep(1)
+        label_group.click_back_by_android()
+        time.sleep(1)
         contacts = ContactsPage()
         contacts.open_me_page()
         me = MePage()
@@ -1767,7 +1826,11 @@ class MsgLabelGroupingTest(TestCase):
             raise AssertionError("在标签分组会话窗，收藏自己发送的视频后在‘我’收藏中不可见")
         # 回到标签分组会话窗
         mcp.click_back()
+        time.sleep(1)
         me.open_contacts_page()
+        time.sleep(1)
+        contacts.click_mobile_contacts()
+        time.sleep(1)
         contacts.click_label_grouping()
         label_group.wait_for_page_load()
         names = label_group.get_label_grouping_names()
@@ -1868,7 +1931,10 @@ class MsgLabelGroupingTest(TestCase):
         gif = ChatGIFPage()
         if gif.is_gif_exist():
             gif.close_gif()
-        # 2、点击GIF
+        # 2、点击GIF--先点击表情
+        gc = GroupChatPage()
+        gc.click_expression_button()
+        time.sleep(1)
         chat.click_gif()
         # 进入趣图选择页面
         gif.wait_for_page_load(timeout=60)
@@ -1901,10 +1967,14 @@ class MsgLabelGroupingTest(TestCase):
         if gif.is_gif_exist():
             gif.close_gif()
         # 2、点击GIF
+        gc = GroupChatPage()
+        gc.click_expression_button()
+        time.sleep(1)
         chat.click_gif()
         # 3、选择表情点击
         gif.wait_for_page_load(timeout=60)
         gif.send_gif()
+        time.sleep(1)
         gif.close_gif()
         current_mobile().hide_keyboard_if_display()
         if not chat.is_exist_pic_msg():
@@ -1921,6 +1991,9 @@ class MsgLabelGroupingTest(TestCase):
             gif.close_gif()
         current_mobile().set_network_status(0)
         # 2、点击GIF
+        gc = GroupChatPage()
+        gc.click_expression_button()
+        time.sleep(1)
         chat.click_gif()
         # 提示：“网络异常，请重新设置网络”
         if not chat.is_toast_exist("请检查网络设置", timeout=10):
@@ -1939,6 +2012,9 @@ class MsgLabelGroupingTest(TestCase):
         gif = ChatGIFPage()
         if gif.is_gif_exist():
             gif.close_gif()
+        gc = GroupChatPage()
+        gc.click_expression_button()
+        time.sleep(1)
         chat.click_gif()
         gif.wait_for_page_load()
         # 2、搜索框输入数字
@@ -1947,6 +2023,7 @@ class MsgLabelGroupingTest(TestCase):
             raise AssertionError("输入数字 1 无gif趣图 ")
         # 3、点击选择表情
         gif.send_gif()
+        time.sleep(1)
         gif.input_message("")
         gif.close_gif()
         current_mobile().hide_keyboard_if_display()
@@ -1963,6 +2040,9 @@ class MsgLabelGroupingTest(TestCase):
         gif = ChatGIFPage()
         if gif.is_gif_exist():
             gif.close_gif()
+        gc = GroupChatPage()
+        gc.click_expression_button()
+        time.sleep(1)
         chat.click_gif()
         gif.wait_for_page_load()
         # 2、搜索框输入特殊字符 @ ? ...
@@ -1972,6 +2052,7 @@ class MsgLabelGroupingTest(TestCase):
             if not gif.is_toast_exist("无搜索结果，换个热词试试", timeout=4):
                 # 3、点击选择表情
                 gif.send_gif()
+                time.sleep(1)
                 if not chat.is_exist_pic_msg():
                     raise AssertionError("发送gif后，在标签分组会话窗无gif")
                 gif.input_message("")
@@ -1990,6 +2071,9 @@ class MsgLabelGroupingTest(TestCase):
         gif = ChatGIFPage()
         if gif.is_gif_exist():
             gif.close_gif()
+        gc = GroupChatPage()
+        gc.click_expression_button()
+        time.sleep(1)
         chat.click_gif()
         gif.wait_for_page_load()
         # 2、搜索框输入关键字
@@ -2013,6 +2097,9 @@ class MsgLabelGroupingTest(TestCase):
         gif = ChatGIFPage()
         if gif.is_gif_exist():
             gif.close_gif()
+        gc = GroupChatPage()
+        gc.click_expression_button()
+        time.sleep(1)
         chat.click_gif()
         gif.wait_for_page_load()
         # 2、搜索框输入关键字匹配到对应结果后点击返回
@@ -2039,6 +2126,9 @@ class MsgLabelGroupingTest(TestCase):
         gif = ChatGIFPage()
         if gif.is_gif_exist():
             gif.close_gif()
+        gc = GroupChatPage()
+        gc.click_expression_button()
+        time.sleep(1)
         chat.click_gif()
         gif.wait_for_page_load()
         # 2、搜索框输入关键字匹配到对应结果后点击发送
@@ -2047,6 +2137,7 @@ class MsgLabelGroupingTest(TestCase):
             gif.input_message(msg)
             if not gif.is_toast_exist("无搜索结果，换个热词试试", timeout=4):
                 gif.send_gif()
+                time.sleep(1)
                 if not chat.is_exist_pic_msg():
                     raise AssertionError("发送gif后，在标签分组会话窗无gif")
                 if not gif.is_gif_exist():
@@ -2066,6 +2157,9 @@ class MsgLabelGroupingTest(TestCase):
         gif = ChatGIFPage()
         if gif.is_gif_exist():
             gif.close_gif()
+        gc = GroupChatPage()
+        gc.click_expression_button()
+        time.sleep(1)
         chat.click_gif()
         gif.wait_for_page_load()
         # 2、点击搜索框左方×
@@ -2090,7 +2184,6 @@ class MsgLabelGroupingTestAll(TestCase):
     表格：标签分组
     author: 方康
     """
-
     def default_setUp(self):
         """确保每个用例运行前在标签分组会话页面"""
         Preconditions.select_mobile('Android-移动')
@@ -2208,7 +2301,15 @@ class MsgLabelGroupingTestAll(TestCase):
         # 6.返回消息列表是否有重发的标示
         label_name = chat.get_label_name()
         chat.click_back()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
+        chat.click_back_by_android()
+        time.sleep(1)
         mess = MessagePage()
+        mess.open_message_page()
         mess.wait_for_page_load()
         mess.click_text(label_name)
         cwp.wait_for_msg_send_status_become_to('发送失败', 10)

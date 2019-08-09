@@ -1,4 +1,6 @@
 import time
+import gc
+import traceback
 import unittest
 import warnings
 from selenium.common.exceptions import TimeoutException
@@ -135,17 +137,17 @@ class Preconditions(object):
         sc.click_local_contacts()
         time.sleep(2)
         slc = SelectLocalContactsPage()
-        a=0
-        names={}
-        while a<3:
+        a = 0
+        names = {}
+        while a < 3:
             names = slc.get_contacts_name()
-            num=len(names)
+            num = len(names)
             if not names:
                 raise AssertionError("No contacts, please add contacts in address book.")
-            if num==1:
+            if num == 1:
                 sog.page_up()
-                a+=1
-                if a==3:
+                a += 1
+                if a == 3:
                     raise AssertionError("联系人只有一个，请再添加多个不同名字联系人组成群聊")
             else:
                 break
@@ -383,10 +385,10 @@ class Preconditions(object):
         """选择指定的设备连接，并确保在消息列表页面"""
         Preconditions.select_mobile(moible_param)
         # 消息页面
-        Preconditions.make_in_message_page(moible_param,reset=False)
+        Preconditions.make_in_message_page(moible_param, reset=False)
 
     @staticmethod
-    def make_in_message_page(moible_param,reset=False):
+    def make_in_message_page(moible_param, reset=False):
         """确保应用在消息页面"""
         Preconditions.select_mobile(moible_param, reset)
         current_mobile().hide_keyboard_if_display()
@@ -401,7 +403,7 @@ class Preconditions(object):
         Preconditions.login_by_one_key_login()
 
     @staticmethod
-    def build_one_new_group_with_number(puhone_number,group_name):
+    def build_one_new_group_with_number(puhone_number, group_name):
         """新建一个指定成员和名称的群，如果已存在，不建群"""
         # 消息页面
         mess = MessagePage()
@@ -453,7 +455,7 @@ class Preconditions(object):
         mess.click_add_icon()
         # 点击 发起群聊
         mess.click_group_chat()
-        #添加指定电话成员
+        # 添加指定电话成员
         time.sleep(2)
         sc.input_search_keyword(puhone_number)
         time.sleep(2)
@@ -618,6 +620,56 @@ class Preconditions(object):
         # 等待单聊会话页面加载
         scp.wait_for_page_load()
 
+    @staticmethod
+    def dismiss_one_group(name):
+        Preconditions.get_into_group_chat_page(name)
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
+    def create_contacts_groups():
+        # 创建联系
+        fail_time = 0
+        import dataproviders
+        while fail_time < 3:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                Preconditions.select_mobile('Android-移动')
+                current_mobile().hide_keyboard_if_display()
+                Preconditions.make_already_in_message_page()
+                conts.open_contacts_page()
+                try:
+                    if conts.is_text_present("发现SIM卡联系人"):
+                        conts.click_text("显示")
+                except:
+                    pass
+                for name, number in required_contacts:
+                    conts.create_contacts_if_not_exits(name, number)
+                # 创建群
+                required_group_chats = dataproviders.get_preset_group_chats()
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name, members in required_group_chats:
+                    group_list.wait_for_page_load()
+                    group_list.create_group_chats_if_not_exits(group_name, members)
+                group_list.click_back()
+                conts.open_message_page()
+                return
+            except:
+                fail_time += 1
+                import traceback
+                msg = traceback.format_exc()
+                print(msg)
+
 
 class MsgCommonGroupTest(TestCase):
     """
@@ -633,6 +685,7 @@ class MsgCommonGroupTest(TestCase):
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
         mess = MessagePage()
         if mess.is_on_this_page():
             Preconditions.enter_group_chat_page()
@@ -663,7 +716,7 @@ class MsgCommonGroupTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_common_group_0001(self):
         """输入框中输入字符数为空"""
-        #检查是否存在语言按钮
+        # 检查是否存在语言按钮
         gcp = GroupChatPage()
         gcp.page_should_contain_audio_btn()
 
@@ -671,36 +724,36 @@ class MsgCommonGroupTest(TestCase):
     def test_msg_common_group_0002(self):
         """输入框中输入字符数大于0"""
         gcp = GroupChatPage()
-        #输入信息
+        # 输入信息
         gcp.input_message("哈哈")
-        #点击发送
+        # 点击发送
         gcp.send_message()
-        #验证是否发送成功
-        cwp=ChatWindowPage()
+        # 验证是否发送成功
+        cwp = ChatWindowPage()
         try:
             cwp.wait_for_msg_send_status_become_to('发送成功', 10)
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
 
     def tearDown_test_msg_common_group_0002(self):
-        #删除聊天记录
+        # 删除聊天记录
         scp = GroupChatPage()
         if scp.is_on_this_page():
             scp.click_setting()
-            gcsp=GroupChatSetPage()
+            gcsp = GroupChatSetPage()
             gcsp.wait_for_page_load()
-            #点击删除聊天记录
+            # 点击删除聊天记录
             gcsp.click_clear_chat_record()
             gcsp.wait_clear_chat_record_confirmation_box_load()
-            #点击确认
+            # 点击确认
             gcsp.click_determine()
             # flag=gcsp.is_toast_exist("聊天记录清除成功")
             # self.assertTrue(flag)
             time.sleep(3)
-            #点击返回群聊页面
+            # 点击返回群聊页面
             gcsp.click_back()
             time.sleep(2)
-            #判断是否返回到群聊页面
+            # 判断是否返回到群聊页面
             self.assertTrue(scp.is_on_this_page())
         else:
             try:
@@ -708,12 +761,12 @@ class MsgCommonGroupTest(TestCase):
             except AssertionError as e:
                 print(e)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
     def test_msg_common_group_0003(self):
         """输入框中输入字符数等于5000"""
         gcp = GroupChatPage()
         # 输入信息
-        info="Hello everyone, Welcome to my group, I hope my group can bring you happy."
+        info = "Hello everyone, Welcome to my group, I hope my group can bring you happy."
         gcp.input_message(info)
         # 点击发送
         gcp.send_message()
@@ -725,24 +778,24 @@ class MsgCommonGroupTest(TestCase):
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
 
     def tearDown_test_msg_common_group_0003(self):
-        #删除聊天记录
+        # 删除聊天记录
         scp = GroupChatPage()
         if scp.is_on_this_page():
             scp.click_setting()
-            gcsp=GroupChatSetPage()
+            gcsp = GroupChatSetPage()
             gcsp.wait_for_page_load()
-            #点击删除聊天记录
+            # 点击删除聊天记录
             gcsp.click_clear_chat_record()
             gcsp.wait_clear_chat_record_confirmation_box_load()
-            #点击确认
+            # 点击确认
             gcsp.click_determine()
             # flag=gcsp.is_toast_exist("聊天记录清除成功")
             # self.assertTrue(flag)
             time.sleep(3)
-            #点击返回群聊页面
+            # 点击返回群聊页面
             gcsp.click_back()
             time.sleep(2)
-            #判断是否返回到群聊页面
+            # 判断是否返回到群聊页面
             self.assertTrue(scp.is_on_this_page())
         else:
             try:
@@ -750,20 +803,20 @@ class MsgCommonGroupTest(TestCase):
             except AssertionError as e:
                 print(e)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
     def test_msg_common_group_0004(self):
         """输入框中输入字符数大于5000"""
         gcp = GroupChatPage()
         # 输入信息
-        info1 = "哈"*5001
-        if len(info1)>5000:
+        info1 = "哈" * 5001
+        if len(info1) > 5000:
             gcp.input_message(info1)
-        #获取输入框信息
-        info2=gcp.get_input_message()
-        #判断输入框是否最多只能输入5000长度字符
+        # 获取输入框信息
+        info2 = gcp.get_input_message()
+        # 判断输入框是否最多只能输入5000长度字符
         if len(info1) == len(info2):
             raise AssertionError("输入框能输入大于5000长度的字符")
-        if len(info2)==5000:
+        if len(info2) == 5000:
             return True
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
@@ -773,7 +826,7 @@ class MsgCommonGroupTest(TestCase):
         # 输入信息
         info = "哈" * 5000
         gcp.input_message(info)
-        #长按发送按钮并滑动
+        # 长按发送按钮并滑动
         gcp.press_and_move_up("发送按钮")
         # 验证是否发送成功
         cwp = ChatWindowPage()
@@ -783,24 +836,24 @@ class MsgCommonGroupTest(TestCase):
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
 
     def tearDown_test_msg_common_group_0005(self):
-        #删除聊天记录
+        # 删除聊天记录
         scp = GroupChatPage()
         if scp.is_on_this_page():
             scp.click_setting()
-            gcsp=GroupChatSetPage()
+            gcsp = GroupChatSetPage()
             gcsp.wait_for_page_load()
-            #点击删除聊天记录
+            # 点击删除聊天记录
             gcsp.click_clear_chat_record()
             gcsp.wait_clear_chat_record_confirmation_box_load()
-            #点击确认
+            # 点击确认
             gcsp.click_determine()
             # flag=gcsp.is_toast_exist("聊天记录清除成功")
             # self.assertTrue(flag)
             time.sleep(3)
-            #点击返回群聊页面
+            # 点击返回群聊页面
             gcsp.click_back()
             time.sleep(2)
-            #判断是否返回到群聊页面
+            # 判断是否返回到群聊页面
             self.assertTrue(scp.is_on_this_page())
         else:
             try:
@@ -825,24 +878,24 @@ class MsgCommonGroupTest(TestCase):
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
 
     def tearDown_test_msg_common_group_0006(self):
-        #删除聊天记录
+        # 删除聊天记录
         scp = GroupChatPage()
         if scp.is_on_this_page():
             scp.click_setting()
-            gcsp=GroupChatSetPage()
+            gcsp = GroupChatSetPage()
             gcsp.wait_for_page_load()
-            #点击删除聊天记录
+            # 点击删除聊天记录
             gcsp.click_clear_chat_record()
             gcsp.wait_clear_chat_record_confirmation_box_load()
-            #点击确认
+            # 点击确认
             gcsp.click_determine()
             # flag=gcsp.is_toast_exist("聊天记录清除成功")
             # self.assertTrue(flag)
             time.sleep(3)
-            #点击返回群聊页面
+            # 点击返回群聊页面
             gcsp.click_back()
             time.sleep(2)
-            #判断是否返回到群聊页面
+            # 判断是否返回到群聊页面
             self.assertTrue(scp.is_on_this_page())
         else:
             try:
@@ -864,35 +917,35 @@ class MsgCommonGroupTest(TestCase):
             cwp.wait_for_msg_send_status_become_to('发送成功', 10)
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
-        #长按信息并点击复制
-        gcp.press_file_to_do("哈哈","复制")
-        flag=gcp.is_toast_exist("已复制")
+        # 长按信息并点击复制
+        gcp.press_file_to_do("哈哈", "复制")
+        flag = gcp.is_toast_exist("已复制")
         self.assertTrue(flag)
-        #长按输入框
+        # 长按输入框
         gcp.press_file("说点什么...")
         time.sleep(2)
         flag2 = gcp.is_toast_exist("粘贴")
         # self.assertTrue(flag2)
 
     def tearDown_test_msg_common_group_0007(self):
-        #删除聊天记录
+        # 删除聊天记录
         scp = GroupChatPage()
         if scp.is_on_this_page():
             scp.click_setting()
-            gcsp=GroupChatSetPage()
+            gcsp = GroupChatSetPage()
             gcsp.wait_for_page_load()
-            #点击删除聊天记录
+            # 点击删除聊天记录
             gcsp.click_clear_chat_record()
             gcsp.wait_clear_chat_record_confirmation_box_load()
-            #点击确认
+            # 点击确认
             gcsp.click_determine()
             # flag=gcsp.is_toast_exist("聊天记录清除成功")
             # self.assertTrue(flag)
             time.sleep(3)
-            #点击返回群聊页面
+            # 点击返回群聊页面
             gcsp.click_back()
             time.sleep(2)
-            #判断是否返回到群聊页面
+            # 判断是否返回到群聊页面
             self.assertTrue(scp.is_on_this_page())
         else:
             try:
@@ -916,8 +969,8 @@ class MsgCommonGroupTest(TestCase):
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
         # 长按信息并点击删除
         gcp.press_file_to_do("哈哈", "删除")
-        #验证消息会消失
-        flag=gcp.is_text_present("哈哈")
+        # 验证消息会消失
+        flag = gcp.is_text_present("哈哈")
         self.assertFalse(flag)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
@@ -938,24 +991,24 @@ class MsgCommonGroupTest(TestCase):
         gcp.press_file_to_do("哈哈", "转发")
         sc = SelectContactsPage()
         sc.wait_for_page_local_contact_load()
-        #搜索联系人
+        # 搜索联系人
         sc.input_search_contact_message("和")
         time.sleep(3)
-        #选择“和飞信电话”联系人进行转发
+        # 选择“和飞信电话”联系人进行转发
         sc.click_text("012560")
         time.sleep(2)
         sc.click_sure_forward()
-        flag=sc.is_toast_exist("已转发")
+        flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
         time.sleep(1)
-        #返回消息页面
+        # 返回消息页面
         gcp.click_back()
         # sogp = SelectOneGroupPage()
         # time.sleep(2)
         # sogp.click_back()
         # sc.click_back()
         # time.sleep(2)
-        #判断消息页面有新的会话窗口
+        # 判断消息页面有新的会话窗口
         mess = MessagePage()
         if mess.is_on_this_page():
             self.assertTrue(mess.is_text_present("飞信电话"))
@@ -997,7 +1050,7 @@ class MsgCommonGroupTest(TestCase):
             cwp.wait_for_msg_send_status_become_to('发送成功', 10)
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
-        #断开网络
+        # 断开网络
         gcp.set_network_status(1)
         # 长按信息并点击转发
         gcp.press_file_to_do("哈哈", "转发")
@@ -1021,13 +1074,13 @@ class MsgCommonGroupTest(TestCase):
         mess = MessagePage()
         if mess.is_on_this_page():
             self.assertTrue(mess.is_text_present("飞信电话"))
-            #判断是否有“！”
-            if  not mess.is_iv_fail_status_present():
+            # 判断是否有“！”
+            if not mess.is_iv_fail_status_present():
                 try:
                     raise AssertionError("没有消息发送失败“！”标致")
                 except AssertionError as e:
                     print(e)
-            #进入新消息窗口判断消息是否发送失败
+            # 进入新消息窗口判断消息是否发送失败
             mess.click_element_by_text("飞信电话")
             chat = SingleChatPage()
             chat.click_i_have_read()
@@ -1038,7 +1091,7 @@ class MsgCommonGroupTest(TestCase):
                 raise AssertionError('断网情况下消息在 {}s 内发送成功'.format(10))
 
     def tearDown_test_msg_common_group_0010(self):
-        #重新连接网络
+        # 重新连接网络
         scp = GroupChatPage()
         scp.set_network_status(6)
 
@@ -1079,7 +1132,7 @@ class MsgCommonGroupTest(TestCase):
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
         time.sleep(1)
-        #删除群聊消息记录
+        # 删除群聊消息记录
         gcp.click_setting()
         gcsp = GroupChatSetPage()
         gcsp.wait_for_page_load()
@@ -1111,7 +1164,7 @@ class MsgCommonGroupTest(TestCase):
     def test_msg_common_group_0012(self):
         """在聊天会话页面，点击重发按钮，重新发送发送失败的消息"""
         gcp = GroupChatPage()
-        #断开网络
+        # 断开网络
         gcp.set_network_status(1)
         time.sleep(2)
         # 输入信息
@@ -1124,30 +1177,30 @@ class MsgCommonGroupTest(TestCase):
             cwp.wait_for_msg_send_status_become_to('发送失败', 10)
         except TimeoutException:
             raise AssertionError('断网情况下消息在 {}s 内发送成功'.format(10))
-        #重连网络
+        # 重连网络
         gcp.set_network_status(6)
-        #判断是否有重发按钮
+        # 判断是否有重发按钮
         if not gcp.is_exist_msg_send_failed_button():
             try:
                 raise AssertionError("没有重发按钮")
             except AssertionError as e:
                 raise e
-        #点击重发按钮
+        # 点击重发按钮
         gcp.click_msg_send_failed_button()
-        #点击确定重发
+        # 点击确定重发
         gcp.click_resend_confirm()
-        #判断信息发送状态
+        # 判断信息发送状态
         try:
             cwp.wait_for_msg_send_status_become_to('发送成功', 10)
         except TimeoutException:
             raise AssertionError('消息未在 {}s 内发送成功'.format(10))
 
     def tearDown_test_msg_common_group_0012(self):
-        #重新连接网络
+        # 重新连接网络
         scp = GroupChatPage()
         scp.set_network_status(6)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
     def test_msg_common_group_0013(self):
         """在聊天会话页面，长按文本消息，使用转发功能，选择一个群作为转发对象"""
         gcp = GroupChatPage()
@@ -1213,7 +1266,7 @@ class MsgCommonGroupTest(TestCase):
     #     # current_mobile().connect_mobile()
     #     Preconditions.enter_group_chat_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
     def test_msg_common_group_0015(self):
         """在聊天会话页面，长按文本消息，使用转发功能，选择本地联系人作为转发对象"""
         gcp = GroupChatPage()
@@ -1279,10 +1332,10 @@ class MsgCommonGroupTest(TestCase):
                 raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
             time.sleep(2)
             # 最后删除消息记录，返回消息页面结束用例
-            mess.press_file_to_do("哈哈","删除")
+            mess.press_file_to_do("哈哈", "删除")
             chat.click_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
     def test_msg_common_group_0016(self):
         """在聊天会话页面，长按文本消息，使用转发功能，选择最近聊天作为转发对象"""
         gcp = GroupChatPage()
@@ -1323,7 +1376,7 @@ class MsgCommonGroupTest(TestCase):
             if chat.is_text_present("用户须知"):
                 chat.click_i_have_read()
             chat.wait_for_page_load()
-            #判断是否新增一条消息记录
+            # 判断是否新增一条消息记录
             if not chat.is_text_present("哈哈"):
                 try:
                     raise AssertionError("没有新增一条消息记录")
@@ -1335,7 +1388,7 @@ class MsgCommonGroupTest(TestCase):
                 raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
             chat.click_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
     def test_msg_common_group_0017(self):
         """在聊天会话页面，长按文本消息，使用收藏功能"""
         gcp = GroupChatPage()
@@ -1364,24 +1417,24 @@ class MsgCommonGroupTest(TestCase):
         # sogp.click_back()
         # sc = SelectContactsPage()
         # sc.click_back()
-        #进入我页面
+        # 进入我页面
         mess = MessagePage()
         mess.open_me_page()
-        me=MePage()
+        me = MePage()
         me.click_collection()
         time.sleep(1)
         if not me.is_text_present("哈哈"):
             raise AssertionError("收藏的消息内容不能正常展示出来")
-        mcp=MeCollectionPage()
+        mcp = MeCollectionPage()
         mcp.click_text("哈哈")
         time.sleep(1)
         if not mcp.is_text_present("详情"):
             raise AssertionError("不能进入到消息展示详情页面")
         mcp.click_back()
         time.sleep(2)
-        #左滑收藏消息体
+        # 左滑收藏消息体
         mcp.press_and_move_left()
-        #判断是否有删除按钮
+        # 判断是否有删除按钮
         if mcp.is_delete_element_present():
             mcp.click_delete_collection()
             mcp.click_sure_forward()
@@ -1398,7 +1451,7 @@ class MsgCommonGroupTest(TestCase):
         gcp.click_audio_btn()
         audio = ChatAudioPage()
         if audio.wait_for_audio_type_select_page_load():
-            #点击只发送语言模式
+            # 点击只发送语言模式
             audio.click_only_voice()
             audio.click_sure()
         # 权限申请允许弹窗判断
@@ -1431,15 +1484,15 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(1)
         if not me.is_text_present("秒"):
             raise AssertionError("收藏的消息内容不能正常展示出来")
-        mcp=MeCollectionPage()
+        mcp = MeCollectionPage()
         mcp.click_text("秒")
         time.sleep(1)
         if not mcp.is_text_present("详情"):
             raise AssertionError("不能进入到消息展示详情页面")
-        #播放语音消息
+        # 播放语音消息
         mcp.click_collection_voice_msg()
         time.sleep(2)
-        #暂停语音消息
+        # 暂停语音消息
         mcp.click_collection_voice_msg()
         mcp.click_back()
         time.sleep(2)
@@ -1663,12 +1716,12 @@ class MsgCommonGroupTest(TestCase):
         if mcp.is_delete_element_present():
             mcp.click_delete_collection()
             time.sleep(2)
-            #判断是否会弹出确认弹窗
+            # 判断是否会弹出确认弹窗
             if not mcp.is_text_present("确定"):
                 raise AssertionError("没有弹出确认窗口")
-            #点击取消
+            # 点击取消
             mcp.click_cancel_forward()
-            flag=mcp.is_delete_element_present()
+            flag = mcp.is_delete_element_present()
             self.assertTrue(flag)
             time.sleep(1)
             mcp.click_delete_collection()
@@ -2014,7 +2067,7 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(1)
         mess = MessagePage()
         if mess.is_on_this_page():
-            exists =mess.is_text_present("草稿")
+            exists = mess.is_text_present("草稿")
             self.assertEquals(exists, True)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
@@ -2286,7 +2339,7 @@ class MsgCommonGroupTest(TestCase):
         gcp.input_message("")
         gcp.click_back()
         time.sleep(1)
-        #4、消息列表[草稿]标红字样消失，显示为最近一次消息预览
+        # 4、消息列表[草稿]标红字样消失，显示为最近一次消息预览
         mess = MessagePage()
         if mess.is_on_this_page():
             exists = mess.is_text_present("草稿")
@@ -2302,7 +2355,7 @@ class MsgCommonGroupTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.enter_group_chat_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC-RESET', 'group_chat','4281','high')
+    @tags('ALL', 'SMOKE', 'CMCC-RESET', 'group_chat', '4281', 'high')
     def test_msg_xiaoqiu_0056(self):
         """未获取权限时，点击输入框右边的语音按钮，检查是否会弹出提示权限"""
         gcp = GroupChatPage()
@@ -2319,7 +2372,7 @@ class MsgCommonGroupTest(TestCase):
         audio.click_exit()
         gcp.wait_for_page_load()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','4281','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', '4281', 'high')
     def test_msg_xiaoqiu_0057(self):
         """首次使用语音功能"""
         gcp = GroupChatPage()
@@ -2334,7 +2387,7 @@ class MsgCommonGroupTest(TestCase):
         # 2、默认展示的选择项是否是，语音+文字模式
         # info = audio.get_selected_item()
         # self.assertIn("语音+文字", info)
-        flag=audio.get_audio_and_text_icon_selected()
+        flag = audio.get_audio_and_text_icon_selected()
         self.assertTrue(flag)
         audio.click_sure()
         audio.wait_for_page_load()
@@ -2357,7 +2410,6 @@ class MsgCommonGroupTest(TestCase):
         audio.click_text("说点什么...")
         time.sleep(2)
         audio.hide_keyboard()
-
 
     # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','428','high')
     @unittest.skip("容易受外界干扰运行失败，不连跑")
@@ -2388,7 +2440,7 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(2)
 
     def tearDown_test_msg_common_group_0022(self):
-        #重新连接网络
+        # 重新连接网络
         gcp = GroupChatPage()
         gcp.set_network_status(6)
 
@@ -2470,7 +2522,7 @@ class MsgCommonGroupTest(TestCase):
         audio.click_send_bottom()
         audio.click_setting_bottom()
         if audio.wait_for_audio_type_select_page_load():
-            #点击只发送语言模式
+            # 点击只发送语言模式
             audio.click_only_voice()
             audio.click_sure()
         else:
@@ -2481,7 +2533,7 @@ class MsgCommonGroupTest(TestCase):
         if gcp.is_text_present("语音录制中"):
             raise AssertionError("退出语音录制模式失败")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','428')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', '428')
     def test_msg_common_group_0039(self):
         """放大发送文本消息"""
         gcp = GroupChatPage()
@@ -2496,29 +2548,29 @@ class MsgCommonGroupTest(TestCase):
             cwp.wait_for_msg_send_status_become_to('发送成功', 10)
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
-        #判断文本是否放大,‘哈哈’文本框信息正常宽度为163
-        if not gcp.get_width_of_msg_of_text()>136:
+        # 判断文本是否放大,‘哈哈’文本框信息正常宽度为163
+        if not gcp.get_width_of_msg_of_text() > 136:
             raise AssertionError("文本消息没有放大展示")
 
     def tearDown_test_msg_common_group_0039(self):
-        #删除聊天记录
+        # 删除聊天记录
         scp = GroupChatPage()
         if scp.is_on_this_page():
             scp.click_setting()
-            gcsp=GroupChatSetPage()
+            gcsp = GroupChatSetPage()
             gcsp.wait_for_page_load()
-            #点击删除聊天记录
+            # 点击删除聊天记录
             gcsp.click_clear_chat_record()
             gcsp.wait_clear_chat_record_confirmation_box_load()
-            #点击确认
+            # 点击确认
             gcsp.click_determine()
             # flag=gcsp.is_toast_exist("聊天记录清除成功")
             # self.assertTrue(flag)
             time.sleep(3)
-            #点击返回群聊页面
+            # 点击返回群聊页面
             gcsp.click_back()
             time.sleep(2)
-            #判断是否返回到群聊页面
+            # 判断是否返回到群聊页面
             self.assertTrue(scp.is_on_this_page())
         else:
             try:
@@ -2526,11 +2578,11 @@ class MsgCommonGroupTest(TestCase):
             except AssertionError as e:
                 raise e
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','428')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', '428')
     def test_msg_common_group_0040(self):
         """缩小发送文本消息"""
         gcp = GroupChatPage()
-        #获取文本信息正常的宽度
+        # 获取文本信息正常的宽度
         info = "哈哈"
         gcp.input_message(info)
         gcp.send_message()
@@ -2540,7 +2592,7 @@ class MsgCommonGroupTest(TestCase):
             cwp.wait_for_msg_send_status_become_to('发送成功', 10)
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
-        width=gcp.get_width_of_msg_of_text()
+        width = gcp.get_width_of_msg_of_text()
         Preconditions.delete_record_group_chat()
         time.sleep(2)
         # 再继续输入信息
@@ -2557,7 +2609,7 @@ class MsgCommonGroupTest(TestCase):
         if not gcp.get_width_of_msg_of_text() < width:
             raise AssertionError("文本消息没有缩小展示")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','428')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', '428')
     def test_msg_common_group_0041(self):
         """发送一串号码到聊天会话页面"""
         gcp = GroupChatPage()
@@ -2572,7 +2624,7 @@ class MsgCommonGroupTest(TestCase):
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','428')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', '428')
     def test_msg_common_group_0042(self):
         """点击聊天会话页面中的一组号码数字"""
         gcp = GroupChatPage()
@@ -2598,14 +2650,14 @@ class MsgCommonGroupTest(TestCase):
         if gcp.is_text_present('始终允许'):
             gcp.click_text("始终允许")
         time.sleep(2)
-        #判断是否可以发起呼叫
+        # 判断是否可以发起呼叫
         if not gcp.is_phone_in_calling_state():
             raise AssertionError("不可以发起呼叫")
         time.sleep(1)
-        #点击结束呼叫按钮
+        # 点击结束呼叫按钮
         gcp.hang_up_the_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','428','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', '428', 'high')
     def test_msg_xiaoqiu_0044(self):
         """发送一组数字：12345678900，发送成功后，是否会被识别为号码"""
         gcp = GroupChatPage()
@@ -2622,31 +2674,31 @@ class MsgCommonGroupTest(TestCase):
             cwp.wait_for_msg_send_status_become_to('发送成功', 10)
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
-        #判断是否被识别为号码
+        # 判断是否被识别为号码
         gcp.click_text("12345678900")
         time.sleep(1)
         if gcp.is_text_present("呼叫"):
             raise AssertionError("12345678900被识别为号码,点击有弹窗")
 
     def tearDown_test_msg_xiaoqiu_0044(self):
-        #删除聊天记录
+        # 删除聊天记录
         scp = GroupChatPage()
         if scp.is_on_this_page():
             scp.click_setting()
-            gcsp=GroupChatSetPage()
+            gcsp = GroupChatSetPage()
             gcsp.wait_for_page_load()
-            #点击删除聊天记录
+            # 点击删除聊天记录
             gcsp.click_clear_chat_record()
             gcsp.wait_clear_chat_record_confirmation_box_load()
-            #点击确认
+            # 点击确认
             gcsp.click_determine()
             # flag=gcsp.is_toast_exist("聊天记录清除成功")
             # self.assertTrue(flag)
             time.sleep(3)
-            #点击返回群聊页面
+            # 点击返回群聊页面
             gcsp.click_back()
             time.sleep(2)
-            #判断是否返回到群聊页面
+            # 判断是否返回到群聊页面
             self.assertTrue(scp.is_on_this_page())
         else:
             try:
@@ -2654,7 +2706,7 @@ class MsgCommonGroupTest(TestCase):
             except AssertionError as e:
                 raise e
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','428','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', '428', 'high')
     def test_msg_xiaoqiu_0045(self):
         """发送一组数字：123456，发送成功后，是否会被识别为号码"""
         gcp = GroupChatPage()
@@ -2677,7 +2729,7 @@ class MsgCommonGroupTest(TestCase):
         gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
         time.sleep(2)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','428','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', '428', 'high')
     def test_msg_xiaoqiu_0046(self):
         """发送一组数字：18431931414，发送成功后，是否会被识别为号码"""
         gcp = GroupChatPage()
@@ -2699,7 +2751,7 @@ class MsgCommonGroupTest(TestCase):
         gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
         time.sleep(2)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','428','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', '428', 'high')
     def test_msg_xiaoqiu_0047(self):
         """发送一组数字：+85267656003，发送成功后，是否会被识别为号码"""
         gcp = GroupChatPage()
@@ -2721,7 +2773,7 @@ class MsgCommonGroupTest(TestCase):
         gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
         time.sleep(2)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','428','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', '428', 'high')
     def test_msg_xiaoqiu_0048(self):
         """发送一组数字：67656003，发送成功后，是否会被识别为号码"""
         gcp = GroupChatPage()
@@ -2743,7 +2795,7 @@ class MsgCommonGroupTest(TestCase):
         gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
         time.sleep(2)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','428','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', '428', 'high')
     def test_msg_xiaoqiu_0049(self):
         """发送一组数字：95533，发送成功后，是否会被识别为号码"""
         gcp = GroupChatPage()
@@ -2765,7 +2817,7 @@ class MsgCommonGroupTest(TestCase):
         gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
         time.sleep(2)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','428','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', '428', 'high')
     def test_msg_common_group_0049(self):
         """点击聊天会话页面中的一组非号码数字"""
         gcp = GroupChatPage()
@@ -2801,10 +2853,10 @@ class MsgCommonGroupTest(TestCase):
         gcp.click_setting()
         gcsp = GroupChatSetPage()
         gcsp.wait_for_page_load()
-        #点击“+”按钮
+        # 点击“+”按钮
         gcsp.click_add_member()
         contacts_page = SelectLocalContactsPage()
-        #未选择联系人时，右上角的确定按钮是否置灰展示
+        # 未选择联系人时，右上角的确定按钮是否置灰展示
         if contacts_page.is_text_present("确定(1/499)"):
             raise AssertionError("未选择联系人时，右上角的确定按钮没有置灰展示")
         time.sleep(2)
@@ -2822,7 +2874,7 @@ class MsgCommonGroupTest(TestCase):
         # 点击“+”按钮
         gcsp.click_add_member()
         time.sleep(2)
-        cgacp=ChatGroupAddContactsPage()
+        cgacp = ChatGroupAddContactsPage()
         # contactNnames=cgacp.get_contacts_name()
         # if contactNnames:
         #     #选择一个联系人
@@ -2838,24 +2890,24 @@ class MsgCommonGroupTest(TestCase):
         gcp.page_should_contain_text("发出群邀请")
 
     def tearDown_test_msg_common_group_0052(self):
-        #删除聊天记录
+        # 删除聊天记录
         scp = GroupChatPage()
         if scp.is_on_this_page():
             scp.click_setting()
-            gcsp=GroupChatSetPage()
+            gcsp = GroupChatSetPage()
             gcsp.wait_for_page_load()
-            #点击删除聊天记录
+            # 点击删除聊天记录
             gcsp.click_clear_chat_record()
             gcsp.wait_clear_chat_record_confirmation_box_load()
-            #点击确认
+            # 点击确认
             gcsp.click_determine()
             # flag=gcsp.is_toast_exist("聊天记录清除成功")
             # self.assertTrue(flag)
             time.sleep(3)
-            #点击返回群聊页面
+            # 点击返回群聊页面
             gcsp.click_back()
             time.sleep(2)
-            #判断是否返回到群聊页面
+            # 判断是否返回到群聊页面
             self.assertTrue(scp.is_on_this_page())
         else:
             try:
@@ -2875,7 +2927,7 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(2)
         cgacp = ChatGroupAddContactsPage()
         contactNnames = cgacp.get_contacts_name()
-        if len(contactNnames)>1:
+        if len(contactNnames) > 1:
             # 选择多个联系人
             cgacp.select_one_member_by_name(contactNnames[0])
             cgacp.select_one_member_by_name(contactNnames[1])
@@ -2886,24 +2938,24 @@ class MsgCommonGroupTest(TestCase):
         gcp.page_should_contain_text("发出群邀请")
 
     def tearDown_test_msg_common_group_0053(self):
-        #删除聊天记录
+        # 删除聊天记录
         scp = GroupChatPage()
         if scp.is_on_this_page():
             scp.click_setting()
-            gcsp=GroupChatSetPage()
+            gcsp = GroupChatSetPage()
             gcsp.wait_for_page_load()
-            #点击删除聊天记录
+            # 点击删除聊天记录
             gcsp.click_clear_chat_record()
             gcsp.wait_clear_chat_record_confirmation_box_load()
-            #点击确认
+            # 点击确认
             gcsp.click_determine()
             # flag=gcsp.is_toast_exist("聊天记录清除成功")
             # self.assertTrue(flag)
             time.sleep(3)
-            #点击返回群聊页面
+            # 点击返回群聊页面
             gcsp.click_back()
             time.sleep(2)
-            #判断是否返回到群聊页面
+            # 判断是否返回到群聊页面
             self.assertTrue(scp.is_on_this_page())
         else:
             try:
@@ -2973,7 +3025,7 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(1)
         gcsp.clear_group_name()
         time.sleep(1)
-        #录入新群名
+        # 录入新群名
         gcsp.input_new_group_name("NGN")
         time.sleep(1)
         if not gcsp.is_enabled_of_group_name_save_button():
@@ -2982,7 +3034,7 @@ class MsgCommonGroupTest(TestCase):
         if not gcsp.is_toast_exist("修改成功"):
             raise AssertionError("群名称更改为新名称失败")
         gcsp.click_back()
-        #恢复群名
+        # 恢复群名
         gcp.wait_for_page_load()
         gcp.click_setting()
         gcsp.wait_for_page_load()
@@ -3010,15 +3062,15 @@ class MsgCommonGroupTest(TestCase):
         gcsp.click_my_card()
         time.sleep(1)
         gcsp.input_new_group_name("aa")
-        #判断是否有“X”按钮
+        # 判断是否有“X”按钮
         if gcsp.is_iv_delete_exit():
-            #点击“X”按钮
+            # 点击“X”按钮
             gcsp.click_iv_delete_button()
             time.sleep(1)
-            #判断是否清除成功
+            # 判断是否清除成功
             if not gcsp.is_text_present("设置你在群内显示的昵称"):
                 raise AssertionError("旧群名片不能清除成功")
-            #判断右上角的按钮是否置灰展示
+            # 判断右上角的按钮是否置灰展示
             if gcsp.is_enabled_of_group_card_save_button():
                 raise AssertionError("名称修改框为空时，右上角的完成按钮没有置灰展示")
         else:
@@ -3036,15 +3088,15 @@ class MsgCommonGroupTest(TestCase):
         gcsp.click_my_card()
         time.sleep(1)
         gcsp.input_new_group_name("哈哈哈哈哈哈哈哈哈哈")
-        #判断按钮是否高亮展示
+        # 判断按钮是否高亮展示
         if gcsp.is_enabled_of_group_card_save_button():
             gcsp.save_group_card_name()
             gcsp.is_toast_exist("修改成功")
             time.sleep(2)
-            #验证上面输入的名称内容都保存
+            # 验证上面输入的名称内容都保存
             gcsp.click_my_card()
             time.sleep(1)
-            if not gcsp.get_edit_query_text()=="哈哈哈哈哈哈哈哈哈哈":
+            if not gcsp.get_edit_query_text() == "哈哈哈哈哈哈哈哈哈哈":
                 raise AssertionError("不可以保存输入的名称内容")
             gcsp.click_edit_group_card_back()
             gcsp.click_back()
@@ -3064,11 +3116,11 @@ class MsgCommonGroupTest(TestCase):
         gcsp.click_iv_delete_button()
         gcsp.input_new_group_name("哈哈哈哈哈哈哈哈哈哈哈")
         time.sleep(1)
-        text=gcsp.get_edit_query_text()
-        if text=="哈哈哈哈哈哈哈哈哈哈哈":
+        text = gcsp.get_edit_query_text()
+        if text == "哈哈哈哈哈哈哈哈哈哈哈":
             raise AssertionError("可录入11个汉字")
         else:
-            if not text=="哈哈哈哈哈哈哈哈哈哈":
+            if not text == "哈哈哈哈哈哈哈哈哈哈":
                 raise AssertionError("录入的汉字最多不是10个")
         gcsp.click_edit_group_card_back()
         gcsp.click_back()
@@ -3084,10 +3136,10 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(1)
         # 点击“X”按钮
         gcsp.click_iv_delete_button()
-        newName="h"*30
+        newName = "h" * 30
         gcsp.input_new_group_name(newName)
         time.sleep(1)
-        if not gcsp.get_edit_query_text()==newName:
+        if not gcsp.get_edit_query_text() == newName:
             raise AssertionError("录入30个英文字符不可以录入成功")
         gcsp.save_group_card_name()
         gcsp.is_toast_exist("修改成功")
@@ -3109,7 +3161,7 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(1)
         if gcsp.get_edit_query_text() == newName:
             raise AssertionError("可以录入31个英文字符")
-        if not gcsp.get_edit_query_text()=="j"*30:
+        if not gcsp.get_edit_query_text() == "j" * 30:
             raise AssertionError("无法最多录入30个英文字符")
         gcsp.click_edit_group_card_back()
         gcsp.click_back()
@@ -3154,7 +3206,7 @@ class MsgCommonGroupTest(TestCase):
         gcsp.is_toast_exist("修改成功")
         gcsp.click_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'xin')
     def test_msg_common_group_0074(self):
         """聊天设置页面，修改群名片、录入特殊字符"""
         gcp = GroupChatPage()
@@ -3172,14 +3224,14 @@ class MsgCommonGroupTest(TestCase):
         gcsp.click_edit_group_card_back()
         gcsp.click_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'xin')
     def test_msg_common_group_0075(self):
         """聊天设置页面，分享群二维码"""
         gcp = GroupChatPage()
         gcp.click_setting()
         gcsp = GroupChatSetPage()
         gcsp.wait_for_page_load()
-        #点击群二维码
+        # 点击群二维码
         gcsp.click_QRCode()
         gcsp.wait_for_qecode_load()
         gcsp.click_qecode_download_button()
@@ -3188,7 +3240,7 @@ class MsgCommonGroupTest(TestCase):
         gcsp.click_qecode_back_button()
         gcsp.click_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'xin')
     def test_msg_common_group_0076(self):
         """聊天设置页面，分享群二维码"""
         gcp = GroupChatPage()
@@ -3205,7 +3257,7 @@ class MsgCommonGroupTest(TestCase):
         gcsp.click_qecode_back_button()
         gcsp.click_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'xin')
     def test_msg_common_group_0077(self):
         """聊天设置页面，分享群二维码"""
         gcp = GroupChatPage()
@@ -3226,24 +3278,24 @@ class MsgCommonGroupTest(TestCase):
         gcsp.click_qecode_back_button()
         gcsp.click_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'xin')
     def test_msg_common_group_0078(self):
         """聊天设置页面，转让群聊"""
         gcp = GroupChatPage()
         gcp.click_setting()
         gcsp = GroupChatSetPage()
         gcsp.wait_for_page_load()
-        #点击群管理
+        # 点击群管理
         gcsp.click_group_manage()
         gcsp.wait_for_group_manage_load()
-        #点击群主管理权转让
+        # 点击群主管理权转让
         gcsp.click_group_manage_transfer_button()
         flag = gcsp.is_toast_exist("暂无群成员")
         self.assertTrue(flag)
         gcsp.click_group_manage_back_button()
         gcsp.click_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'xin')
     def test_msg_common_group_0081(self):
         """聊天设置页面，解散群聊"""
         gcp = GroupChatPage()
@@ -3253,18 +3305,18 @@ class MsgCommonGroupTest(TestCase):
         # 点击群管理
         gcsp.click_group_manage()
         gcsp.wait_for_group_manage_load()
-        #点击解散群
+        # 点击解散群
         gcsp.click_group_manage_disband_button()
         time.sleep(3)
         # if not gcsp.is_text_present("解散群后，所有成员将被移出此群"):
         #     raise AssertionError("不会弹出确认弹窗")
-        #点击取消
+        # 点击取消
         gcsp.click_cancel()
         time.sleep(1)
         if not gcsp.is_text_present("群管理"):
             raise AssertionError("点击取消，不能停留在群管理页面")
         gcsp.click_group_manage_disband_button()
-        #点击确定
+        # 点击确定
         gcsp.click_sure()
         if not gcsp.is_toast_exist("该群已解散"):
             raise AssertionError("没有toast提示该群已解散")
@@ -3275,30 +3327,30 @@ class MsgCommonGroupTest(TestCase):
             sc = SelectContactsPage()
             sc.click_back()
         time.sleep(2)
-        msg=MessagePage()
+        msg = MessagePage()
         if not msg.is_text_present("该群已解散"):
             raise AssertionError("没有系统消息通知该群已解散")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'xin')
     def test_msg_common_group_0087(self):
         """聊天设置页面，查找聊天内容"""
         gcp = GroupChatPage()
         gcp.click_setting()
         gcsp = GroupChatSetPage()
         gcsp.wait_for_page_load()
-        #点击查找聊天内容
+        # 点击查找聊天内容
         gcsp.click_find_chat_record()
-        #点击搜索框
+        # 点击搜索框
         search = FindChatRecordPage()
         search.wait_for_page_loads()
         search.click_edit_query()
-        #判断键盘是否调起
+        # 判断键盘是否调起
         if not search.is_keyboard_shown():
             raise AssertionError("不可以调起小键盘")
         search.click_back()
         gcsp.click_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'xin')
     def test_msg_common_group_0088(self):
         """聊天设置页面，查找聊天内容"""
         gcp = GroupChatPage()
@@ -3319,9 +3371,9 @@ class MsgCommonGroupTest(TestCase):
         gcsp.click_find_chat_record()
         search = FindChatRecordPage()
         search.wait_for_page_loads()
-        #输入搜索信息
+        # 输入搜索信息
         search.input_search_message("哈哈")
-        #判断各元素的存在
+        # 判断各元素的存在
         if not search.is_element_exit("发送人头像"):
             raise AssertionError("展示结果没有发送人头像")
         if not search.is_element_exit("发送人名称"):
@@ -3330,7 +3382,7 @@ class MsgCommonGroupTest(TestCase):
             raise AssertionError("展示结果没有发送的内容")
         if not search.is_element_exit("发送的时间"):
             raise AssertionError("展示结果没有发送的时间")
-        #任意选中一条聊天记录
+        # 任意选中一条聊天记录
         search.click_record()
         time.sleep(2)
         if gcp.is_on_this_page():
@@ -3344,24 +3396,24 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(2)
 
     def tearDown_test_msg_common_group_0088(self):
-        #删除聊天记录
+        # 删除聊天记录
         scp = GroupChatPage()
         if scp.is_on_this_page():
             scp.click_setting()
-            gcsp=GroupChatSetPage()
+            gcsp = GroupChatSetPage()
             gcsp.wait_for_page_load()
-            #点击删除聊天记录
+            # 点击删除聊天记录
             gcsp.click_clear_chat_record()
             gcsp.wait_clear_chat_record_confirmation_box_load()
-            #点击确认
+            # 点击确认
             gcsp.click_determine()
             # flag=gcsp.is_toast_exist("聊天记录清除成功")
             # self.assertTrue(flag)
             time.sleep(3)
-            #点击返回群聊页面
+            # 点击返回群聊页面
             gcsp.click_back()
             time.sleep(2)
-            #判断是否返回到群聊页面
+            # 判断是否返回到群聊页面
             self.assertTrue(scp.is_on_this_page())
         else:
             try:
@@ -3369,7 +3421,7 @@ class MsgCommonGroupTest(TestCase):
             except AssertionError as e:
                 raise e
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'xin')
     def test_msg_common_group_0089(self):
         """聊天设置页面，查找聊天内容"""
         gcp = GroupChatPage()
@@ -3415,24 +3467,24 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(2)
 
     def tearDown_test_msg_common_group_0089(self):
-        #删除聊天记录
+        # 删除聊天记录
         scp = GroupChatPage()
         if scp.is_on_this_page():
             scp.click_setting()
-            gcsp=GroupChatSetPage()
+            gcsp = GroupChatSetPage()
             gcsp.wait_for_page_load()
-            #点击删除聊天记录
+            # 点击删除聊天记录
             gcsp.click_clear_chat_record()
             gcsp.wait_clear_chat_record_confirmation_box_load()
-            #点击确认
+            # 点击确认
             gcsp.click_determine()
             # flag=gcsp.is_toast_exist("聊天记录清除成功")
             # self.assertTrue(flag)
             time.sleep(3)
-            #点击返回群聊页面
+            # 点击返回群聊页面
             gcsp.click_back()
             time.sleep(2)
-            #判断是否返回到群聊页面
+            # 判断是否返回到群聊页面
             self.assertTrue(scp.is_on_this_page())
         else:
             try:
@@ -3440,7 +3492,7 @@ class MsgCommonGroupTest(TestCase):
             except AssertionError as e:
                 raise e
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'xin')
     def test_msg_common_group_0090(self):
         """聊天设置页面，查找聊天内容"""
         gcp = GroupChatPage()
@@ -3486,24 +3538,24 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(2)
 
     def tearDown_test_msg_common_group_0090(self):
-        #删除聊天记录
+        # 删除聊天记录
         scp = GroupChatPage()
         if scp.is_on_this_page():
             scp.click_setting()
-            gcsp=GroupChatSetPage()
+            gcsp = GroupChatSetPage()
             gcsp.wait_for_page_load()
-            #点击删除聊天记录
+            # 点击删除聊天记录
             gcsp.click_clear_chat_record()
             gcsp.wait_clear_chat_record_confirmation_box_load()
-            #点击确认
+            # 点击确认
             gcsp.click_determine()
             # flag=gcsp.is_toast_exist("聊天记录清除成功")
             # self.assertTrue(flag)
             time.sleep(3)
-            #点击返回群聊页面
+            # 点击返回群聊页面
             gcsp.click_back()
             time.sleep(2)
-            #判断是否返回到群聊页面
+            # 判断是否返回到群聊页面
             self.assertTrue(scp.is_on_this_page())
         else:
             try:
@@ -3511,7 +3563,7 @@ class MsgCommonGroupTest(TestCase):
             except AssertionError as e:
                 raise e
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'xin')
     def test_msg_common_group_0091(self):
         """聊天设置页面，查找聊天内容"""
         gcp = GroupChatPage()
@@ -3556,7 +3608,7 @@ class MsgCommonGroupTest(TestCase):
         gcsp.click_back()
         time.sleep(2)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'xin')
     def test_msg_common_group_0092(self):
         """聊天设置页面，清空聊天记录"""
         # 删除聊天记录
@@ -3568,7 +3620,7 @@ class MsgCommonGroupTest(TestCase):
             # 点击删除聊天记录
             gcsp.click_clear_chat_record()
             gcsp.wait_clear_chat_record_confirmation_box_load()
-            #点击取消
+            # 点击取消
             gcsp.click_cancel()
             time.sleep(1)
             if not gcsp.is_text_present("群聊设置"):
@@ -3586,7 +3638,7 @@ class MsgCommonGroupTest(TestCase):
             time.sleep(2)
             # 判断是否返回到群聊页面
             self.assertTrue(scp.is_on_this_page())
-            #验证聊天内容已经被清除
+            # 验证聊天内容已经被清除
             if scp.is_text_present("$%&"):
                 raise AssertionError("聊天内容记录没有被清除")
         else:
@@ -3595,27 +3647,27 @@ class MsgCommonGroupTest(TestCase):
             except AssertionError as e:
                 raise e
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'xin')
     def test_msg_common_group_0094(self):
         """聊天设置页面，删除并退出群聊"""
         gcp = GroupChatPage()
         gcp.click_setting()
         gcsp = GroupChatSetPage()
         gcsp.wait_for_page_load()
-        #点击“删除并退出”按钮
+        # 点击“删除并退出”按钮
         if not gcsp.is_text_present("删除并退出"):
             gcsp.page_up()
         gcsp.click_delete_and_exit2()
         time.sleep(3)
-        #验证弹出弹窗
+        # 验证弹出弹窗
         # if not gcsp.is_text_present("退出后不会再接收该群消息"):
         #     raise AssertionError("没有弹出确认弹窗")
-        #点击取消
+        # 点击取消
         gcsp.click_cancel()
         time.sleep(1)
         if gcsp.is_text_present("退出后不会再接收该群信息"):
             raise AssertionError("不可以关闭弹窗")
-        #点击确定
+        # 点击确定
         gcsp.click_delete_and_exit2()
         time.sleep(1)
         gcsp.click_sure()
@@ -3628,7 +3680,7 @@ class MsgCommonGroupTest(TestCase):
             sc = SelectContactsPage()
             sc.click_back()
         time.sleep(2)
-        mess=MessagePage()
+        mess = MessagePage()
         if not mess.is_on_this_page():
             raise AssertionError("退出当前群聊没有返回到消息列表")
         mess.click_element_by_text("系统消息")
@@ -3637,40 +3689,40 @@ class MsgCommonGroupTest(TestCase):
             raise AssertionError("没有系统消息：你已退出群")
         gcsp.click_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', 'xin')
     def test_msg_common_group_0096(self):
         """聊天窗口，发送表情"""
         gcp = GroupChatPage()
-        #点击表情按钮
+        # 点击表情按钮
         gcp.click_expression_button()
         time.sleep(2)
-        #判断是否可以展示表情页
+        # 判断是否可以展示表情页
         if not gcp.is_exist_expression_page():
             raise AssertionError("不可以展示表情页")
-        #任意点击一个表情
-        els=gcp.get_expressions()
+        # 任意点击一个表情
+        els = gcp.get_expressions()
         els[0].click()
-        inputText=gcp.get_input_box().get_attribute("text")
-        if not inputText==els[0].get_attribute("text"):
+        inputText = gcp.get_input_box().get_attribute("text")
+        if not inputText == els[0].get_attribute("text"):
             raise AssertionError("被选中的表情不可以存放输入框展示")
         time.sleep(1)
-        #清空输入框内容
+        # 清空输入框内容
         gcp.get_input_box().clear()
         gcp.click_expression_page_close_button()
         gcp.hide_keyboard()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', 'xin')
     def test_msg_common_group_0097(self):
         """聊天窗口，发送表情"""
         gcp = GroupChatPage()
         # 点击表情按钮
         gcp.click_expression_button()
         els = gcp.get_expressions()
-        a=0
-        while a<3:
+        a = 0
+        while a < 3:
             els[0].click()
-            a+=1
-        #判断发送按钮是否高亮
+            a += 1
+        # 判断发送按钮是否高亮
         if not gcp.is_enabled_of_send_button():
             raise AssertionError("发送按钮不可高亮展示")
         gcp.send_message()
@@ -3684,32 +3736,32 @@ class MsgCommonGroupTest(TestCase):
         gcp.hide_keyboard()
 
     def tearDown_test_msg_common_group_0097(self):
-            # 删除聊天记录
-            scp = GroupChatPage()
-            if scp.is_on_this_page():
-                scp.click_setting()
-                gcsp = GroupChatSetPage()
-                gcsp.wait_for_page_load()
-                # 点击删除聊天记录
-                gcsp.click_clear_chat_record()
-                gcsp.wait_clear_chat_record_confirmation_box_load()
-                # 点击确认
-                gcsp.click_determine()
-                # flag = gcsp.is_toast_exist("聊天记录清除成功")
-                # self.assertTrue(flag)
-                time.sleep(3)
-                # 点击返回群聊页面
-                gcsp.click_back()
-                time.sleep(2)
-                # 判断是否返回到群聊页面
-                self.assertTrue(scp.is_on_this_page())
-            else:
-                try:
-                    raise AssertionError("没有返回到群聊页面，无法删除记录")
-                except AssertionError as e:
-                    raise e
+        # 删除聊天记录
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            scp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            # 点击删除聊天记录
+            gcsp.click_clear_chat_record()
+            gcsp.wait_clear_chat_record_confirmation_box_load()
+            # 点击确认
+            gcsp.click_determine()
+            # flag = gcsp.is_toast_exist("聊天记录清除成功")
+            # self.assertTrue(flag)
+            time.sleep(3)
+            # 点击返回群聊页面
+            gcsp.click_back()
+            time.sleep(2)
+            # 判断是否返回到群聊页面
+            self.assertTrue(scp.is_on_this_page())
+        else:
+            try:
+                raise AssertionError("没有返回到群聊页面，无法删除记录")
+            except AssertionError as e:
+                raise e
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', 'xin')
     def test_msg_common_group_0098(self):
         """聊天窗口，发送表情"""
         gcp = GroupChatPage()
@@ -3722,14 +3774,14 @@ class MsgCommonGroupTest(TestCase):
         # 判断是否可以展示表情页
         if not gcp.is_exist_expression_page():
             raise AssertionError("不可以展示表情页")
-        #连续点击多个表情
+        # 连续点击多个表情
         els = gcp.get_expressions()
         a = 0
         while a < 3:
             els[0].click()
             a += 1
         inputText = gcp.get_input_box().get_attribute("text")
-        if not inputText==els[0].get_attribute("text")*3:
+        if not inputText == els[0].get_attribute("text") * 3:
             raise AssertionError("被选中的表情不可以存放输入框展示")
         time.sleep(1)
         # 清空输入框内容
@@ -3737,7 +3789,7 @@ class MsgCommonGroupTest(TestCase):
         gcp.click_expression_page_close_button()
         gcp.hide_keyboard()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX','xin','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', 'xin', 'high')
     def test_msg_common_group_0099(self):
         """聊天窗口，放大发送表情"""
         gcp = GroupChatPage()
@@ -3770,32 +3822,32 @@ class MsgCommonGroupTest(TestCase):
         gcp.hide_keyboard()
 
     def tearDown_test_msg_common_group_0099(self):
-            # 删除聊天记录
-            scp = GroupChatPage()
-            if scp.is_on_this_page():
-                scp.click_setting()
-                gcsp = GroupChatSetPage()
-                gcsp.wait_for_page_load()
-                # 点击删除聊天记录
-                gcsp.click_clear_chat_record()
-                gcsp.wait_clear_chat_record_confirmation_box_load()
-                # 点击确认
-                gcsp.click_determine()
-                # flag = gcsp.is_toast_exist("聊天记录清除成功")
-                # self.assertTrue(flag)
-                time.sleep(3)
-                # 点击返回群聊页面
-                gcsp.click_back()
-                time.sleep(2)
-                # 判断是否返回到群聊页面
-                self.assertTrue(scp.is_on_this_page())
-            else:
-                try:
-                    raise AssertionError("没有返回到群聊页面，无法删除记录")
-                except AssertionError as e:
-                    raise e
+        # 删除聊天记录
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            scp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            # 点击删除聊天记录
+            gcsp.click_clear_chat_record()
+            gcsp.wait_clear_chat_record_confirmation_box_load()
+            # 点击确认
+            gcsp.click_determine()
+            # flag = gcsp.is_toast_exist("聊天记录清除成功")
+            # self.assertTrue(flag)
+            time.sleep(3)
+            # 点击返回群聊页面
+            gcsp.click_back()
+            time.sleep(2)
+            # 判断是否返回到群聊页面
+            self.assertTrue(scp.is_on_this_page())
+        else:
+            try:
+                raise AssertionError("没有返回到群聊页面，无法删除记录")
+            except AssertionError as e:
+                raise e
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX','xin','high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', 'xin', 'high')
     def test_msg_common_group_0100(self):
         """聊天窗口，缩小发送表情"""
         gcp = GroupChatPage()
@@ -3820,7 +3872,6 @@ class MsgCommonGroupTest(TestCase):
         gcp.click_expression_page_close_button()
         gcp.hide_keyboard()
         time.sleep(2)
-
 
         # 点击表情按钮
         gcp.click_expression_button()
@@ -3848,32 +3899,32 @@ class MsgCommonGroupTest(TestCase):
         gcp.hide_keyboard()
 
     def tearDown_test_msg_common_group_0100(self):
-            # 删除聊天记录
-            scp = GroupChatPage()
-            if scp.is_on_this_page():
-                scp.click_setting()
-                gcsp = GroupChatSetPage()
-                gcsp.wait_for_page_load()
-                # 点击删除聊天记录
-                gcsp.click_clear_chat_record()
-                gcsp.wait_clear_chat_record_confirmation_box_load()
-                # 点击确认
-                gcsp.click_determine()
-                # flag = gcsp.is_toast_exist("聊天记录清除成功")
-                # self.assertTrue(flag)
-                time.sleep(3)
-                # 点击返回群聊页面
-                gcsp.click_back()
-                time.sleep(2)
-                # 判断是否返回到群聊页面
-                self.assertTrue(scp.is_on_this_page())
-            else:
-                try:
-                    raise AssertionError("没有返回到群聊页面，无法删除记录")
-                except AssertionError as e:
-                    raise e
+        # 删除聊天记录
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            scp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            # 点击删除聊天记录
+            gcsp.click_clear_chat_record()
+            gcsp.wait_clear_chat_record_confirmation_box_load()
+            # 点击确认
+            gcsp.click_determine()
+            # flag = gcsp.is_toast_exist("聊天记录清除成功")
+            # self.assertTrue(flag)
+            time.sleep(3)
+            # 点击返回群聊页面
+            gcsp.click_back()
+            time.sleep(2)
+            # 判断是否返回到群聊页面
+            self.assertTrue(scp.is_on_this_page())
+        else:
+            try:
+                raise AssertionError("没有返回到群聊页面，无法删除记录")
+            except AssertionError as e:
+                raise e
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', 'xin')
     def test_msg_common_group_0101(self):
         """聊天会话窗口的批量选择器页面展示"""
         gcp = GroupChatPage()
@@ -3881,9 +3932,9 @@ class MsgCommonGroupTest(TestCase):
             gcp.click_expression_page_close_button()
         time.sleep(2)
         # 输入信息
-        dex=0
-        while dex<3:
-            messgage="哈哈"+str(dex)
+        dex = 0
+        while dex < 3:
+            messgage = "哈哈" + str(dex)
             gcp.input_message(messgage)
             # 点击发送
             gcp.send_message()
@@ -3893,30 +3944,30 @@ class MsgCommonGroupTest(TestCase):
                 cwp.wait_for_msg_send_status_become_to('发送成功', 10)
             except TimeoutException:
                 raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
-            dex+=1
-        gcp.press_file_to_do("哈哈0","多选")
-        #显示左上角的【×】关闭按钮，有勾选消息时，左上角文案展示为： 已选择+数量
+            dex += 1
+        gcp.press_file_to_do("哈哈0", "多选")
+        # 显示左上角的【×】关闭按钮，有勾选消息时，左上角文案展示为： 已选择+数量
         if not gcp.is_exist_multiple_selection_back():
             raise AssertionError("没有显示【×】关闭按钮")
-        #验证有勾选信息
-        els=gcp.get_multiple_selection_select_box()
-        if els[0].get_attribute("checked")=="true":
+        # 验证有勾选信息
+        els = gcp.get_multiple_selection_select_box()
+        if els[0].get_attribute("checked") == "true":
             if gcp.is_exist_multiple_selection_count():
                 if not gcp.is_text_present("已选择"):
                     raise AssertionError("没有显示‘已选择+数量’字样")
             else:
                 raise AssertionError("没有显示‘已选择+数量’字样")
-            #底部删除、转发按钮，高亮展示
+            # 底部删除、转发按钮，高亮展示
             if not gcp.is_enabled_multiple_selection_delete():
                 raise AssertionError("勾选信息后底部删除按钮没有高亮展示")
             if not gcp.is_enabled_multiple_selection_forward():
                 raise AssertionError("勾选信息后底部转发按钮没有高亮展示")
         else:
             raise AssertionError("没有勾选信息")
-        #取消勾选信息
+        # 取消勾选信息
         els[0].click()
         time.sleep(1)
-        #未选择任何消息时，左上角文案展示为：未选择，底部删除，转发按钮默认置灰展示
+        # 未选择任何消息时，左上角文案展示为：未选择，底部删除，转发按钮默认置灰展示
         if not gcp.is_text_present("未选择"):
             raise AssertionError("未选择任何消息时没有展示‘未选择’")
         # 底部删除、转发按钮，置灰展示
@@ -3927,32 +3978,32 @@ class MsgCommonGroupTest(TestCase):
         gcp.click_multiple_selection_back()
 
     def tearDown_test_msg_common_group_0101(self):
-            # 删除聊天记录
-            scp = GroupChatPage()
-            if scp.is_on_this_page():
-                scp.click_setting()
-                gcsp = GroupChatSetPage()
-                gcsp.wait_for_page_load()
-                # 点击删除聊天记录
-                gcsp.click_clear_chat_record()
-                gcsp.wait_clear_chat_record_confirmation_box_load()
-                # 点击确认
-                gcsp.click_determine()
-                # flag = gcsp.is_toast_exist("聊天记录清除成功")
-                # self.assertTrue(flag)
-                time.sleep(3)
-                # 点击返回群聊页面
-                gcsp.click_back()
-                time.sleep(2)
-                # 判断是否返回到群聊页面
-                self.assertTrue(scp.is_on_this_page())
-            else:
-                try:
-                    raise AssertionError("没有返回到群聊页面，无法删除记录")
-                except AssertionError as e:
-                    raise e
+        # 删除聊天记录
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            scp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            # 点击删除聊天记录
+            gcsp.click_clear_chat_record()
+            gcsp.wait_clear_chat_record_confirmation_box_load()
+            # 点击确认
+            gcsp.click_determine()
+            # flag = gcsp.is_toast_exist("聊天记录清除成功")
+            # self.assertTrue(flag)
+            time.sleep(3)
+            # 点击返回群聊页面
+            gcsp.click_back()
+            time.sleep(2)
+            # 判断是否返回到群聊页面
+            self.assertTrue(scp.is_on_this_page())
+        else:
+            try:
+                raise AssertionError("没有返回到群聊页面，无法删除记录")
+            except AssertionError as e:
+                raise e
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', 'xin')
     def test_msg_common_group_0102(self):
         """下拉是否可加载历史消息"""
         gcp = GroupChatPage()
@@ -3974,46 +4025,46 @@ class MsgCommonGroupTest(TestCase):
             dex += 1
         gcp.click_back()
         time.sleep(1)
-        groupName=Preconditions.get_group_chat_name()
+        groupName = Preconditions.get_group_chat_name()
         gcp.click_text(groupName)
         time.sleep(1)
         gcp.press_file_to_do("哈哈26", "多选")
-        a=0
-        while a<5:
+        a = 0
+        while a < 5:
             gcp.page_down()
-            a+=1
+            a += 1
         time.sleep(2)
         if not gcp.is_text_present("跳转到最新消息"):
             raise AssertionError("下滑加载历史信息不成功")
         gcp.click_multiple_selection_back()
 
     def tearDown_test_msg_common_group_0102(self):
-            # 删除聊天记录
-            scp = GroupChatPage()
-            if scp.is_on_this_page():
-                scp.click_setting()
-                gcsp = GroupChatSetPage()
-                gcsp.wait_for_page_load()
-                # 点击删除聊天记录
-                gcsp.click_clear_chat_record()
-                gcsp.wait_clear_chat_record_confirmation_box_load()
-                # 点击确认
-                gcsp.click_determine()
-                # flag = gcsp.is_toast_exist("聊天记录清除成功")
-                # self.assertTrue(flag)
-                time.sleep(3)
-                # 点击返回群聊页面
-                gcsp.click_back()
-                time.sleep(2)
-                # 判断是否返回到群聊页面
-                self.assertTrue(scp.is_on_this_page())
-            else:
-                try:
-                    raise AssertionError("没有返回到群聊页面，无法删除记录")
-                except AssertionError as e:
-                    raise e
+        # 删除聊天记录
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            scp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            # 点击删除聊天记录
+            gcsp.click_clear_chat_record()
+            gcsp.wait_clear_chat_record_confirmation_box_load()
+            # 点击确认
+            gcsp.click_determine()
+            # flag = gcsp.is_toast_exist("聊天记录清除成功")
+            # self.assertTrue(flag)
+            time.sleep(3)
+            # 点击返回群聊页面
+            gcsp.click_back()
+            time.sleep(2)
+            # 判断是否返回到群聊页面
+            self.assertTrue(scp.is_on_this_page())
+        else:
+            try:
+                raise AssertionError("没有返回到群聊页面，无法删除记录")
+            except AssertionError as e:
+                raise e
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', 'xin')
     def test_msg_common_group_0103(self):
         """取消多选模式"""
         gcp = GroupChatPage()
@@ -4035,17 +4086,17 @@ class MsgCommonGroupTest(TestCase):
         gcp.click_multiple_selection_back()
         if gcp.is_exist_multiple_selection_select_box():
             raise AssertionError("复选框没有消失")
-        #转发操作选项直接消失
+        # 转发操作选项直接消失
         if gcp.is_text_present("转发"):
             raise AssertionError("转发操作选项没有消失")
-        #出现底部聊天输入框
+        # 出现底部聊天输入框
         if not gcp.is_text_present("说点什么..."):
             raise AssertionError("底部聊天输入框没有出现")
-        #返回到聊天会话窗口
+        # 返回到聊天会话窗口
         if not gcp.is_on_this_page():
             raise AssertionError("没有返回到聊天会话窗口")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', 'xin')
     def test_msg_common_group_0104(self):
         """转发默认选中项（1条）—如下消息体是不支持转发的类型（①未下载的图片/视频/文件  ②语音、红包、卡券等特殊消息体）"""
         gcp = GroupChatPage()
@@ -4070,11 +4121,11 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(2)
         if not gcp.is_text_present("选择联系人"):
             raise AssertionError("不符合UI设计")
-        scp=SelectContactsPage()
+        scp = SelectContactsPage()
         scp.click_back()
         gcp.click_multiple_selection_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', 'xin')
     def test_msg_common_group_0105(self):
         """转发默认选中项（1条）—如下消息体是不支持转发的类型（①未下载的图片/视频/文件  ②语音、红包、卡券等特殊消息体）"""
         gcp = GroupChatPage()
@@ -4109,7 +4160,7 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(1)
         gcp.click_multiple_selection_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', 'xin')
     def test_msg_common_group_0106(self):
         """转发默认选中项（1条）—当消息体是支持转发的类型——网络正常转发"""
         gcp = GroupChatPage()
@@ -4141,7 +4192,7 @@ class MsgCommonGroupTest(TestCase):
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', 'xin')
     def test_msg_common_group_0108(self):
         """转发默认选中项（1条）—删除"""
         gcp = GroupChatPage()
@@ -4162,9 +4213,9 @@ class MsgCommonGroupTest(TestCase):
             dex += 1
         gcp.press_file_to_do("哈哈0", "多选")
         time.sleep(1)
-        #点击删除
+        # 点击删除
         gcp.click_multiple_selection_delete()
-        #点击确定
+        # 点击确定
         gcp.click_multiple_selection_delete_sure()
         flag = gcp.is_toast_exist("删除成功")
         self.assertTrue(flag)
@@ -4172,32 +4223,32 @@ class MsgCommonGroupTest(TestCase):
             raise AssertionError("删除掉的消息体没有删除成功")
 
     def tearDown_test_msg_common_group_0108(self):
-            # 删除聊天记录
-            scp = GroupChatPage()
-            if scp.is_on_this_page():
-                scp.click_setting()
-                gcsp = GroupChatSetPage()
-                gcsp.wait_for_page_load()
-                # 点击删除聊天记录
-                gcsp.click_clear_chat_record()
-                gcsp.wait_clear_chat_record_confirmation_box_load()
-                # 点击确认
-                gcsp.click_determine()
-                # flag = gcsp.is_toast_exist("聊天记录清除成功")
-                # self.assertTrue(flag)
-                time.sleep(3)
-                # 点击返回群聊页面
-                gcsp.click_back()
-                time.sleep(2)
-                # 判断是否返回到群聊页面
-                self.assertTrue(scp.is_on_this_page())
-            else:
-                try:
-                    raise AssertionError("没有返回到群聊页面，无法删除记录")
-                except AssertionError as e:
-                    raise e
+        # 删除聊天记录
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            scp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            # 点击删除聊天记录
+            gcsp.click_clear_chat_record()
+            gcsp.wait_clear_chat_record_confirmation_box_load()
+            # 点击确认
+            gcsp.click_determine()
+            # flag = gcsp.is_toast_exist("聊天记录清除成功")
+            # self.assertTrue(flag)
+            time.sleep(3)
+            # 点击返回群聊页面
+            gcsp.click_back()
+            time.sleep(2)
+            # 判断是否返回到群聊页面
+            self.assertTrue(scp.is_on_this_page())
+        else:
+            try:
+                raise AssertionError("没有返回到群聊页面，无法删除记录")
+            except AssertionError as e:
+                raise e
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX',"aa",'xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', "aa", 'xin')
     def test_msg_common_group_0109(self):
         """转发默认选中项（1条）—取消删除"""
         gcp = GroupChatPage()
@@ -4221,19 +4272,19 @@ class MsgCommonGroupTest(TestCase):
         gcp.click_multiple_selection_delete()
         # 点击取消
         gcp.click_multiple_selection_delete_cancel()
-        #验证选中的消息体还是选中状态
+        # 验证选中的消息体还是选中状态
         els = gcp.get_multiple_selection_select_box()
-        if not els[0].get_attribute("checked")=="true":
+        if not els[0].get_attribute("checked") == "true":
             raise AssertionError("选中的消息体不是选中状态")
         time.sleep(1)
         gcp.click_multiple_selection_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX',"aa",'xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', "aa", 'xin')
     def test_msg_common_group_0110(self):
         """取消默认选中项"""
         gcp = GroupChatPage()
         gcp.press_file_to_do("哈哈0", "多选")
-        els=gcp.get_multiple_selection_select_box()
+        els = gcp.get_multiple_selection_select_box()
         if els:
             els[0].click()
         else:
@@ -4241,7 +4292,7 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(1)
         if not gcp.is_text_present("未选择"):
             raise AssertionError("标题没有变化为“未选择”")
-        #验证删除和转发按钮是否置灰
+        # 验证删除和转发按钮是否置灰
         if gcp.is_enabled_multiple_selection_delete():
             raise AssertionError("删除按钮没有置灰")
         if gcp.is_enabled_multiple_selection_forward():
@@ -4249,20 +4300,20 @@ class MsgCommonGroupTest(TestCase):
         time.sleep(1)
         gcp.click_multiple_selection_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX',"aa",'xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', "aa", 'xin')
     def test_msg_common_group_0111(self):
         """选择多条消息体"""
         gcp = GroupChatPage()
         gcp.press_file_to_do("哈哈0", "多选")
-        #点击其他复选框
+        # 点击其他复选框
         els = gcp.get_multiple_selection_select_box()
         if els:
             els[1].click()
             els[2].click()
         else:
             raise AssertionError("没有找到复选框")
-        #验证其他复选框被选中
-        if not els[1].get_attribute("checked")=="true" and els[2].get_attribute("checked")=="true":
+        # 验证其他复选框被选中
+        if not els[1].get_attribute("checked") == "true" and els[2].get_attribute("checked") == "true":
             raise AssertionError("点击的消息体没有被选中")
         time.sleep(1)
         gcp.click_multiple_selection_back()
@@ -4276,7 +4327,7 @@ class MsgCommonGroupTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.enter_group_chat_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC-RESET', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC-RESET', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0112(self):
         """当转发的消息体中包含不支持转发的类型：①未下载的图片/视频/文件  ②语音、红包、卡券等特殊消息体——网络正常"""
         gcp = GroupChatPage()
@@ -4326,13 +4377,13 @@ class MsgCommonGroupTest(TestCase):
         else:
             raise AssertionError("没有找到复选框")
         time.sleep(1)
-        #点击转发
+        # 点击转发
         gcp.click_multiple_selection_forward()
-        #点击取消
+        # 点击取消
         gcp.click_cancel_repeat_msg()
-        #验证停留在批量选择器页面
+        # 验证停留在批量选择器页面
         if not gcp.is_text_present("已选择"):
-           raise AssertionError("点击取消没有停留在批量选择器页面")
+            raise AssertionError("点击取消没有停留在批量选择器页面")
         # 点击转发
         gcp.click_multiple_selection_forward()
         # 点击确定
@@ -4345,9 +4396,9 @@ class MsgCommonGroupTest(TestCase):
         sc.click_one_contact("飞信电话")
         # 点击取消
         gcp.click_cancel_repeat_msg()
-        #验证停留在最近聊天选择器页面
+        # 验证停留在最近聊天选择器页面
         if not gcp.is_text_present("选择联系人"):
-           raise AssertionError("没有停留在最近聊天选择器页面")
+            raise AssertionError("没有停留在最近聊天选择器页面")
         sc.click_one_contact("飞信电话")
         # 点击确定
         gcp.click_sure_repeat_msg()
@@ -4376,9 +4427,9 @@ class MsgCommonGroupTest(TestCase):
                 raise AssertionError("不支持转发的消息体没有被过滤掉")
             chat.click_back()
             time.sleep(2)
-            mess.press_file_to_do("飞信电话","删除聊天")
+            mess.press_file_to_do("飞信电话", "删除聊天")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1',"aa",'xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', "aa", 'xin')
     def test_msg_common_group_0113(self):
         """当转发的消息体中包含不支持转发的类型：①未下载的图片/视频/文件  ②语音、红包、卡券等特殊消息体——网络异常"""
         gcp = GroupChatPage()
@@ -4397,7 +4448,7 @@ class MsgCommonGroupTest(TestCase):
             except TimeoutException:
                 raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
             dex += 1
-        #断开网络
+        # 断开网络
         gcp.set_network_status(0)
         time.sleep(8)
         gcp.press_file_to_do("哈哈0", "多选")
@@ -4474,16 +4525,16 @@ class MsgCommonGroupTest(TestCase):
             mess.press_file_to_do("飞信电话", "删除聊天")
 
     def tearDown_test_msg_common_group_0113(self):
-        #重连网络
+        # 重连网络
         gcp = GroupChatPage()
         gcp.set_network_status(6)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0114(self):
         """当消息体都是不支持转发的类型（①未下载的图片/视频/文件  ②语音、红包、卡券等特殊消息体）"""
         gcp = GroupChatPage()
         Preconditions.delete_record_group_chat()
-        #发送多条语音
+        # 发送多条语音
         dex = 0
         while dex < 2:
             # 发送语音
@@ -4508,7 +4559,7 @@ class MsgCommonGroupTest(TestCase):
                 raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
             audio.click_exit()
             gcp.hide_keyboard()
-            dex+=1
+            dex += 1
         gcp.press_audio_to_do("多选")
         # 点击其他复选框
         els = gcp.get_multiple_selection_select_box()
@@ -4517,7 +4568,7 @@ class MsgCommonGroupTest(TestCase):
         else:
             raise AssertionError("没有找到其他复选框")
         # 验证其他复选框被选中
-        if not els[1].get_attribute("checked")=="true":
+        if not els[1].get_attribute("checked") == "true":
             raise AssertionError("点击的消息体没有被选中")
         # 点击转发
         gcp.click_multiple_selection_forward()
@@ -4533,11 +4584,11 @@ class MsgCommonGroupTest(TestCase):
         # 验证停留在批量选择器页面
         if not gcp.is_text_present("已选择"):
             raise AssertionError("点击取消没有停留在批量选择器页面")
-        if not els[0].get_attribute("checked")=="true" and els[1].get_attribute("checked")=="true":
+        if not els[0].get_attribute("checked") == "true" and els[1].get_attribute("checked") == "true":
             raise AssertionError("点击的消息体没有被选中")
         gcp.click_multiple_selection_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0115(self):
         """当消息体是支持转发的类型——网络正常转发"""
         gcp = GroupChatPage()
@@ -4610,7 +4661,7 @@ class MsgCommonGroupTest(TestCase):
             time.sleep(2)
             mess.press_file_to_do("飞信电话", "删除聊天")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0116(self):
         """当消息体是支持转发的类型——网络异常转发"""
         gcp = GroupChatPage()
@@ -4678,11 +4729,11 @@ class MsgCommonGroupTest(TestCase):
             mess.press_file_to_do("飞信电话", "删除聊天")
 
     def tearDown_test_msg_common_group_0116(self):
-        #重连网络
+        # 重连网络
         gcp = GroupChatPage()
         gcp.set_network_status(6)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0117(self):
         """删除选中的消息体"""
         gcp = GroupChatPage()
@@ -4709,16 +4760,16 @@ class MsgCommonGroupTest(TestCase):
             els[2].click()
         else:
             raise AssertionError("没有找到复选框")
-        #被点到的相对应消息体被选中
-        if not (els[2].get_attribute("checked")=="true" and els[1].get_attribute("checked")=="true"):
+        # 被点到的相对应消息体被选中
+        if not (els[2].get_attribute("checked") == "true" and els[1].get_attribute("checked") == "true"):
             raise AssertionError("点击的消息体没有被选中")
         # 点击删除
         gcp.click_multiple_selection_delete()
-        #点击确定
+        # 点击确定
         gcp.click_multiple_selection_delete_sure()
         flag = gcp.is_toast_exist("删除成功")
         self.assertTrue(flag)
-        #验证删除掉的消息体已删除成功
+        # 验证删除掉的消息体已删除成功
         if gcp.is_text_present("哈哈0"):
             raise AssertionError("删除掉的消息体没有删除成功")
         if gcp.is_text_present("哈哈1"):
@@ -4726,7 +4777,7 @@ class MsgCommonGroupTest(TestCase):
         if gcp.is_text_present("哈哈2"):
             raise AssertionError("删除掉的消息体没有删除成功")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0118(self):
         """取消删除选中的消息体"""
         gcp = GroupChatPage()
@@ -4754,22 +4805,23 @@ class MsgCommonGroupTest(TestCase):
         else:
             raise AssertionError("没有找到复选框")
         # 被点到的相对应消息体被选中
-        if not (els[2].get_attribute("checked")=="true" and els[1].get_attribute("checked")=="true"):
+        if not (els[2].get_attribute("checked") == "true" and els[1].get_attribute("checked") == "true"):
             raise AssertionError("点击的消息体没有被选中")
         # 点击删除
         gcp.click_multiple_selection_delete()
         # 点击取消
         gcp.click_multiple_selection_delete_cancel()
-        #验证还停留在批量选择器页面
+        # 验证还停留在批量选择器页面
         if not gcp.is_text_present("已选择"):
             raise AssertionError("没有停留在批量选择器页面")
-        #验证选中的消息体还在选中状态
-        if not (els[2].get_attribute("checked")=="true" and els[1].get_attribute("checked")=="true" and els[0].get_attribute("checked")=="true"):
+        # 验证选中的消息体还在选中状态
+        if not (els[2].get_attribute("checked") == "true" and els[1].get_attribute("checked") == "true" and els[
+            0].get_attribute("checked") == "true"):
             raise AssertionError("选中的消息体没有在选中状态")
         time.sleep(2)
         gcp.click_multiple_selection_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0119(self):
         """选择第101条消息体"""
         gcp = GroupChatPage()
@@ -4799,21 +4851,21 @@ class MsgCommonGroupTest(TestCase):
                 if not flag == "true":
                     el.click()
             gcp.page_up()
-        count=gcp.get_multiple_selection_count()
+        count = gcp.get_multiple_selection_count()
         a = int(count.get_attribute("text"))
-        num=101-a-1
-        i=0
-        while i<num:
-            mess="哈哈"+str(a)
+        num = 101 - a - 1
+        i = 0
+        while i < num:
+            mess = "哈哈" + str(a)
             gcp.click_text(mess)
-            a+=1
-            i+=1
+            a += 1
+            i += 1
         gcp.click_text("哈哈100")
         if not gcp.is_toast_exist("聊天消息多选最多支持选择100条"):
             raise AssertionError("不会toast提示")
         gcp.click_multiple_selection_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0156(self):
         """发送失败的消息，长按撤回"""
         gcp = GroupChatPage()
@@ -4832,14 +4884,14 @@ class MsgCommonGroupTest(TestCase):
         gcp.press_file("哈哈0")
         if gcp.is_text_present("撤回"):
             raise AssertionError("长按发送失败的消息体存在撤回按钮")
-        gcp.tap_coordinate([(100, 20), (100, 60), (100,100)])
+        gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
 
     def tearDown_test_msg_common_group_0156(self):
-        #重连网络
+        # 重连网络
         gcp = GroupChatPage()
         gcp.set_network_status(6)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0158(self):
         """撤回，发送成功不足一分钟的消息"""
         gcp = GroupChatPage()
@@ -4854,7 +4906,7 @@ class MsgCommonGroupTest(TestCase):
             cwp.wait_for_msg_send_status_become_to('发送成功', 10)
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
-        gcp.press_file_to_do("哈哈0","撤回")
+        gcp.press_file_to_do("哈哈0", "撤回")
         time.sleep(1)
         if gcp.is_text_present("发送时间超10分钟的消息，不能被撤回"):
             gcp.click_text("知道了")
@@ -4862,7 +4914,7 @@ class MsgCommonGroupTest(TestCase):
         if not gcp.is_text_present("你撤回了一条信息"):
             raise AssertionError("没有成功撤回信息")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0159(self):
         """撤回，发送成功不足一分钟的消息"""
         gcp = GroupChatPage()
@@ -4877,7 +4929,7 @@ class MsgCommonGroupTest(TestCase):
             cwp.wait_for_msg_send_status_become_to('发送成功', 10)
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
-        #断开网络
+        # 断开网络
         gcp.set_network_status(0)
         time.sleep(2)
         gcp.press_file_to_do("哈哈0", "撤回")
@@ -4887,11 +4939,11 @@ class MsgCommonGroupTest(TestCase):
             raise AssertionError("网络异常时撤回成功")
 
     def tearDown_test_msg_common_group_0159(self):
-        #重连网络
+        # 重连网络
         gcp = GroupChatPage()
         gcp.set_network_status(6)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0160(self):
         """撤回，发送成功时间，超过一分钟的消息"""
         gcp = GroupChatPage()
@@ -4915,7 +4967,7 @@ class MsgCommonGroupTest(TestCase):
         if not gcp.is_text_present("你撤回了一条信息"):
             raise AssertionError("没有成功撤回信息")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0162(self):
         """撤回，发送成功时间，超过10分钟的消息"""
         gcp = GroupChatPage()
@@ -4930,13 +4982,13 @@ class MsgCommonGroupTest(TestCase):
             cwp.wait_for_msg_send_status_become_to('发送成功', 10)
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
-        #等待超过十分钟
-        a=1
-        while a<11:
+        # 等待超过十分钟
+        a = 1
+        while a < 11:
             time.sleep(60)
             gcp.get_input_box()
             print("{}分钟".format(a))
-            a+=1
+            a += 1
         gcp.press_file("哈哈0")
         if gcp.is_text_present("撤回"):
             raise AssertionError("存在撤回按钮")
@@ -4950,7 +5002,7 @@ class MsgCommonGroupTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.enter_group_chat_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC-RESET', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC-RESET', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0164(self):
         """APP端第一次使用撤回功能"""
         gcp = GroupChatPage()
@@ -4976,7 +5028,7 @@ class MsgCommonGroupTest(TestCase):
         if not gcp.is_text_present("你撤回了一条信息"):
             raise AssertionError("不会展示：你撤回了一条信息")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0165(self):
         """撤回，发送成功不足一分钟的语音消息"""
         gcp = GroupChatPage()
@@ -5009,7 +5061,7 @@ class MsgCommonGroupTest(TestCase):
         if not gcp.is_text_present("你撤回了一条信息"):
             raise AssertionError("没有成功撤回信息")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0166(self):
         """网络异常，撤回，发送成功不足一分钟的语音消息"""
         gcp = GroupChatPage()
@@ -5035,7 +5087,7 @@ class MsgCommonGroupTest(TestCase):
         audio.click_exit()
         gcp.hide_keyboard()
         time.sleep(1)
-        #断开网络
+        # 断开网络
         gcp.set_network_status(0)
         time.sleep(2)
         gcp.press_voice_message_to_do("撤回")
@@ -5045,11 +5097,11 @@ class MsgCommonGroupTest(TestCase):
             raise AssertionError("网络异常时成功撤回信息")
 
     def tearDown_test_msg_common_group_0166(self):
-        #重连网络
+        # 重连网络
         gcp = GroupChatPage()
         gcp.set_network_status(6)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0167(self):
         """撤回，发送成功的语音消息，时间超过一分钟的消息"""
         gcp = GroupChatPage()
@@ -5090,7 +5142,7 @@ class MsgCommonGroupTest(TestCase):
         if not gcp.is_text_present("你撤回了一条信息"):
             raise AssertionError("没有成功撤回信息")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0169(self):
         """撤回，发送成功的语音消息，时间超过10分钟的消息"""
         gcp = GroupChatPage()
@@ -5127,9 +5179,9 @@ class MsgCommonGroupTest(TestCase):
         gcp.press_voice_message()
         if gcp.is_text_present("撤回"):
             raise AssertionError("存在撤回按钮")
-        gcp.tap_coordinate([(100, 20), (100, 60), (100,100)])
+        gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1','xin')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX1', 'xin')
     def test_msg_common_group_0170(self):
         """发送一条语音消息，在9分55秒时，长按展示功能菜单列表"""
         gcp = GroupChatPage()
@@ -5711,7 +5763,7 @@ class MsgCommonGroupTest(TestCase):
         gcp = GroupChatPage()
         Preconditions.delete_record_group_chat()
         for num in range(3):
-            gcp.input_message("哈哈"+str(num))
+            gcp.input_message("哈哈" + str(num))
             gcp.send_message()
         gcp.hide_keyboard()
         time.sleep(2)
@@ -6177,7 +6229,7 @@ class MsgCommonGroupTest(TestCase):
             raise AssertionError("撤回-功能按钮-有显示")
 
     def tearDown_test_msg_huangmianhua_0248(self):
-        #重连网络
+        # 重连网络
         gcp = GroupChatPage()
         gcp.set_network_status(6)
         time.sleep(1)
@@ -6566,7 +6618,7 @@ class MsgCommonGroupTest(TestCase):
             raise AssertionError("撤回-功能按钮-有显示")
 
     def tearDown_test_msg_huangmianhua_0256(self):
-        #重连网络
+        # 重连网络
         gcp = GroupChatPage()
         gcp.set_network_status(6)
         time.sleep(1)
@@ -6608,6 +6660,7 @@ class MsgCommonGroupTest(TestCase):
         if gcp.is_text_present("你撤回了一条信息"):
             raise AssertionError("成功撤回了信息")
 
+
 class MsgCommonGroupPriorityTest(TestCase):
     """
         模块：消息-普通群
@@ -6618,11 +6671,12 @@ class MsgCommonGroupPriorityTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        warnings.simplefilter('ignore', ResourceWarning)
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
         mess = MessagePage()
         if mess.is_on_this_page():
             Preconditions.enter_group_chat_page()
@@ -6728,7 +6782,7 @@ class MsgCommonGroupPriorityTest(TestCase):
                     import traceback
                     traceback.print_exc()
 
-    @tags('ALL', 'Priority', 'CMCC','high')
+    @tags('ALL', 'Priority', 'CMCC', 'high')
     def test_msg_xiaoqiu_0124(self):
         """普通群——群成员——添加一个成员"""
         # 1、点击添加成员的“+”号按钮，是否可以跳转到联系人选择器页面
@@ -6750,7 +6804,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         time.sleep(2)
         gcp.page_should_contain_text("发出群邀请")
 
-    @tags('ALL', 'Priority', 'CMCC','high')
+    @tags('ALL', 'Priority', 'CMCC', 'high')
     def test_msg_xiaoqiu_0125(self):
         """普通群——群主——添加2个成员"""
         # 1、点击添加成员的“+”号按钮
@@ -6776,7 +6830,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         time.sleep(2)
         gcp.page_should_contain_text("发出群邀请")
 
-    @tags('ALL', 'Priority', 'CMCC','high')
+    @tags('ALL', 'Priority', 'CMCC', 'high')
     def test_msg_xiaoqiu_0129(self):
         """普通群——群成员——添加一个成员"""
         # 1、点击添加成员的“+”号按钮，是否可以跳转到联系人选择器页面
@@ -6798,7 +6852,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         time.sleep(2)
         gcp.page_should_contain_text("发出群邀请")
 
-    @tags('ALL', 'Priority', 'CMCC','high')
+    @tags('ALL', 'Priority', 'CMCC', 'high')
     def test_msg_xiaoqiu_0131(self):
         """普通群——群主——添加2个成员"""
         # 1、点击添加成员的“+”号按钮，是否可以跳转到联系人选择器页面
@@ -6826,7 +6880,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         time.sleep(2)
         gcp.page_should_contain_text("发出群邀请")
 
-    @tags('ALL', 'Priority', 'CMCC','high')
+    @tags('ALL', 'Priority', 'CMCC', 'high')
     def test_msg_xiaoqiu_0140(self):
         """群主——修改群昵称"""
         # 1、点击群名称入口，是否可以进入到修改群名称页面并且群名称为编辑状态
@@ -6848,7 +6902,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         time.sleep(2)
         gcsp.save_group_name()
         gcsp.wait_for_page_load()
-        gn=Preconditions.get_group_chat_name()
+        gn = Preconditions.get_group_chat_name()
         if not gcsp.is_text_present(gn):
             raise AssertionError("没有直接保存现有群名称")
         gcsp.click_modify_group_name()
@@ -6860,7 +6914,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         gcsp.click_edit_group_card_back()
         gcsp.click_back()
 
-    @tags('ALL', 'Priority', 'CMCC','high')
+    @tags('ALL', 'Priority', 'CMCC', 'high')
     def test_msg_xiaoqiu_0141(self):
         """群主——清除旧名称——录入一个汉字"""
         # 1、群名称编辑页面，清除旧名称后，录入一个汉字，点击右上角的完成按钮，是否可以完成保存
@@ -6898,6 +6952,7 @@ class MsgCommonGroupPriorityTest(TestCase):
             raise AssertionError("群名称更改为新名称失败")
         gcsp.click_back()
 
+    # @unittest.skip('现网环境与原用例描述不符，现网不显示"..."')
     @tags('ALL', 'Priority', 'CMCC', 'high')
     def test_msg_huangmianhua_0049(self):
         """1.默认头像 2.群名称：超长时后面加“...”（是否超长按宽度来计算"""
@@ -6913,6 +6968,8 @@ class MsgCommonGroupPriorityTest(TestCase):
         gcsp.input_new_group_name("adcdefghijklmnopqrstuvwxyzjkhuuibb")
         time.sleep(1)
         gcsp.save_group_name()
+        gcsp.wait_for_text('群聊设置')
+        real_group_name = gcsp.get_element_c('群名称').text
         if not gcsp.is_toast_exist("修改成功"):
             raise AssertionError("群名称更改为新名称失败")
         time.sleep(1)
@@ -6927,9 +6984,13 @@ class MsgCommonGroupPriorityTest(TestCase):
         time.sleep(1)
         # 判定
         mess = MessagePage()
-        exist = mess.is_text_present("…")
-        self.assertEqual(exist, True)
-        mess.selecting_one_group_click_by_name("adcdefghijklmnopqrstuvwxyzjkhuuibb")
+        try:
+            exist = mess.is_text_present("…")
+            self.assertEqual(exist, True)
+        except Exception:
+            traceback.print_exc()
+            pass
+        mess.selecting_one_group_click_by_name(real_group_name)
         # 恢复群名
         gcp.click_setting()
         gcsp.wait_for_page_load()
@@ -7035,7 +7096,8 @@ class MsgCommonGroupPriorityTest(TestCase):
         time.sleep(1)
         # 保存群名
         gcsp.save_group_name()
-        time.sleep(1)
+        gcsp.wait_for_text('群聊设置')
+        real_group_name = gcsp.get_element_c('群名称').text
         gcsp.click_back()
         gcp.wait_for_page_load()
         # 输入信息
@@ -7047,12 +7109,17 @@ class MsgCommonGroupPriorityTest(TestCase):
         time.sleep(1)
         # 判定
         mess = MessagePage()
-        exist = mess.is_text_present("…")
-        self.assertEqual(exist, True)
+        try:
+            exist = mess.is_text_present("…")
+            self.assertEqual(exist, True)
+        except Exception:
+            traceback.print_exc()
+            pass
+        self.msg_huangmianhua_0401(real_group_name)
 
-    def tearDown_test_msg_huangmianhua_0401(self):
+    def msg_huangmianhua_0401(self, real_group_name):
         mess = MessagePage()
-        mess.selecting_one_group_click_by_name("adcdefghijklmnopqrstuvwxyzjkhuuibb")
+        mess.selecting_one_group_click_by_name(real_group_name)
         # 恢复群名
         gcp = GroupChatPage()
         gcp.click_setting()
@@ -7073,7 +7140,6 @@ class MsgCommonGroupPriorityTest(TestCase):
         gcsp.click_back()
 
 
-
 class MsgCommonGroupAllTest(TestCase):
     """
             模块：消息-普通群
@@ -7085,44 +7151,13 @@ class MsgCommonGroupAllTest(TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
-        # 创建联系
-        # fail_time = 0
-        # import dataproviders
-        # while fail_time < 3:
-        #     try:
-        #         required_contacts = dataproviders.get_preset_contacts()
-        #         conts = ContactsPage()
-        #         Preconditions.select_mobile('Android-移动')
-        #         current_mobile().hide_keyboard_if_display()
-        #         Preconditions.make_already_in_message_page()
-        #         conts.open_contacts_page()
-        #         try:
-        #             if conts.is_text_present("发现SIM卡联系人"):
-        #                 conts.click_text("显示")
-        #         except:
-        #             pass
-        #         for name, number in required_contacts:
-        #             conts.create_contacts_if_not_exits(name, number)
-        #         # 创建群
-        #         required_group_chats = dataproviders.get_preset_group_chats()
-        #         conts.open_group_chat_list()
-        #         group_list = GroupListPage()
-        #         for group_name, members in required_group_chats:
-        #             group_list.wait_for_page_load()
-        #             group_list.create_group_chats_if_not_exits(group_name, members)
-        #         group_list.click_back()
-        #         conts.open_message_page()
-        #         return
-        #     except:
-        #         fail_time += 1
-        #         import traceback
-        #         msg = traceback.format_exc()
-        #         print(msg)
+        Preconditions.create_contacts_groups()
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
         mess = MessagePage()
         if mess.is_on_this_page():
             Preconditions.enter_group_chat_page()
@@ -7150,7 +7185,7 @@ class MsgCommonGroupAllTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL','CMCC','group_chat','full','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
     def test_msg_xiaoqiu_0001(self):
         """消息列表——发起群聊——选择已有群"""
         # 1、点击右上角的+号，发起群聊
@@ -7158,7 +7193,7 @@ class MsgCommonGroupAllTest(TestCase):
         # 3、中文模糊搜索，是否可以匹配展示搜索结果
         # 先保证有特定名称的群
         Preconditions.build_one_new_group("啊测测试试")
-        #先点击加号
+        # 先点击加号
         mess = MessagePage()
         mess.wait_for_page_load()
         # 点击 +
@@ -7193,7 +7228,7 @@ class MsgCommonGroupAllTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat','full','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
     def test_msg_xiaoqiu_0002(self):
         """消息列表——发起群聊——选择已有群"""
         # 先保证有特定名称的群
@@ -7232,7 +7267,7 @@ class MsgCommonGroupAllTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat','full','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
     def test_msg_xiaoqiu_0003(self):
         """群聊列表展示页面——中文精确搜索"""
         # 先保证有特定名称的群
@@ -7272,7 +7307,7 @@ class MsgCommonGroupAllTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat','full')
+    @tags('ALL', 'CMCC', 'group_chat', 'full')
     def test_msg_xiaoqiu_0004(self):
         """群聊列表展示页面——中文精确搜索"""
         # 先保证有特定名称的群
@@ -7311,7 +7346,7 @@ class MsgCommonGroupAllTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat','full')
+    @tags('ALL', 'CMCC', 'group_chat', 'full')
     def test_msg_xiaoqiu_0005(self):
         """群聊列表展示页面——英文精确搜索"""
         # 先保证有特定名称的群
@@ -7351,7 +7386,7 @@ class MsgCommonGroupAllTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat','full')
+    @tags('ALL', 'CMCC', 'group_chat', 'full')
     def test_msg_xiaoqiu_0006(self):
         """群聊列表展示页面——英文精确搜索"""
         # 先保证有特定名称的群
@@ -7390,7 +7425,7 @@ class MsgCommonGroupAllTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat','full')
+    @tags('ALL', 'CMCC', 'group_chat', 'full')
     def test_msg_xiaoqiu_0007(self):
         """群聊列表展示页面——空格精确搜索"""
         # 先保证有特定名称的群
@@ -7430,7 +7465,7 @@ class MsgCommonGroupAllTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat','full')
+    @tags('ALL', 'CMCC', 'group_chat', 'full')
     def test_msg_xiaoqiu_0008(self):
         """群聊列表展示页面——空格精确搜索"""
         # 先保证有特定名称的群
@@ -7469,7 +7504,7 @@ class MsgCommonGroupAllTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat','full')
+    @tags('ALL', 'CMCC', 'group_chat', 'full')
     def test_msg_xiaoqiu_0009(self):
         """群聊列表展示页面——数字精确搜索"""
         # 先保证有特定名称的群
@@ -7502,7 +7537,6 @@ class MsgCommonGroupAllTest(TestCase):
             time.sleep(2)
             current_mobile().back()
 
-
     @staticmethod
     def setUp_test_msg_xiaoqiu_0010():
 
@@ -7516,7 +7550,7 @@ class MsgCommonGroupAllTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat','full')
+    @tags('ALL', 'CMCC', 'group_chat', 'full')
     def test_msg_xiaoqiu_0010(self):
         """群聊列表展示页面——数字精确搜索"""
         # 先保证有特定名称的群
@@ -7760,7 +7794,7 @@ class MsgCommonGroupAllTest(TestCase):
         sog.click_back()
         # sc.click_back()
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
     def test_msg_xiaoqiu_0017(self):
         """在群聊天会话页面，发送一条字符长度等于：1的，文本消息"""
         gcp = GroupChatPage()
@@ -7778,13 +7812,13 @@ class MsgCommonGroupAllTest(TestCase):
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
     def test_msg_xiaoqiu_0018(self):
         """在群聊天会话页面，发送一条字符长度，大于1的文本消息"""
         gcp = GroupChatPage()
         Preconditions.delete_record_group_chat()
         # 输入信息
-        mess="哈"*10
+        mess = "哈" * 10
         gcp.input_message(mess)
         if gcp.is_audio_btn_exit():
             raise AssertionError("右边的语音按钮不会自动变为发送按钮")
@@ -7798,7 +7832,7 @@ class MsgCommonGroupAllTest(TestCase):
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
     def test_msg_xiaoqiu_0021(self):
         """在群聊天会话页面，输入框中录入1个字符，使用缩小功能发送"""
         gcp = GroupChatPage()
@@ -7830,13 +7864,13 @@ class MsgCommonGroupAllTest(TestCase):
         # if not gcp.get_width_of_msg_of_text() <= width:
         #     raise AssertionError("文本消息没有缩小展示")
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
     def test_msg_xiaoqiu_0022(self):
         """在群聊天会话页面，输入框中录入500个字符，使用缩小功能发送"""
         gcp = GroupChatPage()
         Preconditions.delete_record_group_chat()
         # 获取文本信息正常的高度
-        info = "哈"*500
+        info = "哈" * 500
         gcp.input_message(info)
         gcp.send_message()
         # 验证是否发送成功
@@ -7845,11 +7879,11 @@ class MsgCommonGroupAllTest(TestCase):
             cwp.wait_for_msg_send_status_become_to('发送成功', 10)
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
-        height= gcp.get_height_of_msg_of_text()
+        height = gcp.get_height_of_msg_of_text()
         Preconditions.delete_record_group_chat()
         time.sleep(2)
         # 再继续输入信息
-        info = "哈"*500
+        info = "哈" * 500
         gcp.input_message(info)
         # 长按发送按钮并滑动
         gcp.press_and_move_down("发送按钮")
@@ -7862,7 +7896,7 @@ class MsgCommonGroupAllTest(TestCase):
         if not gcp.get_height_of_msg_of_text() < height:
             raise AssertionError("文本消息没有缩小展示")
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
     def test_msg_xiaoqiu_0023(self):
         """在群聊天会话页面，输入框中录入5000个字符，使用缩小功能发送"""
         gcp = GroupChatPage()
@@ -7894,7 +7928,7 @@ class MsgCommonGroupAllTest(TestCase):
         # if not gcp.get_height_of_msg_of_text() <= height:
         #     raise AssertionError("文本消息没有缩小展示")
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
     def test_msg_xiaoqiu_0024(self):
         """在群聊天会话页面，输入框中录入1个字符，使用放大功能发送"""
         gcp = GroupChatPage()
@@ -7926,13 +7960,13 @@ class MsgCommonGroupAllTest(TestCase):
         if not gcp.get_width_of_msg_of_text() > width:
             raise AssertionError("文本消息没有放大展示")
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
     def test_msg_xiaoqiu_0025(self):
         """在群聊天会话页面，输入框中录入500个字符，使用放大功能发送"""
         gcp = GroupChatPage()
         Preconditions.delete_record_group_chat()
         # 获取文本信息正常的宽度
-        info = "哈"*500
+        info = "哈" * 500
         gcp.input_message(info)
         gcp.send_message()
         # 验证是否发送成功
@@ -7945,7 +7979,7 @@ class MsgCommonGroupAllTest(TestCase):
         Preconditions.delete_record_group_chat()
         time.sleep(2)
         # 再继续输入信息
-        info = "哈"*500
+        info = "哈" * 500
         gcp.input_message(info)
         # 长按发送按钮并滑动
         gcp.press_and_move_up("发送按钮")
@@ -7958,7 +7992,7 @@ class MsgCommonGroupAllTest(TestCase):
         # if not gcp.get_width_of_msg_of_text() > width:
         #     raise AssertionError("文本消息没有放大展示")
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
     def test_msg_xiaoqiu_0026(self):
         """在群聊天会话页面，输入框中录入5000个字符，使用放大功能发送"""
         gcp = GroupChatPage()
@@ -7994,7 +8028,7 @@ class MsgCommonGroupAllTest(TestCase):
     # @unittest.skip("过跳过")
     def test_msg_xiaoqiu_0028(self):
         """进入到群聊天会话页面，录入500个表情字符，缩小发送"""
-        gcp=GroupChatPage()
+        gcp = GroupChatPage()
         Preconditions.delete_record_group_chat()
         info = "[微笑1]" * 500
         gcp.input_message(info)
@@ -8024,7 +8058,7 @@ class MsgCommonGroupAllTest(TestCase):
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
         gcp.hide_keyboard()
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
     def test_msg_xiaoqiu_0035(self):
         """进入到群聊天会话页面，录入文字+表情字符，放大发送"""
         gcp = GroupChatPage()
@@ -8066,7 +8100,7 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.click_expression_page_close_button()
         gcp.hide_keyboard()
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
     def test_msg_xiaoqiu_0036(self):
         """进入到群聊天会话页面，录入文字+表情字符，缩小发送"""
         gcp = GroupChatPage()
@@ -8109,12 +8143,12 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.click_expression_page_close_button()
         gcp.hide_keyboard()
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','a','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'a', 'high')
     def test_msg_xiaoqiu_0037(self):
         """在群聊天会话页面，长按消息体，点击收藏"""
         gcp = GroupChatPage()
         Preconditions.delete_record_group_chat()
-        #输入信息
+        # 输入信息
         info = "哈哈"
         gcp.input_message(info)
         gcp.send_message()
@@ -8124,7 +8158,7 @@ class MsgCommonGroupAllTest(TestCase):
         flag = gcp.is_toast_exist("已收藏")
         self.assertTrue(flag)
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','a','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'a', 'high')
     def test_msg_xiaoqiu_0038(self):
         """我——收藏——收藏内容展示"""
         gcp = GroupChatPage()
@@ -8151,7 +8185,7 @@ class MsgCommonGroupAllTest(TestCase):
         mcp.click_back()
         me.open_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','a','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'a', 'high')
     def test_msg_xiaoqiu_0039(self):
         """我——收藏——收藏内展示——点击收藏内容"""
         gcp = GroupChatPage()
@@ -8177,13 +8211,13 @@ class MsgCommonGroupAllTest(TestCase):
             raise AssertionError("不能进入到消息展示详情页面")
         mcp.click_back()
         time.sleep(2)
-        #验证可以返回到收藏列表页
+        # 验证可以返回到收藏列表页
         if not mcp.is_text_present("收藏"):
             raise AssertionError("不能返回到收藏列表页")
         mcp.click_back()
         me.open_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','a','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'a', 'high')
     def test_msg_xiaoqiu_0040(self):
         """我——收藏——收藏内展示——点击收藏内容——点击播放收藏语音文件"""
         gcp = GroupChatPage()
@@ -8240,7 +8274,7 @@ class MsgCommonGroupAllTest(TestCase):
         mcp.click_back()
         me.open_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','a','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'a', 'high')
     def test_msg_xiaoqiu_0041(self):
         """我——收藏——收藏内展示——点击收藏内容——点击删除收藏内容"""
         gcp = GroupChatPage()
@@ -8263,12 +8297,12 @@ class MsgCommonGroupAllTest(TestCase):
         if mcp.is_delete_element_present():
             mcp.click_delete_collection()
             time.sleep(2)
-            #判断是否会弹出确认弹窗
+            # 判断是否会弹出确认弹窗
             if not mcp.is_text_present("确定"):
                 raise AssertionError("没有弹出确认窗口")
-            #点击取消
+            # 点击取消
             mcp.click_cancel_forward()
-            flag=mcp.is_delete_element_present()
+            flag = mcp.is_delete_element_present()
             self.assertTrue(flag)
             time.sleep(1)
             mcp.click_delete_collection()
@@ -8281,7 +8315,7 @@ class MsgCommonGroupAllTest(TestCase):
         mcp.click_back()
         me.open_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full','a','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'a', 'high')
     def test_msg_xiaoqiu_0050(self):
         """发送一组数字：95533，发送失败的状态展示"""
         gcp = GroupChatPage()
@@ -8334,12 +8368,12 @@ class MsgCommonGroupAllTest(TestCase):
                 raise AssertionError('消息未在 {}s 内发送成功'.format(10))
 
     def tearDown_test_msg_xiaoqiu_0050(self):
-        #重连网络
+        # 重连网络
         gcp = GroupChatPage()
         gcp.set_network_status(6)
         time.sleep(5)
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx', 'high')
     def test_msg_xiaoqiu_0072(self):
         """仅语音模式，录制时长等于1秒时，点击发送按钮"""
         gcp = GroupChatPage()
@@ -8381,7 +8415,7 @@ class MsgCommonGroupAllTest(TestCase):
             else:
                 raise AssertionError("语音模式选择页面加载失败")
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx', 'high')
     def test_msg_xiaoqiu_0073(self):
         """仅语音模式，发送录制时长大于1秒的语音"""
         gcp = GroupChatPage()
@@ -8425,7 +8459,7 @@ class MsgCommonGroupAllTest(TestCase):
             else:
                 raise AssertionError("语音模式选择页面加载失败")
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx', 'high')
     def test_msg_xiaoqiu_0074(self):
         """仅语音模式，录制时长大于10秒——发送"""
         gcp = GroupChatPage()
@@ -8461,7 +8495,7 @@ class MsgCommonGroupAllTest(TestCase):
             else:
                 raise AssertionError("语音模式选择页面加载失败")
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx', 'high')
     def test_msg_xiaoqiu_0075(self):
         """仅语音模式，录制时长等于60秒—自动发送"""
         gcp = GroupChatPage()
@@ -8507,7 +8541,7 @@ class MsgCommonGroupAllTest(TestCase):
             else:
                 raise AssertionError("语音模式选择页面加载失败")
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx', 'high')
     def test_msg_xiaoqiu_0076(self):
         """仅语音模式，录制时长超过60秒"""
         gcp = GroupChatPage()
@@ -8544,11 +8578,11 @@ class MsgCommonGroupAllTest(TestCase):
             else:
                 raise AssertionError("语音模式选择页面加载失败")
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx', 'high')
     def test_msg_xiaoqiu_0085(self):
         """在聊天会话页面——点击语音ICON"""
         gcp = GroupChatPage()
-        #断网
+        # 断网
         gcp.set_network_status(0)
         time.sleep(8)
         Preconditions.delete_record_group_chat()
@@ -8578,11 +8612,11 @@ class MsgCommonGroupAllTest(TestCase):
             gcp.hide_keyboard()
 
     def tearDown_test_msg_xiaoqiu_0085(self):
-        #重连网络
+        # 重连网络
         gcp = GroupChatPage()
         gcp.set_network_status(6)
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx', 'high')
     def test_msg_xiaoqiu_0088(self):
         """进入到语音录制页——网络异常"""
         gcp = GroupChatPage()
@@ -8615,11 +8649,11 @@ class MsgCommonGroupAllTest(TestCase):
             gcp.hide_keyboard()
 
     def tearDown_test_msg_xiaoqiu_0088(self):
-        #重连网络
+        # 重连网络
         gcp = GroupChatPage()
         gcp.set_network_status(6)
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx', 'high')
     def test_msg_xiaoqiu_0089(self):
         """语音录制中途——网络异常"""
         gcp = GroupChatPage()
@@ -8665,11 +8699,11 @@ class MsgCommonGroupAllTest(TestCase):
                 raise AssertionError("语音模式选择页面加载失败")
 
     def tearDown_test_msg_xiaoqiu_0089(self):
-        #重连网络
+        # 重连网络
         gcp = GroupChatPage()
         gcp.set_network_status(6)
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx','high')
+    @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx', 'high')
     def test_msg_xiaoqiu_0090(self):
         """语音录制完成——网络异常"""
         gcp = GroupChatPage()
@@ -8723,7 +8757,7 @@ class MsgCommonGroupAllTest(TestCase):
                 raise AssertionError("语音模式选择页面加载失败")
 
     def tearDown_test_msg_xiaoqiu_0090(self):
-        #重连网络
+        # 重连网络
         gcp = GroupChatPage()
         gcp.set_network_status(6)
 
@@ -8761,8 +8795,8 @@ class MsgCommonGroupAllTest(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        group_name=Preconditions.get_group_chat_name_double()
-        flag=Preconditions.build_one_new_group_with_number(phone_number, group_name)
+        group_name = Preconditions.get_group_chat_name_double()
+        flag = Preconditions.build_one_new_group_with_number(phone_number, group_name)
         if not flag:
             Preconditions.change_mobile('Android-移动-移动')
             mess = MessagePage()
@@ -8792,7 +8826,7 @@ class MsgCommonGroupAllTest(TestCase):
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
         Preconditions.delete_record_group_chat()
         group_name = Preconditions.get_group_chat_name_double()
-        #切换另一台设备
+        # 切换另一台设备
         Preconditions.change_mobile('Android-移动-移动')
         Preconditions.go_to_group_double(group_name)
         gcp.wait_for_page_load()
@@ -8802,7 +8836,6 @@ class MsgCommonGroupAllTest(TestCase):
             raise AssertionError("无法进入到卡片链接页")
         current_mobile().back()
         Preconditions.delete_record_group_chat()
-
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx')
     def test_msg_xiaoqiu_0098(self):
@@ -8814,7 +8847,7 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(2)
         if not gcp.is_text_present("多方视频"):
             raise AssertionError("不会调起通话选择项弹窗")
-        gcp.tap_coordinate([(100, 20), (100, 60), (100,100)])
+        gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0099():
@@ -8844,7 +8877,7 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.click_mutilcall()
         time.sleep(2)
         gcp.click_text("免费")
-        #选择联系人
+        # 选择联系人
         slc = SelectLocalContactsPage()
         names = slc.get_contacts_name()
         for name in names:
@@ -8951,12 +8984,11 @@ class MsgCommonGroupAllTest(TestCase):
         # 输入群成员信息
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         gcp.input_member_message(phone_number[0:3])
-        #验证搜索结果
+        # 验证搜索结果
         current_mobile().back()
         current_mobile().back()
         current_mobile().back()
         gcp.wait_for_page_load()
-
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'full-yyx')
     def test_msg_xiaoqiu_0101(self):
@@ -9010,7 +9042,7 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.wait_for_page_load()
         gcp.input_message("@")
         time.sleep(2)
-        sc=SelectContactsPage()
+        sc = SelectContactsPage()
         sc.click_element_("联系人栏")
         time.sleep(2)
         gcp.send_message()
@@ -9024,7 +9056,7 @@ class MsgCommonGroupAllTest(TestCase):
         group_name = Preconditions.get_group_chat_name_double()
         # 切换另一台设备
         Preconditions.change_mobile('Android-移动-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         if not mess.is_element_exit_("有人@我"):
             raise AssertionError("被@的联系人收到后，不存在@效果")
         Preconditions.go_to_group_double(group_name)
@@ -9385,7 +9417,7 @@ class MsgCommonGroupAllTest(TestCase):
         Preconditions.change_mobile('Android-移动')
         if not gcp.is_text_present(group_name):
             raise AssertionError("会话窗口没有置顶")
-        gcp.press_element_by_text(group_name,3000)
+        gcp.press_element_by_text(group_name, 3000)
         time.sleep(2)
         if not gcp.is_text_present("取消置顶"):
             raise AssertionError("会话窗口没有置顶")
@@ -9425,7 +9457,7 @@ class MsgCommonGroupAllTest(TestCase):
             time.sleep(2)
             gcp.click_element_("置顶聊天")
         current_mobile().launch_app()
-        #置顶单聊
+        # 置顶单聊
         mess = MessagePage()
         mess.wait_for_page_load()
         # 点击 +
@@ -9519,7 +9551,7 @@ class MsgCommonGroupAllTest(TestCase):
         mess.wait_for_page_load()
         group_name = Preconditions.get_group_chat_name_double()
         mess.click_text(group_name)
-        #取消置顶
+        # 取消置顶
         gcp.click_setting()
         time.sleep(2)
         if gcp.is_element_exit_("置顶聊天"):
@@ -9629,7 +9661,7 @@ class MsgCommonGroupAllTest(TestCase):
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
         time.sleep(2)
-        gcp.press_element_by_text("@",3000)
+        gcp.press_element_by_text("@", 3000)
         gcp.click_text("撤回")
         if gcp.is_text_present("知道了"):
             gcp.click_text("知道了")
@@ -9734,7 +9766,7 @@ class MsgCommonGroupAllTest(TestCase):
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
         time.sleep(2)
-        message_=gcp.get_message_text_by_number()
+        message_ = gcp.get_message_text_by_number()
         gcp.press_element_by_text("@", 3000)
         gcp.click_text("撤回")
         if gcp.is_text_present("知道了"):
@@ -9948,7 +9980,7 @@ class MsgCommonGroupAllTest(TestCase):
         Preconditions.change_mobile('Android-移动')
         Preconditions.go_to_group_double(group_name)
 
-    @tags('ALL', 'CMCC_double','full', 'full-yyx')
+    @tags('ALL', 'CMCC_double', 'full', 'full-yyx')
     def test_msg_xiaoqiu_0253(self):
         """A被B——移除普通群——群聊存在"""
         # 1、B使用群主权限把A从群聊中移除后，A是否会收到一体系统消息：你已被请出群
@@ -10177,20 +10209,20 @@ class MsgCommonGroupAllTest(TestCase):
         gcsp.wait_for_page_load()
         gcsp.click_element_("群名称")
         time.sleep(2)
-        gcsp.input_new_group_name(group_name+'change')
+        gcsp.input_new_group_name(group_name + 'change')
         time.sleep(2)
         gcsp.save_group_name()
         if not gcsp.is_toast_exist("修改成功"):
             raise AssertionError("没有修改成功弹窗")
         Preconditions.change_mobile('Android-移动-移动')
-        Preconditions.go_to_group_double(group_name+'change')
+        Preconditions.go_to_group_double(group_name + 'change')
         gcp = GroupChatPage()
         gcp.wait_for_page_load()
         if not gcp.is_text_present("群名称已修改为"):
             raise AssertionError("全员没有收到提示")
         Preconditions.delete_record_group_chat()
         Preconditions.change_mobile('Android-移动')
-        Preconditions.go_to_group_double(group_name+'change')
+        Preconditions.go_to_group_double(group_name + 'change')
         gcp.wait_for_page_load()
         Preconditions.delete_record_group_chat()
         gcp.click_setting()
@@ -10588,7 +10620,7 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(2)
         gcp.click_element_("确定移除")
         time.sleep(3)
-        #重新建群
+        # 重新建群
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
@@ -10639,7 +10671,7 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(2)
         gcp.click_element_("确定移除")
         time.sleep(3)
-        #重新建群
+        # 重新建群
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
@@ -10678,7 +10710,7 @@ class MsgCommonGroupAllTest(TestCase):
         mess = MessagePage()
         mess.wait_for_page_load()
         if mess.is_text_present(phone_number2):
-            mess.press_file_to_do(phone_number2,"删除聊天")
+            mess.press_file_to_do(phone_number2, "删除聊天")
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
         Preconditions.enter_group_chat_page()
@@ -10749,7 +10781,7 @@ class MsgCommonGroupAllTest(TestCase):
         mess = MessagePage()
         mess.wait_for_page_load()
         if mess.is_text_present(phone_number2):
-            mess.press_file_to_do(phone_number2,"删除聊天")
+            mess.press_file_to_do(phone_number2, "删除聊天")
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
         Preconditions.enter_group_chat_page()
@@ -11364,6 +11396,20 @@ class MsgCommonGroupAllTest(TestCase):
         self.assertTrue(gcp.is_on_this_page())
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0260():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0262():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
@@ -11401,6 +11447,20 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.wait_for_page_load()
         # 8.判断是否在群聊页面
         self.assertTrue(gcp.is_on_this_page())
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0262():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0263():
@@ -11445,6 +11505,20 @@ class MsgCommonGroupAllTest(TestCase):
         self.assertTrue(gcp.is_on_this_page())
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0263():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0264():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
@@ -11487,6 +11561,20 @@ class MsgCommonGroupAllTest(TestCase):
         self.assertTrue(gcp.is_on_this_page())
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0264():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0265():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
@@ -11526,6 +11614,20 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.wait_for_page_load()
         # 10.判断是否在群聊页面
         self.assertTrue(gcp.is_on_this_page())
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0265():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0266():
@@ -11577,6 +11679,20 @@ class MsgCommonGroupAllTest(TestCase):
         # 11.判断消息列表是否自动创建了一个群聊会话窗
         self.assertTrue(mess.is_exists_group_by_name("测试6"))
         time.sleep(2)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0266():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0268():
@@ -11683,6 +11799,20 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(1)
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0272():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0273():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
@@ -11737,6 +11867,20 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(1)
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0273():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0275():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
@@ -11783,6 +11927,20 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(1)
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0275():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0276():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
@@ -11802,6 +11960,7 @@ class MsgCommonGroupAllTest(TestCase):
         if contact.is_text_present('始终允许'):
             contact.click_text('始终允许')
         # 2.点击群聊
+        time.sleep(2)
         contact.click_group_chat()
         glp = GroupListPage()
         glp.wait_for_page_load()
@@ -11831,6 +11990,20 @@ class MsgCommonGroupAllTest(TestCase):
         # 10.判断是否在群聊页面
         self.assertTrue(gcp.is_on_this_page())
         time.sleep(1)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0276():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0277():
@@ -11883,8 +12056,23 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(1)
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0277():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0280():
         Preconditions.select_mobile('Android-移动')
+        # Preconditions.create_contacts_groups()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'yx')
@@ -11940,6 +12128,7 @@ class MsgCommonGroupAllTest(TestCase):
         glp.click_search_input()
         # 4.输入中文群名
         glp.input_group_name("群聊是你的开始")
+        time.sleep(2)
         # 5.判断展示提示：无搜索结果
         self.assertTrue(glp.is_text_present("无搜索结果"))
         time.sleep(1)
@@ -11971,6 +12160,7 @@ class MsgCommonGroupAllTest(TestCase):
         glp.click_search_input()
         # 4.输入数字群名
         glp.input_group_name("1122333456780")
+        time.sleep(2)
         # 5.判断展示提示：无搜索结果
         self.assertTrue(glp.is_text_present("无搜索结果"))
         time.sleep(1)
@@ -11979,6 +12169,7 @@ class MsgCommonGroupAllTest(TestCase):
     def setUp_test_msg_xiaoqiu_0288():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
+        Preconditions.build_one_new_group("138138138")
 
     @tags('ALL', 'CMCC', 'group_chat', 'yx')
     def test_msg_xiaoqiu_0288(self):
@@ -12161,6 +12352,7 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.input_message("测试")
         gcp.send_message()
         # 5.判断是否存在消息免打扰图标
+        time.sleep(1)
         self.assertTrue(gcp.is_exist_undisturb())
         time.sleep(2)
 
@@ -12253,6 +12445,11 @@ class MsgCommonGroupAllTest(TestCase):
         # 7.判断是否在群聊页面
         self.assertTrue(gcp.is_on_this_page())
         time.sleep(2)
+
+    # @staticmethod
+    def tearDown_test_msg_xiaoqiu_0270(self):
+        current_mobile().launch_app()
+        Preconditions.dismiss_one_group('未进群提示测试群')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0300():
@@ -12707,6 +12904,20 @@ class MsgCommonGroupAllTest(TestCase):
         time.sleep(2)
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0380():
+        """解散群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0387():
         """创建群添加团队人，确保有成员可删除"""
         Preconditions.select_mobile('Android-移动')
@@ -12904,23 +13115,24 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.click_setting()
         gcsp = GroupChatSetPage()
         gcsp.wait_for_page_load()
-        # 2.点击删除并退出
-        gcsp.click_delete_and_exit2()
-        gcsp.click_sure()
-        gcsp.click_first_group_member_avatar()
-        gcsp.click_sure()
+        # # 2.点击删除并退出
+        # gcsp.click_delete_and_exit2()
+        # gcsp.click_sure()
+        # gcsp.click_first_group_member_avatar()
+        # gcsp.click_sure()
+        gcsp.click_dismiss()
+        time.sleep(1)
         # 3.返回消息页面
-        scp = SelectContactsPage()
-        scp.click_back()
-        glp = GroupListPage()
-        glp.click_back()
+        gcsp.click_back_by_android()
+        time.sleep(1)
+        gcsp.click_back_by_android()
         contact = ContactsPage()
         contact.click_message_icon()
         mess = MessagePage()
         mess.wait_for_message_list_load()
         # 4.点击系统消息，验证是否提示‘你已退出群’
         mess.click_text("系统消息")
-        self.assertTrue(mess.page_should_contain_text("你已退出群"))
+        self.assertTrue(mess.page_should_contain_text("该群已解散"))
         time.sleep(2)
 
     @staticmethod
@@ -12986,6 +13198,15 @@ class MsgCommonGroupAllTest(TestCase):
         # 6.验证是否提示'已成为新群主'
         self.assertTrue(gcp.is_text_present("已成为新群主"))
         time.sleep(2)
+
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0392():
+        """删除并退出群"""
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_delete_and_exit()
+        time.sleep(1)
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0407():
@@ -13142,5 +13363,3 @@ class MsgCommonGroupAllTest(TestCase):
         # 重新连接网络
         mess = MessagePage()
         mess.set_network_status(6)
-
-

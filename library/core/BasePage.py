@@ -353,8 +353,8 @@ class BasePage(object):
         else:
             self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
 
-    def page_should_contain_text(self, text):
-        if not self.wait_until(condition=lambda x: self.is_text_present(text)):
+    def page_should_contain_text(self, text, timeout=8):
+        if not self.wait_until(condition=lambda x: self.is_text_present(text), timeout=timeout):
             raise AssertionError("Page should have contained text '{}' "
                                  "but did not" % text)
         return True
@@ -714,3 +714,9 @@ class BasePage(object):
         """长按指定文件进行操作"""
         el = self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file))
         self.press(el)
+
+    @TestLogger.log()
+    def push_resource_file(self):
+        """上传预置文件"""
+        import settings
+        self.mobile.push_folder(settings.RESOURCE_FILE_PATH, "/sdcard")

@@ -219,7 +219,7 @@ class Preconditions(WorkbenchPreconditions):
     @staticmethod
     def get_into_group_chat_page(name):
         """进入群聊聊天会话页面"""
-
+        current_mobile().launch_app()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 点击 +
@@ -275,6 +275,8 @@ class Preconditions(WorkbenchPreconditions):
             scg.click_back()
             gcp.wait_for_page_load()
             gcp.click_back()
+            time.sleep(1)
+            gcp.click_back_by_android()
             mp.wait_for_page_load()
             mp.open_workbench_page()
             wbp = WorkbenchPage()
@@ -381,16 +383,16 @@ class Preconditions(WorkbenchPreconditions):
             except AssertionError as e:
                 raise e
 
-    #多人群聊前置条件
+    # 多人群聊前置条件
     @staticmethod
     def select_one_mobile(moible_param):
         """选择指定的设备连接，并确保在消息列表页面"""
         Preconditions.select_mobile(moible_param)
         # 消息页面
-        Preconditions.make_in_message_page(moible_param,reset=False)
+        Preconditions.make_in_message_page(moible_param, reset=False)
 
     @staticmethod
-    def make_in_message_page(moible_param,reset=False):
+    def make_in_message_page(moible_param, reset=False):
         """确保应用在消息页面"""
         Preconditions.select_mobile(moible_param, reset)
         current_mobile().hide_keyboard_if_display()
@@ -405,7 +407,7 @@ class Preconditions(WorkbenchPreconditions):
         Preconditions.login_by_one_key_login()
 
     @staticmethod
-    def build_one_new_group_with_number(puhone_number,group_name):
+    def build_one_new_group_with_number(puhone_number, group_name):
         """新建一个指定成员和名称的群，如果已存在，不建群"""
         # 消息页面
         mess = MessagePage()
@@ -457,7 +459,7 @@ class Preconditions(WorkbenchPreconditions):
         mess.click_add_icon()
         # 点击 发起群聊
         mess.click_group_chat()
-        #添加指定电话成员
+        # 添加指定电话成员
         time.sleep(2)
         sc.input_search_keyword(puhone_number)
         time.sleep(2)
@@ -619,22 +621,8 @@ class Preconditions(WorkbenchPreconditions):
         if local_file.is_exist_continue_send():
             local_file.click_continue_send()
 
-
-class MsgGroupChatvedioTest(TestCase):
-    """
-    模块：消息->群聊>图片&视频
-
-    文件位置：冒烟/冒烟测试用例-V20181225.01.xlsx
-    表格：消息-群聊图片&视频
-    作者：方康
-
-    """
-
-    """前置条件需要修改创建一个群找不到"""
-
-    @classmethod
-    def setUpClass(cls):
-        warnings.simplefilter('ignore', ResourceWarning)
+    @staticmethod
+    def create_contacts_groups():
         # 创建联系
         fail_time = 0
         import dataproviders
@@ -642,7 +630,7 @@ class MsgGroupChatvedioTest(TestCase):
             try:
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()
-                Preconditions.connect_mobile('Android-移动')
+                Preconditions.select_mobile('Android-移动')
                 current_mobile().hide_keyboard_if_display()
                 Preconditions.make_already_in_message_page()
                 conts.open_contacts_page()
@@ -669,9 +657,37 @@ class MsgGroupChatvedioTest(TestCase):
                 msg = traceback.format_exc()
                 print(msg)
 
+    @staticmethod
+    def push_resources():
+        local_file = ChatSelectLocalFilePage()
+        # 上传预置文件
+        local_file.push_resource_file()
+
+
+class MsgGroupChatvedioTest(TestCase):
+    """
+    模块：消息->群聊>图片&视频
+
+    文件位置：冒烟/冒烟测试用例-V20181225.01.xlsx
+    表格：消息-群聊图片&视频
+    作者：方康
+
+    """
+
+    """前置条件需要修改创建一个群找不到"""
+
+    @classmethod
+    def setUpClass(cls):
+        warnings.simplefilter('ignore', ResourceWarning)
+        # 创建联系
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.create_contacts_groups()
+        Preconditions.push_resources()
+
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
         mess = MessagePage()
         if mess.is_on_this_page():
             Preconditions.enter_group_chat_page()
@@ -1511,6 +1527,7 @@ class MsgGroupChatvedioTest(TestCase):
         # 1.检验是否在当前聊天会话页
         gcp = GroupChatPage()
         gcp.is_on_this_page()
+        gcp.click_expression_button()
         # 2.点击gif图片
         gcp.click_gif()
         # 3.校验是否有gif图片出现
@@ -1524,6 +1541,7 @@ class MsgGroupChatvedioTest(TestCase):
         # 1.检验是否在当前聊天会话页
         gcp = GroupChatPage()
         gcp.is_on_this_page()
+        gcp.click_expression_button()
         # 2.点击gif图片
         gcp.click_gif()
         # 3.校验是否有gif图片出现
@@ -1555,6 +1573,7 @@ class MsgGroupChatvedioTest(TestCase):
         # 1.检验是否在当前聊天会话页
         gcp = GroupChatPage()
         gcp.is_on_this_page()
+        gcp.click_expression_button()
         # 2.点击gif图片
         gcp.click_gif()
         gcp.input_gif(2)
@@ -1569,6 +1588,7 @@ class MsgGroupChatvedioTest(TestCase):
         # 1.检验是否在当前聊天会话页
         gcp = GroupChatPage()
         gcp.is_on_this_page()
+        gcp.click_expression_button()
         # 2.点击gif图片
         gcp.click_gif()
         gcp.input_gif("?")
@@ -1583,6 +1603,7 @@ class MsgGroupChatvedioTest(TestCase):
         # 1.检验是否在当前聊天会话页
         gcp = GroupChatPage()
         gcp.is_on_this_page()
+        gcp.click_expression_button()
         # 2.点击gif图片
         gcp.click_gif()
         gcp.wait_for_gif_ele_load()
@@ -1597,6 +1618,7 @@ class MsgGroupChatvedioTest(TestCase):
         # 1.检验是否在当前聊天会话页
         gcp = GroupChatPage()
         gcp.is_on_this_page()
+        gcp.click_expression_button()
         # 2.点击gif图片,输入关键字搜索gif图片
         gcp.click_gif()
         gcp.input_gif("2")
@@ -1617,6 +1639,7 @@ class MsgGroupChatvedioTest(TestCase):
         # 1.检验是否在当前聊天会话页
         gcp = GroupChatPage()
         gcp.is_on_this_page()
+        gcp.click_expression_button()
         # 2.点击gif图片
         gcp.click_gif()
         gcp.wait_for_gif_ele_load()
@@ -1751,6 +1774,8 @@ class MsgGroupChatvedioTest(TestCase):
         gcs.click_back()
         gcp.wait_for_page_load()
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # gcp.click_element([MobileBy.XPATH, "//*[contains(@resource-id,'back')]"], 15)
@@ -1899,6 +1924,8 @@ class MsgGroupChatvedioTest(TestCase):
         gcs.click_back()
         gcp.wait_for_page_load()
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # sog = SelectOneGroupPage()
@@ -2201,6 +2228,8 @@ class MsgGroupChatvedioTest(TestCase):
         gsp.click_group_manage()
         gsp.click_group_manage_disband_button()
         gsp.click_sure()
+        time.sleep(1)
+        gcp.click_back_by_android()
         # 3.返回群聊主页
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -2218,14 +2247,15 @@ class MsgGroupChatvedioTest(TestCase):
         gsp = GroupChatSetPage()
         gsp.wait_for_page_load()
         # 2.点击删除并退出
-        gsp.click_delete_and_exit()
-        # gsp.click_sure()
+        gsp.click_dismiss()
+        time.sleep(1)
+        gcp.click_back_by_android()        # gsp.click_sure()
         # 3.返回消息页，提示你已退出群
         mess = MessagePage()
         mess.wait_for_page_load()
         mess.click_text("系统消息")
         time.sleep(3)
-        mess.page_should_contain_text("你已退出群")
+        mess.page_should_contain_text("该群已解散", timeout=30)
 
     @tags('ALL', 'CMCC', 'message114', 'debug_fk1', 'high')
     def test_msg_xiaoqiu_0421(self):
@@ -2243,6 +2273,8 @@ class MsgGroupChatvedioTest(TestCase):
         group_name = "和飞信电话"
         slc.swipe_select_one_member_by_name(group_name)
         slc.click_sure()
+        time.sleep(1)
+        gcp.click_back_by_android()
         # 3.返回消息页，提示你已退出群
         gcp.wait_for_page_load()
         gcp.page_should_contain_text("你向 " + group_name + "... 发出群邀请")
@@ -2258,7 +2290,9 @@ class MsgGroupChatvedioTest(TestCase):
         gcp.click_setting()
         gcs = GroupChatSetPage()
         gcs.wait_for_page_load()
-        gcs.click_delete_and_exit()
+        gcs.click_dismiss()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mess = MessagePage()
         mess.wait_for_page_load()
         mess.click_add_icon()
@@ -2292,7 +2326,11 @@ class MsgGroupChatvedioTest(TestCase):
         if group_name in group_names:
             return
         sog.click_back()
+        time.sleep(1)
+        sog.click_back_by_android()
+        time.sleep(1)
         mess.click_add_icon()
+        time.sleep(1)
         mess.click_group_chat()
         # 从本地联系人中选择成员创建群
         sc.click_local_contacts()
@@ -2322,7 +2360,7 @@ class MsgGroupChatvedioTest(TestCase):
         cgnp.click_sure()
         # 等待群聊页面加载
         gcp.wait_for_page_load()
-        gcp.page_should_contain_text("发出群邀请")
+        gcp.page_should_contain_text("你向")
 
     @tags('ALL', 'CMCC', 'message114', 'debug_fk1', 'high')
     def test_msg_xiaoqiu_0534(self):
@@ -2335,7 +2373,9 @@ class MsgGroupChatvedioTest(TestCase):
         gcp.click_setting()
         gcs = GroupChatSetPage()
         gcs.wait_for_page_load()
-        gcs.click_delete_and_exit()
+        gcs.click_dismiss()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mess = MessagePage()
         mess.wait_for_page_load()
         mess.click_add_icon()
@@ -2369,6 +2409,9 @@ class MsgGroupChatvedioTest(TestCase):
         if group_name in group_names:
             return
         sog.click_back()
+        time.sleep(1)
+        sog.click_back_by_android()
+        time.sleep(1)
         mess.click_add_icon()
         mess.click_group_chat()
         # 从本地联系人中选择成员创建群
@@ -2399,7 +2442,7 @@ class MsgGroupChatvedioTest(TestCase):
         cgnp.click_sure()
         # 等待群聊页面加载
         gcp.wait_for_page_load()
-        gcp.page_should_contain_text("发出群邀请")
+        gcp.page_should_contain_text("你向")
 
     @unittest.skip("用例不稳定，跳过")
     def test_msg_xiaoqiu_0535(self):
@@ -2722,7 +2765,7 @@ class MsgGroupChatvedioTest(TestCase):
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
         time.sleep(2)
         # 最后删除消息记录，返回消息页面结束用例
-        gcp.press_element_("消息图片",3000)
+        gcp.press_element_("消息图片", 3000)
         gcp.click_text("删除")
         time.sleep(2)
         chat.click_back()
@@ -2885,7 +2928,7 @@ class MsgGroupChatvedioTest(TestCase):
         sc.click_one_contact("飞信电话")
         time.sleep(2)
         gcp.click_element_("取消移除")
-        scp=SelectLocalContactsPage()
+        scp = SelectLocalContactsPage()
         scp.wait_for_page_load()
         current_mobile().back()
         current_mobile().back()
@@ -3013,7 +3056,7 @@ class MsgGroupChatvedioTest(TestCase):
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
         time.sleep(2)
         # 最后删除消息记录，返回消息页面结束用例
-        gcp.press_element_("消息图片",3000)
+        gcp.press_element_("消息图片", 3000)
         gcp.click_text("删除")
         time.sleep(2)
         chat.click_back()
@@ -3143,7 +3186,7 @@ class MsgGroupChatvedioTest(TestCase):
             raise AssertionError('消息在 {}s 内没有发送失败'.format(10))
         time.sleep(2)
         # 最后删除消息记录，返回消息页面结束用例
-        gcp.press_element_("消息图片",3000)
+        gcp.press_element_("消息图片", 3000)
         gcp.click_text("删除")
         time.sleep(2)
         chat.click_back()
@@ -3346,7 +3389,7 @@ class MsgGroupChatvedioTest(TestCase):
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
         time.sleep(2)
         # 最后删除消息记录，返回消息页面结束用例
-        gcp.press_element_("消息图片",3000)
+        gcp.press_element_("消息图片", 3000)
         gcp.click_text("删除")
         time.sleep(2)
         chat.click_back()
@@ -4073,7 +4116,7 @@ class MsgGroupChatvedioTest(TestCase):
         Preconditions.change_mobile('Android-移动')
         Preconditions.go_to_group_double(group_name)
         gcp.wait_for_page_load()
-        gcp.press_element_("消息图片",3000)
+        gcp.press_element_("消息图片", 3000)
         gcp.click_text("收藏")
         if not gcp.is_toast_exist("已收藏"):
             raise AssertionError("收藏失败")
@@ -4735,7 +4778,7 @@ class MsgGroupChatvedioTest(TestCase):
         mess.wait_for_page_load()
         if not mess.is_element_exit_("消息发送失败感叹号"):
             raise AssertionError("自己发送失败的最新消息时不会展示一个‘！’")
-        mess.press_file_to_do("测试企业群","删除聊天")
+        mess.press_file_to_do("测试企业群", "删除聊天")
 
     def tearDown_test_msg_huangmianhua_0045(self):
         # 重新连接网络
@@ -4854,6 +4897,7 @@ class MsgGroupChatvedioTest(TestCase):
         current_mobile().back()
         current_mobile().back()
         gcp.wait_for_page_load()
+
     #
     # @tags('ALL', 'CMCC')
     # def test_msg_huangmianhua_0128(self):
@@ -5173,7 +5217,7 @@ class MsgGroupChatvedioTest(TestCase):
         Preconditions.delete_record_group_chat()
         Preconditions.change_mobile('Android-移动')
         Preconditions.go_to_group_double(group_name)
-        gcp=GroupChatPage()
+        gcp = GroupChatPage()
         gcp.wait_for_page_load()
         gcp.press_element_("消息图片", 3000)
         gcp.click_text("转发")
@@ -5217,7 +5261,7 @@ class MsgGroupChatvedioTest(TestCase):
         Preconditions.delete_record_group_chat()
         Preconditions.change_mobile('Android-移动')
         Preconditions.go_to_group_double(group_name)
-        gcp=GroupChatPage()
+        gcp = GroupChatPage()
         gcp.wait_for_page_load()
         gcp.press_element_("消息图片", 3000)
         gcp.click_text("多选")
@@ -5268,7 +5312,7 @@ class MsgGroupChatvedioTest(TestCase):
         Preconditions.delete_record_group_chat()
         Preconditions.change_mobile('Android-移动')
         Preconditions.go_to_group_double(group_name)
-        gcp=GroupChatPage()
+        gcp = GroupChatPage()
         gcp.wait_for_page_load()
         gcp.press_element_("消息图片", 3000)
         gcp.click_text("收藏")
@@ -5312,7 +5356,7 @@ class MsgGroupChatvedioTest(TestCase):
         Preconditions.delete_record_group_chat()
         Preconditions.change_mobile('Android-移动')
         Preconditions.go_to_group_double(group_name)
-        gcp=GroupChatPage()
+        gcp = GroupChatPage()
         gcp.wait_for_page_load()
         gcp.press_element_("消息图片", 3000)
         gcp.click_text("删除")
@@ -5357,7 +5401,7 @@ class MsgGroupChatvedioTest(TestCase):
         Preconditions.delete_record_group_chat()
         Preconditions.change_mobile('Android-移动')
         Preconditions.go_to_group_double(group_name)
-        gcp=GroupChatPage()
+        gcp = GroupChatPage()
         gcp.wait_for_page_load()
         gcp.press_element_("消息图片", 3000)
         gcp.click_text("编辑")
@@ -5437,85 +5481,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
-        # Preconditions.select_mobile('Android-移动')
-        # # 导入测试联系人、群聊
-        # fail_time1 = 0
-        # flag1 = False
-        # import dataproviders
-        # while fail_time1 < 3:
-        #     try:
-        #         required_contacts = dataproviders.get_preset_contacts()
-        #         conts = ContactsPage()
-        #         current_mobile().hide_keyboard_if_display()
-        #         Preconditions.make_already_in_message_page()
-        #         conts.open_contacts_page()
-        #         try:
-        #             if conts.is_text_present("发现SIM卡联系人"):
-        #                 conts.click_text("显示")
-        #         except:
-        #             pass
-        #         for name, number in required_contacts:
-        #             # 创建联系人
-        #             conts.create_contacts_if_not_exits(name, number)
-        #         required_group_chats = dataproviders.get_preset_group_chats()
-        #         conts.open_group_chat_list()
-        #         group_list = GroupListPage()
-        #         for group_name, members in required_group_chats:
-        #             group_list.wait_for_page_load()
-        #             # 创建群
-        #             group_list.create_group_chats_if_not_exits(group_name, members)
-        #         group_list.click_back()
-        #         conts.open_message_page()
-        #         flag1 = True
-        #     except:
-        #         fail_time1 += 1
-        #     if flag1:
-        #         break
-        #
-        # # 导入团队联系人
-        # fail_time2 = 0
-        # flag2 = False
-        # while fail_time2 < 5:
-        #     try:
-        #         Preconditions.make_already_in_message_page()
-        #         contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-        #         Preconditions.create_he_contacts(contact_names)
-        #         flag2 = True
-        #     except:
-        #         fail_time2 += 1
-        #     if flag2:
-        #         break
-        #
-        # # 确保有企业群
-        # fail_time3 = 0
-        # flag3 = False
-        # while fail_time3 < 5:
-        #     try:
-        #         Preconditions.make_already_in_message_page()
-        #         Preconditions.ensure_have_enterprise_group()
-        #         flag3 = True
-        #     except:
-        #         fail_time3 += 1
-        #     if flag3:
-        #         break
-        #
-        # # 确保测试手机有resource文件夹
-        # name = "群聊1"
-        # Preconditions.get_into_group_chat_page(name)
-        # gcp = GroupChatPage()
-        # gcp.wait_for_page_load()
-        # cmp = ChatMorePage()
-        # cmp.click_file()
-        # csfp = ChatSelectFilePage()
-        # csfp.wait_for_page_load()
-        # csfp.click_local_file()
-        # local_file = ChatSelectLocalFilePage()
-        # # 没有预置文件，则上传
-        # local_file.push_preset_file()
-        # local_file.click_back()
-        # csfp.wait_for_page_load()
-        # csfp.click_back()
-        # gcp.wait_for_page_load()
+        Preconditions.create_contacts_groups()
+        Preconditions.push_resources()
 
     def default_setUp(self):
         """
@@ -5524,6 +5491,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         """
 
         Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
         mp = MessagePage()
         name = "群聊1"
         if mp.is_on_this_page():
@@ -5628,9 +5596,11 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 确定转发
         scg.click_sure_forward()
         # 4.是否提示已转发,等待群聊页面加载
-        self.assertEquals(gcp.is_exist_forward(), True)
+        self.assertEqual(gcp.is_exist_forward(), True)
         gcp.wait_for_page_load()
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -5704,6 +5674,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -5758,6 +5730,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -5832,6 +5806,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -5886,6 +5862,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -5961,6 +5939,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -6014,6 +5994,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -6083,6 +6065,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -6133,6 +6117,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -6205,6 +6191,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -6254,6 +6242,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -6328,6 +6318,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -6382,6 +6374,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -6457,6 +6451,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         # 等待消息页面加载
         mp.wait_for_page_load()
@@ -6511,6 +6507,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -6587,6 +6585,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         message = MessagePage()
         # 等待消息页面加载
         message.wait_for_page_load()
@@ -6641,6 +6641,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.wait_for_page_load()
         # 返回到消息页
         gcp.click_back()
+        time.sleep(1)
+        gcp.click_back_by_android()
         mp = MessagePage()
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
@@ -6757,7 +6759,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 4.点击发送，长按图片转发
         cpg.click_send()
         gcp.press_last_picture_to_do("转发")
-        #scp = SelectContactsPage()
+        # scp = SelectContactsPage()
         scp.wait_for_page_load()
         # 5.点击选择一个普通群
         scp.click_select_one_group()
@@ -6775,7 +6777,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.click_back()
         scp.wait_for_page_load()
         scp.click_back()
-        #mess = MessagePage()
+        # mess = MessagePage()
         mess.wait_for_page_load()
         if not mess.is_iv_fail_status_present():
             raise AssertionError("消息列表没有显示消息发送失败标识")
@@ -6842,7 +6844,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 4.点击发送，长按图片转发
         cpg.click_send()
         gcp.press_last_picture_to_do("转发")
-        #scp = SelectContactsPage()
+        # scp = SelectContactsPage()
         scp.wait_for_page_load()
         # 5.点击"选择一个群"菜单
         scp.click_select_one_group()
@@ -6859,7 +6861,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.click_back()
         scp.wait_for_page_load()
         scp.click_back()
-        #mess = MessagePage()
+        # mess = MessagePage()
         mess.wait_for_page_load()
         if not mess.is_iv_fail_status_present():
             raise AssertionError("消息列表没有显示消息发送失败标识")
@@ -6896,7 +6898,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 4.点击发送，长按视频转发
         cpg.click_send()
         gcp.press_last_video_to_do("转发")
-        #scp = SelectContactsPage()
+        # scp = SelectContactsPage()
         scp.wait_for_page_load()
         # 5.点击选择一个普通群
         scp.click_select_one_group()
@@ -6914,7 +6916,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.click_back()
         scp.wait_for_page_load()
         scp.click_back()
-        #mess = MessagePage()
+        # mess = MessagePage()
         mess.wait_for_page_load()
         if not mess.is_iv_fail_status_present():
             raise AssertionError("消息列表没有显示消息发送失败标识")
@@ -6981,7 +6983,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 4.点击发送，长按视频转发
         cpg.click_send()
         gcp.press_last_video_to_do("转发")
-        #scp = SelectContactsPage()
+        # scp = SelectContactsPage()
         scp.wait_for_page_load()
         # 5.点击"选择一个群"菜单
         scp.click_select_one_group()
@@ -6998,7 +7000,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.click_back()
         scp.wait_for_page_load()
         scp.click_back()
-        #mess = MessagePage()
+        # mess = MessagePage()
         mess.wait_for_page_load()
         if not mess.is_iv_fail_status_present():
             raise AssertionError("消息列表没有显示消息发送失败标识")
@@ -7638,4 +7640,3 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp.press_last_picture_to_do("收藏")
         # 3.是否提示“已收藏”
         self.assertTrue(gcp.is_toast_exist("已收藏"))
-
