@@ -670,7 +670,14 @@ class MsgContactsSelect(TestCase):
         # 键入9查看未搜索到结果时是否提示无搜索结果
         prise_contact.input_search_contact_message("9")
         time.sleep(2)
-        self.assertTrue(prise_contact.no_result_is_element_present())
+        if prise_contact.confirm_exist_result() == 0:
+            # 若不存在搜索结果，则判断是否存在无搜索结果标签
+            self.assertTrue(prise_contact.no_result_is_element_present())
+        else:
+            # 若存在搜索结果，则确认是否存在"团队联系人标签"
+            self.assertTrue(prise_contact.is_seach_exist_contacts())
+            # 若存在搜索结果则判断搜索到的联系人标签大于0
+            self.assertTrue(prise_contact.confirm_exist_result() > 0)
 
     @staticmethod
     def setUp_test_msg_huangcaizui_A_0317():
@@ -1181,7 +1188,14 @@ class MsgContactsSelect(TestCase):
         prise_contact.input_search_contact_message("138")
         time.sleep(2)
         prise_contact.scroll_to_bottom_on_times()
-        self.assertTrue(prise_contact.is_element_present())
+        if prise_contact.confirm_exist_result() == 0:
+            # 若不存在搜索结果，则判断是否存在无搜索结果标签
+            self.assertTrue(prise_contact.no_result_is_element_present())
+        else:
+            # 若存在搜索结果，则确认是否存在"团队联系人标签"
+            self.assertTrue(prise_contact.is_seach_exist_contacts())
+            # 若存在搜索结果则判断搜索到的联系人标签大于0
+            self.assertTrue(prise_contact.confirm_exist_result() > 0)
 
     @staticmethod
     def setUp_test_msg_huangcaizui_A_0332():
@@ -1492,7 +1506,14 @@ class MsgContactsSelect(TestCase):
         # 键入9查看未搜索到结果时是否提示无搜索结果
         prise_contact.input_search_contact_message("9")
         time.sleep(2)
-        self.assertTrue(prise_contact.no_result_is_element_present())
+        if prise_contact.confirm_exist_result() == 0:
+            # 若不存在搜索结果，则判断是否存在无搜索结果标签
+            self.assertTrue(prise_contact.no_result_is_element_present())
+        else:
+            # 若存在搜索结果，则确认是否存在"团队联系人标签"
+            self.assertTrue(prise_contact.is_seach_exist_contacts())
+            # 若存在搜索结果则判断搜索到的联系人标签大于0
+            self.assertTrue(prise_contact.confirm_exist_result() > 0)
 
     @staticmethod
     def setUp_test_msg_huangcaizui_A_0339():

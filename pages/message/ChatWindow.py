@@ -144,6 +144,7 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
     @TestLogger.log('点击发送按钮')
     def click_send_button(self):
         self.click_element(self.__locators['发送按钮'])
+        time.sleep(3)
 
     @TestLogger.log('发送消息')
     def send_message(self, content):
