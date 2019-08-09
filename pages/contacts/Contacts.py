@@ -1222,3 +1222,15 @@ class ContactsPage(FooterPage):
             condition=lambda x: self.get_elements(self.__locators['搜索结果'])[0],
             auto_accept_permission_alert=False
         ).click()
+
+    @TestLogger.log()
+    def get_element_c(self, locator):
+        return self.get_element(self.__locators[locator])
+
+    @TestLogger.log()
+    def click_element_c(self, locator):
+        self.click_element(self.__locators[locator])
+
+    @TestLogger.log()
+    def is_element_present(self, locator):
+        return self._is_element_present(locator)

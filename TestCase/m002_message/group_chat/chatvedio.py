@@ -9,6 +9,7 @@ from appium.webdriver.common.mobileby import MobileBy
 from selenium.common.exceptions import TimeoutException
 
 from library.core.TestCase import TestCase
+from library.core.TestLogger import TestLogger
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile, current_driver
 from library.core.utils.testcasefilter import tags
@@ -663,6 +664,49 @@ class Preconditions(WorkbenchPreconditions):
         # 上传预置文件
         local_file.push_resource_file()
 
+    @staticmethod
+    @TestLogger.log('删除所有群聊,不会删除企业群')
+    def delete_groups(mobile='Android-移动'):
+        Preconditions.select_mobile(mobile)
+        current_mobile().launch_app()
+        count = 1
+        cp = ContactsPage()
+        cp.open_contacts_page()
+        time.sleep(0.5)
+        cp.click_text('群聊')
+        time.sleep(0.5)
+        page = GroupChatSetPage()
+        locator = (MobileBy.XPATH, "//android.support.v7.widget.RecyclerView[@resource-id='"
+                                   "com.chinasofti.rcs:id/recyclerView']/android.widget.RelativeLayout[%d]" % count)
+        locator2 = (MobileBy.XPATH, "//android.support.v7.widget.RecyclerView[@resource-id='"
+                                    "com.chinasofti.rcs:id/recyclerView']/android.widget.RelativeLayout[%d]/android.widget.ImageView[2]" % count)
+        while cp.is_element_present(locator):
+            if cp.is_element_present(locator2):
+                count += 1
+                locator = (MobileBy.XPATH, "//android.support.v7.widget.RecyclerView[@resource-id='"
+                                           "com.chinasofti.rcs:id/recyclerView']/android.widget.RelativeLayout[%d]" % count)
+                locator2 = (MobileBy.XPATH, "//android.support.v7.widget.RecyclerView[@resource-id='"
+                                            "com.chinasofti.rcs:id/recyclerView']/android.widget.RelativeLayout[%d]/android.widget.ImageView[2]" % count)
+                continue
+            cp.click_element(locator)
+            time.sleep(0.3)
+            GroupChatPage().click_setting()
+            time.sleep(0.5)
+            if page.is_element_present_c('群管理'):
+                page.click_group_manage()
+                time.sleep(0.3)
+                page.click_group_manage_disband_button()
+                time.sleep(0.3)
+                page.click_element_('确定')
+                page.wait_for_text('该群已解散')
+                page.click_back_by_android()
+                # time.sleep(0.5)
+            else:
+                page.click_delete_and_exit2()
+                time.sleep(1)
+                page.click_text('退出')
+                # page.wait_for_text('您已退出该群')
+                # page.click_back_by_android()
 
 class MsgGroupChatvedioTest(TestCase):
     """
@@ -681,8 +725,9 @@ class MsgGroupChatvedioTest(TestCase):
         warnings.simplefilter('ignore', ResourceWarning)
         # 创建联系
         Preconditions.select_mobile('Android-移动')
-        Preconditions.create_contacts_groups()
-        Preconditions.push_resources()
+        # Preconditions.delete_groups()
+        # Preconditions.create_contacts_groups()
+        # Preconditions.push_resources()
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""

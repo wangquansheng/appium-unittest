@@ -385,8 +385,7 @@ class MsgMyPcTest(TestCase):
 
     def public_make_sure_have_faild_massege(self, file_type=".xlsx"):
         """确保页面有发送失败的消息"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_select_file_send(file_type)
 
     def public_select_pic(self, file_type=".jpg"):
@@ -444,8 +443,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0002():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @staticmethod
     def setUp_test_msg_weifenglian_PC_0003():
@@ -500,8 +498,7 @@ class MsgMyPcTest(TestCase):
             pass
         else:
             self.test_msg_weifenglian_PC_0002()
-            current_mobile().turn_on_wifi()
-            current_mobile().turn_on_mobile_data()
+            MessagePage().set_network_status(6)
             self.wait_for_MyPc_page_load()
         chat_page = GroupChatPage()
         chat_page.click_msg_send_failed_button()
@@ -512,8 +509,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0004():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0005(self):
@@ -526,8 +522,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0005():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0006(self):
@@ -548,8 +543,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0006():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0007(self):
@@ -623,16 +617,14 @@ class MsgMyPcTest(TestCase):
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0015(self):
         """网络异常时勾选本地照片内任意相册的图片点击发送按钮"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_select_pic_send('23e.jpg')
         self.wait_for_MyPc_page_load()
         self.assertTrue(GroupChatPage().is_exist_msg_send_failed_button())
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0015():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0016(self):
@@ -641,8 +633,7 @@ class MsgMyPcTest(TestCase):
         if chat_page.is_exist_msg_send_failed_button():
             pass
         else:
-            current_mobile().turn_off_wifi()
-            current_mobile().turn_off_mobile_data()
+            MessagePage().set_network_status(0)
             self.public_select_pic_send('23e.jpg')
             self.wait_for_MyPc_page_load()
         ChatWindowPage().click_back1()
@@ -652,8 +643,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0016():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0017(self):
@@ -662,11 +652,9 @@ class MsgMyPcTest(TestCase):
         if pc_chat_page.is_exist_msg_send_failed_button():
             pass
         else:
-            current_mobile().turn_off_wifi()
-            current_mobile().turn_off_mobile_data()
+            MessagePage().set_network_status(0)
             self.public_select_pic_send('23e.jpg')
-            current_mobile().turn_on_wifi()
-            current_mobile().turn_on_mobile_data()
+            MessagePage().set_network_status(6)
             self.wait_for_MyPc_page_load()
         pc_chat_page.click_msg_send_failed_button()
         pc_chat_page.click_resend_confirm()
@@ -675,8 +663,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0017():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @staticmethod
     def setUp_test_msg_weifenglian_PC_0018():
@@ -734,11 +721,9 @@ class MsgMyPcTest(TestCase):
         if pc_chat_page.is_exist_msg_send_failed_button():
             pass
         else:
-            current_mobile().turn_off_wifi()
-            current_mobile().turn_off_mobile_data()
+            MessagePage().set_network_status(0)
             self.public_select_pic_send('23e.jpg')
-            current_mobile().turn_on_wifi()
-            current_mobile().turn_on_mobile_data()
+            MessagePage().set_network_status(6)
             self.wait_for_MyPc_page_load()
         pc_chat_page.click_msg_send_failed_button()
         pc_chat_page.click_multiple_selection_delete_cancel()
@@ -747,8 +732,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0019():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0020(self):
@@ -826,16 +810,14 @@ class MsgMyPcTest(TestCase):
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0029(self):
         """网络异常时勾选本地文件内任意视频点击发送按钮"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_select_video_send()
         self.wait_for_MyPc_page_load()
         self.assertTrue(GroupChatPage().is_exist_msg_send_failed_button())
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0029():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0030(self):
@@ -853,8 +835,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0030():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0031(self):
@@ -865,8 +846,7 @@ class MsgMyPcTest(TestCase):
             pass
         else:
             self.test_msg_weifenglian_PC_0029()
-            current_mobile().turn_on_wifi()
-            current_mobile().turn_on_mobile_data()
+            MessagePage().set_network_status(6)
         pc_chat_page.click_msg_send_failed_button()
         pc_chat_page.click_resend_confirm()
         self.wait_for_MyPc_page_load()
@@ -876,8 +856,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0031():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0032(self):
@@ -888,8 +867,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0032():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0033(self):
@@ -900,8 +878,7 @@ class MsgMyPcTest(TestCase):
             pass
         else:
             self.test_msg_weifenglian_PC_0029()
-            current_mobile().turn_on_wifi()
-            current_mobile().turn_on_mobile_data()
+            MessagePage().set_network_status(6)
             time.sleep(2)
         pc_chat_page.click_msg_send_failed_button()
         pc_chat_page.click_multiple_selection_delete_cancel()
@@ -910,8 +887,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0033():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0034(self):
@@ -1024,8 +1000,7 @@ class MsgMyPcTest(TestCase):
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0043(self):
         """网络异常时勾选音乐列表页面任意音乐点击发送按钮”"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_select_music_send('28618718.mp3')
         is_on_Pc_Chat_Page = self.wait_for_MyPc_page_load()
         self.assertTrue(is_on_Pc_Chat_Page)
@@ -1033,8 +1008,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0043():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0044(self):
@@ -1042,8 +1016,7 @@ class MsgMyPcTest(TestCase):
         if GroupChatPage().is_exist_msg_send_failed_button():
             pass
         else:
-            current_mobile().turn_off_wifi()
-            current_mobile().turn_off_mobile_data()
+            MessagePage().set_network_status(0)
             self.public_select_music_send('28618718.mp3')
         self.wait_for_MyPc_page_load()
         ChatWindowPage().click_back1()
@@ -1052,8 +1025,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0044():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0045(self):
@@ -1061,11 +1033,9 @@ class MsgMyPcTest(TestCase):
         if GroupChatPage().is_exist_msg_send_failed_button():
             pass
         else:
-            current_mobile().turn_off_wifi()
-            current_mobile().turn_off_mobile_data()
+            MessagePage().set_network_status(0)
             self.public_select_music_send('28618718.mp3')
-            current_mobile().turn_on_wifi()
-            current_mobile().turn_on_mobile_data()
+            MessagePage().set_network_status(6)
         self.wait_for_MyPc_page_load()
         GroupChatPage().click_msg_send_failed_button()
         GroupChatPage().click_resend_confirm()
@@ -1074,8 +1044,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0045():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0046(self):
@@ -1087,8 +1056,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0046():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0047(self):
@@ -1096,11 +1064,9 @@ class MsgMyPcTest(TestCase):
         if GroupChatPage().is_exist_msg_send_failed_button():
             pass
         else:
-            current_mobile().turn_off_wifi()
-            current_mobile().turn_off_mobile_data()
+            MessagePage().set_network_status(0)
             self.public_select_music_send('28618718.mp3')
-            current_mobile().turn_on_wifi()
-            current_mobile().turn_on_mobile_data()
+            MessagePage().set_network_status(6)
             time.sleep(2)
         GroupChatPage().click_msg_send_failed_button()
         GroupChatPage().click_multiple_selection_delete_cancel()
@@ -1109,8 +1075,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0047():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0048(self):
@@ -1217,8 +1182,7 @@ class MsgMyPcTest(TestCase):
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0077(self):
         """将自己发送的文件转发到普通群时失败"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         pc_chat_page = GroupChatPage()
         if pc_chat_page.is_exist_msg_file():
             pass
@@ -1240,8 +1204,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0077():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0076(self):
@@ -1265,8 +1228,7 @@ class MsgMyPcTest(TestCase):
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0078(self):
         """将自己发送的文件转发到企业群"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         pc_chat_page = GroupChatPage()
         if pc_chat_page.is_exist_msg_file():
             pass
@@ -1288,8 +1250,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0078():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0079(self):
@@ -1515,8 +1476,7 @@ class MsgMyPcTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_PC_0094(self):
         """将自己发送的文件转发到手机联系人时发送失败"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_forward_file()
         SelectContactsPage().select_local_contacts()
         SelectLocalContactsPage().wait_for_page_load()
@@ -1530,8 +1490,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0094():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_PC_0095(self):
@@ -1756,8 +1715,7 @@ class MsgMyPcTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_PC_0128(self):
         """将自己发送的文件转发到最近聊天时转发失败"""
-        current_mobile().turn_off_wifi()
-        current_mobile().turn_off_mobile_data()
+        MessagePage().set_network_status(0)
         self.public_forward_file()
         select_recent_chat = SelectContactsPage()
         select_recent_chat.wait_for_page_load()
@@ -1770,8 +1728,7 @@ class MsgMyPcTest(TestCase):
 
     @staticmethod
     def tearDown_test_msg_weifenglian_pc_0128():
-        current_mobile().turn_on_wifi()
-        current_mobile().turn_on_mobile_data()
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_PC_0129(self):

@@ -3599,7 +3599,7 @@ class MessageGroupChatAllTest(TestCase):
         time.sleep(2)
 
     @tags('ALL', 'CMCC', 'group_chat',"high")
-    def test_msg_huangcaizui_C_0006(self):
+    def test_msg_huangcaizui_C_0006_01(self):
         """聊天设置页面——删除并退出群聊——群主"""
         scp = SelectContactsPage()
         scp.create_message_group2()
@@ -3654,7 +3654,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         Preconditions.get_into_group_chat_page("群聊1")
 
     @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
-    def test_msg_huangcaizui_C_0006(self):
+    def test_msg_huangcaizui_C_0006_02(self):
         """验证退出短信是否成功退出"""
         # 1.网络正常，本网用户
         # 2.客户端已登录
@@ -3675,6 +3675,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         # 3.点击返回
         cgs.wait_for_page_load()
         cgs.click_back()
+        time.sleep(2)
         # 4.验证是否在群聊页面
         self.assertTrue(gcp.is_on_this_page())
 

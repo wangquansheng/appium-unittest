@@ -807,3 +807,13 @@ class GroupChatSetPage(BasePage):
     @TestLogger.log()
     def get_element_c(self, locator):
        return self.get_element(self.__locators[locator])
+
+    @TestLogger.log()
+    def is_element_present_c(self, locator):
+        try:
+            if self.get_element(self.__locators[locator]):
+               return True
+            else:
+               return False
+        except:
+            return False

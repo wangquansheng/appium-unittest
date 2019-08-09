@@ -136,6 +136,8 @@ class GroupChatPage(BaseChatPage):
                   '语音发送模式确定': (MobileBy.ID, 'com.chinasofti.rcs:id/select_send_audio_type_confirm'),
                   '发送者姓名': (MobileBy.ID, 'com.chinasofti.rcs:id/text_name'),
                   '信息体': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_message'),
+                  '切换': (MobileBy.ID, 'android:id/button1'),
+                  '不切换': (MobileBy.ID, 'android:id/button2'),
                   }
 
     @TestLogger.log()
@@ -1086,4 +1088,19 @@ class GroupChatPage(BaseChatPage):
         """点击我知道了"""
         self.click_element(self.__class__.__locators["我知道了"])
 
+    @TestLogger.log()
+    def wait_for_text(self, text, timeout=10, auto_accept_alerts=True):
+        """等待文字"""
+        try:
+            self.wait_until(
+                timeout=timeout,
+                auto_accept_permission_alert=auto_accept_alerts,
+                condition=lambda d: self.is_text_present(text)
+            )
+        except:
+            message = "文字在{}s内，没有加载成功".format(timeout)
+            raise AssertionError(
+                message
+            )
+        return self
 
