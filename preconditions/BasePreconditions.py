@@ -699,8 +699,8 @@ class WorkbenchPreconditions(LoginPreconditions):
             sc.click_one_contact(names[2])
             # slc.click_one_contact("和飞信电话")
             slc.click_sure()
-            if not slc.is_toast_exist("操作成功"):
-                raise AssertionError("操作不成功")
+            # if not slc.is_toast_exist("操作成功"):
+            #     raise AssertionError("操作不成功")
             time.sleep(2)
             current_mobile().back()
             time.sleep(2)
