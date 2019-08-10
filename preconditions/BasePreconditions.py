@@ -674,11 +674,13 @@ class WorkbenchPreconditions(LoginPreconditions):
         WorkbenchPreconditions.enter_organization_page()
         osp = OrganizationStructurePage()
         osp.wait_for_page_load()
-        osp.click_specify_element_by_name("添加子部门")
+        osp.click_specify_element_by_name2("添加子部门")
         osp.wait_for_sub_department_page_load()
         osp.input_sub_department_name(departmentName)
-        osp.click_specify_element_by_name("完成")
-        if osp.is_toast_exist("部门已存在，请勿重复添加"):
+        osp.click_specify_element_by_name2("完成")
+        time.sleep(2)
+        # if osp.is_toast_exist("部门已存在，请勿重复添加"):
+        if osp.is_text_present("部门属性"):
             current_mobile().back()
             osp.wait_for_page_load()
         else:
@@ -686,9 +688,9 @@ class WorkbenchPreconditions(LoginPreconditions):
             time.sleep(2)
             osp.click_specify_element_by_name(departmentName)
             time.sleep(1)
-            osp.click_specify_element_by_name("添加联系人")
+            osp.click_specify_element_by_name2("添加联系人")
             time.sleep(1)
-            osp.click_specify_element_by_name("从手机通讯录添加")
+            osp.click_specify_element_by_name2("从手机通讯录添加")
             time.sleep(2)
             sc = SelectContactsPage()
             slc = SelectLocalContactsPage()
@@ -827,19 +829,26 @@ class WorkbenchPreconditions(LoginPreconditions):
                 break
         time.sleep(3)
         # 进入部门 - subdepart
-        osp.click_specify_element_by_name(departmentName)
-        time.sleep(3)
+        osp.click_specify_element_by_name2(departmentName)
+        time.sleep(2)
+        osp.click_specify_element_by_name2("添加联系人")
+        time.sleep(2)
         for name, number in contacts:
-            if not osp.is_exist_specify_element_by_name(name):
-                osp.click_specify_element_by_name("添加联系人")
-                time.sleep(4)
-                osp.click_specify_element_by_name("手动输入添加")
-                osp.input_contacts_name(name)
-                osp.input_contacts_number(number)
-                osp.click_confirm()
-                time.sleep(2)
-                osp.click_back()
-        osp.click_back()
+            # if not osp.is_exist_specify_element_by_name(name):
+            osp.click_specify_element_by_name2("手动输入添加")
+            osp.input_contacts_name(name)
+            osp.input_contacts_number(number)
+            osp.click_specify_element_by_name2("完成")
+            time.sleep(3)
+            if osp.is_text_present("手动输入添加"):
+                continue
+            else:
+                osp.click_back_by_android()
+                # time.sleep(1)
+                # osp.click_specify_element_by_name("确认")
+        # osp.click_back()
+        # 关闭
+        osp.click_close()
         wbp.wait_for_workbench_page_load()
         mp.open_message_page()
         mp.wait_for_page_load()

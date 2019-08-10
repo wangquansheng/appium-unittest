@@ -409,6 +409,7 @@ class MygroupSearchPage(TestCase):
                 Preconditions.create_he_contacts2(contact_names2)
                 WorkbenchPreconditions.create_he_contacts_for_sub_department("bm0", contact_names2)
                 Preconditions.create_sub_department_by_name('测试部门1', '测试号码')
+
                 flag2 = True
             except:
                 fail_time2 += 1
