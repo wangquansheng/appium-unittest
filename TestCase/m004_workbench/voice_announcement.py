@@ -715,12 +715,12 @@ class VoiceAnnouncementTest(TestCase):
         time.sleep(2)
         vnp.click_text("企业通讯录")
         time.sleep(2)
-        if not vnp.is_text_present("当前组织"):
-            raise AssertionError("没有跳转到企业层级")
+        # if not vnp.is_text_present("当前组织"):
+        #     raise AssertionError("没有跳转到企业层级")
         current_mobile().back()
         current_mobile().back()
         current_mobile().back()
-        current_mobile().back()
+        # current_mobile().back()
         vnp.wait_for_page_loads()
 
     @tags('ALL', "CMCC", 'workbench', 'YYTZ')
@@ -1664,7 +1664,7 @@ class VoiceAnnouncementTest(TestCase):
         current_mobile().back()
         current_mobile().back()
         current_mobile().back()
-        current_mobile().back()
+        # current_mobile().back()
         vnp.click_close_more()
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
@@ -1691,6 +1691,7 @@ class VoiceAnnouncementTest(TestCase):
         if not sc.is_text_present("/1000"):
             raise AssertionError("右上角没有展示已选人数/上限人数")
         current_mobile().back()
+        time.sleep(2)
         vnp.click_close_more()
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
@@ -1917,8 +1918,8 @@ class VoiceAnnouncementTest(TestCase):
         sc.click_text("选择企业通讯录联系人")
         if not vnp.is_toast_exist("网络连接异常"):
             raise AssertionError("没有网络异常提示")
-        if not vnp.is_text_present("企业通讯录"):
-            raise AssertionError("没有转到企业子一层级")
+        # if not vnp.is_text_present("企业通讯录"):
+        #     raise AssertionError("没有转到企业子一层级")
         vnp.set_network_status(6)
         time.sleep(8)
         current_mobile().back()
