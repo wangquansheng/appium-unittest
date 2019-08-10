@@ -353,7 +353,7 @@ class MessagePage(FooterPage):
     @TestLogger.log()
     def wait_for_page_load(self, timeout=30, auto_accept_alerts=True):
         """等待消息页面加载（自动允许权限）"""
-
+        time.sleep(3)
         # mark=10
         # while mark>0:
         #     time.sleep(1)

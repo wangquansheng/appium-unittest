@@ -417,6 +417,7 @@ class GroupChatSetPage(BasePage):
     @TestLogger.log()
     def click_search_chat_record(self):
         """点击 查找聊天内容"""
+        self._find_menu(self.__class__.__locators['查找聊天内容'])
         self.click_element(self.__class__.__locators['查找聊天内容'])
 
     @TestLogger.log()

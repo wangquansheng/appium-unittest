@@ -2,7 +2,6 @@ import time
 import unittest
 import warnings
 
-import preconditions
 from preconditions.BasePreconditions import LoginPreconditions
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
@@ -121,6 +120,16 @@ class Preconditions(LoginPreconditions):
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         group_name = "aatest" + phone_number[-4:]
         return group_name
+
+    @staticmethod
+    def make_no_message_send_failed_status():
+        """确保当前消息列表没有消息发送失败的标识影响验证结果"""
+        mp = MessagePage()
+        current_mobile().launch_app()
+        mp.wait_for_page_load()
+        # 确保当前消息列表没有消息发送失败的标识影响验证结果
+        if mp.is_iv_fail_status_present():
+            mp.clear_fail_in_send_message()
 
 
 class MsgAllPrior(TestCase):
@@ -409,6 +418,7 @@ class MsgGroupChatTest(TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
+
     #     # 创建联系人
     #     fail_time = 0
     #     import dataproviders
@@ -443,6 +453,7 @@ class MsgGroupChatTest(TestCase):
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
         mess = MessagePage()
         if mess.is_on_this_page():
             try:
@@ -461,6 +472,175 @@ class MsgGroupChatTest(TestCase):
 
     def default_tearDown(self):
         pass
+
+    def make_sure_have_loc_msg(self):
+        group_chat_page = GroupChatPage()
+        group_chat_page.wait_for_page_load()
+        if group_chat_page.is_exist_loc_msg():
+            pass
+        else:
+            chat_more = ChatMorePage()
+            chat_more.close_more()
+            chat_more.click_location()
+            location_page = ChatLocationPage()
+            location_page.wait_for_page_load()
+            time.sleep(1)
+            # 点击发送按钮
+            if not location_page.send_btn_is_enabled():
+                raise AssertionError("位置页面发送按钮不可点击")
+            location_page.click_send()
+            group_chat_page.wait_for_page_load()
+            group_chat_page.click_more()
+
+    def public_find_group_chat_open_file(self, file_type='.xlsx'):
+        self.make_sure_have_file_msg(file_type)
+        GroupChatPage().wait_for_page_load()
+        # 1. 点击右上角个人设置按钮
+        GroupChatPage().click_setting()
+        # 2. 点击下方的查找聊天内容按钮
+        GroupChatSetPage().click_search_chat_record()
+        current_mobile().hide_keyboard_if_display()
+        FindChatRecordPage().wait_for_page_loads()
+        FindChatRecordPage().click_file()
+        chat_file = ChatFilePage()
+        chat_file.wait_for_page_loads()
+        chat_file.click_file(file_type)
+        GroupChatPage().is_exist_more_button()
+
+    def public_open_file(self):
+        self.make_sure_have_file_msg()
+        group_chat_page = GroupChatPage()
+        group_chat_page.wait_for_page_load()
+        group_chat_page.click_last_file_send_fail()
+        group_chat_page.is_exist_more_button()
+
+    def public_open_file_click_more_button(self):
+        self.public_open_file()
+        GroupChatPage().click_more_button()
+        time.sleep(1)
+
+    def public_select_recent_chat_send(self):
+        select_recent_chat = SelectContactsPage()
+        select_recent_chat.wait_for_page_load()
+        select_recent_chat.select_recent_chat_by_number(0)
+        SelectContactsPage().click_sure_forward()
+        # 转发成功并回到聊天页面
+        self.assertTrue(GroupChatPage().is_exist_forward())
+        self.assertTrue(GroupChatPage().is_exist_more_button())
+
+    def public_enter_file_select_page(self):
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
+        select_file_type = ChatSelectFilePage()
+        select_file_type.wait_for_page_load()
+        select_file_type.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        # 进入预置文件目录，选择文件发送
+        local_file.enter_preset_file_dir()
+        local_file.wait_for_page_load()
+
+    # 群信息转发到手机联系人
+    def public_forward_mobile_phone_contacts(self):
+        self.press_group_file()
+        ChatFilePage().forward_file('.xlsx')
+        SelectContactsPage().wait_for_page_load()
+        SelectContactsPage().select_local_contacts()
+        SelectLocalContactsPage().wait_for_page_load()
+
+    def press_group_file(self):
+        group_chat_page = GroupChatPage()
+        group_chat_page.wait_for_page_load()
+        if group_chat_page.is_exist_msg_file():
+            pass
+        else:
+            group_chat_page = GroupChatPage()
+            group_chat_page.set_network_status(4)
+            group_chat_page.click_file()
+            select_file_type = ChatSelectFilePage()
+            select_file_type.wait_for_page_load()
+            select_file_type.click_local_file()
+            local_file = ChatSelectLocalFilePage()
+            local_file.click_preset_file_dir()
+            local_file.select_file(".xlsx")
+            local_file.click_send()
+            group_chat_page.wait_for_page_load()
+
+    def pubilic_group_search_text(self, text):
+        self.press_group_file()
+        # 转发xls文件
+        ChatFilePage().forward_file('.xlsx')
+        SelectContactsPage().wait_for_page_load()
+        # 需要转发的群
+        SelectContactsPage().click_select_one_group()
+        SelectOneGroupPage().wait_for_page_load()
+        SelectOneGroupPage().click_search_group()
+        SelectOneGroupPage().input_search_keyword(text)
+        if SelectOneGroupPage().is_text_present('无搜索结果'):
+            pass
+        else:
+            SelectOneGroupPage().click_search_result()
+            SelectOneGroupPage().click_sure_forward()
+            # 转发成功并回到聊天页面
+            self.assertTrue(GroupChatPage().is_exist_forward())
+            GroupChatPage().wait_for_page_load()
+            self.assertTrue(GroupChatPage().is_on_this_page())
+
+    def make_sure_have_file_msg(self, file_type='.xlsx'):
+        group_chat_page = GroupChatPage()
+        group_chat_page.wait_for_page_load()
+        if not group_chat_page.is_exist_msg_send_failed_button() and group_chat_page.is_exist_msg_file():
+            pass
+        else:
+            group_chat_page = GroupChatPage()
+            group_chat_page.set_network_status(4)
+            group_chat_page.click_file()
+            select_file_type = ChatSelectFilePage()
+            select_file_type.wait_for_page_load()
+            select_file_type.click_local_file()
+            local_file = ChatSelectLocalFilePage()
+            # 进入预置文件目录，选择文件发送
+            local_file.enter_preset_file_dir()
+            local_file.select_file(file_type)
+            local_file.click_send()
+            GroupChatPage().wait_for_page_load()
+
+    def make_sure_have_file_send_fail(self):
+        group_chat_page = GroupChatPage()
+        group_chat_page.wait_for_page_load()
+        if group_chat_page.is_exist_msg_send_failed_button():
+            pass
+        else:
+            chat_more = ChatMorePage()
+            chat_more.mobile.turn_off_wifi()
+            chat_more.mobile.turn_off_mobile_data()
+            chat_more.close_more()
+            chat_more.click_file1()
+            select_file_type = ChatSelectFilePage()
+            select_file_type.wait_for_page_load()
+            select_file_type.click_local_file()
+            local_file = ChatSelectLocalFilePage()
+            # 进入预置文件目录，选择文件发送
+            local_file.enter_preset_file_dir()
+            local_file.select_file(".xlsx")
+            local_file.click_send()
+            GroupChatPage().wait_for_page_load()
+
+    # 本地联系人搜索框里输入字符串搜索
+    def pubilic_phone_contacts_search_text(self, text):
+        self.public_forward_mobile_phone_contacts()
+        # 搜索联系人
+        search_contact = SelectLocalContactsPage()
+        search_contact.search(text)
+        if search_contact.is_text_present('无搜索结果'):
+            pass
+        else:
+            search_contact.click_search_phone_contacts()
+            search_contact.click_sure_forward()
+            # 转发成功并回到聊天页面
+            self.assertTrue(GroupChatPage().is_exist_forward())
+            GroupChatPage().wait_for_page_load()
+            self.assertTrue(GroupChatPage().is_on_this_page())
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0001(self):
@@ -560,10 +740,11 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0006(self):
         """未订购每月10G的用户发送大于2M的文件时有弹窗提示"""
         # 关闭wifi发送文件
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.close_more()
-        chat_more.click_file1()
+        # chat_more = ChatMorePage()
+        # chat_more.mobile.turn_off_wifi()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_local_file()
@@ -581,10 +762,10 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0007(self):
         """直接点击“继续发送”：关闭弹窗，拨出，下次继续提示"""
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.close_more()
-        chat_more.click_file1()
+
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_local_file()
@@ -618,8 +799,7 @@ class MsgGroupChatTest(TestCase):
         local_file.select_file("2M_data.json")
         local_file.click_single_send()
         local_file.click_free_data_button()
-        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('和飞信'),
-                                    auto_accept_permission_alert=False)
+        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('任我看'))
         self.assertTrue(bol)
         local_file.click_free_data_back()
         self.assertTrue(local_file.check_10G_free_data_page())
@@ -635,9 +815,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0011(self):
         """在文件列表页选择文件后再点击取消按钮，停留在当前页面"""
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_local_file()
@@ -645,7 +825,7 @@ class MsgGroupChatTest(TestCase):
         # 进入预置文件目录，选择文件发送
         local_file.enter_preset_file_dir()
         local_file.select_file(".xlsx")
-        local_file.select_file(".xlsx")
+        # local_file.select_file(".xlsx")
         self.assertTrue(local_file.is_on_this_page())
         local_file.click_back()
         local_file.click_back()
@@ -654,9 +834,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0012(self):
         """在文件列表页点击返回按钮时可正常逐步返回到会话页面"""
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_local_file()
@@ -664,7 +844,7 @@ class MsgGroupChatTest(TestCase):
         # 进入预置文件目录，选择文件发送
         local_file.enter_preset_file_dir()
         local_file.select_file(".xlsx")
-        local_file.select_file(".xlsx")
+        # local_file.select_file(".xlsx")
         self.assertTrue(local_file.is_on_this_page())
         local_file.click_back()
         local_file.click_back()
@@ -675,9 +855,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0013(self):
         """勾选本地照片内任意相册的图片点击发送按钮"""
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_pic()
@@ -692,11 +872,10 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0014(self):
         """网络异常时勾选本地照片内任意相册的图片点击发送按钮"""
         # 1, 聊天页面打开文件夹
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.mobile.turn_off_mobile_data()
-        chat_more.close_more()
-        chat_more.click_file1()
+
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(0)
+        group_chat_page.click_file()
         # 2， 选择文件夹类型
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
@@ -730,14 +909,15 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0016(self):
         """对发送失败的图片文件进行重发"""
+        Preconditions.make_no_message_send_failed_status()
+        Preconditions.enter_group_chat_page()
         group_chat_page = GroupChatPage()
         group_chat_page.wait_for_page_load()
         if group_chat_page.is_exist_msg_send_failed_button():
             pass
         else:
             self.test_msg_weifenglian_qun_0014()
-            group_chat_page.mobile.turn_on_wifi()
-            group_chat_page.mobile.turn_on_mobile_data()
+            group_chat_page.set_network_status(6)
             group_chat_page.click_back()
             group_chat_page.mobile.wait_until_not(lambda x: group_chat_page.is_text_present('网络连接异常'))
             group_chat_page.mobile.wait_until_not(lambda x: group_chat_page.is_text_present('连接中'))
@@ -765,8 +945,7 @@ class MsgGroupChatTest(TestCase):
             pass
         else:
             self.test_msg_weifenglian_qun_0014()
-            group_chat_page.mobile.turn_on_wifi()
-            group_chat_page.mobile.turn_on_mobile_data()
+            group_chat_page.set_network_status(0)
         group_chat_page.click_msg_send_failed_button()
         group_chat_page.click_multiple_selection_delete_cancel()
         group_chat_page.wait_for_page_load()
@@ -784,10 +963,9 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0019(self):
         """未订购每月10G的用户发送大于2M的文件时有弹窗提示"""
         # 关闭wifi发送文件
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_pic()
@@ -803,10 +981,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0020(self):
         """直接点击“继续发送”：关闭弹窗，拨出，下次继续提示"""
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_pic()
@@ -824,10 +1001,9 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0022(self):
         """点击订购免流特权后可正常返回"""
         # 关闭wifi发送文件
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_pic()
@@ -836,7 +1012,7 @@ class MsgGroupChatTest(TestCase):
         local_file.select_file("2M_pic.jpg")
         local_file.click_single_send()
         local_file.click_free_data_button()
-        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('和飞信'), timeout=15,
+        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('任我看'), timeout=15,
                                     auto_accept_permission_alert=False)
         self.assertTrue(bol)
         local_file.click_free_data_back()
@@ -853,9 +1029,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0024(self):
         """在选择图片页面选择文件后再点击取消按钮，停留在当前页面"""
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_pic()
@@ -869,9 +1045,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0025(self):
         """在选择图片页面点击返回按钮时可正常逐步返回到会话页面"""
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_pic()
@@ -887,9 +1063,11 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0027(self):
         """勾选本地视频内任意视频点击发送按钮"""
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.wait_for_page_load()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_video()
@@ -905,6 +1083,8 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0028(self):
         """网络异常时勾选本地文件内任意视频点击发送按钮"""
         # 1, 聊天页面打开文件夹
+        group_chat_page = GroupChatPage()
+        group_chat_page.wait_for_page_load()
         group_chat_page = GroupChatPage()
         group_chat_page.set_network_status(0)
         group_chat_page.click_file()
@@ -941,14 +1121,15 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0030(self):
         """对发送失败的视频进行重发"""
+        Preconditions.make_no_message_send_failed_status()
+        Preconditions.enter_group_chat_page()
         group_chat_page = GroupChatPage()
         group_chat_page.wait_for_page_load()
         if group_chat_page.is_exist_msg_send_failed_button():
             pass
         else:
             self.test_msg_weifenglian_qun_0028()
-            group_chat_page.mobile.turn_on_wifi()
-            group_chat_page.mobile.turn_on_mobile_data()
+            group_chat_page.set_network_status(6)
             group_chat_page.click_back()
             group_chat_page.mobile.wait_until_not(lambda x: group_chat_page.is_text_present('网络连接异常'))
             group_chat_page.mobile.wait_until_not(lambda x: group_chat_page.is_text_present('连接中'))
@@ -996,10 +1177,9 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0033(self):
         """未订购每月10G的用户发送大于2M的视频时有弹窗提示"""
         # 关闭wifi发送文件
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_video()
@@ -1015,10 +1195,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0034(self):
         """直接点击“继续发送”：关闭弹窗，拨出，下次继续提示"""
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_video()
@@ -1035,10 +1214,9 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0036(self):
         """点击订购免流特权后可正常返回"""
         # 关闭wifi发送文件
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_video()
@@ -1063,9 +1241,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0038(self):
         """在视频列表页选择文件后再点击取消按钮，停留在当前页面"""
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_video()
@@ -1079,9 +1257,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0039(self):
         """在视频列表页点击返回按钮时可正常逐步返回到会话页面"""
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_video()
@@ -1097,9 +1275,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0041(self):
         """勾选音乐列表页面任意音乐点击发送按钮"""
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_music()
@@ -1115,11 +1293,9 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0042(self):
         """网络异常时勾选音乐列表页面任意音乐点击发送按钮"""
         # 1, 聊天页面打开文件夹
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.mobile.turn_off_mobile_data()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(0)
+        group_chat_page.click_file()
         # 2， 选择文件夹类型
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
@@ -1135,6 +1311,8 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0043(self):
         """会话页面有音乐文件发送失败时查看消息列表是否有消息发送失败的标识"""
+        Preconditions.make_no_message_send_failed_status()
+        Preconditions.enter_group_chat_page()
         group_chat_page = GroupChatPage()
         group_chat_page.wait_for_page_load()
         if group_chat_page.is_exist_msg_send_failed_button():
@@ -1153,6 +1331,8 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0044(self):
         """对发送失败的音乐进行重发"""
+        Preconditions.make_no_message_send_failed_status()
+        Preconditions.enter_group_chat_page()
         group_chat_page = GroupChatPage()
         group_chat_page.wait_for_page_load()
         if group_chat_page.is_exist_msg_send_failed_button():
@@ -1188,8 +1368,7 @@ class MsgGroupChatTest(TestCase):
             pass
         else:
             self.test_msg_weifenglian_qun_0042()
-            group_chat_page.mobile.turn_on_wifi()
-            group_chat_page.mobile.turn_on_mobile_data()
+            group_chat_page.set_network_status(6)
             import time
             time.sleep(2)
         group_chat_page.click_msg_send_failed_button()
@@ -1209,10 +1388,9 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0047(self):
         """未订购每月10G的用户发送大于2M的音乐时有弹窗提示"""
         # 关闭wifi发送文件
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_music()
@@ -1228,10 +1406,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0048(self):
         """直接点击“继续发送”：关闭弹窗，拨出，下次继续提示"""
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_music()
@@ -1245,10 +1422,9 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0050(self):
         """点击订购免流特权后可正常返回"""
         # 关闭wifi发送文件
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_music()
@@ -1257,7 +1433,7 @@ class MsgGroupChatTest(TestCase):
         local_file.select_file("喜欢你.mp3")
         local_file.click_single_send()
         local_file.click_free_data_button()
-        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('和飞信'), timeout=15,
+        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('任我看'), timeout=15,
                                     auto_accept_permission_alert=False)
         self.assertTrue(bol)
         local_file.click_free_data_back()
@@ -1277,15 +1453,15 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0052(self):
         """在音乐列表页选择文件后再点击取消按钮，停留在当前页面"""
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_music()
         local_file = ChatSelectLocalFilePage()
         local_file.select_file(".mp3")
-        local_file.select_file(".mp3")
+        # local_file.select_file(".mp3")
         self.assertTrue(local_file.is_on_this_page())
         local_file.click_back()
         select_file_type.click_back()
@@ -1293,9 +1469,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0053(self):
         """在音乐列表页点击返回按钮时可正常逐步返回到会话页面"""
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_music()
@@ -1312,9 +1488,9 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0073(self):
         """在群聊（普通群/企业群）将自己发送的文件转发到当前会话窗口"""
         # 发送一个xls文件并返回聊天页面
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_local_file()
@@ -1346,9 +1522,9 @@ class MsgGroupChatTest(TestCase):
         if group_chat_page.is_exist_msg_file():
             pass
         else:
-            chat_more = ChatMorePage()
-            chat_more.close_more()
-            chat_more.click_file1()
+            group_chat_page = GroupChatPage()
+            group_chat_page.set_network_status(4)
+            group_chat_page.click_file()
             select_file_type = ChatSelectFilePage()
             select_file_type.wait_for_page_load()
             select_file_type.click_local_file()
@@ -1413,9 +1589,9 @@ class MsgGroupChatTest(TestCase):
         if group_chat_page.is_exist_msg_file():
             pass
         else:
-            chat_more = ChatMorePage()
-            chat_more.close_more()
-            chat_more.click_file1()
+            group_chat_page = GroupChatPage()
+            group_chat_page.set_network_status(4)
+            group_chat_page.click_file()
             select_file_type = ChatSelectFilePage()
             select_file_type.wait_for_page_load()
             select_file_type.click_local_file()
@@ -1446,44 +1622,6 @@ class MsgGroupChatTest(TestCase):
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0078():
         MessagePage().set_network_status(6)
-
-    def press_group_file(self):
-        group_chat_page = GroupChatPage()
-        group_chat_page.wait_for_page_load()
-        if group_chat_page.is_exist_msg_file():
-            pass
-        else:
-            chat_more = ChatMorePage()
-            chat_more.close_more()
-            chat_more.click_file1()
-            select_file_type = ChatSelectFilePage()
-            select_file_type.wait_for_page_load()
-            select_file_type.click_local_file()
-            local_file = ChatSelectLocalFilePage()
-            local_file.click_preset_file_dir()
-            local_file.select_file(".xlsx")
-            local_file.click_send()
-            group_chat_page.wait_for_page_load()
-
-    def pubilic_group_search_text(self, text):
-        self.press_group_file()
-        # 转发xls文件
-        ChatFilePage().forward_file('.xlsx')
-        SelectContactsPage().wait_for_page_load()
-        # 需要转发的群
-        SelectContactsPage().click_select_one_group()
-        SelectOneGroupPage().wait_for_page_load()
-        SelectOneGroupPage().click_search_group()
-        SelectOneGroupPage().input_search_keyword(text)
-        if SelectOneGroupPage().is_text_present('无搜索结果'):
-            pass
-        else:
-            SelectOneGroupPage().click_search_result()
-            SelectOneGroupPage().click_sure_forward()
-            # 转发成功并回到聊天页面
-            self.assertTrue(GroupChatPage().is_exist_forward())
-            GroupChatPage().wait_for_page_load()
-            self.assertTrue(GroupChatPage().is_on_this_page())
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0080(self):
@@ -1562,14 +1700,6 @@ class MsgGroupChatTest(TestCase):
         GroupChatPage().wait_for_page_load()
         self.assertTrue(GroupChatPage().is_on_this_page())
 
-    # 群信息转发到手机联系人
-    def public_forward_mobile_phone_contacts(self):
-        self.press_group_file()
-        ChatFilePage().forward_file('.xlsx')
-        SelectContactsPage().wait_for_page_load()
-        SelectContactsPage().select_local_contacts()
-        SelectLocalContactsPage().wait_for_page_load()
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0091(self):
         """将自己发送的文件转发到手机联系人"""
@@ -1613,22 +1743,6 @@ class MsgGroupChatTest(TestCase):
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0093():
         MessagePage().set_network_status(6)
-
-    # 本地联系人搜索框里输入字符串搜索
-    def pubilic_phone_contacts_search_text(self, text):
-        self.public_forward_mobile_phone_contacts()
-        # 搜索联系人
-        search_contact = SelectLocalContactsPage()
-        search_contact.search(text)
-        if search_contact.is_text_present('无搜索结果'):
-            pass
-        else:
-            search_contact.click_search_phone_contacts()
-            search_contact.click_sure_forward()
-            # 转发成功并回到聊天页面
-            self.assertTrue(GroupChatPage().is_exist_forward())
-            GroupChatPage().wait_for_page_load()
-            self.assertTrue(GroupChatPage().is_on_this_page())
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0094(self):
@@ -1839,9 +1953,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0194(self):
         """群聊聊天文件列表页打开不可直接打开的文件时关闭第三方软件弹窗"""
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_local_file()
@@ -1918,23 +2032,11 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0201(self):
         """选择点击文件"""
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(4)
+        group_chat_page.click_file()
         ChatSelectFilePage().wait_for_page_load()
         ChatSelectFilePage().click_back()
-
-    def public_enter_file_select_page(self):
-        chat_more = ChatMorePage()
-        chat_more.close_more()
-        chat_more.click_file1()
-        select_file_type = ChatSelectFilePage()
-        select_file_type.wait_for_page_load()
-        select_file_type.click_local_file()
-        local_file = ChatSelectLocalFilePage()
-        # 进入预置文件目录，选择文件发送
-        local_file.enter_preset_file_dir()
-        local_file.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0202(self):
@@ -2017,46 +2119,6 @@ class MsgGroupChatTest(TestCase):
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0207():
         MessagePage().set_network_status(6)
-
-    def make_sure_have_file_msg(self, file_type='.xlsx'):
-        group_chat_page = GroupChatPage()
-        group_chat_page.wait_for_page_load()
-        if not group_chat_page.is_exist_msg_send_failed_button() and group_chat_page.is_exist_msg_file():
-            pass
-        else:
-            chat_more = ChatMorePage()
-            chat_more.close_more()
-            chat_more.click_file1()
-            select_file_type = ChatSelectFilePage()
-            select_file_type.wait_for_page_load()
-            select_file_type.click_local_file()
-            local_file = ChatSelectLocalFilePage()
-            # 进入预置文件目录，选择文件发送
-            local_file.enter_preset_file_dir()
-            local_file.select_file(file_type)
-            local_file.click_send()
-            GroupChatPage().wait_for_page_load()
-
-    def make_sure_have_file_send_fail(self):
-        group_chat_page = GroupChatPage()
-        group_chat_page.wait_for_page_load()
-        if group_chat_page.is_exist_msg_send_failed_button():
-            pass
-        else:
-            chat_more = ChatMorePage()
-            chat_more.mobile.turn_off_wifi()
-            chat_more.mobile.turn_off_mobile_data()
-            chat_more.close_more()
-            chat_more.click_file1()
-            select_file_type = ChatSelectFilePage()
-            select_file_type.wait_for_page_load()
-            select_file_type.click_local_file()
-            local_file = ChatSelectLocalFilePage()
-            # 进入预置文件目录，选择文件发送
-            local_file.enter_preset_file_dir()
-            local_file.select_file(".xlsx")
-            local_file.click_send()
-            GroupChatPage().wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0223(self):
@@ -2204,27 +2266,6 @@ class MsgGroupChatTest(TestCase):
         self.assertTrue(group_chat_page.is_exist_more_button())
         group_chat_page.click_file_back()
 
-    def public_open_file(self):
-        self.make_sure_have_file_msg()
-        group_chat_page = GroupChatPage()
-        group_chat_page.wait_for_page_load()
-        group_chat_page.click_last_file_send_fail()
-        group_chat_page.is_exist_more_button()
-
-    def public_open_file_click_more_button(self):
-        self.public_open_file()
-        GroupChatPage().click_more_button()
-        time.sleep(1)
-
-    def public_select_recent_chat_send(self):
-        select_recent_chat = SelectContactsPage()
-        select_recent_chat.wait_for_page_load()
-        select_recent_chat.select_recent_chat_by_number(0)
-        SelectContactsPage().click_sure_forward()
-        # 转发成功并回到聊天页面
-        self.assertTrue(GroupChatPage().is_exist_forward())
-        self.assertTrue(GroupChatPage().is_exist_more_button())
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0242(self):
         """验证在群聊会话窗口点击打开已下载的可预览文件-右上角的更多按钮-转发-返回时页面是否正常"""
@@ -2265,21 +2306,6 @@ class MsgGroupChatTest(TestCase):
         self.public_open_file_click_more_button()
         current_mobile().back()
         self.assertTrue(GroupChatPage().is_exist_more_button())
-
-    def public_find_group_chat_open_file(self, file_type='.xlsx'):
-        self.make_sure_have_file_msg(file_type)
-        GroupChatPage().wait_for_page_load()
-        # 1. 点击右上角个人设置按钮
-        GroupChatPage().click_setting()
-        # 2. 点击下方的查找聊天内容按钮
-        GroupChatSetPage().click_search_chat_record()
-        current_mobile().hide_keyboard_if_display()
-        FindChatRecordPage().wait_for_page_loads()
-        FindChatRecordPage().click_file()
-        chat_file = ChatFilePage()
-        chat_file.wait_for_page_loads()
-        chat_file.click_file(file_type)
-        GroupChatPage().is_exist_more_button()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0246(self):
@@ -2929,7 +2955,7 @@ class MsgGroupChatPrior(TestCase):
         MePage().click_collection()
         collection_page = MeCollectionPage()
         collection_page.wait_for_page_load()
-        bol = collection_page.wait_until(condition=lambda x:collection_page.is_text_present('位置'))
+        bol = collection_page.wait_until(condition=lambda x: collection_page.is_text_present('位置'))
         self.assertTrue(bol)
         MePage().click_back()
         MePage().open_message_page()
