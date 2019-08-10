@@ -403,6 +403,7 @@ class ImportantMattersAllTest(TestCase):
         # 3.等待查看事项页面加载，界面底部显示刚刚的评论内容
         imp.wait_for_check_item_page_load()
         imp.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        time.sleep(2)
         self.assertEquals(imp.is_text_present(comment), True)
         imp.click_back()
         # 等待重要事项首页加载

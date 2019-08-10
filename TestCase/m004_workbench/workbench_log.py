@@ -282,7 +282,6 @@ class EnterpriseLogAllTest(TestCase):
         # 3.验证是否在工作台页面
         wbp = WorkbenchPage()
         wbp.wait_for_workbench_page_load()
-        self.assertTrue(wbp.is_on_this_page())
 
     @tags('ALL', 'CMCC', 'workbench', 'yx')
     def test_RZ_0002(self):
@@ -313,7 +312,8 @@ class EnterpriseLogAllTest(TestCase):
         wlp.page_up()
         # 8.点击提交
         wlp.click_submit()
-        wlp.wait_for_input_page_loads()
+        time.sleep(5)
+        # wlp.wait_for_input_page_loads()
         # 9.判断是否提交成功
         self.assertEquals(wlp.is_text_present("工作台日志-日报001"), True)
         time.sleep(2)
@@ -340,7 +340,8 @@ class EnterpriseLogAllTest(TestCase):
         wlp.page_up()
         # 6.点击提交
         wlp.click_submit()
-        wlp.wait_for_input_page_loads()
+        time.sleep(5)
+        # wlp.wait_for_input_page_loads()
         # 7.判断是否提交成功
         self.assertEquals(wlp.is_text_present("工作台日志-日报002"), True)
         time.sleep(2)
@@ -384,7 +385,8 @@ class EnterpriseLogAllTest(TestCase):
         wlp.page_up()
         # 12.点击提交
         wlp.click_submit()
-        wlp.wait_for_input_page_loads()
+        time.sleep(5)
+        # wlp.wait_for_input_page_loads()
         # 13.判断是否提交成功
         self.assertEquals(wlp.is_text_present("工作台日志-日报003"), True)
         time.sleep(2)
@@ -454,7 +456,8 @@ class EnterpriseLogAllTest(TestCase):
         wlp.page_up()
         # 11.点击提交
         wlp.click_submit()
-        wlp.wait_for_input_page_loads()
+        time.sleep(5)
+        # wlp.wait_for_input_page_loads()
         # 12.判断是否提交成功
         self.assertEquals(wlp.is_text_present("工作台日志-日报"), True)
         time.sleep(2)

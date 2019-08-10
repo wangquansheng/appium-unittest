@@ -23,7 +23,8 @@ class SelectCompanyContactsPage(BasePage):
         '确定按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/imagebutton_choose_file_cancel'),
         '企业层级': (MobileBy.ID, "android:id/title"),
         '企业名称': (MobileBy.ID, "com.chinasofti.rcs:id/tv_title"),
-        '部门名称': (MobileBy.ID, "com.chinasofti.rcs:id/tv_title_department")
+        '部门名称': (MobileBy.ID, "com.chinasofti.rcs:id/tv_title_department"),
+        '企业/部门名称': (MobileBy.ID, "com.chinasofti.rcs:id/tv_title"),
     }
 
     @TestLogger.log()
@@ -273,8 +274,14 @@ class SelectCompanyContactsPage(BasePage):
 
     @TestLogger.log()
     def is_exist_department_name(self):
-        """是否存在部门/企业名称"""
-        return self._is_element_present(self.__class__.__locators['部门名称'])
+        """是否存在企业/部门名称"""
+        return self._is_element_present(self.__class__.__locators['企业/部门名称'])
+
+    @TestLogger.log()
+    def is_exist_department_by_name(self, name):
+        """是否存在指定企业/部门名称"""
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title" and @text="%s"]' % name)
+        return self._is_element_present(locator)
 
     @TestLogger.log()
     def is_exist_corporate_name(self):
@@ -308,9 +315,3 @@ class SelectCompanyContactsPage(BasePage):
             current += 1
             self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
         self.click_element(locator)
-
-    @TestLogger.log()
-    def is_exist_department_by_name(self, name):
-        """是否存在指定部门/企业名称"""
-        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title_department" and @text="%s"]' % name)
-        return self._is_element_present(locator)

@@ -19,6 +19,7 @@ class EnterpriseContactsPage(BasePage):
         '返回上一级': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back'),
         '企业层级': (MobileBy.ID, "android:id/title"),
         '部门名称': (MobileBy.ID, "com.chinasofti.rcs:id/tv_title_department"),
+        '企业/部门名称': (MobileBy.ID, "com.chinasofti.rcs:id/tv_title"),
         '联系人名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
         '联系人号码': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_number_personal_contactlist'),
         '联系人头像': (MobileBy.ID, 'com.chinasofti.rcs:id/img_icon_contactlist'),
@@ -89,15 +90,28 @@ class EnterpriseContactsPage(BasePage):
 
     @TestLogger.log()
     def is_exist_department_name(self):
-        """是否存在部门/企业名称"""
-        return self._is_element_present(self.__class__.__locators['部门名称'])
+        """是否存在企业/部门名称"""
+        return self._is_element_present(self.__class__.__locators['企业/部门名称'])
 
     @TestLogger.log()
     def is_exist_department_by_name(self, name):
-        """是否存在指定部门/企业名称"""
-        locator = (
-        MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title_department" and @text="%s"]' % name)
+        """是否存在指定企业/部门名称"""
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title" and @text="%s"]' % name)
         return self._is_element_present(locator)
+
+    @TestLogger.log()
+    def click_corporate_by_name(self, name):
+        """选择指定企业/部门名称"""
+        locator = (
+            MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title" and @text="%s"]' % name)
+        max_try = 20
+        current = 0
+        while current < max_try:
+            if self._is_element_present(locator):
+                break
+            current += 1
+            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        self.click_element(locator)
 
     @TestLogger.log()
     def is_search_contacts_number_full_match(self, number):

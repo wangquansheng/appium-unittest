@@ -700,12 +700,15 @@ class MassMessengerAllTest(TestCase):
                 mp.open_workbench_page()
                 wbp = WorkbenchPage()
                 Preconditions.delete_department_by_name("admin_department")
+                workbench_name = wbp.get_workbench_name()
                 # 查找并点击所有展开元素
                 wbp.find_and_click_open_element()
                 # 解决用户部门变更后不能及时刷新的问题
                 wbp.click_company_contacts()
                 ecp = EnterpriseContactsPage()
                 ecp.wait_for_page_load()
+                if ecp.is_exist_department_by_name(workbench_name):
+                    ecp.click_corporate_by_name(workbench_name)
                 time.sleep(2)
                 ecp.click_back()
                 sccp = SelectCompanyContactsPage()
@@ -783,12 +786,15 @@ class MassMessengerAllTest(TestCase):
                 mp.open_workbench_page()
                 wbp = WorkbenchPage()
                 Preconditions.delete_department_by_name("admin_department")
+                workbench_name = wbp.get_workbench_name()
                 # 查找并点击所有展开元素
                 wbp.find_and_click_open_element()
                 # 解决用户部门变更后不能及时刷新的问题
                 wbp.click_company_contacts()
                 ecp = EnterpriseContactsPage()
                 ecp.wait_for_page_load()
+                if ecp.is_exist_department_by_name(workbench_name):
+                    ecp.click_corporate_by_name(workbench_name)
                 time.sleep(2)
                 ecp.click_back()
                 sccp = SelectCompanyContactsPage()
@@ -868,12 +874,15 @@ class MassMessengerAllTest(TestCase):
                 wbp = WorkbenchPage()
                 Preconditions.delete_department_by_name("admin_department1")
                 Preconditions.delete_department_by_name("admin_department2")
+                workbench_name = wbp.get_workbench_name()
                 # 查找并点击所有展开元素
                 wbp.find_and_click_open_element()
                 # 解决用户部门变更后不能及时刷新的问题
                 wbp.click_company_contacts()
                 ecp = EnterpriseContactsPage()
                 ecp.wait_for_page_load()
+                if ecp.is_exist_department_by_name(workbench_name):
+                    ecp.click_corporate_by_name(workbench_name)
                 time.sleep(2)
                 ecp.click_back()
                 sccp = SelectCompanyContactsPage()
