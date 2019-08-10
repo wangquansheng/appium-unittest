@@ -357,6 +357,9 @@ class MygroupSearchPage(TestCase):
         mess = MessagePage()
         if mess.is_on_this_page():
             WorkbenchPreconditions.enter_create_team_page2()
+        # 当前为消息页面
+        # 确保存在子部门
+        WorkbenchPreconditions.create_sub_department()
 
         # 导入测试联系人、群聊
         fail_time1 = 0
@@ -404,7 +407,9 @@ class MygroupSearchPage(TestCase):
                                   ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296"),
                                   ('#*', '13800137006'), ('#1', '13800137007')]
                 Preconditions.create_he_contacts2(contact_names2)
+                WorkbenchPreconditions.create_he_contacts_for_sub_department("bm0", contact_names2)
                 Preconditions.create_sub_department_by_name('测试部门1', '测试号码')
+
                 flag2 = True
             except:
                 fail_time2 += 1
