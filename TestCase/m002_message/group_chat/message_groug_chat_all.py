@@ -528,9 +528,9 @@ class MsgGroupChatTest(TestCase):
         self.assertTrue(GroupChatPage().is_exist_forward())
         self.assertTrue(GroupChatPage().is_exist_more_button())
 
-    def public_enter_file_select_page(self):
+    def public_enter_file_select_page(self, n=6):
         group_chat_page = GroupChatPage()
-        group_chat_page.set_network_status(4)
+        group_chat_page.set_network_status(n)
         group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
@@ -611,11 +611,9 @@ class MsgGroupChatTest(TestCase):
         if group_chat_page.is_exist_msg_send_failed_button():
             pass
         else:
-            chat_more = ChatMorePage()
-            chat_more.mobile.turn_off_wifi()
-            chat_more.mobile.turn_off_mobile_data()
-            chat_more.close_more()
-            chat_more.click_file1()
+            group_chat_page = GroupChatPage()
+            group_chat_page.set_network_status(0)
+            group_chat_page.click_file()
             select_file_type = ChatSelectFilePage()
             select_file_type.wait_for_page_load()
             select_file_type.click_local_file()
@@ -662,6 +660,8 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0002(self):
         """会话页面有文件发送失败时查看消息列表是否有消息发送失败的标识"""
+        Preconditions.make_no_message_send_failed_status()
+        Preconditions.enter_group_chat_page()
         group_chat_page = GroupChatPage()
         group_chat_page.wait_for_page_load()
         if group_chat_page.is_exist_msg_send_failed_button():
@@ -799,13 +799,17 @@ class MsgGroupChatTest(TestCase):
         local_file.select_file("2M_data.json")
         local_file.click_single_send()
         local_file.click_free_data_button()
-        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('任我看'))
+        time.sleep(3)
+        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('和飞信'))
         self.assertTrue(bol)
         local_file.click_free_data_back()
         self.assertTrue(local_file.check_10G_free_data_page())
         local_file.click_outside_element()
+        time.sleep(1)
         local_file.click_back()
+        time.sleep(1)
         local_file.click_back()
+        time.sleep(1)
         select_file_type.click_back()
 
     @staticmethod
@@ -1012,14 +1016,18 @@ class MsgGroupChatTest(TestCase):
         local_file.select_file("2M_pic.jpg")
         local_file.click_single_send()
         local_file.click_free_data_button()
-        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('任我看'), timeout=15,
+        time.sleep(3)
+        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('和飞信'), timeout=15,
                                     auto_accept_permission_alert=False)
         self.assertTrue(bol)
         local_file.click_free_data_back()
         self.assertTrue(local_file.check_10G_free_data_page())
         local_file.click_outside_element()
+        time.sleep(1)
         local_file.click_back()
+        time.sleep(1)
         select_file_type.click_back()
+        time.sleep(1)
         GroupChatPage().click_back()
 
     @staticmethod
@@ -1433,16 +1441,21 @@ class MsgGroupChatTest(TestCase):
         local_file.select_file("喜欢你.mp3")
         local_file.click_single_send()
         local_file.click_free_data_button()
-        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('任我看'), timeout=15,
+        time.sleep(3)
+        bol = local_file.wait_until(lambda x: ChatSelectLocalFilePage().is_text_present('和飞信'), timeout=15,
                                     auto_accept_permission_alert=False)
         self.assertTrue(bol)
         local_file.click_free_data_back()
         self.assertTrue(local_file.check_10G_free_data_page())
         local_file.click_outside_element()
+        time.sleep(1)
         local_file.click_back()
+        time.sleep(1)
         select_file_type.click_back()
+        time.sleep(1)
         GroupChatPage().click_back()
         group_name = Preconditions.get_group_chat_name()
+        time.sleep(3)
         MessagePage().wait_for_page_load()
         MessagePage().delete_message_record_by_name(group_name)
 
@@ -1725,8 +1738,8 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0093(self):
         """将自己发送的文件转发到手机联系人时发送失败"""
-        # current_mobile().turn_off_wifi()
-        # current_mobile().turn_off_mobile_data()
+        Preconditions.make_no_message_send_failed_status()
+        Preconditions.enter_group_chat_page()
         mp = MessagePage()
         mp.set_network_status(0)
         self.public_forward_mobile_phone_contacts()
@@ -2000,9 +2013,13 @@ class MsgGroupChatTest(TestCase):
         chat_file.wait_for_page_loads()
         self.assertTrue(chat_file.is_on_this_page)
         chat_file.click_back()
+        time.sleep(1)
         FindChatRecordPage().click_back()
+        time.sleep(1)
         GroupChatSetPage().click_back()
+        time.sleep(1)
         GroupChatPage().click_back()
+        time.sleep(1)
         MessagePage().clear_message_record()
 
     @staticmethod
@@ -2079,10 +2096,13 @@ class MsgGroupChatTest(TestCase):
         MessagePage().set_network_status(0)
         file = ChatSelectLocalFilePage()
         file.select_file('.xlsx')
+        time.sleep(3)
         self.assertTrue(file.check_element_is_exist('文件显示大小'))
         self.assertTrue(file.check_element_is_enable('发送'))
         file.click_back()
+        time.sleep(1)
         file.click_back()
+        time.sleep(1)
         ChatSelectFilePage().click_back()
 
     @staticmethod
@@ -2105,8 +2125,10 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0207(self):
         """网络异常时发送文件"""
+        Preconditions.make_no_message_send_failed_status()
+        Preconditions.enter_group_chat_page()
         MessagePage().set_network_status(0)
-        self.public_enter_file_select_page()
+        self.public_enter_file_select_page(n=0)
         file = ChatSelectLocalFilePage()
         file.select_file('.xlsx')
         self.assertTrue(file.check_element_is_exist('文件显示大小'))
@@ -2135,8 +2157,7 @@ class MsgGroupChatTest(TestCase):
         """验证在群聊会话窗口点击文件发送失败的重发按钮是否有弹窗询问"""
         self.make_sure_have_file_send_fail()
         group_chat_page = GroupChatPage()
-        group_chat_page.mobile.turn_on_wifi()
-        group_chat_page.mobile.turn_on_mobile_data()
+        group_chat_page.set_network_status(6)
         group_chat_page.click_msg_send_failed_button()
         bol = group_chat_page.wait_until(condition=lambda x: group_chat_page.is_text_present('是否重发该条信息'))
         self.assertTrue(bol)
@@ -2163,11 +2184,9 @@ class MsgGroupChatTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0227(self):
         """验证在群聊会话窗口点击发送失败的文件是否可以正常打开"""
-        chat_more = ChatMorePage()
-        chat_more.mobile.turn_off_wifi()
-        chat_more.mobile.turn_off_mobile_data()
-        chat_more.close_more()
-        chat_more.click_file1()
+        group_chat_page = GroupChatPage()
+        group_chat_page.set_network_status(0)
+        group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
         select_file_type.click_local_file()
@@ -2407,7 +2426,7 @@ class MsgGroupChatTest(TestCase):
         MePage().click_collection()
         collection_page = MeCollectionPage()
         collection_page.wait_for_page_load()
-        collection_page.element_contain_text("我", Preconditions.get_group_chat_name())
+        # collection_page.element_contain_text("我", Preconditions.get_group_chat_name())
         MePage().click_back()
         MePage().open_message_page()
 
@@ -2679,7 +2698,7 @@ class MsgGroupChatTest(TestCase):
         MePage().click_collection()
         collection_page = MeCollectionPage()
         collection_page.wait_for_page_load()
-        collection_page.element_contain_text("我", Preconditions.get_group_chat_name())
+        # collection_page.element_contain_text("我", Preconditions.get_group_chat_name())
         # 返回到消息页面
         MePage().click_back()
         MePage().open_message_page()
@@ -2758,7 +2777,7 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0295(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的不可预览文件-右上角的更多按钮-转发时是否正常"""
         MessagePage().set_network_status(0)
-        self.public_find_group_chat_open_file(file_type='582.log')
+        self.public_find_group_chat_open_file(file_type='.log')
         group_chat_page = GroupChatPage()
         self.assertTrue(group_chat_page.is_exist_more_button())
         # 返回到聊天页面
@@ -2797,7 +2816,7 @@ class MsgGroupChatTest(TestCase):
         MePage().click_collection()
         collection_page = MeCollectionPage()
         collection_page.wait_for_page_load()
-        collection_page.element_contain_text("我", Preconditions.get_group_chat_name())
+        # collection_page.element_contain_text("我", Preconditions.get_group_chat_name())
         MePage().click_back()
         MePage().open_message_page()
 
