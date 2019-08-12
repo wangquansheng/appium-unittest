@@ -775,7 +775,6 @@ class WorkbenchPreconditions(LoginPreconditions):
     @staticmethod
     def create_he_contacts2(contacts):
         """手动输入联系人创建为团队联系人-手动输入添加"""
-
         mp = MessagePage()
         mp.wait_for_page_load()
         mp.open_workbench_page()
@@ -793,17 +792,20 @@ class WorkbenchPreconditions(LoginPreconditions):
             if n > 20:
                 break
         time.sleep(3)
+        osp.click_specify_element_by_name2("添加联系人")
+        time.sleep(2)
         for name, number in contacts:
-            if not osp.is_exist_specify_element_by_name(name):
-                osp.click_specify_element_by_name("添加联系人")
-                time.sleep(4)
-                osp.click_specify_element_by_name("手动输入添加")
-                osp.input_contacts_name(name)
-                osp.input_contacts_number(number)
-                osp.click_confirm()
-                time.sleep(2)
-                osp.click_back()
-        osp.click_back()
+            osp.click_specify_element_by_name2("手动输入添加")
+            osp.input_contacts_name(name)
+            osp.input_contacts_number(number)
+            osp.click_specify_element_by_name2("完成")
+            time.sleep(3)
+            if osp.is_text_present("手动输入添加"):
+                continue
+            else:
+                osp.click_back_by_android()
+        # 关闭
+        osp.click_close()
         wbp.wait_for_workbench_page_load()
         mp.open_message_page()
         mp.wait_for_page_load()

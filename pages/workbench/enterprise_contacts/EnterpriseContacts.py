@@ -32,7 +32,7 @@ class EnterpriseContactsPage(BasePage):
         '团队管理': (MobileBy.ID, 'com.chinasofti.rcs:id/quit_confirm_tv'),
         '解散团队': (MobileBy.ID, 'com.chinasofti.rcs:id/quit_cancel_tv'),
         '标题栏三点': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View[1]/android.view.View[1]/android.view.View[3]'),
-
+        '标题栏三点2': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_more'),
     }
 
     @TestLogger.log()
@@ -313,3 +313,8 @@ class EnterpriseContactsPage(BasePage):
     def click_three_points_icon(self):
         """点击标题栏右侧三点"""
         self.click_element(self.__class__.__locators["标题栏三点"])
+
+    @TestLogger.log()
+    def click_three_points_icon2(self):
+        """点击标题栏右侧三点2"""
+        self.click_element(self.__class__.__locators["标题栏三点2"])
