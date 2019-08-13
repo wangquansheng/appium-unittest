@@ -1156,7 +1156,7 @@ class SuperMeetingTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    @tags('ALL', 'CMCC1', 'workbench1', 'CJHY')
     def test_CJHY_0023(self):
         """用户在企业部门下"""
         # 1.点击“+”添加联系人
@@ -1260,7 +1260,7 @@ class SuperMeetingTest(TestCase):
         else:
             print("用户一开始已经在企业部门下，请删除部门让用户一开始不在企业部门下")
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    @tags('ALL', 'CMCC1', 'workbench1', 'CJHY')
     def test_CJHY_0024(self):
         """用户在企业部门下又在企业子一层级中，直接进入企业层级"""
         # 1.点击“+”添加联系人
@@ -1375,7 +1375,7 @@ class SuperMeetingTest(TestCase):
         else:
             print("用户一开始已经在企业部门下，请删除部门让用户一开始不在企业部门下")
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    @tags('ALL', 'CMCC1', 'workbench1', 'CJHY')
     def test_CJHY_0025(self):
         """用户同时在两个部门下"""
         # 1.点击“+”添加联系人

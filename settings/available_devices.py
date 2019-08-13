@@ -352,8 +352,8 @@ DEVICES_CONFIG_YYX = {
         "DEFAULT_CAPABILITY": {
             "platformName": "Android",
             "platformVersion": "9.0.0",
-            "deviceName": "CLB7N18904002073",
-            "udid": "CLB7N18904002073",
+            "deviceName": "7XB4C18907018917",
+            "udid": "7XB4C18907018917",
             "automationName": "UiAutomator2",
             "newCommandTimeout": 600,
             "appPackage": "com.chinasofti.rcs",
@@ -362,7 +362,7 @@ DEVICES_CONFIG_YYX = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '15875537272'
+                'CARD_NUMBER': '19874361585'
             },
         ]
     },
