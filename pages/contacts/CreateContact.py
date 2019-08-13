@@ -19,25 +19,30 @@ class CreateContactPage(Keyboard, BasePage):
         '姓名': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_name"]//android.widget.TextView'),
         '输入姓名': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_name"]//android.widget.EditText'),
 
-        '电话': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_nu mber"]//android.widget.TextView'),
+        '电话': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_number"]//android.widget.TextView'),
         '输入号码': (MobileBy.XPATH,'//*[@resource-id="com.chinasofti.rcs:id/item_number"]//android.widget.EditText'),
         '电话号码': (MobileBy.XPATH, '//*[@text="电话"]/../android.widget.EditText[@resource-id="com.chinasofti.rcs:id/et"]'),
 
         '公司': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_company"]//android.widget.TextView'),
-        '输入公司': (MobileBy.XPATH,'//*[@resource-id="com.chinasofti.rcs:id/item_company"]//android.widget.EditText'),
+        '输入公司': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_company"]//android.widget.EditText'),
 
-        '职位':(MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_job"]//android.widget.TextView'),
+        '职位': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_job"]//android.widget.TextView'),
         '输入职位': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_job"]//android.widget.EditText'),
 
         '邮箱': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_email"]//android.widget.TextView'),
         '输入邮箱': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_email"]//android.widget.EditText'),
         '允许': (MobileBy.XPATH, '//*[@text="允许"]'),
+
+        '输入公司2': (MobileBy.XPATH, "//*[contains(@text, '输入公司')]"),
+        '输入职位2': (MobileBy.XPATH, "//*[contains(@text, '输入职位')]"),
+        '输入邮箱2': (MobileBy.XPATH, "//*[contains(@text, '输入邮箱')]"),
     }
 
     @TestLogger.log('点击保存')
     def click_save(self):
         """点击保存"""
         self.click_element(self.__locators['保存'])
+
     @TestLogger.log("点击允许权限")
     def click_allow_button(self):
         time.sleep(2)
@@ -50,69 +55,85 @@ class CreateContactPage(Keyboard, BasePage):
         if self._is_enabled(self.__locators['保存']):
             raise AssertionError("ensure_button_should_not_be_clickable")
 
-    @TestLogger.log('点击输入姓名')
+    @TestLogger.log('')
     def click_input_name(self):
-        """点击输入姓名"""
         self.click_element(self.__locators['输入姓名'])
 
-    @TestLogger.log('输入姓名')
+    @TestLogger.log('')
     def input_name(self, name):
-        """输入姓名"""
         self.input_text(self.__locators['输入姓名'], name)
 
-    @TestLogger.log('点击输入号码')
+    @TestLogger.log('')
     def click_input_number(self):
-        """点击输入号码"""
         self.click_element(self.__locators['输入号码'])
 
-    @TestLogger.log('输入号码')
+    @TestLogger.log('')
     def input_number(self, name):
-        """输入号码"""
         self.input_text(self.__locators['输入号码'], name)
 
-    @TestLogger.log('点击输入公司')
+    @TestLogger.log('')
     def get_contant_number(self):
-        """获取联系人手机号码"""
         return self.get_element(self.__locators['输入号码'])
 
-    @TestLogger.log('点击输入公司')
+    @TestLogger.log('')
     def click_input_company(self):
-        """点击输入公司"""
         self.click_element(self.__locators['输入公司'])
 
-    @TestLogger.log('输入公司')
+    @TestLogger.log('')
     def input_company(self, name):
         self.input_text(self.__locators['输入公司'], name)
 
-    @TestLogger.log('点击输入公司')
+    @TestLogger.log('')
     def click_input_company(self, name):
         self.click_element(self.__locators['输入公司'], name)
 
-    @TestLogger.log('输入公司号码')
+    @TestLogger.log('')
     def input_company(self, name):
         self.input_text(self.__locators['输入公司'], name)
 
-    @TestLogger.log('点击输入职位')
+    @TestLogger.log('')
     def click_input_position(self, name):
         self.click_element(self.__locators['输入职位'], name)
 
-
-    @TestLogger.log('输入职位')
+    @TestLogger.log('')
     def input_position(self, name):
         self.input_text(self.__locators['输入职位'], name)
 
-    @TestLogger.log('点击输入邮箱')
+    @TestLogger.log('')
     def click_input_email_address(self, name):
         self.click_element(self.__locators['输入邮箱'], name)
 
-    @TestLogger.log('输入公司号码')
+    @TestLogger.log('')
     def get_text_of_box(self, locator='输入公司'):
         return self.get_text(self.__locators[locator])
-
 
     @TestLogger.log('输入邮箱')
     def input_email_address(self, name):
         self.input_text(self.__locators['输入邮箱'], name)
+
+    @TestLogger.log('')
+    def click_company2(self):
+        self.click_element(self.__locators['输入公司2'])
+
+    @TestLogger.log('')
+    def input_company2(self, name):
+        self.input_text(self.__locators['输入公司2'], name)
+
+    @TestLogger.log('')
+    def click_position2(self):
+        self.click_element(self.__locators['输入职位2'])
+
+    @TestLogger.log('')
+    def input_position2(self, name):
+        self.input_text(self.__locators['输入职位2'], name)
+
+    @TestLogger.log('')
+    def click_email_address2(self):
+        self.click_element(self.__locators['输入邮箱2'])
+
+    @TestLogger.log('')
+    def input_email_address2(self, name):
+        self.input_text(self.__locators['输入邮箱2'], name)
 
     @TestLogger.log('点击保存')
     def save_contact(self):
@@ -122,7 +143,6 @@ class CreateContactPage(Keyboard, BasePage):
     def is_save_icon_is_clickable(self):
         """保存按钮是否可点击"""
         self._is_clickable(self.__locators['保存'])
-
 
     @TestLogger.log('点击返回')
     def click_back(self):

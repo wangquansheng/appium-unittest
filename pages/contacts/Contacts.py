@@ -108,6 +108,7 @@ class ContactsPage(FooterPage):
         '搜索结果': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
         '选择团队设置按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/team_setting'),
         '选择团队确定按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_more'),
+        '索引字母容器': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_index_bar_container'),
     }
 
     @TestLogger.log()
@@ -460,6 +461,18 @@ class ContactsPage(FooterPage):
                 phones.append(el.text)
         else:
             raise AssertionError("m005_contacts is empty!")
+        return phones
+
+    @TestLogger.log("获取电话号码2")
+    def get_phone_number2(self):
+        """获取电话号码2"""
+        els = self.get_elements((MobileBy.ID, 'com.chinasofti.rcs:id/tv_number'))
+        phones = []
+        if els:
+            for el in els:
+                phones.append(el.text)
+        else:
+            raise AssertionError("m005_contacts get_phone_number is empty!")
         return phones
 
     def page_up(self):

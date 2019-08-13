@@ -27,6 +27,7 @@ class ContactDetailsPage(BasePage):
         '好久不见~打个招呼吧': (MobileBy.ID, 'com.chinasofti.rcs:id/recent_contact_hint'),
         '名片号码': (MobileBy.ID, 'com.chinasofti.rcs:id/phone'),
         '名片首字母': (MobileBy.ID, 'com.chinasofti.rcs:id/profile_photo_tv'),
+        '名片首字母2': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_profile_photo_tv'),
         '联系人头像图片': (MobileBy.ID, 'com.chinasofti.rcs:id/recyclesafeimageview_profile_photo'),
         '头像': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_profile_photo_tv'),
         '消息': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_normal_message'),
@@ -394,6 +395,11 @@ class ContactDetailsPage(BasePage):
     def page_should_contain_element_first_letter(self):
         """页面应该包含首字母"""
         return self.page_should_contain_element(self.__class__.__locators['名片首字母'])
+
+    @TestLogger.log()
+    def page_should_contain_element_first_letter2(self):
+        """页面应该包含首字母2"""
+        return self.page_should_contain_element(self.__class__.__locators['名片首字母2'])
 
     @TestLogger.log()
     def page_contain_contacts_avatar(self):
