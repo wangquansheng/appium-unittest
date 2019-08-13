@@ -160,7 +160,7 @@ class Preconditions(LoginPreconditions):
         for name in names:
             if not osp.is_exist_specify_element_by_name(name):
                 osp.click_specify_element_by_name("添加联系人")
-                time.sleep(4)
+                time.sleep(3)
                 osp.click_specify_element_by_name("从手机通讯录添加")
                 slc = SelectLocalContactsPage()
                 # 等待选择联系人页面加载
@@ -271,7 +271,6 @@ class GroupcontactsSelectPage(TestCase):
         time.sleep(2)
         SelectContactsPage().click_group_contact()
         time.sleep(3)
-
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0732(self):
@@ -1833,6 +1832,22 @@ class MygroupdetailPage(TestCase):
     """
     模块:通讯录-我的团队-个人详情页(profile页)
     """
+    @classmethod
+    def setUpClass(cls):
+        Preconditions.select_mobile('Android-移动')
+        # 导入团队联系人
+        fail_time2 = 0
+        flag2 = False
+        while fail_time2 < 3:
+            try:
+                Preconditions.make_already_in_message_page()
+                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4", '香港大佬', '测试号码']
+                Preconditions.create_he_contacts(contact_names)
+            except:
+                fail_time2 += 1
+            if flag2:
+                break
+
     def default_setUp(self):
         """确保每个用例执行前在团队联系人profile页"""
         Preconditions.connect_mobile('Android-移动')
@@ -1842,13 +1857,13 @@ class MygroupdetailPage(TestCase):
         ContactsPage().select_group_by_name('ateam7272')
         time.sleep(2)
 
-    @tags('ALL', 'CMCC', 'contact','my_group')
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0148(self):
         """进入我的团队用户的Profile页-消息"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_contacts_by_name('测试号码')
         time.sleep(2)
-        contact_detail=ContactDetailsPage()
+        contact_detail = ContactDetailsPage()
         contact_detail.click_message_icon()
         time.sleep(2)
         chat=ChatWindowPage()
@@ -1858,7 +1873,7 @@ class MygroupdetailPage(TestCase):
             chat.click_sure_icon()
         SingleChatPage().is_on_this_page()
 
-    @tags('ALL', 'CMCC', 'contact','my_group')
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0150(self):
         """进入我的团队用户的Profile页-电话"""
         group_contact = EnterpriseContactsPage()
@@ -1871,7 +1886,7 @@ class MygroupdetailPage(TestCase):
         self.assertTrue(contact_detail.is_element_present(locator='挂断电话'))
         contact_detail.cancel_call()
 
-    @tags('ALL', 'CMCC', 'contact','my_group')
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0151(self):
         """进入我的团队用户的Profile页-语音通话"""
         group_contact = EnterpriseContactsPage()
@@ -1887,16 +1902,7 @@ class MygroupdetailPage(TestCase):
         self.assertTrue(contact_detail.is_element_present(locator='结束通话'))
         contact_detail.click_end_call()
 
-    def setUp_test_contacts_quxinli_0155(self):
-        Preconditions.connect_mobile('Android-移动')
-        current_mobile().hide_keyboard_if_display()
-        Preconditions.reset_and_relaunch_app()
-        Preconditions.make_already_in_message_page()
-        MessagePage().click_contacts()
-        ContactsPage().select_group_by_name('ateam7272')
-        time.sleep(2)
-
-    @tags('ALL', 'CMCC', 'contact','my_group')
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0152(self):
         """进入我的团队用户的Profile页-视频通话"""
         group_contact = EnterpriseContactsPage()
@@ -1911,7 +1917,7 @@ class MygroupdetailPage(TestCase):
         self.assertTrue(contact_detail.is_element_present(locator='挂断视频通话'))
         contact_detail.end_video_call()
 
-    @tags('ALL', 'CMCC-接口不稳定', 'contact','my_group')
+    @tags('ALL', 'CMCC-接口不稳定', 'contact', 'my_group')
     def test_contacts_quxinli_0153(self):
         """进入我的团队用户的非Profile页-语音通话"""
         group_contact = EnterpriseContactsPage()
@@ -1929,14 +1935,14 @@ class MygroupdetailPage(TestCase):
         # self.assertTrue(contact_detail.is_element_present(locator='结束通话'))
         # contact_detail.click_end_call()
 
-    @tags('ALL', 'CMCC-接口不稳定', 'contact','my_group')
+    @tags('ALL', 'CMCC-接口不稳定', 'contact', 'my_group')
     def test_contacts_quxinli_0154(self):
         """进入我的团队用户的非Profile页-视频通话"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_contacts_by_name('大佬2')
         time.sleep(2)
         contact_detail=ContactDetailsPage()
-        #点击视频通话
+        # 点击视频通话
         contact_detail.click_video_call_icon()
         contact_detail.click_permission_box()
         time.sleep(2)
@@ -1946,7 +1952,16 @@ class MygroupdetailPage(TestCase):
         # self.assertTrue(contact_detail.is_element_present(locator='挂断视频通话'))
         # contact_detail.end_video_call()
 
-    @tags('ALL', 'CMCC-reset', 'contact','my_group')
+    def setUp_test_contacts_quxinli_0155(self):
+        Preconditions.connect_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.reset_and_relaunch_app()
+        Preconditions.make_already_in_message_page()
+        MessagePage().click_contacts()
+        ContactsPage().select_group_by_name('ateam7272')
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC-reset', 'contact', 'my_group')
     def test_contacts_quxinli_0155(self):
         """本网登录用户进入我的团队用户的Profile页-首次拨打飞信电话"""
         group_contact = EnterpriseContactsPage()
@@ -1968,7 +1983,7 @@ class MygroupdetailPage(TestCase):
         self.assertTrue(contact_detail.is_element_present(locator='飞信电话-挂断电话'))
         contact_detail.cancel_hefeixin_call()
 
-    @tags('ALL', 'CMCC', 'contact','my_group')
+    @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0156(self):
         """本网登录用户进入我的团队用户的Profile页-非首次拨打飞信电话"""
         group_contact = EnterpriseContactsPage()
@@ -1976,7 +1991,7 @@ class MygroupdetailPage(TestCase):
         time.sleep(2)
         contact_detail=ContactDetailsPage()
         contact_detail.page_should_contain_text('飞信电话')
-        #点击飞信电话
+        # 点击飞信电话
         contact_detail.click_hefeixin_call_menu()
         time.sleep(2)
         if contact_detail.is_text_present('我知道了'):
@@ -1984,7 +1999,7 @@ class MygroupdetailPage(TestCase):
         contact_detail.click_permission_box()
         if contact_detail.is_text_present('暂不开启'):
             contact_detail.click_text('暂不开启')
-        #检验是否有12306回拨
+        # 检验是否有12306回拨
         time.sleep(2)
         self.assertTrue(contact_detail.is_element_present(locator='飞信电话-挂断电话'))
         contact_detail.cancel_hefeixin_call()
@@ -2026,6 +2041,7 @@ class MygroupdetailPage(TestCase):
         contact_detail.page_should_contain_text('创建成功')
         contact_detail.is_on_this_page()
 
+    @staticmethod
     def tearDown_test_contacts_quxinli_0194(self):
         Preconditions.make_already_in_message_page()
         MessagePage().click_contacts()
@@ -2047,11 +2063,11 @@ class MygroupdetailPage(TestCase):
         group_contact = EnterpriseContactsPage()
         group_contact.click_contacts_by_name('测试号码')
         time.sleep(2)
-        contact_detail=ContactDetailsPage()
-        #点击分享名片
+        contact_detail = ContactDetailsPage()
+        # 点击分享名片
         contact_detail.click_share_business_card()
         select_contact=SelectContactsPage()
-        #验证页面元素
+        # 验证页面元素
         title=select_contact.get_element_text(locator='选择联系人')
         self.assertEqual(title,'选择联系人')
         input=select_contact.get_element_text(locator='搜索或输入手机号')
@@ -2109,8 +2125,8 @@ class MygroupdetailPage(TestCase):
         select_contact = SelectContactsPage()
         select_contact.click_he_contacts()
         time.sleep(1)
-        select_he=SelectHeContactsPage()
-        select_he.select_one_team_by_name('ateam7272')
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name2("ateam7272")
         time.sleep(1)
         SelectHeContactsDetailPage().selecting_he_contacts_by_name('陈丹丹')
         time.sleep(1)
@@ -2132,8 +2148,8 @@ class MygroupdetailPage(TestCase):
         select_contact = SelectContactsPage()
         select_contact.click_he_contacts()
         time.sleep(1)
-        select_he = SelectHeContactsPage()
-        select_he.select_one_team_by_name('ateam7272')
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name2("ateam7272")
         time.sleep(1)
         SelectHeContactsDetailPage().selecting_he_contacts_by_name('大佬1')
         time.sleep(1)
@@ -2155,8 +2171,10 @@ class MygroupdetailPage(TestCase):
         select_contact = SelectContactsPage()
         select_contact.click_he_contacts()
         time.sleep(1)
-        select_he = SelectHeContactsPage()
-        select_he.select_one_team_by_name('bm0')
+        # select_he = SelectHeContactsPage()
+        # select_he.select_one_team_by_name('bm0')
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name2("bm0")
         time.sleep(1)
         SelectHeContactsDetailPage().selecting_he_contacts_by_name('b测算')
         time.sleep(1)
@@ -2177,9 +2195,10 @@ class MygroupdetailPage(TestCase):
         select_contact.click_he_contacts()
         time.sleep(1)
         select_he=SelectHeContactsPage()
-        names=select_he.get_all_group_name()
-        self.assertTrue(len(names) > 0 )
-        select_he.select_one_team_by_name('ateam7272')
+        names = select_he.get_all_group_name()
+        self.assertTrue(len(names) > 0)
+        sog = SelectOneGroupPage()
+        sog.selecting_one_group_by_name2("ateam7272")
         time.sleep(1)
         SelectHeContactsDetailPage().selecting_he_contacts_by_name('陈丹丹')
         time.sleep(1)
@@ -2196,8 +2215,8 @@ class MygroupdetailPage(TestCase):
         group_contact.input_search_message("138")
         time.sleep(2)
         group_contact.hide_keyboard()
-        exists = group_contact.is_exists_contacts_search_result2()
-        self.assertEquals(exists, False)
+        exists = group_contact.is_exists_contacts_search_result3()
+        self.assertEquals(exists, True)
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_msg_huangmianhua_0106(self):
@@ -2208,7 +2227,7 @@ class MygroupdetailPage(TestCase):
         group_contact.input_search_message("912")
         time.sleep(2)
         group_contact.hide_keyboard()
-        exists = group_contact.is_exists_contacts_search_result2()
+        exists = group_contact.is_exists_contacts_search_result3()
         self.assertEquals(exists, False)
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
@@ -2220,7 +2239,7 @@ class MygroupdetailPage(TestCase):
         group_contact.input_search_message("13888888888")
         time.sleep(2)
         group_contact.hide_keyboard()
-        exists = group_contact.is_exists_contacts_search_result2()
+        exists = group_contact.is_exists_contacts_search_result3()
         self.assertEquals(exists, False)
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
@@ -2232,8 +2251,8 @@ class MygroupdetailPage(TestCase):
         group_contact.input_search_message("群")
         time.sleep(2)
         group_contact.hide_keyboard()
-        exists = group_contact.is_exists_contacts_search_result2()
-        self.assertEquals(exists, True)
+        exists = group_contact.is_exists_contacts_search_result3()
+        self.assertEquals(exists, False)
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_msg_huangmianhua_0109(self):
@@ -2244,5 +2263,6 @@ class MygroupdetailPage(TestCase):
         group_contact.input_search_message("a")
         time.sleep(2)
         group_contact.hide_keyboard()
-        exists = group_contact.is_exists_contacts_search_result2()
+        exists = group_contact.is_exists_contacts_search_result3()
         self.assertEquals(exists, True)
+
