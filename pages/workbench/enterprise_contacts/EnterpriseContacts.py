@@ -28,6 +28,7 @@ class EnterpriseContactsPage(BasePage):
         '搜索输入框': (MobileBy.ID, 'com.chinasofti.rcs:id/et_search_view'),
         '搜索结果': (MobileBy.ID, 'com.chinasofti.rcs:id/lv_search_enterprise_activity'),
         '搜索结果2': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v7.widget.RecyclerView/android.widget.RelativeLayout[1]'),
+        '搜索结果3': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
         '更多': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_more'),
         '团队管理': (MobileBy.ID, 'com.chinasofti.rcs:id/quit_confirm_tv'),
         '解散团队': (MobileBy.ID, 'com.chinasofti.rcs:id/quit_cancel_tv'),
@@ -208,6 +209,11 @@ class EnterpriseContactsPage(BasePage):
     def is_exists_contacts_search_result2(self):
         """是否存在搜索结果2"""
         return self._is_element_present(self.__class__.__locators["搜索结果2"])
+
+    @TestLogger.log()
+    def is_exists_contacts_search_result3(self):
+        """是否存在搜索结果3"""
+        return self._is_element_present(self.__class__.__locators["搜索结果3"])
 
 
     @TestLogger.log()
