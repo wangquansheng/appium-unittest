@@ -25,7 +25,7 @@ class localContactPage(BasePage):
         'com.chinasofti.rcs:id/action_add': (MobileBy.ID, 'com.chinasofti.rcs:id/action_add'),
         'com.chinasofti.rcs:id/rv_conv_list': (MobileBy.ID, 'com.chinasofti.rcs:id/rv_conv_list'),
         '搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/et_search'),
-        '搜索2':(MobileBy.ID,'com.chinasofti.rcs:id/edit_query01'),
+        '搜索2': (MobileBy.ID, 'com.chinasofti.rcs:id/edit_query01'),
         'com.chinasofti.rcs:id/rl_conv_list_item': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_conv_list_item'),
         'com.chinasofti.rcs:id/svd_head': (MobileBy.ID, 'com.chinasofti.rcs:id/svd_head'),
         'com.chinasofti.rcs:id/ll_top': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_top'),
@@ -81,7 +81,6 @@ class localContactPage(BasePage):
     def click_new_message(self,text='aaa'):
         self.click_element(self.__locators[text],default_timeout=30)
 
-
     @TestLogger.log("点击某控件")
     def click_element_button(self,text='删除'):
         time.sleep(1)
@@ -99,21 +98,19 @@ class localContactPage(BasePage):
     def get_input_box_text(self):
         return self.get_text(self.__class__.__locators['搜索2'])
 
-
-    TestLogger.log("开启或关闭")
+    @TestLogger.log("开启或关闭")
     def swich_sim_contact(self,flag=True):
         time.sleep(1)
         bool=self.is_selected(self.__locators["开关按钮"])
         if not bool and flag:
-            #打开
+            # 打开
             self.click_element(self.__locators["开关按钮"])
         elif bool and  not flag:
-            #关闭
+            # 关闭
             self.click_element(self.__locators["开关按钮"])
         else:
             print(bool)
             print("找不到开关")
-
 
     @TestLogger.log("删除按钮")
     def click_delete_button(self):
@@ -122,7 +119,7 @@ class localContactPage(BasePage):
         time.sleep(1)
 
     @TestLogger.log("获取元素个数")
-    def get_element_number(self,text="联系人头像"):
+    def get_element_number(self, text="联系人头像"):
         return  self.get_elements(self.__locators[text])
 
     @TestLogger.log("获取所有联系人名")
@@ -150,18 +147,17 @@ class localContactPage(BasePage):
             contacts_name.remove("本机")
         return contacts_name
 
-
-    TestLogger.log("点击搜索框")
+    @TestLogger.log("点击搜索框")
     def click_search_box(self):
         time.sleep(1)
         self.click_element(self.__locators['搜索'])
 
-    TestLogger.log("输入搜索内容")
-    def input_search_text(self,text='676560'):
+    @TestLogger.log("输入搜索内容")
+    def input_search_text(self, text='676560'):
         time.sleep(1)
-        self.input_text(self.__locators['搜索2'],text)
+        self.input_text(self.__locators['搜索2'], text)
 
-    TestLogger.log("查看控件是否存在")
+    @TestLogger.log("查看控件是否存在")
     def page_contain_element(self,text='联系人头像'):
         time.sleep(1)
         self.page_should_contain_element(self.__locators[text])
