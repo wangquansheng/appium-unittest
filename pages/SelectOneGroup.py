@@ -194,6 +194,7 @@ class SelectOneGroupPage(BasePage):
         max_try = 20
         current = 0
         while current < max_try:
+            time.sleep(1)
             if self._is_element_present(locator):
                 break
             current += 1

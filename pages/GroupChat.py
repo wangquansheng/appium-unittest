@@ -96,11 +96,12 @@ class GroupChatPage(BaseChatPage):
                   '富媒体拍照': ('id', 'com.chinasofti.rcs:id/ib_take_photo'),
                   '语音按钮': ('id', 'com.chinasofti.rcs:id/ib_audio'),
                   '加入群聊': (MobileBy.ID, 'com.chinasofti.rcs:id/group_qr_apply_enter'),
-                  '添加群成员加号': (MobileBy.XPATH, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.RelativeLayout[2]/android.view.View"),
+                  '添加群成员加号': (MobileBy.XPATH,
+                              "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.RelativeLayout[2]/android.view.View"),
                   '文件': ('id', 'com.chinasofti.rcs:id/ib_file'),
                   '超过20M图片': ('id', 'com.chinasofti.rcs:id/layout_loading'),
                   '放大的图片': (
-                  MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/vp_preview"]/android.widget.ImageView'),
+                      MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/vp_preview"]/android.widget.ImageView'),
                   '关闭视频': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_close'),
                   '视频播放': (MobileBy.ID, 'com.chinasofti.rcs:id/video_play'),
                   '群聊拍照': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_take_photo'),
@@ -138,6 +139,18 @@ class GroupChatPage(BaseChatPage):
                   '信息体': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_message'),
                   '切换': (MobileBy.ID, 'android:id/button1'),
                   '不切换': (MobileBy.ID, 'android:id/button2'),
+                  # 审批页面
+                  # '请假': (MobileBy.ID, 'android:id/button2'),
+                  # '加班': (MobileBy.ID, 'android:id/button2'),
+                  # '外出': (MobileBy.ID, 'android:id/button2'),
+                  # '出差': (MobileBy.ID, 'android:id/button2'),
+                  # '报销': (MobileBy.ID, 'android:id/button2'),
+                  # '备用金': (MobileBy.ID, 'android:id/button2'),
+                  # '用车': (MobileBy.ID, 'android:id/button2'),
+                  # '物品领用': (MobileBy.ID, 'android:id/button2'),
+                  # '采购': (MobileBy.ID, 'android:id/button2'),
+                  # '用章': (MobileBy.ID, 'android:id/button2'),
+                  # '通用审批': (MobileBy.ID, 'android:id/button2'),
                   }
 
     @TestLogger.log()
@@ -336,8 +349,6 @@ class GroupChatPage(BaseChatPage):
         """点击返回按钮(审批页面)"""
         self.click_element(self.__class__.__locators["关闭返回"])
 
-
-
     @TestLogger.log()
     def is_exist_undisturb(self):
         """是否存在消息免打扰标志"""
@@ -347,6 +358,7 @@ class GroupChatPage(BaseChatPage):
     def click_more(self):
         """点击更多富媒体按钮"""
         self.click_element(self.__class__.__locators["更多"], default_timeout=8)
+        time.sleep(1)
 
     @TestLogger.log()
     def press_file_to_do(self, file, text):
@@ -457,13 +469,12 @@ class GroupChatPage(BaseChatPage):
 
         if els:
             for el in els:
-                print("------------"+el.text)
+                print("------------" + el.text)
                 if el.text == text:
                     print("------------" + el.text)
                     tmpel = el
                     break
         self.press(tmpel)
-
 
     @TestLogger.log()
     def click_message(self, text):
@@ -857,10 +868,10 @@ class GroupChatPage(BaseChatPage):
         return els[number].get_attribute("text")
 
     @TestLogger.log()
-    def press_element_(self, text,times):
+    def press_element_(self, text, times):
         """长按元素"""
-        el=self.get_element(self.__class__.__locators[text])
-        self.press(el,times)
+        el = self.get_element(self.__class__.__locators[text])
+        self.press(el, times)
 
     @TestLogger.log()
     def wait_for_video_load(self, timeout=60, auto_accept_alerts=True):
@@ -1103,4 +1114,3 @@ class GroupChatPage(BaseChatPage):
                 message
             )
         return self
-

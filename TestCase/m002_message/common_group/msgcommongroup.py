@@ -680,7 +680,8 @@ class MsgCommonGroupTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        warnings.simplefilter('ignore', ResourceWarning)
+
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""

@@ -73,17 +73,17 @@ class MessagePage(FooterPage):
         "版本更新": (MobileBy.ID, 'com.chinasofti.rcs:id/dialog_title'),
         "以后再说": (MobileBy.ID, "com.chinasofti.rcs:id/btn_cancel"),
         '立即更新': (MobileBy.ID, "com.chinasofti.rcs:id/btn_ok"),
-        '创建群聊':(MobileBy.ID,"com.chinasofti.rcs:id/creategroup"),
-        "选择手机联系人":(MobileBy.XPATH,"//*[contains(@text,'选择手机联系人')]"),
-        "确定2":(MobileBy.ID,"com.chinasofti.rcs:id/tv_sure"),
-        "群聊名":(MobileBy.ID,"com.chinasofti.rcs:id/et_group_name"),
+        '创建群聊': (MobileBy.ID, "com.chinasofti.rcs:id/creategroup"),
+        "选择手机联系人": (MobileBy.XPATH, "//*[contains(@text,'选择手机联系人')]"),
+        "确定2": (MobileBy.ID, "com.chinasofti.rcs:id/tv_sure"),
+        "群聊名": (MobileBy.ID, "com.chinasofti.rcs:id/et_group_name"),
         "有人@我": (MobileBy.XPATH, "//*[contains(@text,'有人@我')]"),
         "草稿": (MobileBy.ID, "com.chinasofti.rcs:id/tv_msg_draft_hint"),
         "手机联系人": (MobileBy.ID, "com.chinasofti.rcs:id/first_item"),
 
-        "欢迎使用群发助手":(MobileBy.XPATH,"//*[contains(@text,'欢迎使用群发助手')]"),
-        "群发助手欢迎页确定":(MobileBy.ID,"com.chinasofti.rcs:id/confirm_btn"),
-        "搜索输入框":(MobileBy.ID, "com.chinasofti.rcs:id/edit_query01"),
+        "欢迎使用群发助手": (MobileBy.XPATH, "//*[contains(@text,'欢迎使用群发助手')]"),
+        "群发助手欢迎页确定": (MobileBy.ID, "com.chinasofti.rcs:id/confirm_btn"),
+        "搜索输入框": (MobileBy.ID, "com.chinasofti.rcs:id/edit_query01"),
         '我的电脑': (MobileBy.XPATH, '//*[@text="我的电脑"]'),
 
         '企业头像': (MobileBy.ID, 'com.chinasofti.rcs:id/svd_head'),
@@ -91,11 +91,11 @@ class MessagePage(FooterPage):
         '企业群名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_conv_name'),
         '企业成员数量': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_member_count'),
         '搜索我的电脑': (MobileBy.ID, 'com.chinasofti.rcs:id/svd_head'),
-		'相册': (MobileBy.ID, 'com.chinasofti.rcs:id/capture_scan_photo'),
-		'全部团队': (MobileBy.ID, 'com.chinasofti.rcs:id/all_team'),
+        '相册': (MobileBy.ID, 'com.chinasofti.rcs:id/capture_scan_photo'),
+        '全部团队': (MobileBy.ID, 'com.chinasofti.rcs:id/all_team'),
         '创建团队': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_group_chat_item_id'),
         '和飞信号': (MobileBy.ID, 'com.chinasofti.rcs:id/card_photo_num'),
-        
+
     }
 
     @TestLogger.log()
@@ -132,7 +132,6 @@ class MessagePage(FooterPage):
         self.click_element(self.__locators["选择手机联系人"])
         time.sleep(1)
 
-
     @TestLogger.log("点击手机联系人")
     def click_phone_contact(self):
         self.click_element(self.__locators["手机联系人"])
@@ -148,8 +147,8 @@ class MessagePage(FooterPage):
         return self.page_should_not_contain_element(self.__locators["群聊名"])
 
     @TestLogger.log("设置群聊名")
-    def set_group_name(self,text='aaa'):
-        self.input_text(self.__locators["群聊名"],text)
+    def set_group_name(self, text='aaa'):
+        self.input_text(self.__locators["群聊名"], text)
         time.sleep(1)
 
     @TestLogger.log("点击确定")
@@ -167,7 +166,6 @@ class MessagePage(FooterPage):
         from unittest import TestCase
         TestCase().assertEqual
         return TestCase().assertEqual(len(self.get_elements((MobileBy.XPATH, '//*[@text ="还有人未进群,再次邀请"]'))), 3)
-
 
     @TestLogger.log('检查顶部搜索框是否显示')
     def assert_search_box_is_display(self, max_wait_time=5):
@@ -262,7 +260,6 @@ class MessagePage(FooterPage):
         """只点击通讯录"""
         self.click_element(self.__locators['通讯录'])
 
-
     @TestLogger.log()
     def assert_group_chat_text_equal_to(self, expect):
         """检查发起群聊菜单文本"""
@@ -323,23 +320,30 @@ class MessagePage(FooterPage):
     @TestLogger.log()
     def search_and_enter(self, point):
         """消息页全局搜索内容并进入"""
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text ="%s"]' % point)
         self.click_search()
         from pages import SearchPage
-        SearchPage().input_search_keyword(point)
+        sp = SearchPage()
+        sp.input_search_keyword(point)
+        time.sleep(1)
+        sp.click_element_c('团队联系人文本')
         time.sleep(2)
-        self.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text ="%s"]' % point))
+        self.find_element_by_swipe(locator)
+        self.click_element(locator)
 
     @TestLogger.log()
     def search_and_enter2(self, point):
         """消息页全局搜索内容并进入"""
-        self.click_search()
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and @text ="%s"]' % point)
         from pages import SearchPage
-        SearchPage().input_search_keyword(point)
+        sp = SearchPage()
+        self.click_search()
+        sp.input_search_keyword(point)
+        time.sleep(1)
+        sp.click_element_c('团队联系人文本')
         time.sleep(2)
-        self.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and @text ="%s"]' % point))
-
+        self.find_element_by_swipe(locator)
+        self.click_element(locator)
 
     @TestLogger.log()
     def search_and_enter_631(self, point):
@@ -361,7 +365,6 @@ class MessagePage(FooterPage):
         #         self.click_element(self.__class__.__locators["以后再说"])
         #         break
         #     mark-=1
-
 
         # locator = (MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/btn_cancel" and @text ="以后再说"]')
         # if self._is_element_present(locator):
@@ -584,7 +587,7 @@ class MessagePage(FooterPage):
         return self.get_element(self.__class__.__locators['置顶群']).text
 
     @TestLogger.log()
-    def click_element_by_text(self,text):
+    def click_element_by_text(self, text):
         """点击指定元素"""
         self.click_element((MobileBy.XPATH, '//*[@text="%s"]' % text))
 
@@ -597,7 +600,6 @@ class MessagePage(FooterPage):
     def is_message_fail_status_present(self):
         """判断某条消息,消息发送失败“！”标致是否存在"""
         return self._is_element_present(self.__locators['消息发送失败感叹号'])
-
 
     @TestLogger.log()
     def press_file_to_do(self, file, text):
@@ -615,7 +617,8 @@ class MessagePage(FooterPage):
     @TestLogger.log()
     def click_msg_by_content(self, text):
         """点击消息"""
-        self.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_content" and @text="%s"]' % text))
+        self.click_element(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_content" and @text="%s"]' % text))
 
     @TestLogger.log('判断该页面是否有元素')
     def page_contain_element(self, locator):
@@ -804,8 +807,6 @@ class MessagePage(FooterPage):
     def is_exist_message_record(self):
         """是否存在消息记录"""
         return self._is_element_present(self.__class__.__locators["消息项"])
-
-
 
     @TestLogger.log()
     def is_exist_message_img(self):
@@ -996,7 +997,8 @@ class MessagePage(FooterPage):
     @TestLogger.log()
     def is_exists_group_by_name(self, name):
         """消息页面是否存在指定群名字会话窗口"""
-        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and contains(@text, "%s")]' % name)
+        locator = (
+        MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and contains(@text, "%s")]' % name)
         return self._is_element_present(locator)
 
     @TestLogger.log('点击全部团队')
@@ -1014,7 +1016,7 @@ class MessagePage(FooterPage):
         """获取和飞信号"""
         el = self.get_element(self.__class__.__locators["和飞信号"])
         return el.text
-		
+
     @TestLogger.log("点击页头-消息")
     def click_tag_messages(self):
         self.click_element(self.__locators["页头-消息"])
@@ -1024,7 +1026,7 @@ class MessagePage(FooterPage):
     def click_me(self):
         """点击我"""
         self.click_element(self.__class__.__locators["我"])
-	
+
     @TestLogger.log()
     def click_me_icon(self):
         """点击我"""
@@ -1045,4 +1047,3 @@ class MessagePage(FooterPage):
         locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/album_picture"]')
         aphone_all = self.get_elements(locator)
         aphone_all[0].click()
-

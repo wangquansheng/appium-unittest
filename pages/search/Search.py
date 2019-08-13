@@ -36,7 +36,9 @@ class SearchPage(SearchBar, Keyboard, BasePage):
         '群聊名字': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_conv_name'),
         '消息页面联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_conv_name'),
         '群聊历史记录数量': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_content'),
-        'android:id/statusBarBackground': (MobileBy.ID, 'android:id/statusBarBackground')
+        'android:id/statusBarBackground': (MobileBy.ID, 'android:id/statusBarBackground'),
+        '团队联系人文本': (
+            MobileBy.XPATH, "//android.widget.TextView[@resource-id='com.chinasofti.rcs:id/text_hint' and @text='团队联系人']"),
     }
 
     @TestLogger.log("点击返回")
@@ -348,3 +350,7 @@ class SearchPage(SearchBar, Keyboard, BasePage):
             item = element
         entry = item.find_element(MobileBy.XPATH, '//*[@text="查看更多"]')
         entry.click()
+
+    @TestLogger.log('检查分栏是否显示"查看更多"')
+    def click_element_c(self, locator):
+       self.click_element(self.__locators[locator])

@@ -170,6 +170,17 @@ class BasePage(object):
             self.get_element((MobileBy.XPATH, _xpath)).click()
             # self.click_element((MobileBy.XPATH, _xpath))
 
+    @TestLogger.log()
+    def click_text_or_description(self, text):
+        """点击指定元素"""
+        try:
+            locator = (MobileBy.XPATH, '//*[contains(@text,"%s")]' % text)
+            self.click_element(locator)
+        except:
+            # 华为note 8手机-content-desc
+            locator = (MobileBy.XPATH, '//*[contains(@content-desc,"%s")]' % text)
+            self.click_element(locator)
+
     def input_text(self, locator, text):
         self.mobile.input_text(locator, text)
 
