@@ -1,16 +1,12 @@
+import time
 import unittest
-
-from selenium.common.exceptions import TimeoutException
-
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
-from pages.contacts import OfficialAccountPage, SearchOfficialAccountPage
 from pages.contacts import OfficialAccountDetailPage
+from pages.contacts import OfficialAccountPage, SearchOfficialAccountPage
 from preconditions.BasePreconditions import LoginPreconditions
-import time
-# import preconditions
 
 
 REQUIRED_MOBILES = {
@@ -73,7 +69,6 @@ class Preconditions(LoginPreconditions):
     def make_sure_in_official_page():
         """确保在公众号页面"""
         Preconditions.connect_mobile('Android-移动')
-        # current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         conts_page = ContactsPage()
         conts_page.open_contacts_page()
@@ -126,7 +121,7 @@ class OfficialAccountTest(TestCase):
         official.page_contain_news()
         official.page_contain_setting()
         official.page_contain_input_box()
-        official.page_contain_expresssion()
+        # official.page_contain_expresssion()
         official.page_contain_send_button()
         official.send_btn_is_clickable()
 
@@ -140,14 +135,14 @@ class OfficialAccountTest(TestCase):
         official.page_contain_setting()
         official.page_contain_keyboard()
         official.page_should_contain_element_menu()
-        #点击键盘
+        # 点击键盘
         official.click_keyboard()
         time.sleep(2)
         official.page_contain_input_box()
-        official.page_contain_expresssion()
+        # official.page_contain_expresssion()
         official.page_contain_send_button()
         official.send_btn_is_clickable()
-        #再次点击键盘图标
+        # 再次点击键盘图标
         official.click_keyboard()
         time.sleep(2)
         official.page_should_contain_element_menu()
@@ -159,8 +154,10 @@ class OfficialAccountTest(TestCase):
         official.click_officel_account()
         time.sleep(2)
         official.click_input_box()
+        time.sleep(1)
         official.input_message('good news')
         official.click_send_button()
+        time.sleep(1)
         official.page_should_not_contain_sendfail_element()
         official.page_should_contain_text('good news')
 
@@ -170,13 +167,14 @@ class OfficialAccountTest(TestCase):
         official = OfficialAccountPage()
         official.click_officel_account()
         time.sleep(2)
-        official.click_expression()
-        official.click_expression('[微笑1]')
-        official.click_send_button()
-        time.sleep(1)
-        official.click_expression('expression_keyboard')
-        official.page_should_not_contain_sendfail_element()
-        official.page_should_contain_text('[微笑1]')
+        # 备注：该版本无表情
+        # official.click_expression()
+        # official.click_expression('[微笑1]')
+        # official.click_send_button()
+        # time.sleep(1)
+        # official.click_expression('expression_keyboard')
+        # official.page_should_not_contain_sendfail_element()
+        # official.page_should_contain_text('[微笑1]')
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_quxinli_0328(self):
@@ -185,15 +183,15 @@ class OfficialAccountTest(TestCase):
         official.click_officel_account()
         time.sleep(2)
         official.input_message('good news')
-        official.click_expression()
-        official.click_expression('[微笑1]')
+        # official.click_expression()
+        # official.click_expression('[微笑1]')
         time.sleep(2)
         official.click_send_button()
         time.sleep(1)
-        official.click_expression('expression_keyboard')
+        # official.click_expression('expression_keyboard')
         official.page_should_not_contain_sendfail_element()
         official.page_should_contain_text('good news')
-        official.page_should_contain_text('[微笑1]')
+        # official.page_should_contain_text('[微笑1]')
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_quxinli_0329(self):
@@ -202,8 +200,8 @@ class OfficialAccountTest(TestCase):
         official.click_officel_account()
         time.sleep(2)
         official.click_input_box()
-        mesaage='good news'*10
-        official.input_message(mesaage)
+        mesaage = str('good news'*10)
+        official.input_message([mesaage])
         official.click_send_button()
         official.page_should_not_contain_sendfail_element()
         official.page_should_contain_text(mesaage)
@@ -215,7 +213,7 @@ class OfficialAccountTest(TestCase):
         official.click_officel_account()
         time.sleep(2)
         official.click_input_box()
-        mesaage ='www.otherpages.com'
+        mesaage = 'www.baidu.com'
         official.input_message(mesaage)
         official.click_send_button()
         official.page_should_not_contain_sendfail_element()
@@ -232,7 +230,7 @@ class OfficialAccountTest(TestCase):
         conts_page = ContactsPage()
         official = OfficialAccountPage()
         official.click_officel_account()
-        #断网发送失败
+        # 断网发送失败
         conts_page.set_network_status(0)
         time.sleep(2)
         official.click_input_box()
@@ -240,7 +238,7 @@ class OfficialAccountTest(TestCase):
         official.click_send_button()
         time.sleep(1)
         official.page_should_contain_sendfail_element()
-        ##恢复网络,重发成功
+        # 恢复网络,重发成功
         conts_page.set_network_status(6)
         time.sleep(5)
         official.click_repeat_button()
@@ -261,7 +259,7 @@ class OfficialAccountTest(TestCase):
         official.click_officel_account()
         official.click_setting_button()
         time.sleep(2)
-        official_account_detail=OfficialAccountDetailPage()
+        official_account_detail = OfficialAccountDetailPage()
         official_account_detail.page_contain_public_title_name()
         official_account_detail.page_contain_public_name()
         official_account_detail.page_contain_public_header()
@@ -279,28 +277,26 @@ class OfficialAccountTest(TestCase):
         official = OfficialAccountPage()
         official.click_officel_account()
         time.sleep(1)
-        account_name=official.get_account_title()
+        account_name = official.get_account_title()
         official.click_setting_button()
         time.sleep(1)
-        #点击置顶公众号
+        # 点击置顶公众号
         official_detail = OfficialAccountDetailPage()
         official_detail.click_to_be_top()
-        official.click_back()
-        official.click_back()
+        official.click_back_by_android(2)
         time.sleep(2)
         top_name = official.get_first_account()
-        #判断是否置顶
+        # 判断是否置顶
         time.sleep(1)
         self.assertEqual(account_name, top_name)
 
     @staticmethod
     def tearDown_test_contacts_quxinli_0334():
         official = OfficialAccountPage()
-        #返回公众号详情页面,取消置顶
+        # 返回公众号详情页面,取消置顶
         official.click_officel_account()
         official.click_setting_button()
         OfficialAccountDetailPage().click_to_be_top()
-
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_quxinli_0335(self):
@@ -309,8 +305,8 @@ class OfficialAccountTest(TestCase):
         official.click_officel_account()
         time.sleep(1)
         official.click_setting_button()
+        time.sleep(1)
         official_detail = OfficialAccountDetailPage()
-
         official_detail.click_read_old_message()
         official_detail.wait_for_page_load()
         if official_detail.is_contain_old_mes():
