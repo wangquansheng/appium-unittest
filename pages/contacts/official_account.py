@@ -192,6 +192,10 @@ class OfficialAccountPage(BasePage):
     def click_menu_name1(self):
         self.click_element(self.__locators['底部菜单1'])
 
+    @TestLogger.log('底部菜单栏2')
+    def click_menu_name2(self):
+        self.click_element(self.__locators['底部菜单2'])
+
     @TestLogger.log('菜单1的菜单详情列表1')
     def click_menu_detail_name1(self):
         self.click_element(self.__locators['菜单1的菜单详情列表1'])
