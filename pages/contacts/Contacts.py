@@ -533,6 +533,7 @@ class ContactsPage(FooterPage):
     def click_mobile_contacts(self):
         """点击手机联系人"""
         self.click_element(self.__class__.__locators["手机联系人"])
+        time.sleep(1)
 
     @TestLogger.log('点击公众号图标')
     def click_official_account_icon(self):
@@ -816,6 +817,7 @@ class ContactsPage(FooterPage):
     def select_contacts_by_name(self, name):
         """根据名字选择一个联系人"""
         locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and @text ="%s"]' % name)
+        time.sleep(2)
         max_try = 20
         current = 0
         while current < max_try:
@@ -824,6 +826,21 @@ class ContactsPage(FooterPage):
             current += 1
             self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
         self.click_element(locator)
+
+    @TestLogger.log()
+    def is_exist_contacts_by_name(self, name):
+        """根据名字选择一个联系人"""
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and @text ="%s"]' % name)
+        time.sleep(2)
+        max_try = 20
+        current = 0
+        while current < max_try:
+            if self._is_element_present(locator):
+                return True
+            current += 1
+            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        return False
+
     @TestLogger.log()
     def click_search_return(self):
         """点击搜索返回"""
@@ -995,6 +1012,7 @@ class ContactsPage(FooterPage):
     def select_group_contact_by_name(self, name):
         """根据名字选择一个团队内的联系人"""
         locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name_personal_contactlist" and @text ="%s"]' % name)
+        time.sleep(2)
         max_try = 20
         current = 0
         while current < max_try:
@@ -1003,8 +1021,7 @@ class ContactsPage(FooterPage):
             current += 1
             self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
         self.click_element(locator)
-
-
+        time.sleep(1)
 
     @TestLogger.log()
     def page_contain_element_add(self):

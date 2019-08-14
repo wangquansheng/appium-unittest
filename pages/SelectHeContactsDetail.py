@@ -175,6 +175,7 @@ class SelectHeContactsDetailPage(BasePage):
         locator = (
             MobileBy.XPATH,
             '//*[@resource-id="com.chinasofti.rcs:id/tv_name_personal_contactlist" and contains(@text,"%s")]' % name)
+        time.sleep(2)
         max_try = 20
         current = 0
         while current < max_try:
