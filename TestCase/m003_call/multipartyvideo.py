@@ -1,3 +1,4 @@
+import warnings
 import preconditions
 from library.core.TestCase import TestCase
 from selenium.common.exceptions import TimeoutException
@@ -453,6 +454,45 @@ class Preconditions(WorkbenchPreconditions):
         current_mobile().launch_app()
         Preconditions.make_in_message_page(moible_param)
 
+    @staticmethod
+    def create_contacts_groups():
+        # 创建联系
+        fail_time = 0
+        import dataproviders
+        while fail_time < 3:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                Preconditions.select_mobile('Android-移动')
+                current_mobile().hide_keyboard_if_display()
+                Preconditions.make_already_in_message_page()
+                conts.open_contacts_page()
+                try:
+                    if conts.is_text_present("发现SIM卡联系人"):
+                        conts.click_text("显示")
+                except:
+                    pass
+                # for name, number in required_contacts:
+                #     conts.create_contacts_if_not_exits(name, number)
+                # 创建群
+                required_group_chats = dataproviders.get_preset_group_chats()
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                # for group_name, members in required_group_chats:
+                #     group_list.wait_for_page_load()
+                #     group_list.create_group_chats_if_not_exits(group_name, members)
+                phone_number = (current_mobile().get_cards(CardType.CHINA_MOBILE)[0])[-4:]
+                group_list.create_group_chats_if_not_exits('Test_' + phone_number, '大佬1', '大佬2', '大佬3', '大佬4', '大佬5',
+                                                           '大佬6')
+                group_list.click_back()
+                conts.open_message_page()
+                return
+            except:
+                fail_time += 1
+                import traceback
+                msg = traceback.format_exc()
+                print(msg)
+
 
 class CallMultipartyVideo(TestCase):
     """
@@ -460,6 +500,11 @@ class CallMultipartyVideo(TestCase):
     文件位置：1.1.5全量
     表格：通话--消息--多方视频
     """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        warnings.simplefilter('ignore', ResourceWarning)
+        Preconditions.create_contacts_groups()
 
     # @classmethod
     # def setUpClass(cls):
@@ -523,6 +568,7 @@ class CallMultipartyVideo(TestCase):
 
     def default_setUp(self):
         """进入Call页面,清空通话记录"""
+        warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.make_already_in_call()
         CalllogBannerPage().skip_multiparty_call()
         CallPage().delete_all_call_entry()
@@ -549,15 +595,14 @@ class CallMultipartyVideo(TestCase):
         # 等待“选择一个群”页面加载
         sog.wait_for_page_load()
         # 选择一个普通群
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        phone_number = (current_mobile().get_cards(CardType.CHINA_MOBILE)[0])[-4:]
         sog.selecting_one_group_by_name("Test_" + phone_number)
         # Step: 2、勾选2 - 8人，点击呼叫
         gpg = GroupListPage()
         gpg.click_mult_call_icon()
         CallPage().click_mutil_video_call()
         mppg = MultiPartyVideoPage()
-        for i in range(3):
-            mppg.click_contact_icon(i)
+        mppg.click_contact_icon(3)
         mppg.click_tv_sure()
         # CheckPoint:1.发起多方视频
         time.sleep(1)
@@ -652,7 +697,10 @@ class CallMultipartyVideo(TestCase):
         time.sleep(1)
         self.assertTrue(mppg.is_exist_end_video_call())
         mppg.click_end_video_call()
-        mppg.click_btn_ok()
+        # mppg.click_btn_ok()
+        time.sleep(3)
+        cpg.click_back_by_android(2)
+        time.sleep(1)
         cpg.click_back_by_android(2)
         cpg.click_call()
 
@@ -671,8 +719,7 @@ class CallMultipartyVideo(TestCase):
         gpg.click_mult_call_icon()
         CallPage().click_mutil_video_call()
         mppg = MultiPartyVideoPage()
-        for i in range(3):
-            mppg.click_contact_icon(i)
+        mppg.click_contact_icon(3)
         mppg.click_tv_sure()
         time.sleep(1)
         # CheckPoint:发起多方视频
@@ -680,10 +727,11 @@ class CallMultipartyVideo(TestCase):
             cpg.click_text("暂不开启")
         time.sleep(1)
         self.assertTrue(mppg.is_exist_end_video_call())
-        mppg.click_end_video_call()
-        mppg.click_btn_ok()
-        cpg.click_back_by_android(3)
-        cpg.click_call()
+        try:
+            mppg.click_end_video_call()
+        except:
+            pass
+        mppg.is_toast_exist('通话结束', timeout=2) or mppg.click_btn_ok()
 
     @staticmethod
     def setUp_test_call_zhenyishan_0007_001():
@@ -712,15 +760,14 @@ class CallMultipartyVideo(TestCase):
         # 等待“选择一个群”页面加载
         sog.wait_for_page_load()
         # 选择一个普通群
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        phone_number = (current_mobile().get_cards(CardType.CHINA_MOBILE)[0])[-4:]
         sog.selecting_one_group_by_name("Test_" + phone_number)
         # Step: 2、勾选2 - 8人，点击呼叫
         gpg = GroupListPage()
         gpg.click_mult_call_icon()
         CallPage().click_mutil_video_call()
         mppg = MultiPartyVideoPage()
-        for i in range(3):
-            mppg.click_contact_icon(i)
+        mppg.click_contact_icon(3)
         mppg.click_tv_sure()
         # CheckPoint:发起多方视频，弹出每月10G免流特权提示弹窗
         time.sleep(1)
@@ -877,8 +924,7 @@ class CallMultipartyVideo(TestCase):
         gpg.click_mult_call_icon()
         CallPage().click_mutil_video_call()
         mppg = MultiPartyVideoPage()
-        for i in range(3):
-            mppg.click_contact_icon(i)
+        mppg.click_contact_icon(3)
         mppg.click_tv_sure()
         # CheckPoint:发起多方视频，弹出每月10G免流特权提示弹窗
         time.sleep(1)
@@ -909,7 +955,7 @@ class CallMultipartyVideo(TestCase):
         # 等待“选择一个群”页面加载
         sog.wait_for_page_load()
         # 选择一个普通群
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        phone_number = (current_mobile().get_cards(CardType.CHINA_MOBILE)[0])[-4:]
         sog.selecting_one_group_by_name("Test_" + phone_number)
         gpg = GroupListPage()
         gpg.click_mult_call_icon()
@@ -938,7 +984,7 @@ class CallMultipartyVideo(TestCase):
         # 等待“选择一个群”页面加载
         sog.wait_for_page_load()
         # 选择一个普通群
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        phone_number = (current_mobile().get_cards(CardType.CHINA_MOBILE)[0])[-4:]
         sog.selecting_one_group_by_name("Test_" + phone_number)
         gpg = GroupListPage()
         gpg.click_mult_call_icon()
@@ -952,7 +998,7 @@ class CallMultipartyVideo(TestCase):
         # CheckPoint:3、点击可选中，并且清空输入内容
         mppg = MultiPartyVideoPage()
         mppg.click_contact_icon(0)
-        time.sleep(1)
+        time.sleep(3)
         cpg.page_should_contain_text("搜索成员")
         cpg.click_back_by_android(2)
 
@@ -975,15 +1021,14 @@ class CallMultipartyVideo(TestCase):
         # 等待“选择一个群”页面加载
         sog.wait_for_page_load()
         # 选择一个普通群
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        phone_number = (current_mobile().get_cards(CardType.CHINA_MOBILE)[0])[-4:]
         sog.selecting_one_group_by_name("Test_" + phone_number)
         # Step: 2、勾选2 - 8人，点击呼叫
         gpg = GroupListPage()
         gpg.click_mult_call_icon()
         CallPage().click_mutil_video_call()
         mppg = MultiPartyVideoPage()
-        for i in range(3):
-            mppg.click_contact_icon(i)
+        mppg.click_contact_icon(3)
         mppg.click_tv_sure()
         time.sleep(1)
         if cpg.is_text_present("现在去开启"):

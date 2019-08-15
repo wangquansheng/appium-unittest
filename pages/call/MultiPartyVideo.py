@@ -110,8 +110,14 @@ class MultiPartyVideoPage(BasePage):
     @TestLogger.log()
     def click_contact_icon(self, index=0):
         """点击联系人头像"""
-        el = self.get_elements(self.__locators["联系人头像"])
-        el[index].click()
+        el = self.get_elements(self.__locators["联系人item"])
+        print(len(el))
+        if index <= len(el):
+            for i in range(index):
+                el[i].click()
+        else:
+            for i in range(len(el)):
+                el[i].click()
 
     @TestLogger.log()
     def select_contacts_by_number(self, number):

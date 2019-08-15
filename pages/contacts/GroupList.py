@@ -4,7 +4,8 @@ from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 #import preconditions
 import time
-# from pages import *
+from pages.message.Message import MessagePage
+
 
 class GroupListPage(BasePage):
     """群组列表"""
@@ -248,7 +249,7 @@ class GroupListPage(BasePage):
         )
 
     @TestLogger.log('创建群聊')
-    def create_group_chats_if_not_exits(self, name, members_list):
+    def create_group_chats_if_not_exits(self, name, *members_list):
         """
         导入群聊数据
         :param members_list:

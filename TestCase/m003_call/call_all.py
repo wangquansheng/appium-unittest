@@ -10,6 +10,7 @@ from pages import *
 from pages.components.BaseChat import BaseChatPage
 import time
 import unittest
+import warnings
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
