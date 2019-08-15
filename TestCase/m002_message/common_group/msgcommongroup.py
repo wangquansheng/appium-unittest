@@ -13193,12 +13193,15 @@ class MsgCommonGroupAllTest(TestCase):
         # 4.点击第一个联系人
         gcsp.click_first_group_member_avatar()
         gcsp.click_sure()
-        # 5.返回群聊页面
-        gcsp.click_back()
-        gcp.wait_for_page_load()
-        # 6.验证是否提示'已成为新群主'
-        self.assertTrue(gcp.is_text_present("已成为新群主"))
-        time.sleep(2)
+        if gcsp.is_toast_exist("对方管理的群数量已达上限"):
+            print("对方管理的群数量已达上限")
+        else:
+            # 5.返回群聊页面
+            gcsp.click_back()
+            gcp.wait_for_page_load()
+            # 6.验证是否提示'已成为新群主'
+            self.assertTrue(gcp.is_text_present("已成为新群主"))
+            time.sleep(2)
 
     @staticmethod
     def tearDown_test_msg_xiaoqiu_0392():

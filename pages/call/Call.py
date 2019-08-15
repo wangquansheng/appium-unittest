@@ -108,6 +108,7 @@ class CallPage(FooterPage,BasePage):
         '视频通话缩放按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_video_hide'),
         '飞信电话按钮': (MobileBy.ID, "com.chinasofti.rcs:id/btnFreeCall"),
         '多方视频缩放按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_hide'),
+        '取消拨打': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_normal_call_end'),
 
     }
 
@@ -823,6 +824,7 @@ class CallPage(FooterPage,BasePage):
 
     @TestLogger.log()
     def click_call_cancel(self):
+        """点击取消拨打"""
         self.click_element((MobileBy.ID, "com.chinasofti.rcs:id/iv_normal_call_end"))
 
 
