@@ -44,3 +44,17 @@ class RemoveMember(BasePage):
     def is_element_exist(self, text):
         """当前页面是否包含此元素"""
         return self._is_element_present(self.__class__.__locators['已解散'])
+
+    @TestLogger.log()
+    def delete_all_members(self):
+        """删除所有成员"""
+        locator = (MobileBy.ID, 'com.chinasofti.rcs:id/contact_list_item')
+        import time
+        time.sleep(1)
+        for el in self.get_elements(locator):
+            el.click()
+            time.sleep(1)
+        self.click_element(self.__locators['确定'])
+        time.sleep(1)
+        self.click_element(self.__locators['OK'])
+        time.sleep(1)

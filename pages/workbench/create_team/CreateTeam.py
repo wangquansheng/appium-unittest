@@ -33,7 +33,7 @@ class CreateTeamPage(BasePage):
         '进入工作台': (MobileBy.XPATH, '//*[@content-desc="直接进入工作台"]'),
         # 未输入姓名时的弹窗提示
         '请输入管理员姓名': (MobileBy.XPATH, '//*[@content-desc="请输入管理员姓名"]'),
-        '确定': (MobileBy.XPATH, '//*[@text="确定"]'),
+        '确定': (MobileBy.XPATH, '//*[contains(@content-desc,"确定")]'),
         '公告首页': (MobileBy.XPATH, '//*[@content-desc="向团队所有成员发出第一条公告"]'),
         '发布公告': (MobileBy.XPATH, '//*[@content-desc="发布公告"]'),
         '未发公告': (MobileBy.XPATH, '//*[@content-desc="未发公告"]'),
