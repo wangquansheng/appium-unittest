@@ -29,7 +29,9 @@ class SettingPage(BasePage):
         'com.chinasofti.rcs:id/font_setting': (MobileBy.ID, 'com.chinasofti.rcs:id/font_setting'),
         '字体大小': (MobileBy.ID, 'com.chinasofti.rcs:id/font_setting_text'),
         'com.chinasofti.rcs:id/outgoing_call_setting': (MobileBy.ID, 'com.chinasofti.rcs:id/outgoing_call_setting'),
-        '拨号设置': (MobileBy.ID, 'com.chinasofti.rcs:id/outgoing_call_setting_text'),
+        # '拨号设置': (MobileBy.ID, 'com.chinasofti.rcs:id/outgoing_call_setting_text'),
+        '拨号设置': (MobileBy.ID, 'com.chinasofti.rcs:id/call_setting_text'),
+        # com.chinasofti.rcs:id/call_setting_text
         'com.chinasofti.rcs:id/multi_language_setting': (MobileBy.ID, 'com.chinasofti.rcs:id/multi_language_setting'),
         '多语言': (MobileBy.ID, 'com.chinasofti.rcs:id/multi_language_setting_text'),
         'com.chinasofti.rcs:id/upload_log_setting': (MobileBy.ID, 'com.chinasofti.rcs:id/upload_log_setting'),

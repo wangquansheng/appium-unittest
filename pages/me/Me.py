@@ -70,7 +70,7 @@ class MePage(FooterPage):
         'com.chinasofti.rcs:id/feedback': (MobileBy.ID, 'com.chinasofti.rcs:id/feedback'),
         '帮助与反馈': (MobileBy.ID, 'com.chinasofti.rcs:id/feedback_text'),
         'com.chinasofti.rcs:id/setting': (MobileBy.ID, 'com.chinasofti.rcs:id/setting'),
-        '设置': (MobileBy.ID, 'com.chinasofti.rcs:id/setting_app_text'),
+        '设置': (MobileBy.ID, 'com.chinasofti.rcs:id/setting'),
         '移动营业厅': (MobileBy.ID, 'com.chinasofti.rcs:id/onlinehall_text'),
         '姓名': (MobileBy.ID, 'com.chinasofti.rcs:id/card_name'),
         '联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_setting_text'),

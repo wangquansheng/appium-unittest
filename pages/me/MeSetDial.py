@@ -15,7 +15,8 @@ class MeSetDialPage(BasePage):
                 '拨号设置': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
                 'com.chinasofti.rcs:id/out_going_call_type_setting': (
                 MobileBy.ID, 'com.chinasofti.rcs:id/out_going_call_type_setting'),
-                '拨号方式': (MobileBy.ID, 'com.chinasofti.rcs:id/call_type_text'),
+                # '拨号方式': (MobileBy.ID, 'com.chinasofti.rcs:id/call_type_text'),
+                '拨号方式': (MobileBy.ID, 'com.chinasofti.rcs:id/call_method_text'),
                 '总是询问': (MobileBy.ID, 'com.chinasofti.rcs:id/call_type_text'),
                 'android:id/statusBarBackground': (MobileBy.ID, 'android:id/statusBarBackground'),
                 'android:id/navigationBarBackground': (MobileBy.ID, 'android:id/navigationBarBackground'),

@@ -56,6 +56,7 @@ class ChatMorePage(BasePage):
                   'com.chinasofti.rcs:id/ib_audio': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_audio'),
                   '文件1': (MobileBy.XPATH, '//*[(@resource-id="com.chinasofti.rcs:id/iocn_tv") and (@text="文件")]'),
                   '音视频通话': (MobileBy.XPATH, '//*[(@resource-id="com.chinasofti.rcs:id/iocn_tv") and (@text="音视频通话")]'),
+                  # com.chinasofti.rcs:id/iocn_tv
                   '和飞信电话': (MobileBy.XPATH, '//*[(@resource-id="com.chinasofti.rcs:id/iocn_tv") and (@text="和飞信电话")]'),
                   '飞信电话': (MobileBy.XPATH, "//android.widget.TextView[@text='飞信电话']"),
                   '多方视频': (MobileBy.XPATH, "//android.widget.TextView[@text='多方视频']"),
