@@ -200,6 +200,8 @@ class GroupChatSetPage(BasePage):
         self._find_menu((MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/tv_name"]'))
         self.driver.find_elements(MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/tv_name"]')[-2].click()
 
+
+
     @TestLogger.log()
     def click_del_member(self):
         """点击 '-': 删除成员"""
@@ -807,14 +809,14 @@ class GroupChatSetPage(BasePage):
 
     @TestLogger.log()
     def get_element_c(self, locator):
-       return self.get_element(self.__locators[locator])
+        return self.get_element(self.__locators[locator])
 
     @TestLogger.log()
     def is_element_present_c(self, locator):
         try:
             if self.get_element(self.__locators[locator]):
-               return True
+                return True
             else:
-               return False
+                return False
         except:
             return False

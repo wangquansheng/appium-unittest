@@ -109,6 +109,8 @@ class ContactsPage(FooterPage):
         '选择团队设置按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/team_setting'),
         '选择团队确定按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_more'),
         '索引字母容器': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_index_bar_container'),
+        '联系人输入框': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
+
     }
 
     @TestLogger.log()
@@ -628,6 +630,7 @@ class ContactsPage(FooterPage):
         else:
             contact_search.click_back()
             self.click_element(self.__class__.__locators['联系-手机联系人'])
+            time.sleep(1)
             self.click_add()
             from pages import CreateContactPage
             create_page = CreateContactPage()
@@ -1264,3 +1267,7 @@ class ContactsPage(FooterPage):
     @TestLogger.log()
     def is_element_present(self, locator):
         return self._is_element_present(locator)
+
+    @TestLogger.log()
+    def input_text_c(self, locator, text):
+        self.input_text(self.__locators[locator], text)

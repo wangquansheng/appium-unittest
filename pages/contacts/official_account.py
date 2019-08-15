@@ -53,7 +53,7 @@ class OfficialAccountPage(BasePage):
         '取消': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
         '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
         '百度一下': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_title'),
-        '百度连接':(MobileBy.XPATH,'//*[@text="www.otherpages.com"]'),
+        '百度连接': (MobileBy.XPATH,'//*[@text="www.baidu.com"]'),
         '进入公众号': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_into_public'),
         '查看历史资讯': (MobileBy.XPATH,'//*[@text="查看历史资讯"]'),
         '始终允许': (MobileBy.XPATH, "//*[contains(@text, '始终允许')]"),
@@ -191,6 +191,10 @@ class OfficialAccountPage(BasePage):
     @TestLogger.log('底部菜单栏1')
     def click_menu_name1(self):
         self.click_element(self.__locators['底部菜单1'])
+
+    @TestLogger.log('底部菜单栏2')
+    def click_menu_name2(self):
+        self.click_element(self.__locators['底部菜单2'])
 
     @TestLogger.log('菜单1的菜单详情列表1')
     def click_menu_detail_name1(self):
