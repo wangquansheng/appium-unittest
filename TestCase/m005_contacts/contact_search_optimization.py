@@ -57,6 +57,14 @@ class ContactSearchOpTest(TestCase):
     """  """
     @classmethod
     def setUpClass(cls):
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            WorkbenchPreconditions.enter_create_team_page2()
+        # 当前为消息页面
+        # 确保存在子部门
+        WorkbenchPreconditions.create_sub_department()
         # 创建联系人
         fail_time = 0
         import dataproviders

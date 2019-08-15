@@ -89,15 +89,21 @@ class ContactPage(TestCase):
     """
     @classmethod
     def setUpClass(cls):
-        Preconditions.connect_mobile('Android-移动')
-        current_mobile().hide_keyboard_if_display()
+        Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            WorkbenchPreconditions.enter_create_team_page2()
+        # 当前为消息页面
+        # 确保存在子部门
+        WorkbenchPreconditions.create_sub_department()
         # 导入测试联系人、群聊
         fail_time1 = 0
         flag1 = False
         import dataproviders
         while fail_time1 < 3:
             try:
+                Preconditions.make_already_in_message_page()
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()
                 conts.open_contacts_page()
