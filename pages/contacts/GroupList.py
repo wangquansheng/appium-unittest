@@ -30,6 +30,8 @@ class GroupListPage(BasePage):
         "移除成员_标题":(MobileBy.ID,'com.chinasofti.rcs:id/title'),
 
         "多方电话提示框": (MobileBy.XPATH, "//*[@text='多方电话']"),
+        "飞信电话": (MobileBy.XPATH, "//*[@text='飞信电话']"),
+        "多方视频": (MobileBy.XPATH, "//*[@text='多方视频']"),
         "多方视频图标": (MobileBy.XPATH, "//*[@text='多方视频']"),
         '多方通话_图标':(MobileBy.ID,'com.chinasofti.rcs:id/action_multicall'),
         '分组联系人':(MobileBy.ID,'com.chinasofti.rcs:id/action_setting'),
