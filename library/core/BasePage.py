@@ -382,6 +382,8 @@ class BasePage(object):
                                  "but did not" % text)
             return True
         except:
+            import traceback
+            traceback.print_exc()
             import time
             time.sleep(3)
             return self.is_text_present(text)

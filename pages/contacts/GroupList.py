@@ -4,7 +4,6 @@ from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 #import preconditions
 import time
-from pages.message.Message import MessagePage
 
 
 class GroupListPage(BasePage):
