@@ -74,3 +74,12 @@ class HasRead(BasePage):
             self.click_element(locator)
         else:
             raise RuntimeError("当前没有已读联系人")
+
+    @TestLogger.log()
+    def click_first_contact2(self):
+        """点击第一个联系人"""
+        locator = (MobileBy.XPATH, "//android.webkit.WebView[@content-desc='已读动态']/android.view.View[2]")
+        if self._is_element_present(locator):
+            self.click_element(locator)
+        else:
+            raise RuntimeError("当前没有已读联系人")

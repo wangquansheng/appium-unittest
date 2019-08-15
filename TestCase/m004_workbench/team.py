@@ -374,6 +374,11 @@ class TeamTestAll(TestCase):
     author：杨育鑫
     """
 
+    @classmethod
+    def setUpClass(cls) -> None:
+        import warnings
+        warnings.simplefilter('ignore', ResourceWarning)
+
     def default_setUp(self):
         """进入创建团队页面"""
         Preconditions.select_mobile('Android-移动')
@@ -404,7 +409,7 @@ class TeamTestAll(TestCase):
         # 立即创建团队
         team.click_immediately_create_team()
         time.sleep(1)
-        team.page_should_contain_text("团队名称不少于3个字")
+        team.is_text_present("团队名称不少于3个字")
         team.click_sure()
         # 清除输入数据
         team.click_back()
