@@ -630,6 +630,7 @@ class ContactsPage(FooterPage):
         else:
             contact_search.click_back()
             self.click_element(self.__class__.__locators['联系-手机联系人'])
+            time.sleep(1)
             self.click_add()
             from pages import CreateContactPage
             create_page = CreateContactPage()
