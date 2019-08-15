@@ -85,43 +85,4 @@ class Preconditions(object):
         Preconditions.login_by_one_key_login()
 
 
-# class MeMobilehall(TestCase):
-#     """我的 - 移动厅模块"""
-#
-#     def setUp_test_Me_Mobilehall_0001(self):
-#         Preconditions.select_mobile('Android-移动')
-#         current_mobile().hide_keyboard_if_display()
-#         Preconditions.make_already_in_message_page()
-#         pass
-#
-#     @tags('ALL', 'SMOKE', 'CMCC')
-#     def test_Me_Mobilehall_0001(self):
-#         """001移动厅页面校验"""
-#         # Preconditions.make_already_in_message_page()
-#         currentpage = MePage()
-#         currentpage.open_me_page()
-#         currentpage.click_mobile_hall_butten()
-#         mg=MeMobileHallPage()
-#         mg.assert_enterprise_account_list_is_empty()
-#         mg.rallbackto_mobile()
-#
-#     @tags('ALL', 'SMOKE', 'CMCC')
-#     def test_Me_Mobilehall_0002(self):
-#         """003移动厅页面充话费页面校验"""
-#         Preconditions.make_already_in_message_page()
-#         currentpage = MePage()
-#         currentpage.open_me_page()
-#         currentpage.click_mobile_hall_butten()
-#         mg = MeMobileHallPage()
-#         # 进入账号余额详情页面
-#         mg.click_mobile_account()
-#         ag = MeMobileAccuntPage()
-#         # 进入充话费页面
-#         ag.click_chargrmobile()
-#         cg=MeMobileChargePage()
-#         cg.click_contants_mobile()
-#         dg=SelectHeContactsDetailPage()
-#         dg.select_one_linkman("和飞信电话")
-#         cg.input_passwod_text("12345678912345678912345")
-#         cg.click_mobile_chargesoon()
-#         cg.click_mobile_chargesoon_back()
+

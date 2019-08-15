@@ -7,7 +7,7 @@ from library.core.utils.applicationcache import current_mobile, current_driver, 
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.contacts.ContactDetails import ContactDetailsPage
-from preconditions.BasePreconditions import LoginPreconditions
+from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -206,9 +206,14 @@ class TagsGroupingTest(TestCase):
     """通讯录 - 标签分组"""
     @classmethod
     def setUpClass(cls):
-        Preconditions.connect_mobile('Android-移动')
-        current_mobile().hide_keyboard_if_display()
+        Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            WorkbenchPreconditions.enter_create_team_page2()
+        # 当前为消息页面
+        # 确保存在子部门
+        WorkbenchPreconditions.create_sub_department()
         # 导入测试联系人
         fail_time1 = 0
         import dataproviders
@@ -506,9 +511,15 @@ class Tag_Group(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            WorkbenchPreconditions.enter_create_team_page2()
+        # 当前为消息页面
+        # 确保存在子部门
+        WorkbenchPreconditions.create_sub_department()
         # 导入测试联系人
         fail_time1 = 0
         import dataproviders

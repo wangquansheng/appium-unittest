@@ -1,13 +1,13 @@
 import time
 import unittest
 from library.core.TestCase import TestCase
+from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.contacts import OfficialAccountDetailPage
 from pages.contacts import OfficialAccountPage, SearchOfficialAccountPage
-from preconditions.BasePreconditions import LoginPreconditions
-
+from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -77,6 +77,73 @@ class Preconditions(LoginPreconditions):
 
 class OfficialAccountTest(TestCase):
     """通讯录 - 公众号模块"""
+
+    @classmethod
+    def setUpClass(cls):
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            WorkbenchPreconditions.enter_create_team_page2()
+        # 当前为消息页面
+        # 确保存在子部门
+        WorkbenchPreconditions.create_sub_department()
+
+        # 导入测试联系人、群聊
+        fail_time1 = 0
+        flag1 = False
+        import dataproviders
+        while fail_time1 < 3:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                current_mobile().hide_keyboard_if_display()
+                Preconditions.make_already_in_message_page()
+                conts.open_contacts_page()
+                try:
+                    if conts.is_text_present("发现SIM卡联系人"):
+                        conts.click_text("显示")
+                except:
+                    pass
+                for name, number in required_contacts:
+                    # 创建联系人
+                    conts.create_contacts_if_not_exits(name, number)
+                required_group_chats = dataproviders.get_preset_group_chats()
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name, members in required_group_chats:
+                    group_list.wait_for_page_load()
+                    # 创建群
+                    group_list.create_group_chats_if_not_exits(group_name, members)
+                group_list.click_back()
+                conts.open_message_page()
+                flag1 = True
+            except:
+                fail_time1 += 1
+            if flag1:
+                break
+
+        # 导入团队联系人
+        fail_time2 = 0
+        flag2 = False
+        while fail_time2 < 5:
+            try:
+                Preconditions.make_already_in_message_page()
+                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4", '香港大佬', '测试号码']
+                Preconditions.create_he_contacts(contact_names)
+                phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
+                                  ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296"),
+                                  ('#*', '13800137006'), ('#1', '13800137007'), ('本机测试', phone_number)]
+                # 将联系人添加到团队及团队子部门
+                Preconditions.create_he_contacts2(contact_names2)
+                WorkbenchPreconditions.create_he_contacts_for_sub_department("bm0", contact_names2)
+                Preconditions.create_sub_department_by_name('测试部门1', '测试号码')
+                flag2 = True
+            except:
+                fail_time2 += 1
+            if flag2:
+                break
 
     def default_setUp(self):
         """确保每个用例运行前在公众号页面"""
