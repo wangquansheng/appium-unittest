@@ -4,13 +4,11 @@ import preconditions
 from library.core.TestCase import TestCase
 from selenium.common.exceptions import TimeoutException
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile, current_driver
-from library.core.common.simcardtype import CardType
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.components.BaseChat import BaseChatPage
 import time
 import unittest
-import warnings
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
