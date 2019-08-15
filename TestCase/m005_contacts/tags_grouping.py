@@ -196,33 +196,33 @@ class Preconditions(LoginPreconditions):
 
 class TagsGroupingTest(TestCase):
     """通讯录 - 标签分组"""
-    # @classmethod
-    # def setUpClass(cls):
-    #     Preconditions.connect_mobile('Android-移动')
-    #     current_mobile().hide_keyboard_if_display()
-    #     Preconditions.make_already_in_message_page()
-    #     # 导入测试联系人
-    #     fail_time1 = 0
-    #     flag1 = False
-    #     import dataproviders
-    #     while fail_time1 < 3:
-    #         try:
-    #             required_contacts = dataproviders.get_preset_contacts()
-    #             conts = ContactsPage()
-    #             conts.open_contacts_page()
-    #             try:
-    #                 if conts.is_text_present("发现SIM卡联系人"):
-    #                     conts.click_text("显示")
-    #             except:
-    #                 pass
-    #             for name, number in required_contacts:
-    #                 # 创建联系人
-    #                 conts.create_contacts_if_not_exits(name, number)
-    #         except:
-    #             fail_time1 += 1
-    #             import traceback
-    #             msg = traceback.format_exc()
-    #             print(msg)
+    @classmethod
+    def setUpClass(cls):
+        Preconditions.connect_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        # 导入测试联系人
+        fail_time1 = 0
+        flag1 = False
+        import dataproviders
+        while fail_time1 < 3:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                conts.open_contacts_page()
+                try:
+                    if conts.is_text_present("发现SIM卡联系人"):
+                        conts.click_text("显示")
+                except:
+                    pass
+                for name, number in required_contacts:
+                    # 创建联系人
+                    conts.create_contacts_if_not_exits(name, number)
+            except:
+                fail_time1 += 1
+                import traceback
+                msg = traceback.format_exc()
+                print(msg)
 
     def default_setUp(self):
         Preconditions.connect_mobile('Android-移动')
@@ -296,9 +296,6 @@ class TagsGroupingTest(TestCase):
         glp.page_should_contain_text('搜索或输入号码')
         glp.page_should_contain_text('选择联系人')
         glp.page_should_contain_text('确定')
-        glp.page_should_contain_text('选择团队联系人')
-
-        glp = GroupListPage()
         glp.click_back_button(times=2)
         glp.delete_group(name='aaa')
 
@@ -319,32 +316,32 @@ class TagsGroupingTest(TestCase):
         slcp.click_sure()
         time.sleep(2)
         # 发送长文本消息
-        message = 'aa aa' * 20
-        glp.send_message_to_group(message)
+        message = str('aa aa' * 20)
+        glp.send_message_to_group([message])
         time.sleep(5)
         glp.page_contain_element('已转短信送达')
         # 发送纯文本
-        glp.click_back_button()
+        glp.click_back_by_android(2)
         time.sleep(1)
         message = 'aaaa'
         glp.send_message_to_group(message)
         time.sleep(5)
         glp.page_contain_element('已转短信送达')
         # 发送文本 空格
-        glp.click_back_button()
+        glp.click_back_by_android(2)
         time.sleep(1)
         message = 'aa aa'
         glp.send_message_to_group(message)
         time.sleep(5)
         glp.page_contain_element('已转短信送达')
         # 发送表情
-        glp.click_back_button()
+        glp.click_back_by_android(2)
         time.sleep(1)
         glp.send_express_to_group()
         time.sleep(1)
         glp.page_not_contain_element('发送失败')
         # 发送图片
-        glp.click_back_button()
+        glp.click_back_by_android()
         time.sleep(1)
         glp.send_picture_to_group()
         time.sleep(1)
@@ -352,43 +349,44 @@ class TagsGroupingTest(TestCase):
         time.sleep(1)
 
         glp = GroupListPage()
-        glp.click_back_button(times=2)
+        glp.click_back_by_android(times=2)
         glp.delete_group(name='aaa')
 
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_contacts_quxinli_0397(self):
         """多方电话"""
-        GroupPage = GroupListPage()
+        glp = GroupListPage()
         cdp = ContactDetailsPage()
-        # preconditions.launch_app()
-        time.sleep(1)
-        time.sleep(1)
-        GroupPage.delete_group(name='aaa')
-        GroupPage.new_group(name='aaa')
-        # 进入群组,添加联系人
-        GroupPage.click_text('aaa')
-        GroupPage.tap_sure_box()
-        LabelGroupingChatPage().click_text('添加成员')
-        slcp = SelectLocalContactsPage()
         time.sleep(2)
+        glp.delete_group(name='aaa')
+        glp.new_group(name='aaa')
+        # 进入群组,添加联系人
+        glp.click_text('aaa')
+        time.sleep(1)
+        glp.tap_sure_box()
+        time.sleep(1)
+        glp.click_text('添加成员')
+        time.sleep(2)
+        slcp = SelectLocalContactsPage()
         slcp.swipe_select_one_member_by_name('大佬1')
         slcp.swipe_select_one_member_by_name('大佬3')
         slcp.click_sure()
-        time.sleep(1)
+        time.sleep(2)
         # 多方通话
-        GroupPage.enter_mutil_call()
+        glp.enter_mutil_call()
         time.sleep(1)
-        GroupPage.click_text("大佬1")
+        glp.click_text("大佬1")
+        time.sleep(1)
         cdp.send_call_number()
-        if GroupPage.is_text_present('我知道了'):
+        time.sleep(1)
+        if glp.is_text_present('我知道了'):
             time.sleep(2)
-            GroupPage.click_text('我知道了')
-        if GroupPage.is_text_present('发起多方电话失败'):
+            glp.click_text('我知道了')
+        if glp.is_text_present('发起多方电话失败'):
             pass
         else:
-            # cdp.send_call_number()
             cdp.cancel_permission()
-            time.sleep(3)
+            time.sleep(2)
             cdp.cancel_hefeixin_call()
             time.sleep(2)
 
@@ -547,13 +545,13 @@ class Tag_Group(TestCase):
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0353(self):
         """新建分组"""
-        GroupPage=GroupListPage()
-        GroupPage.click_new_group()
+        glp = GroupListPage()
+        glp.click_new_group()
         time.sleep(1)
-        GroupPage.check_if_contains_element('为你的分组创建一个名称')
-        GroupPage.check_if_contains_element('请输入标签分组名称')
-        GroupPage.check_if_contains_element('标题新建分组')
-        GroupPage.check_if_contains_element()
+        glp.check_if_contains_element('为你的分组创建一个名称')
+        glp.check_if_contains_element('请输入标签分组名称')
+        glp.check_if_contains_element('标题新建分组')
+        glp.check_if_contains_element()
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0354(self):
