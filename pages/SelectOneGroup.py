@@ -287,6 +287,7 @@ class SelectOneGroupPage(BasePage):
     def is_exists_group_by_name(self, name):
         """是否存在指定群聊"""
         locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and text="%s"]' % name)
+        self.find_element_by_swipe(locator)
         return self._is_element_present(locator)
 
     @TestLogger.log()

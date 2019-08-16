@@ -248,7 +248,7 @@ class GroupListPage(BasePage):
         )
 
     @TestLogger.log('创建群聊')
-    def create_group_chats_if_not_exits(self, name, *members_list):
+    def create_group_chats_if_not_exits(self, name, members_list):
         """
         导入群聊数据
         :param members_list:

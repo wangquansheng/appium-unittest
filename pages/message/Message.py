@@ -877,6 +877,7 @@ class MessagePage(FooterPage):
     def delete_message_record_by_name(self, name):
         """删除指定消息记录"""
         locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text ="%s"]' % name)
+        time.sleep(2)
         el = self.get_element(locator)
         self.press(el)
         self.click_element(self.__class__.__locators['删除聊天'])

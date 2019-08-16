@@ -620,6 +620,172 @@ class Preconditions(WorkbenchPreconditions):
         gcp = GroupChatPage()
         gcp.wait_for_page_load()
 
+    @staticmethod
+    def get_label_grouping_name():
+        """获取群名"""
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "ateam" + phone_number[-4:]
+        return group_name
+
+    @staticmethod
+    def enter_group_chat_page(name):
+        """进入群聊聊天会话页面"""
+
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        # 点击 +
+        mp.click_add_icon()
+        # 点击发起群聊
+        mp.click_group_chat()
+        scg = SelectContactsPage()
+        times = 15
+        n = 0
+        # 重置应用时需要再次点击才会出现选择一个群
+        while n < times:
+            # 等待选择联系人页面加载
+            flag = scg.wait_for_page_load()
+            if not flag:
+                scg.click_back()
+                time.sleep(2)
+                mp.click_add_icon()
+                mp.click_group_chat()
+            else:
+                break
+            n = n + 1
+        scg.click_select_one_group()
+        sog = SelectOneGroupPage()
+        # 等待“选择一个群”页面加载
+        sog.wait_for_page_load()
+        # 选择一个普通群
+        if not sog.is_exists_group_by_name(name):
+            return False
+        sog.selecting_one_group_by_name(name)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        return True
+
+    @staticmethod
+    def create_contacts_groups():
+        # 创建联系
+        fail_time = 0
+        import dataproviders
+        while fail_time < 3:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                Preconditions.select_mobile('Android-移动')
+                current_mobile().hide_keyboard_if_display()
+                Preconditions.make_already_in_message_page()
+                conts.open_contacts_page()
+                try:
+                    if conts.is_text_present("发现SIM卡联系人"):
+                        conts.click_text("显示")
+                except:
+                    pass
+                for name, number in required_contacts:
+                    conts.create_contacts_if_not_exits(name, number)
+                # 创建群
+                phone_number = (current_mobile().get_cards(CardType.CHINA_MOBILE)[0])[-4:]
+                name = 'Test_' + phone_number
+                required_group_chats = dataproviders.get_preset_group_chats()
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name, members in required_group_chats:
+                    group_list.wait_for_page_load()
+                    group_list.create_group_chats_if_not_exits(group_name, members)
+                group_list.create_group_chats_if_not_exits(name, ['大佬1', '大佬2', '大佬3', '大佬4', '大佬5', '大佬6'])
+                group_list.click_back()
+                conts.open_message_page()
+                return
+            except:
+                fail_time += 1
+                import traceback
+                msg = traceback.format_exc()
+                print(msg)
+
+        # 导入团队联系人
+        fail_time2 = 0
+        flag2 = False
+        while fail_time2 < 5:
+            try:
+                Preconditions.make_already_in_message_page()
+                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
+                Preconditions.create_he_contacts(contact_names)
+                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
+                                  ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296")]
+                Preconditions.create_he_contacts2(contact_names2)
+                Preconditions.create_he_contacts_for_sub_department("bm0", contact_names2)
+                flag2 = True
+            except:
+                fail_time2 += 1
+            if flag2:
+                break
+
+        # 导入标签分组联系人
+        fail_time2 = 0
+        flag2 = False
+        while fail_time2 < 5:
+            try:
+                Preconditions.make_already_in_message_page()
+                name_list = ['a a', 'abc', 'b测算', 'bb1122', '大佬1', '给个红包1', 'English']
+                mp = MessagePage()
+                mp.open_contacts_page()
+                time.sleep(1)
+                con = ContactsPage()
+                con.click_mobile_contacts()
+                time.sleep(1)
+                con.click_label_grouping()
+                time.sleep(1)
+                label_group = LabelGroupingPage()
+                label_name = Preconditions.get_label_grouping_name()
+                if con.find_text(label_name):
+                    con.click_text_or_description(label_name)
+                    time.sleep(2)
+                    if con.is_text_present('该标签分组内暂无成员'):
+                        con.click_text_or_description('我知道了')
+                        time.sleep(1)
+                    label_group.click_element_c('添加成员')
+                    for name in name_list:
+                        time.sleep(1)
+                        con.find_text(name)
+                        con.click_text_or_description(name)
+                    if label_group.is_sure('确定'):
+                        label_group.click_ok_button()
+                    current_mobile().launch_app()
+                else:
+                    label_group.click_element_c('新建分组')
+                    time.sleep(1)
+                    label_group.input_label_grouping_name(label_name)
+                    time.sleep(1)
+                    label_group.click_ok_button()
+                    time.sleep(1)
+                    for name in name_list:
+                        con.find_text(name)
+                        label_group.click_text_or_description(name)
+                        time.sleep(1)
+                    label_group.click_ok_button()
+                flag2 = True
+            except:
+                fail_time2 += 1
+            if flag2:
+                break
+
+    @staticmethod
+    def dismiss_one_group(name):
+        current_mobile().launch_app()
+        if not Preconditions.enter_group_chat_page(name):
+            return
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
 
 class MsgPrivateChatFileLocationTest(TestCase):
     """
@@ -1208,83 +1374,13 @@ class MsgPrivateChatAllTest(TestCase):
     """
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         warnings.simplefilter('ignore', ResourceWarning)
-    #     Preconditions.select_mobile('Android-移动')
-    #     # 导入测试联系人、群聊
-    #     fail_time1 = 0
-    #     flag1 = False
-    #     import dataproviders
-    #     while fail_time1 < 3:
-    #         try:
-    #             required_contacts = dataproviders.get_preset_contacts()
-    #             conts = ContactsPage()
-    #             current_mobile().hide_keyboard_if_display()
-    #             Preconditions.make_already_in_message_page()
-    #             conts.open_contacts_page()
-    #             try:
-    #                 if conts.is_text_present("发现SIM卡联系人"):
-    #                     conts.click_text("显示")
-    #             except:
-    #                 pass
-    #             # 创建联系人
-    #             for name, number in required_contacts:
-    #                 conts.create_contacts_if_not_exits(name, number)
-    #
-    #             # 创建符合搜索结果的联系人
-    #             contacts = [('test_contact', '13300133000'), ('123987', '13300133001'), ('。：、', '13300133002'),
-    #                         ('b马9', '13300133003')]
-    #             for name, number in contacts:
-    #                 conts.create_contacts_if_not_exits(name, number)
-    #
-    #             required_group_chats = dataproviders.get_preset_group_chats()
-    #             conts.open_group_chat_list()
-    #             group_list = GroupListPage()
-    #             # 创建群
-    #             for group_name, members in required_group_chats:
-    #                 group_list.wait_for_page_load()
-    #                 group_list.create_group_chats_if_not_exits(group_name, members)
-    #
-    #             # 创建符合搜索结果的群聊
-    #             group_chats = [('测试测试群', ['大佬1', '大佬2']), ('test_group', ['大佬1', '大佬2']), ('138138138', ['大佬1', '大佬2']),
-    #                            ('；，。', ['大佬1', '大佬2']), ('&%@', ['大佬1', '大佬2']), ('a尼6', ['大佬1', '大佬2'])]
-    #             for group_name, members in group_chats:
-    #                 group_list.wait_for_page_load()
-    #                 group_list.create_group_chats_if_not_exits(group_name, members)
-    #             group_list.click_back()
-    #             conts.open_message_page()
-    #             flag1 = True
-    #         except:
-    #             fail_time1 += 1
-    #         if flag1:
-    #             break
-    #
-    #     # 导入团队联系人
-    #     fail_time2 = 0
-    #     flag2 = False
-    #     while fail_time2 < 5:
-    #         try:
-    #             Preconditions.make_already_in_message_page()
-    #             contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-    #             Preconditions.create_he_contacts(contact_names)
-    #             flag2 = True
-    #         except:
-    #             fail_time2 += 1
-    #         if flag2:
-    #             break
-    #
-    #     # 确保有企业群
-    #     fail_time3 = 0
-    #     flag3 = False
-    #     while fail_time3 < 5:
-    #         try:
-    #             Preconditions.make_already_in_message_page()
-    #             Preconditions.ensure_have_enterprise_group()
-    #             flag3 = True
-    #         except:
-    #             fail_time3 += 1
-    #         if flag3:
-    #             break
+        Preconditions.select_mobile('Android-移动')
+        phone_number = (current_mobile().get_cards(CardType.CHINA_MOBILE)[0])[-4:]
+        name = 'Test_' + phone_number
+        Preconditions.dismiss_one_group(name)
+        Preconditions.create_contacts_groups()
 
     def default_setUp(self):
         """
@@ -2065,7 +2161,7 @@ class MsgPrivateChatAllTest(TestCase):
         scp.wait_for_page_load()
         name = "大佬1"
         # 确保当前单聊会话页面没有重发按钮影响验证结果
-        Preconditions.make_no_retransmission_button(name)
+        Preconditions.make_no_message_send_failed_status(name)
         # 设置手机网络断开
         scp.set_network_status(0)
         # 1、2.发送本地视频
@@ -2093,7 +2189,7 @@ class MsgPrivateChatAllTest(TestCase):
         # 确保当前消息列表没有消息发送失败的标识影响验证结果
         Preconditions.make_no_message_send_failed_status(name)
         # 确保当前单聊会话页面没有重发按钮影响验证结果
-        Preconditions.make_no_retransmission_button(name)
+        # Preconditions.make_no_retransmission_button(name)
         # 设置手机网络断开
         scp.set_network_status(0)
         file_type = ".mp4"
@@ -2423,7 +2519,7 @@ class MsgPrivateChatAllTest(TestCase):
         scp.wait_for_page_load()
         name = "大佬1"
         # 确保当前单聊会话页面没有重发按钮影响验证结果
-        Preconditions.make_no_retransmission_button(name)
+        Preconditions.make_no_message_send_failed_status(name)
         # 设置手机网络断开
         scp.set_network_status(0)
         # 1、2.发送本地音乐
@@ -2450,8 +2546,6 @@ class MsgPrivateChatAllTest(TestCase):
         name = "大佬1"
         # 确保当前消息列表没有消息发送失败的标识影响验证结果
         Preconditions.make_no_message_send_failed_status(name)
-        # 确保当前单聊会话页面没有重发按钮影响验证结果
-        Preconditions.make_no_retransmission_button(name)
         # 设置手机网络断开
         scp.set_network_status(0)
         file_type = ".mp3"

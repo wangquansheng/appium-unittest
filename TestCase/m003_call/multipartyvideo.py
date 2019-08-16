@@ -114,9 +114,12 @@ class Preconditions(WorkbenchPreconditions):
         # 等待“选择一个群”页面加载
         sog.wait_for_page_load()
         # 选择一个普通群
+        if not sog.is_exists_group_by_name(name):
+            return False
         sog.selecting_one_group_by_name(name)
         gcp = GroupChatPage()
         gcp.wait_for_page_load()
+        return True
 
     @staticmethod
     def enter_label_grouping_chat_page(enterLabelGroupingChatPage=True):
@@ -434,7 +437,7 @@ class Preconditions(WorkbenchPreconditions):
         time.sleep(3)
         sc.click_select_one_group()
         # # 群名
-        # group_name = Preconditions.get_group_chat_name_double()
+        group_name = Preconditions.get_group_chat_name_double()
         # 获取已有群名
         sog = SelectOneGroupPage()
         sog.wait_for_page_load()
@@ -457,6 +460,22 @@ class Preconditions(WorkbenchPreconditions):
         Preconditions.make_in_message_page(moible_param)
 
     @staticmethod
+    def dismiss_one_group(name):
+        current_mobile().launch_app()
+        if not Preconditions.enter_group_chat_page(name):
+            return
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def create_contacts_groups():
         # 创建联系
         fail_time = 0
@@ -477,15 +496,15 @@ class Preconditions(WorkbenchPreconditions):
                 for name, number in required_contacts:
                     conts.create_contacts_if_not_exits(name, number)
                 # 创建群
+                phone_number = (current_mobile().get_cards(CardType.CHINA_MOBILE)[0])[-4:]
+                name = 'Test_' + phone_number
                 required_group_chats = dataproviders.get_preset_group_chats()
                 conts.open_group_chat_list()
                 group_list = GroupListPage()
                 for group_name, members in required_group_chats:
                     group_list.wait_for_page_load()
                     group_list.create_group_chats_if_not_exits(group_name, members)
-                phone_number = (current_mobile().get_cards(CardType.CHINA_MOBILE)[0])[-4:]
-                group_list.create_group_chats_if_not_exits('Test_' + phone_number, '大佬1', '大佬2', '大佬3', '大佬4', '大佬5',
-                                                           '大佬6')
+                group_list.create_group_chats_if_not_exits(name, ['大佬1', '大佬2', '大佬3', '大佬4', '大佬5', '大佬6'])
                 group_list.click_back()
                 conts.open_message_page()
                 return
@@ -573,7 +592,11 @@ class CallMultipartyVideo(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         warnings.simplefilter('ignore', ResourceWarning)
-        # Preconditions.create_contacts_groups()
+        Preconditions.select_mobile('Android-移动')
+        phone_number = (current_mobile().get_cards(CardType.CHINA_MOBILE)[0])[-4:]
+        name = 'Test_' + phone_number
+        Preconditions.dismiss_one_group(name)
+        Preconditions.create_contacts_groups()
 
     @classmethod
     def tearDownClass(cls):

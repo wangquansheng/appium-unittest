@@ -673,7 +673,7 @@ class Preconditions(WorkbenchPreconditions):
         cp = ContactsPage()
         cp.open_contacts_page()
         time.sleep(0.5)
-        cp.click_text('群聊')
+        cp.click_text_or_description('群聊')
         time.sleep(0.5)
         page = GroupChatSetPage()
         locator = (MobileBy.XPATH, "//android.support.v7.widget.RecyclerView[@resource-id='"
@@ -748,6 +748,10 @@ class MsgGroupChatvedioTest(TestCase):
     def default_tearDown(self):
         pass
         # current_mobile().disconnect_mobile()
+
+    @tags('ALL', 'CMCC')
+    def test_m(self):
+        Preconditions.delete_groups()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'debug_fk', 'high')
     def test_msg_xiaoliping_D_0001(self):
