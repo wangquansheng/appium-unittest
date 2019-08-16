@@ -144,6 +144,18 @@ class CreateContactPage(Keyboard, BasePage):
         """保存按钮是否可点击"""
         self._is_clickable(self.__locators['保存'])
 
+    @TestLogger.log('')
+    def is_save_icon_is_clickable2(self):
+        """保存按钮是否可点击"""
+        el = self.get_element(self.__locators['保存'])
+        if el:
+            if el.get_attribute("enabled")=='true':
+                return True
+            else:
+                return False
+        else:
+            return False
+
     @TestLogger.log('点击返回')
     def click_back(self):
         self.click_element(self.__locators['返回'])

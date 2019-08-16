@@ -200,13 +200,16 @@ class ContactDetailsPage(BasePage):
 
     @TestLogger.log("")
     def cancel_call(self):
-        time.sleep(7)
+        time.sleep(3)
         self.click_element(self.__locators["挂断电话"])
 
     @TestLogger.log("")
     def cancel_call2(self):
-        time.sleep(7)
-        self.click_element(self.__locators["挂断电话2"])
+        try:
+            time.sleep(3)
+            self.click_element(self.__locators["挂断电话2"])
+        except:
+            pass
 
     @TestLogger.log("")
     def is_element_present(self, locator='挂断电话'):
@@ -387,6 +390,13 @@ class ContactDetailsPage(BasePage):
             self.click_element(self.__locators["挂断视频通话"])
         else:
             self.click_element(self.__locators["取消拨打"])
+
+    @TestLogger.log("")
+    def end_voice_call(self):
+        try:
+            self.click_element(self.__locators["取消拨打"])
+        except:
+            pass
 
     @TestLogger.log()
     def hefeixin_call_btn_is_clickable(self):
