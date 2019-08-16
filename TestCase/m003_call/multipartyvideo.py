@@ -291,16 +291,16 @@ class Preconditions(WorkbenchPreconditions):
 
     # 多人群聊前置条件
     @staticmethod
-    def select_one_mobile(moible_param):
+    def select_one_mobile(mobile_param):
         """选择指定的设备连接，并确保在消息列表页面"""
-        Preconditions.select_mobile(moible_param)
+        Preconditions.select_mobile(mobile_param)
         # 消息页面
-        Preconditions.make_in_message_page(moible_param, reset=False)
+        Preconditions.make_in_message_page(mobile_param, reset=False)
 
     @staticmethod
-    def make_in_message_page(moible_param, reset=False):
+    def make_in_message_page(mobile_param, reset=False):
         """确保应用在消息页面"""
-        Preconditions.select_mobile(moible_param, reset)
+        Preconditions.select_mobile(mobile_param, reset)
         current_mobile().hide_keyboard_if_display()
         time.sleep(1)
         # 如果在消息页，不做任何操作
@@ -313,7 +313,7 @@ class Preconditions(WorkbenchPreconditions):
         Preconditions.login_by_one_key_login()
 
     @staticmethod
-    def build_one_new_group_with_number(puhone_number, group_name):
+    def build_one_new_group_with_number(phone_number, group_name):
         """新建一个指定成员和名称的群，如果已存在，不建群"""
         # 消息页面
         mess = MessagePage()
@@ -367,7 +367,7 @@ class Preconditions(WorkbenchPreconditions):
         mess.click_group_chat()
         # 添加指定电话成员
         time.sleep(2)
-        sc.input_search_keyword(puhone_number)
+        sc.input_search_keyword(phone_number)
         time.sleep(2)
         sog.click_text("tel")
         time.sleep(2)
@@ -452,12 +452,12 @@ class Preconditions(WorkbenchPreconditions):
         gcp.wait_for_page_load()
 
     @staticmethod
-    def change_mobile(moible_param):
+    def change_mobile(mobile_param):
         """转换设备连接并且确保在消息列表页面"""
-        Preconditions.select_mobile(moible_param)
+        Preconditions.select_mobile(mobile_param)
         current_mobile().hide_keyboard_if_display()
         current_mobile().launch_app()
-        Preconditions.make_in_message_page(moible_param)
+        Preconditions.make_in_message_page(mobile_param)
 
     @staticmethod
     def dismiss_one_group(name):
@@ -517,7 +517,7 @@ class Preconditions(WorkbenchPreconditions):
         # 导入团队联系人
         fail_time2 = 0
         flag2 = False
-        while fail_time2 < 5:
+        while fail_time2 < 3:
             try:
                 Preconditions.make_already_in_message_page()
                 contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
@@ -535,7 +535,7 @@ class Preconditions(WorkbenchPreconditions):
         # 导入标签分组联系人
         fail_time2 = 0
         flag2 = False
-        while fail_time2 < 5:
+        while fail_time2 < 3:
             try:
                 Preconditions.make_already_in_message_page()
                 name_list = ['a a', 'abc', 'b测算', 'bb1122', '大佬1', '给个红包1', 'English']

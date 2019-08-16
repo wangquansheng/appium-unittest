@@ -23,7 +23,7 @@ class OrganizationStructurePage(BasePage):
         '部门排序输入框': (MobileBy.XPATH, '//*[@resource-id ="department_add_sort_input"]'),
         '当前组织联系人': (MobileBy.XPATH, '//*[@class ="android.widget.CheckBox"]'),
         '确定删除成员': (MobileBy.XPATH, '//*[@resource-id ="contact_del_confirm"]'),
-        '搜索框': (MobileBy.XPATH, '//*[@resource-id ="c_com_search_input"]'),
+        '搜索框': (MobileBy.XPATH, '//*[@resource-id ="c_com_search_input_own"]'),
         '完成': (MobileBy.XPATH, '//*[@text="完成"]'),
         '删除': (MobileBy.XPATH, '//*[@text="删除"]'),
         '确定': (MobileBy.XPATH, '//*[@text="确定"]'),
@@ -97,7 +97,7 @@ class OrganizationStructurePage(BasePage):
             self.wait_until(
                 timeout=timeout,
                 auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self.is_text_present("访客模式")
+                condition=lambda d: self.is_text_present("扫一扫")
             )
         except:
             message = "页面在{}s内，没有加载成功".format(str(timeout))

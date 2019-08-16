@@ -153,15 +153,15 @@ class OrganizationTest(TestCase):
         time.sleep(2)
         osp.wait_for_page_load()
         slc = SelectLocalContactsPage()
-        if osp.is_text_present("和飞信电话"):
+        if osp.is_text_present("飞信电话"):
             osp.click_text("添加联系人")
             time.sleep(1)
             osp.click_text("从手机通讯录添加")
             time.sleep(2)
-            slc.click_one_contact("和飞信电话")
+            slc.click_one_contact("飞信电话")
             slc.click_sure()
             if not slc.is_toast_exist("1个联系人联系人在库中已存在"):
-                print("和飞信电话已经加入")
+                print("飞信电话已经加入")
             time.sleep(2)
             if not osp.is_text_present("邀请成员加入团队"):
                 raise AssertionError("没有返回上一级")
@@ -170,7 +170,7 @@ class OrganizationTest(TestCase):
             time.sleep(1)
             osp.click_text("从手机通讯录添加")
             time.sleep(2)
-            slc.click_one_contact("和飞信电话")
+            slc.click_one_contact("飞信电话")
             slc.click_sure()
             if not slc.is_toast_exist("操作成功"):
                 raise AssertionError("操作不成功")
@@ -203,10 +203,10 @@ class OrganizationTest(TestCase):
             sc.click_one_contact("飞信电话")
             # slc.click_one_contact("和飞信电话")
             slc.click_sure()
-            if not slc.is_toast_exist("1个联系人联系人在库中已存在"):
+            if not slc.is_toast_exist("1个联系人已存在"):
                 raise AssertionError("操作不成功")
             time.sleep(2)
-            if not osp.is_text_present("邀请成员加入团队"):
+            if not osp.is_text_present("添加成员加入团队"):
                 raise AssertionError("没有返回上一级")
         else:
             osp.click_text("添加联系人")
@@ -226,7 +226,8 @@ class OrganizationTest(TestCase):
             if not osp.is_text_present("邀请成员加入团队"):
                 raise AssertionError("没有返回上一级")
 
-    @tags('ALL', "CMCC", 'workbench', 'ZZJG')
+    # @tags('ALL', "CMCC", 'workbench', 'ZZJG')
+    @unittest.skip("平台已改动，与用例不符")
     def test_ZZJG_0007(self):
         """点击邀请小伙伴正常跳转到邀请成员页面"""
         # 1、点击“组织架构”应用
@@ -381,7 +382,7 @@ class OrganizationTest(TestCase):
         time.sleep(2)
         osp.wait_for_page_load()
         slc = SelectLocalContactsPage()
-        if osp.is_text_present("和飞信电话"):
+        if osp.is_text_present("飞信电话"):
             pass
         else:
             osp.click_text("添加联系人")
@@ -400,6 +401,7 @@ class OrganizationTest(TestCase):
             time.sleep(2)
             if not osp.is_on_this_page():
                 raise AssertionError("没有返回上一级")
+        osp.click_text("搜索")
         osp.input_search_box("飞信")
         time.sleep(2)
         if not osp.is_text_present("飞信电话"):
@@ -414,6 +416,7 @@ class OrganizationTest(TestCase):
         time.sleep(2)
         osp.wait_for_page_load()
         number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        osp.click_text("搜索")
         osp.input_search_box(number[0:6])
         time.sleep(3)
         if not osp.is_text_present(number):
@@ -427,9 +430,10 @@ class OrganizationTest(TestCase):
         osp = OrganizationStructurePage()
         time.sleep(2)
         osp.wait_for_page_load()
+        osp.click_text("搜索")
         osp.input_search_box("不存在")
         time.sleep(3)
-        if not osp.is_text_present("暂无成员"):
+        if not osp.is_text_present("未搜索到相关结果"):
             raise AssertionError("搜索失败")
 
     @tags('ALL', "CMCC", 'workbench', 'ZZJG')
@@ -440,9 +444,10 @@ class OrganizationTest(TestCase):
         osp = OrganizationStructurePage()
         time.sleep(2)
         osp.wait_for_page_load()
+        osp.click_text("搜索")
         osp.input_search_box("111111")
         time.sleep(3)
-        if not osp.is_text_present("暂无成员"):
+        if not osp.is_text_present("未搜索到相关结果"):
             raise AssertionError("搜索失败")
 
     @tags('ALL', "CMCC", 'workbench', 'ZZJG')
