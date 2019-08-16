@@ -1900,28 +1900,28 @@ class MygroupdetailPage(TestCase):
     """
     模块:通讯录-我的团队-个人详情页(profile页)
     """
-    # @classmethod
-    # def setUpClass(cls):
-    #     Preconditions.select_mobile('Android-移动')
-    #     Preconditions.make_already_in_message_page()
-    #     mess = MessagePage()
-    #     if mess.is_on_this_page():
-    #         WorkbenchPreconditions.enter_create_team_page2()
-    #     # 当前为消息页面
-    #     # 确保存在子部门
-    #     WorkbenchPreconditions.create_sub_department()
-    #     # 导入团队联系人
-    #     fail_time2 = 0
-    #     flag2 = False
-    #     while fail_time2 < 3:
-    #         try:
-    #             Preconditions.make_already_in_message_page()
-    #             contact_names = ["大佬1", "大佬2", "大佬3", "大佬4", '香港大佬', '测试号码']
-    #             Preconditions.create_he_contacts(contact_names)
-    #         except:
-    #             fail_time2 += 1
-    #         if flag2:
-    #             break
+    @classmethod
+    def setUpClass(cls):
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            WorkbenchPreconditions.enter_create_team_page2()
+        # 当前为消息页面
+        # 确保存在子部门
+        WorkbenchPreconditions.create_sub_department()
+        # 导入团队联系人
+        fail_time2 = 0
+        flag2 = False
+        while fail_time2 < 3:
+            try:
+                Preconditions.make_already_in_message_page()
+                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4", '香港大佬', '测试号码']
+                Preconditions.create_he_contacts(contact_names)
+            except:
+                fail_time2 += 1
+            if flag2:
+                break
 
     def default_setUp(self):
         """确保每个用例执行前在团队联系人profile页"""
