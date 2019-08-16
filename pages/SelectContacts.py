@@ -239,12 +239,11 @@ class SelectContactsPage(BasePage):
         time.sleep(1)
         self.click_element(self.__locators[text])
 
-
     @TestLogger.log("点击搜索群组")
     def click_group_search(self):
         """搜索联系人"""
-        time.sleep(1)
         self.click_element(self.__locators["搜索群组"])
+        time.sleep(3)
 
     @TestLogger.log("搜索群组")
     def group_search(self, text='aaa'):
@@ -381,6 +380,7 @@ class SelectContactsPage(BasePage):
     def click_select_one_group(self):
         """点击 选择一个群"""
         self.click_element(self.__class__.__locators["选择一个群"])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_he_contacts(self):
@@ -396,6 +396,7 @@ class SelectContactsPage(BasePage):
     def select_local_contacts(self):
         """选择本地联系人/选择手机联系人"""
         self.click_element(self.__class__.__locators["选择手机联系人"])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_one_local_contacts(self):

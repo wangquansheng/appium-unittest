@@ -53,6 +53,7 @@ class ContactListSearchPage(BasePage):
     @TestLogger.log('点击分享名片')
     def click_share_card(self):
         self.click_element(self.__locators['分享名片'])
+        time.sleep(1)
 
     @TestLogger.log('输入搜索关键字')
     def input_search_keyword(self, keyword):

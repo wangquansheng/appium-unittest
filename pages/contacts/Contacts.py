@@ -62,9 +62,8 @@ class ContactsPage(FooterPage):
         '弹出框点击允许': (MobileBy.ID, 'com.android.packageinstaller:id/permission_allow_button'),
         '弹出框点击禁止': (MobileBy.ID, 'com.android.packageinstaller:id/permission_deny_button'),
         '始终允许': (MobileBy.XPATH, "//*[contains(@text, '始终允许')]"),
-		'和通讯录联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
+        '和通讯录联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
         '团队列表': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
-
         '和通讯录更多': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_more'),
         '团队管理': (MobileBy.ID, 'com.chinasofti.rcs:id/quit_confirm_tv'),
         '显示':(MobileBy.ID,'com.chinasofti.rcs:id/btn_ok'),
@@ -685,8 +684,10 @@ class ContactsPage(FooterPage):
     @TestLogger.log()
     def click_always_allowed(self):
         """获取通讯录权限点击始终允许"""
-        if self.get_elements(self.__class__.__locators['弹出框点击允许']):
+        try:
             self.click_element(self.__class__.__locators['弹出框点击允许'])
+        except:
+            pass
 
     @TestLogger.log()
     def click_forbidden(self):
