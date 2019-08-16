@@ -61,6 +61,8 @@ class ContactDetailsPage(BasePage):
         "呼叫(1/8)": (MobileBy.ID, "com.chinasofti.rcs:id/tv_sure"),
         "暂不开启": (MobileBy.ID, "android:id/button2"),
         "挂断电话": (MobileBy.ID, "com.chinasofti.rcs:id/ivDecline"),
+        # 备注：包名与和飞信不同
+        "挂断电话2": (MobileBy.ID, "com.android.incallui:id/endButton"),
         "结束通话": (MobileBy.ID, "com.chinasofti.rcs:id/smart_call_out_term"),
         "视频通话呼叫中": (MobileBy.XPATH, "//*[@text='	视频通话呼叫中']"),
         "挂断视频通话": (MobileBy.ID, "com.chinasofti.rcs:id/iv_out_Cancel"),
@@ -160,7 +162,6 @@ class ContactDetailsPage(BasePage):
         time.sleep(2)
         return self.is_text_present('分享名片')
 
-
     @TestLogger.log("添加桌面快捷方式")
     def click_add_desktop_shortcut(self):
         time.sleep(1)
@@ -197,18 +198,22 @@ class ContactDetailsPage(BasePage):
         time.sleep(3)
         self.click_element(self.__locators["暂不开启"])
 
-    @TestLogger.log("挂断通话")
+    @TestLogger.log("")
     def cancel_call(self):
         time.sleep(7)
         self.click_element(self.__locators["挂断电话"])
 
-    @TestLogger.log("挂断通话")
-    def is_element_present(self,locator='挂断电话'):
+    @TestLogger.log("")
+    def cancel_call2(self):
+        time.sleep(7)
+        self.click_element(self.__locators["挂断电话2"])
+
+    @TestLogger.log("")
+    def is_element_present(self, locator='挂断电话'):
         time.sleep(4)
         return self._is_element_present(self.__locators[locator])
 
-
-    @TestLogger.log("挂断和飞信电话")
+    @TestLogger.log("")
     def cancel_hefeixin_call(self):
         time.sleep(4)
         if self._is_element_present(self.__locators["和飞信电话-挂断电话"]):
@@ -216,13 +221,12 @@ class ContactDetailsPage(BasePage):
         else:
             time.sleep(2)
 
-    @TestLogger.log("结束通话")
+    @TestLogger.log("")
     def click_end_call(self):
         time.sleep(2)
         self.click_element(self.__locators["结束通话"])
 
-
-    @TestLogger.log("删除联系人")
+    @TestLogger.log("")
     def change_delete_number(self):
         time.sleep(1)
         self.click_element(self.__locators['删除联系人'])

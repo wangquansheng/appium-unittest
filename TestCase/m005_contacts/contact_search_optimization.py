@@ -23,7 +23,6 @@ REQUIRED_MOBILES = {
 
 
 class Preconditions(WorkbenchPreconditions):
-    """前置条件"""
     @staticmethod
     def make_already_in_message_page(reset=False):
         """确保应用在消息页面"""
@@ -54,7 +53,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class ContactSearchOpTest(TestCase):
-    """  """
+
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')
@@ -65,14 +64,15 @@ class ContactSearchOpTest(TestCase):
         # 当前为消息页面
         # 确保存在子部门
         WorkbenchPreconditions.create_sub_department()
-        # 创建联系人
-        fail_time = 0
+
+        # 导入测试联系人、群聊
+        fail_time1 = 0
+        flag1 = False
         import dataproviders
-        while fail_time < 3:
+        while fail_time1 < 3:
             try:
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()
-                Preconditions.connect_mobile('Android-移动')
                 current_mobile().hide_keyboard_if_display()
                 Preconditions.make_already_in_message_page()
                 conts.open_contacts_page()
@@ -84,7 +84,7 @@ class ContactSearchOpTest(TestCase):
                 for name, number in required_contacts:
                     # 创建联系人
                     conts.create_contacts_if_not_exits(name, number)
-                required_group_chats = dataproviders.get_preset_group_contacts()
+                required_group_chats = dataproviders.get_preset_group_chats()
                 conts.open_group_chat_list()
                 group_list = GroupListPage()
                 for group_name, members in required_group_chats:
@@ -93,55 +93,39 @@ class ContactSearchOpTest(TestCase):
                     group_list.create_group_chats_if_not_exits(group_name, members)
                 group_list.click_back()
                 conts.open_message_page()
-                return
+                flag1 = True
             except:
-                fail_time += 1
-                import traceback
-                msg = traceback.format_exc()
-                print(msg)
+                fail_time1 += 1
+            if flag1:
+                break
+                # 导入团队联系人
+                fail_time2 = 0
+                flag2 = False
+                while fail_time2 < 5:
+                    try:
+                        Preconditions.make_already_in_message_page()
+                        contact_names = ["大佬1", "大佬2", "大佬3", "大佬4", '香港大佬', '测试号码']
+                        Preconditions.create_he_contacts(contact_names)
+                        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+                        contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
+                                          ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296"),
+                                          ('#*', '13800137006'), ('#1', '13800137007'), ('本机测试', phone_number)]
+                        # 将联系人添加到团队及团队子部门
+                        Preconditions.create_he_contacts2(contact_names2)
+                        WorkbenchPreconditions.create_he_contacts_for_sub_department("bm0", contact_names2)
+                        flag2 = True
+                    except:
+                        fail_time2 += 1
+                    if flag2:
+                        break
 
     def default_setUp(self):
-        """确保每个用例运行前在收藏页面"""
-        # Preconditions.select_mobile('Android-移动')
-        # mess = MessagePage()
-        # if mess.is_on_this_page():
-        #     Preconditions.init_and_enter_collection_page()
-        #     return
-        # mcp = MeCollectionPage()
-        # if mcp.is_on_this_page():
-        #     current_mobile().hide_keyboard_if_display()
-        #     return
-        # else:
-        #     current_mobile().launch_app()
-        #     Preconditions.init_and_enter_collection_page()
-        pass
-
-    def default_tearDown(self):
-        lcontact = localContactPage()
-        lcontact.set_network_status(6)
-        pass
+        """消息页面页面"""
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0010(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -160,25 +144,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0011(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                 ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -217,25 +182,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0012(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -254,25 +200,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0013(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -296,26 +223,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0014(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296"),
-                                  ('测试啊', "+8618822883296")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         mess.click_search()
@@ -331,26 +238,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0015(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296"),
-                                  ('测试啊', "+8618822883296")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -376,26 +263,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0016(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296"),
-                                  ('测试啊', "+8618822883296"), ('测试啊2', "#*13800137004")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -412,9 +279,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0017(self):
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -428,28 +292,13 @@ class ContactSearchOpTest(TestCase):
         sccp = SelectCompanyContactsPage()
         self.assertEquals(sccp.is_toast_exist("当前网络不可用，请检查网络设置"), True)
 
+    @staticmethod
+    def tearDown_test_contacts_quxinli_0017():
+        lcontact = localContactPage()
+        lcontact.set_network_status(6)
+
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0018(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296"),
-                                  ('测试啊', "+8618822883296"), ('测试啊2', "#*13800137004")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -471,26 +320,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0025(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296"),
-                                  ('测试啊', "+8618822883296"), ('测试啊2', "#*13800137004")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -508,25 +337,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0026(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296"),
-                                  ('测试啊', "+8618822883296"), ('测试啊2', "#*13800137004")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -567,26 +377,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0027(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296"),
-                                  ('测试啊', "+8618822883296"), ('测试啊2', "#*13800137004")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -605,8 +395,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0736(self):
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -623,25 +411,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0739(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -658,25 +427,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0740(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -694,8 +444,6 @@ class ContactSearchOpTest(TestCase):
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0741(self):
         """查看更多联系人"""
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         mess.click_search()
@@ -709,8 +457,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0742(self):
-        Preconditions.make_already_in_message_page()
-        # 点击‘联系’
         mess = MessagePage()
         mess.open_contacts_page()
         mess.click_search()
@@ -724,8 +470,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0743(self):
-        Preconditions.make_already_in_message_page()
-        # 点击‘联系’
         mess = MessagePage()
         mess.open_contacts_page()
         mess.click_search()
@@ -740,8 +484,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0744(self):
-        Preconditions.make_already_in_message_page()
-        # 点击‘联系’
         mess = MessagePage()
         mess.open_contacts_page()
         mess.click_search()
@@ -756,8 +498,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0760(self):
-        Preconditions.make_already_in_message_page()
-        # 点击‘联系’
         mess = MessagePage()
         mess.open_contacts_page()
         mess.click_search()
@@ -771,25 +511,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0781(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -806,8 +527,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0004(self):
-        Preconditions.make_already_in_message_page()
-        # 点击‘联系’
         mess = MessagePage()
         mess.open_contacts_page()
         time.sleep(5)
@@ -824,25 +543,6 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0024(self):
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "18826211112"), ('郑海', "13802883296")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        Preconditions.make_already_in_message_page()
-        # 点击‘通讯录’
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
