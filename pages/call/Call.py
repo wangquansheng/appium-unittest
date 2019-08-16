@@ -1,3 +1,5 @@
+import random
+
 from appium.webdriver.common.mobileby import MobileBy
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
@@ -471,8 +473,6 @@ class CallPage(FooterPage,BasePage):
                 else:
                     print("已删除通话记录")
                     break
-        else:
-            raise AttributeError
 
     @TestLogger.log()
     def get_call_entry_color_of_element(self):
@@ -601,6 +601,7 @@ class CallPage(FooterPage,BasePage):
         self.click_call()
         time.sleep(1)
         self.dial_number(text)
+        time.sleep(1)
         self.click_call_phone()
         time.sleep(2)
         if CallTypeSelectPage().is_select_call():
@@ -827,11 +828,18 @@ class CallPage(FooterPage,BasePage):
         """点击取消拨打"""
         self.click_element((MobileBy.ID, "com.chinasofti.rcs:id/iv_normal_call_end"))
 
-
-
     @TestLogger.log()
     def end_multi_video_phone(self):
         self.click_element(self.__locators['结束多方视频'])
         self.click_element(self.__class__.__locators["结束通话提示框-确定"])
+
+    @TestLogger.log()
+    def randomly_generated_number(self):
+        """随机生成8位号码"""
+        number = ""
+        for i in range(8):
+            tmp = random.randint(0, 9)
+            number += str(tmp)
+        return number
 
 

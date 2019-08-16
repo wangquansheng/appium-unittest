@@ -1,10 +1,7 @@
-import warnings
-
 import preconditions
 from library.core.TestCase import TestCase
 from selenium.common.exceptions import TimeoutException
-from library.core.utils.applicationcache import current_mobile, switch_to_mobile, current_driver
-from library.core.common.simcardtype import CardType
+from library.core.utils.applicationcache import current_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.components.BaseChat import BaseChatPage
@@ -1965,6 +1962,7 @@ class CallAll(TestCase):
         # Step:4.再次点击视频通话
         CallContactDetailPage().wait_for_profile_name()
         CallContactDetailPage().click_video_call()
+        time.sleep(2)
         # CheckPoint:4.继续弹出提示窗口
         cpg.page_should_contain_text("每月10G免流特权")
         cpg.click_back_by_android(2)
@@ -2036,7 +2034,7 @@ class CallAll(TestCase):
             cpg.click_text("暂不开启")
         time.sleep(1)
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC_1', 'Call')
     def test_call_shenlisi_0261(self):
         """检查视频通话--呼叫界面缩放按钮"""
         # 1.A已登录和飞信
@@ -2313,6 +2311,7 @@ class CallAll(TestCase):
         cpg.click_call()
         # CheckPoint:1.通话未接数清零，图标变为拨号盘按钮
         # 清空通话记录
+        time.sleep(2)
         cpg.delete_all_call_entry()
         time.sleep(3)
         cpg.page_should_contain_text("拨号盘")
@@ -2348,9 +2347,9 @@ class CallAll(TestCase):
         # CheckPoint:2.与用户B的视频通话记录一条，次数为5
         cpg = CallPage()
         cpg.create_call_entry("13537795364")
-        cpg.click_call_time()
         time.sleep(2)
         for i in range(5):
+            cpg.click_call_time()
             CallContactDetailPage().click_video_call()
             time.sleep(1)
             if cpg.is_exist_go_on():
@@ -2360,7 +2359,6 @@ class CallAll(TestCase):
             cpg.click_cancel_open()
             CallContactDetailPage().wait_for_profile_name()
             cpg.click_back_by_android()
-            cpg.page_should_contain_text("视频通话")
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_shenlisi_0341_3(self):
@@ -2417,14 +2415,10 @@ class CallAll(TestCase):
         # CheckPoint:1.进入到M的通话profile界面
         time.sleep(1)
         self.assertTrue(cpg.is_exist_profile_name())
-        # Step:2.查看左上角的名称
-        ret = cpg.get_profile_name()
-        # CheckPoint:2.左上角<按钮。以及N的手机号
-        self.assertEqual(ret, "0731210086")
-        # Step:3.点击<按钮>
+        # Step:2.点击<按钮>
         CallContactDetailPage().click_back()
         time.sleep(2)
-        # CheckPoint:3.返回到上一个界面
+        # CheckPoint:2.返回到上一个界面
         self.assertTrue(cpg.is_on_the_call_page())
 
     @tags('ALL', 'CMCC', 'Call')
@@ -2761,7 +2755,8 @@ class CallAll(TestCase):
         # 1.已登录和飞信
         # 2.进入到陌生人通话profile
         cpg = CallPage()
-        cpg.create_call_entry("0731210086")
+        number = cpg.randomly_generated_number()
+        cpg.create_call_entry(number)
         cpg.click_call_time()
         # Step:1.点击保存到本地通讯录按钮
         CallContactDetailPage().click_share_card()
@@ -2777,13 +2772,9 @@ class CallAll(TestCase):
         ncpg.input_contact_info(3, "自动化开发")
         # Step:3.点击右上角的保存按钮
         ncpg.click_save_or_sure()
-        cpg.wait_until(timeout=15, auto_accept_permission_alert=True, condition=lambda d: cpg.is_text_present("和飞信电话"))
-        # CheckPoint::3：跳转到联系人profile
-        self.assertTrue(cpg.is_exist_profile_name())
-        # Step:4.点击返回
-        cpg.click_back_by_android()
         time.sleep(1)
-        # CheckPoint:4：返回到通话记录列表
+        # CheckPoint:3：返回到通话记录列表
+        ContactDetailsPage().click_back()
         self.assertTrue(cpg.check_multiparty_video())
 
     @staticmethod
@@ -2797,7 +2788,8 @@ class CallAll(TestCase):
         # 1.已登录和飞信
         # 2.进入到陌生人通话profile
         cpg = CallPage()
-        cpg.create_call_entry("0731210086")
+        number = cpg.randomly_generated_number()
+        cpg.create_call_entry(number)
         cpg.click_call_time()
         # Step:1.点击保存到本地通讯录按钮
         CallContactDetailPage().click_share_card()
@@ -2810,16 +2802,12 @@ class CallAll(TestCase):
         ncpg.input_name("中国移动")
         ncpg.input_contact_info(2, "中软国际")
         ncpg.input_contact_info(3, "自动化开发")
-
         # Step:3.点击右上角的保存按钮
         ncpg.click_save_or_sure()
-        cpg.wait_until(timeout=15, auto_accept_permission_alert=True, condition=lambda d: cpg.is_text_present("和飞信电话"))
-        # CheckPoint::3：跳转到联系人profile
-        self.assertTrue(cpg.is_exist_profile_name())
         # Step:4.点击返回
-        cpg.click_back_by_android()
+        ContactDetailsPage().click_back()
         time.sleep(1)
-        # CheckPoint:4：返回到通话记录列表，更新通话记录，更新与该联系人通话记录的名称
+        # CheckPoint:3：返回到通话记录列表，更新通话记录，更新与该联系人通话记录的名称
         self.assertTrue(cpg.check_multiparty_video())
         cpg.page_should_contain_text("中国移动")
 
@@ -2834,7 +2822,7 @@ class CallAll(TestCase):
         # 1.已登录和飞信
         # 2.进入到本地联系人通话profile
         cpg = CallPage()
-        cpg.create_call_entry("13800138008")
+        cpg.create_call_entry("67656003")
         cpg.click_call_time()
         # Step:1.点击编辑按钮
         CallContactDetailPage().click_call_detail_edit()
@@ -2850,11 +2838,9 @@ class CallAll(TestCase):
         time.sleep(1)
         # Step:3.点击右上角的保存按钮
         ncpg.click_save_or_sure()
-        cpg.wait_until(timeout=15, auto_accept_permission_alert=True, condition=lambda d: cpg.is_text_present("和飞信电话"))
-        # CheckPoint3：跳转到联系人profile
-        self.assertTrue(cpg.is_exist_profile_name())
         # Step:4.点击返回
-        cpg.click_back_by_android()
+        time.sleep(1)
+        ContactDetailsPage().click_back()
         time.sleep(1)
         # CheckPoint4：返回到通话记录列表
         self.assertTrue(cpg.check_multiparty_video())
@@ -2862,13 +2848,13 @@ class CallAll(TestCase):
     @staticmethod
     def tearDown_test_call_shenlisi_0371():
         """恢复联系人"""
-        ContactDetailsPage().delete_contact("大佬4")
+        ContactDetailsPage().delete_contact("香港大佬")
         conts = ContactsPage()
         Preconditions.make_already_in_call()
         conts.open_contacts_page()
         if conts.is_text_present("显示"):
             conts.click_text("不显示")
-        conts.create_contacts_if_not_exits("大佬4", "13800138008")
+        conts.create_contacts_if_not_exits("香港大佬", "67656003")
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_shenlisi_0372(self):
@@ -2892,11 +2878,8 @@ class CallAll(TestCase):
         time.sleep(1)
         # 3.点击右上角的保存按钮
         ncpg.click_save_or_sure()
-        cpg.wait_until(timeout=15, auto_accept_permission_alert=True, condition=lambda d: cpg.is_text_present("和飞信电话"))
-        # 3：跳转到联系人通话profile
-        self.assertTrue(cpg.is_exist_profile_name())
         # 4.点击返回
-        cpg.click_back_by_android()
+        ContactDetailsPage().click_back()
         time.sleep(1)
         # 4：返回到通话记录列表，更新通话记录，更新与该联系人通话记录的名称
         self.assertTrue(cpg.check_multiparty_video())
@@ -3193,15 +3176,16 @@ class CallAll(TestCase):
         # 2.已弹出系统选择弹窗多方电话和多方视频
         ContactsPage().click_message_icon()
         Preconditions.enter_group_chat_page("群聊1")
-        # Step:1.点击多方电话
-        gpg = GroupListPage()
-        gpg.click_mult_call_icon()
-        CallPage().click_mutil_call()
-        GrantPemissionsPage().allow_contacts_permission()
-        # CheckPoint:1.调起联系人选择器
-        time.sleep(1)
-        gpg.page_should_contain_text("搜索成员")
-        gpg.click_back_by_android()
+        # # Step:1.点击多方电话
+        # gpg = GroupListPage()
+        # gpg.click_mult_call_icon()
+        # # CallPage().click_mutil_call()
+        # CallPage().click_mutil_video_call()
+        # GrantPemissionsPage().allow_contacts_permission()
+        # # CheckPoint:1.调起联系人选择器
+        # time.sleep(1)
+        # gpg.page_should_contain_text("搜索成员")
+        # gpg.click_back_by_android()
         # Step:2.点击多方视频
         gpg = GroupListPage()
         gpg.click_mult_call_icon()

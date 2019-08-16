@@ -259,21 +259,19 @@ class ContactDetailsPage(BasePage):
     def delete_contact(self, text):
         """使用此方法前，app进入消息界面"""
         self.open_contacts_page()
-        for i in range(10):
-            time.sleep(2)
-            if self.is_text_present(text):
-                self.click_text(text)
-                self.click_edit_contact()
-                time.sleep(1)
-                self.hide_keyboard()
-                self.page_up()
-                self.change_delete_number()
-                self.click_sure_delete()
-                break
-            else:
-                self.page_up()
-                if i == 9:
-                    print("未找到联系人")
+        from pages import ContactsPage
+        ContactsPage().click_mobile_contacts()
+        if ContactsPage().is_text_present('发现SIM卡联系人'):
+            ContactsPage().click_sim_contact_ok()
+        time.sleep(2)
+        ContactsPage().select_contacts_by_name(text)
+        time.sleep(1)
+        self.click_edit_contact()
+        time.sleep(1)
+        self.hide_keyboard()
+        self.page_up()
+        self.change_delete_number()
+        self.click_sure_delete()
 
     @TestLogger.log("点击返回按钮")
     def click_back_icon(self):

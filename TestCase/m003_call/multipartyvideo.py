@@ -522,7 +522,7 @@ class CallMultipartyVideo(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.create_contacts_groups()
+        # Preconditions.create_contacts_groups()
 
     # @classmethod
     # def setUpClass(cls):
