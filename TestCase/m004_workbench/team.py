@@ -44,7 +44,7 @@ class TeamTest(TestCase):
         workbench.click_create_team()
         team.wait_for_page_load()
 
-    @tags('ALL',"CMCC",'workbench')
+    @tags('ALL',"CMCC1",'workbench')
     def test_TDCJ_0002(self):
         """创建团队"""
         team = CreateTeamPage()
@@ -409,7 +409,8 @@ class TeamTestAll(TestCase):
         # 立即创建团队
         team.click_immediately_create_team()
         time.sleep(1)
-        team.is_text_present("团队名称不少于3个字")
+        if not team.is_text_present("团队名称不能少于3个字"):
+            raise AssertionError("没有提示团队名称不少于3个字")
         team.click_sure()
         # 清除输入数据
         team.click_back()
@@ -418,7 +419,7 @@ class TeamTestAll(TestCase):
         workbench.click_create_team()
         team.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'CJTD')
+    @tags('ALL', "CMCC1", 'workbench', 'CJTD')
     def test_CJTD_0003(self):
         """企业名称长度在3-50个字之间"""
         team = CreateTeamPage()
@@ -486,7 +487,7 @@ class TeamTestAll(TestCase):
         workbench.click_create_team()
         team.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'CJTD')
+    @tags('ALL', "CMCC1", 'workbench', 'CJTD')
     def test_CJTD_0007(self):
         """地区选择完成"""
         team = CreateTeamPage()
@@ -532,7 +533,7 @@ class TeamTestAll(TestCase):
         workbench.click_create_team()
         team.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'CJTD')
+    @tags('ALL', "CMCC1", 'workbench', 'CJTD')
     def test_CJTD_0010(self):
         """行业类型选择完成"""
         team = CreateTeamPage()
@@ -621,7 +622,7 @@ class TeamTestAll(TestCase):
         workbench.click_create_team()
         team.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'CJTD')
+    @tags('ALL', "CMCC1", 'workbench', 'CJTD')
     def test_CJTD_0015(self):
         """管理员姓名输入非法字符"""
         #1.在移动端创建团队页面，其他信息填写完成，管理员姓名输入非汉字、字母数字和空格，点【提交注册】
@@ -720,7 +721,7 @@ class TeamTestAll(TestCase):
         workbench.click_create_team()
         team.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'CJTD')
+    @tags('ALL', "CMCC1", 'workbench', 'CJTD')
     def test_CJTD_0019(self):
         """账号为大陆手机号邮箱地址自动填写"""
         team = CreateTeamPage()
@@ -790,7 +791,7 @@ class TeamTestAll(TestCase):
         workbench.click_create_team()
         team.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'CJTD')
+    @tags('ALL', "CMCC1", 'workbench', 'CJTD')
     def test_CJTD_0022(self):
         """输入正确的邮箱地址"""
         #1.在移动端创建团队页面，其他信息填写完成，输入正确的邮箱地址，点【提交注册】
@@ -876,7 +877,7 @@ class TeamTestAll(TestCase):
         workbench.click_create_team()
         team.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'CJTD')
+    @tags('ALL', "CMCC1", 'workbench', 'CJTD')
     def test_CJTD_0027(self):
         """敏感词检验 -- 企业名称检查"""
         # 1、企业名称输入敏感词：如法论功组织等

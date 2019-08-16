@@ -24,7 +24,7 @@ class CreateTeamPage(BasePage):
         # '请务必填写真实姓名': (MobileBy.XPATH, '//*[@text="请务必填写真实姓名" or @content-desc="请务必填写真实姓名" ]'),
         # '14775290489@139.com': (MobileBy.ID, 'gly_email'),
         '邮箱': (MobileBy.XPATH, '//*[@resource-id="gly_email"]'),
-        '立即创建团队': (MobileBy.XPATH, '//*[@content-desc="立即创建团队"]'),
+        '立即创建团队': (MobileBy.XPATH, '//*[contains(@text,"立即创建团队")]'),
         # 点击创建团队后，设置工作台
         '完成设置工作台': (MobileBy.XPATH, '//*[@content-desc="完成设置工作台"]'),
         # 创建成功后页面
@@ -33,7 +33,7 @@ class CreateTeamPage(BasePage):
         '进入工作台': (MobileBy.XPATH, '//*[@content-desc="直接进入工作台"]'),
         # 未输入姓名时的弹窗提示
         '请输入管理员姓名': (MobileBy.XPATH, '//*[@content-desc="请输入管理员姓名"]'),
-        '确定': (MobileBy.XPATH, '//*[contains(@content-desc,"确定")]'),
+        '确定': (MobileBy.XPATH, '//*[contains(@text,"确定")]'),
         '公告首页': (MobileBy.XPATH, '//*[@content-desc="向团队所有成员发出第一条公告"]'),
         '发布公告': (MobileBy.XPATH, '//*[@content-desc="发布公告"]'),
         '未发公告': (MobileBy.XPATH, '//*[@content-desc="未发公告"]'),
@@ -94,11 +94,13 @@ class CreateTeamPage(BasePage):
         try:
             self.click_element(self.__class__.__locators['选择城市'])
         except:
-            self.click_element((MobileBy.XPATH, '//*[@text="选择地区"]/../android.view.View/android.view.View[1]'))
+            # self.click_element((MobileBy.XPATH, '//*[@text="选择地区"]/../android.view.View/android.view.View[1]'))
+            self.click_element((MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[15]/android.view.View[2]/android.view.View[1]'))
         try:
             self.click_element(self.__class__.__locators['选择城市城区'])
         except:
-            self.click_element((MobileBy.XPATH, '//*[@text="上一级"]/../android.view.View/android.view.View[1]'))
+            # self.click_element((MobileBy.XPATH, '//*[@text="上一级"]/../android.view.View/android.view.View[1]'))
+            self.click_element((MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[16]/android.view.View[4]/android.view.View[1]'))
 
     @TestLogger.log()
     def choose_industry(self, hy="计算机软件"):
@@ -109,7 +111,8 @@ class CreateTeamPage(BasePage):
             # self.click_element((MobileBy.XPATH, '//*[@text="%s"]' % hy))
             self.click_element(self.__class__.__locators['计算机软件'])
         except:
-            self.click_element((MobileBy.XPATH, '//*[@text="选择行业"]/../android.view.View/android.view.View[2]'))
+            # self.click_element((MobileBy.XPATH, '//*[@text="选择行业"]/../android.view.View/android.view.View[2]'))
+            self.click_element((MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[15]/android.view.View[2]/android.view.View[3]'))
 
     @TestLogger.log()
     def input_team_name(self, name):

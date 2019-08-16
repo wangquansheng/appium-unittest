@@ -1664,7 +1664,7 @@ class VoiceAnnouncementTest(TestCase):
         current_mobile().back()
         current_mobile().back()
         current_mobile().back()
-        # current_mobile().back()
+        current_mobile().back()
         vnp.click_close_more()
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
