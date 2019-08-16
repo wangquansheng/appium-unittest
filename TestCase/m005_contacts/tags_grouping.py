@@ -1025,12 +1025,11 @@ class Tag_Group(TestCase):
         glp.new_group(name='aaa')
         # 添加成员
         glp.click_text('aaa')
-        time.sleep(2)
-        LabelGroupingChatPage().click_text('添加成员')
-        time.sleep(2)
+        time.sleep(1)
+        glp.click_text('添加成员')
+        time.sleep(1)
         slcp = SelectLocalContactsPage()
         slcp.swipe_select_one_member_by_name('大佬1')
-        time.sleep(1)
         slcp.swipe_select_one_member_by_name('大佬2')
         time.sleep(1)
         slcp.click_sure()
@@ -1038,13 +1037,12 @@ class Tag_Group(TestCase):
         # 进入群发页面
         glp.enter_group_message()
         glp.click_divide_group_icon()
-        time.sleep(1)
         glp.page_contain_element(locator='分组联系人_标题')
         glp.click_text("大佬1")
         time.sleep(1)
         glp.click_star_icon()
         if glp.is_toast_exist('已成功添加为星标联系人'):
-            time.sleep(2)
+            time.sleep(1)
         else:
             time.sleep(1)
             glp.click_star_icon()
@@ -1059,23 +1057,26 @@ class Tag_Group(TestCase):
         glp.page_contain_star('大佬1')
 
     def tearDown_test_contacts_quxinli_0394(self):
-        # 去除'大佬1'的星标
-        ContactsPage().select_contacts_by_name('大佬1')
-        glp = GroupListPage()
-        glp.click_star_icon()
-        if glp.is_toast_exist('已取消添加为星标联系人'):
-            time.sleep(2)
-        else:
-            time.sleep(1)
+        try:
+            # 去除'大佬1'的星标
+            ContactsPage().select_contacts_by_name('大佬1')
+            glp = GroupListPage()
             glp.click_star_icon()
-        time.sleep(1)
-        # 删除群组
-        glp.click_back_by_android()
-        time.sleep(1)
-        contact = ContactsPage()
-        contact.click_label_grouping()
-        time.sleep(1)
-        glp.delete_group(name='aaa')
+            if glp.is_toast_exist('已取消添加为星标联系人'):
+                time.sleep(2)
+            else:
+                time.sleep(1)
+                glp.click_star_icon()
+            time.sleep(1)
+            # 删除群组
+            glp.click_back_by_android()
+            time.sleep(1)
+            contact = ContactsPage()
+            contact.click_label_grouping()
+            time.sleep(1)
+            glp.delete_group(name='aaa')
+        except:
+            pass
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0395(self):
@@ -1101,17 +1102,19 @@ class Tag_Group(TestCase):
         cdp = ContactDetailsPage()
         cdp.click_edit_contact()
         time.sleep(1)
-        creat_contact = CreateContactPage()
-        creat_contact.click_input_number()
-        creat_contact.input_number('13800138006')
+        ccp = CreateContactPage()
+        ccp.click_input_number()
+        ccp.input_number('13800138006')
+        time.sleep(1)
         cdp.click_sure_icon()
         time.sleep(1)
         cdp.click_edit_contact()
         time.sleep(1)
-        creat_contact = CreateContactPage()
-        creat_contact.click_input_number()
-        creat_contact.input_number('13800138005')
+        ccp.click_input_number()
+        ccp.input_number('13800138005')
+        time.sleep(1)
         cdp.click_sure_icon()
+        time.sleep(1)
         glp.is_toast_exist("保存成功")
         cdp.is_text_present('13800138005')
 
@@ -1360,47 +1363,47 @@ class Tag_Group(TestCase):
     @tags('ALL', 'CONTACT-debug', 'CMCC')
     def test_contacts_quxinli_0416(self):
         """分组详情操作页面进入Profile页"""
-        GroupPage = GroupListPage()
+        glp = GroupListPage()
+        glp.delete_group(name='aaa')
+        glp.new_group(name='aaa')
+        # 添加成员
+        glp.click_text('aaa')
         time.sleep(1)
-        GroupPage.delete_group(name='aaa')
-        GroupPage.new_group(name='aaa')
-        #添加成员
-        GroupPage.click_text('aaa')
-        GroupPage.tap_sure_box()
+        glp.click_text('添加成员')
         time.sleep(1)
-        LabelGroupingChatPage().click_text('添加成员')
         slcp = SelectLocalContactsPage()
-        time.sleep(1)
         slcp.swipe_select_one_member_by_name('大佬3')
-        # slcp.select_one_member_by_name('大佬2')
         slcp.swipe_select_one_member_by_name('大佬4')
+        time.sleep(1)
         slcp.click_sure()
+        time.sleep(1)
+        glp.enter_group_message()
+        glp.click_divide_group_icon()
+        time.sleep(1)
+        glp.page_contain_element(locator='分组联系人_标题')
+        glp.click_text("大佬3")
+        time.sleep(1)
+        glp.page_contain_element(locator='语音通话')
+        glp.page_contain_element(locator='视频通话')
+        glp.page_contain_element(locator='分享名片')
+        glp.click_share_button()
+        time.sleep(1)
+        scp = SelectContactsPage()
+        scp.click_select_one_group()
+        time.sleep(1)
+        scp.click_group_search()
+        time.sleep(3)
+        scp.group_search('给个红包1')
+        time.sleep(3)
+        scp.select_one_group_by_name2('给个红包1')
         time.sleep(2)
-        LableGroupDetailPage().click_send_group_info()
-        time.sleep(2)
-        GroupPage.click_divide_group_icon()
-        time.sleep(1)
-        GroupPage.page_contain_element(locator='分组联系人_标题')
-        GroupPage.click_text("大佬3")
-        time.sleep(1)
-        GroupPage.page_contain_element(locator='语音通话')
-        GroupPage.page_contain_element(locator='视频通话')
-        GroupPage.page_contain_element(locator='分享名片')
-        GroupPage.click_share_button()
-        time.sleep(1)
-        SelectContactsPage().click_select_one_group()
-        time.sleep(1)
-        SelectOneGroupPage().click_search_group()
-        SelectOneGroupPage().input_search_keyword('给个红包1')
-        SelectOneGroupPage().selecting_one_group_by_name('给个红包1')
-        SelectOneGroupPage().click_share_business_card()
+        scp.click_share_card()
         time.sleep(2)
 
     def tearDown_test_contacts_quxinli_0416(self):
-        Preconditions.enter_label_grouping_chat_page()
-        time.sleep(1)
-        GroupPage = GroupListPage()
-        GroupPage.delete_group(name='aaa')
+        glp = GroupListPage()
+        glp.click_back_by_android(3)
+        glp.delete_group(name='aaa')
 
     @tags('ALL', 'CONTACT-debug', 'CMCC')
     def test_contacts_quxinli_0417(self):
@@ -1758,18 +1761,17 @@ class Tag_Group(TestCase):
         glp.delete_group(name='aaa')
         glp.new_group(name='aaa')
         # 添加联系人大佬1 大佬2
-        time.sleep(2)
         glp.click_text('aaa')
         time.sleep(1)
         glp.click_text('添加成员')
         slcp = SelectLocalContactsPage()
         slcp.swipe_select_one_member_by_name('大佬1')
-        time.sleep(1)
         slcp.swipe_select_one_member_by_name('大佬2')
         slcp.click_sure()
         time.sleep(2)
         # 判断页面元素
         glp.click_send_message_to_group()
+        time.sleep(1)
         glp.click_divide_group_icon()
         time.sleep(1)
         glp.page_contain_element(locator='分组联系人_标题')
@@ -1795,7 +1797,9 @@ class Tag_Group(TestCase):
         detailpage.click_share_business_card()
         time.sleep(1)
         SelectContactsPage().select_local_contacts()
+        time.sleep(1)
         SelectContactsPage().click_one_contact('大佬1')
+        time.sleep(1)
         SelectContactsPage().click_share_card()
 
     def tearDown_test_contacts_quxinli_0393(self):
@@ -1806,142 +1810,124 @@ class Tag_Group(TestCase):
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0399(self):
         """“分组设置入口"""
-        GroupPage = GroupListPage()
-        time.sleep(1)
-        GroupPage.delete_group(name='aaa')
-        GroupPage.new_group(name='aaa')
-        GroupPage.click_text('aaa')
-        GroupPage.tap_sure_box()
-        GroupPage.click_settings_button()
-        GroupPage.page_contain_element("标签设置")
+        glp = GroupListPage()
+        glp.delete_group(name='aaa')
+        glp.new_group(name='aaa')
+        glp.click_text('aaa')
+        glp.tap_sure_box()
+        glp.click_settings_button()
+        glp.page_contain_element("标签设置")
 
     def tearDown_test_contacts_quxinli_0399(self):
-        GroupPage = GroupListPage()
-        GroupPage.click_back_button(times=2)
-        GroupPage.delete_group(name='aaa')
+        glp = GroupListPage()
+        glp.click_back_button(times=2)
+        glp.delete_group(name='aaa')
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0400(self):
-        """“分组设置返回，
-         auther:darcy
-        """
-        GroupPage = GroupListPage()
-        time.sleep(1)
-        GroupPage.delete_group(name='aaa')
-        GroupPage.new_group(name='aaa')
-        GroupPage.click_text('aaa')
-        GroupPage.tap_sure_box()
-        GroupPage.click_settings_button()
-        GroupPage.click_back_button(times=1)
-        GroupPage.page_not_contain_element("标签设置")
+        """“分组设置返回，"""
+        glp = GroupListPage()
+        glp.delete_group(name='aaa')
+        glp.new_group(name='aaa')
+        glp.click_text('aaa')
+        glp.tap_sure_box()
+        glp.click_settings_button()
+        glp.click_back_button(times=1)
+        glp.page_not_contain_element("标签设置")
 
     def tearDown_test_contacts_quxinli_0400(self):
-        GroupPage = GroupListPage()
-        GroupPage.click_back_button(times=1)
-        GroupPage.delete_group(name='aaa')
+        glp = GroupListPage()
+        glp.click_back_button(times=1)
+        glp.delete_group(name='aaa')
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0401(self):
-        """“分组设置界面
-        auther:darcy
-        """
-        GroupPage = GroupListPage()
-
-        time.sleep(1)
-        GroupPage.delete_group(name='aaa')
-        GroupPage.new_group(name='aaa')
-        GroupPage.click_text('aaa')
-        GroupPage.tap_sure_box()
-        GroupPage.click_settings_button()
-        GroupPage.page_contain_element("标签设置")
-        GroupPage.page_contain_element("删除标签")
-        GroupPage.page_contain_element("移除成员")
-        GroupPage.page_contain_element("标签名称")
+        """“分组设置界面"""
+        glp = GroupListPage()
+        glp.delete_group(name='aaa')
+        glp.new_group(name='aaa')
+        glp.click_text('aaa')
+        glp.tap_sure_box()
+        glp.click_settings_button()
+        glp.page_contain_element("标签设置")
+        glp.page_contain_element("删除标签")
+        glp.page_contain_element("移除成员")
+        glp.page_contain_element("标签名称")
 
     def tearDown_test_contacts_quxinli_0401(self):
-        GroupPage = GroupListPage()
-        GroupPage.click_back_button(times=1)
-        GroupPage.delete_group(name='aaa')
+        glp = GroupListPage()
+        glp.click_back_button(times=1)
+        glp.delete_group(name='aaa')
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0402(self):
-        """“分组设置-标签名称
-        auther:darcy
-        """
-        GroupPage = GroupListPage()
-        time.sleep(1)
-        GroupPage.delete_group(name='aaa')
-        GroupPage.new_group(name='aaa')
-        GroupPage.click_text('aaa')
-        GroupPage.tap_sure_box()
-        GroupPage.click_settings_button()
-        GroupPage.click_label_name()
-        GroupPage.page_contain_element("修改标签名称")
+        """“分组设置-标签名称"""
+        glp = GroupListPage()
+        glp.delete_group(name='aaa')
+        glp.new_group(name='aaa')
+        glp.click_text('aaa')
+        glp.tap_sure_box()
+        glp.click_settings_button()
+        glp.click_label_name()
+        glp.page_contain_element("修改标签名称")
 
     def tearDown_test_contacts_quxinli_0402(self):
-        GroupPage = GroupListPage()
-        GroupPage.click_back_button(times=3)
-        GroupPage.delete_group(name='aaa')
+        glp = GroupListPage()
+        glp.click_back_button(times=3)
+        glp.delete_group(name='aaa')
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0403(self):
-        """“分组设置-字母标签名称
-        auther:darcy
-        """
-        GroupPage = GroupListPage()
-        time.sleep(1)
-        GroupPage.delete_group(name='aaa')
-        GroupPage.new_group(name='aaa')
-        GroupPage.click_text('aaa')
-        GroupPage.tap_sure_box()
-        GroupPage.click_settings_button()
-        GroupPage.update_label_name(name='bbb')
-        GroupPage.click_back_button(times=2)
-        GroupPage.page_should_contain_text(text='bbb')
+        """“分组设置-字母标签名称"""
+        glp = GroupListPage()
+        glp.delete_group(name='aaa')
+        glp.new_group(name='aaa')
+        glp.click_text('aaa')
+        glp.tap_sure_box()
+        glp.click_settings_button()
+        glp.update_label_name(name='bbb')
+        glp.click_back_button(times=2)
+        glp.page_should_contain_text(text='bbb')
 
     def tearDown_test_contacts_quxinli_0403(self):
-        GroupPage = GroupListPage()
-        GroupPage.delete_group(name='bbb')
+        glp = GroupListPage()
+        glp.delete_group(name='bbb')
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0404(self):
-        """“分组设置-中文标签名称
-        auther:darcy
-        """
-        GroupPage = GroupListPage()
-        time.sleep(1)
-        GroupPage.delete_group(name='aaa')
-        GroupPage.new_group(name='aaa')
-        GroupPage.click_text('aaa')
-        GroupPage.tap_sure_box()
-        GroupPage.click_settings_button()
-        GroupPage.update_label_name(name='好记性')
-        GroupPage.click_back_button(times=2)
-        GroupPage.page_should_contain_text(text='好记性')
+        """“分组设置-中文标签名称"""
+        glp = GroupListPage()
+        glp.delete_group(name='aaa')
+        glp.new_group(name='aaa')
+        glp.click_text('aaa')
+        glp.tap_sure_box()
+        glp.click_settings_button()
+        glp.update_label_name(name='好记性')
+        glp.click_back_button(times=2)
+        glp.page_should_contain_text(text='好记性')
 
     def tearDown_test_contacts_quxinli_0404(self):
-        GroupPage = GroupListPage()
-        GroupPage.delete_group(name='好记性')
+        glp = GroupListPage()
+        glp.delete_group(name='好记性')
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0405(self):
         """“分组设置-数字标签名称
         auther:darcy
         """
-        GroupPage = GroupListPage()
-        time.sleep(1)
-        GroupPage.delete_group(name='aaa')
-        GroupPage.new_group(name='aaa')
-        GroupPage.click_text('aaa')
-        GroupPage.tap_sure_box()
-        GroupPage.click_settings_button()
-        GroupPage.update_label_name(name='111')
-        GroupPage.click_back_button(times=2)
-        GroupPage.page_should_contain_text(text='111')
+        glp = GroupListPage()
+        glp.delete_group(name='aaa')
+        glp.new_group(name='aaa')
+        glp.click_text('aaa')
+        glp.tap_sure_box()
+        glp.click_settings_button()
+        glp.update_label_name(name='111')
+        glp.click_back_button(times=2)
+        glp.page_should_contain_text(text='111')
 
     def tearDown_test_contacts_quxinli_0405(self):
-        GroupPage = GroupListPage()
-        GroupPage.delete_group(name='111')
+        glp = GroupListPage()
+        glp.delete_group(name='111')
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0406(self):

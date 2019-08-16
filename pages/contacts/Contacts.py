@@ -519,6 +519,7 @@ class ContactsPage(FooterPage):
     def click_label_grouping(self):
         """点击标签分组1"""
         self.click_element(self.__class__.__locators['标签分组'])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_label_grouping_631(self):
