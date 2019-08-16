@@ -1,4 +1,5 @@
 import time
+
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile
 from library.core.utils.applicationcache import switch_to_mobile
@@ -129,7 +130,8 @@ class ContactSearchOpTest(TestCase):
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         # 查询页面输入'188262'
         search_page = SearchPage()
         search_number = "188262"
@@ -147,7 +149,8 @@ class ContactSearchOpTest(TestCase):
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         search_page = SearchPage()
         search_name = "陈丹丹"
         search_page.input_search_keyword(search_name)
@@ -185,7 +188,8 @@ class ContactSearchOpTest(TestCase):
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         # 查询页面输入'陈'
         search_page = SearchPage()
         search_name = "陈"
@@ -203,7 +207,8 @@ class ContactSearchOpTest(TestCase):
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         search_page = SearchPage()
         search_number = "8"
         search_page.input_search_keyword(search_number)
@@ -225,7 +230,8 @@ class ContactSearchOpTest(TestCase):
     def test_contacts_quxinli_0014(self):
         mess = MessagePage()
         mess.open_contacts_page()
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         search_page = SearchPage()
         search_number = "+861882"
         search_page.input_search_keyword(search_number)
@@ -241,7 +247,8 @@ class ContactSearchOpTest(TestCase):
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         search_page = SearchPage()
         search_name = "a"
         search_page.input_search_keyword(search_name)
@@ -266,7 +273,8 @@ class ContactSearchOpTest(TestCase):
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         search_page = SearchPage()
         search_number = "#*"
         search_page.input_search_keyword(search_number)
@@ -282,7 +290,8 @@ class ContactSearchOpTest(TestCase):
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         # 断开网络
         lcontact = localContactPage()
         lcontact.set_network_status(0)
@@ -302,7 +311,8 @@ class ContactSearchOpTest(TestCase):
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         search_page = SearchPage()
         search_name = "alice"
         search_page.input_search_keyword(search_name)
@@ -323,7 +333,8 @@ class ContactSearchOpTest(TestCase):
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         search_page = SearchPage()
         search_number = "1882621"
         search_page.input_search_keyword(search_number)
@@ -340,7 +351,8 @@ class ContactSearchOpTest(TestCase):
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         search_page = SearchPage()
         search_name = "陈丹丹"
         search_page.input_search_keyword(search_name)
@@ -380,7 +392,8 @@ class ContactSearchOpTest(TestCase):
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         # 查询页面输入'陈'
         search_page = SearchPage()
         search_name = "测试"
@@ -399,7 +412,8 @@ class ContactSearchOpTest(TestCase):
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
         # 2、输入特殊字符
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         # 查询页面输入'+'
         search_page = SearchPage()
         search_page.input_search_keyword('特殊!@$')
@@ -407,7 +421,7 @@ class ContactSearchOpTest(TestCase):
         search_page.hide_keyboard()
         # 判定点
         # 1.模糊匹配到正确的结果
-        self.assertEquals(search_page.is_text_present("特殊!@$"), False)
+        self.assertEquals(search_page.is_text_present("特殊!@$"), True)
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0739(self):
@@ -415,7 +429,8 @@ class ContactSearchOpTest(TestCase):
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
         # 2、输入特殊字符
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         # 查询页面输入'大佬1'
         search_page = SearchPage()
         search_page.input_search_keyword('大佬1')
@@ -423,7 +438,7 @@ class ContactSearchOpTest(TestCase):
         search_page.hide_keyboard()
         # 判定点
         # 1.模糊匹配到正确的结果
-        self.assertEquals(search_page.is_text_present("大佬1"), False)
+        self.assertEquals(search_page.is_text_present("大佬1"), True)
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0740(self):
@@ -431,7 +446,8 @@ class ContactSearchOpTest(TestCase):
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
         # 2、输入特殊字符
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         # 查询页面输入'大佬1'
         search_page = SearchPage()
         search_page.input_search_keyword('大佬')
@@ -446,7 +462,8 @@ class ContactSearchOpTest(TestCase):
         """查看更多联系人"""
         mess = MessagePage()
         mess.open_contacts_page()
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         # 查询页面输入'通讯录小于'
         search_page = SearchPage()
         search_page.input_search_keyword('通讯录小于')
@@ -459,10 +476,11 @@ class ContactSearchOpTest(TestCase):
     def test_contacts_chenjixiang_0742(self):
         mess = MessagePage()
         mess.open_contacts_page()
-        mess.click_search()
-        # 查询页面输入'通讯录小于'
+        cp = ContactsPage()
+        cp.click_search_box()
+        # 查询页面输入'测试'
         search_page = SearchPage()
-        search_page.input_search_keyword('群')
+        search_page.input_search_keyword('测试')
         time.sleep(5)
         search_page.hide_keyboard()
         # 1.展示群聊搜索结果标签，标签右上角展示查看更多按钮  群聊 & 查看更多
@@ -472,7 +490,8 @@ class ContactSearchOpTest(TestCase):
     def test_contacts_chenjixiang_0743(self):
         mess = MessagePage()
         mess.open_contacts_page()
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         # 查询页面输入'和飞信团队''
         search_page = SearchPage()
         search_page.input_search_keyword('和飞信团队')
@@ -486,7 +505,8 @@ class ContactSearchOpTest(TestCase):
     def test_contacts_chenjixiang_0744(self):
         mess = MessagePage()
         mess.open_contacts_page()
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         # 查询页面输入'和'
         search_page = SearchPage()
         search_page.input_search_keyword('和')
@@ -500,7 +520,8 @@ class ContactSearchOpTest(TestCase):
     def test_contacts_chenjixiang_0760(self):
         mess = MessagePage()
         mess.open_contacts_page()
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         # 查询页面输入'和飞信1'
         search_page = SearchPage()
         search_page.input_search_keyword('和飞信1')
@@ -514,16 +535,16 @@ class ContactSearchOpTest(TestCase):
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
-        # 2、输入特殊字符
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         # 查询页面输入'大佬1'
         search_page = SearchPage()
-        search_page.input_search_keyword('大佬1')
+        search_page.input_search_keyword('大佬')
         time.sleep(5)
         search_page.hide_keyboard()
         # 判定点
         # 1.模糊匹配到正确的结果
-        self.assertEquals(search_page.is_text_present("大佬1"), False)
+        self.assertEquals(search_page.is_text_present("大佬1"), True)
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0004(self):
@@ -536,7 +557,6 @@ class ContactSearchOpTest(TestCase):
         contact = ContactsPage()
         self.assertEquals(contact.is_exist_search_view(), True)
         search_page = SearchPage()
-        self.assertEquals(search_page.is_text_present("备份你的手机联系，联系人数据不丢失"), True)
         self.assertEquals(search_page.is_text_present("群聊"), True)
         self.assertEquals(search_page.is_text_present("公众号"), True)
         self.assertEquals(search_page.is_text_present("创建团队"), True)
@@ -545,9 +565,8 @@ class ContactSearchOpTest(TestCase):
     def test_contacts_quxinli_0024(self):
         mess = MessagePage()
         mess.open_contacts_page()
-        # 1、点击通讯录，点击搜索输入框
-        # 2、输入特殊字符
-        mess.click_search()
+        cp = ContactsPage()
+        cp.click_search_box()
         # 查询页面输入'大佬1'
         search_page = SearchPage()
         search_name = "哈 马上"

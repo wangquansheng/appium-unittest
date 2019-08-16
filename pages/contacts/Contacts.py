@@ -109,8 +109,17 @@ class ContactsPage(FooterPage):
         '选择团队确定按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_more'),
         '索引字母容器': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_index_bar_container'),
         '联系人输入框': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
-
+        '全部团队': (MobileBy.XPATH, '//*[@text="全部团队"]'),
+        '全部团队2': (MobileBy.XPATH, '//*[@content-desc="全部团队"]'),
     }
+
+    @TestLogger.log('')
+    def click_contact_all_team(self):
+        try:
+            self.click_element(self.__locators['全部团队'])
+        except:
+            self.click_element(self.__locators['全部团队2'])
+            pass
 
     @TestLogger.log()
     def choose_team_by_name(self, name):

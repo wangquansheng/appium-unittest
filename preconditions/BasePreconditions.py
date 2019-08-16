@@ -539,7 +539,7 @@ class WorkbenchPreconditions(LoginPreconditions):
         mess.click_contacts()
         time.sleep(1)
         contact = ContactsPage()
-        contact.click_text("全部团队")
+        contact.click_contact_all_team()
         time.sleep(1)
         group_names = contact.get_all_group_name2()
         result = contact.is_contain_group_name(group_names, name)

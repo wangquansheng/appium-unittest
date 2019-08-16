@@ -507,7 +507,7 @@ class MygroupSearchPage(TestCase):
         """用户未加入任何企业"""
         # 备注：无法构造 用户未加入任何企业 数据。且仅支持运行一次。
         contact = ContactsPage()
-        contact.click_text("全部团队")
+        contact.click_contact_all_team()
         time.sleep(1)
         try:
             group_names = contact.get_cur_group_name()
@@ -527,7 +527,7 @@ class MygroupSearchPage(TestCase):
     def test_contacts_quxinli_0041(self):
         """用户只在一个企业下，且在企业子一层级"""
         contact = ContactsPage()
-        contact.click_text("全部团队")
+        contact.click_contact_all_team()
         time.sleep(1)
         group_names = contact.get_all_group_name2()
         result = contact.is_contain_group_name(group_names, "ateam7272")
@@ -544,7 +544,7 @@ class MygroupSearchPage(TestCase):
     def test_contacts_quxinli_0042(self):
         """用户只在一个企业下，且在企业子层级"""
         contact = ContactsPage()
-        contact.click_text("全部团队")
+        contact.click_contact_all_team()
         time.sleep(1)
         group_names = contact.get_all_group_name2()
         result = contact.is_contain_group_name(group_names, "ateam7272")
@@ -563,7 +563,7 @@ class MygroupSearchPage(TestCase):
     def test_contacts_quxinli_0043(self):
         """用户只在一个企业下，且同时在企业子一层级和子层级"""
         contact = ContactsPage()
-        contact.click_text("全部团队")
+        contact.click_contact_all_team()
         time.sleep(1)
         group_names = contact.get_all_group_name2()
         result = contact.is_contain_group_name(group_names, "ateam7272")
@@ -582,7 +582,7 @@ class MygroupSearchPage(TestCase):
     def test_contacts_quxinli_0044(self):
         """用户只在一个企业下，且同时在两个子层级"""
         contact = ContactsPage()
-        contact.click_text("全部团队")
+        contact.click_contact_all_team()
         time.sleep(1)
         group_names = contact.get_all_group_name2()
         result = contact.is_contain_group_name(group_names, "ateam7272")
@@ -601,7 +601,7 @@ class MygroupSearchPage(TestCase):
     def test_contacts_quxinli_0045(self):
         """用户在多个企业下"""
         contact = ContactsPage()
-        contact.click_text("全部团队")
+        contact.click_contact_all_team()
         time.sleep(1)
         group_names = contact.get_all_group_name2()
         self.assertTrue(len(group_names) > 1)

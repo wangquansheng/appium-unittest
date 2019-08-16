@@ -2841,7 +2841,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         if contact.is_text_present('始终允许'):
             contact.click_text('始终允许')
         contact.wait_for_page_load()
-        contact.click_text("全部团队")
+        contact.click_contact_all_team()
         if contact.is_text_present('始终允许'):
             contact.click_text('始终允许')
         # 确保有这个'测试团队1'并且添加指定联系人
