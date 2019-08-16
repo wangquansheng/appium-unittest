@@ -345,6 +345,7 @@ class MsgPrivateChatVideoPicTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
         current_mobile().launch_app()
 

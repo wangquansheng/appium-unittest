@@ -67,6 +67,16 @@ class SelectHeContactsDetailPage(BasePage):
                   "快捷方式": (MobileBy.ID, 'com.chinasofti.rcs:id/btn_shortcut'),
                   }
 
+    @TestLogger.log()
+    def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):
+        """默认使用activity作为判断页面是否加载的条件，继承类应该重写该方法"""
+        self.wait_until(
+            lambda d: self.is_text_present('编辑'),
+            timeout,
+            auto_accept_alerts
+        )
+        return self
+
     @TestLogger.log("")
     def page_not_contain_shortcut(self):
         """当前页面是否存在快捷方式"""
