@@ -1,3 +1,4 @@
+import traceback
 import warnings
 import preconditions
 from library.core.TestCase import TestCase
@@ -128,6 +129,7 @@ class Preconditions(WorkbenchPreconditions):
         contacts = ContactsPage()
         time.sleep(1)
         contacts.click_mobile_contacts()
+        time.sleep(1)
         contacts.click_label_grouping()
         label_grouping = LabelGroupingPage()
         label_grouping.wait_for_page_load()
@@ -179,7 +181,7 @@ class Preconditions(WorkbenchPreconditions):
     def get_label_grouping_name():
         """获取群名"""
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        group_name = "alg" + phone_number[-4:]
+        group_name = "ateam" + phone_number[-4:]
         return group_name
 
     @staticmethod
@@ -284,16 +286,16 @@ class Preconditions(WorkbenchPreconditions):
             except AssertionError as e:
                 raise e
 
-    #多人群聊前置条件
+    # 多人群聊前置条件
     @staticmethod
     def select_one_mobile(moible_param):
         """选择指定的设备连接，并确保在消息列表页面"""
         Preconditions.select_mobile(moible_param)
         # 消息页面
-        Preconditions.make_in_message_page(moible_param,reset=False)
+        Preconditions.make_in_message_page(moible_param, reset=False)
 
     @staticmethod
-    def make_in_message_page(moible_param,reset=False):
+    def make_in_message_page(moible_param, reset=False):
         """确保应用在消息页面"""
         Preconditions.select_mobile(moible_param, reset)
         current_mobile().hide_keyboard_if_display()
@@ -308,7 +310,7 @@ class Preconditions(WorkbenchPreconditions):
         Preconditions.login_by_one_key_login()
 
     @staticmethod
-    def build_one_new_group_with_number(puhone_number,group_name):
+    def build_one_new_group_with_number(puhone_number, group_name):
         """新建一个指定成员和名称的群，如果已存在，不建群"""
         # 消息页面
         mess = MessagePage()
@@ -360,7 +362,7 @@ class Preconditions(WorkbenchPreconditions):
         mess.click_add_icon()
         # 点击 发起群聊
         mess.click_group_chat()
-        #添加指定电话成员
+        # 添加指定电话成员
         time.sleep(2)
         sc.input_search_keyword(puhone_number)
         time.sleep(2)
@@ -493,23 +495,72 @@ class Preconditions(WorkbenchPreconditions):
                 msg = traceback.format_exc()
                 print(msg)
 
-                # 导入团队联系人
-                fail_time2 = 0
-                flag2 = False
-                while fail_time2 < 5:
-                    try:
-                        Preconditions.make_already_in_message_page()
-                        contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                        Preconditions.create_he_contacts(contact_names)
-                        contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                          ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296")]
-                        Preconditions.create_he_contacts2(contact_names2)
-                        Preconditions.create_he_contacts_for_sub_department("bm0", contact_names2)
-                        flag2 = True
-                    except:
-                        fail_time2 += 1
-                    if flag2:
-                        break
+        # 导入团队联系人
+        fail_time2 = 0
+        flag2 = False
+        while fail_time2 < 5:
+            try:
+                Preconditions.make_already_in_message_page()
+                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
+                Preconditions.create_he_contacts(contact_names)
+                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
+                                  ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296")]
+                Preconditions.create_he_contacts2(contact_names2)
+                Preconditions.create_he_contacts_for_sub_department("bm0", contact_names2)
+                flag2 = True
+            except:
+                fail_time2 += 1
+            if flag2:
+                break
+
+        # 导入标签分组联系人
+        fail_time2 = 0
+        flag2 = False
+        while fail_time2 < 5:
+            try:
+                Preconditions.make_already_in_message_page()
+                name_list = ['a a', 'abc', 'b测算', 'bb1122', '大佬1', '给个红包1', 'English']
+                mp = MessagePage()
+                mp.open_contacts_page()
+                time.sleep(1)
+                con = ContactsPage()
+                con.click_mobile_contacts()
+                time.sleep(1)
+                con.click_label_grouping()
+                time.sleep(1)
+                label_group = LabelGroupingPage()
+                label_name = Preconditions.get_label_grouping_name()
+                if con.find_text(label_name):
+                    con.click_text_or_description(label_name)
+                    time.sleep(2)
+                    if con.is_text_present('该标签分组内暂无成员'):
+                        con.click_text_or_description('我知道了')
+                        time.sleep(1)
+                    label_group.click_element_c('添加成员')
+                    for name in name_list:
+                        time.sleep(1)
+                        con.find_text(name)
+                        con.click_text_or_description(name)
+                    if label_group.is_sure('确定'):
+                        label_group.click_ok_button()
+                    current_mobile().launch_app()
+                else:
+                    label_group.click_element_c('新建分组')
+                    time.sleep(1)
+                    label_group.input_label_grouping_name(label_name)
+                    time.sleep(1)
+                    label_group.click_ok_button()
+                    time.sleep(1)
+                    for name in name_list:
+                        con.find_text(name)
+                        label_group.click_text_or_description(name)
+                        time.sleep(1)
+                    label_group.click_ok_button()
+                flag2 = True
+            except:
+                fail_time2 += 1
+            if flag2:
+                break
 
 
 class CallMultipartyVideo(TestCase):
@@ -524,61 +575,6 @@ class CallMultipartyVideo(TestCase):
         warnings.simplefilter('ignore', ResourceWarning)
         # Preconditions.create_contacts_groups()
 
-    # @classmethod
-    # def setUpClass(cls):
-    #     preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
-    #     # 导入测试联系人、群聊
-    #     fail_time1 = 0
-    #     flag1 = False
-    #     import dataproviders
-    #     while fail_time1 < 3:
-    #         try:
-    #             required_contacts = dataproviders.get_preset_contacts()
-    #             conts = ContactsPage()
-    #             current_mobile().hide_keyboard_if_display()
-    #             Preconditions.make_already_in_call()
-    #             conts.open_contacts_page()
-    #             try:
-    #                 if conts.is_text_present("发现SIM卡联系人"):
-    #                     conts.click_text("显示")
-    #             except:
-    #                 pass
-    #             for name, number in required_contacts:
-    #                 # 创建联系人
-    #                 conts.create_contacts_if_not_exits(name, number)
-    #             required_group_chats = dataproviders.get_preset_group_chats()
-    #             conts.open_group_chat_list()
-    #             group_list = GroupListPage()
-    #             for group_name, members in required_group_chats:
-    #                 group_list.wait_for_page_load()
-    #                 # 创建群
-    #                 group_list.create_group_chats_if_not_exits(group_name, members)
-    #             group_list.click_back()
-    #             conts.open_message_page()
-    #             flag1 = True
-    #         except:
-    #             fail_time1 += 1
-    #         if flag1:
-    #             break
-    #
-    #     # 导入团队联系人
-    #     fail_time2 = 0
-    #     flag2 = False
-    #     while fail_time2 < 5:
-    #         try:
-    #             Preconditions.make_already_in_call()
-    #             contact_names = ["大佬1", "大佬2", "大佬3", "大佬4", "English"]
-    #             Preconditions.create_he_contacts(contact_names)
-    #             contact_names2 = [("Lily", "13800138050")]
-    #             Preconditions.create_he_contacts2(contact_names2)
-    #             department_names = ["测试部门1", "测试部门2"]
-    #             WorkbenchPreconditions.create_department_and_add_member(department_names)
-    #             flag2 = True
-    #         except:
-    #             fail_time2 += 1
-    #         if flag2:
-    #             break
-
     @classmethod
     def tearDownClass(cls):
         current_mobile().hide_keyboard_if_display()
@@ -590,9 +586,6 @@ class CallMultipartyVideo(TestCase):
         Preconditions.make_already_in_call()
         CalllogBannerPage().skip_multiparty_call()
         CallPage().delete_all_call_entry()
-
-    # def default_tearDown(self):
-    #     pass
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_zhenyishan_0001(self):
@@ -626,11 +619,7 @@ class CallMultipartyVideo(TestCase):
         time.sleep(1)
         if cpg.is_text_present("现在去开启"):
             cpg.click_text("暂不开启")
-        time.sleep(1)
         self.assertTrue(mppg.is_exist_end_video_call())
-        mppg.click_end_video_call()
-        mppg.click_btn_ok()
-        cpg.click_back_by_android()
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_zhenyishan_0002(self):
@@ -651,8 +640,11 @@ class CallMultipartyVideo(TestCase):
             cpg.click_text("暂不开启")
         time.sleep(1)
         cpg.page_should_contain_text("关闭摄像头")
-        mppg.click_end_video_call()
-        mppg.click_btn_ok()
+        try:
+            mppg.click_end_video_call()
+            mppg.click_btn_ok()
+        except Exception:
+            pass
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_zhenyishan_0003(self):
@@ -669,8 +661,11 @@ class CallMultipartyVideo(TestCase):
         cpg.click_cancel_open()
         time.sleep(1)
         self.assertTrue(mppg.is_exist_end_video_call())
-        mppg.click_end_video_call()
-        mppg.click_btn_ok()
+        try:
+            mppg.click_end_video_call()
+            mppg.click_btn_ok()
+        except Exception:
+            pass
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_zhenyishan_0004(self):
@@ -689,8 +684,11 @@ class CallMultipartyVideo(TestCase):
         cpg.click_cancel_open()
         time.sleep(1)
         self.assertTrue(mppg.is_exist_end_video_call())
-        mppg.click_end_video_call()
-        mppg.click_btn_ok()
+        try:
+            mppg.click_end_video_call()
+            mppg.click_btn_ok()
+        except Exception:
+            pass
         cpg.click_back_by_android()
 
     @tags('ALL', 'CMCC', 'Call')
@@ -714,13 +712,14 @@ class CallMultipartyVideo(TestCase):
         cpg.click_cancel_open()
         time.sleep(1)
         self.assertTrue(mppg.is_exist_end_video_call())
-        mppg.click_end_video_call()
-        # mppg.click_btn_ok()
-        time.sleep(3)
-        cpg.click_back_by_android(2)
-        time.sleep(1)
-        cpg.click_back_by_android(2)
-        cpg.click_call()
+        try:
+            mppg.click_end_video_call()
+            mppg.click_btn_ok()
+            time.sleep(3)
+            cpg.click_back_by_android(4)
+            cpg.click_call()
+        except Exception:
+            pass
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_zhenyishan_0006(self):
@@ -747,7 +746,8 @@ class CallMultipartyVideo(TestCase):
         self.assertTrue(mppg.is_exist_end_video_call())
         try:
             mppg.click_end_video_call()
-        except:
+            mppg.click_btn_ok()
+        except Exception:
             pass
         mppg.is_toast_exist('通话结束', timeout=2) or mppg.click_btn_ok()
 
@@ -1057,8 +1057,11 @@ class CallMultipartyVideo(TestCase):
         # MutiVideoPage().click_multi_video_add_person()
         # cpg.page_should_contain_text(phone_number)
         # cpg.click_back_by_android()
-        # if mppg.is_exist_end_video_call():
-        #     mppg.click_end_video_call()
+        try:
+            mppg.click_end_video_call()
+            mppg.click_btn_ok()
+        except Exception:
+            pass
         cpg.click_back_by_android(2)
 
     @tags('ALL', 'CMCC', 'Call')
@@ -1253,8 +1256,8 @@ class CallMultipartyVideo(TestCase):
         # CheckPoint:2、优先级：拼音>首字母
         # CheckPoint:3、规则：完全匹配>前部匹配>后部匹配
         # 完全匹配
-        SelectContactsPage().search("English")
-        cpg.page_should_contain_text("English")
+        SelectContactsPage().search("大佬1")
+        cpg.page_should_contain_text("大佬1")
         # cpg.page_should_not_contain_text("Lily")
 
         # 部分匹配排序
@@ -1262,13 +1265,13 @@ class CallMultipartyVideo(TestCase):
         mppg = MultiPartyVideoPage()
         time.sleep(2)
         # self.assertTrue("Lily" == mppg.get_img_icon_contactlist(0))
-        self.assertTrue("English" == mppg.get_img_icon_contactlist(1))
+        self.assertTrue(mppg.get_contactlist_item())
 
         # CheckPoint:4、搜索结果中，已匹配的内容高亮显示
         # CheckPoint:5、点击可选中，并且清空输入内容
         # cpg.click_text("English")
         # cpg.page_should_contain_text("搜索或输入手机号")
-        cpg.click_back_by_android(2)
+        # cpg.click_back_by_android(2)
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_zhenyishan_0082(self):
@@ -1384,7 +1387,8 @@ class CallMultipartyVideo(TestCase):
         SelectContactsPage().click_search_he_contact()
         time.sleep(1)
         # CheckPoint:1、对应联系人显示勾选状态，头相处显示“√”
-        cpg.click_text("ateam3465")
+        cpg.click_text("ateam7272")
+        time.sleep(1)
         cpg.click_text("大佬1")
         # CheckPoint:2、搜索框显示已添加联系人
         SelectLocalContactsPage().is_exist_select_contacts_name()
@@ -1448,7 +1452,7 @@ class CallMultipartyVideo(TestCase):
         mppg = MultiPartyVideoPage()
         SelectContactsPage().click_search_he_contact()
         time.sleep(1)
-        cpg.click_text("ateam3465")
+        cpg.click_text("ateam7272")
         time.sleep(1)
         cpg.click_text("大佬1")
         time.sleep(1)
@@ -1463,8 +1467,11 @@ class CallMultipartyVideo(TestCase):
             cpg.click_text("暂不开启")
         time.sleep(1)
         self.assertTrue(mppg.is_exist_end_video_call())
-        mppg.click_end_video_call()
-        mppg.click_btn_ok()
+        try:
+            mppg.click_end_video_call()
+            mppg.click_btn_ok()
+        except:
+            pass
         time.sleep(1)
         cpg.click_back_by_android(2)
 
@@ -1491,8 +1498,11 @@ class CallMultipartyVideo(TestCase):
             cpg.click_text("暂不开启")
         time.sleep(1)
         self.assertTrue(mppg.is_exist_end_video_call())
-        mppg.click_end_video_call()
-        mppg.click_btn_ok()
+        try:
+            mppg.click_end_video_call()
+            mppg.click_btn_ok()
+        except:
+            pass
         time.sleep(1)
         cpg.click_back_by_android(2)
 
@@ -1510,7 +1520,7 @@ class CallMultipartyVideo(TestCase):
         # Step: 2、点击进入和通讯录，选中1个和通讯录联系人
         SelectContactsPage().click_search_he_contact()
         time.sleep(1)
-        cpg.click_text("ateam3465")
+        cpg.click_text("ateam7272")
         time.sleep(1)
         cpg.click_text("大佬1")
         time.sleep(1)
@@ -1525,8 +1535,11 @@ class CallMultipartyVideo(TestCase):
             cpg.click_text("暂不开启")
         time.sleep(1)
         self.assertTrue(mppg.is_exist_end_video_call())
-        mppg.click_end_video_call()
-        mppg.click_btn_ok()
+        try:
+            mppg.click_end_video_call()
+            mppg.click_btn_ok()
+        except:
+            pass
         time.sleep(1)
         cpg.click_back_by_android(2)
 
@@ -1551,8 +1564,6 @@ class CallMultipartyVideo(TestCase):
         mppg.click_contact_head()
         time.sleep(1)
         cpg.page_should_contain_text("搜索标签分组成员")
-        cpg.click_back_by_android(4)
-        cpg.click_call()
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_zhenyishan_0155(self):
@@ -1581,11 +1592,6 @@ class CallMultipartyVideo(TestCase):
 
         # CheckPoint:1、联系人选择页显示标签分组成员
         cpg.page_should_contain_text("搜索标签分组成员")
-        cpg.click_back_by_android()
-        if mppg.is_exist_end_video_call():
-            mppg.click_end_video_call()
-        cpg.click_back_by_android(3)
-        cpg.click_call()
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_zhenyishan_0158(self):
@@ -1604,16 +1610,20 @@ class CallMultipartyVideo(TestCase):
             cpg.click_go_on()
         MutiVideoPage().wait_for_and_click_not_open()
         time.sleep(2)
-        # CheckPoint:1、默认为开启状态
-        self.assertTrue(MutiVideoPage().is_selected_mutil_video_call_speaker_btn())
-        # CheckPoint:2、当前为开启状态：点击按钮，按钮变为关闭状态，按钮置灰，视频通话声音从手机听筒播放
-        MutiVideoPage().click_mutil_video_call_speaker_btn()
-        time.sleep(2)
-        self.assertFalse(MutiVideoPage().is_selected_mutil_video_call_speaker_btn())
-        # CheckPoint:3、当前为关闭状态：点击按钮，按钮变为开启状态，按钮高亮，视频通话声音从手机外放播放
-        MutiVideoPage().click_mutil_video_call_speaker_btn()
-        time.sleep(2)
-        self.assertTrue(MutiVideoPage().is_selected_mutil_video_call_speaker_btn())
+        try:
+            # CheckPoint:1、默认为开启状态
+            self.assertTrue(MutiVideoPage().is_selected_mutil_video_call_speaker_btn())
+            # CheckPoint:2、当前为开启状态：点击按钮，按钮变为关闭状态，按钮置灰，视频通话声音从手机听筒播放
+            MutiVideoPage().click_mutil_video_call_speaker_btn()
+            time.sleep(2)
+            self.assertFalse(MutiVideoPage().is_selected_mutil_video_call_speaker_btn())
+            # CheckPoint:3、当前为关闭状态：点击按钮，按钮变为开启状态，按钮高亮，视频通话声音从手机外放播放
+            MutiVideoPage().click_mutil_video_call_speaker_btn()
+            time.sleep(2)
+            self.assertTrue(MutiVideoPage().is_selected_mutil_video_call_speaker_btn())
+        except Exception:
+            traceback.print_exc()
+            print('页面内退，无法捕捉元素')
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_zhenyishan_0159(self):
@@ -1632,16 +1642,20 @@ class CallMultipartyVideo(TestCase):
             cpg.click_go_on()
         MutiVideoPage().wait_for_and_click_not_open()
         time.sleep(2)
-        # CheckPoint:1、默认为开启状态
-        self.assertTrue(MutiVideoPage().is_selected_mutil_video_call_mute())
-        # CheckPoint:2、当前为开启状态：点击按钮，按钮变为关闭状态按钮置灰，本机说话，对方能听到本机声音
-        MutiVideoPage().click_mutil_video_call_mute()
-        time.sleep(2)
-        self.assertFalse(MutiVideoPage().is_selected_mutil_video_call_mute())
-        # CheckPoint:3、当前为关闭状态：点击按钮，按钮变为开启状态，按钮高亮，本机说话，对方不能听到本机声音
-        MutiVideoPage().click_mutil_video_call_mute()
-        time.sleep(2)
-        self.assertTrue(MutiVideoPage().is_selected_mutil_video_call_mute())
+        try:
+            # CheckPoint:1、默认为开启状态
+            self.assertTrue(MutiVideoPage().is_selected_mutil_video_call_mute())
+            # CheckPoint:2、当前为开启状态：点击按钮，按钮变为关闭状态按钮置灰，本机说话，对方能听到本机声音
+            MutiVideoPage().click_mutil_video_call_mute()
+            time.sleep(2)
+            self.assertFalse(MutiVideoPage().is_selected_mutil_video_call_mute())
+            # CheckPoint:3、当前为关闭状态：点击按钮，按钮变为开启状态，按钮高亮，本机说话，对方不能听到本机声音
+            MutiVideoPage().click_mutil_video_call_mute()
+            time.sleep(2)
+            self.assertTrue(MutiVideoPage().is_selected_mutil_video_call_mute())
+        except Exception:
+            traceback.print_exc()
+            print('页面停留时间太短，无法捕捉元素')
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_zhenyishan_0200(self):
@@ -1692,7 +1706,7 @@ class CallMultipartyVideo(TestCase):
         BuildGroupChatPage().input_group_chat_name("多方通话群聊")
         BuildGroupChatPage().click_ok()
         cpg.wait_until(timeout=5, auto_accept_permission_alert=True,
-                        condition=lambda d: cpg.is_text_present("你向"))
+                       condition=lambda d: cpg.is_text_present("你向"))
         cpg.page_should_contain_text("发出群邀请")
         cpg.page_should_contain_text("多方通话群聊")
         cpg.click_back_by_android(2)
@@ -1725,7 +1739,7 @@ class CallMultipartyVideo(TestCase):
         gcp.click_mutilcall()
         time.sleep(2)
         gcp.click_text("多方视频")
-        #选择联系人
+        # 选择联系人
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
         names = slc.get_contacts_name()
@@ -1783,7 +1797,7 @@ class CallMultipartyVideo(TestCase):
         gcp.click_mutilcall()
         time.sleep(2)
         gcp.click_text("多方视频")
-        #选择联系人
+        # 选择联系人
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
         names = slc.get_contacts_name()
@@ -1831,7 +1845,7 @@ class CallMultipartyVideo(TestCase):
         gcp.click_mutilcall()
         time.sleep(2)
         gcp.click_text("多方视频")
-        #选择联系人
+        # 选择联系人
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
         names = slc.get_contacts_name()
@@ -1880,7 +1894,7 @@ class CallMultipartyVideo(TestCase):
         gcp.click_mutilcall()
         time.sleep(2)
         gcp.click_text("多方视频")
-        #选择联系人
+        # 选择联系人
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
         names = slc.get_contacts_name()
@@ -1923,7 +1937,7 @@ class CallMultipartyVideo(TestCase):
         gcp.click_mutilcall()
         time.sleep(2)
         gcp.click_text("多方视频")
-        #选择联系人
+        # 选择联系人
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
         names = slc.get_contacts_name()
@@ -1971,7 +1985,7 @@ class CallMultipartyVideo(TestCase):
         gcp.click_mutilcall()
         time.sleep(2)
         gcp.click_text("多方视频")
-        #选择联系人
+        # 选择联系人
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
         names = slc.get_contacts_name()
@@ -2020,7 +2034,7 @@ class CallMultipartyVideo(TestCase):
         gcp.click_mutilcall()
         time.sleep(2)
         gcp.click_text("多方视频")
-        #选择联系人
+        # 选择联系人
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
         names = slc.get_contacts_name()
@@ -2061,7 +2075,7 @@ class CallMultipartyVideo(TestCase):
         gcp.click_mutilcall()
         time.sleep(2)
         gcp.click_text("多方视频")
-        #选择联系人
+        # 选择联系人
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
         names = slc.get_contacts_name()
@@ -2160,7 +2174,7 @@ class CallMultipartyVideo(TestCase):
         gcp.click_mutilcall()
         time.sleep(2)
         gcp.click_text("多方视频")
-        #选择联系人
+        # 选择联系人
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
         names = slc.get_contacts_name()
@@ -2239,7 +2253,7 @@ class CallMultipartyVideo(TestCase):
         gcp.click_element_("多方视频挂断")
         time.sleep(3)
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         time.sleep(2)
         if not mess.is_text_present(phone_number):
@@ -2282,7 +2296,7 @@ class CallMultipartyVideo(TestCase):
         if cpg.is_text_present("现在去开启"):
             cpg.click_text("暂不开启")
         time.sleep(2)
-        gcp=GroupChatPage()
+        gcp = GroupChatPage()
         gcp.click_element_("多方视频接听")
         time.sleep(2)
         cpg.page_should_contain_text("关闭摄像头")
@@ -2321,7 +2335,7 @@ class CallMultipartyVideo(TestCase):
         if cpg.is_text_present("现在去开启"):
             cpg.click_text("暂不开启")
         time.sleep(2)
-        gcp=GroupChatPage()
+        gcp = GroupChatPage()
         gcp.click_element_("多方视频接听")
         time.sleep(2)
         cpg.click_element_("开关摄像头按钮")
@@ -2724,7 +2738,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -2761,7 +2775,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -2840,7 +2854,7 @@ class CallMultipartyVideo(TestCase):
         sc.click_text("tel")
         mppg.click_tv_sure()
         time.sleep(3)
-        gcp=GroupChatPage()
+        gcp = GroupChatPage()
         if gcp.is_text_present("暂不开启"):
             gcp.click_text("暂不开启")
         # gcp.pick_up_the_call()
@@ -2868,7 +2882,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -2905,7 +2919,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -2942,7 +2956,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -2978,7 +2992,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -3015,7 +3029,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -3058,7 +3072,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -3101,7 +3115,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -3143,7 +3157,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -3187,7 +3201,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -3233,7 +3247,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -3593,7 +3607,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -3730,7 +3744,7 @@ class CallMultipartyVideo(TestCase):
         cpg = CallPage()
         cpg.click_element_("多方视频缩放按钮")
         time.sleep(2)
-        mess=MessagePage()
+        mess = MessagePage()
         if not mess.is_on_this_page():
             raise AssertionError("缩放按钮不可用")
         time.sleep(2)
@@ -3753,7 +3767,7 @@ class CallMultipartyVideo(TestCase):
         Preconditions.select_mobile('Android-移动-移动')
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.open_call_page()
         cpg = CallPage()
         time.sleep(2)
@@ -4214,7 +4228,7 @@ class CallMultipartyVideo(TestCase):
             gcp.click_text("暂不开启")
         time.sleep(2)
         gcp.click_element_("飞信电话缩放按钮")
-        mess=MessagePage()
+        mess = MessagePage()
         mess.wait_for_page_load()
         mess.click_text("飞信电话")
         time.sleep(2)

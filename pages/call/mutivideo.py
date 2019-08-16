@@ -59,7 +59,10 @@ class MutiVideoPage(BasePage):
 
     def wait_for_and_click_not_open(self):
         """等待暂不开启并点击"""
-        if self.wait_until(timeout=5, auto_accept_permission_alert=True,
-                       condition=lambda d: self.is_text_present("暂不开启")):
-            self.click_text("暂不开启")
+        try:
+            if self.wait_until(timeout=5, auto_accept_permission_alert=True,
+                           condition=lambda d: self.is_text_present("暂不开启")):
+                self.click_text("暂不开启")
+        except:
+            pass
 

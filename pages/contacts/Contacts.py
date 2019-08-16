@@ -27,7 +27,7 @@ class ContactsPage(FooterPage):
         '列表项': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_list"]/*'),
         '群聊': (MobileBy.ID, 'com.chinasofti.rcs:id/second_item'),
         '群聊631': (MobileBy.ID, 'com.chinasofti.rcs:id/second_item'),
-        '标签分组': (MobileBy.XPATH, '//*[@text="标签分组"]'),
+        '标签分组': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_tag_group'),
         '公众号': (MobileBy.ID, 'com.chinasofti.rcs:id/third_item'),
         # '创建团队': (MobileBy.XPATH, '//*[@text="创建团队"]'),
         'com.chinasofti.rcs:id/contact_group_chat_item_id': (
@@ -1273,3 +1273,19 @@ class ContactsPage(FooterPage):
     @TestLogger.log()
     def input_text_c(self, locator, text):
         self.input_text(self.__locators[locator], text)
+
+    @TestLogger.log()
+    def find_text(self, text, times=40):
+        while times > 0:
+            if self.is_text_present(text):
+                return True
+            if times > 20:
+                self.swipe_by_percent_on_screen(50, 70, 50, 40, 800)
+            else:
+                self.page_down()
+            times -= 1
+        else:
+            return False
+
+
+

@@ -4,6 +4,7 @@ from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 import time
 
+
 class MultiPartyVideoPage(BasePage):
     """MultipartyVideoPage"""
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.ContactSelectorActivity'
@@ -48,7 +49,9 @@ class MultiPartyVideoPage(BasePage):
         '取消': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
         '再次呼叫': (MobileBy.ID, 'com.chinasofti.rcs:id/call_again'),
         '一键建群': (MobileBy.ID, 'com.chinasofti.rcs:id/one_key_new_group'),
-        '团队联系人图像': (MobileBy.ID, 'com.chinasofti.rcs:id/img_icon_contactlist')
+        '团队联系人图像': (MobileBy.ID, 'com.chinasofti.rcs:id/img_icon_contactlist'),
+        '团队联系人1': (MobileBy.ID, "com.chinasofti.rcs:id/tv_name_personal_contactlist"),
+
     }
 
     @TestLogger.log()
@@ -177,6 +180,11 @@ class MultiPartyVideoPage(BasePage):
                 return elements[index].text
         except:
             raise IndexError("元素超出索引")
+
+    def get_contactlist_item(self):
+        """获取团队联系人"""
+        return len(self.get_elements(self.__locators["团队联系人图像"])) > 0
+
 
     @TestLogger.log()
     def click_img_icon_contactlist(self):

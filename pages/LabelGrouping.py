@@ -41,6 +41,8 @@ class LabelGroupingPage(ContactsSelector, BasePage):
         # 6.3.1版本
         '飞信电话': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_third_item'),
         '多方视频': (MobileBy.XPATH, '//*[@text="多方视频"]'),
+        '添加成员': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_first_item'),
+        '联系人输入': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
     }
 
     @TestLogger.log('删除全部标签分组')
@@ -463,3 +465,15 @@ class LabelGroupingPage(ContactsSelector, BasePage):
             return actual
         self.select_local_contacts(*member_list)
         return actual
+
+    @TestLogger.log('点击元素')
+    def click_element_c(self, locator, default_timeout=5, auto_accept_permission_alert=True):
+        self.click_element(self.__locators[locator], default_timeout=default_timeout, auto_accept_permission_alert=auto_accept_permission_alert)
+
+    @TestLogger.log('创建分组')
+    def is_sure(self, locator):
+        if self.get_element_attribute(self.__locators[locator], 'enabled') == 'true':
+            return True
+        return False
+
+

@@ -167,6 +167,7 @@ class BasePage(object):
                 _xpath = u'//*[@{}="{}"]'.format('text', text)
             else:
                 _xpath = u'//*[contains(@{},"{}")]'.format('text', text)
+            self.find_element_by_swipe((MobileBy.XPATH, _xpath))
             self.get_element((MobileBy.XPATH, _xpath)).click()
             # self.click_element((MobileBy.XPATH, _xpath))
 
@@ -382,8 +383,6 @@ class BasePage(object):
                                  "but did not" % text)
             return True
         except:
-            import traceback
-            traceback.print_exc()
             import time
             time.sleep(3)
             return self.is_text_present(text)
