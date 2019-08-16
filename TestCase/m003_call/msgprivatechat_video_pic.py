@@ -345,11 +345,13 @@ class MsgPrivateChatVideoPicTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
         current_mobile().launch_app()
 
     def default_setUp(self):
         """确保每个用例运行前在单聊会话页面"""
+        warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
         mess = MessagePage()
         if mess.is_on_this_page():
@@ -797,29 +799,19 @@ class MsgPrivateChatVideoPicTest(TestCase):
         # 3、选择任意和通讯录联系人
         scp = SelectContactsPage()
         scp.click_he_contacts()
-        shcp = SelectHeContactsPage()
-        shcp.wait_for_page_load()
-        teams = shcp.get_team_names()
-        if teams:
-            shcp.select_one_team_by_name(teams[0])
-            detail_page = SelectHeContactsDetailPage()
-            detail_page.wait_for_page_load()
-            names = detail_page.get_contacts_names()
-            if not names:
-                print("WARN: Please add m005_contacts in %s." % teams[0])
-            for name in names:
-                detail_page.select_one_linkman(name)
-                flag = detail_page.is_toast_exist("该联系人不可选择", timeout=3)
-                if not flag:
-                    break
-            # 3、点击确定
-            detail_page.click_sure_forward()
-            flag2 = detail_page.is_toast_exist("已转发")
-            self.assertTrue(flag2)
-        else:
-            print("WARN: Please create a team and add m005_contacts.")
-            shcp.click_back()
-            scp.click_back()
+        shc = SelectHeContactsDetailPage()
+        shc.wait_for_he_contacts_page_load()
+        # 4.在搜索框输入多种字符
+        shc.input_search("大佬1")
+        # 5.点击搜索的团队联系人
+        shc.click_search_team_contacts()
+        # 6.点击确认转发
+        shc.click_sure_forward()
+        flag = chat.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的位置时，没有‘已转发’提示")
+        if not chat.is_on_this_page():
+            raise AssertionError("当前页面不在单聊页面")
 
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_msg_xiaoliping_C_0050(self):
