@@ -16,7 +16,10 @@ class SelectCompanyContactsPage(BasePage):
         '搜索框左边头像': (MobileBy.ID, 'com.chinasofti.rcs:id/avator'),
         '全选复选框': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_check_all'),
         '联系人名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
+        # 团队联系人搜索结果
         '联系人号码': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_number_personal_contactlist'),
+        # 手机联系人搜索结果
+        '联系人号码2': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_phone'),
         '联系人头像': (MobileBy.ID, 'com.chinasofti.rcs:id/img_icon_contactlist'),
         '已选人名': (MobileBy.ID, 'com.chinasofti.rcs:id/image_text'),
         '已选头像': (MobileBy.ID, 'com.chinasofti.rcs:id/avator'),
@@ -126,11 +129,12 @@ class SelectCompanyContactsPage(BasePage):
         for t in texts:
             if number == t:
                 return True
-        raise AssertionError('搜索结果"{}"没有找到与关键字"{}"完全匹配的号码'.format(texts, number))
+        # raise AssertionError('搜索结果"{}"没有找到与关键字"{}"完全匹配的号码'.format(texts, number))
+        return False
 
     @TestLogger.log()
     def is_search_contacts_number_match(self, number):
-        """搜索联系人号码是否模糊匹配"""
+        """搜索联系人号码是否模糊匹配--团队联系人搜索结果"""
         els = self.get_elements(self.__class__.__locators["联系人号码"])
         texts = []
         for el in els:
@@ -140,7 +144,30 @@ class SelectCompanyContactsPage(BasePage):
         for t in texts:
             if number in t:
                 return True
-        raise AssertionError('搜索结果"{}"没有找到包含关键字"{}"的号码'.format(texts, number))
+        return False
+
+    @TestLogger.log()
+    def is_search_number_match_result(self, number):
+        """是否存在搜索结果--团队联系人搜索结果"""
+        els = self.get_elements(self.__class__.__locators["联系人号码"])
+        if els:
+            return True
+        else:
+            return False
+
+    @TestLogger.log()
+    def is_search_contacts_number_match2(self, number):
+        """搜索联系人号码2是否模糊匹配--手机联系人搜索结果"""
+        els = self.get_elements(self.__class__.__locators["联系人号码2"])
+        texts = []
+        for el in els:
+            text = el.text
+            if text:
+                texts.append(text)
+        for t in texts:
+            if number in t:
+                return True
+        return False
 
     @TestLogger.log()
     def is_search_contacts_name_full_match(self, name):
@@ -154,7 +181,16 @@ class SelectCompanyContactsPage(BasePage):
         for t in texts:
             if name == t:
                 return True
-        raise AssertionError('搜索结果"{}"没有找到与关键字"{}"完全匹配的文本'.format(texts, name))
+        return False
+
+    @TestLogger.log("")
+    def is_exist_search_match(self):
+        """是否查找到（或者模糊匹配到）联系人"""
+        els = self.get_elements(self.__class__.__locators["联系人名"])
+        if els:
+            return True
+        else:
+            return False
 
     @TestLogger.log()
     def is_search_contacts_name_match(self, name):
@@ -170,7 +206,7 @@ class SelectCompanyContactsPage(BasePage):
             print("ttttttttttttttt == " + t)
             if name in t:
                 return True
-        raise AssertionError('搜索结果"{}"没有找到包含关键字"{}"的文本'.format(texts, name))
+        return False
 
     @TestLogger.log()
     def is_search_contacts_name_match2(self, name):

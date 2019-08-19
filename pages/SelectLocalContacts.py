@@ -156,6 +156,7 @@ class SelectLocalContactsPage(BasePage):
     def click_back(self):
         """点击返回"""
         self.click_element(self.__class__.__locators["返回"])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_sure_del(self):
@@ -197,6 +198,7 @@ class SelectLocalContactsPage(BasePage):
     def click_sure(self):
         """点击确定"""
         self.click_element(self.__class__.__locators["确定"])
+        time.sleep(1)
 
     @TestLogger.log()
     def sure_btn_is_enabled(self):

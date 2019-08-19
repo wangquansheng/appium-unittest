@@ -1,6 +1,6 @@
 from appium.webdriver.common.mobileby import MobileBy
 from selenium.common.exceptions import NoSuchElementException
-
+import time
 from library.core.TestLogger import TestLogger
 from pages.components.Footer import FooterPage
 
@@ -161,6 +161,7 @@ class MePage(FooterPage):
     @TestLogger.log('点击联系人')
     def click_manage_contact2(self):
         self.click_element(self.__class__.__locators['联系人'])
+        time.sleep(1)
 
     @TestLogger.log('发红包')
     def click_red_packet_send(self):
@@ -243,6 +244,7 @@ class MePage(FooterPage):
         self.wait_until(
             condition=lambda d: self.get_element(self.__locators['设置'])
         ).click()
+        time.sleep(1)
 
     @TestLogger.log()
     def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):

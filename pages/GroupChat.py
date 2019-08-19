@@ -299,6 +299,7 @@ class GroupChatPage(BaseChatPage):
     def click_setting(self):
         """点击设置"""
         self.click_element(self.__class__.__locators["设置"])
+        time.sleep(1)
 
     @TestLogger.log()
     def is_exist_setting_btn(self):
@@ -510,6 +511,7 @@ class GroupChatPage(BaseChatPage):
     def click_expression_button(self):
         """点击表情按钮"""
         self.click_element(self.__class__.__locators["表情按钮"])
+        time.sleep(1)
 
     @TestLogger.log()
     def is_exist_expression_page(self):

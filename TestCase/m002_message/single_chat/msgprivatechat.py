@@ -1,23 +1,19 @@
-import random
-import time
 import re
+import time
+import uuid
 import warnings
-
 from selenium.common.exceptions import TimeoutException
-
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile
-from pages.components.selectors import PictureSelector
-from preconditions.BasePreconditions import LoginPreconditions, REQUIRED_MOBILES
 from library.core.utils.testcasefilter import tags
 from pages import *
-import uuid
+from pages.components.selectors import PictureSelector
+from preconditions.BasePreconditions import LoginPreconditions, REQUIRED_MOBILES
 
 
 class Preconditions(LoginPreconditions):
     """前置条件"""
-
     @staticmethod
     def connect_mobile(category):
         """选择手机手机"""
@@ -483,10 +479,7 @@ class MsgPrivateChatMsgList(TestCase):
 class MsgPrivateChatMsgSetting(TestCase):
     """
     模块：单聊->单聊设置
-    文件位置：113整理全量测试用例-黄彩最.xlsx
-    表格：单聊
     """
-
     @classmethod
     def setUpClass(cls):
         pass
@@ -494,10 +487,11 @@ class MsgPrivateChatMsgSetting(TestCase):
     def default_setUp(self):
         """确保每个用例运行前在单聊设置页面"""
         Preconditions.select_mobile('Android-移动')
-        setting = SingleChatSetPage()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         if mess.is_on_this_page():
             Preconditions.enter_private_chat_setting_page()
+        setting = SingleChatSetPage()
         if setting.is_on_this_page():
             return
         else:
@@ -619,6 +613,7 @@ class MsgPrivateChatMsgSetting(TestCase):
             local_file.click_back()
             csf.click_back()
         chat.wait_for_page_load()
+        time.sleep(3)
 
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_msg_huangcaizui_A_0079(self):
@@ -636,9 +631,9 @@ class MsgPrivateChatMsgSetting(TestCase):
         file = ChatFilePage()
         file.wait_for_page_loads()
         file.page_should_contain_file()
-        file.click_back()
-        fcrp.click_back()
-        setting.wait_for_page_load()
+        # file.click_back()
+        # fcrp.click_back()
+        # setting.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_msg_huangcaizui_A_0080(self):
@@ -650,13 +645,13 @@ class MsgPrivateChatMsgSetting(TestCase):
         # 3.点击文件
         fcrp = FindChatRecordPage()
         fcrp.click_file()
-        file = ChatFilePage()
         time.sleep(2)
+        file = ChatFilePage()
         file.clear_file_record()
         file.page_should_contain_text("暂无文件")
-        file.click_back()
-        fcrp.click_back()
-        setting.wait_for_page_load()
+        # file.click_back()
+        # fcrp.click_back()
+        # setting.wait_for_page_load()
 
     @staticmethod
     def public_send_video():
@@ -673,6 +668,7 @@ class MsgPrivateChatMsgSetting(TestCase):
         cpp.select_video()
         cpp.click_send()
         chat.wait_for_page_load()
+        time.sleep(2)
 
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_msg_huangcaizui_A_0081(self):
@@ -690,9 +686,9 @@ class MsgPrivateChatMsgSetting(TestCase):
         pv.wait_for_page_load()
         if not pv.is_exist_video():
             raise AssertionError("发送视频后在聊天记录的图片与视频页面无视频")
-        pv.click_back()
-        fcrp.click_back()
-        setting.wait_for_page_load()
+        # pv.click_back()
+        # fcrp.click_back()
+        # setting.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_msg_huangcaizui_A_0082(self):
@@ -707,9 +703,9 @@ class MsgPrivateChatMsgSetting(TestCase):
         pv.wait_for_page_load()
         pv.clear_record()
         pv.page_should_contain_text("暂无内容")
-        pv.click_back()
-        fcrp.click_back()
-        setting.wait_for_page_load()
+        # pv.click_back()
+        # fcrp.click_back()
+        # setting.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_msg_huangcaizui_A_0089(self):
@@ -719,8 +715,8 @@ class MsgPrivateChatMsgSetting(TestCase):
         setting.click_add_icon()
         scp = SelectContactsPage()
         scp.wait_for_page_local_contact_load()
-        scp.click_back()
-        setting.wait_for_page_load()
+        # scp.click_back()
+        # setting.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_msg_huangcaizui_A_0090(self):
@@ -766,7 +762,6 @@ class MsgPrivateChatMsgSetting(TestCase):
         # 4.点击确定,进入群聊名称设置
         slcp.click_sure()
         name_set = CreateGroupNamePage()
-        time.sleep(1.5)
         name_set.click_back()
         slcp.click_back()
         setting.wait_for_page_load()
@@ -789,9 +784,9 @@ class MsgPrivateChatMsgSetting(TestCase):
             slcp.search_and_select_one_member_by_name(name)
         # 4.点击确定,进入群聊名称设置
         slcp.click_sure()
-        name_set = CreateGroupNamePage()
-        name_set.click_back()
-        slcp.click_back()
+        # name_set = CreateGroupNamePage()
+        # name_set.click_back()
+        # slcp.click_back()
 
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_msg_huangcaizui_A_0093(self):
@@ -841,11 +836,9 @@ class MsgPrivateChatMsgSetting(TestCase):
         # 4.点击确定进入群聊名称设置
         slcp.wait_for_page_load()
         slcp.click_sure()
-        name_set = CreateGroupNamePage()
         # 5.再点击返回聊天设置
-        time.sleep(1)
         slcp.click_back()
-        current_mobile().launch_app()
+        # current_mobile().launch_app()
 
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_msg_huangcaizui_A_0095(self):
@@ -879,8 +872,8 @@ class MsgPrivateChatMsgSetting(TestCase):
                 #     raise AssertionError("搜索选择一个成员后再次点击列表里该成员，依然是选择状态")
                 break
         slcp.wait_for_page_load()
-        slcp.click_back()
-        setting.wait_for_page_load()
+        # slcp.click_back()
+        # setting.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_msg_huangcaizui_A_0096(self):
@@ -913,8 +906,8 @@ class MsgPrivateChatMsgSetting(TestCase):
                 #     raise AssertionError("搜索选择一个成员后再次点击列表里该成员，依然是选择状态")
                 break
         slcp.wait_for_page_load()
-        slcp.click_back()
-        setting.wait_for_page_load()
+        # slcp.click_back()
+        # setting.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_msg_huangcaizui_A_0097(self):
@@ -948,9 +941,9 @@ class MsgPrivateChatMsgSetting(TestCase):
         name_set.click_sure()
         if not name_set.is_toast_exist("网络不可用", timeout=6):
             raise AssertionError("无网络不可用提示")
-        name_set.click_back()
-        slcp.click_back()
-        setting.wait_for_page_load()
+        # name_set.click_back()
+        # slcp.click_back()
+        # setting.wait_for_page_load()
 
     @staticmethod
     def tearDown_test_msg_huangcaizui_A_0097():

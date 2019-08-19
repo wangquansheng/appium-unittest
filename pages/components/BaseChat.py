@@ -186,6 +186,7 @@ class BaseChatPage(BasePage):
     def click_delete(self):
         """点击删除"""
         self.click_element(self.__class__.__locators['删除'])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_forward(self):
@@ -239,6 +240,7 @@ class BaseChatPage(BasePage):
         """长按图片"""
         el = self.get_element(self.__class__.__locators['消息图片'])
         self.press(el)
+        time.sleep(1)
 
     @TestLogger.log()
     def press_video(self):
@@ -270,11 +272,13 @@ class BaseChatPage(BasePage):
     def click_gif(self):
         """点击选择gif"""
         self.click_element(self.__class__.__locators["选择gif"])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_more(self):
         """点击选择更多 +"""
         self.click_element(self.__class__.__locators["选择更多"])
+        time.sleep(1)
 
     @TestLogger.log()
     def is_open_more(self):

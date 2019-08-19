@@ -84,16 +84,16 @@ class MsgLabelGroupingTest(TestCase):
     文件位置：冒烟/冒烟测试用例-V20181225.01.xlsx
     表格：消息-标签分组文件、位置 + 消息-单聊视频_图片
     """
-
-    @classmethod
-    def setUpClass(cls):
-        Preconditions.select_mobile('Android-移动')
-        current_mobile().launch_app()
+    # @classmethod
+    # def setUpClass(cls):
+    #     Preconditions.select_mobile('Android-移动')
+    #     current_mobile().launch_app()
 
     def default_setUp(self):
         """确保每个用例运行前在标签分组会话页面"""
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         if mess.is_on_this_page():
             Preconditions.enter_label_grouping_chat_page()
@@ -104,9 +104,6 @@ class MsgLabelGroupingTest(TestCase):
         else:
             current_mobile().launch_app()
             Preconditions.enter_label_grouping_chat_page()
-
-    def default_tearDown(self):
-        pass
 
     @tags('ALL', 'SMOKE', 'CMCC', 'label_grouping')
     def test_msg_label_grouping_0001(self):
@@ -145,11 +142,13 @@ class MsgLabelGroupingTest(TestCase):
         csf = ChatSelectFilePage()
         csf.wait_for_page_load()
         csf.click_local_file()
+        time.sleep(1)
         # 3、选择任意文件，点击发送按钮
         local_file = ChatSelectLocalFilePage()
         # 进入预置文件目录，选择文件发送
         local_file.click_preset_file_dir()
         file = local_file.select_file(".txt")
+        time.sleep(1)
         if file:
             local_file.click_send()
         else:
@@ -366,48 +365,56 @@ class MsgLabelGroupingTest(TestCase):
         """标签分组会话页面，点击格式为格式为doc的文件可以正常查阅"""
         # 1、在当前聊天会话页面点击格式为doc的文件
         self.public_open_file(".doc")
+        print("test_msg_label_grouping_0009")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'label_grouping')
     def test_msg_label_grouping_0010(self):
         """标签分组会话页面，点击格式为格式为docx的文件可以正常查阅"""
         # 1、在当前聊天会话页面点击格式为docx的文件
         self.public_open_file(".docx")
+        print("test_msg_label_grouping_0010")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'label_grouping')
     def test_msg_label_grouping_0011(self):
         """标签分组会话页面，点击格式为格式为ppt的文件可以正常查阅"""
         # 1、在当前聊天会话页面点击格式为ppt的文件
         self.public_open_file(".ppt")
+        print("test_msg_label_grouping_0011")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'label_grouping')
     def test_msg_label_grouping_0012(self):
         """标签分组会话页面，点击格式为格式为pptx的文件可以正常查阅"""
         # 1、在当前聊天会话页面点击格式为pptx的文件
         self.public_open_file(".pptx")
+        print("test_msg_label_grouping_0012")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'label_grouping')
     def test_msg_label_grouping_0013(self):
         """标签分组会话页面，点击格式为格式为pdf的文件可以正常查阅"""
         # 1、在当前聊天会话页面点击格式为pdf的文件
         self.public_open_file(".pdf")
+        print("test_msg_label_grouping_0013")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'label_grouping')
     def test_msg_label_grouping_0014(self):
         """标签分组会话页面，点击格式为格式为xls的文件可以正常查阅"""
         # 1、在当前聊天会话页面点击格式为xls的文件
         self.public_open_file(".xls")
+        print("test_msg_label_grouping_0014")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'label_grouping')
     def test_msg_label_grouping_0015(self):
         """标签分组会话页面，点击格式为格式为xlsx的文件可以正常查阅"""
         # 1、在当前聊天会话页面点击格式为xlsx的文件
         self.public_open_file(".xlsx")
+        print("test_msg_label_grouping_0015")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'label_grouping')
     def test_msg_label_grouping_0016(self):
         """标签分组会话页面，点击格式为格式为txt的文件可以正常查阅"""
         # 1、在当前聊天会话页面点击格式为txt的文件
         self.public_open_file(".txt")
+        print("test_msg_label_grouping_0016")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'label_grouping')
     def test_msg_label_grouping_0017(self):
@@ -1962,7 +1969,6 @@ class MsgLabelGroupingTest(TestCase):
         """标签分组会话窗，验证点击趣图搜搜入口"""
         self.delete_media_msg()
         # 1、进入标签分组会话窗
-        chat = LabelGroupingChatPage()
         gif = ChatGIFPage()
         if gif.is_gif_exist():
             gif.close_gif()
@@ -1970,6 +1976,7 @@ class MsgLabelGroupingTest(TestCase):
         gc = GroupChatPage()
         gc.click_expression_button()
         time.sleep(1)
+        chat = LabelGroupingChatPage()
         chat.click_gif()
         # 3、选择表情点击
         gif.wait_for_page_load(timeout=60)
@@ -2153,13 +2160,13 @@ class MsgLabelGroupingTest(TestCase):
     def test_Msg_PrivateChat_VideoPic_0114(self):
         """标签分组会话窗，关闭GIF搜索框"""
         # 1、点击GIF图标
-        chat = LabelGroupingChatPage()
         gif = ChatGIFPage()
         if gif.is_gif_exist():
             gif.close_gif()
         gc = GroupChatPage()
         gc.click_expression_button()
         time.sleep(1)
+        chat = LabelGroupingChatPage()
         chat.click_gif()
         gif.wait_for_page_load()
         # 2、点击搜索框左方×

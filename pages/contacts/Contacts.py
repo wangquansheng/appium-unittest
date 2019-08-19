@@ -419,6 +419,7 @@ class ContactsPage(FooterPage):
     def click_me_icon(self):
         """点击进入我页面"""
         self.click_element(self.__locators['我'])
+        time.sleep(1)
 
     @TestLogger.log('点击搜索框')
     def click_search_box(self):

@@ -678,11 +678,10 @@ class WorkbenchPreconditions(LoginPreconditions):
         osp.wait_for_sub_department_page_load()
         osp.input_sub_department_name(departmentName)
         osp.click_specify_element_by_name2("完成")
-        time.sleep(2)
+        time.sleep(3)
         # if osp.is_toast_exist("部门已存在，请勿重复添加"):
         if osp.is_text_present("部门属性"):
-            current_mobile().back()
-            osp.wait_for_page_load()
+            osp.click_back_by_android(2)
         else:
             osp.wait_for_page_load()
             time.sleep(2)
@@ -695,27 +694,18 @@ class WorkbenchPreconditions(LoginPreconditions):
             sc = SelectContactsPage()
             slc = SelectLocalContactsPage()
             # 选择联系人
-            names=slc.get_contacts_name_list()
+            names = slc.get_contacts_name_list()
             time.sleep(2)
             sc.click_one_contact(names[0])
             sc.click_one_contact(names[1])
             sc.click_one_contact(names[2])
             # slc.click_one_contact("和飞信电话")
             slc.click_sure()
+            slc.click_back_by_android(3)
             # if not slc.is_toast_exist("操作成功"):
             #     raise AssertionError("操作不成功")
-            time.sleep(2)
-            current_mobile().back()
-            time.sleep(2)
-            if not osp.is_on_this_page():
-                raise AssertionError("没有返回上一级")
-            time.sleep(2)
-            current_mobile().back()
-            workbench = WorkbenchPage()
-            workbench.wait_for_page_load()
-            time.sleep(3)
-            current_mobile().back()
-            workbench.open_message_page()
+        workbench = WorkbenchPage()
+        workbench.open_message_page()
 
     @staticmethod
     def enter_super_meeting_page(reset=False):

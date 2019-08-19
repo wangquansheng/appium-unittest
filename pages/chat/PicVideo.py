@@ -97,7 +97,7 @@ class PicVideoPage(BasePage):
             el = self.get_element(self.__class__.__locators['图片与视频'])
             self.press(el)
             self.click_element((MobileBy.XPATH, "//*[contains(@text, '删除')]"))
-            time.sleep(0.5)
+            time.sleep(1)
 
     @TestLogger.log()
     def get_record_nums(self):
@@ -120,6 +120,7 @@ class PicVideoPage(BasePage):
     def click_back(self):
         """点击返回"""
         self.click_element(self.__class__.__locators['返回'])
+        time.sleep(1)
 
     @TestLogger.log()
     def wait_for_pic_preview_page_load(self, timeout=5, auto_accept_alerts=True):

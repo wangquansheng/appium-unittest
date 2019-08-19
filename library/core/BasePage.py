@@ -633,6 +633,7 @@ class BasePage(object):
     def click_back(self):
         """点击返回"""
         self.click_element((MobileBy.XPATH, "//*[contains(@resource-id, 'back')]"), 10)
+        time.sleep(1)
 
     @TestLogger.log()
     def click_back_by_android(self, times=1):

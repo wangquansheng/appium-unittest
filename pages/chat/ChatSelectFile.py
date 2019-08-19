@@ -1,5 +1,5 @@
 from appium.webdriver.common.mobileby import MobileBy
-
+import time
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 
@@ -51,6 +51,7 @@ class ChatSelectFilePage(BasePage):
     def click_local_file(self):
         """点击本地文件"""
         self.click_element(self.__class__.__locators["本地文件"])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_video(self):
