@@ -269,9 +269,8 @@ class EnterpriseContactsPage(BasePage):
     @TestLogger.log()
     def click_sub_level_department_by_name(self, name):
         """选择指定子层级部门"""
-        locator = (
-            MobileBy.XPATH,
-            '//*[@resource-id="com.chinasofti.rcs:id/tv_title_department" and contains(@text,"%s")]' % name)
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title_department" and contains(@text,"%s")]' % name)
+        time.sleep(2)
         max_try = 20
         current = 0
         while current < max_try:
