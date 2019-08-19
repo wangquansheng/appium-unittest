@@ -70,12 +70,15 @@ class SelectHeContactsDetailPage(BasePage):
     @TestLogger.log()
     def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):
         """默认使用activity作为判断页面是否加载的条件，继承类应该重写该方法"""
-        self.wait_until(
-            lambda d: self.is_text_present('编辑'),
-            timeout,
-            auto_accept_alerts
-        )
-        return self
+        try:
+            self.wait_until(
+                lambda d: self.is_text_present('编辑'),
+                timeout,
+                auto_accept_alerts
+            )
+            return self
+        except:
+            return self.is_text_present('编辑')
 
     @TestLogger.log("")
     def page_not_contain_shortcut(self):
@@ -101,7 +104,10 @@ class SelectHeContactsDetailPage(BasePage):
     @TestLogger.log()
     def select_one_linkman(self, name):
         """选择一个联系人"""
-        self.click_element((MobileBy.XPATH, "//*[@text='%s']" % name))
+        name = 'b测算'
+        locator = (MobileBy.XPATH, "//*[@text='%s']" % name)
+        self.find_element_by_swipe(locator)
+        self.click_element(locator)
 
     @TestLogger.log()
     def select_one_department(self, name):

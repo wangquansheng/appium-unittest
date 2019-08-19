@@ -87,6 +87,18 @@ class ContactDetailsPage(BasePage):
         "以后不再提醒": (MobileBy.ID, 'com.chinasofti.rcs:id/pop_window_not_pop_btn_image'),
     }
 
+    def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):
+        """默认使用activity作为判断页面是否加载的条件，继承类应该重写该方法"""
+        try:
+            self.wait_until(
+                lambda d: self.is_text_present('立即创建团队'),
+                timeout,
+                auto_accept_alerts
+            )
+            return self
+        except:
+            return self.is_text_present('立即创建团队')
+
     @TestLogger.log("点击继续拨打")
     def click_continue_call(self):
         time.sleep(2)
@@ -419,7 +431,6 @@ class ContactDetailsPage(BasePage):
         """页面应该包含联系人头像"""
         return self.page_should_contain_element(self.__class__.__locators['联系人头像图片'])
 
-
     @TestLogger.log()
     def is_exists_contacts_image(self):
         """是否存在联系人头像"""
@@ -444,7 +455,6 @@ class ContactDetailsPage(BasePage):
     def is_exists_contacts_image(self):
         """是否存在联系人头像"""
         return self._is_element_present(self.__class__.__locators["用户头像"])
-
 
     @TestLogger.log()
     def is_exists_message_icon(self):
@@ -585,6 +595,7 @@ class ContactDetailsPage(BasePage):
             os.makedirs(path)
         os.popen("adb pull /data/local/tmp/tmp.png " + path + "/" + timestamp + ".png")
         os.popen("adb shell rm /data/local/tmp/tmp.png")
+
     @TestLogger.log()
     def click_star(self):
         """点击星级图标"""
@@ -609,7 +620,8 @@ class ContactDetailsPage(BasePage):
     def assert_screen_contain_text(self, text):
         if not self.is_text_present(text):
             raise AssertionError("Page should have contained text '{}' "
-                                     "but did not".format(text))
+                                 "but did not".format(text))
+
     @TestLogger.log()
     def get_people_name(self):
         time.sleep(2)
@@ -620,8 +632,6 @@ class ContactDetailsPage(BasePage):
     def get_people_number(self):
         time.sleep(2)
         return self.get_element(self.__class__.__locators['手机号']).text
-
-
 
 
 def add(func):
@@ -643,7 +653,3 @@ def add(func):
             # raise ArithmeticError
 
     return wrapper
-
-
-
-

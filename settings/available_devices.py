@@ -809,7 +809,7 @@ DEVICES_CONFIG_DEBUG_YL = {
 
 DEVICES_CONFIG_WJH = {
     'M960BDQN229CH': {
-        "MODEL": SupportedModel.HUAWEI_P20,
+        "MODEL": SupportedModel.HUAWEI_N8,
         "SERVER_URL": 'http://192.168.0.117:4723/wd/hub',
         "DEFAULT_CAPABILITY": {
             "platformName": "Android",
