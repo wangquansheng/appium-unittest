@@ -82,6 +82,7 @@ class ChatGIFPage(BasePage):
     def input_message(self, message):
         """输入搜索信息"""
         self.input_text(self.__class__.__locators["趣图搜搜..."], message)
+        time.sleep(1)
         return self
 
     @TestLogger.log()
@@ -94,6 +95,7 @@ class ChatGIFPage(BasePage):
     def close_gif(self):
         """关闭gif"""
         self.click_element(self.__class__.__locators["关闭gif"])
+        time.sleep(1)
 
     @TestLogger.log()
     def send_gif(self, n=0):

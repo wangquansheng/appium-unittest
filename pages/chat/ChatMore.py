@@ -1,5 +1,5 @@
+import time
 from appium.webdriver.common.mobileby import MobileBy
-
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 
@@ -75,6 +75,7 @@ class ChatMorePage(BasePage):
     def click_file(self):
         """点击文件"""
         self.click_element(self.__class__.__locators["文件图标"])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_group_smss(self):

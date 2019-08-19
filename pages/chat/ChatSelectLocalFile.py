@@ -74,6 +74,7 @@ class ChatSelectLocalFilePage(BasePage):
     def click_back(self):
         """点击返回"""
         self.click_element(self.__class__.__locators["返回"])
+        time.sleep(1)
 
     @TestLogger.log("下一页")
     def page_up(self):
@@ -185,6 +186,7 @@ class ChatSelectLocalFilePage(BasePage):
         el = self.find_element_by_swipe((MobileBy.XPATH, '//*[@text="%s"]' % base_dir))
         if el:
             el.click()
+            time.sleep(1)
             return el
         else:
             print("在SD卡根目录无%s 文件夹，请将预置文件放入此处" % base_dir)
