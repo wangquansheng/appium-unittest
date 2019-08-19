@@ -386,6 +386,7 @@ class SelectContactsPage(BasePage):
     def click_he_contacts(self):
         """点击 选择和通讯录联系人/选择团队联系人"""
         self.click_element(self.__class__.__locators["选择团队联系人"])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_local_contacts(self):

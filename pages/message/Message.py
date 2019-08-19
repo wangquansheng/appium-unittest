@@ -210,6 +210,7 @@ class MessagePage(FooterPage):
     def click_add_icon(self):
         """点击加号图标"""
         self.click_element(self.__locators['+号'])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_new_message(self):
@@ -243,6 +244,7 @@ class MessagePage(FooterPage):
     def click_group_chat(self):
         """点击发起群聊"""
         self.click_element(self.__locators['发起群聊'])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_contacts(self):

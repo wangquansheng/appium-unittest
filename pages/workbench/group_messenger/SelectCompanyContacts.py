@@ -156,6 +156,15 @@ class SelectCompanyContactsPage(BasePage):
                 return True
         raise AssertionError('搜索结果"{}"没有找到与关键字"{}"完全匹配的文本'.format(texts, name))
 
+    @TestLogger.log("")
+    def is_exist_search_match(self):
+        """是否查找到（或者模糊匹配到）联系人"""
+        els = self.get_elements(self.__class__.__locators["联系人名"])
+        if els:
+            return True
+        else:
+            return False
+
     @TestLogger.log()
     def is_search_contacts_name_match(self, name):
         """搜索联系人名是否模糊匹配"""
