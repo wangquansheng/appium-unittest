@@ -1,5 +1,5 @@
 from appium.webdriver.common.mobileby import MobileBy
-
+import time
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 
@@ -36,6 +36,7 @@ class SingleChatSetPage(BasePage):
     def click_add_icon(self):
         """点击 +号"""
         self.click_element(self.__class__.__locators['+号'])
+        time.sleep(1)
 
     @TestLogger.log()
     def is_open_msg_undisturb_switch(self):
@@ -63,11 +64,13 @@ class SingleChatSetPage(BasePage):
     def search_chat_record(self):
         """点击 查找聊天内容"""
         self.click_element(self.__class__.__locators['查找聊天内容'])
+        time.sleep(2)
 
     @TestLogger.log()
     def click_back(self):
         """点击 返回"""
         self.click_element(self.__class__.__locators['返回'])
+        time.sleep(1)
 
     @TestLogger.log()
     def is_on_this_page(self):

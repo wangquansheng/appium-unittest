@@ -131,6 +131,7 @@ class SingleChatPage(BaseChatPage):
     def click_setting(self):
         """点击 设置"""
         self.click_element(self.__class__.__locators['设置'])
+        time.sleep(1)
 
     @TestLogger.log()
     def is_audio_exist(self):
