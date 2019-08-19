@@ -411,22 +411,23 @@ class GroupListPage(BasePage):
         self.tap_coordinate([(x_start, y_end)])
 
     @TestLogger.log('删除分组标签')
-    def delete_group(self,name='祝一路顺风幸福美满'):
+    def delete_group(self, name='祝一路顺风幸福美满'):
         if self.is_text_present(name):
             self.click_text(name)
             time.sleep(2)
-            flag=self._is_element_present(self.__class__.__locators['知道了'])
-            print("aaa",flag)
+            flag = self._is_element_present(self.__class__.__locators['知道了'])
             if flag:
                 self.click_element(self.__class__.__locators['知道了'])
+            time.sleep(1)
             self.click_element(self.__class__.__locators['设置'])
+            time.sleep(1)
             self.click_element(self.__class__.__locators['删除标签'])
+            time.sleep(1)
             self.click_element(self.__class__.__locators['刪除按钮'])
             time.sleep(2)
             if self._is_element_present(self.__class__.__locators['允许']):
                 self.click_element(self.__class__.__locators['允许'])
             time.sleep(2)
-
         else:
             print('标签不存在')
 
