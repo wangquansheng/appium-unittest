@@ -19,7 +19,6 @@ REQUIRED_MOBILES = {
 
 class Preconditions(object):
     """前置条件"""
-
     @staticmethod
     def make_already_in_message_page():
         """确保进入消息界面"""
@@ -74,35 +73,33 @@ class MsgDeliveryStatusDisplay(TestCase):
     """
     @classmethod
     def setUpClass(cls):
-        # 创建联系人
-        fail_time = 0
-        flag = False
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        # 导入测试联系人、群聊
+        fail_time1 = 0
+        flag1 = False
         import dataproviders
-        while fail_time < 2:
+        while fail_time1 < 2:
             try:
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()
-                preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
                 current_mobile().hide_keyboard_if_display()
-                preconditions.make_already_in_message_page()
+                Preconditions.make_already_in_message_page()
+                conts.open_contacts_page()
+                if conts.is_text_present("发现SIM卡联系人"):
+                    conts.click_text("显示")
                 for name, number in required_contacts:
-                    conts.open_contacts_page()
-                    if conts.is_text_present("显示"):
-                        conts.click_text("不显示")
-                    conts.create_contacts_if_not_exits(name, number)
-                flag = True
+                    # 创建联系人
+                    conts.create_contacts_if_not_exits_new(name, number)
+                flag1 = True
             except:
-                fail_time += 1
-            if flag:
+                fail_time1 += 1
+            if flag1:
                 break
-
-    @classmethod
-    def tearDownClass(cls):
-        current_mobile().hide_keyboard_if_display()
-        preconditions.make_already_in_message_page()
 
     def default_setUp(self):
         """确保进入消息界面"""
+        Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'msg', 'high')
