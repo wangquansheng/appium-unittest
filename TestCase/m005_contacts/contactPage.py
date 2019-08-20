@@ -96,7 +96,7 @@ class ContactPage(TestCase):
         fail_time1 = 0
         flag1 = False
         import dataproviders
-        while fail_time1 < 3:
+        while fail_time1 < 2:
             try:
                 Preconditions.make_already_in_message_page()
                 required_contacts = dataproviders.get_preset_contacts()

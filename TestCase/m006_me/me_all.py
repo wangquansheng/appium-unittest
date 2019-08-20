@@ -415,7 +415,7 @@ class MeAllTest(TestCase):
         fail_time1 = 0
         flag1 = False
         from dataproviders import contact2
-        while fail_time1 < 3:
+        while fail_time1 < 2:
             try:
                 required_contacts = contact2.get_preset_contacts()
                 required_contacts.append(('自己号码', current_mobile().get_cards(CardType.CHINA_MOBILE)[0]))

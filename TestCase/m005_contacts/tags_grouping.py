@@ -217,7 +217,7 @@ class TagsGroupingTest(TestCase):
         # 导入测试联系人
         fail_time1 = 0
         import dataproviders
-        while fail_time1 < 3:
+        while fail_time1 < 2:
             try:
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()

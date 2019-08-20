@@ -154,7 +154,7 @@ class MsgPrivateChatWebMsgTest(TestCase):
     #     fail_time1 = 0
     #     flag1 = False
     #     import dataproviders
-    #     while fail_time1 < 3:
+    #     while fail_time1 < 2:
     #         try:
     #             required_contacts = dataproviders.get_preset_contacts()
     #             conts = ContactsPage()
