@@ -217,24 +217,22 @@ class TagsGroupingTest(TestCase):
         # 导入测试联系人
         fail_time1 = 0
         import dataproviders
+        flag1 = False
         while fail_time1 < 2:
             try:
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()
                 conts.open_contacts_page()
-                try:
-                    if conts.is_text_present("发现SIM卡联系人"):
-                        conts.click_text("显示")
-                except:
-                    pass
+                if conts.is_text_present("发现SIM卡联系人"):
+                    conts.click_text("显示")
                 for name, number in required_contacts:
                     # 创建联系人
                     conts.create_contacts_if_not_exits_new(name, number)
+                flag1 = True
             except:
                 fail_time1 += 1
-                import traceback
-                msg = traceback.format_exc()
-                print(msg)
+            if flag1:
+                break
 
     def default_setUp(self):
         Preconditions.connect_mobile('Android-移动')
@@ -522,6 +520,7 @@ class Tag_Group(TestCase):
         WorkbenchPreconditions.create_sub_department()
         # 导入测试联系人
         fail_time1 = 0
+        flag1 = False
         import dataproviders
         while fail_time1 < 2:
             try:
@@ -533,9 +532,11 @@ class Tag_Group(TestCase):
                 for name, number in required_contacts:
                     # 创建联系人
                     conts.create_contacts_if_not_exits_new(name, number)
-                break
+                flag1 = True
             except:
                 fail_time1 += 1
+            if flag1:
+                break
 
     def default_setUp(self):
         Preconditions.connect_mobile('Android-移动')

@@ -73,15 +73,12 @@ class ContactSearchOpTest(TestCase):
         while fail_time1 < 2:
             try:
                 required_contacts = dataproviders.get_preset_contacts()
-                conts = ContactsPage()
                 current_mobile().hide_keyboard_if_display()
                 Preconditions.make_already_in_message_page()
+                conts = ContactsPage()
                 conts.open_contacts_page()
-                try:
-                    if conts.is_text_present("发现SIM卡联系人"):
-                        conts.click_text("显示")
-                except:
-                    pass
+                if conts.is_text_present("发现SIM卡联系人"):
+                    conts.click_text("显示")
                 for name, number in required_contacts:
                     # 创建联系人
                     conts.create_contacts_if_not_exits_new(name, number)
@@ -102,7 +99,7 @@ class ContactSearchOpTest(TestCase):
         # 导入团队联系人
         fail_time2 = 0
         flag2 = False
-        while fail_time2 < 5:
+        while fail_time2 < 2:
             try:
                 Preconditions.make_already_in_message_page()
                 contact_names = ["大佬1", "大佬2", "大佬3", "大佬4", '香港大佬', '测试号码']

@@ -102,11 +102,8 @@ class ContactPage(TestCase):
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()
                 conts.open_contacts_page()
-                try:
-                    if conts.is_text_present("发现SIM卡联系人"):
-                        conts.click_text("显示")
-                except:
-                    pass
+                if conts.is_text_present("发现SIM卡联系人"):
+                    conts.click_text("显示")
                 for name, number in required_contacts:
                     # 创建联系人
                     conts.create_contacts_if_not_exits_new(name, number)
