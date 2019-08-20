@@ -17,12 +17,31 @@ class CalllogBannerPage(BasePage):
         '搜索或输入号码': (MobileBy.ID, "com.chinasofti.rcs:id/contact_search_bar"),
         '复制': (MobileBy.XPATH, "//*[contains(@text, '复制')]"),
         '多方电话图标': (MobileBy.ID, "com.chinasofti.rcs:id/btnFreeCall"),
+        '飞信电话提示': (MobileBy.ID, 'com.chinasofti.rcs:id/mutil_arror'),
+        '飞信电话提示2': (MobileBy.ID, 'com.chinasofti.rcs:id/mutil_btnFreeCall'),
+
     }
 
     @TestLogger.log()
     def click_multiparty_call_by_calllogbanner(self):
         """点击多方通话"""
         self.click_element(self.__locators["多方通话"])
+
+    @TestLogger.log()
+    def click_feixin_call_tip(self):
+        """飞信电话提示2"""
+        self.click_element(self.__locators["飞信电话提示2"])
+
+    @TestLogger.log()
+    def is_exist_feixin_call_tip(self):
+        """飞信电话提示"""
+        try:
+            el = self.get_element(self.__locators["飞信电话提示"])
+            if el:
+                return True
+        except:
+            return False
+        return False
 
     @TestLogger.log()
     def click_free_call(self):

@@ -24,6 +24,15 @@ class Preconditions(WorkbenchPreconditions):
         mp.click_add_icon()
         # 点击“新建消息”
         mp.click_new_message()
+        # 提示对话框-start
+        cbp = CalllogBannerPage()
+        if cbp.is_exist_feixin_call_tip():
+            cbp.click_feixin_call_tip()
+        time.sleep(3)
+        cts = CallTypeSelectPage()
+        if cts.is_text_present("知道了"):
+            cts.click_i_know()
+        # 提示对话框-end
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
         # 进入单聊会话页面
@@ -342,7 +351,6 @@ class MsgPrivateChatWebMsgTest(TestCase):
         """
         网页消息——打开链接后的通用浏览器——右上角更多——在浏览器中打开
         """
-
         msg = 'http://www.baidu.com'
         cwp = self.send_one_web_msg_rcwp(msg)
         # 点击网页消息，打开网页
@@ -357,18 +365,10 @@ class MsgPrivateChatWebMsgTest(TestCase):
         wm = WebMore()
         # 点击在浏览器中打开链接按钮
         wm.click_open_in_browser()
-        # import os
         time.sleep(5)
-        # 获取当前界面的activity
-        # cmd = 'adb shell dumpsys window | ' + findExec + ' mCurrentFocus'
-        # res = os.popen(cmd)
-        # 截取出activity名称 == 'com.android.browser'为系统浏览器
-        # current_activity = res.read().split('u0 ')[-1].split('/')[1]
-        # res.close()
-        # time.sleep(3)
         if wm.is_text_present("地理位置授权"):
             wm.click_text("允许")
-        else:
+        if not wm.is_text_present("百度一下"):
             raise RuntimeError('在浏览器中打失败！')
 
     @tags('ALL', 'CMCC', 'WJH')
@@ -508,19 +508,25 @@ class MsgPrivateChatWebMsgTest(TestCase):
 
     @tags('ALL', 'CMCC', 'WJH')
     def test_msg_huangcaizui_A_0278(self):
-        """1.进入联系人详情页面2.进入单聊页面"""
         ChatWindowPage().click_back1()
         mp = MessagePage()
-        #mp.set_network_status(6)
         mp.click_calls()
+        time.sleep(6)
+        cbp = CalllogBannerPage()
+        if cbp.is_exist_feixin_call_tip():
+            cbp.click_feixin_call_tip()
         time.sleep(3)
-        # cts = CallTypeSelectPage()
-        # if cts.is_text_present("飞信电话"):
-        #     cts.click_call_by_app2()
-        # time.sleep(3)
-        # if cts.is_text_present("知道了"):
-        #     cts.click_i_know()
+        cts = CallTypeSelectPage()
+        if cts.is_text_present("知道了"):
+            cts.click_i_know()
+        time.sleep(6)
         cp = CallPage()
+        if cbp.is_exist_feixin_call_tip():
+            cbp.click_feixin_call_tip()
+        time.sleep(3)
+        cts = CallTypeSelectPage()
+        if cts.is_text_present("知道了"):
+            cts.click_i_know()
         cp.wait_for_page_load()
         pad = cp.is_on_the_dial_pad()
         if not pad:
@@ -544,7 +550,6 @@ class MsgPrivateChatWebMsgTest(TestCase):
             1.结果匹配到相关的团队联系人
             1.进入联系人详情页面
             2.进入单聊页面"
-
         """
         ChatWindowPage().click_back1()
         mp = MessagePage()
@@ -560,5 +565,3 @@ class MsgPrivateChatWebMsgTest(TestCase):
             cdp = ContactDetailsPage()
             cdp.wait_for_page_load()
             cdp.click_message_icon()
-
-

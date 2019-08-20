@@ -130,6 +130,12 @@ class ChatPicEditPage(BasePage):
         self.click_element(self.__class__.__locators["涂鸦"])
 
     @TestLogger.log()
+    def click_picture_complete(self):
+        """点击涂鸦编辑"""
+        self.click_element(self.__class__.__locators["完成"])
+        time.sleep(1)
+
+    @TestLogger.log()
     def click_picture_mosaic(self):
         """点击马赛克编辑"""
         self.click_element(self.__class__.__locators["马赛克"])
