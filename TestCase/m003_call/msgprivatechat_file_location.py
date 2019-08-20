@@ -555,8 +555,9 @@ class Preconditions(WorkbenchPreconditions):
     @staticmethod
     def create_team_select_contacts(team_name):
         """创建团队并添加指定名字联系人为团队成员"""
+        current_driver().launch_app()
         gcp = GroupChatPage()
-        gcp.click_back()
+        # gcp.click_back()
         mess = MessagePage()
         mess.wait_for_page_load()
         mess.open_workbench_page()
@@ -594,10 +595,13 @@ class Preconditions(WorkbenchPreconditions):
             slc.selecting_local_contacts_by_name(name_contact)
         # 点击确认
         slc.click_sure()
-        slc.wait_for_page_load()
-        # 点击取消返回工作台页面
-        slc.click_cancle()
-        workbench.click_message_icon()
+        try:
+            slc.wait_for_page_load()
+            # 点击取消返回工作台页面
+            slc.click_cancle()
+            workbench.click_message_icon()
+        except:
+            current_driver().launch_app()
 
     @staticmethod
     def get_into_group_chat_page(name):

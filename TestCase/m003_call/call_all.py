@@ -124,6 +124,7 @@ class CallAll(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        import warnings
         warnings.simplefilter('ignore', ResourceWarning)
         # 创建联系人
         fail_time = 0
