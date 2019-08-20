@@ -462,12 +462,12 @@ DEVICES_CONFIG_Nova = {
 DEVICES_CONFIG_LXD = {
     'M960BDQN229CH': {
         "MODEL": SupportedModel.HUAWEI_P20,
-        "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
+        "SERVER_URL": 'http://127.0.0.1:4727/wd/hub',
         "DEFAULT_CAPABILITY": {
             "platformName": "Android",
             "platformVersion": "9",
-            "deviceName": "7XB4C18907018917",
-            "udid": "7XB4C18907018917",
+            "deviceName": "RKKDU18321000975",
+            "udid": "RKKDU18321000975",
             "automationName": "UiAutomator2",
             "newCommandTimeout": 6000,
             "appPackage": "com.chinasofti.rcs",
@@ -476,7 +476,7 @@ DEVICES_CONFIG_LXD = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '19874361585'
+                'CARD_NUMBER': '13641490071'
             },
         ]
     },
@@ -638,7 +638,7 @@ DEVICES_CONFIG_DEBUG_YSH = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '15875537272'
+                'CARD_NUMBER': '18822825240'
             },
         ]
     },
@@ -684,7 +684,7 @@ DEVICES_CONFIG_DEBUG_YMS = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '19849476421'
+                'CARD_NUMBER': '13641490071'
             },
         ]
     },
@@ -707,7 +707,7 @@ DEVICES_CONFIG_DEBUG_YX = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '18822825240'
+                'CARD_NUMBER': '13602564065'
             },
         ]
     },
