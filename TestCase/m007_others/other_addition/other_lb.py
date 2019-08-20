@@ -72,7 +72,7 @@ class Contacts_demo(TestCase):
         cp.hang_up_voice_call()
 
     def tearDown_test_call_shenlisi_0071(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_call_shenlisi_0072():
@@ -128,7 +128,7 @@ class Contacts_demo(TestCase):
         cp.hang_up_voice_call()
 
     def tearDown_test_call_shenlisi_0072(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_call_shenlisi_0073():
@@ -184,7 +184,7 @@ class Contacts_demo(TestCase):
         cp.hang_up_voice_call()
 
     def tearDown_test_call_shenlisi_0073(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_call_shenlisi_0074():
@@ -214,7 +214,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_shenlisi_0074(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -263,7 +263,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_shenlisi_0093(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -324,7 +324,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_shenlisi_0208(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -383,7 +383,7 @@ class Contacts_demo(TestCase):
         cp.hang_up_video_call()
 
     def tearDown_test_call_shenlisi_0209(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_call_shenlisi_0210():
@@ -441,7 +441,7 @@ class Contacts_demo(TestCase):
         cp.hang_up_video_call()
 
     def tearDown_test_call_shenlisi_0210(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_call_shenlisi_0212():
@@ -477,7 +477,7 @@ class Contacts_demo(TestCase):
         # cp.hang_up_video_call()
 
     def tearDown_test_call_shenlisi_0212(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_call_shenlisi_0346():
@@ -548,7 +548,7 @@ class Contacts_demo(TestCase):
         cp.page_should_contain_text('视频通话')
 
     def tearDown_test_call_shenlisi_0346(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -613,7 +613,7 @@ class Contacts_demo(TestCase):
         callpage.hang_up_hefeixin_call_631()
 
     def tearDown_test_call_wangqiong_0063(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -671,7 +671,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_wangqiong_0145(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -731,7 +731,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_wangqiong_0146(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -794,7 +794,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_wangqiong_0147(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -836,7 +836,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_wangqiong_0193(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -905,7 +905,7 @@ class Contacts_demo(TestCase):
 
     def tearDown_test_call_wangqiong_0389(self):
         current_mobile().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -972,7 +972,7 @@ class Contacts_demo(TestCase):
         mess.wait_for_page_load()
 
     def tearDown_test_call_wangqiong_0401(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1041,7 +1041,7 @@ class Contacts_demo(TestCase):
 
     def tearDown_test_call_wangqiong_0405(self):
         current_mobile().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
 
@@ -1111,7 +1111,7 @@ class Contacts_demo(TestCase):
 
     def tearDown_test_call_wangqiong_0495(self):
         current_mobile().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1164,7 +1164,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_zengxi_0001(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1202,7 +1202,7 @@ class Contacts_demo(TestCase):
         mess.is_toast_exist('通话结束')
 
     def tearDown_test_call_zengxi_0005(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1244,7 +1244,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_zengxi_0009(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1312,7 +1312,7 @@ class Contacts_demo(TestCase):
 
     def tearDown_test_call_zengxi_0013(self):
 
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1366,7 +1366,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_zengxi_0017(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1394,7 +1394,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_zhenyishan_0112(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1438,7 +1438,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_zhenyishan_0153(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
 
@@ -1481,7 +1481,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_zhenyishan_0178(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_call_zhenyishan_0183():
@@ -1523,7 +1523,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_zhenyishan_0183(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1562,7 +1562,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_zhenyishan_0186(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1606,7 +1606,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_zhenyishan_0191(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1658,7 +1658,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_zhenyishan_0328(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_call_zhenyishan_0382():
@@ -1708,7 +1708,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_zhenyishan_0382(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1763,7 +1763,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_call_zhenyishan_0387(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1811,7 +1811,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_msg_hanjiabin_0192(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1874,7 +1874,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_msg_huangcaizui_D_0112(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1924,7 +1924,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_msg_huangcaizui_D_0113(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -1976,7 +1976,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_msg_huangcaizui_D_0114(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -2055,7 +2055,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_msg_huangcaizui_D_0115(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_msg_huangcaizui_D_0120():
@@ -2125,7 +2125,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_msg_huangcaizui_D_0120(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -2184,7 +2184,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_msg_huangcaizui_D_0121(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -2246,7 +2246,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_msg_huangcaizui_D_0122(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -2334,7 +2334,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_msg_huangcaizui_D_0123(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -2378,7 +2378,7 @@ class Contacts_demo(TestCase):
 
     def tearDown_test_msg_weifenglian_1V1_0259(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -2421,7 +2421,7 @@ class Contacts_demo(TestCase):
 
     def tearDown_test_msg_weifenglian_1V1_0268(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -2463,7 +2463,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_msg_weifenglian_1V1_0274(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_msg_weifenglian_PC_0233():
@@ -2508,7 +2508,7 @@ class Contacts_demo(TestCase):
         single_chat.assert_collect_record_file()
 
     def tearDown_test_msg_weifenglian_PC_0233(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -2540,7 +2540,7 @@ class Contacts_demo(TestCase):
         single_chat.assert_transmit_record_file()
 
     def tearDown_test_msg_weifenglian_PC_0237(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_msg_weifenglian_PC_0238():
@@ -2571,7 +2571,7 @@ class Contacts_demo(TestCase):
         single_chat.assert_collect_record_file()
 
     def tearDown_test_msg_weifenglian_PC_0238(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_msg_weifenglian_PC_0240():
@@ -2602,7 +2602,7 @@ class Contacts_demo(TestCase):
         single_chat.other_app_open_file()
 
     def tearDown_test_msg_weifenglian_PC_0240(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_msg_weifenglian_PC_0243():
@@ -2633,7 +2633,7 @@ class Contacts_demo(TestCase):
         single_chat.assert_transmit_record_file()
 
     def tearDown_test_msg_weifenglian_PC_0243(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -2665,7 +2665,7 @@ class Contacts_demo(TestCase):
         single_chat.assert_collect_record_file()
 
     def tearDown_test_msg_weifenglian_PC_0244(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_msg_weifenglian_PC_0248():
@@ -2696,7 +2696,7 @@ class Contacts_demo(TestCase):
         single_chat.assert_transmit_record_file()
 
     def tearDown_test_msg_weifenglian_PC_0248(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -2728,7 +2728,7 @@ class Contacts_demo(TestCase):
         single_chat.assert_collect_record_file()
 
     def tearDown_test_msg_weifenglian_PC_0249(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
     @staticmethod
     def setUp_test_msg_weifenglian_PC_0251():
         # 启动App
@@ -2758,7 +2758,7 @@ class Contacts_demo(TestCase):
         single_chat.other_app_open_file()
 
     def tearDown_test_msg_weifenglian_PC_0251(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_msg_weifenglian_PC_0261():
@@ -2790,7 +2790,7 @@ class Contacts_demo(TestCase):
         single_chat.assert_id_menu_more()
 
     def tearDown_test_msg_weifenglian_PC_0261(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_msg_weifenglian_PC_0310():
@@ -2825,7 +2825,7 @@ class Contacts_demo(TestCase):
 
     def tearDown_test_msg_weifenglian_PC_0310(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -2860,7 +2860,7 @@ class Contacts_demo(TestCase):
 
     def tearDown_test_msg_weifenglian_PC_0314(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -2896,7 +2896,7 @@ class Contacts_demo(TestCase):
 
     def tearDown_test_msg_weifenglian_PC_0315(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
     @staticmethod
     def setUp_test_msg_weifenglian_PC_0320():
         # 启动App
@@ -2930,7 +2930,7 @@ class Contacts_demo(TestCase):
 
     def tearDown_test_msg_weifenglian_PC_0320(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_msg_weifenglian_PC_0321():
@@ -2964,7 +2964,7 @@ class Contacts_demo(TestCase):
 
     def tearDown_test_msg_weifenglian_PC_0321(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
     @staticmethod
     def setUp_test_msg_xiaoliping_A_0006():
@@ -3008,7 +3008,7 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_msg_xiaoliping_A_0006(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
 
     @staticmethod
@@ -3058,5 +3058,5 @@ class Contacts_demo(TestCase):
 
 
     def tearDown_test_msg_xiaoliping_A_0009(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        pass
 
