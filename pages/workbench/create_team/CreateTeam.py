@@ -24,13 +24,13 @@ class CreateTeamPage(BasePage):
         # '请务必填写真实姓名': (MobileBy.XPATH, '//*[@text="请务必填写真实姓名" or @content-desc="请务必填写真实姓名" ]'),
         # '14775290489@139.com': (MobileBy.ID, 'gly_email'),
         '邮箱': (MobileBy.XPATH, '//*[@resource-id="gly_email"]'),
-        '立即创建团队': (MobileBy.XPATH, '//*[contains(@text,"立即创建团队")]'),
+        '立即创建团队': (MobileBy.XPATH, '//*[@text="立即创建团队" or @content-desc="立即创建团队"]'),
         # 点击创建团队后，设置工作台
-        '完成设置工作台': (MobileBy.XPATH, '//*[@content-desc="完成设置工作台"]'),
+        '完成设置工作台': (MobileBy.XPATH, '//*[@text="完成设置工作台" or @content-desc="完成设置工作台"]'),
         # 创建成功后页面
         '创建成功': (MobileBy.XPATH, '//*[@content-desc="创建成功"]'),
         '登录后台可体验更全面的管理功能': (MobileBy.XPATH, '//*[@content-desc="登录后台可体验更全面的管理功能"]'),
-        '进入工作台': (MobileBy.XPATH, '//*[@content-desc="直接进入工作台"]'),
+        '进入工作台': (MobileBy.XPATH, '//*[@text="直接进入工作台" or @content-desc="直接进入工作台"]'),
         # 未输入姓名时的弹窗提示
         '请输入管理员姓名': (MobileBy.XPATH, '//*[@content-desc="请输入管理员姓名"]'),
         '确定': (MobileBy.XPATH, '//*[contains(@text,"确定")]'),
@@ -50,9 +50,9 @@ class CreateTeamPage(BasePage):
         '天气预报': (MobileBy.XPATH, '//*[@content-desc="天气预报"]'),
         '删除': (MobileBy.XPATH, '//*[@content-desc="删除"]'),
         '邀请成员': (MobileBy.XPATH, '//*[@text="邀请成员"]'),
-        '选择城市': (MobileBy.XPATH, '//*[@content-desc="北京市"]'),
-        '选择城市城区': (MobileBy.XPATH, '//*[@content-desc="西城"]'),
-        '计算机软件': (MobileBy.XPATH, '//*[@content-desc="计算机软件"]'),
+        '选择城市': (MobileBy.XPATH, '//*[@text="北京市"or @content-desc="北京市"]'),
+        '选择城市城区': (MobileBy.XPATH, '//*[@text="西城" or @content-desc="西城"]'),
+        '计算机软件': (MobileBy.XPATH, '//*[@text="计算机软件" or @content-desc="计算机软件"]'),
 
     }
 

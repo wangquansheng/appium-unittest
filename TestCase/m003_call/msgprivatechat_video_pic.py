@@ -788,7 +788,7 @@ class MsgPrivateChatVideoPicTest(TestCase):
             scp.click_back()
 
     @tags('ALL', 'SMOKE', 'CMCC')
-    def test_msg_xiaoliping_C_0047(self):
+    def test_msg_xiaoliping_C_0047_01(self):
         """单聊会话页面，转发自己发送的图片给和通讯录联系人"""
         self.public_send_pic()
         # 1、在当前聊天会话页面，长按自己发送的图片
