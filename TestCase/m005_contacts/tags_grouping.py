@@ -229,7 +229,7 @@ class TagsGroupingTest(TestCase):
                     pass
                 for name, number in required_contacts:
                     # 创建联系人
-                    conts.create_contacts_if_not_exits(name, number)
+                    conts.create_contacts_if_not_exits_new(name, number)
             except:
                 fail_time1 += 1
                 import traceback

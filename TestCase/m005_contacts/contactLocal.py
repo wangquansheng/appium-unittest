@@ -176,7 +176,7 @@ class ContactsLocal(TestCase):
                     pass
                 for name, number in required_contacts:
                     # 创建联系人
-                    conts.create_contacts_if_not_exits(name, number)
+                    conts.create_contacts_if_not_exits_new(name, number)
                 required_group_chats = dataproviders.get_preset_group_chats()
                 conts.open_group_chat_list()
                 group_list = GroupListPage()
@@ -1786,7 +1786,7 @@ class ContactsLocalhigh(TestCase):
                     pass
                 for name, number in required_contacts:
                     # 创建联系人
-                    conts.create_contacts_if_not_exits(name, number)
+                    conts.create_contacts_if_not_exits_new(name, number)
                 required_group_chats = dataproviders.get_preset_group_chats()
                 conts.open_group_chat_list()
                 group_list = GroupListPage()

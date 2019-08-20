@@ -8,6 +8,7 @@ from pages.contacts.local_contact import localContactPage
 from pages.workbench.enterprise_contacts.EnterpriseContacts import EnterpriseContactsPage
 from pages.workbench.group_messenger.SelectCompanyContacts import SelectCompanyContactsPage
 from preconditions.BasePreconditions import WorkbenchPreconditions
+from library.core.common.simcardtype import CardType
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -83,7 +84,7 @@ class ContactSearchOpTest(TestCase):
                     pass
                 for name, number in required_contacts:
                     # 创建联系人
-                    conts.create_contacts_if_not_exits(name, number)
+                    conts.create_contacts_if_not_exits_new(name, number)
                 required_group_chats = dataproviders.get_preset_group_chats()
                 conts.open_group_chat_list()
                 group_list = GroupListPage()
@@ -98,26 +99,26 @@ class ContactSearchOpTest(TestCase):
                 fail_time1 += 1
             if flag1:
                 break
-                # 导入团队联系人
-                fail_time2 = 0
-                flag2 = False
-                while fail_time2 < 5:
-                    try:
-                        Preconditions.make_already_in_message_page()
-                        contact_names = ["大佬1", "大佬2", "大佬3", "大佬4", '香港大佬', '测试号码']
-                        Preconditions.create_he_contacts(contact_names)
-                        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-                        contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                          ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296"),
-                                          ('#*', '13800137006'), ('#1', '13800137007'), ('本机测试', phone_number)]
-                        # 将联系人添加到团队及团队子部门
-                        Preconditions.create_he_contacts2(contact_names2)
-                        WorkbenchPreconditions.create_he_contacts_for_sub_department("bm0", contact_names2)
-                        flag2 = True
-                    except:
-                        fail_time2 += 1
-                    if flag2:
-                        break
+        # 导入团队联系人
+        fail_time2 = 0
+        flag2 = False
+        while fail_time2 < 5:
+            try:
+                Preconditions.make_already_in_message_page()
+                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4", '香港大佬', '测试号码']
+                Preconditions.create_he_contacts(contact_names)
+                phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
+                                  ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296"),
+                                  ('#*', '13800137006'), ('#1', '13800137007'), ('本机测试', phone_number)]
+                # 将联系人添加到团队及团队子部门
+                Preconditions.create_he_contacts2(contact_names2)
+                WorkbenchPreconditions.create_he_contacts_for_sub_department("bm0", contact_names2)
+                flag2 = True
+            except:
+                fail_time2 += 1
+            if flag2:
+                break
 
     def default_setUp(self):
         """消息页面页面"""
