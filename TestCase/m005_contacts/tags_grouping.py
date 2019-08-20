@@ -523,24 +523,19 @@ class Tag_Group(TestCase):
         # 导入测试联系人
         fail_time1 = 0
         import dataproviders
-        while fail_time1 < 3:
+        while fail_time1 < 2:
             try:
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()
                 conts.open_contacts_page()
-                try:
-                    if conts.is_text_present("发现SIM卡联系人"):
-                        conts.click_text("显示")
-                except:
-                    pass
+                if conts.is_text_present("发现SIM卡联系人"):
+                    conts.click_text("显示")
                 for name, number in required_contacts:
                     # 创建联系人
-                    conts.create_contacts_if_not_exits(name, number)
+                    conts.create_contacts_if_not_exits_new(name, number)
+                break
             except:
                 fail_time1 += 1
-                import traceback
-                msg = traceback.format_exc()
-                print(msg)
 
     def default_setUp(self):
         Preconditions.connect_mobile('Android-移动')

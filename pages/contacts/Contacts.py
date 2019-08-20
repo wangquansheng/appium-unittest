@@ -653,7 +653,30 @@ class ContactsPage(FooterPage):
             # current_mobile().back()
             self.click_back()
 
-
+    @TestLogger.log('创建通讯录联系人')
+    def create_contacts_if_not_exits_new(self, name, number):
+        """导入联系人数据"""
+        from pages import MessagePage
+        mess = MessagePage()
+        mess.click_phone_contact()
+        # 搜索联系人
+        self.click_search_box()
+        from pages import ContactListSearchPage
+        contact_search = ContactListSearchPage()
+        # contact_search.wait_for_page_load()
+        contact_search.input_search_keyword2(name)
+        contact_search.hide_keyboard()
+        # 是否存在搜索的联系人
+        if contact_search.is_contact_in_list_new(name):
+            contact_search.click_back_by_android()
+        else:
+            self.click_add()
+            from pages import CreateContactPage
+            create_page = CreateContactPage()
+            create_page.wait_for_page_load()
+            create_page.hide_keyboard_if_display()
+            create_page.create_contact(name, number)
+            create_page.click_back_by_android(2)
 
     @TestLogger.log('创建联系人包含所有信息')
     def create_contacts_allinfo_if_not_exits(self, name, number, company, position, email):

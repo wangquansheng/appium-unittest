@@ -372,6 +372,11 @@ class SelectContactsPage(BasePage):
         els = self.get_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name"]'))
         return els.text
 
+    def get_contact_obj(self):
+        """获取群主名称"""
+        els = self.get_elements((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name"]'))
+        return els
+
     @TestLogger.log('点击联系人头像')
     def click_cantact_avatar(self):
         """点击联系人头像"""

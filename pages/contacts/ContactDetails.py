@@ -297,6 +297,7 @@ class ContactDetailsPage(BasePage):
     def click_back_icon(self):
         """点击返回"""
         self.click_element(self.__locators['返回上一页'])
+        time.sleep(1)
 
     @TestLogger.log("点击确定")
     def click_sure_icon(self):

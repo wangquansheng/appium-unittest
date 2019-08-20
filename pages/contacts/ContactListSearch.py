@@ -17,6 +17,7 @@ class ContactListSearchPage(BasePage):
         'com.chinasofti.rcs:id/relativeLayout01': (MobileBy.ID, 'com.chinasofti.rcs:id/relativeLayout01'),
         '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_back01'),
         '输入关键字搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/edit_query01'),
+        '搜索手机联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/et_search'),
         '删除关键字': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_delect01'),
         'com.chinasofti.rcs:id/tablayout': (MobileBy.ID, 'com.chinasofti.rcs:id/tablayout'),
         '本地通讯录': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_tab_title'),
@@ -59,6 +60,10 @@ class ContactListSearchPage(BasePage):
     def input_search_keyword(self, keyword):
         self.input_text(self.__locators['输入关键字搜索'], keyword)
 
+    @TestLogger.log('搜索手机联系人')
+    def input_search_keyword2(self, keyword):
+        self.input_text(self.__locators['搜索手机联系人'], keyword)
+
     @TestLogger.log('清空搜索关键字')
     def clear_search_keyword(self):
         self.click_element(self.__locators['删除关键字'])
@@ -71,6 +76,14 @@ class ContactListSearchPage(BasePage):
         for group in groups:
             if group.find_elements(MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and ' +
                                                    '@text="{}"]'.format(name)):
+                return True
+        return False
+
+    @TestLogger.log('查看是否显示XX联系人')
+    def is_contact_in_list_new(self, name):
+        els = self.get_elements((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name"]'))
+        for el in els:
+            if el.text == name:
                 return True
         return False
 
