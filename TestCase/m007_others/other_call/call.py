@@ -3359,7 +3359,11 @@ class MsgAllPrior(TestCase):
             chataudio.click_sure()
         time.sleep(3)
         chataudio.click_send_bottom()
-        time.sleep(600)
+        a = 10 * 60
+        while a > 0:
+            time.sleep(1)
+            a -= 1
+        time.sleep(2)
         # Step 1、长按发送成功的消息
         groupchat.press_voice_message()
         # Checkpoint 不可以成功此条消息（超过10分钟的消息，不能被撤回）
@@ -3464,7 +3468,11 @@ class MsgAllPrior(TestCase):
         # Checkpoint 2、在10分钟内，长按弹出功能菜单列表
         mess.page_should_contain_text('撤回')
         # Step 3、在超过10分钟后，点击撤回功能，是否可以撤回此条消息
-        time.sleep(602)
+        a = 10 * 60
+        while a > 0:
+            time.sleep(1)
+            a -= 1
+        time.sleep(2)
         groupchat.click_recall()
         groupchat.if_exist_i_know_click()
         # Checkpoint 3、在超过10分钟后，点击撤回功能，不可以撤回此条消息

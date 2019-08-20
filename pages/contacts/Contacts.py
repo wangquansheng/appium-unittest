@@ -1321,4 +1321,17 @@ class ContactsPage(FooterPage):
             return False
 
 
+    @TestLogger.log()
+    def click_always_allow(self, times=6):
+        while self.is_text_present('始终允许'):
+            try:
+                self.click_text('始终允许')
+                time.sleep(1)
+            except:
+                pass
+            times -= 1
+            if times <= 0:
+                return
+
+
 
