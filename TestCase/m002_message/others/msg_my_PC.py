@@ -350,9 +350,6 @@ class MsgMyPcTest(TestCase):
             msg_page.choose_chat_by_name('我的电脑')
             self.wait_for_MyPc_page_load()
 
-    def default_tearDown(self):
-        pass
-
     @staticmethod
     def wait_for_MyPc_page_load():
         """等待我的电脑页面加载，也可判断是否在我的电脑页面，return True"""
@@ -545,7 +542,7 @@ class MsgMyPcTest(TestCase):
     def tearDown_test_msg_weifenglian_PC_0006():
         MessagePage().set_network_status(6)
 
-    @tags('ALL', 'CMCC', 'my_PC')
+    @tags('ALL', 'CMCC-skip', 'my_PC')
     def test_msg_weifenglian_PC_0007(self):
         """未订购每月10G的用户发送大于2M的文件时有弹窗提示"""
         self.public_send_GT_2M_file(file_type="2M_data.json")
@@ -556,7 +553,7 @@ class MsgMyPcTest(TestCase):
         local_file.click_back()
         ChatSelectFilePage().click_back()
 
-    @tags('ALL', 'CMCC', 'my_PC')
+    @tags('ALL', 'CMCC-skip', 'my_PC')
     def test_msg_weifenglian_PC_0008(self):
         """直接点击“继续发送”：关闭弹窗，拨出，下次继续提示"""
         current_mobile().turn_off_wifi()
@@ -566,7 +563,7 @@ class MsgMyPcTest(TestCase):
         MessagePage().wait_for_page_load()
         MessagePage().clear_message_record()
 
-    @tags('ALL', 'CMCC', 'my_PC')
+    @tags('ALL', 'CMCC-skip', 'my_PC')
     def test_msg_weifenglian_PC_0010(self):
         """点击订购免流特权后可正常返回"""
         self.public_send_GT_2M_file(file_type="2M_data.json")
@@ -734,7 +731,7 @@ class MsgMyPcTest(TestCase):
     def tearDown_test_msg_weifenglian_PC_0019():
         MessagePage().set_network_status(6)
 
-    @tags('ALL', 'CMCC', 'my_PC')
+    @tags('ALL', 'CMCC-skip', 'my_PC')
     def test_msg_weifenglian_PC_0020(self):
         """未订购每月10G的用户发送大于2M的文件时有弹窗提示"""
         # 关闭wifi发送文件
@@ -748,7 +745,7 @@ class MsgMyPcTest(TestCase):
         ChatSelectFilePage().click_back()
         ChatWindowPage().click_back1()
 
-    @tags('ALL', 'CMCC', 'my_PC')
+    @tags('ALL', 'CMCC-skip', 'my_PC')
     def test_msg_weifenglian_PC_0021(self):
         """直接点击“继续发送”：关闭弹窗，拨出，下次继续提示"""
         current_mobile().turn_off_wifi()
@@ -759,7 +756,7 @@ class MsgMyPcTest(TestCase):
         MessagePage().wait_for_page_load()
         MessagePage().clear_message_record()
 
-    @tags('ALL', 'CMCC', 'my_PC')
+    @tags('ALL', 'CMCC-skip', 'my_PC')
     def test_msg_weifenglian_PC_0023(self):
         """点击订购免流特权后可正常返回"""
         current_mobile().turn_off_wifi()
@@ -889,7 +886,7 @@ class MsgMyPcTest(TestCase):
     def tearDown_test_msg_weifenglian_PC_0033():
         MessagePage().set_network_status(6)
 
-    @tags('ALL', 'CMCC', 'my_PC')
+    @tags('ALL', 'CMCC-skip', 'my_PC')
     def test_msg_weifenglian_PC_0034(self):
         """未订购每月10G的用户发送大于2M的视频时有弹窗提示"""
         self.wait_for_MyPc_page_load()
@@ -906,7 +903,7 @@ class MsgMyPcTest(TestCase):
     def tearDown_test_msg_weifenglian_PC_0034():
         current_mobile().turn_on_wifi()
 
-    @tags('ALL', 'CMCC', 'my_PC')
+    @tags('ALL', 'CMCC-skip', 'my_PC')
     def test_msg_weifenglian_PC_0035(self):
         """直接点击“继续发送”：关闭弹窗，拨出，下次继续提示"""
         current_mobile().turn_off_wifi()
@@ -1077,7 +1074,7 @@ class MsgMyPcTest(TestCase):
     def tearDown_test_msg_weifenglian_PC_0047():
         MessagePage().set_network_status(6)
 
-    @tags('ALL', 'CMCC', 'my_PC')
+    @tags('ALL', 'CMCC-skip', 'my_PC')
     def test_msg_weifenglian_PC_0048(self):
         """未订购每月10G的用户发送大于2M的音乐时有弹窗提示”"""
         current_mobile().turn_off_wifi()
@@ -1091,7 +1088,7 @@ class MsgMyPcTest(TestCase):
     def tearDown_test_msg_weifenglian_PC_0048():
         current_mobile().turn_on_wifi()
 
-    @tags('ALL', 'CMCC', 'my_PC')
+    @tags('ALL', 'CMCC-skip', 'my_PC')
     def test_msg_weifenglian_PC_0049(self):
         """直接点击“继续发送”：关闭弹窗，拨出，下次继续提示”"""
         current_mobile().turn_off_wifi()
@@ -1102,7 +1099,7 @@ class MsgMyPcTest(TestCase):
     def tearDown_test_msg_weifenglian_PC_0049():
         current_mobile().turn_on_wifi()
 
-    @tags('ALL', 'CMCC', 'my_PC')
+    @tags('ALL', 'CMCC-skip', 'my_PC')
     def test_msg_weifenglian_PC_0051(self):
         """点击订购免流特权后可正常返回"""
         current_mobile().turn_off_wifi()
