@@ -27,6 +27,7 @@ class PermissionListPage(BasePage):
     def go_permission(self):
         """点击去授权"""
         self.click_element(self.__class__.__locators["去授权"])
+        time.sleep(1)
 
     @TestLogger.log()
     def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):

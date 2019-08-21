@@ -53,6 +53,7 @@ class Preconditions(LoginPreconditions):
         permission_list = PermissionListPage()
         # permission_list.click_submit_button()
         permission_list.go_permission()
+        permission_list.click_permission_button()
         one_key.wait_for_page_load(30)
 
     @staticmethod

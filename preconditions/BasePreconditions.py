@@ -82,8 +82,9 @@ class LoginPreconditions(object):
         permission_list = PermissionListPage()
         # permission_list.click_submit_button()
         permission_list.go_permission()
-        if permission_list.page_should_contain_text2("确定"):
-            permission_list.click_text("确定")
+        permission_list.click_permission_button()
+        # if permission_list.page_should_contain_text2("确定"):
+        #     permission_list.click_text("确定")
         one_key.wait_for_page_load(30)
 
     @staticmethod

@@ -814,8 +814,8 @@ DEVICES_CONFIG_WJH = {
         "DEFAULT_CAPABILITY": {
             "platformName": "Android",
             "platformVersion": "8.1.0",
-            "deviceName": "JUBNU18816112025",
-            "udid": "JUBNU18816112025",
+            "deviceName": "DWT7N18614014715",
+            "udid": "DWT7N18614014715",
             "automationName": "UiAutomator2",
             "newCommandTimeout": 600,
             "appPackage": "com.chinasofti.rcs",
