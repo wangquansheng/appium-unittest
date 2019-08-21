@@ -125,6 +125,9 @@ class CallAll(TestCase):
     def setUpClass(cls):
         import warnings
         warnings.simplefilter('ignore', ResourceWarning)
+        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        preconditions.make_already_in_message_page()
+        current_mobile().hide_keyboard_if_display()
         # 创建联系人
         fail_time = 0
         import dataproviders
@@ -132,10 +135,6 @@ class CallAll(TestCase):
             try:
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()
-                preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
-                preconditions.make_already_in_message_page()
-                current_mobile().hide_keyboard_if_display()
-                preconditions.make_already_in_message_page()
                 for name, number in required_contacts:
                     conts.open_contacts_page()
                     if conts.is_text_present("显示"):

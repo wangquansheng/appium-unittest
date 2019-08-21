@@ -122,22 +122,21 @@ class MessageScanTest(TestCase):
     """
     @classmethod
     def setUpClass(cls):
+        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        current_mobile().hide_keyboard_if_display()
+        preconditions.make_already_in_message_page()
         # 创建联系人
         fail_time = 0
         import dataproviders
-        while fail_time < 3:
+        while fail_time < 2:
             try:
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()
-                preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
-                current_mobile().hide_keyboard_if_display()
-                preconditions.make_already_in_message_page()
                 for name, number in required_contacts:
                     conts.open_contacts_page()
                     if conts.is_text_present("显示"):
                         conts.click_text("不显示")
-                    conts.create_contacts_if_not_exits(name, number)
-
+                    conts.create_contacts_if_not_exits_new(name, number)
                 # 创建群
                 # required_group_chats = dataproviders.get_preset_group_chats()
                 #

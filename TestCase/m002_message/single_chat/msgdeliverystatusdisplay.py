@@ -22,8 +22,6 @@ class Preconditions(object):
     @staticmethod
     def make_already_in_message_page():
         """确保进入消息界面"""
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
-        current_mobile().hide_keyboard_if_display()
         message_page = MessagePage()
         if message_page.is_on_this_page():
             return
@@ -100,6 +98,7 @@ class MsgDeliveryStatusDisplay(TestCase):
     def default_setUp(self):
         """确保进入消息界面"""
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'msg', 'high')
