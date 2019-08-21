@@ -328,6 +328,7 @@ class MsgMyPcTest(TestCase):
 
     def default_setUp(self):
         """确保每个用例运行前在我的电脑会话页面"""
+        Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
         msg_page = MessagePage()
         msg_page.wait_for_page_load()
@@ -1787,6 +1788,7 @@ class MsgXiaoQiu(TestCase):
 
     def default_setUp(self):
         """确保每个用例运行前在我的电脑会话页面"""
+        Preconditions.select_mobile('Android-移动')
         LoginPreconditions.make_already_in_message_page()
         msg_page = MessagePage()
         msg_page.wait_for_page_load()

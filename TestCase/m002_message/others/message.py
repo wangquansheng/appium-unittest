@@ -2178,11 +2178,11 @@ class MessageOthersAllTest(TestCase):
     表格：消息
     Author:刘晓东
     """
-
     @classmethod
     def setUpClass(cls):
-
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
         # 导入测试联系人、群聊
         fail_time1 = 0
         flag1 = False
@@ -2191,21 +2191,14 @@ class MessageOthersAllTest(TestCase):
             try:
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()
-                current_mobile().hide_keyboard_if_display()
-                Preconditions.make_already_in_message_page()
                 conts.open_contacts_page()
-                try:
-                    if conts.is_text_present("发现SIM卡联系人"):
-                        conts.click_text("显示")
-                except:
-                    pass
+                if conts.is_text_present("发现SIM卡联系人"):
+                    conts.click_text("显示")
                 for name, number in required_contacts:
                     # 创建联系人
-                    conts.create_contacts_if_not_exits(name, number)
-
+                    conts.create_contacts_if_not_exits_new(name, number)
                 # 创建名片消息联系人
                 conts.create_contacts_if_not_exits2("名片消息测试", "13500135001", "中软国际", "经理", "123456@139.com")
-                # conts.create_contacts_if_not_exits("名片消息测试", "13500135001")
                 required_group_chats = dataproviders.get_preset_group_chats()
                 conts.open_group_chat_list()
                 group_list = GroupListPage()
@@ -2224,7 +2217,7 @@ class MessageOthersAllTest(TestCase):
         # 导入团队联系人
         fail_time2 = 0
         flag2 = False
-        while fail_time2 < 5:
+        while fail_time2 < 2:
             try:
                 Preconditions.make_already_in_message_page()
                 contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
@@ -2241,7 +2234,7 @@ class MessageOthersAllTest(TestCase):
         # 确保有企业群
         fail_time3 = 0
         flag3 = False
-        while fail_time3 < 5:
+        while fail_time3 < 2:
             try:
                 Preconditions.make_already_in_message_page()
                 Preconditions.ensure_have_enterprise_group()
