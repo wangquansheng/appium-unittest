@@ -346,6 +346,7 @@ class MeCollectionPage(BasePage):
     def click_collection_pic_video(self, text):
         """点击收藏图片或者视频"""
         self.click_element(self.__class__.__locators[text])
+        time.sleep(1)
 
     @TestLogger.log()
     def page_contain_element(self, locator):
