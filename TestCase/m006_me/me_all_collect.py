@@ -101,9 +101,6 @@ class Preconditions(object):
     @staticmethod
     def make_already_in_message_page(reset=False):
         """确保应用在消息页面"""
-        Preconditions.select_mobile('Android-移动', reset)
-        current_mobile().hide_keyboard_if_display()
-        time.sleep(1)
         # 如果在消息页，不做任何操作
         mess = MessagePage()
         if mess.is_on_this_page():
@@ -1021,7 +1018,7 @@ class MeAllCollect(TestCase):
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_468(self):
         """在收藏列表中打开音频文件"""
-        Preconditions.make_already_set_chart_group_file("18718.mp3")
+        Preconditions.make_already_set_chart_group_file(".mp3")
         # 1.点击跳转到我的页面
         mess = MessagePage()
         mess.wait_for_page_load()
