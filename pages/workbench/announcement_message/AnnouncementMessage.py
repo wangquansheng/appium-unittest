@@ -13,28 +13,29 @@ class AnnouncementMessagePage(BasePage):
         'X': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_close_actionbar'),
         '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
         '关闭': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_close_actionbar'),
-        '未发公告': (MobileBy.XPATH, '//*[@text="未发公告"]'),
+        '未发公告': (MobileBy.XPATH, '//*[@text="未发公告" or @content-desc="未发公告"]'),
         '(3人)': (MobileBy.XPATH, '//*[@text="（3人）"]'),
         '公告标题输入框': (MobileBy.XPATH, '//*[@resource-id ="title"]'),
         '公告内容输入框': (MobileBy.XPATH, '//*[@resource-id ="content"]'),
         '搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_right1'),
         '搜索输入框': (MobileBy.XPATH, '//*[@resource-id ="cBdTitle"]'),
         '发布': (MobileBy.XPATH, '//*[@resource-id ="publish"]'),
-        '确定': (MobileBy.XPATH, '//*[@text="确定"]'),
+        '确定': (MobileBy.XPATH, '//*[@text="确定" or @content-desc="确定"]'),
         '公告标题': (MobileBy.XPATH, '//*[@resource-id ="gg_title"]'),
         '创建公告人': (MobileBy.XPATH, '//*[@resource-id ="gg_name"]'),
         '创建时间': (MobileBy.XPATH, '//*[@resource-id ="gg_time"]'),
         '浏览人数': (MobileBy.XPATH, '//*[@resource-id ="gg_traffic"]'),
-        '图文发布': (MobileBy.XPATH, '//*[@text="图文发布"]'),
-        '文字发布': (MobileBy.XPATH, '//*[@text="文字发布"]'),
-        '链接发布': (MobileBy.XPATH, '//*[@text="链接发布"]'),
-        '消息推送': (MobileBy.XPATH, '//*[@text="消息推送"]'),
-        '保存': (MobileBy.XPATH, '//*[@text="保存"]'),
+        '图文发布': (MobileBy.XPATH, '//*[@text="图文发布" or @content-desc="图文发布"]'),
+        '文字发布': (MobileBy.XPATH, '//*[@text="文字发布" or @content-desc="文字发布"]'),
+        '链接发布': (MobileBy.XPATH, '//*[@text="链接发布" or @content-desc="链接发布"]'),
+        '消息推送': (MobileBy.XPATH, '//*[@text="消息推送" or @content-desc="消息推送"]'),
+        '保存': (MobileBy.XPATH, '//*[@text="保存"or @content-desc="保存"]'),
         '链接公告输入框': (MobileBy.XPATH, '//*[@resource-id ="linkUrl"]'),
         '链接公告标题输入框': (MobileBy.XPATH, '//*[@resource-id ="title_link"]'),
-        '取消': (MobileBy.XPATH, '//*[@text="取消"]'),
-        '删除': (MobileBy.XPATH, '//*[@text="删除"]'),
-        '发布text': (MobileBy.XPATH, '//*[@text="发布"]'),
+        '取消': (MobileBy.XPATH, '//*[@text="取消" or @content-desc="取消"]'),
+        '删除': (MobileBy.XPATH, '//*[@text="删除" or @content-desc="删除"]'),
+        '发布text': (MobileBy.XPATH, '//*[@text="发布" or @content-desc="发布"]'),
+        '发布公告': (MobileBy.XPATH, '//*[@text="发布公告" or @content-desc="发布公告"]'),
     }
 
     @TestLogger.log()
@@ -57,6 +58,10 @@ class AnnouncementMessagePage(BasePage):
     def click_enter_more(self):
         """点击进入工作台"""
         self.click_element(self.__class__.__locators['？'])
+
+    @TestLogger.log()
+    def click_notice_text(self, text):
+        self.click_element(self.__class__.__locators[text])
 
     def swipe_half_page_up(self):
         """向上滑动半页"""
