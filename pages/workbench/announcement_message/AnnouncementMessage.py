@@ -38,7 +38,7 @@ class AnnouncementMessagePage(BasePage):
     }
 
     @TestLogger.log()
-    def wait_for_page_loads(self, text="未发公告", timeout=60):
+    def wait_for_page_loads(self, text="公告信息", timeout=60):
         """等待 页面加载"""
         try:
             self.wait_until(

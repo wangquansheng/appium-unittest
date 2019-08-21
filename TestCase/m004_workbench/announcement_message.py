@@ -58,7 +58,7 @@ class AnnouncementMessageTest(TestCase):
         # 2、点击公告信息应用图标
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        if not amp.is_text_present("未发公告"):
+        if not amp.is_text_present("公告信息"):
             raise AssertionError("不能正常进入公告信息首页")
         current_mobile().back()
         wbp = WorkbenchPage()
@@ -103,7 +103,7 @@ class AnnouncementMessageTest(TestCase):
             raise AssertionError("没有出现初始化页面显示文字")
         if not amp.is_text_present("发布公告"):
             raise AssertionError("没有发布公告按钮")
-        if not amp.is_text_present("未发公告"):
+        if not amp.is_text_present("公告信息"):
             raise AssertionError("没有未发公告按钮")
         time.sleep(2)
         current_mobile().back()
