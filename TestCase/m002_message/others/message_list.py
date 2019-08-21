@@ -101,8 +101,9 @@ class Preconditions(WorkbenchPreconditions):
         else:
             cls.click_back()
             ctp.wait_for_page_load()
-            ctp.click_text("手机联系人")
-            time.sleep(1)
+            mess = MessagePage()
+            mess.click_phone_contact()
+            time.sleep(3)
             ctp.click_add()
             ccp = CreateContactPage()
             ccp.wait_for_page_load()
@@ -395,6 +396,7 @@ class Preconditions(WorkbenchPreconditions):
             except AssertionError as e:
                 raise e
 
+
 class MessageListAllTest(TestCase):
     """
     模块：消息列表
@@ -449,9 +451,6 @@ class MessageListAllTest(TestCase):
         else:
             current_mobile().launch_app()
             Preconditions.make_already_in_message_page()
-
-    def default_tearDown(self):
-        pass
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_B_0003(self):
@@ -772,9 +771,6 @@ class MessageListAllTest(TestCase):
         time.sleep(5)
         # 滑到消息记录顶端
         mp.slide_to_the_top()
-        # 取消当前页消息记录所有已置顶
-        if mp.is_exist_message_name():
-            mp.cancel_message_record_stick()
         # 确保当前页面至少两条记录,以便区分置顶效果
         messages = [("大佬1", "123"), ("大佬2", "456")]
         Preconditions.create_message_record(messages)
@@ -800,9 +796,6 @@ class MessageListAllTest(TestCase):
         time.sleep(5)
         # 滑到消息记录顶端
         mp.slide_to_the_top()
-        # 取消当前页消息记录所有已置顶
-        if mp.is_exist_message_name():
-            mp.cancel_message_record_stick()
         # 确保当前页面至少两条记录,以便区分取消置顶效果
         messages = [("大佬3", "111"), ("大佬4", "222")]
         Preconditions.create_message_record(messages)
