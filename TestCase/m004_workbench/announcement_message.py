@@ -1,25 +1,12 @@
-import unittest
-
-from pages.workbench.announcement_message.AnnouncementMessage import AnnouncementMessagePage
-from pages.workbench.manager_console.WorkbenchManagerPage import WorkBenchManagerPage
-from pages.workbench.organization.OrganizationStructure import OrganizationStructurePage
-from pages.workbench.super_meeting.SuperMeeting import SuperMeetingPage
-from pages.workbench.voice_notice.VoiceNotice import VoiceNoticePage
-from preconditions.BasePreconditions import WorkbenchPreconditions
-from library.core.TestCase import TestCase
-from library.core.utils.testcasefilter import tags
-from library.core.utils.applicationcache import current_mobile
-from pages import *
-import time
-
-from pages.workbench.create_team.CreateTeam import CreateTeamPage
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from TestCase.m001_login.login import *
+from pages.workbench.announcement_message.AnnouncementMessage import AnnouncementMessagePage
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
     pass
+
 
 class AnnouncementMessageTest(TestCase):
     """
@@ -27,7 +14,6 @@ class AnnouncementMessageTest(TestCase):
     文件位置：20190313工作台全量用例整理.xlsx
     表格：公告信息
     """
-
     def default_setUp(self):
         """进入公告信息页面"""
         Preconditions.select_mobile('Android-移动')
@@ -47,9 +33,6 @@ class AnnouncementMessageTest(TestCase):
         else:
             current_mobile().launch_app()
             Preconditions.enter_announcement_message_page()
-
-    def default_tearDown(self):
-        pass
 
     @tags('ALL', 'CMCC','workbench', 'GGXX')
     def test_GGXX_0001(self):
@@ -118,7 +101,7 @@ class AnnouncementMessageTest(TestCase):
         # 3、按中文搜索公告信息
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("哈哈")
         amp.input_content_text("你好啊")
@@ -153,7 +136,7 @@ class AnnouncementMessageTest(TestCase):
         # 3、按英文搜索公告信息
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("hello")
         amp.input_content_text("你好啊")
@@ -188,7 +171,7 @@ class AnnouncementMessageTest(TestCase):
         # 3、按特殊字符搜索公告信息
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("ha*")
         amp.input_content_text("你好啊")
@@ -223,7 +206,7 @@ class AnnouncementMessageTest(TestCase):
         # 3、带空格搜索公告信息
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("ha *")
         amp.input_content_text("你好啊")
@@ -280,7 +263,7 @@ class AnnouncementMessageTest(TestCase):
         # 3、按数字搜索公告信息
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("ha6")
         amp.input_content_text("你好啊")
@@ -315,7 +298,7 @@ class AnnouncementMessageTest(TestCase):
         # 3、搜索到多条公告信息
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("ha6")
         amp.input_content_text("你好啊")
@@ -360,7 +343,7 @@ class AnnouncementMessageTest(TestCase):
         # 5、检查消息推送是否默认不推送
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         if not amp.is_element_exit("文字发布"):
             raise AssertionError("没有文字发布")
@@ -391,7 +374,7 @@ class AnnouncementMessageTest(TestCase):
         # 9、验证公告信息首页历史记录是否正确
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("ha6")
         amp.input_content_text("你好啊")
@@ -426,7 +409,7 @@ class AnnouncementMessageTest(TestCase):
         # 9、验证公告信息首页历史记录是否正确
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("ha6")
         amp.input_content_text("你好啊")
@@ -459,7 +442,7 @@ class AnnouncementMessageTest(TestCase):
         # 9、验证公告信息首页历史记录是否正确
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.click_element_("链接发布")
         amp.input_link_title_text("哈哈")
@@ -494,7 +477,7 @@ class AnnouncementMessageTest(TestCase):
         # 9、验证公告信息首页历史记录是否正确
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.click_element_("链接发布")
         amp.input_link_title_text("哈哈")
@@ -526,7 +509,7 @@ class AnnouncementMessageTest(TestCase):
         # 7、点击【确定】按钮
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("ha6")
         amp.input_content_text("你好啊")
@@ -557,7 +540,7 @@ class AnnouncementMessageTest(TestCase):
         # 7、点击【取消】按钮
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("ha6")
         amp.input_content_text("你好啊")
@@ -580,7 +563,7 @@ class AnnouncementMessageTest(TestCase):
         # 6、点击【确定】按钮
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("ha6")
         amp.input_content_text("你好啊")
@@ -613,7 +596,7 @@ class AnnouncementMessageTest(TestCase):
         # 6、点击【确定】按钮
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("ha6")
         amp.input_content_text("你好啊")
@@ -648,7 +631,7 @@ class AnnouncementMessageTest(TestCase):
         # 3、点击搜索
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("ha6")
         amp.input_content_text("你好啊")
@@ -688,7 +671,7 @@ class AnnouncementMessageTest(TestCase):
         # 3、点击下线提示框弹窗“确定”
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        amp.click_text("发布公告")
+        amp.click_notice_text("发布公告")
         time.sleep(2)
         amp.input_title_text("ha6")
         amp.input_content_text("你好啊")

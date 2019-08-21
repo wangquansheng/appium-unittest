@@ -401,7 +401,7 @@ class Preconditions(object):
             scp.click_i_have_read()
         scp.click_more()
         cmp = ChatMorePage()
-        cmp.click_file1()
+        cmp.click_file()
         csf = ChatSelectFilePage()
         csf.wait_for_page_load()
         csf.click_local_file()

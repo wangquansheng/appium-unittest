@@ -100,7 +100,7 @@ class ChatMorePage(BasePage):
     @TestLogger.log()
     def click_file1(self):
         """点击文件"""
-        self.click_element(self.__class__.__locators["文件2"])
+        self.click_element(self.__class__.__locators["文件1"])
 
     @TestLogger.log()
     def click_voice_and_video_call(self):

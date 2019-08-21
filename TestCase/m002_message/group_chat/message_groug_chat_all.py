@@ -1559,7 +1559,7 @@ class MsgGroupChatTest(TestCase):
         GroupChatPage().wait_for_page_load()
         self.assertFalse(GroupChatPage().is_exist_msg_send_failed_button())
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
+    @tags('ALL', 'SMOKE', 'CMCC-skip', 'group_chat')
     def test_msg_weifenglian_qun_0076(self):
         """将自己发送的文件转发到普通群时失败"""
         group_chat_page = GroupChatPage()
@@ -1592,7 +1592,7 @@ class MsgGroupChatTest(TestCase):
         GroupChatPage().wait_for_page_load()
         self.assertTrue(GroupChatPage().is_exist_msg_send_failed_button())
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
+    @tags('ALL', 'SMOKE', 'CMCC-skip', 'group_chat')
     def test_msg_weifenglian_qun_0078(self):
         """将自己发送的文件转发到普通群时点击取消转发"""
         group_chat_page = GroupChatPage()
