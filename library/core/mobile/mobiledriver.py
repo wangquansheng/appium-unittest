@@ -234,7 +234,9 @@ class MobileDriver(ABC):
 
     @TestLogger.log('重置当前打开的APP')
     def reset_app(self):
-        self.driver.reset()
+        # self.driver.reset()
+        # 屏蔽所有重置操作
+        pass
 
     @TestLogger.log('获取屏幕截图')
     def get_screenshot_as_png(self):

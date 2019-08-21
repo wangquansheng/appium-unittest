@@ -1,15 +1,14 @@
-import warnings
+import time
+import unittest
+
+from selenium.common.exceptions import TimeoutException
 
 import preconditions
 from library.core.TestCase import TestCase
-from selenium.common.exceptions import TimeoutException
 from library.core.utils.applicationcache import current_mobile
-from library.core.utils.applicationcache import current_mobile, switch_to_mobile, current_driver
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.components.BaseChat import BaseChatPage
-import time
-import unittest
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -129,7 +128,7 @@ class CallAll(TestCase):
         # 创建联系人
         fail_time = 0
         import dataproviders
-        while fail_time < 3:
+        while fail_time < 2:
             try:
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()
@@ -160,19 +159,16 @@ class CallAll(TestCase):
                 msg = traceback.format_exc()
                 print(msg)
 
-    @classmethod
-    def tearDownClass(cls):
-        current_mobile().hide_keyboard_if_display()
-        preconditions.make_already_in_message_page()
+    # @classmethod
+    # def tearDownClass(cls):
+    #     current_mobile().hide_keyboard_if_display()
+    #     preconditions.make_already_in_message_page()
 
     def default_setUp(self):
         """进入Call页面,清空通话记录"""
         Preconditions.make_already_in_call()
         CalllogBannerPage().skip_multiparty_call()
         CallPage().delete_all_call_entry()
-
-    # def default_tearDown(self):
-    #     pass
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_shenlisi_0001(self):
@@ -192,7 +188,6 @@ class CallAll(TestCase):
         preconditions.reset_and_relaunch_app()
         Preconditions.make_already_in_call()
 
-    # @tags('ALL', 'CMCC_RESET', 'Call')
     @unittest.skip("pass")
     def test_call_shenlisi_0002(self):
         """检查未开通通讯录权限，进入到通话记录列表界面"""
@@ -223,7 +218,6 @@ class CallAll(TestCase):
         preconditions.make_already_in_one_key_login_page()
         preconditions.login_by_one_key_login()
 
-    # @tags('ALL', 'CMCC_RESET', 'Call')
     @unittest.skip("pass")
     def test_call_shenlisi_0003(self):
         """检查用户首次进入到“通话”界面"""
