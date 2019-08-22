@@ -373,7 +373,9 @@ class MsgMyPcTest(TestCase):
     def public_select_file_send(self, file_type=".xlsx"):
         """聊天页面选择文件发送"""
         self.public_select_file(file_type)
+        time.sleep(3)
         ChatSelectLocalFilePage().click_send()
+        time.sleep(2)
 
     def public_send_GT_2M_file(self, file_type="2M_data.json"):
         """发送大于2M的文件"""
@@ -651,11 +653,16 @@ class MsgMyPcTest(TestCase):
             pass
         else:
             MessagePage().set_network_status(0)
+            time.sleep(1)
             self.public_select_pic_send('.jpg')
+            time.sleep(1)
             MessagePage().set_network_status(6)
             self.wait_for_MyPc_page_load()
+        time.sleep(2)
         pc_chat_page.click_msg_send_failed_button()
+        time.sleep(2)
         pc_chat_page.click_resend_confirm()
+        time.sleep(2)
         self.wait_for_MyPc_page_load()
         self.assertFalse(pc_chat_page.is_exist_msg_send_failed_button())
 
@@ -844,8 +851,11 @@ class MsgMyPcTest(TestCase):
             pass
         else:
             self.test_msg_weifenglian_PC_0029()
+            time.sleep(3)
             MessagePage().set_network_status(6)
+        time.sleep(2)
         pc_chat_page.click_msg_send_failed_button()
+        time.sleep(2)
         pc_chat_page.click_resend_confirm()
         self.wait_for_MyPc_page_load()
         self.assertFalse(pc_chat_page.is_exist_msg_send_failed_button())
@@ -997,7 +1007,7 @@ class MsgMyPcTest(TestCase):
     def test_msg_weifenglian_PC_0043(self):
         """网络异常时勾选音乐列表页面任意音乐点击发送按钮”"""
         MessagePage().set_network_status(0)
-        self.public_select_music_send('28618718.mp3')
+        self.public_select_music_send('.mp3')
         is_on_Pc_Chat_Page = self.wait_for_MyPc_page_load()
         self.assertTrue(is_on_Pc_Chat_Page)
         self.assertTrue(GroupChatPage().is_exist_msg_send_failed_button())
@@ -1013,7 +1023,7 @@ class MsgMyPcTest(TestCase):
             pass
         else:
             MessagePage().set_network_status(0)
-            self.public_select_music_send('28618718.mp3')
+            self.public_select_music_send('.mp3')
         self.wait_for_MyPc_page_load()
         ChatWindowPage().click_back1()
         MessagePage().wait_for_page_load()
@@ -1031,10 +1041,14 @@ class MsgMyPcTest(TestCase):
         else:
             MessagePage().set_network_status(0)
             self.public_select_music_send('.mp3')
-            MessagePage().set_network_status(6)
+            time.sleep(2)
+        MessagePage().set_network_status(6)
         self.wait_for_MyPc_page_load()
+        time.sleep(2)
         GroupChatPage().click_msg_send_failed_button()
+        time.sleep(2)
         GroupChatPage().click_resend_confirm()
+        time.sleep(2)
         self.wait_for_MyPc_page_load()
         self.assertFalse(GroupChatPage().is_exist_msg_send_failed_button())
 
@@ -1150,7 +1164,9 @@ class MsgMyPcTest(TestCase):
         ChatFilePage().forward_file('.xlsx')
         SelectContactsPage().wait_for_page_load()
         SelectContactsPage().select_one_recently_contact_by_name('我的电脑')
+        time.sleep(2)
         SelectContactsPage().click_sure_forward()
+        time.sleep(2)
         self.assertTrue(GroupChatPage().is_exist_forward())
         self.assertFalse(GroupChatPage().is_exist_msg_send_failed_button())
 
@@ -1216,6 +1232,7 @@ class MsgMyPcTest(TestCase):
         # 需要转发的群
         SelectContactsPage().click_select_one_group()
         SelectOneGroupPage().select_one_enterprise_group()
+        time.sleep(2)
         SelectOneGroupPage().click_sure_forward()
         # 转发成功并回到聊天页面
         self.assertTrue(GroupChatPage().is_exist_forward())
@@ -1234,8 +1251,10 @@ class MsgMyPcTest(TestCase):
         ChatFilePage().forward_file('.xlsx')
         SelectContactsPage().wait_for_page_load()
         # 需要转发的群
+        time.sleep(2)
         SelectContactsPage().click_select_one_group()
         SelectOneGroupPage().select_one_enterprise_group()
+        time.sleep(2)
         SelectOneGroupPage().click_sure_forward()
         # 转发成功并回到聊天页面
         self.assertTrue(GroupChatPage().is_exist_forward())
@@ -1301,6 +1320,7 @@ class MsgMyPcTest(TestCase):
         """ 转发文件 """
         self.long_press_file()
         # 转发xls文件
+        time.sleep(2)
         ChatFilePage().forward_file('.xlsx')
         SelectContactsPage().wait_for_page_load()
 
@@ -1310,11 +1330,14 @@ class MsgMyPcTest(TestCase):
         SelectContactsPage().click_select_one_group()
         SelectOneGroupPage().wait_for_page_load()
         SelectOneGroupPage().click_search_group()
+        time.sleep(2)
         SelectOneGroupPage().input_search_keyword(text)
+        time.sleep(3)
         if SelectOneGroupPage().is_text_present('无搜索结果'):
             pass
         else:
             SelectOneGroupPage().click_search_result()
+            time.sleep(2)
             SelectOneGroupPage().click_sure_forward()
             # 转发成功并回到聊天页面
             self.assertTrue(GroupChatPage().is_exist_forward())
@@ -1737,7 +1760,9 @@ class MsgMyPcTest(TestCase):
         """对自己发送出去的文件消息进行收藏"""
         self.long_press_file()
         ChatFilePage().collection_file('.xlsx')
-        GroupChatPage().is_exist_collection()
+        # 已收藏 toast 判断
+        result = GroupChatPage().is_exist_collection()
+        self.assertTrue(result)
         ChatWindowPage().click_back1()
         message_page = MessagePage()
         message_page.wait_for_page_load()

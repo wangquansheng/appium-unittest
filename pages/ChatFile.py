@@ -52,8 +52,10 @@ class ChatFilePage(BasePage):
     @TestLogger.log()
     def collection_file(self, file):
         """收藏文件"""
+        time.sleep(1)
         el = self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file))
         self.press(el)
+        time.sleep(3)
         self.click_element(self.__class__.__locators['收藏'])
 
     @TestLogger.log()
@@ -61,7 +63,9 @@ class ChatFilePage(BasePage):
         """转发文件"""
         el = self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file))
         self.press(el)
+        time.sleep(2)
         self.click_element(self.__class__.__locators['转发'])
+        time.sleep(1)
 
     @TestLogger.log()
     def is_on_this_page(self):
