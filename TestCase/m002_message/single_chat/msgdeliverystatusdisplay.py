@@ -63,6 +63,15 @@ class Preconditions(object):
         # 等待单聊会话页面加载
         scp.wait_for_page_load()
 
+    @staticmethod
+    def select_mobile(category, reset=False):
+        """选择手机"""
+        client = switch_to_mobile(REQUIRED_MOBILES[category])
+        client.connect_mobile()
+        if reset:
+            current_mobile().reset_app()
+        return client
+
 
 class MsgDeliveryStatusDisplay(TestCase):
     """

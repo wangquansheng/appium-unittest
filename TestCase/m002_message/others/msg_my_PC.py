@@ -2002,7 +2002,7 @@ class MsgXiaoQiu(TestCase):
     def test_msg_xiaoqiu_0659(self):
         """发起群聊/添加群成员/转发-选择团队联系人-企业列表页面-企业列表页面-输入号码规则的6位数字——搜索"""
         # 备注：无法构造无查询结果的数据。
-        SelectContactsPage().search('123456')
+        SelectContactsPage().search('654321')
         time.sleep(6)
         self.assertTrue(SelectCompanyContactsPage().is_text_present('无搜索结果'))
 
