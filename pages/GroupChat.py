@@ -191,6 +191,10 @@ class GroupChatPage(BaseChatPage):
         self.click_element(self.__class__.__locators["文件"])
 
     @TestLogger.log()
+    def click_network_switch(self):
+        self.click_element(self.__class__.__locators["切换"])
+
+    @TestLogger.log()
     def click_send_failed(self):
         """点击发送失败标识"""
         self.click_element(self.__class__.__locators["发送失败标识"])

@@ -497,10 +497,15 @@ class MsgLabelGroupingAll(TestCase):
     @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0007(self):
         """移动网络下,发送大于2M的文件会出现弹框"""
-        #设置网络为移动网络
+        # 设置网络为移动网络
         lbgc=LabelGroupingChatPage()
         lbgc.set_network_status(4)
-        #发送大于2M的文件
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
+        # 发送大于2M的文件
         Preconditions.enter_local_file_catalog()
         local_file = ChatSelectLocalFilePage()
         csf = ChatSelectFilePage()
@@ -511,11 +516,20 @@ class MsgLabelGroupingAll(TestCase):
             local_file.click_back()
             local_file.click_back()
             csf.click_back()
-        #弹出10G免流特权弹窗
+        # 弹出10G免流特权弹窗
         time.sleep(2)
         local_file.is_exist_continue_send()
         local_file.is_exist_free_flow_privilege()
         local_file.is_exist_no_longer_prompt()
+
+    @staticmethod
+    def tearDown_test_msg_weifenglian_fenzu_0007():
+        try:
+            mep = MePage()
+            mep.set_network_status(6)
+        except:
+            mep = MePage()
+            mep.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0008(self):
@@ -523,6 +537,11 @@ class MsgLabelGroupingAll(TestCase):
         #设置网络为移动网络
         lbgc=LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         #发送大于2M的文件
         Preconditions.enter_local_file_catalog()
         local_file = ChatSelectLocalFilePage()
@@ -554,12 +573,26 @@ class MsgLabelGroupingAll(TestCase):
         time.sleep(2)
         local_file.is_exist_free_flow_privilege()
 
+    @staticmethod
+    def tearDown_test_msg_weifenglian_fenzu_0008():
+        try:
+            mep = MePage()
+            mep.set_network_status(6)
+        except:
+            mep = MePage()
+            mep.set_network_status(6)
+
     @tags('ALL', 'CMCC-RESET', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0009(self):
         """移动网络下,选择以后不再提示后点击发送"""
         #设置网络为移动网络
         lbgc=LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         #发送大于2M的文件
         Preconditions.enter_local_file_catalog()
         local_file = ChatSelectLocalFilePage()
@@ -590,6 +623,15 @@ class MsgLabelGroupingAll(TestCase):
         local_file.is_exist_free_flow_privilege()
 
     @staticmethod
+    def tearDown_test_msg_weifenglian_fenzu_0009():
+        try:
+            mep = MePage()
+            mep.set_network_status(6)
+        except:
+            mep = MePage()
+            mep.set_network_status(6)
+
+    @staticmethod
     def setUp_test_msg_weifenglian_fenzu_0010():
 
         Preconditions.connect_mobile('Android-移动')
@@ -606,6 +648,11 @@ class MsgLabelGroupingAll(TestCase):
         # 设置网络为移动网络
         lbgc = LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         # 发送大于2M的文件
         Preconditions.enter_local_file_catalog()
         local_file = ChatSelectLocalFilePage()
@@ -842,6 +889,11 @@ class MsgLabelGroupingAll(TestCase):
         # 设置网络为移动网络
         lbgc = LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         Preconditions.send_large_picture_file()
         local_file = ChatSelectLocalFilePage()
         # 弹出10G免流特权弹窗
@@ -850,12 +902,26 @@ class MsgLabelGroupingAll(TestCase):
         local_file.is_exist_free_flow_privilege()
         local_file.is_exist_no_longer_prompt()
 
+    @staticmethod
+    def tearDown_test_msg_weifenglian_fenzu_0020():
+        try:
+            mep = MePage()
+            mep.set_network_status(6)
+        except:
+            mep = MePage()
+            mep.set_network_status(6)
+
     @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0021(self):
         """移动网络下,发送大于2M的图片会出现弹框,继续发送"""
         # 设置网络为移动网络
         lbgc = LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         # 发送大于2M的文件
         Preconditions.send_large_picture_file()
         local_file = ChatSelectLocalFilePage()
@@ -871,12 +937,26 @@ class MsgLabelGroupingAll(TestCase):
         time.sleep(2)
         local_file.is_exist_free_flow_privilege()
 
+    @staticmethod
+    def tearDown_test_msg_weifenglian_fenzu_0021():
+        try:
+            mep = MePage()
+            mep.set_network_status(6)
+        except:
+            mep = MePage()
+            mep.set_network_status(6)
+
     @tags('ALL', 'CMCC-RESET', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0022(self):
         """移动网络下,选择以后不再提示后点击发送"""
         # 设置网络为移动网络
         lbgc = LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         # 发送大于2M的文件
         Preconditions.send_large_picture_file()
         local_file = ChatSelectLocalFilePage()
@@ -889,6 +969,15 @@ class MsgLabelGroupingAll(TestCase):
         Preconditions.send_large_picture_file()
         # 再次发送,查看是否存在弹框
         local_file.is_exist_free_flow_privilege()
+
+    @staticmethod
+    def tearDown_test_msg_weifenglian_fenzu_0022():
+        try:
+            mep = MePage()
+            mep.set_network_status(6)
+        except:
+            mep = MePage()
+            mep.set_network_status(6)
 
     @staticmethod
     def setUp_test_msg_weifenglian_fenzu_0023():
@@ -907,6 +996,11 @@ class MsgLabelGroupingAll(TestCase):
         # 设置网络为移动网络
         lbgc = LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         # 发送大于2M的文件
         Preconditions.send_large_picture_file()
         local_file = ChatSelectLocalFilePage()
@@ -1151,6 +1245,11 @@ class MsgLabelGroupingAll(TestCase):
         # 设置网络为移动网络
         lbgc = LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         Preconditions.send_large_video_file()
         # 弹出10G免流特权弹窗
         local_file = ChatSelectLocalFilePage()
@@ -1159,12 +1258,26 @@ class MsgLabelGroupingAll(TestCase):
         local_file.is_exist_free_flow_privilege()
         local_file.is_exist_no_longer_prompt()
 
+    @staticmethod
+    def tearDown_test_msg_weifenglian_fenzu_0035():
+        try:
+            mep = MePage()
+            mep.set_network_status(6)
+        except:
+            mep = MePage()
+            mep.set_network_status(6)
+
     @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0036(self):
         """移动网络下,发送大于2M的视频会出现弹框,继续发送"""
         # 设置网络为移动网络
         lbgc = LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         Preconditions.send_large_video_file()
         # 弹出10G免流特权弹窗
         local_file = ChatSelectLocalFilePage()
@@ -1178,12 +1291,26 @@ class MsgLabelGroupingAll(TestCase):
         time.sleep(2)
         local_file.is_exist_continue_send()
 
+    @staticmethod
+    def tearDown_test_msg_weifenglian_fenzu_0036():
+        try:
+            mep = MePage()
+            mep.set_network_status(6)
+        except:
+            mep = MePage()
+            mep.set_network_status(6)
+
     @tags('ALL', 'CMCC-RESET', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0037(self):
         """移动网络下,选择以后不再提示后点击发送"""
         # 设置网络为移动网络
         lbgc = LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         # 发送大于2M的文件
         Preconditions.send_large_video_file()
         # 弹出10G免流特权弹窗,选择以后不再提示
@@ -1197,6 +1324,15 @@ class MsgLabelGroupingAll(TestCase):
         # 再次发送,查看是否存在弹框
         time.sleep(2)
         local_file.is_exist_free_flow_privilege()
+
+    @staticmethod
+    def tearDown_test_msg_weifenglian_fenzu_0037():
+        try:
+            mep = MePage()
+            mep.set_network_status(6)
+        except:
+            mep = MePage()
+            mep.set_network_status(6)
 
     @staticmethod
     def setUp_test_msg_weifenglian_fenzu_0038():
@@ -1215,6 +1351,11 @@ class MsgLabelGroupingAll(TestCase):
         # 设置网络为移动网络
         lbgc = LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         # 发送大于2M的文件
         Preconditions.send_large_video_file()
         # 点击订购免流特权
@@ -1438,6 +1579,11 @@ class MsgLabelGroupingAll(TestCase):
         # 设置网络为移动网络
         lbgc = LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         Preconditions.send_large_music_file()
         local_file = ChatSelectLocalFilePage()
         # 弹出10G免流特权弹窗
@@ -1446,12 +1592,26 @@ class MsgLabelGroupingAll(TestCase):
         local_file.is_exist_free_flow_privilege()
         local_file.is_exist_no_longer_prompt()
 
+    @staticmethod
+    def tearDown_test_msg_weifenglian_fenzu_0048():
+        try:
+            mep = MePage()
+            mep.set_network_status(6)
+        except:
+            mep = MePage()
+            mep.set_network_status(6)
+
     @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0049(self):
         """移动网络下,发送大于2M的音乐会出现弹框,继续发送"""
         # 设置网络为移动网络
         lbgc = LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         # 发送大于2M的文件
         Preconditions.send_large_music_file()
         local_file = ChatSelectLocalFilePage()
@@ -1467,12 +1627,26 @@ class MsgLabelGroupingAll(TestCase):
         time.sleep(2)
         local_file.is_exist_free_flow_privilege()
 
+    @staticmethod
+    def tearDown_test_msg_weifenglian_fenzu_0049():
+        try:
+            mep = MePage()
+            mep.set_network_status(6)
+        except:
+            mep = MePage()
+            mep.set_network_status(6)
+
     @tags('ALL', 'CMCC-RESET', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0050(self):
         """移动网络下,选择以后不再提示后点击发送"""
         # 设置网络为移动网络
         lbgc = LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         # 发送大于2M的文件
         Preconditions.send_large_music_file()
         local_file = ChatSelectLocalFilePage()
@@ -1485,6 +1659,15 @@ class MsgLabelGroupingAll(TestCase):
         Preconditions.send_large_music_file()
         # 再次发送,查看是否存在弹框
         local_file.is_exist_free_flow_privilege()
+
+    @staticmethod
+    def tearDown_test_msg_weifenglian_fenzu_0050():
+        try:
+            mep = MePage()
+            mep.set_network_status(6)
+        except:
+            mep = MePage()
+            mep.set_network_status(6)
 
     @staticmethod
     def setUp_test_msg_weifenglian_fenzu_0051():
@@ -1502,6 +1685,11 @@ class MsgLabelGroupingAll(TestCase):
         # 设置网络为移动网络
         lbgc = LabelGroupingChatPage()
         lbgc.set_network_status(4)
+        time.sleep(6)
+        gcp = GroupChatPage()
+        if gcp.is_text_present("切换"):
+            gcp.click_network_switch()
+            time.sleep(2)
         # 发送大于2M的文件
         Preconditions.send_large_music_file()
         local_file = ChatSelectLocalFilePage()
