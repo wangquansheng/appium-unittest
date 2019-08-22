@@ -651,7 +651,7 @@ class MsgMyPcTest(TestCase):
             pass
         else:
             MessagePage().set_network_status(0)
-            self.public_select_pic_send('23e.jpg')
+            self.public_select_pic_send('.jpg')
             MessagePage().set_network_status(6)
             self.wait_for_MyPc_page_load()
         pc_chat_page.click_msg_send_failed_button()
@@ -849,8 +849,6 @@ class MsgMyPcTest(TestCase):
         pc_chat_page.click_resend_confirm()
         self.wait_for_MyPc_page_load()
         self.assertFalse(pc_chat_page.is_exist_msg_send_failed_button())
-        # 返回到消息页面
-        ChatWindowPage().click_back1()
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0031():
@@ -1032,7 +1030,7 @@ class MsgMyPcTest(TestCase):
             pass
         else:
             MessagePage().set_network_status(0)
-            self.public_select_music_send('28618718.mp3')
+            self.public_select_music_send('.mp3')
             MessagePage().set_network_status(6)
         self.wait_for_MyPc_page_load()
         GroupChatPage().click_msg_send_failed_button()
