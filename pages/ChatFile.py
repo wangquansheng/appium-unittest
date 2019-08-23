@@ -52,7 +52,7 @@ class ChatFilePage(BasePage):
     @TestLogger.log()
     def collection_file(self, file):
         """收藏文件"""
-        time.sleep(1)
+        time.sleep(2)
         el = self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file))
         self.press(el)
         time.sleep(3)
