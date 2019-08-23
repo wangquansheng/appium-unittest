@@ -292,6 +292,39 @@ class Preconditions(WorkbenchPreconditions):
         scp.wait_for_page_load()
 
 
+    @staticmethod
+    def create_contacts_groups():
+        # 创建联系人
+        fail_time = 0
+        import dataproviders
+        while fail_time < 3:
+            try:
+                # 获取需要导入的联系人数据
+                required_contacts = dataproviders.get_preset_contacts()[:3]
+                # 连接手机
+                conts = ContactsPage()
+                Preconditions.select_mobile('Android-移动')
+                current_mobile().hide_keyboard_if_display()
+                # 导入数据
+                for name, number in required_contacts:
+                    Preconditions.make_already_in_message_page()
+                    conts.open_contacts_page()
+                    conts.create_contacts_if_not_exits(name, number)
+                # # 创建群
+                name_list = ['给个红包1', '给个红包2']
+                group_name_list = ['群聊1']
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name in group_name_list:
+                    group_list.wait_for_page_load()
+                    group_list.create_group_chats_if_not_exits(group_name, name_list)
+                group_list.click_back()
+                conts.open_message_page()
+                return
+            except Exception as e:
+                fail_time += 1
+                print(e)
+
 class MsgGroupChatTest(TestCase):
     """
     模块：消息->群聊
@@ -3625,6 +3658,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
+        Preconditions.create_contacts_groups()
 
     def default_setUp(self):
         """

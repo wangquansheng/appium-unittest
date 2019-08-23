@@ -584,6 +584,39 @@ class Preconditions(WorkbenchPreconditions):
         if mp.is_iv_fail_status_present():
             mp.clear_fail_in_send_message()
 
+    @staticmethod
+    def create_contacts_groups():
+
+        # 创建联系人
+        fail_time = 0
+        import dataproviders
+        while fail_time < 3:
+            try:
+                # 获取需要导入的联系人数据
+                required_contacts = dataproviders.get_preset_contacts()[:3]
+                # 连接手机
+                conts = ContactsPage()
+                Preconditions.select_mobile('Android-移动')
+                current_mobile().hide_keyboard_if_display()
+                # 导入数据
+                for name, number in required_contacts:
+                    Preconditions.make_already_in_message_page()
+                    conts.open_contacts_page()
+                    conts.create_contacts_if_not_exits(name, number)
+                # # 创建群
+                name_list = ['给个红包1', '给个红包2']
+                group_name_list = ['群聊1']
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name in group_name_list:
+                    group_list.wait_for_page_load()
+                    group_list.create_group_chats_if_not_exits(group_name, name_list)
+                group_list.click_back()
+                conts.open_message_page()
+                return
+            except Exception as e:
+                fail_time += 1
+                print(e)
 class MsgGroupChatFileLocationTest(TestCase):
     """
     模块：消息-群聊文件,位置
@@ -595,39 +628,7 @@ class MsgGroupChatFileLocationTest(TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
-        # 创建联系
-        # fail_time = 0
-        # import dataproviders
-        # while fail_time < 3:
-        #     try:
-        #         required_contacts = dataproviders.get_preset_contacts()
-        #         conts = ContactsPage()
-        #         Preconditions.connect_mobile('Android-移动')
-        #         current_mobile().hide_keyboard_if_display()
-        #         Preconditions.make_already_in_message_page()
-        #         conts.open_contacts_page()
-        #         try:
-        #             if conts.is_text_present("发现SIM卡联系人"):
-        #                 conts.click_text("显示")
-        #         except:
-        #             pass
-        #         for name, number in required_contacts:
-        #             conts.create_contacts_if_not_exits(name, number)
-        #         # 创建群
-        #         required_group_chats = dataproviders.get_preset_group_chats()
-        #         conts.open_group_chat_list()
-        #         group_list = GroupListPage()
-        #         for group_name, members in required_group_chats:
-        #             group_list.wait_for_page_load()
-        #             group_list.create_group_chats_if_not_exits(group_name, members)
-        #         group_list.click_back()
-        #         conts.open_message_page()
-        #         return
-        #     except:
-        #         fail_time += 1
-        #         import traceback
-        #         msg = traceback.format_exc()
-        #         print(msg)
+        Preconditions.create_contacts_groups()
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
