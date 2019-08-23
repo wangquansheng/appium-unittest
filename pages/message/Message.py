@@ -852,10 +852,12 @@ class MessagePage(FooterPage):
             els = self.get_elements(self.__class__.__locators["消息名称"])
             for el in els:
                 self.press(el)
+                time.sleep(1)
                 if self._is_element_present(self.__class__.__locators["删除聊天"]):
                     self.click_element(self.__class__.__locators["删除聊天"])
                 else:
-                    self.tap_coordinate([(100, 20), (100, 60), (100, 100)])
+                    self.click_back_by_android()
+                    # self.tap_coordinate([(100, 20), (100, 60), (100, 100)])
 
     @TestLogger.log()
     def is_slide_message_list(self):

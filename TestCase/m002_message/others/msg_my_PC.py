@@ -1,5 +1,7 @@
 import time
+
 from selenium.common.exceptions import TimeoutException
+
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
@@ -634,7 +636,7 @@ class MsgMyPcTest(TestCase):
             pass
         else:
             MessagePage().set_network_status(0)
-            self.public_select_pic_send('23e.jpg')
+            self.public_select_pic_send('.jpg')
             self.wait_for_MyPc_page_load()
         ChatWindowPage().click_back1()
         message_page = MessagePage()
@@ -662,8 +664,9 @@ class MsgMyPcTest(TestCase):
         pc_chat_page.click_msg_send_failed_button()
         time.sleep(2)
         pc_chat_page.click_resend_confirm()
-        time.sleep(2)
+        time.sleep(1)
         self.wait_for_MyPc_page_load()
+        time.sleep(6)
         self.assertFalse(pc_chat_page.is_exist_msg_send_failed_button())
 
     @staticmethod
@@ -857,7 +860,9 @@ class MsgMyPcTest(TestCase):
         pc_chat_page.click_msg_send_failed_button()
         time.sleep(2)
         pc_chat_page.click_resend_confirm()
+        time.sleep(1)
         self.wait_for_MyPc_page_load()
+        time.sleep(5)
         self.assertFalse(pc_chat_page.is_exist_msg_send_failed_button())
 
     @staticmethod
@@ -1050,6 +1055,7 @@ class MsgMyPcTest(TestCase):
         GroupChatPage().click_resend_confirm()
         time.sleep(2)
         self.wait_for_MyPc_page_load()
+        time.sleep(5)
         self.assertFalse(GroupChatPage().is_exist_msg_send_failed_button())
 
     @staticmethod
@@ -1168,6 +1174,7 @@ class MsgMyPcTest(TestCase):
         SelectContactsPage().click_sure_forward()
         time.sleep(2)
         self.assertTrue(GroupChatPage().is_exist_forward())
+        time.sleep(5)
         self.assertFalse(GroupChatPage().is_exist_msg_send_failed_button())
 
     @tags('ALL', 'CMCC', 'my_PC')
@@ -1315,6 +1322,7 @@ class MsgMyPcTest(TestCase):
         else:
             self.public_select_file_send()
             self.wait_for_MyPc_page_load()
+        time.sleep(2)
 
     def public_forward_file(self):
         """ 转发文件 """
