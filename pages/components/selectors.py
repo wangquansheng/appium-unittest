@@ -82,6 +82,31 @@ class ContactsSelector(BasePage):
             return False
         return True
 
+    @TestLogger.log('选择本地联系人并点击确定')
+    def select_local_contacts_search(self, *name_list):
+        name_list = list(name_list)
+
+        self.wait_until(
+            condition=lambda d: self._is_element_present(self.__locators['搜索或输入手机号'])
+        )
+        for name in name_list:
+            self.input_text(self.__locators['搜索或输入手机号'], name)
+            time.sleep(0.5)
+            locator = (MobileBy.XPATH, "//android.support.v7.widget.RecyclerView[@resource-id='com.chinasofti.rcs:id"
+                                       "/search_rv']/android.view.ViewGroup[1]")
+            if self._is_element_present(locator):
+                self.get_element(locator).click()
+            else:
+                raise AssertionError('无此联系人')
+
+
+
+        self.click_ok_button()
+        if name_list:
+            print('没有找到以下联系人：{}'.format(name_list))
+            return False
+        return True
+
     @TestLogger.log('点击确定')
     def click_ok_button(self):
         self.click_element(self.__locators['确定'])

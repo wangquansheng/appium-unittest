@@ -108,6 +108,5 @@ class CalllogBannerPage(BasePage):
     @TestLogger.log("多方通话点击“我知道了”弹框")
     def click_elsfif_ikonw(self):
         # 是否存在请先接听“和飞信电话”，点击“我知道了” 并自动允许和飞信管理
-        flag = self._is_element_present(self.__locators["知道了"])
-        if flag:
+        if self._is_element_present(self.__locators["知道了"]):
             self.click_element(self.__locators["知道了"])

@@ -11,7 +11,7 @@ from pages.contacts.local_contact import localContactPage
 from pages.call.MultiPartyVideo import MultiPartyVideoPage
 
 
-class CallPage(FooterPage,BasePage):
+class CallPage(FooterPage, BasePage):
     """主界面-通话tab页"""
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
 
@@ -140,6 +140,24 @@ class CallPage(FooterPage,BasePage):
         return self
 
     @TestLogger.log()
+    def wait_for_call_page2(self, timeout=10, auto_accept_alerts=True):
+        """
+        等待通话界面
+        """
+        try:
+            self.wait_until(
+                timeout=timeout,
+                auto_accept_permission_alert=auto_accept_alerts,
+                condition=lambda d: self._is_element_present(self.__locators['多方视频图标'])
+                                    or self.is_text_present('再次呼叫')
+                                    or self._is_element_present(self.__class__.__locators["+号"])
+
+            )
+            return True
+        except:
+            return False
+
+    @TestLogger.log()
     def is_on_the_call_page(self):
         """判断当前页是否通话界面"""
         flag = False
@@ -249,6 +267,12 @@ class CallPage(FooterPage,BasePage):
         """拨号盘收缩删除X"""
         el = self.get_element(self.__locators["拨号盘收缩删除X"])
         self.press(el)
+
+    @TestLogger.log()
+    def click_phone_number(self, phone):
+        """点击拨号"""
+        for i in phone:
+            self.click_element(self.__locators["拨号键%s" % i])
 
     @TestLogger.log()
     def click_call(self):
@@ -720,7 +744,7 @@ class CallPage(FooterPage,BasePage):
             raise IndexError("元素超出索引")
 
     @TestLogger.log()
-    def is_type_hefeixin(self, index, type ):
+    def is_type_hefeixin(self, index, type):
         """判断下标获取通话记录类型是否为指定类型"""
         text = self.get_calltype_history(index)
         try:
@@ -747,6 +771,12 @@ class CallPage(FooterPage,BasePage):
         self.click_element(self.__locators["你正在多方通话"])
 
     @TestLogger.log()
+    def click_back_to_fetion_call(self):
+        """点击你正在多方通话,进入通话会控页"""
+        locator = (MobileBy.ID, "android:id/statusBarBackground")
+        self.click_element(locator)
+
+    @TestLogger.log()
     def click_back_to_call_631(self):
         """点击你正在飞信电话,进入通话会控页"""
         self.click_element(self.__locators["你正在飞信电话"])
@@ -759,6 +789,7 @@ class CallPage(FooterPage,BasePage):
     @TestLogger.log()
     def click_mutil_call_again(self):
         """点击再次呼叫"""
+        self.find_element_by_swipe(self.__locators["再次呼叫"])
         self.click_element(self.__locators["再次呼叫"], auto_accept_permission_alert=False)
 
     @TestLogger.log()
@@ -793,7 +824,7 @@ class CallPage(FooterPage,BasePage):
             auto_accept_permission_alert=True,
             condition=lambda d: self._is_element_present(self.__class__.__locators["结束通话提示框"]))
         self.click_element(self.__class__.__locators["结束通话提示框-确定"])
-		
+
     def click_call_history(self):
         """点击通话记录号码"""
         self.click_element(self.__locators['通话记录'])
@@ -841,5 +872,3 @@ class CallPage(FooterPage,BasePage):
             tmp = random.randint(0, 9)
             number += str(tmp)
         return number
-
-

@@ -121,10 +121,10 @@ class Preconditions(LoginPreconditions):
         else:
             raise AssertionError("Failure to enter group chat session page.")
 
-    # contacts_name_1 = LoginPreconditions.get_contacts_by_row_linename(0, 'contacts_name')
-    # telephone_num_1 = LoginPreconditions.get_contacts_by_row_linename(0, 'telephone_num')
-    # contacts_name_2 = LoginPreconditions.get_contacts_by_row_linename(1, 'contacts_name')
-    # telephone_num_2 = LoginPreconditions.get_contacts_by_row_linename(1, 'telephone_num')
+    contacts_name_1 = LoginPreconditions.get_contacts_by_row_linename(0, 'contacts_name')
+    telephone_num_1 = LoginPreconditions.get_contacts_by_row_linename(0, 'telephone_num')
+    contacts_name_2 = LoginPreconditions.get_contacts_by_row_linename(1, 'contacts_name')
+    telephone_num_2 = LoginPreconditions.get_contacts_by_row_linename(1, 'telephone_num')
 
 
 class MsgAllPrior(TestCase):
