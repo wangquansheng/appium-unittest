@@ -1754,7 +1754,7 @@ class MsgMyPcTest(TestCase):
         MessagePage().clear_fail_in_send_message()
 
     @staticmethod
-    def tearDown_test_msg_weifenglian_pc_0128():
+    def tearDown_test_msg_weifenglian_PC_0128():
         MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
