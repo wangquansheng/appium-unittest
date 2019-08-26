@@ -412,9 +412,10 @@ class MessageScanTest(TestCase):
         # 3、扫描群聊二维码
         message_page = MessagePage()
         message_page.click_add_icon()
+        time.sleep(3)
         message_page.click_take_a_scan()
         time.sleep(3)
-        current_mobile().back()
+        message_page.click_back_by_android()
         message_page.wait_for_page_load()
 
 
@@ -889,9 +890,11 @@ class MessageSearchTest(TestCase):
         # 消息页
         message_page = MessagePage()
         message_page.open_message_page()
-        time.sleep(1)
+        time.sleep(2)
         message_page.scroll_to_top()
+        time.sleep(2)
         message_page.click_search()
+        time.sleep(2)
 
         # 全局搜索页
         search_page = SearchPage()
@@ -902,6 +905,7 @@ class MessageSearchTest(TestCase):
         search_key = '奇货可居'
         search_page.input_search_keyword(search_key)
         search_page.hide_keyboard_if_display()
+        time.sleep(3)
         # 检查无结果提示是否显示
         result = search_page.is_text_present("无搜索结果")
         self.assertTrue(result)
@@ -2753,20 +2757,27 @@ class MessageOthersAllTest(TestCase):
         mp.wait_for_page_load()
         # 进入会话页面
         Preconditions.get_into_group_chat_page("群聊1")
-        gcp = GroupChatPage()
+        time.sleep(2)
         # 发送网页消息
         text = "www.baidu.com"
+        gcp = GroupChatPage()
         gcp.input_text_message(text)
+        gcp.hide_keyboard()
+        time.sleep(2)
         gcp.send_text()
-        time.sleep(1)
+        time.sleep(2)
         gcp.press_message_text_by_number(-1)
+        time.sleep(2)
         self.assertEquals(gcp.is_text_present("撤回"), True)
+        time.sleep(1)
         gcp.click_back_by_android()
         count = 0
         while count < 610:
             time.sleep(1)
             count += 1
+        time.sleep(3)
         gcp.press_message_text_by_number(-1)
+        time.sleep(2)
         # 1.超过10分钟隐藏按钮
         self.assertEquals(gcp.is_text_present("撤回"), False)
         gcp.click_back_by_android(3)
