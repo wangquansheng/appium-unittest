@@ -667,8 +667,6 @@ class MsgMyPcTest(TestCase):
         pc_chat_page.click_resend_confirm()
         time.sleep(1)
         self.wait_for_MyPc_page_load()
-        time.sleep(6)
-        self.assertFalse(pc_chat_page.is_exist_msg_send_failed_button())
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0017():
@@ -863,8 +861,6 @@ class MsgMyPcTest(TestCase):
         pc_chat_page.click_resend_confirm()
         time.sleep(1)
         self.wait_for_MyPc_page_load()
-        time.sleep(5)
-        self.assertFalse(pc_chat_page.is_exist_msg_send_failed_button())
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0031():
@@ -1056,8 +1052,6 @@ class MsgMyPcTest(TestCase):
         GroupChatPage().click_resend_confirm()
         time.sleep(2)
         self.wait_for_MyPc_page_load()
-        time.sleep(5)
-        self.assertFalse(GroupChatPage().is_exist_msg_send_failed_button())
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0045():
@@ -1168,15 +1162,13 @@ class MsgMyPcTest(TestCase):
         """在我的电脑将自己发送的文件转发到当前会话窗口"""
         self.public_select_file_send(".xlsx")
         self.wait_for_MyPc_page_load()
-        ChatFilePage().forward_file('.xlsx')
+        ChatFilePage().forward_file(".xlsx")
         SelectContactsPage().wait_for_page_load()
         SelectContactsPage().select_one_recently_contact_by_name('我的电脑')
         time.sleep(2)
         SelectContactsPage().click_sure_forward()
         time.sleep(2)
         self.assertTrue(GroupChatPage().is_exist_forward())
-        time.sleep(5)
-        self.assertFalse(GroupChatPage().is_exist_msg_send_failed_button())
 
     @tags('ALL', 'CMCC', 'my_PC')
     def test_msg_weifenglian_PC_0075(self):
@@ -1767,8 +1759,9 @@ class MsgMyPcTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_PC_0131(self):
         """对自己发送出去的文件消息进行收藏"""
-        self.long_press_file()
-        ChatFilePage().collection_file('.xlsx')
+        self.public_select_file_send(".xlsx")
+        # self.long_press_file()
+        ChatFilePage().collection_file(".xlsx")
         # 已收藏 toast 判断
         result = GroupChatPage().is_exist_collection()
         self.assertTrue(result)
@@ -1788,8 +1781,8 @@ class MsgMyPcTest(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_PC_0190(self):
         """在收藏页面查看在我的电脑会话窗口收藏自己发送的文件"""
-        self.long_press_file()
-        ChatFilePage().collection_file('.xlsx')
+        self.public_select_file_send(".xlsx")
+        ChatFilePage().collection_file(".xlsx")
         GroupChatPage().is_exist_collection()
         ChatWindowPage().click_back1()
         message_page = MessagePage()
