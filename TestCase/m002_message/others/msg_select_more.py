@@ -41,65 +41,65 @@ class Preconditions(LoginPreconditions):
 
 class MsgSelectMoreTest(TestCase):
     """ 消息：查看更多"""
-    @classmethod
-    def setUpClass(cls):
-        # 创建联系人
-        fail_time = 0
-        import dataproviders
-        while fail_time < 3:
-            try:
-                required_contacts = dataproviders.get_preset_contacts()
-                conts = ContactsPage()
-                Preconditions.connect_mobile('Android-移动')
-                current_mobile().hide_keyboard_if_display()
-                Preconditions.make_already_in_message_page()
-                conts.open_contacts_page()
-                time.sleep(1)
-                mp = MessagePage()
-                mp.click_phone_contact()
-                time.sleep(1)
-                try:
-                    if conts.is_text_present("发现SIM卡联系人"):
-                        conts.click_text("显示")
-                except:
-                    pass
-                for name, number in required_contacts:
-                    # 创建联系人
-                    conts.create_contacts_if_not_exits_new(name, number)
-                required_group_chats = dataproviders.get_preset_group_chats()
-                conts.open_group_chat_list()
-                group_list = GroupListPage()
-                for group_name, members in required_group_chats:
-                    group_list.wait_for_page_load()
-                    # 创建群
-                    group_list.create_group_chats_if_not_exits(group_name, members)
-                group_list.click_back()
-                conts.open_message_page()
-                return
-            except:
-                fail_time += 1
-                import traceback
-                msg = traceback.format_exc()
-                print(msg)
-        # 确保有企业群
-        fail_time3 = 0
-        flag3 = False
-        while fail_time3 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                groupname = "测试企业群2"
-                Preconditions.ensure_have_enterprise_group2(groupname)
-                Preconditions.make_already_in_message_page()
-                groupname = "测试企业群3"
-                Preconditions.ensure_have_enterprise_group2(groupname)
-                Preconditions.make_already_in_message_page()
-                groupname = "测试企业群4"
-                Preconditions.ensure_have_enterprise_group2(groupname)
-                flag3 = True
-            except:
-                fail_time3 += 1
-            if flag3:
-                break
+    # @classmethod
+    # def setUpClass(cls):
+    #     # 创建联系人
+    #     fail_time = 0
+    #     import dataproviders
+    #     while fail_time < 3:
+    #         try:
+    #             required_contacts = dataproviders.get_preset_contacts()
+    #             conts = ContactsPage()
+    #             Preconditions.connect_mobile('Android-移动')
+    #             current_mobile().hide_keyboard_if_display()
+    #             Preconditions.make_already_in_message_page()
+    #             conts.open_contacts_page()
+    #             time.sleep(1)
+    #             mp = MessagePage()
+    #             mp.click_phone_contact()
+    #             time.sleep(1)
+    #             try:
+    #                 if conts.is_text_present("发现SIM卡联系人"):
+    #                     conts.click_text("显示")
+    #             except:
+    #                 pass
+    #             for name, number in required_contacts:
+    #                 # 创建联系人
+    #                 conts.create_contacts_if_not_exits_new(name, number)
+    #             required_group_chats = dataproviders.get_preset_group_chats()
+    #             conts.open_group_chat_list()
+    #             group_list = GroupListPage()
+    #             for group_name, members in required_group_chats:
+    #                 group_list.wait_for_page_load()
+    #                 # 创建群
+    #                 group_list.create_group_chats_if_not_exits(group_name, members)
+    #             group_list.click_back()
+    #             conts.open_message_page()
+    #             return
+    #         except:
+    #             fail_time += 1
+    #             import traceback
+    #             msg = traceback.format_exc()
+    #             print(msg)
+    #     # 确保有企业群
+    #     fail_time3 = 0
+    #     flag3 = False
+    #     while fail_time3 < 5:
+    #         try:
+    #             Preconditions.make_already_in_message_page()
+    #             groupname = "测试企业群2"
+    #             Preconditions.ensure_have_enterprise_group2(groupname)
+    #             Preconditions.make_already_in_message_page()
+    #             groupname = "测试企业群3"
+    #             Preconditions.ensure_have_enterprise_group2(groupname)
+    #             Preconditions.make_already_in_message_page()
+    #             groupname = "测试企业群4"
+    #             Preconditions.ensure_have_enterprise_group2(groupname)
+    #             flag3 = True
+    #         except:
+    #             fail_time3 += 1
+    #         if flag3:
+    #             break
 
     def default_setUp(self):
         Preconditions.connect_mobile('Android-移动')
@@ -135,16 +135,13 @@ class MsgSelectMoreTest(TestCase):
         message_page.click_search()
         search_page = SearchPage()
         search_page.input_search_keyword('测试企业群')
-        time.sleep(5)
+        time.sleep(3)
+        # 判定点
         select_contacts = SelectContactsPage()
         select_contacts.hide_keyboard()
-        select_contacts.click_read_more()
-        time.sleep(5)
-        # 判定点
         # 1.搜索结果显示相关匹配的群聊名称；
-        select_contacts.is_text_present("测试企业群")
-        # 2.跳转到搜索到的所有群聊信息页面
-        self.assertEquals(select_contacts.is_text_present("查看更多"), False)
+        result = select_contacts.is_text_present("测试企业群")
+        self.assertEquals(result, True)
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0078(self):
@@ -172,6 +169,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0079(self):
+        """群搜索-无搜索结果"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -183,7 +181,7 @@ class MsgSelectMoreTest(TestCase):
         time.sleep(1)
         search_page = SearchPage()
         search_page.click_search_group_hint()
-        search_page.input_search_hint("群1")
+        search_page.input_search_hint("群999")
         time.sleep(3)
         search_page.hide_keyboard()
         # 1、中文模糊搜索企业群和党群，无匹配搜索结果，展示提示：无搜索结果
