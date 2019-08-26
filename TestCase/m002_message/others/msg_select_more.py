@@ -1,14 +1,25 @@
 import time
 
 from library.core.TestCase import TestCase
-from library.core.utils.applicationcache import current_mobile
+from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
 from preconditions.BasePreconditions import LoginPreconditions
 
+REQUIRED_MOBILES = {
+    'Android-移动': 'M960BDQN229CH',
+}
+
 
 class Preconditions(LoginPreconditions):
     """前置条件"""
+    @staticmethod
+    def connect_mobile(category):
+        """选择手机手机"""
+        client = switch_to_mobile(REQUIRED_MOBILES[category])
+        client.connect_mobile()
+        return client
+
     @staticmethod
     def make_already_in_message_page(reset=False):
         """确保应用在消息页面"""
@@ -26,6 +37,8 @@ class Preconditions(LoginPreconditions):
                 Preconditions.make_already_in_one_key_login_page()
                 #  从一键登录页面登录
                 Preconditions.login_by_one_key_login()
+
+
 
 class MsgSelectMoreTest(TestCase):
     """  """
@@ -89,6 +102,11 @@ class MsgSelectMoreTest(TestCase):
     #                 if flag3:
     #                     break
 
+
+    def default_setUp(self):
+        Preconditions.connect_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL01')
     def test_msg_huangcaizui_E_0017(self):
         """查看更多联系人"""
@@ -101,7 +119,7 @@ class MsgSelectMoreTest(TestCase):
         select_contacts = SelectContactsPage()
         select_contacts.hide_keyboard()
         time.sleep(3)
-        select_contacts.click_read_more()
+        select_contacts.click_contact_more2()
         time.sleep(3)
         # 判定点
         # 1.搜索结果显示相应匹配的联系人信息

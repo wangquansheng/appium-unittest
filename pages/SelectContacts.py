@@ -99,6 +99,7 @@ class SelectContactsPage(BasePage):
         "禁止": (MobileBy.ID, 'com.android.packageinstaller:id/permission_deny_button'),
         "联系人栏": (MobileBy.ID, 'com.chinasofti.rcs:id/contact_list_item'),
         "企业名称": (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title'),
+        "查看更多2": (MobileBy.ID, 'com.chinasofti.rcs:id/show_more_text'),
 
     }
 
@@ -113,6 +114,16 @@ class SelectContactsPage(BasePage):
                     self.click_element(ele)
                     return
             raise AssertionError("找不到对应的搜索结果")
+        else:
+            raise AssertionError("没有搜索结果")
+
+    @TestLogger.log("")
+    def click_contact_more2(self):
+        """查看更多2--手机联系人-查看更多"""
+        els = self.get_elements(self.__class__.__locators["查看更多2"])
+        if els:
+            if len(els) > 2:
+                els[1].click()
         else:
             raise AssertionError("没有搜索结果")
 
