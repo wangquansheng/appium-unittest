@@ -41,65 +41,65 @@ class Preconditions(LoginPreconditions):
 
 class MsgSelectMoreTest(TestCase):
     """ 消息：查看更多"""
-    # @classmethod
-    # def setUpClass(cls):
-    #     # 创建联系人
-    #     fail_time = 0
-    #     import dataproviders
-    #     while fail_time < 3:
-    #         try:
-    #             required_contacts = dataproviders.get_preset_contacts()
-    #             conts = ContactsPage()
-    #             Preconditions.connect_mobile('Android-移动')
-    #             current_mobile().hide_keyboard_if_display()
-    #             Preconditions.make_already_in_message_page()
-    #             conts.open_contacts_page()
-    #             time.sleep(1)
-    #             mp = MessagePage()
-    #             mp.click_phone_contact()
-    #             time.sleep(1)
-    #             try:
-    #                 if conts.is_text_present("发现SIM卡联系人"):
-    #                     conts.click_text("显示")
-    #             except:
-    #                 pass
-    #             for name, number in required_contacts:
-    #                 # 创建联系人
-    #                 conts.create_contacts_if_not_exits_new(name, number)
-    #             required_group_chats = dataproviders.get_preset_group_chats()
-    #             conts.open_group_chat_list()
-    #             group_list = GroupListPage()
-    #             for group_name, members in required_group_chats:
-    #                 group_list.wait_for_page_load()
-    #                 # 创建群
-    #                 group_list.create_group_chats_if_not_exits(group_name, members)
-    #             group_list.click_back()
-    #             conts.open_message_page()
-    #             return
-    #         except:
-    #             fail_time += 1
-    #             import traceback
-    #             msg = traceback.format_exc()
-    #             print(msg)
-    #     # 确保有企业群
-    #     fail_time3 = 0
-    #     flag3 = False
-    #     while fail_time3 < 5:
-    #         try:
-    #             Preconditions.make_already_in_message_page()
-    #             groupname = "测试企业群2"
-    #             Preconditions.ensure_have_enterprise_group2(groupname)
-    #             Preconditions.make_already_in_message_page()
-    #             groupname = "测试企业群3"
-    #             Preconditions.ensure_have_enterprise_group2(groupname)
-    #             Preconditions.make_already_in_message_page()
-    #             groupname = "测试企业群4"
-    #             Preconditions.ensure_have_enterprise_group2(groupname)
-    #             flag3 = True
-    #         except:
-    #             fail_time3 += 1
-    #         if flag3:
-    #             break
+    @classmethod
+    def setUpClass(cls):
+        # 创建联系人
+        fail_time = 0
+        import dataproviders
+        while fail_time < 3:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                Preconditions.connect_mobile('Android-移动')
+                current_mobile().hide_keyboard_if_display()
+                Preconditions.make_already_in_message_page()
+                conts.open_contacts_page()
+                time.sleep(1)
+                mp = MessagePage()
+                mp.click_phone_contact()
+                time.sleep(1)
+                try:
+                    if conts.is_text_present("发现SIM卡联系人"):
+                        conts.click_text("显示")
+                except:
+                    pass
+                for name, number in required_contacts:
+                    # 创建联系人
+                    conts.create_contacts_if_not_exits_new(name, number)
+                required_group_chats = dataproviders.get_preset_group_chats()
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name, members in required_group_chats:
+                    group_list.wait_for_page_load()
+                    # 创建群
+                    group_list.create_group_chats_if_not_exits(group_name, members)
+                group_list.click_back()
+                conts.open_message_page()
+                return
+            except:
+                fail_time += 1
+                import traceback
+                msg = traceback.format_exc()
+                print(msg)
+        # 确保有企业群
+        fail_time3 = 0
+        flag3 = False
+        while fail_time3 < 5:
+            try:
+                Preconditions.make_already_in_message_page()
+                groupname = "测试企业群2"
+                Preconditions.ensure_have_enterprise_group2(groupname)
+                Preconditions.make_already_in_message_page()
+                groupname = "测试企业群3"
+                Preconditions.ensure_have_enterprise_group2(groupname)
+                Preconditions.make_already_in_message_page()
+                groupname = "测试企业群4"
+                Preconditions.ensure_have_enterprise_group2(groupname)
+                flag3 = True
+            except:
+                fail_time3 += 1
+            if flag3:
+                break
 
     def default_setUp(self):
         Preconditions.connect_mobile('Android-移动')
