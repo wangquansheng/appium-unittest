@@ -1,13 +1,6 @@
-import random
-import re
 import time
-import unittest
-import uuid
-
-from appium.webdriver.common.mobileby import MobileBy
 
 from library.core.TestCase import TestCase
-from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
@@ -112,13 +105,7 @@ class Preconditions(object):
 
 
 class VoiceNoticeTest(TestCase):
-    """
-    模块：工作台->语音通知>
-
-    文件位置：移动端自动化用例整理20190304.xlsx
-    表格：语音通知
-
-    """
+    """工作台->语音通知"""
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""

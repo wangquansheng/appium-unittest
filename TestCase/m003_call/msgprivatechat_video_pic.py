@@ -1,18 +1,19 @@
 import random
-import time
 import re
+import time
+import unittest
 import warnings
 
-from library.core.common.simcardtype import CardType
 from selenium.common.exceptions import TimeoutException
 
 from library.core.TestCase import TestCase
+from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, current_driver
-from pages.components import BaseChatPage
-from preconditions.BasePreconditions import WorkbenchPreconditions
 from library.core.utils.testcasefilter import tags
 from pages import *
-import unittest
+from pages.components import BaseChatPage
+from preconditions.BasePreconditions import WorkbenchPreconditions
+
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
@@ -337,11 +338,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class MsgPrivateChatVideoPicTest(TestCase):
-    """
-    模块：消息->单聊视频,图片
-    文件位置：冒烟/冒烟测试用例-V20181225.01.xlsx
-    表格：消息-单聊视频,图片
-    """
+    """消息->单聊视频,图片"""
 
     @classmethod
     def setUpClass(cls):
@@ -1783,12 +1780,7 @@ class MsgPrivateChatVideoPicTest(TestCase):
 
 
 class MsgPrivateChatVideoPicAllTest(TestCase):
-    """
-    模块：单聊-图片、视频、GIF
-    文件位置：1.1.3全量测试用例->113全量用例--肖立平.xlsx
-    表格：单聊-图片、视频、GIF
-    Author:刘晓东
-    """
+    """模块：单聊-图片、视频、GIF"""
 
     @classmethod
     def setUpClass(cls):

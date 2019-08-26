@@ -617,14 +617,10 @@ class Preconditions(WorkbenchPreconditions):
             except Exception as e:
                 fail_time += 1
                 print(e)
+
+
 class MsgGroupChatFileLocationTest(TestCase):
-    """
-    模块：消息-群聊文件,位置
-
-    文件位置：冒烟/冒烟测试用例-V20181225.01.xlsx
-    表格：消息-群聊文件,位置
-    """
-
+    """模块：消息-群聊文件,位置"""
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)

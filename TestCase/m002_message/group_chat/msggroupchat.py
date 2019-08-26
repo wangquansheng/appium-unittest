@@ -5,22 +5,18 @@ import unittest
 import uuid
 import warnings
 
-import preconditions
-from pages.chat.ChatGroupSMS import ChatGroupSMSPage
-from pages.components import BaseChatPage
-from preconditions.BasePreconditions import  WorkbenchPreconditions
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
-from pages.contacts.local_contact import localContactPage
-from pages.workbench.create_group.CreateGroup import CreateGroupPage
-from pages.workbench.create_group.SelectEnterpriseContacts import SelectEnterpriseContactsPage
+from pages.chat.ChatGroupSMS import ChatGroupSMSPage
+from pages.components import BaseChatPage
+from preconditions.BasePreconditions import WorkbenchPreconditions
+
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
-
     @staticmethod
     def make_already_delete_my_group():
         """确保删掉所有群"""
@@ -325,12 +321,9 @@ class Preconditions(WorkbenchPreconditions):
                 fail_time += 1
                 print(e)
 
+
 class MsgGroupChatTest(TestCase):
-    """
-    模块：消息->群聊
-    文件位置：冒烟/冒烟测试用例-V20181225.01.xlsx
-    表格：消息-群聊
-    """
+    """消息->群聊"""
 
     @classmethod
     def setUpClass(cls):
@@ -2161,12 +2154,12 @@ class MsgGroupChatTest(TestCase):
         group_set.click_back()
         gcp.wait_for_page_load()
 
+
 @unittest.skip("暂时跳过")
 class MessageGroupChatAllTest(TestCase):
-
+    """消息-普通群"""
     @classmethod
     def setUpClass(cls):
-
         Preconditions.select_mobile('Android-移动')
         # 导入测试联系人、群聊
         fail_time1 = 0
@@ -3650,11 +3643,7 @@ class MessageGroupChatAllTest(TestCase):
 
 
 class MessageGroupChatSendGroupMessage(TestCase):
-    """
-     模块：消息->群聊
-     文件位置：
-     表格：消息-群聊-群发短信
-     """
+    """消息-群聊-群发短信"""
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)

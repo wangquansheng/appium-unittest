@@ -76,7 +76,7 @@ class Preconditions(LoginPreconditions):
 
 
 class OfficialAccountTest(TestCase):
-    """通讯录 - 公众号模块"""
+    """通讯录-公众号模块"""
 
     @classmethod
     def setUpClass(cls):

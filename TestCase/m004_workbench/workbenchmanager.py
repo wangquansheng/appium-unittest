@@ -1,29 +1,15 @@
-import unittest
-
-from pages.workbench.manager_console.WorkbenchManagerPage import WorkBenchManagerPage
-from pages.workbench.organization.OrganizationStructure import OrganizationStructurePage
-from preconditions.BasePreconditions import WorkbenchPreconditions
-from library.core.TestCase import TestCase
-from library.core.utils.testcasefilter import tags
-from library.core.utils.applicationcache import current_mobile
-from pages import *
-import time
-
-from pages.workbench.create_team.CreateTeam import CreateTeamPage
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from TestCase.m001_login.login import *
+from pages.workbench.manager_console.WorkbenchManagerPage import WorkBenchManagerPage
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
     pass
 
+
 class WorkBenchManagerTest(TestCase):
-    """
-    模块：工作台->工作台管理
-    文件位置：20190313工作台全量用例整理.xlsx
-    表格：工作台管理
-    """
+    """工作台->工作台管理"""
 
     def default_setUp(self):
         """进入工作台管理页面"""
@@ -126,4 +112,3 @@ class WorkBenchManagerTest(TestCase):
         gcp = GroupChatPage()
         gcp.set_network_status(6)
         time.sleep(8)
-

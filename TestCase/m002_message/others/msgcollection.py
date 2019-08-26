@@ -106,12 +106,9 @@ class Preconditions(LoginPreconditions):
         me = MePage()
         me.click_menu("收藏")
 
+
 class MsgCollectionTest(TestCase):
-    """
-    模块：消息-收藏
-    文件位置：冒烟/冒烟测试用例-V20181225.01.xlsx
-    表格：消息-收藏列表的文件、位置
-    """
+    """消息-收藏"""
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')
@@ -128,6 +125,24 @@ class MsgCollectionTest(TestCase):
         else:
             current_mobile().launch_app()
             Preconditions.init_and_enter_collection_page()
+            # 创建联系人
+            fail_time = 0
+            import dataproviders
+            while fail_time < 2:
+                try:
+                    required_contacts = dataproviders.get_preset_contacts()
+                    conts = ContactsPage()
+                    for name, number in required_contacts:
+                        conts.open_contacts_page()
+                        if conts.is_text_present("显示"):
+                            conts.click_text("不显示")
+                        conts.create_contacts_if_not_exits_new(name, number)
+                    return
+                except:
+                    fail_time += 1
+                    import traceback
+                    msg = traceback.format_exc()
+                    print(msg)
 
     def default_setUp(self):
         Preconditions.make_already_in_message_page()

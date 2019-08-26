@@ -398,13 +398,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class MeAllTest(TestCase):
-    """_
-    模块：我的
-
-    文件位置113版：全量/4.我模块全量测试用例-张淑丽.xlsx
-    表格：我页面
-
-    """
+    """模块：我的"""
 
     @classmethod
     def setUpClass(cls):
@@ -2759,13 +2753,7 @@ class MeAllTest(TestCase):
 
 @unittest.skip("112版用例跳过")
 class MeAll(TestCase):
-    """_
-    模块：我的
-
-    文件位置112版：全量/4.我模块全量测试用例-张淑丽.xlsx
-    表格：我页面
-
-    """
+    """模块：我的"""
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
@@ -2775,8 +2763,6 @@ class MeAll(TestCase):
 
     def default_tearDown(self):
         pass
-
-    # current_mobile().disconnect_mobile()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
     def test_me_zhangshuli_001(self):

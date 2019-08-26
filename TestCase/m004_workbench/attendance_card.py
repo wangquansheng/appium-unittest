@@ -102,12 +102,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class AttendanceCardAllTest(TestCase):
-    """
-    模块：工作台->考勤打卡
-    文件位置：20190313工作台全量用例整理.xlsx
-    表格：工作台->考勤打卡
-    Author：刘晓东
-    """
+    """工作台->考勤打卡"""
 
     def default_setUp(self):
         """

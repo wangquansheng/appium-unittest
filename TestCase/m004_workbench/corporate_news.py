@@ -127,12 +127,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class CorporateNewsTest(TestCase):
-    """
-    模块：工作台->企业新闻
-    文件位置：移动端自动化用例整理20190304(工作台部分).xlsx
-    表格：工作台->企业新闻
-    Author：刘晓东
-    """
+    """工作台->企业新闻"""
 
     def default_setUp(self):
         """
@@ -225,12 +220,7 @@ class CorporateNewsTest(TestCase):
 
 
 class CorporateNewsAllTest(TestCase):
-    """
-    模块：工作台->企业新闻
-    文件位置：20190313工作台全量用例整理.xlsx
-    表格：工作台->企业新闻
-    Author：刘晓东
-    """
+    """工作台->企业新闻"""
 
     def default_setUp(self):
         """

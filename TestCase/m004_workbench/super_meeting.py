@@ -20,12 +20,9 @@ class Preconditions(WorkbenchPreconditions):
     """前置条件"""
     pass
 
+
 class SuperMeetingTest(TestCase):
-    """
-    模块：工作台->超级会议
-    文件位置：20190313工作台全量用例整理.xlsx
-    表格：超级会议
-    """
+    """工作台->超级会议"""
 
     def default_setUp(self):
         """进入超级会议页面"""

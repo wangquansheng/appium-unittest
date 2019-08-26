@@ -484,11 +484,7 @@ class Preconditions(object):
 
 
 class MeAllCollect(TestCase):
-    """
-    模块：我的_收藏
-    文件位置：全量/4.我模块全量测试用例-张淑丽.xlsx
-    表格：我页面（收藏模块406后）
-    """
+    """我的_收藏"""
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""

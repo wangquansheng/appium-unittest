@@ -74,10 +74,7 @@ class Preconditions(object):
 
 
 class MsgDeliveryStatusDisplay(TestCase):
-    """
-    模块：单聊->消息送达状态显示
-    表格：单聊
-    """
+    """单聊->消息送达状态显示"""
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')

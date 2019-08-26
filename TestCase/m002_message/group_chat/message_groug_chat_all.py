@@ -2,17 +2,16 @@ import time
 import unittest
 import warnings
 
-from preconditions.BasePreconditions import LoginPreconditions
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
+from preconditions.BasePreconditions import LoginPreconditions
 
 
 class Preconditions(LoginPreconditions):
     """前置条件"""
-
     @staticmethod
     def make_already_have_my_group(reset=False):
         """确保有群，没有群则创建群名为mygroup+电话号码后4位的群"""
@@ -165,7 +164,9 @@ class Preconditions(LoginPreconditions):
                 fail_time += 1
                 print(e)
 
+
 class MsgAllPrior(TestCase):
+    """消息-单聊"""
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -443,20 +444,14 @@ class MsgAllPrior(TestCase):
 
 
 class MsgGroupChatTest(TestCase):
-    """
-    模块：消息->群聊
-    文件位置：114全量测试用例-韦凤莲0322.xlsx
-    表格：消息-群聊
-    """
+    """消息:群聊"""
 
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.create_contacts_groups()
 
-
     def default_setUp(self):
-        """确保每个用例运行前在群聊聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
         current_mobile().launch_app()
         mess = MessagePage()
@@ -2848,6 +2843,7 @@ class MsgGroupChatTest(TestCase):
 
 
 class MsgGroupChatPrior(TestCase):
+    """消息 - 单聊"""
 
     @classmethod
     def setUpClass(cls) -> None:

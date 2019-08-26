@@ -85,12 +85,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class MobileAttendanceAllTest(TestCase):
-    """
-    模块：工作台->移动出勤
-    文件位置：20190313工作台全量用例整理.xlsx
-    表格：工作台->移动出勤
-    Author：刘晓东
-    """
+    """工作台->移动出勤"""
 
     def default_setUp(self):
         """

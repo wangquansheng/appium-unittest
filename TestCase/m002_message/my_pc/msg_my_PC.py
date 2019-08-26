@@ -84,11 +84,12 @@ class Preconditions(LoginPreconditions):
 
 
 class MsgMyPCChating(TestCase):
-    """
-    文件位置：全量/115 和飞信测试用例(分)-消息(4294).xlsx
-    表格：我的电脑-文件
-    author: 余梦思
-    """
+    """我的电脑-文件"""
+
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """确保每个用例运行前在我的电脑会话页面"""
         Preconditions.select_mobile('Android-移动')
@@ -327,7 +328,7 @@ class MsgMyPCChating(TestCase):
 
 
 class MsgMyPcTest(TestCase):
-
+    """我的电脑-文件"""
     def default_setUp(self):
         """确保每个用例运行前在我的电脑会话页面"""
         Preconditions.select_mobile('Android-移动')
@@ -1816,7 +1817,7 @@ class MsgMyPcTest(TestCase):
 
 
 class MsgXiaoQiu(TestCase):
-
+    """我的电脑-群聊"""
     def default_setUp(self):
         """确保每个用例运行前在我的电脑会话页面"""
         Preconditions.select_mobile('Android-移动')

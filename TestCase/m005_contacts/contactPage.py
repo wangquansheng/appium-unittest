@@ -77,11 +77,7 @@ class Preconditions(LoginPreconditions):
 
 
 class ContactPage(TestCase):
-    """
-    模块:通讯录
-    文件位置:全量测试用例/8.通讯录全量测试用例 曲新莉
-    表格:8.通讯录全量测试用例 曲新莉
-    """
+    """通讯录"""
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')

@@ -145,12 +145,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class MsgPrivateChatWebMsgTest(TestCase):
-    """
-    模块：单聊-图片、视频、GIF
-    文件位置：1.1.3全量测试用例->113全量用例--肖立平.xlsx
-    表格：单聊-图片、视频、GIF
-    Author:刘晓东
-    """
+    """单聊-图片、视频、GIF"""
     import sys
     global findExec
     findExec = 'findstr' if sys.platform == 'win32' else 'grep'

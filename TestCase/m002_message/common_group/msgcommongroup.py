@@ -668,11 +668,7 @@ class Preconditions(object):
 
 
 class MsgCommonGroupTest(TestCase):
-    """
-        模块：消息-普通群
-        文件位置：冒烟/冒烟测试用例-V20181225.01.xlsx
-        表格：消息-普通群
-    """
+    """模块：消息-普通群"""
 
     @classmethod
     def setUpClass(cls):
@@ -6658,12 +6654,7 @@ class MsgCommonGroupTest(TestCase):
 
 
 class MsgCommonGroupPriorityTest(TestCase):
-    """
-        模块：消息-普通群
-
-        文件位置：1.1.4和飞信APP全量测试用例-优先编写用例 .xlsx
-        表格：消息-普通群
-    """
+    """模块：消息-普通群"""
 
     @classmethod
     def setUpClass(cls):
@@ -7138,12 +7129,7 @@ class MsgCommonGroupPriorityTest(TestCase):
 
 
 class MsgCommonGroupAllTest(TestCase):
-    """
-            模块：消息-普通群
-
-            文件位置：1.1.3全量测试用例\113和飞信全量测试用例-肖秋.xlsx
-            表格：和飞信全量测试用例
-        """
+    """模块：消息-普通群"""
 
     @classmethod
     def setUpClass(cls):

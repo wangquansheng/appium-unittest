@@ -115,11 +115,7 @@ class Preconditions(object):
 
 
 class MessageScanTest(TestCase):
-    """
-    模块：消息->免费短信
-    文件位置：114全量测试用例-黄彩最0322.xlsx
-    表格：免费短信
-    """
+    """消息->免费短信"""
     @classmethod
     def setUpClass(cls):
         preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])

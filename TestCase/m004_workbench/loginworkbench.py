@@ -270,11 +270,7 @@ class Preconditions(object):
 
 @unittest.skip("一键登录先不执行")
 class LoginWorkBench(TestCase):
-    """
-    文件位置：20190313工作台全量用例整理.xlsx
-    表格：登录
-    author：杨育鑫
-    """
+    """登录"""
 
     @staticmethod
     def setUp_test_DL_0001():

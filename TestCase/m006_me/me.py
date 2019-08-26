@@ -20,12 +20,7 @@ REQUIRED_MOBILES = {
 
 @unittest.skip("我的二维码模块先不执行")
 class MeTest(TestCase):
-    """
-    模块：我 - 我的二维码
-
-    文件位置：冒烟/冒烟测试用例-V20181225.01.xlsx
-    表格：我
-    """
+    """我 - 我的二维码"""
 
     @staticmethod
     def setUp_test_me_0001():
@@ -441,14 +436,10 @@ class MeTest(TestCase):
         )
         self.assertEqual('已发送', toast.text)
 
+
 @unittest.skip('用例需要重置，影响后续自动化')
 class MeMsgSettingTest(TestCase):
-    """
-    模块：我-消息设置
-
-    文件位置：冒烟/冒烟测试用例-V20181225.01.xlsx
-    表格：我-消息设置
-    """
+    """模块：我-消息设置"""
 
     @tags("ALL", "SMOKE", "CMCC_RESET")
     def test_me_msg_setting_0001(self):
@@ -617,14 +608,10 @@ class MeMsgSettingTest(TestCase):
         msg_setting.turn_on('接收OA消息')
         msg_setting.assert_menu_item_has_been_turn_on('接收OA消息')
 
+
 @unittest.skip('用例需要重置，影响后续自动化')
 class MeSmsSettingTest(TestCase):
-    """
-    模块：我-短信设置
-
-    文件位置：冒烟/冒烟测试用例-V20181225.01.xlsx
-    表格：我-短信设置
-    """
+    """我-短信设置"""
 
     @tags("ALL", "SMOKE", "CMCC_RESET")
     def test_me_sms_setting_0001(self):
@@ -689,7 +676,5 @@ class MeSmsSettingTest(TestCase):
         setting_page.click_menu("短信设置")
 
 
-# from library.core.utils.testcasefilter import set_tags
-# set_tags('SMOKE')
 if __name__ == '__main__':
     pass

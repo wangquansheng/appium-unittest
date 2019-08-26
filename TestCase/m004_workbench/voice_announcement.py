@@ -19,12 +19,9 @@ class Preconditions(WorkbenchPreconditions):
     """前置条件"""
     pass
 
+
 class VoiceAnnouncementTest(TestCase):
-    """
-    模块：工作台->语音通知
-    文件位置：20190313工作台全量用例整理.xlsx
-    表格：语音通知
-    """
+    """工作台->语音通知"""
 
     def default_setUp(self):
         """进入语音通知页面"""

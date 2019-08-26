@@ -114,12 +114,7 @@ class Preconditions(object):
 
 
 class CallAll(TestCase):
-    """
-    模块：通话
-    文件位置：全量/ 7.通话（拨号盘、多方视频-非RCS、视频通话、语音通话）全量测试用例-申丽思.xlsx
-    表格：通话（拨号盘、多方视频-非RCS、视频通话、语音通话）
-    Author:wangquansheng
-    """
+    """模块：通话-（拨号盘、多方视频-非RCS、视频通话、语音通话）"""
 
     @classmethod
     def setUpClass(cls):
@@ -157,11 +152,6 @@ class CallAll(TestCase):
                 import traceback
                 msg = traceback.format_exc()
                 print(msg)
-
-    # @classmethod
-    # def tearDownClass(cls):
-    #     current_mobile().hide_keyboard_if_display()
-    #     preconditions.make_already_in_message_page()
 
     def default_setUp(self):
         """进入Call页面,清空通话记录"""

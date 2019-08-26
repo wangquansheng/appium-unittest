@@ -159,16 +159,48 @@ class Preconditions(LoginPreconditions):
 
 
 class MsgPrivateChatMsgList(TestCase):
-    """
-    模块：单聊->消息列表
-    文件位置：113整理全量测试用例-黄彩最.xlsx
-    表格：单聊8
-    """
+    """模块：单聊->消息列表"""
 
-    # @classmethod
-    # def setUpClass(cls):
-    #     Preconditions.select_mobile('Android-移动')
-    #     current_mobile().launch_app()
+    @classmethod
+    def setUpClass(cls):
+        # 创建联系人
+        fail_time = 0
+        import dataproviders
+        while fail_time < 3:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                Preconditions.connect_mobile('Android-移动')
+                current_mobile().hide_keyboard_if_display()
+                Preconditions.make_already_in_message_page()
+                conts.open_contacts_page()
+                time.sleep(1)
+                mp = MessagePage()
+                mp.click_phone_contact()
+                time.sleep(1)
+                try:
+                    if conts.is_text_present("发现SIM卡联系人"):
+                        conts.click_text("显示")
+                except:
+                    pass
+                for name, number in required_contacts:
+                    # 创建联系人
+                    conts.create_contacts_if_not_exits_new(name, number)
+                required_group_chats = dataproviders.get_preset_group_chats()
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name, members in required_group_chats:
+                    group_list.wait_for_page_load()
+                    # 创建群
+                    group_list.create_group_chats_if_not_exits(group_name, members)
+                group_list.click_back()
+                conts.open_message_page()
+                return
+            except:
+                fail_time += 1
+                import traceback
+                msg = traceback.format_exc()
+                print(msg)
 
     def default_setUp(self):
         """确保每个用例运行前在消息页面"""
@@ -474,9 +506,7 @@ class MsgPrivateChatMsgList(TestCase):
 
 
 class MsgPrivateChatMsgSetting(TestCase):
-    """
-    模块：单聊->单聊设置
-    """
+    """单聊->单聊设置"""
     @classmethod
     def setUpClass(cls):
         pass
@@ -1096,16 +1126,32 @@ class MsgPrivateChatMsgSetting(TestCase):
 
 
 class MsgContactSelector(TestCase):
-    """
-    模块：单聊->联系人选择器
-    文件位置：113整理全量测试用例-黄彩最.xlsx
-    表格：单聊
-    """
+    """单聊->联系人选择器"""
 
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')
-        current_mobile().launch_app()
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        # 导入测试联系人、群聊
+        fail_time1 = 0
+        flag1 = False
+        import dataproviders
+        while fail_time1 < 2:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                conts.open_contacts_page()
+                if conts.is_text_present("发现SIM卡联系人"):
+                    conts.click_text("显示")
+                for name, number in required_contacts:
+                    # 创建联系人
+                    conts.create_contacts_if_not_exits_new(name, number)
+                flag1 = True
+            except:
+                fail_time1 += 1
+            if flag1:
+                break
 
     def default_setUp(self):
         """确保每个用例运行前在消息页面"""
@@ -1292,11 +1338,7 @@ class MsgContactSelector(TestCase):
 
 
 class MsgPrivateChatDialog(TestCase):
-    """
-    模块：单聊->单聊聊天会话
-    文件位置：113整理全量测试用例-黄彩最.xlsx
-    表格：单聊
-    """
+    """单聊->单聊聊天会话"""
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')
@@ -1810,11 +1852,7 @@ class MsgPrivateChatDialog(TestCase):
 
 
 class MsgPrivateChatMyComputer(TestCase):
-    """
-    模块：单聊->图片->我的电脑
-    文件位置：
-    表格：
-    """
+    """模块：单聊->图片->我的电脑"""
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
@@ -2386,11 +2424,7 @@ class MsgPrivateChatMyComputer(TestCase):
 
 
 class MsgPrivateChatPicture(TestCase):
-    """
-    模块：单聊->图片过大发送逻辑优化
-    文件位置：
-    表格：
-    """
+    """单聊->图片过大发送逻辑优化"""
 
     @classmethod
     def setUpClass(cls):

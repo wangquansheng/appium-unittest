@@ -456,12 +456,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class MsgGroupChatVideoPicAllTest(TestCase):
-    """
-    模块：群聊-图片视频-GIF
-    文件位置：1.1.3全量测试用例->113全量用例--肖立平.xlsx
-    表格：群聊-图片视频-GIF
-    Author:刘晓东
-    """
+    """模块：群聊-图片视频-GIF"""
 
     @classmethod
     def setUpClass(cls):

@@ -398,16 +398,10 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class MessageListAllTest(TestCase):
-    """
-    模块：消息列表
-    文件位置：1.1.3全量测试用例->113全量用例--肖立平.xlsx
-    表格：消息列表
-    Author:刘晓东
-    """
+    """模块：消息列表"""
 
     @classmethod
     def setUpClass(cls):
-
         Preconditions.select_mobile('Android-移动')
         # 导入测试联系人、群聊
         fail_time1 = 0

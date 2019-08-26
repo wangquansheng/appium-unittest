@@ -583,11 +583,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class CallMultipartyVideo(TestCase):
-    """
-    模块：通话
-    文件位置：1.1.5全量
-    表格：通话--消息--多方视频
-    """
+    """ 通话--消息--多方视频"""
 
     @classmethod
     def setUpClass(cls) -> None:

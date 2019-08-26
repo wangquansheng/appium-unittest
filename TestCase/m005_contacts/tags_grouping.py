@@ -204,7 +204,7 @@ class Preconditions(LoginPreconditions):
 
 
 class TagsGroupingTest(TestCase):
-    """通讯录 - 标签分组"""
+    """联系 - 标签分组"""
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')
@@ -507,7 +507,7 @@ class TagsGroupingTest(TestCase):
 
 
 class Tag_Group(TestCase):
-
+    """联系 - 标签、新建分组"""
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')

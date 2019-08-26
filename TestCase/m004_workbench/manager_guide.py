@@ -96,12 +96,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class ManagerGuideAllTest(TestCase):
-    """
-    模块：工作台->管理员指引、权益
-    文件位置：20190313工作台全量用例整理.xlsx
-    表格：工作台->管理员指引、权益
-    Author：刘晓东
-    """
+    """工作台->管理员指引、权益"""
 
     def default_setUp(self):
         """

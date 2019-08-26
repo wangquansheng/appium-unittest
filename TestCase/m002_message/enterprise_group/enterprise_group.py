@@ -661,9 +661,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class MsgEnterpriseGroupChatAllTest(TestCase):
-    """
-    模块：消息-企业群
-    """
+    """模块：消息-企业群"""
 
     @classmethod
     def setUpClass(cls):

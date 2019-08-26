@@ -79,11 +79,7 @@ class Preconditions(LoginPreconditions):
 
 
 class MsgLabelGroupingTest(TestCase):
-    """
-    模块：消息-标签分组
-    文件位置：冒烟/冒烟测试用例-V20181225.01.xlsx
-    表格：消息-标签分组文件、位置 + 消息-单聊视频_图片
-    """
+    """息-标签分组文件、位置 + 消息-单聊视频_图片"""
     # @classmethod
     # def setUpClass(cls):
     #     Preconditions.select_mobile('Android-移动')
@@ -2185,12 +2181,7 @@ class MsgLabelGroupingTest(TestCase):
 
 
 class MsgLabelGroupingTestAll(TestCase):
-    """
-    模块：消息-标签分组
-    文件位置：全量/114全量测试用例-韦凤莲0322.xlsx
-    表格：标签分组
-    author: 方康
-    """
+    """模块：消息-标签分组"""
     def default_setUp(self):
         """确保每个用例运行前在标签分组会话页面"""
         Preconditions.select_mobile('Android-移动')

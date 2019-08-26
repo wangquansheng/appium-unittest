@@ -8,11 +8,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class TeamTest(TestCase):
-    """
-    模块：工作台->团队创建
-    文件位置：移动端自动化用例整理20190304(工作台部分).xlsx
-    表格：团队创建
-    """
+    """工作台->团队创建"""
 
     def default_setUp(self):
         """进入创建团队页面"""
@@ -167,13 +163,10 @@ class TeamTest(TestCase):
         workbench.click_create_team()
         team.wait_for_page_load()
 
+
 @unittest.skip("过滤")
 class WorkbenchGGXXTest(TestCase):
-    """
-    模块：工作台->公告信息
-    文件位置：移动端自动化用例整理20190304(工作台部分).xlsx
-    表格：公告信息
-    """
+    """工作台->公告信息"""
 
     @staticmethod
     def setUp_test_workbench_GGXX_0005():
@@ -365,14 +358,8 @@ class WorkbenchGGXXTest(TestCase):
         oklp.press_home_key(3)
 
 
-
 class TeamTestAll(TestCase):
-    """
-    模块：工作台->团队创建
-    文件位置：20190313工作台全量用例整理.xlsx
-    表格：创建团队
-    author：杨育鑫
-    """
+    """工作台->团队创建"""
 
     @classmethod
     def setUpClass(cls) -> None:

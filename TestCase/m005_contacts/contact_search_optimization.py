@@ -51,6 +51,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class ContactSearchOpTest(TestCase):
+    """通话-通话详情"""
 
     @classmethod
     def setUpClass(cls):

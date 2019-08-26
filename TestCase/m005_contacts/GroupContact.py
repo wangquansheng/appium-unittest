@@ -1,4 +1,5 @@
 import time
+
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
@@ -257,9 +258,7 @@ class Preconditions(LoginPreconditions):
 
 
 class GroupcontactsSelectPage(TestCase):
-    """
-    模块:通讯录--企业联系人选择器
-    """
+    """模块:通讯录--企业联系人选择器"""
 
     @classmethod
     def setUpClass(cls):
@@ -408,9 +407,7 @@ class GroupcontactsSelectPage(TestCase):
 
 
 class MygroupSearchPage(TestCase):
-    """
-    模块:通讯录-我的团队-搜索
-    """
+    """模块:通讯录-我的团队-搜索"""
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')
@@ -1959,9 +1956,7 @@ class MygroupSearchPage(TestCase):
 
 
 class MygroupdetailPage(TestCase):
-    """
-    模块:通讯录-我的团队-个人详情页(profile页)
-    """
+    """通讯录-我的团队-个人详情页(profile页)"""
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')

@@ -291,6 +291,43 @@ class Preconditions(WorkbenchPreconditions):
 class MessageScanTest(TestCase):
     """消息 - 扫一扫"""
 
+    @classmethod
+    def setUpClass(cls):
+        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        current_mobile().hide_keyboard_if_display()
+        preconditions.make_already_in_message_page()
+        # 创建联系人
+        fail_time = 0
+        import dataproviders
+        while fail_time < 2:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                for name, number in required_contacts:
+                    conts.open_contacts_page()
+                    if conts.is_text_present("显示"):
+                        conts.click_text("不显示")
+                    conts.create_contacts_if_not_exits_new(name, number)
+                # 创建群
+                # required_group_chats = dataproviders.get_preset_group_chats()
+                #
+                # conts.open_group_chat_list()
+                # group_list = GroupListPage()
+                # for group_name, members in required_group_chats:
+                #     group_list.wait_for_page_load()
+                #     group_list.create_group_chats_if_not_exits(group_name, members)
+                # group_list.click_back()
+                # conts.open_message_page()
+                return
+            except:
+                fail_time += 1
+                import traceback
+                msg = traceback.format_exc()
+                print(msg)
+
+    def default_setUp(self):
+        pass
+
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_msg_xiaoliping_A_0014(self):
         """网络异常使用扫一扫"""
@@ -1947,12 +1984,7 @@ class MessageSearchTest(TestCase):
 
 
 class MessageOthersAllTest(TestCase):
-    """
-    模块：消息
-    文件位置：1.1.5和飞信APP全量测试用例-汇总（9146条）.xlsx
-    表格：消息
-    Author:刘晓东
-    """
+    """模块：消息"""
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')

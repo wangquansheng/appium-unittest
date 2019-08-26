@@ -147,7 +147,7 @@ class Preconditions(LoginPreconditions):
 
 
 class ContactsLocal(TestCase):
-
+    """联系-通讯录"""
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')
@@ -1754,12 +1754,7 @@ class ContactsLocal(TestCase):
 
 
 class ContactsLocalhigh(TestCase):
-    """
-    模块：联系-本地联系人
-    文件位置：全量/115全量测试用例-联系(1322).xlsx--高等级用例(优先编写)
-    表格：通讯录-本地通讯录
-    author: 余梦思
-    """
+    """联系-本地联系人"""
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')

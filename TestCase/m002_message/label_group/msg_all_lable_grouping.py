@@ -249,12 +249,7 @@ class Preconditions(LoginPreconditions):
 
 
 class MsgLabelGroupingAll(TestCase):
-    """
-    模块：消息-标签分组-文件
-    文件位置：全量/114全量测试用例-韦凤莲0322.xlsx
-    表格：标签分组
-    author: 方康/余梦思
-    """
+    """模块：消息-标签分组-文件"""
 
     def default_setUp(self):
         """确保每个用例运行前在标签分组会话页面"""

@@ -136,12 +136,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class ImportantMattersAllTest(TestCase):
-    """
-    模块：工作台->重要事项
-    文件位置：20190313工作台全量用例整理.xlsx
-    表格：工作台->重要事项
-    Author：刘晓东
-    """
+    """工作台->重要事项"""
 
     @classmethod
     def setUpClass(cls):

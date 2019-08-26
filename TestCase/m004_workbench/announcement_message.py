@@ -9,11 +9,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class AnnouncementMessageTest(TestCase):
-    """
-    模块：工作台->公告信息
-    文件位置：20190313工作台全量用例整理.xlsx
-    表格：公告信息
-    """
+    """工作台->公告信息"""
     def default_setUp(self):
         """进入公告信息页面"""
         Preconditions.select_mobile('Android-移动')

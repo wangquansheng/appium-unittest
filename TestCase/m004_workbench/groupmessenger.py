@@ -207,7 +207,6 @@ class Preconditions(WorkbenchPreconditions):
         wbp.wait_for_workbench_page_load()
 
 
-# @unittest.skip
 class MassMessengerTest(TestCase):
     """群发信使 模块"""
 
@@ -229,9 +228,6 @@ class MassMessengerTest(TestCase):
     def default_tearDown(self):
         pass
 
-
-
-    # @tags('ALL', 'CMCC', 'workbench')
     @unittest.skip("不稳定")
     def test_QFXS_0008(self):
         """1、点击用户本人头像"""
@@ -381,12 +377,7 @@ class MassMessengerTest(TestCase):
 
 
 class MassMessengerAllTest(TestCase):
-    """
-    模块：工作台->群发信使
-    文件位置：20190313工作台全量用例整理.xlsx
-    表格：工作台->群发信使
-    Author：刘晓东
-    """
+    """工作台->群发信使"""
 
     @classmethod
     def setUpClass(cls):

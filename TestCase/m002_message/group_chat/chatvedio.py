@@ -1,10 +1,9 @@
-import random
-import os
 import re
 import time
 import unittest
 import uuid
 import warnings
+
 from appium.webdriver.common.mobileby import MobileBy
 from selenium.common.exceptions import TimeoutException
 
@@ -15,13 +14,10 @@ from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.components import BaseChatPage
+from pages.components.selectors import PictureSelector
 from pages.groupset.GroupChatSetPicVideo import GroupChatSetPicVideoPage
 from pages.workbench.organization.OrganizationStructure import OrganizationStructurePage
-from pages.components.selectors import PictureSelector
-
 from preconditions.BasePreconditions import WorkbenchPreconditions
-
-from settings import PROJECT_PATH
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -38,7 +34,6 @@ REQUIRED_MOBILES = {
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
-
     @staticmethod
     def connect_mobile(category):
         """选择手机手机"""
@@ -703,18 +698,9 @@ class Preconditions(WorkbenchPreconditions):
                 # page.wait_for_text('您已退出该群')
                 # page.click_back_by_android()
 
+
 class MsgGroupChatvedioTest(TestCase):
-    """
-    模块：消息->群聊>图片&视频
-
-    文件位置：冒烟/冒烟测试用例-V20181225.01.xlsx
-    表格：消息-群聊图片&视频
-    作者：方康
-
-    """
-
-    """前置条件需要修改创建一个群找不到"""
-
+    """消息->群聊>图片&视频康"""
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
@@ -5515,13 +5501,7 @@ class MsgGroupChatvedioTest(TestCase):
 
 
 class MsgGroupChatVideoPicAllTest(TestCase):
-    """
-    模块：群聊-图片视频-GIF
-    文件位置：1.1.3全量测试用例->113全量用例--肖立平.xlsx
-    表格：群聊-图片视频-GIF
-    Author:刘晓东
-    """
-
+    """群聊-图片视频-GIF"""
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
