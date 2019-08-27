@@ -10,6 +10,10 @@ class Preconditions(WorkbenchPreconditions):
 
 class AnnouncementMessageTest(TestCase):
     """工作台->公告信息"""
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """进入公告信息页面"""
         Preconditions.select_mobile('Android-移动')

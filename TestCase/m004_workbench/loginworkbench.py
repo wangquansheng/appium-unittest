@@ -1,16 +1,12 @@
-import re
 import time
 import unittest
 
 from selenium.common.exceptions import TimeoutException
 
 from library.core.TestCase import TestCase
-from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
-from pages.login import Agreement
-import preconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -271,6 +267,10 @@ class Preconditions(object):
 @unittest.skip("一键登录先不执行")
 class LoginWorkBench(TestCase):
     """登录"""
+
+    @classmethod
+    def setUpClass(cls):
+        pass
 
     @staticmethod
     def setUp_test_DL_0001():

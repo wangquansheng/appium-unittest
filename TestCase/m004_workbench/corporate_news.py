@@ -129,6 +129,10 @@ class Preconditions(WorkbenchPreconditions):
 class CorporateNewsTest(TestCase):
     """工作台->企业新闻"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """
         1、成功登录和飞信
@@ -221,6 +225,10 @@ class CorporateNewsTest(TestCase):
 
 class CorporateNewsAllTest(TestCase):
     """工作台->企业新闻"""
+
+    @classmethod
+    def setUpClass(cls):
+        pass
 
     def default_setUp(self):
         """

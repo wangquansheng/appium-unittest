@@ -4,15 +4,12 @@ import unittest
 from selenium.common.exceptions import TimeoutException
 
 from library.core.TestCase import TestCase
-from library.core.utils.testcasefilter import tags
 from library.core.utils.applicationcache import current_mobile, current_driver
-from pages import ContactsPage
-from pages import GroupListPage
+from library.core.utils.testcasefilter import tags
 from pages import MessagePage
 from pages import WorkbenchPage
 from pages.workbench.app_manage.AppManage import AppManagePage
 from pages.workbench.app_store.AppStore import AppStorePage
-from pages.workbench.attendance_card.AttendanceCard import AttendanceCardPage
 from pages.workbench.enterprise_contacts.EnterpriseContacts import EnterpriseContactsPage
 from pages.workbench.manager_console.WorkbenchManage import WorkbenchManagePage
 from pages.workbench.super_meeting.SuperMeeting import SuperMeetingPage
@@ -132,6 +129,10 @@ class Preconditions(WorkbenchPreconditions):
 
 class AppStoreAllTest(TestCase):
     """工作台->应用商城"""
+
+    @classmethod
+    def setUpClass(cls):
+        pass
 
     def default_setUp(self):
         """

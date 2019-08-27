@@ -113,7 +113,6 @@ class MsgCollectionTest(TestCase):
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # current_mobile().launch_app()
         mess = MessagePage()
         if mess.is_on_this_page():
             Preconditions.init_and_enter_collection_page()

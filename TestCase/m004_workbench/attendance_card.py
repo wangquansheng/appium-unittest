@@ -3,8 +3,8 @@ import time
 from selenium.common.exceptions import TimeoutException
 
 from library.core.TestCase import TestCase
-from library.core.utils.testcasefilter import tags
 from library.core.utils.applicationcache import current_mobile, current_driver
+from library.core.utils.testcasefilter import tags
 from pages import MessagePage
 from pages import WorkbenchPage
 from pages.workbench.attendance_card.AttendanceCard import AttendanceCardPage
@@ -103,6 +103,10 @@ class Preconditions(WorkbenchPreconditions):
 
 class AttendanceCardAllTest(TestCase):
     """工作台->考勤打卡"""
+
+    @classmethod
+    def setUpClass(cls):
+        pass
 
     def default_setUp(self):
         """

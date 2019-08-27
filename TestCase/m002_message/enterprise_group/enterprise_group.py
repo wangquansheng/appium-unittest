@@ -1,11 +1,6 @@
-import random
-import os
-import re
 import time
-import unittest
-import uuid
 import warnings
-from appium.webdriver.common.mobileby import MobileBy
+
 from selenium.common.exceptions import TimeoutException
 
 from library.core.TestCase import TestCase
@@ -13,14 +8,7 @@ from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile, current_driver
 from library.core.utils.testcasefilter import tags
 from pages import *
-from pages.components import BaseChatPage
-from pages.groupset.GroupChatSetPicVideo import GroupChatSetPicVideoPage
-from pages.workbench.organization.OrganizationStructure import OrganizationStructurePage
-from pages.components.selectors import PictureSelector
-
 from preconditions.BasePreconditions import WorkbenchPreconditions
-
-from settings import PROJECT_PATH
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',

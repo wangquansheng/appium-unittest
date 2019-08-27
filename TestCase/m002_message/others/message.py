@@ -1,5 +1,7 @@
 import time
+
 from selenium.common.exceptions import TimeoutException
+
 import preconditions
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType

@@ -1,6 +1,7 @@
 import time
 import warnings
 
+from appium.webdriver.common.mobileby import MobileBy
 from selenium.common.exceptions import TimeoutException
 
 from library.core.TestCase import TestCase
@@ -14,7 +15,6 @@ from pages.workbench.create_group.SelectEnterpriseContacts import SelectEnterpri
 from pages.workbench.enterprise_contacts.EnterpriseContacts import EnterpriseContactsPage
 from pages.workbench.voice_notice.VoiceNotice import VoiceNoticePage
 from preconditions.BasePreconditions import WorkbenchPreconditions
-from appium.webdriver.common.mobileby import MobileBy
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',

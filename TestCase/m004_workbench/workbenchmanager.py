@@ -11,6 +11,10 @@ class Preconditions(WorkbenchPreconditions):
 class WorkBenchManagerTest(TestCase):
     """工作台->工作台管理"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """进入工作台管理页面"""
         Preconditions.select_mobile('Android-移动')

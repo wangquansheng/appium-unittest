@@ -2,7 +2,9 @@ import re
 import time
 import uuid
 import warnings
+
 from selenium.common.exceptions import TimeoutException
+
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile
@@ -157,22 +159,15 @@ class Preconditions(LoginPreconditions):
                 #  从一键登录页面登录
                 Preconditions.login_by_one_key_login()
 
-
-class MsgPrivateChatMsgList(TestCase):
-    """模块：单聊->消息列表"""
-
-    @classmethod
-    def setUpClass(cls):
+    @staticmethod
+    def init_contact_group_data():
         # 创建联系人
         fail_time = 0
         import dataproviders
-        while fail_time < 3:
+        while fail_time < 2:
             try:
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()
-                Preconditions.connect_mobile('Android-移动')
-                current_mobile().hide_keyboard_if_display()
-                Preconditions.make_already_in_message_page()
                 conts.open_contacts_page()
                 time.sleep(1)
                 mp = MessagePage()
@@ -201,6 +196,17 @@ class MsgPrivateChatMsgList(TestCase):
                 import traceback
                 msg = traceback.format_exc()
                 print(msg)
+
+
+class MsgPrivateChatMsgList(TestCase):
+    """模块：单聊->消息列表"""
+
+    @classmethod
+    def setUpClass(cls):
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        Preconditions.init_contact_group_data()
 
     def default_setUp(self):
         """确保每个用例运行前在消息页面"""
@@ -509,7 +515,10 @@ class MsgPrivateChatMsgSetting(TestCase):
     """单聊->单聊设置"""
     @classmethod
     def setUpClass(cls):
-        pass
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        Preconditions.init_contact_group_data()
 
     def default_setUp(self):
         """确保每个用例运行前在单聊设置页面"""
@@ -1133,25 +1142,7 @@ class MsgContactSelector(TestCase):
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
-        # 导入测试联系人、群聊
-        fail_time1 = 0
-        flag1 = False
-        import dataproviders
-        while fail_time1 < 2:
-            try:
-                required_contacts = dataproviders.get_preset_contacts()
-                conts = ContactsPage()
-                conts.open_contacts_page()
-                if conts.is_text_present("发现SIM卡联系人"):
-                    conts.click_text("显示")
-                for name, number in required_contacts:
-                    # 创建联系人
-                    conts.create_contacts_if_not_exits_new(name, number)
-                flag1 = True
-            except:
-                fail_time1 += 1
-            if flag1:
-                break
+        Preconditions.init_contact_group_data()
 
     def default_setUp(self):
         """确保每个用例运行前在消息页面"""
@@ -1342,7 +1333,9 @@ class MsgPrivateChatDialog(TestCase):
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')
-        current_mobile().launch_app()
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        Preconditions.init_contact_group_data()
 
     def default_setUp(self):
         """确保每个用例运行前在单聊会话页面"""
@@ -1856,6 +1849,10 @@ class MsgPrivateChatMyComputer(TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        Preconditions.init_contact_group_data()
 
     def default_setUp(self):
         """当前页面在我的电脑聊天会话页面"""
@@ -2430,7 +2427,9 @@ class MsgPrivateChatPicture(TestCase):
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
-        current_mobile().launch_app()
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        Preconditions.init_contact_group_data()
 
     def default_setUp(self):
         """确保每个用例运行前在单聊会话页面"""

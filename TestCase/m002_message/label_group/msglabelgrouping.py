@@ -80,10 +80,10 @@ class Preconditions(LoginPreconditions):
 
 class MsgLabelGroupingTest(TestCase):
     """息-标签分组文件、位置 + 消息-单聊视频_图片"""
-    # @classmethod
-    # def setUpClass(cls):
-    #     Preconditions.select_mobile('Android-移动')
-    #     current_mobile().launch_app()
+    @classmethod
+    def setUpClass(cls):
+        # 备注：脚本中已判断预支文件是否存在
+        pass
 
     def default_setUp(self):
         """确保每个用例运行前在标签分组会话页面"""
@@ -2182,6 +2182,12 @@ class MsgLabelGroupingTest(TestCase):
 
 class MsgLabelGroupingTestAll(TestCase):
     """模块：消息-标签分组"""
+
+    @classmethod
+    def setUpClass(cls):
+        # 备注：脚本中已判断预支文件是否存在
+        pass
+
     def default_setUp(self):
         """确保每个用例运行前在标签分组会话页面"""
         Preconditions.select_mobile('Android-移动')

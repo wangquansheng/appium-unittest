@@ -22,6 +22,10 @@ REQUIRED_MOBILES = {
 class MeTest(TestCase):
     """我 - 我的二维码"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     @staticmethod
     def setUp_test_me_0001():
         """
@@ -441,6 +445,10 @@ class MeTest(TestCase):
 class MeMsgSettingTest(TestCase):
     """模块：我-消息设置"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     @tags("ALL", "SMOKE", "CMCC_RESET")
     def test_me_msg_setting_0001(self):
         """接收139邮箱助手信息默认开启"""
@@ -612,6 +620,10 @@ class MeMsgSettingTest(TestCase):
 @unittest.skip('用例需要重置，影响后续自动化')
 class MeSmsSettingTest(TestCase):
     """我-短信设置"""
+
+    @classmethod
+    def setUpClass(cls):
+        pass
 
     @tags("ALL", "SMOKE", "CMCC_RESET")
     def test_me_sms_setting_0001(self):

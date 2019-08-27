@@ -24,6 +24,10 @@ class Preconditions(WorkbenchPreconditions):
 class SuperMeetingTest(TestCase):
     """工作台->超级会议"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """进入超级会议页面"""
         Preconditions.select_mobile('Android-移动')

@@ -107,6 +107,10 @@ class Preconditions(object):
 class VoiceNoticeTest(TestCase):
     """工作台->语音通知"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
         Preconditions.select_mobile('Android-移动')

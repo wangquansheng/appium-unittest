@@ -1,15 +1,13 @@
-import unittest
-import uuid
+import time
 
 from selenium.common.exceptions import TimeoutException
-from pages.components import BaseChatPage
+
+import preconditions
 from library.core.TestCase import TestCase
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
+from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
-import preconditions
-import time
-from pages.message.FreeMsg import FreeMsgPage
+from pages.components import BaseChatPage
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',

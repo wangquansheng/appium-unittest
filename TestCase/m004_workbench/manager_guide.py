@@ -98,6 +98,10 @@ class Preconditions(WorkbenchPreconditions):
 class ManagerGuideAllTest(TestCase):
     """工作台->管理员指引、权益"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """
         1、成功登录和飞信

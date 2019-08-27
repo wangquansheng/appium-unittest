@@ -10,6 +10,10 @@ class Preconditions(WorkbenchPreconditions):
 class TeamTest(TestCase):
     """工作台->团队创建"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """进入创建团队页面"""
         Preconditions.select_mobile('Android-移动')
@@ -167,6 +171,10 @@ class TeamTest(TestCase):
 @unittest.skip("过滤")
 class WorkbenchGGXXTest(TestCase):
     """工作台->公告信息"""
+
+    @classmethod
+    def setUpClass(cls):
+        pass
 
     @staticmethod
     def setUp_test_workbench_GGXX_0005():

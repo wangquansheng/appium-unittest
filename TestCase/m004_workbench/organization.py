@@ -21,6 +21,10 @@ class Preconditions(WorkbenchPreconditions):
 class OrganizationTest(TestCase):
     """工作台->组织架构"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """进入组织架构页面"""
         Preconditions.select_mobile('Android-移动')

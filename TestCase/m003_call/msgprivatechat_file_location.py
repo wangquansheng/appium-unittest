@@ -1,6 +1,5 @@
 import random
 import time
-import unittest
 import warnings
 
 from selenium.common.exceptions import TimeoutException
@@ -8,11 +7,11 @@ from selenium.common.exceptions import TimeoutException
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, current_driver
+from library.core.utils.testcasefilter import tags
+from pages import *
 from pages.components import BaseChatPage
 from pages.workbench.organization.OrganizationStructure import OrganizationStructurePage
 from preconditions.BasePreconditions import WorkbenchPreconditions
-from library.core.utils.testcasefilter import tags
-from pages import *
 
 
 class Preconditions(WorkbenchPreconditions):

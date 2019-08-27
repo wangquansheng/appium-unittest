@@ -2755,6 +2755,10 @@ class MeAllTest(TestCase):
 class MeAll(TestCase):
     """模块：我的"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
         Preconditions.select_mobile('Android-移动')

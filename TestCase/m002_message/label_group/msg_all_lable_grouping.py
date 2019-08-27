@@ -79,6 +79,7 @@ class Preconditions(LoginPreconditions):
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
         group_name = "alg" + phone_number[-4:]
         return group_name
+
     @staticmethod
     def reset_and_relaunch_app():
         """首次启动APP（使用重置APP代替）"""
@@ -250,6 +251,11 @@ class Preconditions(LoginPreconditions):
 
 class MsgLabelGroupingAll(TestCase):
     """模块：消息-标签分组-文件"""
+
+    @classmethod
+    def setUpClass(cls):
+        # 备注：脚本中已判断预支文件是否存在
+        pass
 
     def default_setUp(self):
         """确保每个用例运行前在标签分组会话页面"""

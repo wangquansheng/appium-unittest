@@ -87,6 +87,10 @@ class Preconditions(WorkbenchPreconditions):
 class MobileAttendanceAllTest(TestCase):
     """工作台->移动出勤"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """
         1、成功登录和飞信

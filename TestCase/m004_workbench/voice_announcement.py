@@ -23,6 +23,10 @@ class Preconditions(WorkbenchPreconditions):
 class VoiceAnnouncementTest(TestCase):
     """工作台->语音通知"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """进入语音通知页面"""
         Preconditions.select_mobile('Android-移动')

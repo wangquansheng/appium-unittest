@@ -1,6 +1,8 @@
 import time
 import unittest
+
 from selenium.common.exceptions import TimeoutException
+
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, current_driver

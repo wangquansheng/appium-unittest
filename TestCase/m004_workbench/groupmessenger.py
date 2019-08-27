@@ -210,6 +210,10 @@ class Preconditions(WorkbenchPreconditions):
 class MassMessengerTest(TestCase):
     """群发信使 模块"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """确保进入消息列表页面"""
         Preconditions.select_mobile('Android-移动')
@@ -381,7 +385,6 @@ class MassMessengerAllTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-
         Preconditions.select_mobile('Android-移动')
         # 导入测试联系人、群聊
         fail_time1 = 0

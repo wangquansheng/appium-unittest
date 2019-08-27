@@ -43,6 +43,9 @@ class MsgSelectMoreTest(TestCase):
     """ 消息：查看更多"""
     @classmethod
     def setUpClass(cls):
+        Preconditions.connect_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
         # 创建联系人
         fail_time = 0
         import dataproviders
@@ -50,9 +53,6 @@ class MsgSelectMoreTest(TestCase):
             try:
                 required_contacts = dataproviders.get_preset_contacts()
                 conts = ContactsPage()
-                Preconditions.connect_mobile('Android-移动')
-                current_mobile().hide_keyboard_if_display()
-                Preconditions.make_already_in_message_page()
                 conts.open_contacts_page()
                 time.sleep(1)
                 mp = MessagePage()

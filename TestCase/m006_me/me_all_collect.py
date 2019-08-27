@@ -486,6 +486,10 @@ class Preconditions(object):
 class MeAllCollect(TestCase):
     """我的_收藏"""
 
+    @classmethod
+    def setUpClass(cls):
+        pass
+
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
