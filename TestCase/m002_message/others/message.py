@@ -2767,7 +2767,7 @@ class MessageOthersAllTest(TestCase):
         mp = MessagePage()
         mp.wait_for_page_load()
         # 进入会话页面
-        Preconditions.get_into_group_chat_page("群聊1")
+        Preconditions.get_into_group_chat_page("群聊3")
         time.sleep(2)
         # 发送网页消息
         text = "www.baidu.com"
@@ -2776,7 +2776,7 @@ class MessageOthersAllTest(TestCase):
         gcp.hide_keyboard()
         time.sleep(2)
         gcp.send_text()
-        time.sleep(2)
+        time.sleep(3)
         gcp.press_message_text_by_number(-1)
         time.sleep(2)
         self.assertEquals(gcp.is_text_present("撤回"), True)
