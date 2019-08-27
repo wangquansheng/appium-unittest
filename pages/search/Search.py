@@ -311,6 +311,15 @@ class SearchPage(SearchBar, Keyboard, BasePage):
                 results.append(el.text)
         return results
 
+    @TestLogger.log('')
+    def is_contains_element(self, results, compare):
+        if results:
+            for result in results:
+                result == compare
+                return True
+        else:
+            return False
+
     @TestLogger.log('获取联系人列表名字')
     def is_exist__contact_name(self, name):
         els = self.get_elements(self.__locators['联系人名字'])

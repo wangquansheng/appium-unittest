@@ -676,10 +676,14 @@ class MessageSearchTest(TestCase):
         contact_search = ContactListSearchPage()
         contact_search.wait_for_page_load()
         contact_search.input_search_keyword(contact_name)
+        contact_search.hide_keyboard()
+        time.sleep(3)
         contact_search.click_contact(contact_name)
+        time.sleep(2)
         # 进入"消息"
         detail_page = ContactDetailsPage()
         detail_page.click_message_icon()
+        time.sleep(2)
         # 进入聊天界面，发送消息
         chat = ChatWindowPage()
         if chat.is_tips_display():
@@ -690,6 +694,7 @@ class MessageSearchTest(TestCase):
         chat.click_back_by_android()
         time.sleep(1)
         contact_search.input_search_keyword("巴适得")
+        contact_search.hide_keyboard()
         time.sleep(3)
         exsit = contact_search.is_text_present("巴适得板") or contact_search.is_text_present("相关聊天记录")
         self.assertEqual(exsit, True)
@@ -1082,13 +1087,17 @@ class MessageSearchTest(TestCase):
         # 消息页
         message_page = MessagePage()
         message_page.open_message_page()
+        time.sleep(2)
         # 全局搜索页
         search_page = SearchPage()
         if search_page.mobile.is_keyboard_shown():
             search_page.hide_keyboard()
+            time.sleep(1)
         results = search_page.get_meslist_contacts()
-        self.assertEqual(results[0], '大佬2', '检查点：搜索结果中联系人版块排序是：最近生成消息的联系人')
-        self.assertEqual(results[1], '大佬1', '检查点：聊天记录最多显示3条')
+        flag = search_page.is_contains_element(results, "大佬2")
+        self.assertEqual(flag, True, '检查点：搜索结果中联系人版块排序是：最近生成消息的联系人')
+        flag = search_page.is_contains_element(results, "大佬1")
+        self.assertEqual(flag, True, '检查点：聊天记录最多显示3条')
 
     @staticmethod
     def setUp_test_msg_huangcaizui_E_0014():
@@ -1136,9 +1145,7 @@ class MessageSearchTest(TestCase):
         # 消息页
         message_page = MessagePage()
         message_page.open_message_page()
-        # message_page.set_top_for_message('群聊1')
-        # message_page.click_search()
-
+        time.sleep(1)
         # 全局搜索页
         search_page = SearchPage()
         if search_page.mobile.is_keyboard_shown():
@@ -1160,8 +1167,10 @@ class MessageSearchTest(TestCase):
         #         name = search_page.get_contact_name(result)
         #         results.append(name)
         results = search_page.get_meslist_contacts()
-        self.assertEqual(results[0], '群聊2', '检查点：搜索结果中群聊排序是：最近生成消息的群聊（按时间排序）')
-        self.assertEqual(results[1], '群聊1', '检查点：搜索结果中群聊排序是：最近生成消息的群聊（按时间排序）')
+        flag = search_page.is_contains_element(results,"群聊2")
+        self.assertEqual(flag, True, '检查点：搜索结果中群聊排序是：最近生成消息的群聊（按时间排序）')
+        flag = search_page.is_contains_element(results, "群聊1")
+        self.assertEqual(flag, True, '检查点：搜索结果中群聊排序是：最近生成消息的群聊（按时间排序）')
 
     @staticmethod
     def setUp_test_msg_huangcaizui_E_0015():
