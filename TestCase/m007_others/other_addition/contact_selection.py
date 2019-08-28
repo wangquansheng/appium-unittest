@@ -101,6 +101,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class MsgContactsSelect(TestCase):
+    """单聊-联系人选择器-新建消息"""
 
     @staticmethod
     def setUp_test_msg_huangcaizui_A_0002():

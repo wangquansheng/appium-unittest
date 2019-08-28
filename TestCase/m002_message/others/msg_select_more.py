@@ -13,12 +13,6 @@ REQUIRED_MOBILES = {
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
-    @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
 
     @staticmethod
     def make_already_in_message_page(reset=False):
@@ -43,7 +37,7 @@ class MsgSelectMoreTest(TestCase):
     """ 消息：查看更多"""
     @classmethod
     def setUpClass(cls):
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         # 创建联系人
@@ -102,7 +96,7 @@ class MsgSelectMoreTest(TestCase):
                 break
 
     def default_setUp(self):
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL01')

@@ -74,6 +74,3 @@ class MsgAllPrior(TestCase):
         # Checkpoint：当前是否是和飞信通话会控页
         # time.sleep(2)
         callpage.hang_up_hefeixin_call_631()
-
-    def tearDown_test_call_wangqiong_0063(self):
-        Preconditions.disconnect_mobile('Android-移动')

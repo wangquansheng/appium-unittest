@@ -17,8 +17,7 @@ class Contacts_demo(TestCase):
     def setUp_test_call_shenlisi_0074():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111"])
 
 
@@ -39,7 +38,4 @@ class Contacts_demo(TestCase):
         time.sleep(1)
         cp.page_should_contain_text('测试短信1')
 
-
-    def tearDown_test_call_shenlisi_0074(self):
-        Preconditions.disconnect_mobile('Android-移动')
 

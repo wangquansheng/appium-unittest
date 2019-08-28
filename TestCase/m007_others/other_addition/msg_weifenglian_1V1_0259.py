@@ -16,8 +16,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_weifenglian_1V1_0259():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
@@ -48,5 +47,4 @@ class Contacts_demo(TestCase):
 
     def tearDown_test_msg_weifenglian_1V1_0259(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
 

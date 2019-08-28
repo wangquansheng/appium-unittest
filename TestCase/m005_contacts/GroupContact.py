@@ -24,13 +24,6 @@ class Preconditions(WorkbenchPreconditions):
     分解前置条件
     """
     @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
-
-    @staticmethod
     def create_contacts(name, number):
         """
         导入联系人数据
@@ -326,7 +319,7 @@ class GroupcontactsSelectPage(TestCase):
 
     def default_setUp(self):
         """确保每个用例执行前在选择团队联系人页面"""
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().wait_for_page_load()
@@ -474,7 +467,7 @@ class MygroupSearchPage(TestCase):
 
     def default_setUp(self):
         """确保每个用例执行前在我的团队首页"""
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         # 切换联系tab和工作台tab（兼容团队无法及时刷新问题）
@@ -488,7 +481,7 @@ class MygroupSearchPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0040():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().click_contacts()
@@ -509,7 +502,7 @@ class MygroupSearchPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0041():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().click_contacts()
@@ -526,7 +519,7 @@ class MygroupSearchPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0042():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().click_contacts()
@@ -545,7 +538,7 @@ class MygroupSearchPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0043():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().click_contacts()
@@ -564,7 +557,7 @@ class MygroupSearchPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0044():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().click_contacts()
@@ -583,7 +576,7 @@ class MygroupSearchPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0045():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().click_contacts()
@@ -1983,7 +1976,7 @@ class MygroupdetailPage(TestCase):
 
     def default_setUp(self):
         """确保每个用例执行前在团队联系人profile页"""
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().click_contacts()
@@ -2090,7 +2083,7 @@ class MygroupdetailPage(TestCase):
         # contact_detail.end_video_call()
 
     def setUp_test_contacts_quxinli_0155(self):
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.reset_and_relaunch_app()
         Preconditions.make_already_in_message_page()

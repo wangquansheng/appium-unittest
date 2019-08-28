@@ -12,7 +12,6 @@ from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
-    # 'Android-移动': 'single_mobile',
     'IOS-移动': '',
     'Android-电信': 'single_telecom',
     'Android-联通': 'single_union',
@@ -106,7 +105,7 @@ class AttendanceCardAllTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     def default_setUp(self):
         """

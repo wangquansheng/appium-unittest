@@ -212,7 +212,7 @@ class MassMessengerTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     def default_setUp(self):
         """确保进入消息列表页面"""

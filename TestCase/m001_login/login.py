@@ -11,6 +11,7 @@ from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.login import Agreement
 import preconditions
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -24,10 +25,8 @@ REQUIRED_MOBILES = {
 }
 
 
-class Preconditions(object):
-    """
-    分解前置条件
-    """
+class Preconditions(WorkbenchPreconditions):
+    """分解前置条件"""
 
     @staticmethod
     def select_single_cmcc_android_4g_client():
@@ -39,13 +38,6 @@ class Preconditions(object):
         """
         client = switch_to_mobile(REQUIRED_MOBILES['测试机'])
         client.connect_mobile()
-
-    @staticmethod
-    def select_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
 
     @staticmethod
     def select_assisted_mobile2():

@@ -16,11 +16,9 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_weifenglian_PC_0261():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.enter_my_computer_page()
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_PC_0261(self):
@@ -40,7 +38,4 @@ class Contacts_demo(TestCase):
         single_chat.click_setting()
         single_chat.search_chat_record_file(file_name)
         single_chat.assert_id_menu_more()
-
-    def tearDown_test_msg_weifenglian_PC_0261(self):
-        Preconditions.disconnect_mobile('Android-移动')
 

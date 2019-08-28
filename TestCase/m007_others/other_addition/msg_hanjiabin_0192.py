@@ -18,8 +18,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_hanjiabin_0192():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -57,7 +56,3 @@ class Contacts_demo(TestCase):
         me.click_collection()
         mess.is_text_present('[名片]给个名片2的个人名片')
 
-
-
-    def tearDown_test_msg_hanjiabin_0192(self):
-        Preconditions.disconnect_mobile('Android-移动')

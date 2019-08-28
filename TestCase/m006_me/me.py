@@ -11,11 +11,16 @@ from pages.components import ContactsSelector
 from pages.components.PickGroup import PickGroupPage
 from pages.components.SearchGroup import SearchGroupPage
 from pages.me.NameCard import NameCardPage
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
-    'Android-XX': ''  # 用来发短信
+    'Android-XX': ''
 }
+
+
+class Preconditions(WorkbenchPreconditions):
+    """前置条件"""
 
 
 @unittest.skip("我的二维码模块先不执行")
@@ -24,7 +29,7 @@ class MeTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     @staticmethod
     def setUp_test_me_0001():
@@ -35,7 +40,7 @@ class MeTest(TestCase):
         4.有群组
         :return:
         """
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.make_already_in_message_page()
         me_page = MePage()
@@ -447,7 +452,7 @@ class MeMsgSettingTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     @tags("ALL", "SMOKE", "CMCC_RESET")
     def test_me_msg_setting_0001(self):
@@ -458,7 +463,7 @@ class MeMsgSettingTest(TestCase):
 
     @staticmethod
     def setUp_test_me_msg_setting_0001():
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.reset_and_relaunch_app()
         preconditions.make_already_in_one_key_login_page()
@@ -498,7 +503,7 @@ class MeMsgSettingTest(TestCase):
         email_list.assert_the_newest_email_is(email_subject, 30)
 
     def setUp_test_me_msg_setting_0002(self):
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.reset_and_relaunch_app()
         preconditions.make_already_in_one_key_login_page()
@@ -529,7 +534,7 @@ class MeMsgSettingTest(TestCase):
         msg_page.assert_139_message_not_appear(30)
 
     def setUp_test_me_msg_setting_0003(self):
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.reset_and_relaunch_app()
         preconditions.make_already_in_one_key_login_page()
@@ -551,7 +556,7 @@ class MeMsgSettingTest(TestCase):
 
     @staticmethod
     def setUp_test_me_msg_setting_0004():
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.reset_and_relaunch_app()
         preconditions.make_already_in_one_key_login_page()
@@ -573,7 +578,7 @@ class MeMsgSettingTest(TestCase):
 
     @staticmethod
     def setUp_test_me_msg_setting_0005():
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.reset_and_relaunch_app()
         preconditions.make_already_in_one_key_login_page()
@@ -599,7 +604,7 @@ class MeMsgSettingTest(TestCase):
 
     @staticmethod
     def setUp_test_me_msg_setting_0006():
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.reset_and_relaunch_app()
         preconditions.make_already_in_one_key_login_page()
@@ -623,7 +628,7 @@ class MeSmsSettingTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     @tags("ALL", "SMOKE", "CMCC_RESET")
     def test_me_sms_setting_0001(self):
@@ -633,7 +638,7 @@ class MeSmsSettingTest(TestCase):
 
     @staticmethod
     def setUp_test_me_sms_setting_0001():
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.reset_and_relaunch_app()
         preconditions.make_already_in_one_key_login_page()
@@ -659,12 +664,12 @@ class MeSmsSettingTest(TestCase):
         MePage().open_message_page()
 
         # 切到另一台手机发短信，一定要确保配置的卡顺序与实际手机卡槽位置一致
-        mobile2 = preconditions.connect_mobile(REQUIRED_MOBILES['Android-XX'])
+        mobile2 = Preconditions.select_mobile('Android-XX')
         content = uuid.uuid4().__str__()
         send_number, card_type = mobile2.send_sms(self.login_number, content)
 
         # 切回来继续操作
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         msg_page = MessagePage()
         msg_page.click_message(send_number, 15)
 
@@ -674,7 +679,7 @@ class MeSmsSettingTest(TestCase):
         chat_page.assert_message_content_display(content)
 
     def setUp_test_me_sms_setting_0002(self):
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.reset_and_relaunch_app()
         preconditions.make_already_in_one_key_login_page()

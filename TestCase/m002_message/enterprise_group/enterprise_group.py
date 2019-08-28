@@ -27,13 +27,6 @@ class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
     @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
-
-    @staticmethod
     def make_already_in_message_page(reset=False):
         """确保应用在消息页面"""
         # 如果在消息页，不做任何操作
@@ -365,14 +358,6 @@ class Preconditions(WorkbenchPreconditions):
                 raise AssertionError("没有返回到群聊页面，无法删除记录")
             except AssertionError as e:
                 raise e
-
-    #多人群聊前置条件
-    @staticmethod
-    def select_one_mobile(moible_param):
-        """选择指定的设备连接，并确保在消息列表页面"""
-        Preconditions.select_mobile(moible_param)
-        # 消息页面
-        Preconditions.make_in_message_page(moible_param,reset=False)
 
     @staticmethod
     def make_in_message_page(moible_param,reset=False):

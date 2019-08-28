@@ -448,6 +448,7 @@ class MsgGroupChatTest(TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
+        Preconditions.select_mobile('Android-移动')
         Preconditions.create_contacts_groups()
 
     def default_setUp(self):

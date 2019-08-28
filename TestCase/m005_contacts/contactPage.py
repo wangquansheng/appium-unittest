@@ -22,13 +22,6 @@ class Preconditions(WorkbenchPreconditions):
     分解前置条件
     """
     @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
-
-    @staticmethod
     def take_logout_operation_if_already_login():
         """已登录状态，执行登出操作"""
         message_page = MessagePage()
@@ -120,7 +113,7 @@ class ContactPage(TestCase):
 
     def default_setUp(self):
         """确保每个用例执行前在通讯录-手机联系人页面"""
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().wait_for_page_load()
@@ -154,7 +147,7 @@ class ContactPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0005():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.reset_and_relaunch_app()
         Preconditions.make_already_in_one_key_login_page()
@@ -185,8 +178,7 @@ class ContactPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0006():
-
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.reset_and_relaunch_app()
         Preconditions.make_already_in_one_key_login_page()
@@ -210,7 +202,7 @@ class ContactPage(TestCase):
     @staticmethod
     def setUp_test_contacts_quxinli_0007():
 
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.reset_and_relaunch_app()
         Preconditions.make_already_in_one_key_login_page()
@@ -342,7 +334,7 @@ class ContactPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0021():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.init_and_enter_contacts_page()
         if ContactsPage().is_text_present('需要使用通讯录权限'):
@@ -415,7 +407,7 @@ class ContactPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0065():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.init_and_enter_contacts_page()
         if ContactsPage().is_text_present('需要使用通讯录权限'):
@@ -490,7 +482,7 @@ class ContactPage(TestCase):
     @staticmethod
     def setUp_test_contacts_quxinli_0196():
         # 进入通讯录页面
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.init_and_enter_contacts_page()
         if ContactsPage().is_text_present('需要使用通讯录权限'):
@@ -533,7 +525,7 @@ class ContactPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0197():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.init_and_enter_contacts_page()
         if ContactsPage().is_text_present('需要使用通讯录权限'):
@@ -562,7 +554,7 @@ class ContactPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0198():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.init_and_enter_contacts_page()
         if ContactsPage().is_text_present('需要使用通讯录权限'):
@@ -603,7 +595,7 @@ class ContactPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0199():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.init_and_enter_contacts_page()
         if ContactsPage().is_text_present('需要使用通讯录权限'):
@@ -632,7 +624,7 @@ class ContactPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0208():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.init_and_enter_contacts_page()
         if ContactsPage().is_text_present('需要使用通讯录权限'):
@@ -693,7 +685,7 @@ class ContactPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0209():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.init_and_enter_contacts_page()
         if ContactsPage().is_text_present('需要使用通讯录权限'):
@@ -721,7 +713,7 @@ class ContactPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0210():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.init_and_enter_contacts_page()
         if ContactsPage().is_text_present('需要使用通讯录权限'):
@@ -753,7 +745,7 @@ class ContactPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0211():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.init_and_enter_contacts_page()
         if ContactsPage().is_text_present('需要使用通讯录权限'):
@@ -781,7 +773,7 @@ class ContactPage(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0212():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.init_and_enter_contacts_page()
         if ContactsPage().is_text_present('需要使用通讯录权限'):

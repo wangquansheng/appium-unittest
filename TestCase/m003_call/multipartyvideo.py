@@ -35,7 +35,7 @@ class Preconditions(WorkbenchPreconditions):
     @staticmethod
     def make_already_in_call():
         """确保进入通话界面"""
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         cpg = CallPage()
         message_page = MessagePage()
@@ -288,14 +288,6 @@ class Preconditions(WorkbenchPreconditions):
                 raise AssertionError("没有返回到群聊页面，无法删除记录")
             except AssertionError as e:
                 raise e
-
-    # 多人群聊前置条件
-    @staticmethod
-    def select_one_mobile(mobile_param):
-        """选择指定的设备连接，并确保在消息列表页面"""
-        Preconditions.select_mobile(mobile_param)
-        # 消息页面
-        Preconditions.make_in_message_page(mobile_param, reset=False)
 
     @staticmethod
     def make_in_message_page(mobile_param, reset=False):

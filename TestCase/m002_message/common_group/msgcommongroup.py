@@ -35,6 +35,7 @@ from pages.chat.ChatGroupAddContacts import ChatGroupAddContactsPage
 from pages.components import BaseChatPage
 from pages.groupset import GroupChatSetSeeMembersPage
 from pages.workbench.create_group.SelectEnterpriseContacts import SelectEnterpriseContactsPage
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -49,17 +50,8 @@ REQUIRED_MOBILES = {
 }
 
 
-class Preconditions(object):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
-
-    @staticmethod
-    def select_mobile(category, reset=False):
-        """选择手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        if reset:
-            current_mobile().reset_app()
-        return client
 
     @staticmethod
     def enter_group_chat_page(reset=False):
@@ -377,13 +369,6 @@ class Preconditions(object):
         # 等待群聊页面加载
         GroupChatPage().wait_for_page_load()
         GroupChatPage().click_back()
-
-    @staticmethod
-    def select_one_mobile(moible_param):
-        """选择指定的设备连接，并确保在消息列表页面"""
-        Preconditions.select_mobile(moible_param)
-        # 消息页面
-        Preconditions.make_in_message_page(moible_param, reset=False)
 
     @staticmethod
     def make_in_message_page(moible_param, reset=False):
@@ -724,16 +709,13 @@ class MsgCommonGroupTest(TestCase):
 
     def default_tearDown(self):
         pass
-        # current_mobile().disconnect_mobile()
 
     @staticmethod
     def setUp_test_msg_common_group_0001():
 
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
-        # current_mobile().launch_app()
         current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.enter_group_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
@@ -1054,7 +1036,6 @@ class MsgCommonGroupTest(TestCase):
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.enter_group_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC-RESET', 'group_chat')
@@ -1124,7 +1105,6 @@ class MsgCommonGroupTest(TestCase):
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.enter_group_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC-RESET', 'group_chat')
@@ -1280,14 +1260,6 @@ class MsgCommonGroupTest(TestCase):
             except TimeoutException:
                 raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
 
-    # @staticmethod
-    # def setUp_test_msg_common_group_0015():
-    #
-    #     Preconditions.select_mobile('Android-移动')
-    #     current_mobile().hide_keyboard_if_display()
-    #     current_mobile().reset_app()
-    #     # current_mobile().connect_mobile()
-    #     Preconditions.enter_group_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
     def test_msg_common_group_0015(self):
@@ -1569,8 +1541,6 @@ class MsgCommonGroupTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
@@ -2375,7 +2345,6 @@ class MsgCommonGroupTest(TestCase):
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.enter_group_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC-RESET', 'group_chat', '4281', 'high')
@@ -4343,7 +4312,6 @@ class MsgCommonGroupTest(TestCase):
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.enter_group_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC-RESET', 'group_chat', 'DEBUG_YYX1', 'xin')
@@ -5018,7 +4986,6 @@ class MsgCommonGroupTest(TestCase):
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.enter_group_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC-RESET', 'group_chat', 'DEBUG_YYX1', 'xin')
@@ -6741,7 +6708,6 @@ class MsgCommonGroupPriorityTest(TestCase):
 
     def default_tearDown(self):
         pass
-        # current_mobile().disconnect_mobile()
 
     @unittest.skip("卸载先不执行")
     def test_msg_xiaoqiu_0043(self):
@@ -7246,7 +7212,6 @@ class MsgCommonGroupAllTest(TestCase):
 
     def default_tearDown(self):
         pass
-        # current_mobile().disconnect_mobile()
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0001():
@@ -7254,8 +7219,6 @@ class MsgCommonGroupAllTest(TestCase):
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
@@ -7297,8 +7260,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
@@ -7336,8 +7297,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full', 'high')
@@ -7376,8 +7335,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full')
@@ -7415,8 +7372,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full')
@@ -7455,8 +7410,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full')
@@ -7494,8 +7447,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full')
@@ -7534,8 +7485,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full')
@@ -7573,8 +7522,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full')
@@ -7619,8 +7566,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full')
@@ -7662,8 +7607,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full')
@@ -7706,8 +7649,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full')
@@ -7749,8 +7690,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full')
@@ -7793,8 +7732,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full')
@@ -7836,8 +7773,6 @@ class MsgCommonGroupAllTest(TestCase):
         if mess.is_on_this_page():
             return
         current_mobile().launch_app()
-        # current_mobile().reset_app()
-        # current_mobile().connect_mobile()
         Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'CMCC', 'group_chat', 'full')

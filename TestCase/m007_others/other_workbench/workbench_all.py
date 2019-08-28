@@ -1899,8 +1899,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_PC_0354():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入单聊页面
         Preconditions.enter_private_chat_page()
 
@@ -1918,8 +1917,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_1V1_0433():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入单聊页面
         Preconditions.enter_private_chat_page()
 
@@ -1937,8 +1935,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_1V1_0436():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入单聊页面
         Preconditions.enter_private_chat_page()
 
@@ -1967,8 +1964,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_1V1_0437():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入单聊页面
         Preconditions.enter_private_chat_page()
 
@@ -1997,8 +1993,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_1V1_0445():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入单聊页面
         Preconditions.enter_private_chat_page()
 
@@ -2029,8 +2024,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_1V1_0450():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入单聊页面
         Preconditions.enter_private_chat_page()
 
@@ -2061,8 +2055,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_PC_0042():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入我的电脑页面
         message_page = MessagePage()
         message_page.wait_for_page_load()
@@ -2359,8 +2352,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_hanjiabin_0193():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -2398,8 +2390,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_hanjiabin_0194():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -2436,8 +2427,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_A_0023():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["给个红包1, 13800138000"])
 
@@ -2477,8 +2467,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_A_0279():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.enter_call_page()
 
@@ -2518,8 +2507,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_A_0280():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["给个红包1, 13800138000"])
         Preconditions.enter_call_page()
@@ -2554,8 +2542,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_A_0285():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -2585,8 +2572,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_B_0015():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["给个红包1, 13800138000"])
 
@@ -2625,8 +2611,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_B_0016():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["给个红包1, 13800138000"])
 
@@ -2663,8 +2648,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_E_0022():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -2682,8 +2666,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangmianhua_0400():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["给个红包1, 13800138000"])
 
@@ -2720,8 +2703,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0140():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -2780,8 +2762,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0141():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -2838,8 +2819,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0142():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -2896,8 +2876,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0143():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -2954,8 +2933,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0144():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3012,8 +2990,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0145():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3070,8 +3047,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0146():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3128,8 +3104,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0147():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3187,8 +3162,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0148():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3246,8 +3220,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0149():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3305,8 +3278,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0150():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3363,8 +3335,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0151():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3421,8 +3392,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0152():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3480,8 +3450,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0153():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3539,8 +3508,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0154():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3597,8 +3565,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0155():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3659,8 +3626,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0156():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3722,8 +3688,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0157():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3780,8 +3745,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0158():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3838,8 +3802,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0159():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3896,8 +3859,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0160():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         contactspage = ContactsPage()
@@ -3954,8 +3916,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_A_0049():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0049(self):
@@ -3983,8 +3944,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_A_0276():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["给个红包1, 13800138000"])
 
@@ -4022,8 +3982,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_A_0283():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
@@ -4063,8 +4022,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_A_0284():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111"])
@@ -4100,8 +4058,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_B_0020():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111"])
@@ -4152,8 +4109,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_E_0024():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         """需要预置一个联系人"""
         Preconditions.create_contacts_if_not_exist(["转发短信1, 13800138114"])
@@ -4203,8 +4159,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0207():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         # 预置联系人
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
@@ -4243,8 +4198,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0208():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         # 预置联系人
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
@@ -4283,8 +4237,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0212():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         # 预置联系人
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
@@ -4327,8 +4280,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0216():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         # 预置联系人
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
@@ -4372,8 +4324,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0217():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         # 预置联系人
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
@@ -4416,8 +4367,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0223():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         # 预置联系人
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
@@ -4452,8 +4402,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0226():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
@@ -4486,8 +4435,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0229():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
@@ -4520,8 +4468,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0250():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
@@ -4551,8 +4498,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0251():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
@@ -4572,8 +4518,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoqiu_0269():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
@@ -4611,8 +4556,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_A_0091():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
@@ -4638,8 +4582,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangmianhua_0187():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'middle')
@@ -4671,8 +4614,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangmianhua_0188():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'middle')
@@ -4701,8 +4643,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangmianhua_0189():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'middle')
@@ -4731,8 +4672,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangmianhua_0190():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'middle')

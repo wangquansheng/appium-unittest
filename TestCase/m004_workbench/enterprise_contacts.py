@@ -27,7 +27,6 @@ from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
-    # 'Android-移动': 'single_mobile',
     'IOS-移动': '',
     'Android-电信': 'single_telecom',
     'Android-联通': 'single_union',
@@ -202,7 +201,6 @@ class EnterpriseContactsAllTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-
         Preconditions.select_mobile('Android-移动')
         # 导入测试联系人、群聊
         fail_time1 = 0

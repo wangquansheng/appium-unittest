@@ -9,6 +9,7 @@ from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.components import BaseChatPage
 from pages.message.FreeMsg import FreeMsgPage
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -16,13 +17,13 @@ REQUIRED_MOBILES = {
 }
 
 
-class Preconditions(object):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
     @staticmethod
     def make_already_in_message_page():
         """确保进入消息界面"""
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         message_page = MessagePage()
         if message_page.is_on_this_page():
@@ -47,7 +48,7 @@ class Preconditions(object):
     @staticmethod
     def make_already_have_used_free_sms():
         """确保非首次使用免费短信功能"""
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         mp = MessagePage()
@@ -117,7 +118,7 @@ class MessageScanTest(TestCase):
     """消息->免费短信"""
     @classmethod
     def setUpClass(cls):
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.make_already_in_message_page()
         # 创建联系人
@@ -156,7 +157,7 @@ class MessageScanTest(TestCase):
 
     def default_setUp(self):
         """确保进入消息界面"""
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
 

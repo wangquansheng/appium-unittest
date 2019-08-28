@@ -8,6 +8,7 @@ from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.components import BaseChatPage
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -15,7 +16,7 @@ REQUIRED_MOBILES = {
 }
 
 
-class Preconditions(object):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
     @staticmethod
     def make_already_in_message_page():
@@ -60,15 +61,6 @@ class Preconditions(object):
         scp = SingleChatPage()
         # 等待单聊会话页面加载
         scp.wait_for_page_load()
-
-    @staticmethod
-    def select_mobile(category, reset=False):
-        """选择手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        if reset:
-            current_mobile().reset_app()
-        return client
 
 
 class MsgDeliveryStatusDisplay(TestCase):

@@ -200,14 +200,6 @@ class Preconditions(WorkbenchPreconditions):
         current_driver().activate_app(app_package)
         current_mobile().reset_app()
 
-    #多人群聊前置条件
-    @staticmethod
-    def select_one_mobile(moible_param):
-        """选择指定的设备连接，并确保在消息列表页面"""
-        Preconditions.select_mobile(moible_param)
-        # 消息页面
-        Preconditions.make_in_message_page(moible_param,reset=False)
-
     @staticmethod
     def make_in_message_page(moible_param,reset=False):
         """确保应用在消息页面"""

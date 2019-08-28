@@ -23,12 +23,6 @@ class Preconditions(WorkbenchPreconditions):
     """
     分解前置条件
     """
-    @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
 
     @staticmethod
     def create_contacts(name, number):
@@ -214,7 +208,7 @@ class ContactsLocal(TestCase):
 
     def default_setUp(self):
         """确保每个用例运行前在通讯录页面"""
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().wait_for_page_load()
@@ -307,7 +301,7 @@ class ContactsLocal(TestCase):
 
     @staticmethod
     def setUp_test_contacts_chenjixiang_0020():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         me_page = MePage()
@@ -374,7 +368,7 @@ class ContactsLocal(TestCase):
 
     @staticmethod
     def setUp_test_contacts_chenjixiang_0022():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().open_me_page()
@@ -564,7 +558,7 @@ class ContactsLocal(TestCase):
 
     @staticmethod
     def setUp_test_contacts_chenjixiang_0016():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().open_me_page()
@@ -600,7 +594,7 @@ class ContactsLocal(TestCase):
 
     @staticmethod
     def setUp_test_contacts_chenjixiang_0017():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.make_already_in_message_page()
         MessagePage().open_me_page()
@@ -632,7 +626,7 @@ class ContactsLocal(TestCase):
 
     @staticmethod
     def setUp_test_contacts_chenjixiang_0018():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().open_me_page()
@@ -667,7 +661,7 @@ class ContactsLocal(TestCase):
 
     @staticmethod
     def setUp_test_contacts_chenjixiang_0023():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().open_me_page()
@@ -701,7 +695,7 @@ class ContactsLocal(TestCase):
 
     @staticmethod
     def setUp_test_contacts_chenjixiang_0024():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().open_me_page()
@@ -1821,7 +1815,7 @@ class ContactsLocalhigh(TestCase):
 
     def default_setUp(self):
         """确保每个用例执行前在通讯录-手机联系人页面"""
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().wait_for_page_load()
@@ -2400,7 +2394,7 @@ class ContactsLocalhigh(TestCase):
 
     @staticmethod
     def setUp_test_contacts_chenjixiang_0264():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         MessagePage().wait_for_page_load()
@@ -2553,7 +2547,7 @@ class ContactsLocalhigh(TestCase):
 
     @staticmethod
     def setUp_test_contacts_chenjixiang_0253():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         me_page = MePage()

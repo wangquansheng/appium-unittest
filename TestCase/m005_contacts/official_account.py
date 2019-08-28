@@ -20,13 +20,6 @@ class Preconditions(WorkbenchPreconditions):
     """
 
     @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
-
-    @staticmethod
     def take_logout_operation_if_already_login():
         """已登录状态，执行登出操作"""
         message_page = MessagePage()
@@ -68,7 +61,7 @@ class Preconditions(WorkbenchPreconditions):
     @staticmethod
     def make_sure_in_official_page():
         """确保在公众号页面"""
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
         conts_page = ContactsPage()
         conts_page.open_contacts_page()

@@ -123,8 +123,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_PC_0232():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入单聊页面
         Preconditions.enter_private_chat_page()
 
@@ -213,8 +212,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_PC_0232():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入单聊页面
         Preconditions.enter_private_chat_page()
 
@@ -280,8 +278,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_PC_0264():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入我的电脑页面
         message_page = MessagePage()
         message_page.wait_for_page_load()
@@ -349,8 +346,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_PC_0265():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入我的电脑页面
         message_page = MessagePage()
         message_page.wait_for_page_load()
@@ -412,8 +408,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_PC_0266():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入我的电脑页面
         message_page = MessagePage()
         message_page.wait_for_page_load()
@@ -476,8 +471,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_PC_0268():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入我的电脑页面
         message_page = MessagePage()
         message_page.wait_for_page_load()
@@ -534,8 +528,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_PC_0272():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入我的电脑页面
         message_page = MessagePage()
         message_page.wait_for_page_load()
@@ -593,8 +586,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_PC_0310():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入我的电脑页面
         message_page = MessagePage()
         message_page.wait_for_page_load()
@@ -661,7 +653,7 @@ class MsgAllPrior(TestCase):
     #     # 启动App
     #     Preconditions.select_mobile('Android-移动')
     #     # 启动后不论当前在哪个页面，强制进入消息页面
-    #     Preconditions.force_enter_message_page('Android-移动')
+    #     Preconditions.make_already_in_message_page()
     #     # 进入我的电脑页面
     #     message_page = MessagePage()
     #     message_page.wait_for_page_load()
@@ -734,8 +726,7 @@ class MsgAllPrior(TestCase):
     # def setUp_test_msg_weifenglian_PC_0315():
     #     # 启动App
     #     Preconditions.select_mobile('Android-移动')
-    #     # 启动后不论当前在哪个页面，强制进入消息页面
-    #     Preconditions.force_enter_message_page('Android-移动')
+    #     Preconditions.make_already_in_message_page()
     #     # 进入我的电脑页面
     #     message_page = MessagePage()
     #     message_page.wait_for_page_load()
@@ -808,8 +799,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_qun_0312():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 进入群聊
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_have_my_group()
@@ -832,8 +822,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoliping_B_0009():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.enter_private_chat_page()
 

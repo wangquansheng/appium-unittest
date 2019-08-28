@@ -17,9 +17,7 @@ class Contacts_demo(TestCase):
     def setUp_test_call_shenlisi_0346():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
-
+        Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0346(self):
@@ -82,7 +80,4 @@ class Contacts_demo(TestCase):
         # Checkpoint：查看详情页面是否是为飞信电话？
         cp.page_should_contain_text('视频通话')
 
-
-    def tearDown_test_call_shenlisi_0346(self):
-        Preconditions.disconnect_mobile('Android-移动')
 

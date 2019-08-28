@@ -65,6 +65,3 @@ class MsgAllPrior(TestCase):
         callpage.page_should_contain_text('拨出电话')
 
 
-
-    def tearDown_test_call_wangqiong_0145(self):
-        Preconditions.disconnect_mobile('Android-移动')

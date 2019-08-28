@@ -17,8 +17,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_huangcaizui_D_0115():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 1、在我-设置-消息通知页面将接收消息通知权限关闭
         mess = MessagePage()
         mess.click_me_icon()
@@ -87,7 +86,4 @@ class Contacts_demo(TestCase):
         time.sleep(2)
         callpage.hang_up_hefeixin_call_631()
 
-
-    def tearDown_test_msg_huangcaizui_D_0115(self):
-        Preconditions.disconnect_mobile('Android-移动')
 

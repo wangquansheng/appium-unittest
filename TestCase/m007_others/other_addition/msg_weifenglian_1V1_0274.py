@@ -17,8 +17,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_weifenglian_1V1_0274():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111"])
         mess = MessagePage()
@@ -49,8 +48,4 @@ class Contacts_demo(TestCase):
         path = 'aaaresource'
         single_chat.send_file_messages_631(path, file_name)
         single_chat.re_send_file_messages(file_name)
-
-
-    def tearDown_test_msg_weifenglian_1V1_0274(self):
-        Preconditions.disconnect_mobile('Android-移动')
 

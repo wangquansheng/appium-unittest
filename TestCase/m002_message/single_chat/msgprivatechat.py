@@ -16,12 +16,6 @@ from preconditions.BasePreconditions import LoginPreconditions, REQUIRED_MOBILES
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
-    @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
 
     @staticmethod
     def enter_message_page(reset=False):
@@ -2547,7 +2541,7 @@ class MsgPrivateChatPicture(TestCase):
     @staticmethod
     def setUp_test_msg_xiaoliping_C_0306():
         """确保当前页面在标签分组会话页面"""
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         # 确保应用在消息页面
         Preconditions.make_already_in_message_page()
         # 确保当前消息列表没有消息发送失败的标识影响验证结果
@@ -2593,7 +2587,7 @@ class MsgPrivateChatPicture(TestCase):
     @staticmethod
     def setUp_test_msg_xiaoliping_C_0307():
         """确保当前页面在标签分组会话页面"""
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         # 确保应用在消息页面
         Preconditions.make_already_in_message_page()
         # 确保当前消息列表没有消息发送失败的标识影响验证结果
@@ -2626,7 +2620,7 @@ class MsgPrivateChatPicture(TestCase):
     @staticmethod
     def setUp_test_msg_xiaoliping_C_0308():
         """确保当前页面在标签分组会话页面"""
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         # 确保应用在消息页面
         Preconditions.make_already_in_message_page()
         # 确保当前消息列表没有消息发送失败的标识影响验证结果
@@ -2661,7 +2655,7 @@ class MsgPrivateChatPicture(TestCase):
     @staticmethod
     def setUp_test_msg_xiaoliping_C_0309():
         """确保当前页面在标签分组会话页面"""
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         # 确保应用在消息页面
         Preconditions.make_already_in_message_page()
         # 确保当前消息列表没有消息发送失败的标识影响验证结果
@@ -2718,7 +2712,7 @@ class MsgPrivateChatPicture(TestCase):
     @staticmethod
     def setUp_test_msg_xiaoliping_C_0311():
         """确保当前页面在标签分组会话页面"""
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         # 确保应用在消息页面
         Preconditions.make_already_in_message_page()
         # 确保当前消息列表没有消息发送失败的标识影响验证结果

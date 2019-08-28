@@ -1,23 +1,16 @@
 import time
-from library.core.utils.applicationcache import current_mobile, switch_to_mobile
+
+from library.core.utils.applicationcache import current_mobile
 from pages import *
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
 }
 
 
-class Preconditions(object):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
-
-    @staticmethod
-    def select_mobile(category, reset=False):
-        """选择手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        if reset:
-            current_mobile().reset_app()
-        return client
 
     @staticmethod
     def make_already_in_one_key_login_page():

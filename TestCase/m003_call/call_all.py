@@ -9,10 +9,10 @@ from library.core.utils.applicationcache import current_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.components.BaseChat import BaseChatPage
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
-    # 'Android-移动': 'single_mobile',
     'IOS-移动': '',
     'Android-电信': 'single_telecom',
     'Android-联通': 'single_union',
@@ -23,13 +23,13 @@ REQUIRED_MOBILES = {
 }
 
 
-class Preconditions(object):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
     @staticmethod
     def make_already_in_call():
         """确保进入通话界面"""
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         cpg = CallPage()
         message_page = MessagePage()
@@ -116,42 +116,42 @@ class Preconditions(object):
 class CallAll(TestCase):
     """模块：通话-（拨号盘、多方视频-非RCS、视频通话、语音通话）"""
 
-    # @classmethod
-    # def setUpClass(cls):
-    #     import warnings
-    #     warnings.simplefilter('ignore', ResourceWarning)
-    #     preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
-    #     preconditions.make_already_in_message_page()
-    #     current_mobile().hide_keyboard_if_display()
-    #     # 创建联系人
-    #     fail_time = 0
-    #     import dataproviders
-    #     while fail_time < 2:
-    #         try:
-    #             required_contacts = dataproviders.get_preset_contacts()
-    #             conts = ContactsPage()
-    #             for name, number in required_contacts:
-    #                 conts.open_contacts_page()
-    #                 if conts.is_text_present("显示"):
-    #                     conts.click_text("不显示")
-    #                 conts.create_contacts_if_not_exits(name, number)
-    #
-    #             # 创建群
-    #             required_group_chats = dataproviders.get_preset_group_chats()
-    #
-    #             conts.open_group_chat_list()
-    #             group_list = GroupListPage()
-    #             for group_name, members in required_group_chats:
-    #                 group_list.wait_for_page_load()
-    #                 group_list.create_group_chats_if_not_exits(group_name, members)
-    #             group_list.click_back()
-    #             conts.open_message_page()
-    #             return
-    #         except:
-    #             fail_time += 1
-    #             import traceback
-    #             msg = traceback.format_exc()
-    #             print(msg)
+    @classmethod
+    def setUpClass(cls):
+        import warnings
+        warnings.simplefilter('ignore', ResourceWarning)
+        Preconditions.select_mobile('Android-移动')
+        preconditions.make_already_in_message_page()
+        current_mobile().hide_keyboard_if_display()
+        # 创建联系人
+        fail_time = 0
+        import dataproviders
+        while fail_time < 2:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                for name, number in required_contacts:
+                    conts.open_contacts_page()
+                    if conts.is_text_present("显示"):
+                        conts.click_text("不显示")
+                    conts.create_contacts_if_not_exits(name, number)
+
+                # 创建群
+                required_group_chats = dataproviders.get_preset_group_chats()
+
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name, members in required_group_chats:
+                    group_list.wait_for_page_load()
+                    group_list.create_group_chats_if_not_exits(group_name, members)
+                group_list.click_back()
+                conts.open_message_page()
+                return
+            except:
+                fail_time += 1
+                import traceback
+                msg = traceback.format_exc()
+                print(msg)
 
     def default_setUp(self):
         """进入Call页面,清空通话记录"""
@@ -172,7 +172,7 @@ class CallAll(TestCase):
     @staticmethod
     def setUp_call_shenlisi_0002():
         # 清除应用app缓存，并登陆和飞信
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.reset_and_relaunch_app()
         Preconditions.make_already_in_call()
@@ -201,7 +201,7 @@ class CallAll(TestCase):
     @staticmethod
     def setUp_call_shenlisi_0003():
         # 清除应用app缓存，并登陆和飞信
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.reset_and_relaunch_app()
         preconditions.make_already_in_one_key_login_page()
@@ -961,7 +961,7 @@ class CallAll(TestCase):
     @staticmethod
     def setUp_test_call_shenlisi_0048():
         # 清除应用app缓存，并登陆和飞信
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         preconditions.reset_and_relaunch_app()
         preconditions.make_already_in_one_key_login_page()

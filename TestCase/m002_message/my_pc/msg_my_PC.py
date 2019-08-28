@@ -89,7 +89,7 @@ class MsgMyPCChating(TestCase):
     @classmethod
     def setUpClass(cls):
         # 备注：脚本中已判断预支文件是否存在
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     def default_setUp(self):
         """确保每个用例运行前在我的电脑会话页面"""
@@ -334,7 +334,7 @@ class MsgMyPcTest(TestCase):
     @classmethod
     def setUpClass(cls):
         # 备注：脚本中已判断预支文件是否存在
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     def default_setUp(self):
         """确保每个用例运行前在我的电脑会话页面"""
@@ -1821,7 +1821,7 @@ class MsgXiaoQiu(TestCase):
     @classmethod
     def setUpClass(cls):
         # 备注：脚本中已判断预支文件是否存在
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     def default_setUp(self):
         """确保每个用例运行前在我的电脑会话页面"""

@@ -20,7 +20,6 @@ from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
-    # 'Android-移动': 'single_mobile',
     'IOS-移动': '',
     'Android-电信': 'single_telecom',
     'Android-联通': 'single_union',
@@ -33,22 +32,6 @@ REQUIRED_MOBILES = {
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
-
-    @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
-
-    @staticmethod
-    def select_mobile(category, reset=False):
-        """选择手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        if reset:
-            current_mobile().reset_app()
-        return client
 
     @staticmethod
     def make_already_in_one_key_login_page():
@@ -437,23 +420,6 @@ class MeAllTest(TestCase):
                 fail_time1 += 1
             if flag1:
                 break
-    #
-    #     # 导入团队联系人
-    #     fail_time2 = 0
-    #     flag2 = False
-    #     while fail_time2 < 5:
-    #         try:
-    #             Preconditions.make_already_in_message_page()
-    #             contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-    #             Preconditions.create_he_contacts(contact_names)
-    #             contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-    #                               ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296")]
-    #             Preconditions.create_he_contacts2(contact_names2)
-    #             flag2 = True
-    #         except:
-    #             fail_time2 += 1
-    #         if flag2:
-    #             break
 
     def default_setUp(self):
         """确保每个用例运行前在我的会话页面"""
@@ -463,7 +429,6 @@ class MeAllTest(TestCase):
 
     def default_tearDown(self):
         pass
-        # current_mobile().disconnect_mobile()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
     def test_me_zhangshuli_001(self):
@@ -2757,7 +2722,7 @@ class MeAll(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""

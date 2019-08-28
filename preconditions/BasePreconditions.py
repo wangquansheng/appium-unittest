@@ -17,7 +17,6 @@ from pages.workbench.voice_notice.VoiceNotice import VoiceNoticePage
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
-    # 'Android-移动': 'single_mobile',
     'IOS-移动': '',
     'Android-电信': 'single_telecom',
     'Android-联通': 'single_union',
@@ -41,6 +40,12 @@ class LoginPreconditions(object):
     """登录前置条件"""
 
     @staticmethod
+    def disconnect_mobile(category, reset=False):
+        """选择手机"""
+        client = switch_to_mobile(REQUIRED_MOBILES[category])
+        client.disconnect_mobile()
+
+    @staticmethod
     def select_mobile(category, reset=False):
         """选择手机"""
         client = switch_to_mobile(REQUIRED_MOBILES[category])
@@ -48,13 +53,6 @@ class LoginPreconditions(object):
         if reset:
             current_mobile().reset_app()
         return client
-
-    @staticmethod
-    def disconnect_mobile(category, reset=False):
-        """选择手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.disconnect_mobile()
-
 
     @staticmethod
     def make_already_in_one_key_login_page():

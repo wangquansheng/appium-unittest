@@ -42,14 +42,6 @@ class Preconditions(WorkbenchPreconditions):
                 #  从一键登录页面登录
                 Preconditions.login_by_one_key_login()
 
-    @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
-
-
 class ContactSearchOpTest(TestCase):
     """通话-通话详情"""
 

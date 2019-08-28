@@ -89,7 +89,7 @@ class MobileAttendanceAllTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     def default_setUp(self):
         """

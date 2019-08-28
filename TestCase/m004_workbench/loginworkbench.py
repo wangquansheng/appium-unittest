@@ -7,6 +7,7 @@ from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -20,7 +21,7 @@ REQUIRED_MOBILES = {
 }
 
 
-class Preconditions(object):
+class Preconditions(WorkbenchPreconditions):
     """
     分解前置条件
     """
@@ -35,13 +36,6 @@ class Preconditions(object):
         """
         client = switch_to_mobile(REQUIRED_MOBILES['测试机'])
         client.connect_mobile()
-
-    @staticmethod
-    def select_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
 
     @staticmethod
     def select_assisted_mobile2():
@@ -270,7 +264,7 @@ class LoginWorkBench(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     @staticmethod
     def setUp_test_DL_0001():

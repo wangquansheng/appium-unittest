@@ -33,13 +33,6 @@ class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
     @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
-
-    @staticmethod
     def make_already_in_message_page(reset=False):
         """确保应用在消息页面"""
         # 如果在消息页，不做任何操作

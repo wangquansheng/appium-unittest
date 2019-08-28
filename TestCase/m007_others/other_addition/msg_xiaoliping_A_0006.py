@@ -14,8 +14,7 @@ class Contacts_demo(TestCase):
     def setUp_test_msg_xiaoliping_A_0006():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
         Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
@@ -50,7 +49,4 @@ class Contacts_demo(TestCase):
         mess.click_qecode_photo()
         GroupChatPage().wait_for_page_load()
 
-
-    def tearDown_test_msg_xiaoliping_A_0006(self):
-        Preconditions.disconnect_mobile('Android-移动')
 

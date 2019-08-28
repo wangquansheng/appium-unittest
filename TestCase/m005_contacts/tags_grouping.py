@@ -20,13 +20,6 @@ class Preconditions(WorkbenchPreconditions):
     """
 
     @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
-
-    @staticmethod
     def make_already_in_one_key_login_page():
         """
         1、已经进入一键登录页
@@ -236,7 +229,7 @@ class TagsGroupingTest(TestCase):
                 break
 
     def default_setUp(self):
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         Preconditions.enter_label_grouping_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC')
@@ -540,7 +533,7 @@ class Tag_Group(TestCase):
                 break
 
     def default_setUp(self):
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         Preconditions.enter_label_grouping_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC')
@@ -861,7 +854,7 @@ class Tag_Group(TestCase):
 
     @staticmethod
     def setUp_test_contacts_quxinli_0376():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.init_and_enter_contacts_page()
         if ContactsPage().is_text_present('需要使用通讯录权限'):

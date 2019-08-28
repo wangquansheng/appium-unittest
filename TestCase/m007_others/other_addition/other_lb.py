@@ -43,11 +43,7 @@ class ContactsDemo(TestCase):
     def default_setUp(self):
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
-
-    def default_tearDown(self):
-        Preconditions.disconnect_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0071(self):
@@ -780,7 +776,6 @@ class ContactsDemo(TestCase):
 
     def tearDown_test_call_wangqiong_0389(self):
         current_mobile().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0401(self):
@@ -870,7 +865,6 @@ class ContactsDemo(TestCase):
 
     def tearDown_test_call_wangqiong_0405(self):
         current_mobile().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
 
     @unittest.skip('悬浮窗无法抓取')
     def test_call_wangqiong_0495(self):
@@ -932,7 +926,6 @@ class ContactsDemo(TestCase):
 
     def tearDown_test_call_wangqiong_0495(self):
         current_mobile().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_zengxi_0001(self):
@@ -1474,8 +1467,7 @@ class ContactsDemo(TestCase):
     def setUp_test_msg_huangcaizui_D_0112():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 1、在我-设置-消息通知页面将接收消息通知权限关闭
         mess = MessagePage()
         mess.click_me_icon()
@@ -1532,8 +1524,7 @@ class ContactsDemo(TestCase):
     def setUp_test_msg_huangcaizui_D_0113():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 1、在我-设置-消息通知页面将接收消息通知权限关闭
         mess = MessagePage()
         mess.click_me_icon()
@@ -1580,8 +1571,7 @@ class ContactsDemo(TestCase):
     def setUp_test_msg_huangcaizui_D_0114():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 1、在我-设置-消息通知页面将接收消息通知权限关闭
         mess = MessagePage()
         mess.click_me_icon()
@@ -1630,8 +1620,7 @@ class ContactsDemo(TestCase):
     def setUp_test_msg_huangcaizui_D_0115():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 1、在我-设置-消息通知页面将接收消息通知权限关闭
         mess = MessagePage()
         mess.click_me_icon()
@@ -1707,8 +1696,7 @@ class ContactsDemo(TestCase):
     def setUp_test_msg_huangcaizui_D_0120():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 1、在我-设置-消息通知页面将接收消息通知权限关闭
         mess = MessagePage()
         mess.click_me_icon()
@@ -1773,8 +1761,7 @@ class ContactsDemo(TestCase):
     def setUp_test_msg_huangcaizui_D_0121():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 1、在我-设置-消息通知页面将接收消息通知权限关闭
         mess = MessagePage()
         mess.click_me_icon()
@@ -1829,8 +1816,7 @@ class ContactsDemo(TestCase):
     def setUp_test_msg_huangcaizui_D_0122():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 1、在我-设置-消息通知页面将接收消息通知权限关闭
         mess = MessagePage()
         mess.click_me_icon()
@@ -1888,8 +1874,7 @@ class ContactsDemo(TestCase):
     def setUp_test_msg_huangcaizui_D_0123():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 1、在我-设置-消息通知页面将接收消息通知权限关闭
         mess = MessagePage()
         mess.click_me_icon()
@@ -1974,8 +1959,7 @@ class ContactsDemo(TestCase):
     def setUp_test_msg_weifenglian_1V1_0259():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
@@ -2010,14 +1994,12 @@ class ContactsDemo(TestCase):
 
     def tearDown_test_msg_weifenglian_1V1_0259(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
 
     @staticmethod
     def setUp_test_msg_weifenglian_1V1_0268():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
@@ -2051,14 +2033,12 @@ class ContactsDemo(TestCase):
 
     def tearDown_test_msg_weifenglian_1V1_0268(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
 
     @staticmethod
     def setUp_test_msg_weifenglian_1V1_0274():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111"])
         mess = MessagePage()
@@ -2093,8 +2073,7 @@ class ContactsDemo(TestCase):
     def setUp_test_msg_weifenglian_PC_0233():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         mess = MessagePage()
         mess.click_me_icon()
@@ -2326,7 +2305,6 @@ class ContactsDemo(TestCase):
 
     def tearDown_test_msg_weifenglian_PC_0310(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_PC_0314(self):
@@ -2351,7 +2329,6 @@ class ContactsDemo(TestCase):
 
     def tearDown_test_msg_weifenglian_PC_0314(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_PC_0315(self):
@@ -2377,7 +2354,6 @@ class ContactsDemo(TestCase):
 
     def tearDown_test_msg_weifenglian_PC_0315(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_PC_0320(self):
@@ -2403,7 +2379,6 @@ class ContactsDemo(TestCase):
 
     def tearDown_test_msg_weifenglian_PC_0320(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_PC_0321(self):
@@ -2428,14 +2403,12 @@ class ContactsDemo(TestCase):
 
     def tearDown_test_msg_weifenglian_PC_0321(self):
         SingleChatPage().set_network_status(6)
-        Preconditions.disconnect_mobile('Android-移动')
 
     @staticmethod
     def setUp_test_msg_xiaoliping_A_0006():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
         Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
@@ -2473,8 +2446,7 @@ class ContactsDemo(TestCase):
     def setUp_test_msg_xiaoliping_A_0009():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page('Android-移动')
+        Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
         Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")

@@ -2,10 +2,10 @@ import time
 
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
+from library.core.utils.applicationcache import current_mobile, current_driver
 from library.core.utils.testcasefilter import tags
 from pages import *
-from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -86,13 +86,6 @@ class Preconditions(WorkbenchPreconditions):
         app_package = 'com.chinasofti.rcs'
         current_driver().activate_app(app_package)
         current_mobile().reset_app()
-
-    @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
 
     @staticmethod
     def enter_local_file_catalog():
@@ -255,7 +248,7 @@ class MsgLabelGroupingAll(TestCase):
     @classmethod
     def setUpClass(cls):
         # 备注：脚本中已判断预支文件是否存在
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     def default_setUp(self):
         """确保每个用例运行前在标签分组会话页面"""
@@ -635,7 +628,7 @@ class MsgLabelGroupingAll(TestCase):
     @staticmethod
     def setUp_test_msg_weifenglian_fenzu_0010():
 
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.reset_and_relaunch_app()
         Preconditions.make_already_in_one_key_login_page()
@@ -983,7 +976,7 @@ class MsgLabelGroupingAll(TestCase):
     @staticmethod
     def setUp_test_msg_weifenglian_fenzu_0023():
 
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.reset_and_relaunch_app()
         Preconditions.make_already_in_one_key_login_page()
@@ -1338,7 +1331,7 @@ class MsgLabelGroupingAll(TestCase):
     @staticmethod
     def setUp_test_msg_weifenglian_fenzu_0038():
 
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.reset_and_relaunch_app()
         Preconditions.make_already_in_one_key_login_page()
@@ -1672,7 +1665,7 @@ class MsgLabelGroupingAll(TestCase):
 
     @staticmethod
     def setUp_test_msg_weifenglian_fenzu_0051():
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.reset_and_relaunch_app()
         Preconditions.make_already_in_one_key_login_page()

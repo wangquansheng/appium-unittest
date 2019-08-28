@@ -13,10 +13,10 @@ from pages.components import BaseChatPage
 from pages.me.MeAboutChinasofti import MeAboutChinasoftiPage
 from pages.me.MeHelpAndFeedback import MeHelpAndFeedbackPage
 from pages.me.MeRecommendClient import MeRecommentdClienPage
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
-    # 'Android-移动': 'single_mobile',
     'IOS-移动': '',
     'Android-电信': 'single_telecom',
     'Android-联通': 'single_union',
@@ -27,24 +27,8 @@ REQUIRED_MOBILES = {
 }
 
 
-class Preconditions(object):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
-
-    @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
-
-    @staticmethod
-    def select_mobile(category, reset=False):
-        """选择手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        if reset:
-            current_mobile().reset_app()
-        return client
 
     @staticmethod
     def make_already_in_one_key_login_page():
@@ -488,17 +472,13 @@ class MeAllCollect(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
-
-    def default_tearDown(self):
-        pass
-        # current_mobile().disconnect_mobile()
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_445(self):

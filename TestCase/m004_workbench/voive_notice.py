@@ -6,6 +6,7 @@ from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.workbench.Workbench import WorkbenchPage
 from pages.workbench.voice_notice.VoiceNotice import VoiceNoticePage
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -20,24 +21,8 @@ REQUIRED_MOBILES = {
 }
 
 
-class Preconditions(object):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
-
-    @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
-
-    @staticmethod
-    def select_mobile(category, reset=False):
-        """选择手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        if reset:
-            current_mobile().reset_app()
-        return client
 
     @staticmethod
     def make_already_in_one_key_login_page():
@@ -109,7 +94,7 @@ class VoiceNoticeTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
@@ -126,10 +111,6 @@ class VoiceNoticeTest(TestCase):
             current_mobile().launch_app()
             Preconditions.make_already_in_message_page()
             mess.open_workbench_page()
-
-    def default_tearDown(self):
-        pass
-        # current_mobile().disconnect_mobile()
 
     @tags('ALL', 'CMCC', 'workbench', 'debug_fk')
     def test_YYTZ_0001(self):

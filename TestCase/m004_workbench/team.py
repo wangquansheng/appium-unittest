@@ -12,7 +12,7 @@ class TeamTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     def default_setUp(self):
         """进入创建团队页面"""
@@ -174,7 +174,7 @@ class WorkbenchGGXXTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        Preconditions.select_mobile('Android-移动')
 
     @staticmethod
     def setUp_test_workbench_GGXX_0005():
