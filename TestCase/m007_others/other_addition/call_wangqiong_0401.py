@@ -1,24 +1,14 @@
 import time
-import unittest
 
-from pages.call.multipartycall import MultipartyCallPage
-from pages.components.dialogs import SuspendedTips
-from appium.webdriver.common.mobileby import MobileBy
-
-import preconditions
-from dataproviders import contact2
-from pages.components import ChatNoticeDialog, SearchBar, ContactsSelector
-from pages.components.PickGroup import PickGroupPage
-from pages.components.SearchGroup import SearchGroupPage
-from pages.message.FreeMsg import FreeMsgPage
-from preconditions.BasePreconditions import LoginPreconditions
 from library.core.TestCase import TestCase
-from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
+from pages.call.multipartycall import MultipartyCallPage
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
-class Preconditions(LoginPreconditions):
+
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
 

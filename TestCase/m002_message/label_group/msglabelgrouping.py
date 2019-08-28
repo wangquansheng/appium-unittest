@@ -10,7 +10,7 @@ from pages import *
 from preconditions.BasePreconditions import LoginPreconditions
 
 
-class Preconditions(LoginPreconditions):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
     @staticmethod

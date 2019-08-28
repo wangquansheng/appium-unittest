@@ -10,7 +10,7 @@ import time
 
 from appium.webdriver.common.mobileby import MobileBy
 from dataproviders import contact2
-from preconditions.BasePreconditions import LoginPreconditions
+from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
@@ -19,12 +19,12 @@ from pages import *
 from settings import PROJECT_PATH
 
 
-class Preconditions(LoginPreconditions):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
     @staticmethod
     def make_already_have_my_group(reset=False):
-        """确保有群，没有群则创建群名为mygroup+电话号码后4位的群"""
+        """确保有群， 没有群则创建群名为mygroup+电话号码后4位的群"""
         # 消息页面
         Preconditions.make_already_in_message_page(reset)
         mess = MessagePage()

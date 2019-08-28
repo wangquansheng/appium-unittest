@@ -8,7 +8,7 @@ from pages.message.FreeMsg import FreeMsgPage
 from pages.components import ChatNoticeDialog, SearchBar, ContactsSelector
 from pages.components.PickGroup import PickGroupPage
 from pages.components.SearchGroup import SearchGroupPage
-from preconditions.BasePreconditions import LoginPreconditions
+from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
@@ -18,7 +18,7 @@ from library.core.BasePage import BasePage
 
 
 
-class Preconditions(LoginPreconditions):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
 

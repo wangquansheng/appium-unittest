@@ -11,10 +11,10 @@ from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.components.selectors import PictureSelector
-from preconditions.BasePreconditions import LoginPreconditions, REQUIRED_MOBILES
+from preconditions.BasePreconditions import LoginPreconditions, REQUIRED_MOBILES, WorkbenchPreconditions
 
 
-class Preconditions(LoginPreconditions):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
     @staticmethod
     def connect_mobile(category):

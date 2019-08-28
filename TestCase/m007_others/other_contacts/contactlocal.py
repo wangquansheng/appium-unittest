@@ -2,7 +2,7 @@ import random
 import time
 import unittest
 import preconditions
-from preconditions.BasePreconditions import LoginPreconditions
+from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile
 from library.core.utils.testcasefilter import tags
@@ -11,7 +11,7 @@ from pages import *
 from pages.contacts.EditContactPage import EditContactPage
 from pages.message.Send_CardName import Send_CardNamePage
 
-class Preconditions(LoginPreconditions):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
 

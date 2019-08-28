@@ -17,7 +17,7 @@ from pages.components.SearchGroup import SearchGroupPage
 from pages.message.FreeMsg import FreeMsgPage
 from preconditions.BasePreconditions import LoginPreconditions, ContactsPage, CallPage, ContactSecltorPage, \
     SelectContactsPage, CalllogBannerPage, MessagePage, SearchPage, LabelGroupingPage, GroupListPage, \
-    GroupListSearchPage, LableGroupDetailPage
+    GroupListSearchPage, LableGroupDetailPage, WorkbenchPreconditions
 from library.core.TestCase import TestCase
 from library.core.utils.testcasefilter import tags
 from preconditions.BasePreconditions import LoginPreconditions, ContactsPage, CallPage, \
@@ -25,7 +25,7 @@ from preconditions.BasePreconditions import LoginPreconditions, ContactsPage, Ca
      , CallTypeSelectPage
 
 
-class Preconditions(LoginPreconditions):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
     contacts_name_1 = LoginPreconditions.get_contacts_by_row_linename(0, 'contacts_name')
     telephone_num_1 = LoginPreconditions.get_contacts_by_row_linename(0, 'telephone_num')

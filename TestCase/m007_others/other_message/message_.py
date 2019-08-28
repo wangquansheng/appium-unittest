@@ -8,7 +8,7 @@ from dataproviders import contact2
 from pages.components import ChatNoticeDialog, ContactsSelector
 from pages.message.FreeMsg import FreeMsgPage
 from pages.message.Send_CardName import Send_CardNamePage
-from preconditions.BasePreconditions import LoginPreconditions
+from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
@@ -16,7 +16,7 @@ from library.core.utils.testcasefilter import tags
 from pages import *
 
 
-class Preconditions(LoginPreconditions):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
 

@@ -1,14 +1,13 @@
-import time
 import random
 import string
-import unittest
-import preconditions
-from preconditions.BasePreconditions import LoginPreconditions
-from preconditions.BasePreconditions import WorkbenchPreconditions
+import time
+
 from library.core.TestCase import TestCase
 from library.core.utils.testcasefilter import tags
-from pages.team import *
 from pages import *
+from pages.team import *
+from preconditions.BasePreconditions import LoginPreconditions
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 TEAM_NAME = "测试团体2"
 TEAM_ADMIN = "admin"

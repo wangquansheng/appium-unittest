@@ -2,19 +2,16 @@ import random
 import time
 
 from appium.webdriver.common.mobileby import MobileBy
-from library.core.mobile.mobiledriver import MobileDriver
-from library.core.mobilefactory import MobileFactory
-from library.core.utils.mobilemanager import MobileManager
-from mobileimplements import HuaweiP20
-from preconditions.BasePreconditions import WorkbenchPreconditions
+
+from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
-from preconditions.BasePreconditions import LoginPreconditions
-from library.core.TestCase import TestCase
 from library.core.utils.testcasefilter import tags
 from pages import *
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
-class Preconditions(LoginPreconditions):
+
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
     def make_contact(name):
         mess = MessagePage()

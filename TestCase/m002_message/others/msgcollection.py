@@ -2,12 +2,12 @@ import time
 
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile
-from preconditions.BasePreconditions import LoginPreconditions
+from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
 from library.core.utils.testcasefilter import tags
 from pages import *
 
 
-class Preconditions(LoginPreconditions):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
     @staticmethod

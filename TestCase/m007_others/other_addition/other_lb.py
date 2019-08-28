@@ -1,24 +1,18 @@
 import time
 import unittest
 
-from pages.call.multipartycall import MultipartyCallPage
-from pages.call.mutivideo import MutiVideoPage
-from pages.components.dialogs import SuspendedTips
-
-from dataproviders import contact2
-from pages.components import ChatNoticeDialog, SearchBar, ContactsSelector
-from pages.components.PickGroup import PickGroupPage
-from pages.components.SearchGroup import SearchGroupPage
-from pages.message.FreeMsg import FreeMsgPage
-from pages.message.Send_CardName import Send_CardNamePage
-from preconditions.BasePreconditions import LoginPreconditions
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
+from pages.call.mutivideo import MutiVideoPage
+from pages.components import ChatNoticeDialog, ContactsSelector
+from pages.components.dialogs import SuspendedTips
+from pages.message.Send_CardName import Send_CardNamePage
+from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
 
 
-class Preconditions(LoginPreconditions):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
     contacts_name_1 = LoginPreconditions.get_contacts_by_row_linename(0, 'contacts_name')
     telephone_num_1 = LoginPreconditions.get_contacts_by_row_linename(0, 'telephone_num')

@@ -8,7 +8,7 @@ from library.core.utils.applicationcache import current_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.workbench.group_messenger.SelectCompanyContacts import SelectCompanyContactsPage
-from preconditions.BasePreconditions import LoginPreconditions
+from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -16,7 +16,7 @@ REQUIRED_MOBILES = {
 }
 
 
-class Preconditions(LoginPreconditions):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
     @staticmethod
     def enter_my_PC_chat_page(reset=False):

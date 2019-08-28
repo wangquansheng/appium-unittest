@@ -1,12 +1,12 @@
 import time
-from pages.components import ChatNoticeDialog, ContactsSelector, BaseChatPage
-from preconditions.BasePreconditions import LoginPreconditions
+
 from library.core.TestCase import TestCase
 from library.core.utils.testcasefilter import tags
 from pages import *
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 
-class Preconditions(LoginPreconditions):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
 

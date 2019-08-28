@@ -1,11 +1,12 @@
 import time
 
-from preconditions.BasePreconditions import LoginPreconditions, ContactsPage, CallPage, CalllogBannerPage
+from preconditions.BasePreconditions import LoginPreconditions, ContactsPage, CallPage, CalllogBannerPage, \
+    WorkbenchPreconditions
 from library.core.TestCase import TestCase
 from library.core.utils.testcasefilter import tags
 
 
-class Preconditions(LoginPreconditions):
+class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
 
