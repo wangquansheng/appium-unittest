@@ -3610,11 +3610,11 @@ class MessageGroupChatAllTest(TestCase):
 
 class MessageGroupChatSendGroupMessage(TestCase):
     """消息-群聊-群发短信"""
-    # @classmethod
-    # def setUpClass(cls):
-    #     warnings.simplefilter('ignore', ResourceWarning)
-    #     Preconditions.select_mobile('Android-移动')
-    #     Preconditions.create_contacts_groups()
+    @classmethod
+    def setUpClass(cls):
+        warnings.simplefilter('ignore', ResourceWarning)
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.create_contacts_groups()
 
     def default_setUp(self):
         """
