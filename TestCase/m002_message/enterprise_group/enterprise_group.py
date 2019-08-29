@@ -360,7 +360,7 @@ class Preconditions(WorkbenchPreconditions):
                 raise e
 
     @staticmethod
-    def make_in_message_page(moible_param,reset=False):
+    def make_in_message_page(moible_param, reset=False):
         """确保应用在消息页面"""
         Preconditions.select_mobile(moible_param, reset)
         current_mobile().hide_keyboard_if_display()
@@ -375,7 +375,7 @@ class Preconditions(WorkbenchPreconditions):
         Preconditions.login_by_one_key_login()
 
     @staticmethod
-    def build_one_new_group_with_number(puhone_number,group_name):
+    def build_one_new_group_with_number(puhone_number, group_name):
         """新建一个指定成员和名称的群，如果已存在，不建群"""
         # 消息页面
         mess = MessagePage()
@@ -427,7 +427,7 @@ class Preconditions(WorkbenchPreconditions):
         mess.click_add_icon()
         # 点击 发起群聊
         mess.click_group_chat()
-        #添加指定电话成员
+        # 添加指定电话成员
         time.sleep(2)
         sc.input_search_keyword(puhone_number)
         time.sleep(2)
@@ -807,8 +807,3 @@ class MsgEnterpriseGroupChatAllTest(TestCase):
         if mess.is_on_this_page():
             exist = mess.is_text_present("…")
             self.assertEqual(exist, True)
-
-
-
-
-

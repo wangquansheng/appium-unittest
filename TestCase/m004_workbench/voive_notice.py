@@ -84,9 +84,15 @@ class Preconditions(WorkbenchPreconditions):
         if mess.is_on_this_page():
             return
         # 进入一键登录页
-        Preconditions.make_already_in_one_key_login_page()
-        #  从一键登录页面登录
-        Preconditions.login_by_one_key_login()
+        else:
+            try:
+                current_mobile().launch_app()
+                mess.wait_for_page_load()
+            except:
+                # 进入一键登录页
+                Preconditions.make_already_in_one_key_login_page()
+                #  从一键登录页面登录
+                Preconditions.login_by_one_key_login()
 
 
 class VoiceNoticeTest(TestCase):
