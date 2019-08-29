@@ -5332,7 +5332,6 @@ class MsgPrivateChatAllTest(TestCase):
         # 确保有这个'测试团队1'并且添加指定联系人
         group_names = contact.get_all_group_name2()
         result = contact.is_contain_group_name(group_names, "测试团队1")
-        # if contact.is_exist_team_by_name("测试团队1"):
         if result:
             contact.click_back()
             contact.click_message_icon()
@@ -5730,7 +5729,6 @@ class MsgPrivateChatAllTest(TestCase):
         # 确保有这个'测试团队1'并且添加指定联系人
         group_names = contact.get_all_group_name2()
         result = contact.is_contain_group_name(group_names, "测试团队1")
-        # if contact.is_exist_team_by_name("测试团队1"):
         if result:
             contact.click_back()
         else:

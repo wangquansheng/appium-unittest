@@ -2824,7 +2824,6 @@ class MsgGroupChatFileLocationTest(TestCase):
         # 确保有这个'测试团队1'并且添加指定联系人
         group_names = contact.get_all_group_name2()
         result = contact.is_contain_group_name(group_names, "测试团队1")
-        # if contact.is_exist_team_by_name("测试团队1"):
         if result:
             contact.click_back()
             contact.click_message_icon()
@@ -2898,8 +2897,10 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.click_department_name("测试团队1")
         # 4.在搜索框输入多种字符
         shc.input_search("大佬1")
+        time.sleep(3)
         # 5.点击搜索的团队联系人
         shc.click_search_team_contacts()
+        time.sleep(3)
         # 6.点击取消
         shc.click_cancel_forward()
         if not shc.is_on_this_page():
@@ -2922,6 +2923,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.click_department_name("测试团队1")
         # 4.在搜索框输入多种字符
         shc.input_search("大佬1")
+        time.sleep(3)
         # 5.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 6.断开网络
@@ -2964,6 +2966,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.wait_for_he_contacts_page_load()
         # 3.在搜索框输入多种字符
         shc.input_search("给个红包1")
+        time.sleep(3)
         # 4.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 5.点击确认转发
@@ -2991,6 +2994,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.click_department_name("测试团队1")
         # 4.在搜索框输入多种字符
         shc.input_search("给个红包1")
+        time.sleep(3)
         # 5.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 6.点击确认转发
@@ -3016,6 +3020,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.wait_for_he_contacts_page_load()
         # 3.在搜索框输入数字
         shc.input_search("1122")
+        time.sleep(3)
         # 4.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 5.点击确认转发
@@ -3043,6 +3048,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.click_department_name("测试团队1")
         # 4.在搜索框输入数字
         shc.input_search("1122")
+        time.sleep(3)
         # 5.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 6.点击确认转发
@@ -3069,6 +3075,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.wait_for_he_contacts_page_load()
         # 3.在搜索框输入标点符号
         shc.input_search("!")
+        time.sleep(3)
         # 4.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 5.点击确认转发
@@ -3096,6 +3103,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.click_department_name("测试团队1")
         # 4.在搜索框标点符号
         shc.input_search("!")
+        time.sleep(3)
         # 5.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 6.点击确认转发
@@ -3121,6 +3129,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.wait_for_he_contacts_page_load()
         # 3.在搜索框输入字母
         shc.input_search("English")
+        time.sleep(3)
         # 4.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 5.点击确认转发
@@ -3148,6 +3157,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.click_department_name("测试团队1")
         # 4.在搜索框输入字母
         shc.input_search("English")
+        time.sleep(3)
         # 5.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 6.点击确认转发
@@ -3173,6 +3183,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.wait_for_he_contacts_page_load()
         # 3.在搜索框输入含有空格名字
         shc.input_search("a a")
+        time.sleep(3)
         # 4.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 5.点击确认转发
@@ -3200,6 +3211,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.click_department_name("测试团队1")
         # 4.在搜索框输入含有空格名字
         shc.input_search("a a")
+        time.sleep(3)
         # 5.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 6.点击确认转发
@@ -3293,7 +3305,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.wait_for_he_contacts_page_load()
         # 3.在搜索框输入号码
         shc.input_search("13800138000")
-        time.sleep(1)
+        time.sleep(3)
         # 4.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 5.点击确认转发
@@ -3321,7 +3333,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         shc.click_department_name("测试团队1")
         # 4.在搜索框输入号码
         shc.input_search("13800138000")
-        time.sleep(1)
+        time.sleep(3)
         # 5.点击搜索的团队联系人
         shc.click_search_team_contacts()
         # 6.点击确认转发
