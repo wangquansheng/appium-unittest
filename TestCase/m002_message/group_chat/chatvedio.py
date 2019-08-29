@@ -692,6 +692,8 @@ class MsgGroupChatvedioTest(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.create_contacts_groups()
         Preconditions.push_resources()
+        # 删除所有群聊, 不会删除企业群
+        Preconditions.delete_groups()
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
@@ -708,13 +710,6 @@ class MsgGroupChatvedioTest(TestCase):
         else:
             current_mobile().launch_app()
             Preconditions.enter_group_chat_page()
-
-    def default_tearDown(self):
-        pass
-
-    @tags('ALL', 'CMCC')
-    def test_m(self):
-        Preconditions.delete_groups()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'debug_fk', 'high')
     def test_msg_xiaoliping_D_0001(self):
@@ -2273,22 +2268,20 @@ class MsgGroupChatvedioTest(TestCase):
     def test_msg_xiaoqiu_0421(self):
         """群主或群成员在设置页面——点击+邀请群成员后"""
         # 1.检验是否当前聊天会话页面,点击进入群设置页面
-        Preconditions.enter_group_chat_page()
+        # Preconditions.enter_group_chat_page()
         gcp = GroupChatPage()
         gcp.wait_for_page_load()
         gcp.click_setting()
         gsp = GroupChatSetPage()
         gsp.wait_for_page_load()
         # 2.点击点击+邀请群成员后
-        gsp.click_add_number()
+        gsp.click_add_number2()
         slc = SelectLocalContactsPage()
-        group_name = "和飞信电话"
+        group_name = "飞信电话"
         slc.swipe_select_one_member_by_name(group_name)
+        time.sleep(2)
         slc.click_sure()
-        time.sleep(1)
-        gcp.click_back_by_android()
-        # 3.返回消息页，提示你已退出群
-        gcp.wait_for_page_load()
+        time.sleep(2)
         gcp.page_should_contain_text("你向 " + group_name + "... 发出群邀请")
 
     @tags('ALL', 'CMCC', 'message114', 'debug_fk1', 'high')

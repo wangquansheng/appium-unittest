@@ -2469,7 +2469,7 @@ class MsgAllPrior(TestCase):
         groupchat.click_setting()
         time.sleep(1)
         # Step 1、群主A或群成员吧在群设置页面点击+添加C
-        GroupChatSetPage().click_add_number()
+        GroupChatSetPage().click_add_number2()
         # Checkpoint 跳转到联系人选择器页面
         # Step 任意选中一个联系人，点击右上角的确定按钮
         ContactsSelector().select_local_contacts('测试短信1')
