@@ -1,3 +1,5 @@
+import time
+
 from appium.webdriver.common.mobileby import MobileBy
 
 from library.core.BasePage import BasePage
@@ -18,6 +20,7 @@ class FooterPage(BasePage):
     def open_me_page(self):
         """切换到标签页：我"""
         self.click_element(self.__locators['我'])
+        time.sleep(1)
 
     @TestLogger.log()
     def open_message_page(self):

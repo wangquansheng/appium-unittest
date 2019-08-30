@@ -20,6 +20,7 @@ class Preconditions(WorkbenchPreconditions):
         mess = MessagePage()
         mess.wait_for_page_load()
         # 点击 +
+        time.sleep(1)
         mess.click_add_icon()
         # 点击 发起群聊
         mess.click_group_chat()
@@ -176,25 +177,13 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0605():
         """确保在群聊聊天会话页面"""
         Preconditions.select_mobile('Android-移动')
-        mess = MessagePage()
-        if mess.is_on_this_page():
-            if mess.get_top_news_name() == Preconditions.get_group_chat_name():
-                mess.choose_chat_by_name(Preconditions.get_group_chat_name())
-                return
-            Preconditions.enter_group_chat_page()
-            return
-        scp = GroupChatPage()
-        if scp.is_on_this_page():
-            current_mobile().hide_keyboard_if_display()
-            return
-        else:
-            current_mobile().launch_app()
-            Preconditions.enter_group_chat_page()
+        Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0605(self):
         """开启免打扰后，在聊天页面在输入框输入内容-返回到消息列表页时，该消息列表窗口直接展示：草稿"""
         # 1、点击消息免打扰的开关，是否可以打开消息免打扰开关
+        Preconditions.enter_group_chat_page()
         group_chat_page = GroupChatPage()
         group_chat_page.click_setting()
         group_set = GroupChatSetPage()
@@ -502,8 +491,8 @@ class MsgGroupChatTest(TestCase):
         current_mobile().hide_keyboard_if_display()
         FindChatRecordPage().wait_for_page_loads()
         FindChatRecordPage().click_file()
+        time.sleep(3)
         chat_file = ChatFilePage()
-        chat_file.wait_for_page_loads()
         chat_file.click_file(file_type)
         GroupChatPage().is_exist_more_button()
 
@@ -848,13 +837,17 @@ class MsgGroupChatTest(TestCase):
         # 进入预置文件目录，选择文件发送
         local_file.enter_preset_file_dir()
         local_file.select_file(".xlsx")
-        # local_file.select_file(".xlsx")
+        time.sleep(2)
         self.assertTrue(local_file.is_on_this_page())
         local_file.click_back()
         local_file.click_back()
         select_file_type.click_back()
         GroupChatPage().wait_for_page_load()
         self.assertTrue(GroupChatPage().is_on_this_page())
+
+    @staticmethod
+    def tearDown_test_msg_weifenglian_qun_0012():
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0013(self):
@@ -997,9 +990,10 @@ class MsgGroupChatTest(TestCase):
         local_file.click_send()
         self.test_msg_weifenglian_qun_0019()
         GroupChatPage().click_back()
-        group_name = Preconditions.get_group_chat_name()
-        MessagePage().wait_for_page_load()
-        MessagePage().delete_message_record_by_name(group_name)
+
+    @staticmethod
+    def tearDown_test_msg_weifenglian_qun_0020():
+        MessagePage().set_network_status(6)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0022(self):
@@ -1895,6 +1889,10 @@ class MsgGroupChatTest(TestCase):
         self.press_group_file()
         GroupChatPage().recall_file('.xlsx')
 
+    @staticmethod
+    def tearDown_test_msg_weifenglian_qun_0129():
+        MessagePage().set_network_status(6)
+
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_weifenglian_qun_0130(self):
         """对自己发送出去的文件消息进行收藏"""
@@ -2736,7 +2734,7 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0293(self):
         """验证在在群聊-查找聊天内容-文件页面点击打开已下载的不可预览文件时，点击右上角的更多按钮是否正常调起选项"""
         MessagePage().set_network_status(0)
-        self.public_find_group_chat_open_file(file_type='582.log')
+        self.public_find_group_chat_open_file(file_type='.log')
         group_chat_page = GroupChatPage()
         self.assertTrue(group_chat_page.is_exist_more_button())
         # 返回到聊天页面
@@ -2744,9 +2742,6 @@ class MsgGroupChatTest(TestCase):
         group_chat_page.wait_until(condition=lambda x: group_chat_page.is_text_present('收藏'),
                                    auto_accept_permission_alert=False)
         self.assertTrue(group_chat_page.check_options_is_enable())
-        group_chat_page.mobile.back()
-        group_chat_page.click_file_back()
-        self.public_find_group_chat_back()
 
     @staticmethod
     def tearDown_test_msg_weifenglian_qun_0293():
@@ -2756,7 +2751,7 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0294(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的不可预览文件-右上角的更多按钮-转发-返回时页面是否正常"""
         MessagePage().set_network_status(0)
-        self.public_find_group_chat_open_file(file_type='582.log')
+        self.public_find_group_chat_open_file(file_type='.log')
         group_chat_page = GroupChatPage()
         self.assertTrue(group_chat_page.is_exist_more_button())
         # 返回到聊天页面
@@ -2799,7 +2794,7 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0296(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的不可预览文件-右上角的更多按钮-收藏时是否正常"""
         MessagePage().set_network_status(0)
-        self.public_find_group_chat_open_file(file_type='582.log')
+        self.public_find_group_chat_open_file(file_type='.log')
         group_chat_page = GroupChatPage()
         group_chat_page.click_more_button()
         group_chat_page.wait_until(condition=lambda x: group_chat_page.is_text_present('收藏'),
@@ -2828,7 +2823,7 @@ class MsgGroupChatTest(TestCase):
     def test_msg_weifenglian_qun_0297(self):
         """验证在群聊-查找聊天内容-文件页面点击打开已下载的不可预览文件-右上角的更多按钮-取消时是否正常"""
         MessagePage().set_network_status(0)
-        self.public_find_group_chat_open_file(file_type='582.log')
+        self.public_find_group_chat_open_file(file_type='.log')
         group_chat_page = GroupChatPage()
         group_chat_page.click_more_button()
         group_chat_page.wait_until(condition=lambda x: group_chat_page.is_text_present('收藏'),
@@ -2967,9 +2962,10 @@ class MsgGroupChatPrior(TestCase):
         group_chat_page = GroupChatPage()
         group_chat_page.press_message_to_do("收藏")
         GroupChatPage().is_exist_collection()
-        GroupChatPage().click_back()
+        GroupChatPage().click_back_by_android()
         message_page = MessagePage()
         message_page.wait_for_page_load()
+        time.sleep(1)
         message_page.open_me_page()
         MePage().is_on_this_page()
         # 点击我的收藏,进入收藏页面

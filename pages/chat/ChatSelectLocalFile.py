@@ -164,9 +164,11 @@ class ChatSelectLocalFilePage(BasePage):
         el = self.find_file_by_type((MobileBy.XPATH, '//*[contains(@text,"%s")]' % file_type), file_type)
         if el:
             el.click()
+            time.sleep(2)
             return el
         else:
             self.make_file_into_sdcard(file_type)
+            time.sleep(2)
             # raise AssertionError("在SD卡 无%s类型的文件，请预置相应类型文件" % file_type)
 
     @TestLogger.log()
