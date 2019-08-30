@@ -18,6 +18,7 @@ class BaseChatPage(BasePage):
                   '选择相机': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_take_photo'),
                   '选择名片': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_profile'),
                   '选择gif': (MobileBy.ID, 'com.chinasofti.rcs:id/rel_gif'),
+                  '选择gif2': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_gif'),
                   '选择更多': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'),
                   'com.chinasofti.rcs:id/input_divider_inside': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/input_divider_inside'),
@@ -272,6 +273,11 @@ class BaseChatPage(BasePage):
     def click_gif(self):
         """点击选择gif"""
         self.click_element(self.__class__.__locators["选择gif"])
+        time.sleep(1)
+
+    @TestLogger.log()
+    def click_gif2(self):
+        self.click_element(self.__class__.__locators["选择gif2"])
         time.sleep(1)
 
     @TestLogger.log()

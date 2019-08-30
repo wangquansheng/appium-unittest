@@ -139,6 +139,7 @@ class GroupChatPage(BaseChatPage):
                   '信息体': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_message'),
                   '切换': (MobileBy.ID, 'android:id/button1'),
                   '不切换': (MobileBy.ID, 'android:id/button2'),
+                  '名片': (MobileBy.XPATH, '//*[@text="名片" or @content-desc="名片"]'),
                   # 审批页面
                   # '请假': (MobileBy.ID, 'android:id/button2'),
                   # '加班': (MobileBy.ID, 'android:id/button2'),
@@ -340,6 +341,11 @@ class GroupChatPage(BaseChatPage):
         self.click_element(self.__class__.__locators["选择名片"])
 
     @TestLogger.log()
+    def click_profile2(self):
+        """点击-名片"""
+        self.click_element(self.__class__.__locators["名片"])
+
+    @TestLogger.log()
     def click_back(self):
         """点击返回按钮"""
         self.click_element(self.__class__.__locators["返回"])
@@ -370,6 +376,7 @@ class GroupChatPage(BaseChatPage):
         """长按指定文件进行操作"""
         el = self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file))
         self.press(el)
+        time.sleep(2)
         self.click_element(self.__class__.__locators[text])
 
     @TestLogger.log()

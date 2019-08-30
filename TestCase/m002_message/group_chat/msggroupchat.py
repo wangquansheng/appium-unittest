@@ -562,7 +562,8 @@ class MsgGroupChatTest(TestCase):
         video_preview = ChatPicPreviewPage()
         video_preview.wait_for_video_preview_load()
         # 3、预览展示的视频页面中，是否存在点击可播放的三角形按钮
-        self.assertTrue(video_preview.play_video_btn_is_enabled())
+        result = video_preview.play_video_btn_is_enabled2()
+        self.assertTrue(result)
         # 4、预览播放视频中途，点击左上角的返回按钮，是否可以返回到上一级页面
         video_preview.play_video()
         video_preview.close_video()
@@ -680,7 +681,9 @@ class MsgGroupChatTest(TestCase):
         """在群聊聊天会话页面，发送名片消息"""
         # 1.在当前聊天会话页面，点击输入框上方的名片图标，进入到名片详情页面
         gcp = GroupChatPage()
-        gcp.click_profile()
+        gcp.click_more()
+        time.sleep(2)
+        gcp.click_profile2()
         # 2.在名片详情页面，是否可以选择本地联系人名片，进行发送
         cpp = ChatProfilePage()
         cpp.wait_for_page_load()
@@ -693,7 +696,9 @@ class MsgGroupChatTest(TestCase):
         """在群聊聊天会话页面，发送名片消息"""
         # 1.在当前聊天会话页面，点击输入框上方的名片图标，进入到名片详情页面
         gcp = GroupChatPage()
-        gcp.click_profile()
+        gcp.click_more()
+        time.sleep(2)
+        gcp.click_profile2()
         # 2.在名片详情页面，是否可以搜索选择本地联系人名片，进行发送
         cpp = ChatProfilePage()
         cpp.wait_for_page_load()
@@ -714,7 +719,9 @@ class MsgGroupChatTest(TestCase):
         """在群聊聊天会话页面，发送名片消息"""
         # 1.在当前聊天会话页面，点击输入框上方的名片图标，可进入到名片详情页面
         gcp = GroupChatPage()
-        gcp.click_profile()
+        gcp.click_more()
+        time.sleep(2)
+        gcp.click_profile2()
         # 2.在名片详情页面，不可以搜索选择陌生联系人名片，进行发送
         cpp = ChatProfilePage()
         cpp.wait_for_page_load()
@@ -743,7 +750,9 @@ class MsgGroupChatTest(TestCase):
         """在群聊聊天会话页面，发送名片消息"""
         # 1.在当前聊天会话页面，点击输入框上方的名片图标，进入到名片详情页面
         gcp = GroupChatPage()
-        gcp.click_profile()
+        gcp.click_more()
+        time.sleep(2)
+        gcp.click_profile2()
         # 2.在名片详情页面，点击右侧的索引字母，索引字母定位搜索是否正常
         cpp = ChatProfilePage()
         cpp.wait_for_page_load()
@@ -762,7 +771,9 @@ class MsgGroupChatTest(TestCase):
         """在群聊聊天会话页面，发送GIF图片消息"""
         # 1.在当前聊天会话页面，点击输入框上方的GIF图标，进入到GIF图片展示页面
         gcp = GroupChatPage()
-        gcp.click_gif()
+        gcp.open_expression()
+        time.sleep(2)
+        gcp.click_gif2()
         # 2、在GIF图片展示页面，直接点击上方展示的GIF图片，能否可以进行发送
         gif = ChatGIFPage()
         gif.wait_for_page_load()
@@ -779,7 +790,9 @@ class MsgGroupChatTest(TestCase):
         """在群聊聊天会话页面，发送GIF图片消息"""
         # 1.在当前聊天会话页面，点击输入框上方的GIF图标，进入到GIF图片展示页面
         gcp = GroupChatPage()
-        gcp.click_gif()
+        gcp.open_expression()
+        time.sleep(2)
+        gcp.click_gif2()
         gif = ChatGIFPage()
         gif.wait_for_page_load()
         # 2、在输入框中输入英文、中文、字符、数字、表情，是否可以搜索出对应的GIF图片
@@ -801,10 +814,12 @@ class MsgGroupChatTest(TestCase):
         """在群聊聊天会话页面，发送GIF图片消息"""
         # 1.在当前聊天会话页面，点击输入框上方的GIF图标，进入到GIF图片展示页面
         gcp = GroupChatPage()
+        gcp.open_expression()
+        time.sleep(2)
         gif = ChatGIFPage()
         if gif.is_gif_exist():
             gif.close_gif()
-        gcp.click_gif()
+        gcp.click_gif2()
         gif.wait_for_page_load()
         # 2、在GIF图片展示页面，点击输入框右边的语音，是否可以切换到语音模式页面
         gcp.click_audio_btn()
@@ -1238,23 +1253,21 @@ class MsgGroupChatTest(TestCase):
         names = contacts_page.get_contacts_name_list()
         if "本机" in names:
             names.remove("本机")
-        contacts_page.select_one_member_by_name(names[0])
-        # flag = contacts_page.contacts_is_selected(names[0])
+        contacts_page.select_one_member_by_name(names[1])
+        count = 1
+        if contacts_page.is_toast_exist("不可选择"):
+            contacts_page.select_one_member_by_name(names[2])
+            count = 2
         time.sleep(1)
         flag = contacts_page.is_exist_select_contacts_name()
         if not flag:
             raise AssertionError("在联系人选择器页面，单击不可以选择联系人")
         # 3.在联系人选择器页面，点击是否可以取消联系人的选择状态
-        contacts_page.select_one_member_by_name(names[0])
-        # flag2 = contacts_page.contacts_is_selected(names[0])
+        contacts_page.select_one_member_by_name(names[count])
         time.sleep(1)
         flag2 = contacts_page.is_exist_select_contacts_name()
         if flag2:
             raise AssertionError("在联系人选择器页面，单击不可以取消联系人的选择状态")
-        contacts_page.click_back()
-        group_set.wait_for_page_load()
-        group_set.click_back()
-        gcp.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
     def test_msg_group_chat_0062(self):
@@ -1821,7 +1834,7 @@ class MsgGroupChatTest(TestCase):
         gcp.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
-    def test_msg_group_chat_0820(self):
+    def test_msg_group_chat_082(self):
         """在聊天设置—群管理页面，转让群主或者解散群"""
         # 1.点击群管理，是否可以跳转到群管理页面
         gcp = GroupChatPage()
@@ -1832,7 +1845,8 @@ class MsgGroupChatTest(TestCase):
         # 2.点击解散群，是否会弹窗提示解散群聊确认操作
         manage_page = GroupChatSetManagerPage()
         manage_page.click_group_disband()
-        manage_page.click_confirm()
+        time.sleep(1)
+        manage_page.click_disband()
         # 3.点击确定，是否可以解散群聊
         flag = manage_page.is_toast_exist("该群已解散")
         self.assertTrue(flag)
@@ -1907,6 +1921,7 @@ class MsgGroupChatTest(TestCase):
         # 点击前先发送一条消息
         info = "Hello everyone!"
         gcp.input_message(info)
+        gcp.hide_keyboard()
         gcp.send_message()
         gcp.click_setting()
         group_set = GroupChatSetPage()
@@ -1915,17 +1930,15 @@ class MsgGroupChatTest(TestCase):
         if not switch_status:
             group_set.click_switch_undisturb()
             time.sleep(2)
+        time.sleep(2)
         # 2、返回到聊天会话页面，页面上方是否会展示免打扰标志
         group_set.click_back()
+        time.sleep(1)
         gcp.wait_for_page_load()
         flag = gcp.is_exist_undisturb()
         if not flag:
             raise AssertionError("在聊天会话页面，页面上方没有展示免打扰标志")
         gcp.click_back()
-        sogp = SelectOneGroupPage()
-        # sogp.click_back()
-        scp = SelectContactsPage()
-        # scp.click_back()
         # 3、返回到消息列表，开启免打扰的聊天窗口上是否会展示免打扰标志
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -1936,7 +1949,9 @@ class MsgGroupChatTest(TestCase):
         # 回到群聊会话页面
         mess.click_add_icon()
         mess.click_group_chat()
+        scp = SelectContactsPage()
         scp.click_select_one_group()
+        sogp = SelectOneGroupPage()
         sogp.select_one_group_by_name(group_name)
         gcp.wait_for_page_load()
 
@@ -1997,17 +2012,18 @@ class MsgGroupChatTest(TestCase):
             time.sleep(1)
         # 2.返回到消息列表，当前打开置顶聊天功能的群聊是否成功置顶
         group_set.click_back()
+        time.sleep(1)
         gcp.click_back()
+        time.sleep(1)
         sogp = SelectOneGroupPage()
-        # sogp.click_back()
         scp = SelectContactsPage()
-        # scp.click_back()
         mess = MessagePage()
         mess.wait_for_page_load()
         # 给其他联系人发送一条消息，看群聊是否设置成功置顶
         mess.click_contacts()
         contacts = ContactsPage()
         contacts.wait_for_page_load()
+        mess.click_phone_contact()
         names = contacts.get_contacts_name()
         contacts.select_people_by_name(names[0])
         contact_detail = ContactDetailsPage()
@@ -2019,9 +2035,9 @@ class MsgGroupChatTest(TestCase):
             chat.click_i_have_read()
         info = "您好"
         chat.input_message(info)
+        chat.hide_keyboard()
         chat.send_message()
-        chat.click_back()
-        contact_detail.click_back_icon()
+        chat.click_back_by_android(3)
         contacts.open_message_page()
         # 获取群名字
         group_name = Preconditions.get_group_chat_name()
@@ -2044,6 +2060,7 @@ class MsgGroupChatTest(TestCase):
         # 先发送一条消息
         info = "hehe"
         gcp.input_message(info)
+        gcp.hide_keyboard()
         gcp.send_message()
         gcp.click_setting()
         group_set = GroupChatSetPage()
@@ -2055,16 +2072,15 @@ class MsgGroupChatTest(TestCase):
         # 2.返回到消息列表，当前关闭置顶聊天功能的群聊，是否成功取消置顶
         group_set.click_back()
         gcp.click_back()
-        sogp = SelectOneGroupPage()
-        # sogp.click_back()
+
         scp = SelectContactsPage()
-        # scp.click_back()
         mess = MessagePage()
         mess.wait_for_page_load()
         # 给其他联系人发送一条消息，看群聊是否成功取消置顶
         mess.click_contacts()
         contacts = ContactsPage()
         contacts.wait_for_page_load()
+        mess.click_phone_contact()
         names = contacts.get_contacts_name()
         contacts.select_people_by_name(names[0])
         contact_detail = ContactDetailsPage()
@@ -2076,9 +2092,9 @@ class MsgGroupChatTest(TestCase):
             chat.click_i_have_read()
         info = "您好"
         chat.input_message(info)
+        chat.hide_keyboard()
         chat.send_message()
-        chat.click_back()
-        contact_detail.click_back_icon()
+        chat.click_back_by_android(3)
         contacts.open_message_page()
         # 获取群名字
         group_name = Preconditions.get_group_chat_name()
@@ -2090,6 +2106,7 @@ class MsgGroupChatTest(TestCase):
         mess.click_add_icon()
         mess.click_group_chat()
         scp.click_select_one_group()
+        sogp = SelectOneGroupPage()
         sogp.select_one_group_by_name(group_name)
         gcp.wait_for_page_load()
 

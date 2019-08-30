@@ -1099,10 +1099,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         # 验证转发成功
         if not sc.is_toast_exist("已转发"):
             raise AssertionError("转发失败")
-        chat_file.click_back()
-        search.click_back()
-        gcsp.click_back()
-        time.sleep(1)
+        chat_file.click_back_by_android(3)
 
     def tearDown_test_msg_group_chat_file_location_0013(self):
         # 删除聊天记录
@@ -3228,6 +3225,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         gcp = GroupChatPage()
         # 1.输入团队联系人名字发送，长按信息并复制
         gcp.input_message("大佬1")
+        gcp.hide_keyboard()
         gcp.send_message()
         cwp = ChatWindowPage()
         try:

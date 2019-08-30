@@ -33,6 +33,7 @@ class ChatPicPreviewPage(BasePage):
                   '视频播放三角形': (MobileBy.ID, 'com.chinasofti.rcs:id/pv_item'),
                   '视频页面': (MobileBy.ID, 'com.chinasofti.rcs:id/vp_preview'),
                   '视频关闭': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_close'),
+                  '视频播放三角形2': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_play'),
                   }
 
     @TestLogger.log()
@@ -84,7 +85,7 @@ class ChatPicPreviewPage(BasePage):
     @TestLogger.log()
     def play_video(self):
         """视频播放"""
-        self.click_element(self.__class__.__locators["视频播放三角形"])
+        self.click_element(self.__class__.__locators["视频播放三角形2"])
 
     @TestLogger.log()
     def close_video(self):
@@ -95,6 +96,11 @@ class ChatPicPreviewPage(BasePage):
     def play_video_btn_is_enabled(self):
         """获取视频播放三角形按钮状态是否可点击"""
         return self._is_enabled(self.__class__.__locators["视频播放三角形"])
+
+    @TestLogger.log()
+    def play_video_btn_is_enabled2(self):
+        """获取视频播放三角形2按钮状态是否可点击"""
+        return self._is_enabled(self.__class__.__locators["视频播放三角形2"])
 
     @TestLogger.log()
     def wait_for_video_preview_load(self, timeout=10, auto_accept_alerts=True):

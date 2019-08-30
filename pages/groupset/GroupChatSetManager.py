@@ -19,7 +19,8 @@ class GroupChatSetManagerPage(BasePage):
                   'com.chinasofti.rcs:id/group_disband': (MobileBy.ID, 'com.chinasofti.rcs:id/group_disband'),
                   '解散群': (MobileBy.ID, 'com.chinasofti.rcs:id/group_disband_tv'),
                   "确认": (MobileBy.XPATH, '//*[@text ="确定"]'),
-                  "取消": (MobileBy.XPATH, '//*[@text ="取消"]')
+                  "取消": (MobileBy.XPATH, '//*[@text ="取消"]'),
+                  '解散': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
                   }
 
     @TestLogger.log()
@@ -55,6 +56,10 @@ class GroupChatSetManagerPage(BasePage):
     def click_group_disband(self):
         """点击解散群"""
         self.click_element(self.__locators['解散群'])
+
+    @TestLogger.log()
+    def click_disband(self):
+        self.click_element(self.__locators['解散'])
 
     @TestLogger.log()
     def click_group_transfer(self):
