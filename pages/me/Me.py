@@ -87,6 +87,7 @@ class MePage(FooterPage):
         '下一步2': (MobileBy.ID, 'com.chinasofti.rcs:id/ipos_inputKjCardInfo_nextBtn'),
         '发红包': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_red_packet_send_btn'),
         '红包金额': (MobileBy.ID, 'com.chinasofti.rcs:id/edt_red_packet_num'),
+        '确认授权': (MobileBy.XPATH, '//*[@text="确认授权" or @content-desc="确认授权"]'),
     }
 
     @TestLogger.log('点击个人名片头像')
@@ -98,6 +99,9 @@ class MePage(FooterPage):
         """点击 和包支付"""
         self._find_menu(self.__locators['和包支付'])
         self.click_element(self.__locators['和包支付'])
+        time.sleep(1)
+        if self.is_text_present("确认授权"):
+            self.click_element(self.__locators['确认授权'])
 
     @TestLogger.log()
     def click_hebao_pay_card(self, card):

@@ -6222,7 +6222,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         time.sleep(1)
         mess = MessagePage()
         # Step 1、在消息列表页点击全局搜索框，进行"大佬3"
-        mess.search_and_enter2('大佬3')
+        mess.search_and_enter3('大佬3')
         time.sleep(1)
         gcp.click_text("消息")
         time.sleep(1)
@@ -6249,7 +6249,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         time.sleep(1)
         mess = MessagePage()
         # Step 1、在消息列表页点击全局搜索框，进行"大佬3"
-        mess.search_and_enter2('大佬3')
+        mess.search_and_enter3('大佬3')
         time.sleep(1)
         gcp.click_text("消息")
         time.sleep(1)

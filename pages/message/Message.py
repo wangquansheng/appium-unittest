@@ -348,6 +348,21 @@ class MessagePage(FooterPage):
         self.click_element(locator)
 
     @TestLogger.log()
+    def search_and_enter3(self, point):
+        """消息页全局搜索内容并进入"""
+        from pages import SearchPage
+        sp = SearchPage()
+        self.click_search()
+        sp.input_search_keyword(point)
+        sp.hide_keyboard()
+        time.sleep(1)
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and @text ="%s"]' % point)
+        # sp.click_element_c('团队联系人文本')
+        # time.sleep(2)
+        # self.find_element_by_swipe(locator)
+        self.click_element(locator)
+
+    @TestLogger.log()
     def search_and_enter_631(self, point):
         """消息页全局搜索内容并进入"""
         self.click_search()
