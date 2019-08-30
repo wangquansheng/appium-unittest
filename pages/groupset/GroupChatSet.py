@@ -602,6 +602,17 @@ class GroupChatSetPage(BasePage):
         el = els[1]
         el.click()
 
+    @TestLogger.log("点击+添加成员")
+    def click_add_number2(self):
+        els = self.get_elements(self.__locators["com.chinasofti.rcs:id/iv_avatar"])
+        count = len(els)
+        if count == 3:
+            el = els[1]
+            el.click()
+        else:
+            el = els[count-2]
+            el.click()
+
     @TestLogger.log()
     def wait_for_share_group_load(self, timeout=15, auto_accept_alerts=True):
         """等待群管理页面加载"""

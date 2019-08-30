@@ -392,6 +392,7 @@ class GroupChatPage(BaseChatPage):
         """长按指定信息进行操作"""
         el = self.get_element((MobileBy.ID, 'com.chinasofti.rcs:id/lloc_famous_address_text'))
         self.press(el)
+        time.sleep(3)
         self.click_element(self.__class__.__locators[text])
 
     @TestLogger.log()
@@ -763,6 +764,7 @@ class GroupChatPage(BaseChatPage):
         el = self.wait_until(
             condition=lambda x: self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file)))
         self.press(el)
+        time.sleep(2)
         self.click_element(self.__class__.__locators['撤回'])
 
     @TestLogger.log("点击发送的最后的文件")

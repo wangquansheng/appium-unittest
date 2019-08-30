@@ -3895,6 +3895,13 @@ class MessageGroupChatSendGroupMessage(TestCase):
         self.assertTrue(cgs.page_should_contain_text("发送给:"))
         time.sleep(1)
 
+    @staticmethod
+    def setUp_test_msg_huangcaizui_C_0019():
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().reset_app()
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊2")
+
     @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
     def test_msg_huangcaizui_C_0019(self):
         """点击底部编辑按钮，是否跳转到编辑页面"""
@@ -3907,18 +3914,23 @@ class MessageGroupChatSendGroupMessage(TestCase):
         gcp.click_more()
         # 2.点击群短信
         gcp.click_group_sms()
+        time.sleep(2)
         cgs = ChatGroupSMSPage()
         # 3.如果在资费介绍页，点击确定
-        if cgs.is_on_this_page():
-            cgs.click_coordinate()
         # 4.等待群短信记录页面加载
-        cgs.wait_for_record_page_load()
         # 5.点击底部的编辑新短信的按钮
-        cgs.click_add()
         # 6.验证是否跳转到群短信编辑页面
-        cgs.wait_for_page_load()
-        self.assertTrue(cgs.is_on_message_edit_this_page())
-        time.sleep(1)
+        if cgs.is_text_present("资费提醒"):
+            cgs.click_back_by_android()
+        result = cgs.is_text_present("发送短信")
+        self.assertTrue(result)
+
+    @staticmethod
+    def setUp_test_msg_huangcaizui_C_0020():
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().reset_app()
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊2")
 
     @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
     def test_msg_huangcaizui_C_0020(self):
@@ -3935,13 +3947,18 @@ class MessageGroupChatSendGroupMessage(TestCase):
         time.sleep(1)
         cgs = ChatGroupSMSPage()
         # 3.如果在资费介绍页，点击确定
-        if cgs.is_on_this_page():
-            cgs.click_coordinate()
-        time.sleep(1)
-        # 3.点击返回
-        cgs.click_back()
+        if cgs.is_text_present("资费提醒"):
+            cgs.click_back_by_android()
         # 4.验证是否在群聊页面
-        self.assertTrue(gcp.is_on_this_page())
+        result = cgs.is_text_present("收件人")
+        self.assertTrue(result)
+
+    @staticmethod
+    def setUp_test_msg_huangcaizui_C_0021():
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().reset_app()
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊2")
 
     @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
     def test_msg_huangcaizui_C_0021(self):
@@ -3957,16 +3974,12 @@ class MessageGroupChatSendGroupMessage(TestCase):
         gcp.click_group_sms()
         cgs = ChatGroupSMSPage()
         # 3.如果在资费介绍页，点击确定
-        if cgs.is_on_this_page():
-            cgs.click_coordinate()
-        # 4.等待群短信记录页面加载
-        cgs.wait_for_record_page_load()
-        # 5.点击底部的编辑新短信的按钮
-        cgs.click_add()
-        # 6.验证是否跳转到群短信编辑页面
-        cgs.wait_for_page_load()
-        self.assertTrue(cgs.is_on_message_edit_this_page())
-        time.sleep(1)
+        if cgs.is_text_present("资费提醒"):
+            cgs.click_back_by_android()
+        # 4.点击底部的编辑新短信的按钮 ？无
+        # 5.验证是否跳转到群短信编辑页面
+        result = cgs.is_text_present("发送短信")
+        self.assertTrue(result)
 
     @staticmethod
     def setUp_test_msg_huangcaizui_C_0025():
@@ -4136,6 +4149,13 @@ class MessageGroupChatSendGroupMessage(TestCase):
         # 13.验证是否有搜索结果
         if cgs.page_should_contain_text("无搜索结果"):
             print("无搜索结果，不能用昵称搜索群成员")
+
+    @staticmethod
+    def setUp_test_msg_huangcaizui_C_0035():
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().reset_app()
+        Preconditions.make_already_in_message_page()
+        Preconditions.get_into_group_chat_page("群聊2")
 
     @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
     def test_msg_huangcaizui_C_0035(self):
@@ -4703,7 +4723,8 @@ class MessageGroupChatSendGroupMessage(TestCase):
         contact_detail.is_element_present_on_desktop("群聊1")
         contact_detail.click_text("群聊1")
         # 7.验证是否在群聊会话页面
-        self.assertTrue(gcp.is_on_this_page())
+        result = gcp.is_text_present("说点什么")
+        self.assertTrue(result)
 
     @staticmethod
     def tearDown_test_msg_xiaoqiu_0622():
