@@ -34,6 +34,7 @@ class Preconditions(WorkbenchPreconditions):
 
 
 class ContactsDemo(TestCase):
+    """通话----通话记录"""
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -1427,6 +1428,9 @@ class ContactsDemo(TestCase):
         time.sleep(2)
         cp.click_ganggang_call_time()
         cp.page_should_contain_text('中软国际')
+
+class msgtips(TestCase):
+    """消息----提示条"""
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_hanjiabin_0192(self):
