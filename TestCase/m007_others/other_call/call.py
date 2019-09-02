@@ -33,6 +33,7 @@ class Preconditions(WorkbenchPreconditions):
     telephone_num_2 = LoginPreconditions.get_contacts_by_row_linename(1, 'telephone_num')
 
 class MsgAllPrior(TestCase):
+    """通话---和飞信电话会控页"""
 
     @staticmethod
     def setUp_test_call_wangqiong_0057():
