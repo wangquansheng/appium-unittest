@@ -177,6 +177,14 @@ class GroupChatPage(BaseChatPage):
         self.click_element(self.__class__.__locators['放大的图片'])
 
     @TestLogger.log()
+    def get_text_name(self):
+        el = self.get_element(self.__class__.__locators['发送者姓名'])
+        if el:
+            return el.text
+        else:
+            return ""
+
+    @TestLogger.log()
     def click_selection_forward(self):
         """点击转发"""
         self.click_element(self.__class__.__locators["转发"])
@@ -349,6 +357,7 @@ class GroupChatPage(BaseChatPage):
     def click_back(self):
         """点击返回按钮"""
         self.click_element(self.__class__.__locators["返回"])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_back2(self):
@@ -1112,6 +1121,11 @@ class GroupChatPage(BaseChatPage):
     @TestLogger.log()
     def click_i_know(self):
         """点击我知道了"""
+        self.swipe_by_percent_on_screen(50, 72, 50, 36, 800)
+
+    @TestLogger.log()
+    def click_i_know(self):
+        """点击我知道了"""
         self.click_element(self.__class__.__locators["我知道了"])
 
     @TestLogger.log()
@@ -1129,3 +1143,5 @@ class GroupChatPage(BaseChatPage):
                 message
             )
         return self
+
+

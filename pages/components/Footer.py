@@ -43,6 +43,7 @@ class FooterPage(BasePage):
         from pages.contacts.Contacts import ContactsPage
 
         self.click_element(self.__locators['通讯录'])
+        time.sleep(1)
         if ContactsPage().is_text_present('需要使用通讯录权限'):
             ContactsPage().click_always_allowed()
         ContactsPage().click_sim_contact()

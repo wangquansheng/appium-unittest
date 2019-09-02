@@ -25,7 +25,7 @@ class GroupChatSetPage(BasePage):
                   'com.chinasofti.rcs:id/iv_head': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_head'),
                   'com.chinasofti.rcs:id/iv_group_chairman_tag': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/iv_group_chairman_tag'),
-                  'mobile0...': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name'),
+                  '成员名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name'),
                   'frank': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name'),
                   'com.chinasofti.rcs:id/tv_name': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name'),
                   'com.chinasofti.rcs:id/group_name_line': (MobileBy.ID, 'com.chinasofti.rcs:id/group_name_line'),
@@ -423,10 +423,28 @@ class GroupChatSetPage(BasePage):
         self.click_element(self.__class__.__locators['查找聊天内容'])
 
     @TestLogger.log()
-    def click_add_member(self):
+    def click_add_member2(self):
         """点击 “+”添加成员"""
         els = self.get_elements(self.__class__.__locators['群成员'])
         els[-2].click()
+
+    @TestLogger.log()
+    def get_member_name(self):
+        """点击 “+”添加成员"""
+        el = self.get_element(self.__class__.__locators['成员名'])
+        if el:
+            return el.text
+        else:
+            return ""
+
+    @TestLogger.log()
+    def get_member_phone(self):
+        """点击 “+”添加成员"""
+        el = self.get_element(self.__class__.__locators['成员名'])
+        if el:
+            return el.text
+        else:
+            return ""
 
     @TestLogger.log()
     def clear_group_name(self):
