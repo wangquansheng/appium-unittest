@@ -217,7 +217,11 @@ class GroupChatSetPage(BasePage):
     @TestLogger.log()
     def click_modify_my_group_name(self):
         """点击 修改群名片"""
-        self._find_menu(self.__locators['群名片'])
+        try:
+            self._find_menu(self.__locators['群名片'])
+        except:
+            time.sleep(2)
+        time.sleep(2)
         self.click_element(self.__locators['群名片'])
 
     @TestLogger.log()
@@ -234,7 +238,11 @@ class GroupChatSetPage(BasePage):
     @TestLogger.log()
     def click_group_manage(self):
         """点击群管理"""
-        self._find_menu(self.__locators['群管理'])
+        try:
+            self._find_menu(self.__locators['群管理'])
+        except:
+            time.sleep(2)
+        time.sleep(2)
         self.click_element(self.__locators['群管理'])
 
     @TestLogger.log()
@@ -402,6 +410,7 @@ class GroupChatSetPage(BasePage):
     def click_sure(self):
         """点击确定"""
         self.click_element(self.__locators['确定'])
+        time.sleep(1)
 
     @TestLogger.log()
     def scroll_to_bottom(self):
@@ -809,16 +818,19 @@ class GroupChatSetPage(BasePage):
     def click_first_group_member_avatar(self):
         """点击第一个群成员头像"""
         self.click_element(self.__class__.__locators['第一个群成员头像'])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_delete_member(self):
         """点击删除成员"""
         self.click_element(self.__class__.__locators['删除成员'])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_delete_member_sure(self):
         """点击移除群成员确定"""
         self.click_element(self.__class__.__locators['移除群成员确定'])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_sure(self):

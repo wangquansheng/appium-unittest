@@ -463,61 +463,61 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 确保存在子部门
         WorkbenchPreconditions.create_sub_department()
         # 导入测试联系人、群聊
-        fail_time1 = 0
-        flag1 = False
-        import dataproviders
-        while fail_time1 < 2:
-            try:
-                required_contacts = dataproviders.get_preset_contacts()
-                conts = ContactsPage()
-                current_mobile().hide_keyboard_if_display()
-                Preconditions.make_already_in_message_page()
-                conts.open_contacts_page()
-                try:
-                    if conts.is_text_present("发现SIM卡联系人"):
-                        conts.click_text("显示")
-                except:
-                    pass
-                for name, number in required_contacts:
-                    # 创建联系人
-                    conts.create_contacts_if_not_exits(name, number)
-                required_group_chats = dataproviders.get_preset_group_chats()
-                conts.open_group_chat_list()
-                group_list = GroupListPage()
-                for group_name, members in required_group_chats:
-                    group_list.wait_for_page_load()
-                    # 创建群
-                    group_list.create_group_chats_if_not_exits(group_name, members)
-                group_list.click_back()
-                conts.open_message_page()
-                flag1 = True
-            except:
-                fail_time1 += 1
-            if flag1:
-                break
+        # fail_time1 = 0
+        # flag1 = False
+        # import dataproviders
+        # while fail_time1 < 2:
+        #     try:
+        #         required_contacts = dataproviders.get_preset_contacts()
+        #         conts = ContactsPage()
+        #         current_mobile().hide_keyboard_if_display()
+        #         Preconditions.make_already_in_message_page()
+        #         conts.open_contacts_page()
+        #         try:
+        #             if conts.is_text_present("发现SIM卡联系人"):
+        #                 conts.click_text("显示")
+        #         except:
+        #             pass
+        #         for name, number in required_contacts:
+        #             # 创建联系人
+        #             conts.create_contacts_if_not_exits(name, number)
+        #         required_group_chats = dataproviders.get_preset_group_chats()
+        #         conts.open_group_chat_list()
+        #         group_list = GroupListPage()
+        #         for group_name, members in required_group_chats:
+        #             group_list.wait_for_page_load()
+        #             # 创建群
+        #             group_list.create_group_chats_if_not_exits(group_name, members)
+        #         group_list.click_back()
+        #         conts.open_message_page()
+        #         flag1 = True
+        #     except:
+        #         fail_time1 += 1
+        #     if flag1:
+        #         break
 
         # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296")]
-                Preconditions.create_he_contacts2(contact_names2)
-                Preconditions.create_he_contacts_for_sub_department("bm0", contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
+        # fail_time2 = 0
+        # flag2 = False
+        # while fail_time2 < 2:
+        #     try:
+        #         Preconditions.make_already_in_message_page()
+        #         contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
+        #         Preconditions.create_he_contacts(contact_names)
+        #         contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
+        #                           ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296")]
+        #         Preconditions.create_he_contacts2(contact_names2)
+        #         Preconditions.create_he_contacts_for_sub_department("bm0", contact_names2)
+        #         flag2 = True
+        #     except:
+        #         fail_time2 += 1
+        #     if flag2:
+        #         break
 
-        #确保有企业群
+        # 确保有企业群
         fail_time3 = 0
         flag3 = False
-        while fail_time3 < 5:
+        while fail_time3 < 2:
             try:
                 Preconditions.make_already_in_message_page()
                 groupname = "测试企业群2"
@@ -535,23 +535,23 @@ class MsgGroupChatVideoPicAllTest(TestCase):
                 break
 
         # 确保测试手机有resource文件夹
-        name = "群聊1"
-        Preconditions.get_into_group_chat_page(name)
-        gcp = GroupChatPage()
-        gcp.wait_for_page_load()
-        gcp.click_more()
-        cmp = ChatMorePage()
-        cmp.click_file()
-        csfp = ChatSelectFilePage()
-        csfp.wait_for_page_load()
-        csfp.click_local_file()
-        local_file = ChatSelectLocalFilePage()
-        # 没有预置文件，则上传
-        local_file.push_preset_file()
-        local_file.click_back()
-        csfp.wait_for_page_load()
-        csfp.click_back()
-        gcp.wait_for_page_load()
+        # name = "群聊1"
+        # Preconditions.get_into_group_chat_page(name)
+        # gcp = GroupChatPage()
+        # gcp.wait_for_page_load()
+        # gcp.click_more()
+        # cmp = ChatMorePage()
+        # cmp.click_file()
+        # csfp = ChatSelectFilePage()
+        # csfp.wait_for_page_load()
+        # csfp.click_local_file()
+        # local_file = ChatSelectLocalFilePage()
+        # # 没有预置文件，则上传
+        # local_file.push_preset_file()
+        # local_file.click_back()
+        # csfp.wait_for_page_load()
+        # csfp.click_back()
+        # gcp.wait_for_page_load()
 
     def default_setUp(self):
         """
