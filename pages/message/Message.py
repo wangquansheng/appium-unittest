@@ -210,7 +210,7 @@ class MessagePage(FooterPage):
     def click_add_icon(self):
         """点击加号图标"""
         self.click_element(self.__locators['+号'])
-        time.sleep(1)
+        time.sleep(2)
 
     @TestLogger.log()
     def click_new_message(self):
