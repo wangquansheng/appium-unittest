@@ -478,7 +478,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
             if flag1:
                 break
 
-        导入团队联系人
+        # 导入团队联系人
         fail_time2 = 0
         flag2 = False
         while fail_time2 < 2:
