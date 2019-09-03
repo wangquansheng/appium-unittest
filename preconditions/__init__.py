@@ -1,9 +1,10 @@
 """通用预置条件封装方法"""
 
-from selenium.common.exceptions import TimeoutException
+import time
+
 from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from pages import *
-import time
+
 
 def connect_mobile(category):
     """选择手机手机"""
@@ -85,24 +86,14 @@ def take_logout_operation_if_already_login():
     setting.click_ok_of_alert()
 
 
-def reset_and_relaunch_app():
-    """首次启动APP（使用重置APP代替）"""
-    app_package = 'com.chinasofti.rcs'
-    current_driver().activate_app(app_package)
-    current_mobile().reset_app()
-
-
 def terminate_app():
-    """
-    强制关闭app,退出后台
-    :return:
-    """
+    """强制关闭app,退出后台"""
     app_id = current_driver().desired_capability['appPackage']
     current_mobile().termiate_app(app_id)
 
 
 def force_close_and_launch_app():
-    "强制关闭应用，然后重启"
+    """强制关闭应用，然后重启"""
     terminate_app()
     time.sleep(10)
     current_mobile().launch_app()
@@ -112,36 +103,8 @@ def background_app():
     """后台运行"""
     current_mobile().press_home_key()
 
+
 def launch_app():
-#     """ 启动应用"""
-     current_mobile().launch_app()
+    """ 启动应用"""
+    current_mobile().launch_app()
 
-
-def make_already_in_message_page(reset_required=False):
-    """
-    前置条件：
-    1.已登录客户端
-    2.当前在消息页面
-    """
-    if not reset_required:
-        message_page = MessagePage()
-        if message_page.is_on_this_page():
-            return
-        else:
-            try:
-                current_mobile().terminate_app('com.chinasofti.rcs', timeout=2000)
-            except:
-                pass
-            current_mobile().launch_app()
-        try:
-            message_page.wait_until(
-                condition=lambda d: message_page.is_on_this_page(),
-                timeout=3
-            )
-            return
-        except TimeoutException:
-            pass
-    reset_and_relaunch_app()
-    make_already_in_one_key_login_page()
-    login_num = login_by_one_key_login()
-    return login_num

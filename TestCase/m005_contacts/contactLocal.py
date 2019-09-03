@@ -596,7 +596,7 @@ class ContactsLocal(TestCase):
     def setUp_test_contacts_chenjixiang_0017():
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
-        preconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         MessagePage().open_me_page()
         me_page = MePage()
         me_page.click_menu('设置')

@@ -121,7 +121,7 @@ class CallAll(TestCase):
         import warnings
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
-        preconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         current_mobile().hide_keyboard_if_display()
         # 创建联系人
         fail_time = 0

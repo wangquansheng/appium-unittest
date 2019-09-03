@@ -1,17 +1,17 @@
+import time
 import traceback
 import warnings
+
 import preconditions
-from library.core.TestCase import TestCase
 from selenium.common.exceptions import TimeoutException
-from library.core.utils.applicationcache import current_mobile, switch_to_mobile, current_driver
+
+from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
+from library.core.utils.applicationcache import current_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.call.mutivideo import MutiVideoPage
 from pages.components.BaseChat import BaseChatPage
-import time
-import unittest
-
 from pages.workbench.group_messenger.SelectCompanyContacts import SelectCompanyContactsPage
 from pages.workbench.organization.OrganizationStructure import OrganizationStructurePage
 from preconditions.BasePreconditions import WorkbenchPreconditions
@@ -59,8 +59,8 @@ class Preconditions(WorkbenchPreconditions):
         except TimeoutException:
             pass
         preconditions.reset_and_relaunch_app()
-        preconditions.make_already_in_one_key_login_page()
-        preconditions.login_by_one_key_login()
+        Preconditions.make_already_in_one_key_login_page()
+        Preconditions.login_by_one_key_login()
         cpg.click_call()
 
     @staticmethod
@@ -589,7 +589,7 @@ class CallMultipartyVideo(TestCase):
     @classmethod
     def tearDownClass(cls):
         current_mobile().hide_keyboard_if_display()
-        preconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
 
     def default_setUp(self):
         """进入Call页面,清空通话记录"""

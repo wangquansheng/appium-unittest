@@ -200,8 +200,6 @@ class GroupChatSetPage(BasePage):
         self._find_menu((MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/tv_name"]'))
         self.driver.find_elements(MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/tv_name"]')[-2].click()
 
-
-
     @TestLogger.log()
     def click_del_member(self):
         """点击 '-': 删除成员"""
@@ -249,7 +247,9 @@ class GroupChatSetPage(BasePage):
     def click_switch_undisturb(self):
         """点击消息免打扰开关"""
         self._find_menu(self.__locators['消息免打扰开关'])
+        time.sleep(1)
         self.click_element(self.__locators['消息免打扰开关'])
+        time.sleep(1)
 
     @TestLogger.log()
     def click_btn_logout(self):

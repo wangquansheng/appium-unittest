@@ -1,18 +1,19 @@
 import random
 import time
-import unittest
-import preconditions
-from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
+
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile
 from library.core.utils.testcasefilter import tags
-from pages.components import ChatNoticeDialog, SearchBar, ContactsSelector
 from pages import *
+from pages.components import ContactsSelector
 from pages.contacts.EditContactPage import EditContactPage
 from pages.message.Send_CardName import Send_CardNamePage
+from preconditions.BasePreconditions import WorkbenchPreconditions
+
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
+    pass
 
 
 class MsgAllPrior(TestCase):
@@ -20,7 +21,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0083():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -56,17 +57,15 @@ class MsgAllPrior(TestCase):
         cdp.wait_for_page_load()
         self.assertTrue(cdp.is_on_this_page())
 
-
     @staticmethod
     def setUp_test_contacts_chenjixiang_0130():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
         contacts = ContactsPage()
         contacts.wait_for_page_load()
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_chenjixiang_0130(self):
@@ -83,7 +82,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0137():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -109,7 +108,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0138():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -135,7 +134,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0140():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -162,7 +161,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0147():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -188,7 +187,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0154():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -214,7 +213,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0161():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -240,7 +239,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0194():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -280,7 +279,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0201():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -320,7 +319,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0209():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -365,7 +364,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0214():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -410,7 +409,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0216():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -454,7 +453,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0223():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -498,7 +497,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0228():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -543,7 +542,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0230():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -587,7 +586,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0237():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -648,7 +647,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0247():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -684,7 +683,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0248():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -720,7 +719,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0250():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -756,7 +755,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0259():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -789,7 +788,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0262():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -826,7 +825,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0291():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -863,7 +862,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0352():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -899,7 +898,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0353():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -933,7 +932,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0433():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -1004,7 +1003,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0733():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -1025,7 +1024,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0734():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -1044,7 +1043,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0735():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -1066,7 +1065,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0737():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -1098,7 +1097,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0738():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -1130,7 +1129,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_contacts_chenjixiang_0759():
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         mess = MessagePage()
         # 点击‘通讯录’
         mess.open_contacts_page()
@@ -1505,7 +1504,6 @@ class MsgAllPrior(TestCase):
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0102(self):
         """在群聊会话窗口，点击输入框上方的相机ICON，进入到相机拍摄页"""
@@ -1540,7 +1538,6 @@ class MsgAllPrior(TestCase):
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0103(self):
         """在群聊会话窗口，点击输入框上方的相机ICON，进入到相机拍摄页"""
@@ -1565,7 +1562,6 @@ class MsgAllPrior(TestCase):
         # Checkpoint 3、录制时间超过1秒钟后，松手，会录制成功的视频4、点击右下角的“√”按钮，可以发送成功
         groupchat.is_exist_video_record()
 
-
     @staticmethod
     def setUp_test_msg_xiaoqiu_0104():
         # 启动App
@@ -1573,7 +1569,6 @@ class MsgAllPrior(TestCase):
         Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0104(self):
@@ -1606,7 +1601,6 @@ class MsgAllPrior(TestCase):
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0105(self):
         """点击输入框上方的GIFICON——展示GIF图片推荐列表"""
@@ -1636,7 +1630,6 @@ class MsgAllPrior(TestCase):
         Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0106(self):
@@ -1669,7 +1662,6 @@ class Contacts_demo(TestCase):
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0109(self):
         """在群聊会话页，点击输入框——调起小键盘"""
@@ -1693,7 +1685,6 @@ class Contacts_demo(TestCase):
         Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0111(self):
@@ -1720,7 +1711,6 @@ class Contacts_demo(TestCase):
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0112(self):
         """在群聊设置页面，群成员展示"""
@@ -1745,7 +1735,6 @@ class Contacts_demo(TestCase):
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0122(self):
         """在群聊设置页面中——群成员头像展示"""
@@ -1761,7 +1750,6 @@ class Contacts_demo(TestCase):
         # Checkpoint 展示的群成员头像，最少会展示一个头像
         GroupChatSetPage().group_avatar_is_exist()
 
-
     @staticmethod
     def setUp_test_msg_xiaoqiu_0123():
         # 启动App
@@ -1769,7 +1757,6 @@ class Contacts_demo(TestCase):
         Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0123(self):
@@ -1787,7 +1774,6 @@ class Contacts_demo(TestCase):
         # Checkpoint 校验群主头像皇冠
         GroupChatSetPage().group_chairman_tag_is_exist()
 
-
     @staticmethod
     def setUp_test_msg_xiaoqiu_0124():
         # 启动App
@@ -1795,7 +1781,6 @@ class Contacts_demo(TestCase):
         Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0124(self):
@@ -1828,7 +1813,6 @@ class Contacts_demo(TestCase):
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0125(self):
         """普通群——群主——添加2个成员"""
@@ -1853,7 +1837,6 @@ class Contacts_demo(TestCase):
         # Checkpoint 会向邀请人发送一条消息
         groupchat.page_should_contain_text('你向 测试短信1,测试短信2... 发出群邀请')
 
-
     @staticmethod
     def setUp_test_msg_xiaoqiu_0135():
         # 启动App
@@ -1861,7 +1844,6 @@ class Contacts_demo(TestCase):
         Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0135(self):
@@ -1882,7 +1864,6 @@ class Contacts_demo(TestCase):
         # Checkpoint 跳转到群成员选择列表页面
         mess.page_should_not_contain_text("删除群成员")
 
-
     @staticmethod
     def setUp_test_msg_xiaoqiu_0161():
         # 启动App
@@ -1890,7 +1871,6 @@ class Contacts_demo(TestCase):
         Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
         Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0161(self):

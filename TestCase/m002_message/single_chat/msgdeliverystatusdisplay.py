@@ -19,29 +19,6 @@ REQUIRED_MOBILES = {
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
     @staticmethod
-    def make_already_in_message_page():
-        """确保进入消息界面"""
-        message_page = MessagePage()
-        if message_page.is_on_this_page():
-            return
-        try:
-            current_mobile().terminate_app('com.chinasofti.rcs', timeout=2000)
-        except:
-            pass
-        current_mobile().launch_app()
-        try:
-            message_page.wait_until(
-                condition=lambda d: message_page.is_on_this_page(),
-                timeout=15
-            )
-            return
-        except TimeoutException:
-            pass
-        preconditions.reset_and_relaunch_app()
-        preconditions.make_already_in_one_key_login_page()
-        preconditions.login_by_one_key_login()
-
-    @staticmethod
     def enter_single_chat_page(name):
         """进入单聊聊天会话页面"""
         mp = MessagePage()

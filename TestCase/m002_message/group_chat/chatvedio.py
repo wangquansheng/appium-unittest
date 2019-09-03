@@ -36,24 +36,6 @@ class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
     @staticmethod
-    def make_already_in_message_page(reset=False):
-        """确保应用在消息页面"""
-        # 如果在消息页，不做任何操作
-        mess = MessagePage()
-        if mess.is_on_this_page():
-            return
-        # 进入一键登录页
-        else:
-            try:
-                current_mobile().launch_app()
-                mess.wait_for_page_load()
-            except:
-                # 进入一键登录页
-                Preconditions.make_already_in_one_key_login_page()
-                #  从一键登录页面登录
-                Preconditions.login_by_one_key_login()
-
-    @staticmethod
     def reset_and_relaunch_app():
         """首次启动APP（使用重置APP代替）"""
         app_package = 'com.chinasofti.rcs'

@@ -159,23 +159,6 @@ class Preconditions(WorkbenchPreconditions):
         return group_name
 
     @staticmethod
-    def make_already_in_message_page(reset=False):
-        # 如果在消息页，不做任何操作
-        mess = MessagePage()
-        if mess.is_on_this_page():
-            return
-        # 进入一键登录页
-        else:
-            try:
-                current_mobile().launch_app()
-                mess.wait_for_page_load()
-            except:
-                # 进入一键登录页
-                WorkbenchPreconditions.make_already_in_one_key_login_page()
-                #  从一键登录页面登录
-                WorkbenchPreconditions.login_by_one_key_login()
-
-    @staticmethod
     def make_already_in_one_key_login_page():
         """已经进入一键登录页"""
         # 如果当前页面已经是一键登录页，不做任何操作

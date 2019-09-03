@@ -8,7 +8,7 @@ from library.core.utils.applicationcache import current_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.workbench.group_messenger.SelectCompanyContacts import SelectCompanyContactsPage
-from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
+from preconditions.BasePreconditions import WorkbenchPreconditions
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -1826,7 +1826,7 @@ class MsgXiaoQiu(TestCase):
     def default_setUp(self):
         """确保每个用例运行前在我的电脑会话页面"""
         Preconditions.select_mobile('Android-移动')
-        LoginPreconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         msg_page = MessagePage()
         msg_page.wait_for_page_load()
         msg_page.click_add_icon()

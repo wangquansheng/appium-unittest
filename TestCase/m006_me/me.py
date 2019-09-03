@@ -4,7 +4,7 @@ import uuid
 import preconditions
 from library.core.TestCase import TestCase
 from library.core.utils import email_helper
-from library.core.utils.applicationcache import current_mobile
+from library.core.utils.applicationcache import current_mobile, current_driver
 from library.core.utils.testcasefilter import tags
 from pages import *
 from pages.components import ContactsSelector
@@ -21,6 +21,12 @@ REQUIRED_MOBILES = {
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
+
+    def reset_and_relaunch_app(self):
+        """首次启动APP（使用重置APP代替）"""
+        app_package = 'com.chinasofti.rcs'
+        current_driver().activate_app(app_package)
+        current_mobile().reset_app()
 
 
 @unittest.skip("我的二维码模块先不执行")
@@ -42,7 +48,7 @@ class MeTest(TestCase):
         """
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
-        preconditions.make_already_in_message_page()
+        Preconditions.make_already_in_message_page()
         me_page = MePage()
         me_page.open_me_page()
 
@@ -449,7 +455,6 @@ class MeTest(TestCase):
 @unittest.skip('用例需要重置，影响后续自动化')
 class MeMsgSettingTest(TestCase):
     """模块：我-消息设置"""
-
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')
@@ -465,9 +470,9 @@ class MeMsgSettingTest(TestCase):
     def setUp_test_me_msg_setting_0001():
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
-        preconditions.reset_and_relaunch_app()
-        preconditions.make_already_in_one_key_login_page()
-        preconditions.login_by_one_key_login()
+        Preconditions.reset_and_relaunch_app()
+        Preconditions.make_already_in_one_key_login_page()
+        Preconditions.login_by_one_key_login()
 
         me_page = MePage()
         me_page.open_me_page()
@@ -505,9 +510,9 @@ class MeMsgSettingTest(TestCase):
     def setUp_test_me_msg_setting_0002(self):
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
-        preconditions.reset_and_relaunch_app()
-        preconditions.make_already_in_one_key_login_page()
-        self.login_number = preconditions.login_by_one_key_login()
+        Preconditions.reset_and_relaunch_app()
+        Preconditions.make_already_in_one_key_login_page()
+        self.login_number = Preconditions.login_by_one_key_login()
 
         me_page = MePage()
         me_page.open_me_page()
@@ -536,9 +541,9 @@ class MeMsgSettingTest(TestCase):
     def setUp_test_me_msg_setting_0003(self):
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
-        preconditions.reset_and_relaunch_app()
-        preconditions.make_already_in_one_key_login_page()
-        self.login_number = preconditions.login_by_one_key_login()
+        Preconditions.reset_and_relaunch_app()
+        Preconditions.make_already_in_one_key_login_page()
+        self.login_number = Preconditions.login_by_one_key_login()
 
         me_page = MePage()
         me_page.open_me_page()
@@ -558,9 +563,9 @@ class MeMsgSettingTest(TestCase):
     def setUp_test_me_msg_setting_0004():
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
-        preconditions.reset_and_relaunch_app()
-        preconditions.make_already_in_one_key_login_page()
-        preconditions.login_by_one_key_login()
+        Preconditions.reset_and_relaunch_app()
+        Preconditions.make_already_in_one_key_login_page()
+        Preconditions.login_by_one_key_login()
 
         me_page = MePage()
         me_page.open_me_page()
@@ -580,9 +585,9 @@ class MeMsgSettingTest(TestCase):
     def setUp_test_me_msg_setting_0005():
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
-        preconditions.reset_and_relaunch_app()
-        preconditions.make_already_in_one_key_login_page()
-        preconditions.login_by_one_key_login()
+        Preconditions.reset_and_relaunch_app()
+        Preconditions.make_already_in_one_key_login_page()
+        Preconditions.login_by_one_key_login()
 
         me_page = MePage()
         me_page.open_me_page()
@@ -606,9 +611,9 @@ class MeMsgSettingTest(TestCase):
     def setUp_test_me_msg_setting_0006():
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
-        preconditions.reset_and_relaunch_app()
-        preconditions.make_already_in_one_key_login_page()
-        preconditions.login_by_one_key_login()
+        Preconditions.reset_and_relaunch_app()
+        Preconditions.make_already_in_one_key_login_page()
+        Preconditions.login_by_one_key_login()
 
         me_page = MePage()
         me_page.open_me_page()
@@ -640,9 +645,9 @@ class MeSmsSettingTest(TestCase):
     def setUp_test_me_sms_setting_0001():
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
-        preconditions.reset_and_relaunch_app()
-        preconditions.make_already_in_one_key_login_page()
-        preconditions.login_by_one_key_login()
+        Preconditions.reset_and_relaunch_app()
+        Preconditions.make_already_in_one_key_login_page()
+        Preconditions.login_by_one_key_login()
 
         me_page = MePage()
         me_page.open_me_page()
@@ -681,9 +686,9 @@ class MeSmsSettingTest(TestCase):
     def setUp_test_me_sms_setting_0002(self):
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
-        preconditions.reset_and_relaunch_app()
-        preconditions.make_already_in_one_key_login_page()
-        self.login_number = preconditions.login_by_one_key_login()
+        Preconditions.reset_and_relaunch_app()
+        Preconditions.make_already_in_one_key_login_page()
+        self.login_number = Preconditions.login_by_one_key_login()
 
         me_page = MePage()
         me_page.open_me_page()
