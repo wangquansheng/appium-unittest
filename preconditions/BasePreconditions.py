@@ -92,6 +92,7 @@ class LoginPreconditions(object):
     #     #     permission_list.click_text("确定")
     #     one_key.wait_for_page_load(30)
 
+    @staticmethod
     def make_already_in_one_key_login_page():
         """
         1、已经进入一键登录页
