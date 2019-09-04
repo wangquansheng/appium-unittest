@@ -55,7 +55,7 @@ class LoginPreconditions(object):
         return client
 
     @staticmethod
-    def reset_and_relaunch_app(self):
+    def reset_and_relaunch_app():
         """首次启动APP（使用重置APP代替）"""
         app_package = 'com.chinasofti.rcs'
         current_driver().activate_app(app_package)
