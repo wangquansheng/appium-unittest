@@ -67,13 +67,6 @@ class Preconditions(WorkbenchPreconditions):
             time.sleep(5)
 
     @staticmethod
-    def reset_and_relaunch_app():
-        """首次启动APP（使用重置APP代替）"""
-        app_package = 'com.chinasofti.rcs'
-        current_driver().activate_app(app_package)
-        current_mobile().reset_app()
-
-    @staticmethod
     def make_no_message_send_failed_status():
         """确保当前消息列表没有消息发送失败的标识影响验证结果"""
 

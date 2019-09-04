@@ -167,14 +167,6 @@ class Preconditions(WorkbenchPreconditions):
         mp.wait_for_message_list_load()
 
     @staticmethod
-    def reset_and_relaunch_app():
-        """首次启动APP（使用重置APP代替）"""
-
-        app_package = 'com.chinasofti.rcs'
-        current_driver().activate_app(app_package)
-        current_mobile().reset_app()
-
-    @staticmethod
     def make_in_message_page(moible_param,reset=False):
         """确保应用在消息页面"""
         Preconditions.select_mobile(moible_param, reset)

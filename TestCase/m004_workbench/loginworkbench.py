@@ -221,13 +221,6 @@ class Preconditions(WorkbenchPreconditions):
             sl.click_i_know()
         MessagePage().wait_login_success(login_time)
 
-    @staticmethod
-    def reset_and_relaunch_app():
-        """首次启动APP（使用重置APP代替）"""
-        app_package = 'com.chinasofti.rcs'
-        current_driver().activate_app(app_package)
-        current_mobile().reset_app()
-
 
 @unittest.skip("一键登录先不执行")
 class LoginWorkBench(TestCase):

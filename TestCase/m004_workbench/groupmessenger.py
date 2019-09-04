@@ -54,13 +54,6 @@ class Preconditions(WorkbenchPreconditions):
         Preconditions.login_by_one_key_login()
 
     @staticmethod
-    def reset_and_relaunch_app():
-        """首次启动APP（使用重置APP代替）"""
-        app_package = 'com.chinasofti.rcs'
-        current_driver().activate_app(app_package)
-        current_mobile().reset_app()
-
-    @staticmethod
     def enter_group_messenger_page():
         """进入群发信使首页"""
 

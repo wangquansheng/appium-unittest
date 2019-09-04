@@ -5,7 +5,7 @@ import time
 from appium.webdriver.common.mobileby import MobileBy
 
 from library.core.common.simcardtype import CardType
-from library.core.utils.applicationcache import current_mobile, switch_to_mobile
+from library.core.utils.applicationcache import current_mobile, switch_to_mobile, current_driver
 from pages import *
 from pages.workbench.announcement_message.AnnouncementMessage import AnnouncementMessagePage
 from pages.workbench.create_group.CreateGroup import CreateGroupPage
@@ -53,6 +53,13 @@ class LoginPreconditions(object):
         if reset:
             current_mobile().reset_app()
         return client
+
+    @staticmethod
+    def reset_and_relaunch_app(self):
+        """首次启动APP（使用重置APP代替）"""
+        app_package = 'com.chinasofti.rcs'
+        current_driver().activate_app(app_package)
+        current_mobile().reset_app()
 
     @staticmethod
     def make_already_in_one_key_login_page():

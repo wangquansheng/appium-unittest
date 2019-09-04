@@ -2,7 +2,6 @@ from appium.webdriver.common.mobileby import MobileBy
 from selenium.common.exceptions import NoSuchElementException
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
-#import preconditions
 import time
 
 

@@ -31,14 +31,6 @@ class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
     @staticmethod
-    def reset_and_relaunch_app():
-        """首次启动APP（使用重置APP代替）"""
-
-        app_package = 'com.chinasofti.rcs'
-        current_driver().activate_app(app_package)
-        current_mobile().reset_app()
-
-    @staticmethod
     def enter_important_matters_page():
         """进入重要事项首页"""
 

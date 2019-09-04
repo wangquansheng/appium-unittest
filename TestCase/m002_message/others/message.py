@@ -20,14 +20,6 @@ class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
     @staticmethod
-    def reset_and_relaunch_app():
-        """首次启动APP（使用重置APP代替）"""
-
-        app_package = 'com.chinasofti.rcs'
-        current_driver().activate_app(app_package)
-        current_mobile().reset_app()
-
-    @staticmethod
     def if_exists_multiple_enterprises_share_card():
         """选择团队联系人时存在多个团队时返回获取当前团队名，再分享名片"""
 

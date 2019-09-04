@@ -33,13 +33,6 @@ class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
     @staticmethod
-    def reset_and_relaunch_app():
-        """首次启动APP（使用重置APP代替）"""
-        app_package = 'com.chinasofti.rcs'
-        current_driver().activate_app(app_package)
-        current_mobile().reset_app()
-
-    @staticmethod
     def make_already_have_my_group(reset=False):
         """确保有群，没有群则创建群名为mygroup+电话号码后4位的群"""
         # 消息页面

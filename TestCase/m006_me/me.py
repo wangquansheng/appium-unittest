@@ -22,13 +22,6 @@ REQUIRED_MOBILES = {
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
-    def reset_and_relaunch_app(self):
-        """首次启动APP（使用重置APP代替）"""
-        app_package = 'com.chinasofti.rcs'
-        current_driver().activate_app(app_package)
-        current_mobile().reset_app()
-
-
 @unittest.skip("我的二维码模块先不执行")
 class MeTest(TestCase):
     """我 - 我的二维码"""

@@ -40,13 +40,6 @@ class Preconditions(WorkbenchPreconditions):
         setting.click_ok_of_alert()
 
     @staticmethod
-    def reset_and_relaunch_app():
-        """首次启动APP（使用重置APP代替）"""
-        app_package = 'com.chinasofti.rcs'
-        current_driver().activate_app(app_package)
-        current_mobile().reset_app()
-
-    @staticmethod
     def terminate_app():
         """
         强制关闭app,退出后台
