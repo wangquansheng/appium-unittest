@@ -43,6 +43,7 @@ class GroupChatSetPage(BasePage):
                       MobileBy.ID, 'com.chinasofti.rcs:id/my_group_name_right_arrow'),
                   'com.chinasofti.rcs:id/group_manage': (MobileBy.ID, 'com.chinasofti.rcs:id/group_manage'),
                   '群管理': (MobileBy.ID, 'com.chinasofti.rcs:id/left_group_manage_tv'),
+                  '群管理2': (MobileBy.XPATH, '//*[@text="群管理" or @content-desc="群管理"]'),
                   '消息免打扰': (MobileBy.ID, 'com.chinasofti.rcs:id/left_message_interruption_tv'),
                   '消息免打扰开关': (MobileBy.ID, 'com.chinasofti.rcs:id/switch_undisturb'),
                   '置顶聊天开关': (MobileBy.ID, 'com.chinasofti.rcs:id/chat_set_to_top_switch'),
@@ -81,6 +82,7 @@ class GroupChatSetPage(BasePage):
                   '立即分享': (MobileBy.XPATH, '//*[@text ="立即分享"]'),
                   "再次邀请": (MobileBy.XPATH, '//*[@text="还有人未进群,再次邀请"]'),
                   '群名片': (MobileBy.ID, 'com.chinasofti.rcs:id/my_group_name'),
+                  '群名片2': (MobileBy.XPATH, '//*[@text="群名片" or @content-desc="群名片"]'),
                   '群名称': (MobileBy.ID, 'com.chinasofti.rcs:id/group_name'),
                   "邀请微信或QQ好友进群": (MobileBy.ID, 'com.chinasofti.rcs:id/group_password_line'),
                   "设置你在群内显示的昵称": (MobileBy.ID, 'com.chinasofti.rcs:id/edit_query'),
@@ -223,6 +225,16 @@ class GroupChatSetPage(BasePage):
         self.click_element(self.__locators['群名片'])
 
     @TestLogger.log()
+    def click_group_card(self):
+        """群名片2"""
+        try:
+            self._find_menu(self.__locators['群名片2'])
+        except:
+            time.sleep(2)
+        time.sleep(2)
+        self.click_element(self.__locators['群名片2'])
+
+    @TestLogger.log()
     def click_QRCode(self):
         """点击群二维码"""
         self.click_element(self.__locators['群二维码'])
@@ -242,6 +254,16 @@ class GroupChatSetPage(BasePage):
             time.sleep(2)
         time.sleep(2)
         self.click_element(self.__locators['群管理'])
+
+    @TestLogger.log()
+    def click_group_manage2(self):
+        """群管理2"""
+        try:
+            self._find_menu(self.__locators['群管理2'])
+        except:
+            time.sleep(2)
+        time.sleep(2)
+        self.click_element(self.__locators['群管理2'])
 
     @TestLogger.log()
     def click_switch_undisturb(self):

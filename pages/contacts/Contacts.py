@@ -414,6 +414,7 @@ class ContactsPage(FooterPage):
     def click_message_icon(self):
         """点击消息按钮"""
         self.click_element(self.__locators['消息'])
+        time.sleep(1)
 
     @TestLogger.log('点击我页面')
     def click_me_icon(self):

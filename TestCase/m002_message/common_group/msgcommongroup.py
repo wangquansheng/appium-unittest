@@ -606,6 +606,20 @@ class Preconditions(WorkbenchPreconditions):
         page.wait_for_text('该群已解散')
 
     @staticmethod
+    def dismiss_one_group2(name):
+        Preconditions.get_into_group_chat_page(name)
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage2()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
     def create_contacts_groups():
 
         # 创建联系人
@@ -5311,8 +5325,9 @@ class MsgCommonGroupTest(TestCase):
         gcsp.click_back_by_android(3)
         mess = MessagePage()
         mess.open_message_page()
-        time.sleep(1)
+        time.sleep(3)
         mess.selecting_one_group_click_by_name("系统消息")
+        time.sleep(3)
         # 判定点
         exsit = mess.is_text_present("该群已解散")
         self.assertEqual(exsit, True)
@@ -8423,6 +8438,7 @@ class MsgCommonGroupAllTest(TestCase):
             gcp.click_msg_send_failed_button()
             # 点击确定重发
             gcp.click_resend_confirm()
+            time.sleep(3)
             # 判断信息发送状态
             try:
                 cwp.wait_for_msg_send_status_become_to('发送成功', 10)
@@ -11332,7 +11348,7 @@ class MsgCommonGroupAllTest(TestCase):
         gcsp.save_group_card_name()
         time.sleep(1)
         # 6.点击群名片
-        gcsp.click_modify_my_group_name()
+        gcsp.click_group_card()
         time.sleep(1)
         # 7.点击‘X’按钮清空群昵称
         gcsp.click_iv_delete_button()
@@ -11748,6 +11764,7 @@ class MsgCommonGroupAllTest(TestCase):
     @staticmethod
     def tearDown_test_msg_xiaoqiu_0266():
         """解散群"""
+        current_mobile().launch_app()
         Preconditions.dismiss_one_group("测试6")
 
     @staticmethod
@@ -12925,10 +12942,9 @@ class MsgCommonGroupAllTest(TestCase):
         # 5.返回群聊页面
         gcsp.click_back()
         gcp.wait_for_page_load()
-        time.sleep(3)
         # 6.验证是否提示‘你已将 XX 移出群’
-        self.assertTrue(gcp.page_should_contain_text("移出群"))
-        time.sleep(2)
+        reuslt = gcp.is_text_present("移出群")
+        self.assertTrue(reuslt)
 
     @staticmethod
     def tearDown_test_msg_xiaoqiu_0380():
@@ -12998,11 +13014,12 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.wait_for_page_load()
         time.sleep(3)
         # 6.验证是否提示‘你已将 XX 移出群’
-        self.assertTrue(gcp.page_should_contain_text("移出群"))
-        time.sleep(2)
+        reuslt = gcp.is_text_present("移出群")
+        self.assertTrue(reuslt)
+        time.sleep(6)
         # 7.验证是否提示‘该群已解散’
-        self.assertTrue(gcp.page_should_contain_text("该群已解散"))
-        time.sleep(1)
+        reuslt = gcp.is_text_present("该群已解散")
+        self.assertTrue(reuslt)
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0388():
@@ -13077,10 +13094,13 @@ class MsgCommonGroupAllTest(TestCase):
         glp.click_back()
         contact = ContactsPage()
         contact.click_message_icon()
+        time.sleep(3)
         mess = MessagePage()
         # 6.验证是否提示'该群已解散'
-        mess.wait_for_message_list_load()
-        mess.click_text("系统消息")
+        # mess.wait_for_message_list_load()
+        # mess.click_text("系统消息")
+        mess.selecting_one_group_click_by_name("系统消息")
+        time.sleep(2)
         self.assertTrue(mess.is_text_present("该群已解散"))
         time.sleep(2)
 
