@@ -714,10 +714,13 @@ class CallPage(FooterPage, BasePage):
     @TestLogger.log()
     def click_cancel_open(self):
         """点击暂不开启"""
-        if self._is_element_present(self.__class__.__locators["暂不开启"]):
-            self.click_element(self.__locators['暂不开启'])
-        else:
-            return
+        try:
+            if self._is_element_present(self.__class__.__locators["暂不开启"]):
+                self.click_element(self.__locators['暂不开启'])
+            else:
+                return
+        except:
+            pass
 
     @TestLogger.log()
     def click_i_know(self):
@@ -857,7 +860,8 @@ class CallPage(FooterPage, BasePage):
     @TestLogger.log()
     def click_call_cancel(self):
         """点击取消拨打"""
-        self.click_element((MobileBy.ID, "com.chinasofti.rcs:id/iv_normal_call_end"))
+        if self._is_element_present(self.__class__.__locators["取消拨打"]):
+            self.click_element((MobileBy.ID, "com.chinasofti.rcs:id/iv_normal_call_end"))
 
     @TestLogger.log()
     def end_multi_video_phone(self):

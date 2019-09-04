@@ -172,6 +172,31 @@ class LoginPreconditions(object):
         message_page = MessagePage()
         message_page.wait_login_success(60)
 
+    # @staticmethod
+    # def login_by_one_key_login():
+    #     """
+    #     从一键登录页面登录
+    #     :return:
+    #     """
+    #     # 等待号码加载完成后，点击一键登录
+    #     one_key = OneKeyLoginPage()
+    #     one_key.wait_for_tell_number_load(60)
+    #     login_number = one_key.get_login_number()
+    #     one_key.click_one_key_login()
+    #     # one_key.click_read_agreement_detail()
+    #     #
+    #     # # 同意协议
+    #     # agreement = AgreementDetailPage()
+    #     # agreement.click_agree_button()
+    #     agreement = AgreementDetailPage()
+    #     time.sleep(1)
+    #     agreement.click_agree_button()
+    #
+    #     # 等待消息页
+    #     message_page = MessagePage()
+    #     message_page.wait_login_success(60)
+    #     return login_number
+
     @staticmethod
     def login_by_one_key_login_631():
         """

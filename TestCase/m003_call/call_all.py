@@ -29,8 +29,8 @@ class Preconditions(WorkbenchPreconditions):
     @staticmethod
     def make_already_in_call():
         """确保进入通话界面"""
-        Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
+        # Preconditions.make_already_in_message_page()
         cpg = CallPage()
         message_page = MessagePage()
         if message_page.is_on_this_page():
@@ -155,6 +155,7 @@ class CallAll(TestCase):
 
     def default_setUp(self):
         """进入Call页面,清空通话记录"""
+        Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_call()
         CalllogBannerPage().skip_multiparty_call()
         CallPage().delete_all_call_entry()
@@ -1469,6 +1470,7 @@ class CallAll(TestCase):
 
     @staticmethod
     def setUp_test_call_shenlisi_0155():
+        Preconditions.select_mobile('Android-移动')
         # 关闭WiFi，打开4G网络
         Preconditions.make_already_in_call()
         CalllogBannerPage().skip_multiparty_call()
@@ -1515,6 +1517,7 @@ class CallAll(TestCase):
 
     @staticmethod
     def setUp_test_call_shenlisi_0156():
+        Preconditions.select_mobile('Android-移动')
         # 关闭WiFi，打开4G网络
         Preconditions.make_already_in_call()
         CalllogBannerPage().skip_multiparty_call()
@@ -1548,6 +1551,7 @@ class CallAll(TestCase):
 
     @staticmethod
     def setUp_test_call_shenlisi_0158():
+        Preconditions.select_mobile('Android-移动')
         # 确保打开WiFi网络
         Preconditions.make_already_in_call()
         CalllogBannerPage().skip_multiparty_call()
@@ -1637,8 +1641,8 @@ class CallAll(TestCase):
         time.sleep(1)
         # if cpg.is_exist_go_on():
         #     cpg.click_go_on()
-        # time.sleep(1)
-        # cpg.click_cancel_open()
+        time.sleep(1)
+        cpg.click_cancel_open()
         # time.sleep(1)
         # # Step:1.用户A查看通话记录
         # cpg.wait_for_page_load()
@@ -1665,8 +1669,8 @@ class CallAll(TestCase):
         time.sleep(1)
         # if cpg.is_exist_go_on():
         #     cpg.click_go_on()
-        # time.sleep(1)
-        # cpg.click_cancel_open()
+        time.sleep(1)
+        cpg.click_cancel_open()
         # time.sleep(1)
         # # Step:1.用户A查看通话记录
         # cpg.wait_for_page_load()
@@ -1910,6 +1914,7 @@ class CallAll(TestCase):
 
     @staticmethod
     def setUp_test_call_shenlisi_0231():
+        Preconditions.select_mobile('Android-移动')
         # 关闭WiFi，打开4G网络
         Preconditions.make_already_in_call()
         CalllogBannerPage().skip_multiparty_call()
@@ -1961,6 +1966,7 @@ class CallAll(TestCase):
 
     @staticmethod
     def setUp_test_call_shenlisi_0232():
+        Preconditions.select_mobile('Android-移动')
         # 关闭WiFi，打开4G网络
         Preconditions.make_already_in_call()
         CalllogBannerPage().skip_multiparty_call()
@@ -1996,6 +2002,7 @@ class CallAll(TestCase):
 
     @staticmethod
     def setUp_test_call_shenlisi_0234():
+        Preconditions.select_mobile('Android-移动')
         # 确保打开WiFi网络
         Preconditions.make_already_in_call()
         CalllogBannerPage().skip_multiparty_call()
@@ -2081,14 +2088,15 @@ class CallAll(TestCase):
         self.assertTrue(cpg.is_toast_exist("当前网络不可用，请检查网络设置"))
 
         # 4.从通话profile发起视频通话
-        cpg.create_call_entry("13800138001")
-        cpg.click_call_time()
-        CallContactDetailPage().click_video_call()
-        time.sleep(1)
-        if cpg.is_exist_go_on():
-            cpg.click_go_on()
-        self.assertTrue(cpg.is_toast_exist("当前网络不可用，请检查网络设置"))
-        cpg.click_back_by_android()
+        # 备注：操作时，黑屏
+        # cpg.create_call_entry("13800138001")
+        # cpg.click_call_time()
+        # CallContactDetailPage().click_video_call()
+        # time.sleep(1)
+        # if cpg.is_exist_go_on():
+        #     cpg.click_go_on()
+        # self.assertTrue(cpg.is_toast_exist("当前网络不可用，请检查网络设置"))
+        # cpg.click_back_by_android()
 
     @staticmethod
     def tearDown_test_call_shenlisi_0307():
@@ -2960,6 +2968,7 @@ class CallAll(TestCase):
 
     @staticmethod
     def setUp_test_call_shenlisi_0383():
+        Preconditions.select_mobile('Android-移动')
         # 关闭WiFi，打开4G网络
         Preconditions.make_already_in_call()
         CalllogBannerPage().skip_multiparty_call()
@@ -3016,6 +3025,7 @@ class CallAll(TestCase):
 
     @staticmethod
     def setUp_test_call_shenlisi_0384():
+        Preconditions.select_mobile('Android-移动')
         # 关闭WiFi，打开4G网络
         Preconditions.make_already_in_call()
         CalllogBannerPage().skip_multiparty_call()
@@ -3053,6 +3063,7 @@ class CallAll(TestCase):
 
     @staticmethod
     def setUp_test_call_shenlisi_0386():
+        Preconditions.select_mobile('Android-移动')
         # 确保打开WiFi网络
         Preconditions.make_already_in_call()
         CalllogBannerPage().skip_multiparty_call()
