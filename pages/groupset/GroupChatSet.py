@@ -99,6 +99,7 @@ class GroupChatSetPage(BasePage):
                   '删除成员': (MobileBy.XPATH, '(//*[contains(@resource-id,"com.chinasofti.rcs:id/iv_head")])[last()]'),
                   '移除群成员确定': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'),
                   '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
+                  '确定2': (MobileBy.XPATH, '//*[@text="确定" or @content-desc="确定"]'),
                   '不再提醒': (MobileBy.ID, 'com.chinasofti.rcs:id/cb_show_again'),
                   '快捷方式-确定添加': (MobileBy.ID, 'android:id/button1'),
 
@@ -430,8 +431,8 @@ class GroupChatSetPage(BasePage):
 
     @TestLogger.log()
     def click_sure(self):
-        """点击确定"""
-        self.click_element(self.__locators['确定'])
+        """确定2"""
+        self.click_element(self.__locators['确定2'])
         time.sleep(1)
 
     @TestLogger.log()
