@@ -710,6 +710,7 @@ class MsgCommonGroupTest(TestCase):
             Preconditions.enter_group_chat_page()
 
     def default_tearDown(self):
+        # 备注
         pass
 
     @staticmethod
