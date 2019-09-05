@@ -121,7 +121,7 @@ class CorporateNewsTest(TestCase):
     def default_tearDown(self):
         pass
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    @unittest.skip("没有未发布新闻，无保存按钮")
     def test_QYXW_0034(self):
         """保存新闻"""
 
@@ -149,7 +149,7 @@ class CorporateNewsTest(TestCase):
         self.assertEquals(cnlp.is_exist_save_successfully(), True)
         cnp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    @unittest.skip("没有未发布新闻，无保存按钮")
     def test_QYXW_0019(self):
         """管理员删除未发布新闻，删除成功"""
 
@@ -256,7 +256,7 @@ class CorporateNewsAllTest(TestCase):
         # 1、2.等待企业新闻首页加载
         cnp.wait_for_page_load()
         # 确保有控件【X】
-        cnp.click_no_news()
+        cnp.click_release_news()
         cnnp = CorporateNewsNoNewsPage()
         cnnp.wait_for_page_load()
         # 点击【X】
@@ -279,7 +279,6 @@ class CorporateNewsAllTest(TestCase):
         # 3.是否存在提示语,“发布新闻”、“未发新闻”按钮
         self.assertEquals(cnp.is_exist_words(), True)
         self.assertEquals(cnp.is_exist_release_news_button(), True)
-        self.assertEquals(cnp.is_exist_no_news_button(), True)
 
     @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QYXW_0005(self):
@@ -392,7 +391,7 @@ class CorporateNewsAllTest(TestCase):
         # 等待企业新闻首页加载
         cnp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    @unittest.skip("没有未发布新闻，无保存按钮")
     def test_QYXW_0020(self):
         """管理员发布未发布新闻，发布成功"""
 

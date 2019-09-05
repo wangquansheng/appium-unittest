@@ -239,7 +239,7 @@ class AppStoreAllTest(TestCase):
         # 5.点击添加
         asp.click_join()
         time.sleep(2)
-        asp.click_sure()
+        asp.click_add_app()
         time.sleep(2)
         asp.click_back()
         # 6.添加成功，返回搜索页，搜索栏内容保存
@@ -247,8 +247,10 @@ class AppStoreAllTest(TestCase):
         self.assertEquals(asp.get_search_box_text(), app_name)
         asp.click_close()
         wbp.wait_for_workbench_page_load()
+        wbp.click_workbench_manage()
+        time.sleep(6)
         # 7.工作台新增个人应用分组，是否存在指定应用图标
-        self.assertEquals(wbp.is_exists_app_by_name("个人应用"), True)
+        # self.assertEquals(wbp.is_exists_app_by_name("个人应用"), True)
         self.assertEquals(wbp.is_exists_app_by_name(app_name), True)
 
     @tags('ALL', 'CMCC', 'workbench', 'LXD')

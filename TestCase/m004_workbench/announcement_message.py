@@ -551,7 +551,7 @@ class AnnouncementMessageTest(TestCase):
         current_mobile().back()
         amp.wait_for_page_loads()
 
-    @tags('ALL', 'CMCC', 'workbench', 'GGXX')
+    @unittest.skip("公告无保存按钮")
     def test_GGXX_0020(self):
         """管理员删除未发布公告，删除成功"""
         # 1、管理员登录移动端和飞信工作台
@@ -584,7 +584,7 @@ class AnnouncementMessageTest(TestCase):
         wbp=WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'GGXX')
+    @unittest.skip("公告无保存按钮")
     def test_GGXX_0021(self):
         """管理员发布未发布公告，发布成功"""
         # 1、管理员登录移动端和飞信工作台
@@ -622,7 +622,7 @@ class AnnouncementMessageTest(TestCase):
         amp.click_element_("确定")
         amp.wait_for_page_loads()
 
-    @tags('ALL', 'CMCC', 'workbench', 'GGXX')
+    @unittest.skip("公告无保存按钮")
     def test_GGXX_0022(self):
         """验证未发公告页搜索是否正确"""
         # 1、点击右上角放大镜图标
