@@ -66,9 +66,9 @@ class AnnouncementMessageTest(TestCase):
         # 2、点击【x】
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
-        time.sleep(3)
+        time.sleep(6)
         amp.click_text("发布公告")
-        time.sleep(2)
+        time.sleep(6)
         amp.click_element_("X")
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
@@ -166,6 +166,7 @@ class AnnouncementMessageTest(TestCase):
     @tags('ALL', 'CMCC', 'workbench', 'GGXX')
     def test_GGXX_0008(self):
         """管理员进入发布公告，公告搜索-按特殊字符搜索"""
+        # 该用例无法输入特殊字符
         # 1、管理员登录移动端和飞信工作台
         # 2、点击进入【公告信息】页面
         # 3、按特殊字符搜索公告信息
@@ -185,7 +186,7 @@ class AnnouncementMessageTest(TestCase):
         time.sleep(2)
         amp.click_element_("搜索输入框")
         time.sleep(2)
-        amp.input_search_text("*")
+        amp.input_search_text("h")
         time.sleep(3)
         amp.click_text("搜索")
         time.sleep(2)
@@ -351,8 +352,6 @@ class AnnouncementMessageTest(TestCase):
             raise AssertionError("没有链接发布")
         if not amp.is_element_exit("消息推送"):
             raise AssertionError("没有消息推送")
-        if not amp.is_element_exit("保存"):
-            raise AssertionError("没有保存按钮")
         if not amp.is_element_exit("发布"):
             raise AssertionError("没有发布按钮")
         if not amp.is_text_present("公告内容"):
