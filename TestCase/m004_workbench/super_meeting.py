@@ -1,24 +1,30 @@
-import unittest
-
-from pages.workbench.manager_console.WorkbenchManagerPage import WorkBenchManagerPage
+from TestCase.m001_login.login import *
 from pages.workbench.organization.OrganizationStructure import OrganizationStructurePage
 from pages.workbench.super_meeting.SuperMeeting import SuperMeetingPage
-from pages.workbench.voice_notice.VoiceNotice import VoiceNoticePage
-from preconditions.BasePreconditions import WorkbenchPreconditions
-from library.core.TestCase import TestCase
-from library.core.utils.testcasefilter import tags
-from library.core.utils.applicationcache import current_mobile
-from pages import *
-import time
-
-from pages.workbench.create_team.CreateTeam import CreateTeamPage
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
-from TestCase.m001_login.login import *
 
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
-    pass
+
+    @staticmethod
+    def init_super_meeting_page():
+        Preconditions.select_mobile('Android-移动')
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            Preconditions.enter_super_meeting_page()
+            return
+        workbench = WorkbenchPage()
+        if workbench.is_on_this_page():
+            workbench.open_message_page()
+            Preconditions.enter_super_meeting_page()
+            return
+        smp = SuperMeetingPage()
+        if smp.is_on_this_page():
+            current_mobile().hide_keyboard_if_display()
+            return
+        else:
+            current_mobile().launch_app()
+            Preconditions.enter_super_meeting_page()
 
 
 class SuperMeetingTest(TestCase):
@@ -122,30 +128,24 @@ class SuperMeetingTest(TestCase):
         sc.click_text("确定")
         time.sleep(8)
         smp.swipe_by_up()
-        time.sleep(2)
+        time.sleep(6)
         sc.click_text("确定")
         time.sleep(6)
         sc.click_text("确定")
         if not smp.is_toast_exist("会议预约成功"):
             raise AssertionError("会议预约失败")
-        #取消会议
+        # 取消会议
         time.sleep(5)
         smp.click_text("(2人)")
-        time.sleep(3)
+        time.sleep(6)
         smp.click_text("取消会议")
-        time.sleep(5)
+        time.sleep(6)
         smp.click_element_("确定取消此次会议")
         time.sleep(8)
-        # smp.press_element_("(2人)",3000)
-        # time.sleep(2)
-        # smp.click_text("消除所有")
-        # time.sleep(2)
-        # smp.click_element_("确定删除所有记录")
-        # time.sleep(2)
         current_mobile().back()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC','workbench', 'CJHY')
+    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0003(self):
         """添加搜索出的本地联系人"""
         # 1、点击“预约会议”

@@ -800,7 +800,7 @@ DEVICES_CONFIG_DEBUG_YL = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '19874361585'
+                'CARD_NUMBER': '13602564065'
             },
         ]
     },

@@ -205,7 +205,7 @@ class EnterpriseContactsAllTest(TestCase):
         # 导入团队联系人
         fail_time2 = 0
         flag2 = False
-        while fail_time2 < 5:
+        while fail_time2 < 2:
             try:
                 Preconditions.make_already_in_message_page()
                 contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
@@ -282,18 +282,14 @@ class EnterpriseContactsAllTest(TestCase):
         wbp.click_company_contacts()
         ecp.wait_for_page_load()
         # 1.是否直接进入企业层级：企业+部门名称
-        self.assertEquals(ecp.is_exist_corporate_grade(), False)
-        self.assertEquals(ecp.is_exist_department_by_name(workbench_name), True)
-        self.assertEquals(ecp.is_exist_department_by_name(department_name), True)
-        ecp.click_back()
-        wbp.wait_for_workbench_page_load()
+        self.assertEquals(ecp.is_text_present(workbench_name), True)
+        self.assertEquals(ecp.is_exist_sub_level_department_by_name(department_name), True)
 
     @staticmethod
     def tearDown_test_QYTXL_0002():
         """恢复环境"""
-
         fail_time = 0
-        while fail_time < 5:
+        while fail_time < 2:
             try:
                 Preconditions.make_already_in_message_page()
                 mp = MessagePage()
@@ -343,18 +339,14 @@ class EnterpriseContactsAllTest(TestCase):
         wbp.click_company_contacts()
         ecp.wait_for_page_load()
         # 1.是否直接进入企业层级：企业+部门名称
-        self.assertEquals(ecp.is_exist_corporate_grade(), False)
-        self.assertEquals(ecp.is_exist_department_by_name(workbench_name), True)
-        self.assertEquals(ecp.is_exist_department_by_name(department_name), True)
-        ecp.click_back()
-        wbp.wait_for_workbench_page_load()
+        self.assertEquals(ecp.is_text_present(workbench_name), True)
+        self.assertEquals(ecp.is_exist_sub_level_department_by_name(department_name), True)
 
     @staticmethod
     def tearDown_test_QYTXL_0003():
         """恢复环境"""
-
         fail_time = 0
-        while fail_time < 5:
+        while fail_time < 2:
             try:
                 Preconditions.make_already_in_message_page()
                 mp = MessagePage()
@@ -405,11 +397,8 @@ class EnterpriseContactsAllTest(TestCase):
         wbp.click_company_contacts()
         ecp.wait_for_page_load()
         # 1.跳转后是否显示企业层级：企业+部门名称（部门随机显示一个）
-        self.assertEquals(ecp.is_exist_corporate_grade(), False)
-        self.assertEquals(ecp.is_exist_department_by_name(workbench_name), True)
-        self.assertEquals((ecp.is_exist_department_by_name(department_name1) or ecp.is_exist_department_by_name(department_name2)), True)
-        ecp.click_back()
-        wbp.wait_for_workbench_page_load()
+        self.assertEquals(ecp.is_text_present(workbench_name), True)
+        self.assertEquals((ecp.is_exist_sub_level_department_by_name(department_name1) or ecp.is_exist_sub_level_department_by_name(department_name2)), True)
 
     @staticmethod
     def tearDown_test_QYTXL_0004():
@@ -525,7 +514,6 @@ class EnterpriseContactsAllTest(TestCase):
     @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QYTXL_0011(self):
         """网络异常下搜索企业通讯录联系人"""
-
         # 进入企业通讯录首页
         Preconditions.enter_enterprise_contacts_page()
         ecp = EnterpriseContactsPage()
@@ -537,19 +525,18 @@ class EnterpriseContactsAllTest(TestCase):
         ecp.input_search_message(search_name)
         # 1.页面是否出现网络异常提示
         self.assertEquals(ecp.is_toast_exist("网络连接异常"), True)
+        ecp.hide_keyboard()
+        time.sleep(3)
         self.assertEquals(ecp.is_text_present("网络出错，轻触屏幕重新加载"), True)
         ecp.click_return()
         time.sleep(1)
-        ecp.click_back()
-        time.sleep(1)
-        ecp.click_back()
+        ecp.click_back_by_android(2)
         wbp = WorkbenchPage()
         wbp.wait_for_workbench_page_load()
 
     @staticmethod
     def tearDown_test_QYTXL_0011():
         """恢复网络"""
-
         mp = MessagePage()
         mp.set_network_status(6)
 

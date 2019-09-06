@@ -506,6 +506,7 @@ class MassMessengerAllTest(TestCase):
         gmp.wait_for_page_load()
         gmp.click_new_message()
         nmp = NewMessagePage()
+        time.sleep(3)
         # 等待群发信使->新建短信页面加载
         nmp.wait_for_page_load()
         nmp.click_add_icon()
@@ -528,6 +529,7 @@ class MassMessengerAllTest(TestCase):
         sccp.click_select_contacts_name("佬2")
         # 点击确定
         sccp.click_sure_button()
+        time.sleep(3)
         nmp.wait_for_page_load()
         # 1.是否正常移除成员
         self.assertEquals(nmp.is_exist_text("大佬1"), False)
