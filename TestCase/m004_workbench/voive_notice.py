@@ -104,9 +104,17 @@ class VoiceNoticeTest(TestCase):
         """正常查看使用该指引"""
         # 0.进入语音通知页面
         wbp = WorkbenchPage()
-        wbp.click_voice_notice()
-        vnp = VoiceNoticePage()
-        vnp.wait_for_page_loads("创建语音通知")
+        try:
+            wbp.click_voice_notice()
+            time.sleep(6)
+            vnp = VoiceNoticePage()
+            vnp.wait_for_page_loads("创建语音通知")
+        except:
+            vnp.click_back_by_android()
+            wbp.click_voice_notice()
+            time.sleep(6)
+            vnp = VoiceNoticePage()
+            vnp.wait_for_page_loads("创建语音通知")
         # 1.点击点击右上角【？】
         vnp.click_enter_more()
         vnp.wait_for_page_loads("语音通知使用指引")

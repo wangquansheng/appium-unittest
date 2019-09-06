@@ -196,7 +196,7 @@ class EnterpriseLogAllTest(TestCase):
         # 导入团队联系人
         fail_time2 = 0
         flag2 = False
-        while fail_time2 < 5:
+        while fail_time2 < 2:
             try:
                 Preconditions.make_already_in_message_page()
                 contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
@@ -396,9 +396,12 @@ class EnterpriseLogAllTest(TestCase):
         wlp.input_work_plan("明日工作计划")
         wlp.input_coordination_help("需要协调与帮助")
         wlp.input_remark("备注")
+        wlp.page_up()
+        time.sleep(1)
         # 5.点击添加上次联系人
         wlp.click_add_last_contact()
         wlp.page_up()
+        time.sleep(2)
         # 6.点击存草稿
         wlp.click_save_draft()
         wlp.wait_for_page_loads()
@@ -413,9 +416,12 @@ class EnterpriseLogAllTest(TestCase):
         wlp.input_work_plan("更改后明日工作计划")
         wlp.input_coordination_help("更改后需要协调与帮助")
         wlp.input_remark("更改后备注")
+        wlp.page_up()
+        time.sleep(1)
         # 10.点击添加上次联系人
         wlp.click_add_last_contact()
         wlp.page_up()
+        time.sleep(2)
         # 11.点击提交
         wlp.click_submit()
         time.sleep(5)
@@ -474,9 +480,12 @@ class EnterpriseLogAllTest(TestCase):
         wlp.input_work_plan("明日工作计划")
         wlp.input_coordination_help("需要协调与帮助")
         wlp.input_remark("备注")
+        wlp.page_up()
+        time.sleep(2)
         # 5.点击添加上次联系人
         wlp.click_add_last_contact()
         wlp.page_up()
+        time.sleep(2)
         # 6.点击提交
         wlp.click_submit()
         # 7.判断是否提交成功
@@ -515,9 +524,12 @@ class EnterpriseLogAllTest(TestCase):
         wlp.input_work_plan("明日工作计划")
         wlp.input_coordination_help("需要协调与帮助")
         wlp.input_remark("备注")
+        wlp.page_up()
+        time.sleep(2)
         # 5.点击添加上次联系人
         wlp.click_add_last_contact()
         wlp.page_up()
+        time.sleep(2)
         # 6.点击提交
         wlp.click_submit()
         # 7.判断是否提交成功
@@ -528,8 +540,10 @@ class EnterpriseLogAllTest(TestCase):
         wlp.wait_for_page_loads()
         # 8.点击当前页面第一条日志
         wlp.click_first_news()
+        time.sleep(2)
         # 9.点击❤点赞
         wlp.click_like()
+        time.sleep(2)
         # 10.再次点击❤取消点赞
         wlp.click_like()
         # 11.判断是否存在点赞
@@ -557,6 +571,8 @@ class EnterpriseLogAllTest(TestCase):
         wlp.page_up()
         time.sleep(2)
         wlp.click_add_last_contact()
+        wlp.page_up()
+        time.sleep(2)
         # 6.点击提交
         wlp.click_submit()
         # 7.判断是否提交成功

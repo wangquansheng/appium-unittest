@@ -27,7 +27,7 @@ class EnterpriseInterestsPage(BasePage):
         '确认弹窗': (MobileBy.XPATH, '//*[@text="确认"]'),
         '支付收银台': (MobileBy.XPATH, '//*[@text="支付收银台"]'),
         '购买记录': (MobileBy.XPATH, '//*[@text="购买记录"]'),
-        '同意协议按钮': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[12]/android.view.View[1]/android.view.View[1]'),
+        '同意协议按钮': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[13]/android.view.View[1]/android.view.View[1]'),
     }
 
     @TestLogger.log()

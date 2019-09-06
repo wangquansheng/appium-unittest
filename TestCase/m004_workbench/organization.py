@@ -83,19 +83,12 @@ class OrganizationTest(TestCase):
         contacts.wait_for_page_load()
         contacts.click_one_firm2()
         time.sleep(2)
-        # contacts.click_one_he_contacts()
-        # time.sleep(1)
         contacts.click_he_more()
         time.sleep(2)
-        contacts.click_text("团队管理")
+        contacts.click_team_manager()
+        time.sleep(1)
         osp = OrganizationStructurePage()
         osp.wait_for_page_load()
-        time.sleep(3)
-        current_mobile().back()
-        time.sleep(1)
-        current_mobile().back()
-        time.sleep(1)
-        mess.open_message_page()
 
     @tags('ALL', "CMCC", 'workbench', 'ZZJG')
     def test_ZZJG_0003(self):
@@ -302,9 +295,9 @@ class OrganizationTest(TestCase):
         # 3、查看页面
         osp = OrganizationStructurePage()
         osp.wait_for_page_load()
-        osp.click_text("更多")
+        osp.click_element_("更多管理")
         time.sleep(1)
-        osp.click_text("扫码审核")
+        osp.click_element_("审核与设置")
         time.sleep(3)
         if not osp.is_text_present("扫码加入企业"):
             raise AssertionError("无法正常跳转到待审核页面")
@@ -320,19 +313,19 @@ class OrganizationTest(TestCase):
         # 4、点击“确定”
         osp = OrganizationStructurePage()
         osp.wait_for_page_load()
-        osp.click_text("更多")
-        time.sleep(1)
-        osp.click_text("批量删除成员")
+        osp.click_element_("更多管理")
+        time.sleep(2)
+        osp.click_element_("批量删除成员")
         osp.wait_for_delete_contacts_page_load()
         time.sleep(3)
-        els=osp.get_contacts_in_organization()
+        els = osp.get_contacts_in_organization()
         if els:
             for el in els:
                 el.click()
         else:
             raise AssertionError("当前组织没有成员，请添加")
         time.sleep(1)
-        osp.click_text("确定")
+        osp.click_element_("确定删除成员")
         if not osp.is_toast_exist("成功"):
             raise AssertionError("没有删除成功")
         current_mobile().back()
@@ -346,13 +339,13 @@ class OrganizationTest(TestCase):
         # 3、点击“扫码审核”，切换到已审核列表
         osp = OrganizationStructurePage()
         osp.wait_for_page_load()
-        osp.click_text("更多")
+        osp.click_element_("更多管理")
         time.sleep(1)
-        osp.click_text("扫码审核")
+        osp.click_element_("审核与设置")
         time.sleep(2)
         if not osp.is_text_present("扫码加入企业"):
             raise AssertionError("无法正常跳转到审核页面")
-        osp.click_text("已审核")
+        osp.click_element_("已审核")
         time.sleep(2)
         current_mobile().back()
         osp.wait_for_page_load()
@@ -364,9 +357,9 @@ class OrganizationTest(TestCase):
         # 2、点击“批量删除成员”
         osp = OrganizationStructurePage()
         osp.wait_for_page_load()
-        osp.click_text("更多")
+        osp.click_element_("更多管理")
         time.sleep(1)
-        osp.click_text("批量删除成员")
+        osp.click_element_("批量删除成员")
         osp.wait_for_delete_contacts_page_load()
         els = osp.get_contacts_in_organization()
         if els:

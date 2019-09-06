@@ -1481,10 +1481,10 @@ class VoiceAnnouncementTest(TestCase):
             sc.input_search_keyword(phone_number)
             time.sleep(2)
             if not sc.is_text_present("本机"):
-                if not sc.is_text_present("aa"):
+                if not sc.is_text_present("admin"):
                     raise AssertionError("搜索结果有误")
                 else:
-                    sc.click_text("aa")
+                    sc.click_text("admin")
             else:
                 sc.click_text("本机")
             if not sc.is_toast_exist("该联系人不可选择"):
@@ -1499,10 +1499,10 @@ class VoiceAnnouncementTest(TestCase):
             sc.input_search_keyword(phone_number)
             time.sleep(2)
             if not sc.is_text_present("本机"):
-                if not sc.is_text_present("aa"):
+                if not sc.is_text_present("admin"):
                     raise AssertionError("搜索结果有误")
                 else:
-                    sc.click_text("aa")
+                    sc.click_text("admin")
             else:
                 sc.click_text("本机")
             if not sc.is_toast_exist("该联系人不可选择"):

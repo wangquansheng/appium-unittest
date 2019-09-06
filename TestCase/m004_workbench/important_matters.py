@@ -126,7 +126,7 @@ class ImportantMattersAllTest(TestCase):
                     pass
                 for name, number in required_contacts:
                     # 创建联系人
-                    conts.create_contacts_if_not_exits(name, number)
+                    conts.create_contacts_if_not_exits_new(name, number)
                 required_group_chats = dataproviders.get_preset_group_chats()
                 conts.open_group_chat_list()
                 group_list = GroupListPage()
@@ -145,7 +145,7 @@ class ImportantMattersAllTest(TestCase):
         # 导入团队联系人
         fail_time2 = 0
         flag2 = False
-        while fail_time2 < 5:
+        while fail_time2 < 2:
             try:
                 Preconditions.make_already_in_message_page()
                 contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]

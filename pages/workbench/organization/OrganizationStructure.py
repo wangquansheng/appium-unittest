@@ -5,6 +5,7 @@ from appium.webdriver.common.mobileby import MobileBy
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 
+
 class OrganizationStructurePage(BasePage):
     """组织架构首页"""
 
@@ -26,13 +27,16 @@ class OrganizationStructurePage(BasePage):
         '搜索框': (MobileBy.XPATH, '//*[@resource-id ="c_com_search_input_own"]'),
         '完成': (MobileBy.XPATH, '//*[@text="完成"]'),
         '删除': (MobileBy.XPATH, '//*[@text="删除"]'),
-        '确定': (MobileBy.XPATH, '//*[@text="确定"]'),
+        '确定': (MobileBy.XPATH, '//*[@text="确定" or @content-desc="确定"]'),
         '联系人名称输入框': (MobileBy.XPATH, '//*[@resource-id ="contact_add_name_input"]'),
         '联系人号码输入框': (MobileBy.XPATH, '//*[@resource-id ="contact_add_mobile_input"]'),
         '确定删除部门': (MobileBy.XPATH, '//*[@resource-id ="c_com_confirm"]'),
         '关闭返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_close_actionbar'),
         '我知道了': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
-
+        '更多管理': (MobileBy.XPATH, '//*[@text="更多管理" or @content-desc="更多管理"]'),
+        '审核与设置': (MobileBy.XPATH, '//*[@text="审核与设置" or @content-desc="审核与设置"]'),
+        '批量删除成员': (MobileBy.XPATH, '//*[@text="批量删除成员" or @content-desc="批量删除成员"]'),
+        '已审核': (MobileBy.XPATH, '//*[@text="已审核" or @content-desc="已审核"]'),
     }
 
     @TestLogger.log()

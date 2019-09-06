@@ -66,7 +66,7 @@ class ContactsPage(FooterPage):
         '团队列表': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
         '和通讯录更多': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_more'),
         '团队管理': (MobileBy.ID, 'com.chinasofti.rcs:id/quit_confirm_tv'),
-        '显示':(MobileBy.ID,'com.chinasofti.rcs:id/btn_ok'),
+        '显示': (MobileBy.ID,'com.chinasofti.rcs:id/btn_ok'),
         '不显示': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
         '企业群标识': (MobileBy.ID, 'com.chinasofti.rcs:id/group_ep'),
         '企业群名称': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
@@ -840,6 +840,10 @@ class ContactsPage(FooterPage):
         self.click_element(self.__class__.__locators['团队图标'])
 
     @TestLogger.log()
+    def click_element_by_text(self, text):
+        self.click_element(self.__class__.__locators[text])
+
+    @TestLogger.log()
     def wait_for_contacts_page_load(self, timeout=20, auto_accept_alerts=True):
         """等待通讯录页面加载"""
         try:
@@ -982,15 +986,9 @@ class ContactsPage(FooterPage):
         """选择预置的团队"""
         return self._is_element_present(self.__locators['显示'])
 
-    @TestLogger.log('点击团队管理')
+    @TestLogger.log('')
     def click_team_manager(self):
-        """点击团队管理"""
-        return self._is_element_present(self.__locators['团队管理'])
-
-    @TestLogger.log('点击团队管理')
-    def click_team_manager(self):
-        """点击团队管理"""
-        return self._is_element_present(self.__locators['团队管理'])
+        self.click_element(self.__locators['团队管理'])
 
     @TestLogger.log('点击联系页手机联系人')
     def click_tel_contacts_631(self):
