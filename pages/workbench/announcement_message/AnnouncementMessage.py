@@ -36,6 +36,7 @@ class AnnouncementMessagePage(BasePage):
         '删除': (MobileBy.XPATH, '//*[@text="删除" or @content-desc="删除"]'),
         '发布text': (MobileBy.XPATH, '//*[@text="发布" or @content-desc="发布"]'),
         '发布公告': (MobileBy.XPATH, '//*[@text="发布公告" or @content-desc="发布公告"]'),
+        '下线': (MobileBy.XPATH, '//*[@text="下线"or @content-desc="下线"]'),
     }
 
     @TestLogger.log()
@@ -72,7 +73,7 @@ class AnnouncementMessagePage(BasePage):
         self.swipe_by_percent_on_screen(50, 30, 50, 80, 800)
 
     @TestLogger.log()
-    def click_element_(self,text):
+    def click_element_(self, text):
         """点击元素"""
         self.click_element(self.__class__.__locators[text])
 
@@ -104,6 +105,12 @@ class AnnouncementMessagePage(BasePage):
         if len(el) > 0:
             return True
         return False
+
+    @TestLogger.log()
+    def get_all_gg_title(self):
+        """当前页面是否在公告信息页"""
+        els = self.get_elements(self.__class__.__locators['公告标题'])
+        return els
 
     @TestLogger.log()
     def input_title_text(self, name):

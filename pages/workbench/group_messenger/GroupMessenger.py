@@ -1,3 +1,5 @@
+import time
+
 from appium.webdriver.common.mobileby import MobileBy
 
 from library.core.BasePage import BasePage
@@ -53,6 +55,7 @@ class GroupMessengerPage(BasePage):
     def click_new_message(self):
         """点击新建短信"""
         self.click_element(self.__class__.__locators["新建短信"])
+        time.sleep(2)
 
     @TestLogger.log()
     def click_back(self):

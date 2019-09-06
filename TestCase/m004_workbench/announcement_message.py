@@ -5,7 +5,21 @@ from preconditions.BasePreconditions import WorkbenchPreconditions
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
-    pass
+
+    @staticmethod
+    def delet_all_gg():
+        amp = AnnouncementMessagePage()
+        i = 0
+        while i < 10:
+            els = amp.get_all_gg_title()
+            if len(els) > 0:
+                els[0].click()
+                time.sleep(6)
+                amp.click_element_("下线")
+                time.sleep(3)
+                amp.click_element_("确定")
+                time.sleep(3)
+            i += 1
 
 
 class AnnouncementMessageTest(TestCase):
@@ -81,6 +95,7 @@ class AnnouncementMessageTest(TestCase):
         # 3、检查【公告信息】初始化页面
         amp = AnnouncementMessagePage()
         amp.wait_for_page_loads()
+        Preconditions.delet_all_gg()
         time.sleep(2)
         if not amp.is_text_present("向团队所有成员发出第一条公告"):
             raise AssertionError("没有出现初始化页面显示文字")

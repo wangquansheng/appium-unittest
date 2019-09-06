@@ -1,12 +1,10 @@
 import time
 import unittest
 
-from selenium.common.exceptions import TimeoutException
-
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
+from library.core.utils.applicationcache import current_mobile
 from library.core.utils.testcasefilter import tags
-from library.core.utils.applicationcache import current_mobile, current_driver
 from pages import CallPage
 from pages import ChatWindowPage
 from pages import ContactDetailsPage
@@ -283,7 +281,8 @@ class EnterpriseContactsAllTest(TestCase):
         ecp.wait_for_page_load()
         # 1.是否直接进入企业层级：企业+部门名称
         self.assertEquals(ecp.is_text_present(workbench_name), True)
-        self.assertEquals(ecp.is_exist_sub_level_department_by_name(department_name), True)
+        result = ecp.is_text_present(department_name)
+        self.assertEquals(result, True)
 
     @staticmethod
     def tearDown_test_QYTXL_0002():
@@ -340,7 +339,8 @@ class EnterpriseContactsAllTest(TestCase):
         ecp.wait_for_page_load()
         # 1.是否直接进入企业层级：企业+部门名称
         self.assertEquals(ecp.is_text_present(workbench_name), True)
-        self.assertEquals(ecp.is_exist_sub_level_department_by_name(department_name), True)
+        result = ecp.is_text_present(department_name)
+        self.assertEquals(result, True)
 
     @staticmethod
     def tearDown_test_QYTXL_0003():
@@ -398,7 +398,9 @@ class EnterpriseContactsAllTest(TestCase):
         ecp.wait_for_page_load()
         # 1.跳转后是否显示企业层级：企业+部门名称（部门随机显示一个）
         self.assertEquals(ecp.is_text_present(workbench_name), True)
-        self.assertEquals((ecp.is_exist_sub_level_department_by_name(department_name1) or ecp.is_exist_sub_level_department_by_name(department_name2)), True)
+        result1 = ecp.is_text_present(department_name1)
+        result2 = ecp.is_text_present(department_name2)
+        self.assertEquals((result1 or result2), True)
 
     @staticmethod
     def tearDown_test_QYTXL_0004():

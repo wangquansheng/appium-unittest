@@ -389,7 +389,7 @@ class MassMessengerAllTest(TestCase):
         # 导入团队联系人、企业部门
         fail_time2 = 0
         flag2 = False
-        while fail_time2 < 5:
+        while fail_time2 < 2:
             try:
                 Preconditions.make_already_in_message_page()
                 contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
@@ -1214,10 +1214,17 @@ class MassMessengerAllTest(TestCase):
         gmp = GroupMessengerPage()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
-        gmp.click_new_message()
-        nmp = NewMessagePage()
-        # 等待群发信使->新建短信页面加载
-        nmp.wait_for_page_load()
+        try:
+            gmp.click_new_message()
+            nmp = NewMessagePage()
+            # 等待群发信使->新建短信页面加载
+            nmp.wait_for_page_load()
+        except:
+            gmp.click_back_by_android()
+            gmp.click_new_message()
+            nmp = NewMessagePage()
+            # 等待群发信使->新建短信页面加载
+            nmp.wait_for_page_load()
         nmp.click_add_icon()
         sccp = SelectCompanyContactsPage()
         # 等待群发信使->新建短信->选择联系人页面加载
@@ -1248,10 +1255,17 @@ class MassMessengerAllTest(TestCase):
         gmp = GroupMessengerPage()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
-        gmp.click_new_message()
-        nmp = NewMessagePage()
-        # 等待群发信使->新建短信页面加载
-        nmp.wait_for_page_load()
+        try:
+            gmp.click_new_message()
+            nmp = NewMessagePage()
+            # 等待群发信使->新建短信页面加载
+            nmp.wait_for_page_load()
+        except:
+            gmp.click_back_by_android()
+            gmp.click_new_message()
+            nmp = NewMessagePage()
+            # 等待群发信使->新建短信页面加载
+            nmp.wait_for_page_load()
         nmp.click_add_icon()
         sccp = SelectCompanyContactsPage()
         # 等待群发信使->新建短信->选择联系人页面加载
@@ -1290,10 +1304,17 @@ class MassMessengerAllTest(TestCase):
         gmp = GroupMessengerPage()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
-        gmp.click_new_message()
-        nmp = NewMessagePage()
-        # 等待群发信使->新建短信页面加载
-        nmp.wait_for_page_load()
+        try:
+            gmp.click_new_message()
+            nmp = NewMessagePage()
+            # 等待群发信使->新建短信页面加载
+            nmp.wait_for_page_load()
+        except:
+            gmp.click_back_by_android()
+            gmp.click_new_message()
+            nmp = NewMessagePage()
+            # 等待群发信使->新建短信页面加载
+            nmp.wait_for_page_load()
         nmp.click_add_icon()
         sccp = SelectCompanyContactsPage()
         # 等待群发信使->新建短信->选择联系人页面加载
@@ -1328,10 +1349,17 @@ class MassMessengerAllTest(TestCase):
         gmp = GroupMessengerPage()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
-        gmp.click_new_message()
-        nmp = NewMessagePage()
-        # 等待群发信使->新建短信页面加载
-        nmp.wait_for_page_load()
+        try:
+            gmp.click_new_message()
+            nmp = NewMessagePage()
+            # 等待群发信使->新建短信页面加载
+            nmp.wait_for_page_load()
+        except:
+            gmp.click_back_by_android()
+            gmp.click_new_message()
+            nmp = NewMessagePage()
+            # 等待群发信使->新建短信页面加载
+            nmp.wait_for_page_load()
         nmp.click_add_icon()
         sccp = SelectCompanyContactsPage()
         # 等待群发信使->新建短信->选择联系人页面加载
@@ -1367,10 +1395,17 @@ class MassMessengerAllTest(TestCase):
         gmp = GroupMessengerPage()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
-        gmp.click_new_message()
-        nmp = NewMessagePage()
-        # 等待群发信使->新建短信页面加载
-        nmp.wait_for_page_load()
+        try:
+            gmp.click_new_message()
+            nmp = NewMessagePage()
+            # 等待群发信使->新建短信页面加载
+            nmp.wait_for_page_load()
+        except:
+            gmp.click_back_by_android()
+            gmp.click_new_message()
+            nmp = NewMessagePage()
+            # 等待群发信使->新建短信页面加载
+            nmp.wait_for_page_load()
         # 返回上一级
         nmp.click_back()
         # 1.等待群发信使首页加载
@@ -1384,10 +1419,17 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
         # 确保有【x】控件可点击
-        gmp.click_new_message()
-        nmp = NewMessagePage()
-        # 等待群发信使->新建短信页面加载
-        nmp.wait_for_page_load()
+        try:
+            gmp.click_new_message()
+            nmp = NewMessagePage()
+            # 等待群发信使->新建短信页面加载
+            nmp.wait_for_page_load()
+        except:
+            gmp.click_back_by_android()
+            gmp.click_new_message()
+            nmp = NewMessagePage()
+            # 等待群发信使->新建短信页面加载
+            nmp.wait_for_page_load()
         nmp.click_close()
         wbp = WorkbenchPage()
         # 1.等待工作台页面加载
