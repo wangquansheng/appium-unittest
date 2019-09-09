@@ -1110,3 +1110,9 @@ class SelectContactsPage(BasePage):
         elements = self.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         return elements
+
+    @TestLogger.log("获取元素")
+    def click_element_by_path(self, path):
+        """获取元素"""
+        self.click_element(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
