@@ -262,8 +262,6 @@ class WorkbenchPage(FooterPage):
         els = self.find_els(self.__class__.__locators['语音通知'])
         if els:
             els[0].click()
-        else:
-            raise AssertionError("该页面没有定位到 语音通知 控件")
 
     @TestLogger.log()
     def click_139email(self):

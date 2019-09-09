@@ -272,13 +272,14 @@ class EnterpriseLogAllTest(TestCase):
         sccp.click_sure_button()
         wlp.wait_for_input_page_loads()
         wlp.page_up()
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 8.点击提交
         wlp.click_submit()
         time.sleep(5)
         # wlp.wait_for_input_page_loads()
         # 9.判断是否提交成功
         self.assertEquals(wlp.is_text_present("工作台日志-日报001"), True)
-        time.sleep(2)
 
     @tags('ALL', 'CMCC', 'workbench', 'yx')
     def test_RZ_0003(self):
@@ -300,13 +301,14 @@ class EnterpriseLogAllTest(TestCase):
         # 5.点击添加上次联系人
         wlp.click_add_last_contact()
         wlp.page_up()
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 6.点击提交
         wlp.click_submit()
         time.sleep(5)
         # wlp.wait_for_input_page_loads()
         # 7.判断是否提交成功
         self.assertEquals(wlp.is_text_present("工作台日志-日报002"), True)
-        time.sleep(2)
 
     @tags('ALL', 'CMCC', 'workbench', 'yx')
     def test_RZ_0004(self):
@@ -345,6 +347,8 @@ class EnterpriseLogAllTest(TestCase):
         sccp.click_sure_button()
         wlp.wait_for_input_page_loads()
         wlp.page_up()
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 12.点击提交
         wlp.click_submit()
         time.sleep(5)
@@ -373,6 +377,8 @@ class EnterpriseLogAllTest(TestCase):
         # 5.点击添加上次联系人
         wlp.click_add_last_contact()
         wlp.page_up()
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 6.点击存草稿
         wlp.click_save_draft()
         wlp.wait_for_page_loads()
@@ -397,11 +403,13 @@ class EnterpriseLogAllTest(TestCase):
         wlp.input_coordination_help("需要协调与帮助")
         wlp.input_remark("备注")
         wlp.page_up()
-        time.sleep(1)
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 5.点击添加上次联系人
         wlp.click_add_last_contact()
         wlp.page_up()
-        time.sleep(2)
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 6.点击存草稿
         wlp.click_save_draft()
         wlp.wait_for_page_loads()
@@ -417,18 +425,19 @@ class EnterpriseLogAllTest(TestCase):
         wlp.input_coordination_help("更改后需要协调与帮助")
         wlp.input_remark("更改后备注")
         wlp.page_up()
-        time.sleep(1)
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 10.点击添加上次联系人
         wlp.click_add_last_contact()
         wlp.page_up()
-        time.sleep(2)
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 11.点击提交
         wlp.click_submit()
         time.sleep(5)
         # wlp.wait_for_input_page_loads()
         # 12.判断是否提交成功
         self.assertEquals(wlp.is_text_present("工作台日志-日报"), True)
-        time.sleep(2)
 
     @tags('ALL', 'CMCC', 'workbench', 'yx')
     def test_RZ_0007(self):
@@ -450,6 +459,8 @@ class EnterpriseLogAllTest(TestCase):
         # 5.点击添加上次联系人
         wlp.click_add_last_contact()
         wlp.page_up()
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 6.点击存草稿
         wlp.click_save_draft()
         wlp.wait_for_page_loads()
@@ -481,13 +492,18 @@ class EnterpriseLogAllTest(TestCase):
         wlp.input_coordination_help("需要协调与帮助")
         wlp.input_remark("备注")
         wlp.page_up()
-        time.sleep(2)
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 5.点击添加上次联系人
         wlp.click_add_last_contact()
         wlp.page_up()
-        time.sleep(2)
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 6.点击提交
         wlp.click_submit()
+        time.sleep(2)
+        if wlp.is_text_present("确定"):
+            wlp.click_text("确定")
         # 7.判断是否提交成功
         self.assertEquals(wlp.is_text_present("工作台日志-日报-点赞"), True)
         wlp.click_back()
@@ -504,7 +520,6 @@ class EnterpriseLogAllTest(TestCase):
         # 11.判断是否存在点赞人信息和数量
         # self.assertEqual(wlp.is_exist_like_information(), True)
         self.assertEqual(wlp.is_exist_like_number(), True)
-        time.sleep(3)
 
     @tags('ALL', 'CMCC', 'workbench', 'yx')
     def test_RZ_0009(self):
@@ -525,13 +540,18 @@ class EnterpriseLogAllTest(TestCase):
         wlp.input_coordination_help("需要协调与帮助")
         wlp.input_remark("备注")
         wlp.page_up()
-        time.sleep(2)
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 5.点击添加上次联系人
         wlp.click_add_last_contact()
         wlp.page_up()
-        time.sleep(2)
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 6.点击提交
         wlp.click_submit()
+        time.sleep(2)
+        if wlp.is_text_present("确定"):
+            wlp.click_text("确定")
         # 7.判断是否提交成功
         self.assertEquals(wlp.is_text_present("工作台日志-日报-点赞"), True)
         wlp.click_back()
@@ -569,12 +589,17 @@ class EnterpriseLogAllTest(TestCase):
         wlp.input_remark("备注")
         # 5.点击添加上次联系人
         wlp.page_up()
-        time.sleep(2)
+        wlp.hide_keyboard()
+        time.sleep(3)
         wlp.click_add_last_contact()
         wlp.page_up()
-        time.sleep(2)
+        wlp.hide_keyboard()
+        time.sleep(3)
         # 6.点击提交
         wlp.click_submit()
+        time.sleep(2)
+        if wlp.is_text_present("确定"):
+            wlp.click_text("确定")
         # 7.判断是否提交成功
         self.assertEquals(wlp.is_text_present("工作台日志-日报-发表评论"), True)
         wlp.click_back()
@@ -592,4 +617,3 @@ class EnterpriseLogAllTest(TestCase):
         time.sleep(1)
         # 12.判断日报概览界面底部是否显示评论信息
         self.assertEqual(wlp.is_text_present("评论内容"), True)
-        time.sleep(2)
