@@ -1103,3 +1103,10 @@ class SelectContactsPage(BasePage):
         if len(els) > 0:
             return True
         return False
+
+    @TestLogger.log("获取元素")
+    def get_element_by_path(self, path):
+        """获取元素"""
+        elements = self.get_elements(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
+        return elements
