@@ -561,7 +561,7 @@ class BasePage(object):
         """
         return self.mobile.set_network_status(status)
 
-    def is_toast_exist(self, text, timeout=30, poll_frequency=0.5):
+    def is_toast_exist(self, text, timeout=10, poll_frequency=0.5):
         """is toast exist, return True or False
         :Args:
          - text   - toast文本内容

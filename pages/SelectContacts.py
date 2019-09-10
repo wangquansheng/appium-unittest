@@ -187,7 +187,7 @@ class SelectContactsPage(BasePage):
 
     @TestLogger.log("检查控件是否存在")
     def check_if_element_exist(self,text='发送人头像'):
-        self.page_should_contain_element(self.__class__.__locators[text])
+        return self.page_should_contain_element(self.__class__.__locators[text])
 
     @TestLogger.log("点击群二维码")
     def click_group_code(self, text='群二维码'):
