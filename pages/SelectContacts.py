@@ -1141,6 +1141,18 @@ class SelectContactsPage(BasePage):
         self.click_element((MobileBy.XPATH,
                             '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
 
+    @TestLogger.log("点击发送")
+    def click_delete_group(self):
+        """点击发送"""
+        self.click_element((MobileBy.XPATH,
+                            '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="删除"]'))
+
+    @TestLogger.log("点击发送")
+    def click_get123(self):
+        """点击发送"""
+        self.click_element((MobileBy.XPATH,
+                            '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="删除聊天"]'))
+
     def get_element_by_path1(self, path):
         """获取元素"""
         elements = self.get_elements(
@@ -1188,3 +1200,44 @@ class SelectContactsPage(BasePage):
         get_elements = self.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/favorite_image" and @index="0"]'))
         return get_elements
+
+    def get_by_another3(self):
+        get_elements = self.get_elements(
+            (MobileBy.XPATH,
+             '//*[@resource-id="com.chinasofti.rcs:id/progress_send_small"]'))
+        return get_elements
+
+    def get_by_another4(self):
+        get_elements = self.get_elements(
+                (MobileBy.XPATH,
+                 '//*[@resource-id="com.chinasofti.rcs:id/img_message_down_file"]'))
+        return get_elements
+
+    def get_by_another5(self):
+        get_elements = self.get_elements(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        return get_elements
+
+    def get_by_another6(self):
+        get_elements = self.get_elements((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_rl"]'))
+        return get_elements
+
+    def click_by_another6(self):
+        self.click_element(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn" and @text="发送"]'))
+
+    def click_by_another7(self):
+        self.click_element((MobileBy.XPATH,
+                            '//*[@resource-id="com.chinasofti.rcs:id/btn_cancel" and @text="取消"]'))
+
+    def click_by_another8(self):
+        self.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/default_SMS_app'))
+
+    def page_get_size(self):
+        file_size_text = self.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/textview_select_file_size'))
+        return file_size_text
+
+    def page_get_attribute(self):
+        file_size_text = self.get_element_attribute(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'), 'enabled')
+        return file_size_text

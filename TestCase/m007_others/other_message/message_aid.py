@@ -324,7 +324,7 @@ class MsgAllPrior(TestCase):
         me_page.page_down()
         me_page.click_collection()
         me_page.page_should_contain_text('502173dc7656b4e634efd455ad48ac23.mp4')
-        me_page.click_by_filename("502173dc7656b4e634efd455ad48ac23.mp4")
+        SelectContactsPage().click_by_filename("502173dc7656b4e634efd455ad48ac23.mp4")
         self.assertTrue(me_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/favorite_title')) == '详情')
 
     @staticmethod
@@ -723,11 +723,9 @@ class MsgAllPrior(TestCase):
             elements = page.get_element_by_path(file_name)
         page.click_element_by_path(file_name)
 
-        file_size_text = page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/textview_select_file_size'))
+        file_size_text = SelectContactsPage().page_get_size()
         self.assertTrue('已选' in file_size_text)
-        attribute = page.get_element_attribute(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'), 'enabled')
-
+        attribute = SelectContactsPage().page_get_attribute()
         self.assertTrue('true' == attribute)
 
     @staticmethod
@@ -773,13 +771,9 @@ class MsgAllPrior(TestCase):
         # 发送
         page.click_send_message()
         time.sleep(1)
-        proess_elements = page.get_elements(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/progress_send_small"]'))
+        proess_elements = page.get_by_another3()
         if len(proess_elements) == 0:
-            proess_elements = page.get_elements(
-                (MobileBy.XPATH,
-                 '//*[@resource-id="com.chinasofti.rcs:id/img_message_down_file"]'))
+            proess_elements = page.get_by_another4()
         self.assertTrue(len(proess_elements) > 0)
 
     @staticmethod
@@ -804,13 +798,10 @@ class MsgAllPrior(TestCase):
         page.input_search_contact_message('admin')
         page.input_search_contact_message('admin')
         GroupChatPage().click_more()
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="位置"]'))
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn" and @text="发送"]'))
+        ChatWindowPage().click_location()
+        page.click_by_another6()
         time.sleep(2)
-        addr_elements = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements = page.get_by_another5()
         self.assertTrue(len(addr_elements) > 0)
 
     @staticmethod
@@ -834,23 +825,18 @@ class MsgAllPrior(TestCase):
         page.input_search_contact_message('admin')
         page.input_search_contact_message('admin')
         GroupChatPage().click_more()
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="位置"]'))
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn" and @text="发送"]'))
+        ChatWindowPage().click_location()
+        page.click_by_another6()
         time.sleep(2)
-        addr_elements = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements = page.get_by_another5()
         self.assertTrue(len(addr_elements) > 0)
         group_chat_name = Preconditions.get_group_chat_name()
         page.press(addr_elements[0])
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
+        page.click_resend_group()
         page.click_select_group()
         # 点击群名称  然后取消
         SelectContactsPage().select_one_contact_by_name(group_chat_name)
-        page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/btn_cancel" and @text="取消"]'))
+        page.click_by_another7()
 
         # 点击群名称  然后确认
         SelectContactsPage().select_one_contact_by_name(group_chat_name)
@@ -879,24 +865,18 @@ class MsgAllPrior(TestCase):
         page.input_search_contact_message('admin')
         page.input_search_contact_message('admin')
         GroupChatPage().click_more()
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="位置"]'))
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn" and @text="发送"]'))
+        ChatWindowPage().click_location()
+        page.click_by_another6()
         time.sleep(2)
-        addr_elements = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements = page.get_by_another5()
         self.assertTrue(len(addr_elements) > 0)
         group_chat_name = Preconditions.get_group_chat_name()
         page.press(addr_elements[0])
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
+        page.click_resend_group()
         page.click_select_group()
         # 点击群名称  然后取消 todo 企业群
         SelectContactsPage().select_one_contact_by_name(group_chat_name)
-        page.click_element((MobileBy.XPATH,
-                            '//*[@resource-id="com.chinasofti.rcs:id/btn_cancel" and @text="取消"]'))
-
+        page.click_by_another7()
         # 点击群名称  然后确认
         SelectContactsPage().select_one_contact_by_name(group_chat_name)
         page.click_ok_message()
@@ -924,39 +904,30 @@ class MsgAllPrior(TestCase):
         page.input_search_contact_message('admin')
         page.input_search_contact_message('admin')
         GroupChatPage().click_more()
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="位置"]'))
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn" and @text="发送"]'))
+        ChatWindowPage().click_location()
+        page.click_by_another6()
         time.sleep(2)
-        addr_elements = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements = page.get_by_another5()
         self.assertTrue(len(addr_elements) > 0)
         group_chat_name = Preconditions.get_group_chat_name()
         page.press(addr_elements[0])
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
+        page.click_resend_group()
         page.click_select_group()
         # 点击群名称  然后取消 todo 企业群
         SelectContactsPage().select_one_contact_by_name(group_chat_name)
-        page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/btn_cancel" and @text="取消"]'))
+        page.click_by_another7()
 
         # 点击群名称  然后确认
         SelectContactsPage().select_one_contact_by_name(group_chat_name)
         page.click_ok_message()
 
-        addr_elements = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements = page.get_by_another5()
         page.press(addr_elements[0])
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
+        page.click_resend_group()
         contact_page = SelectContactPage()
         contact_page.input_search_key('admin')
-        contact_page.click_element(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text="admin"]'))
-        contact_page.click_ok_message()
+        SelectContactsPage().select_one_contact_by_name('admin')
+        SelectContactsPage().click_ok_message()
         contact_page.is_toast_exist("已转发")
 
     @staticmethod
@@ -981,39 +952,31 @@ class MsgAllPrior(TestCase):
         page.input_search_contact_message('admin')
         page.input_search_contact_message('admin')
         GroupChatPage().click_more()
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="位置"]'))
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn" and @text="发送"]'))
+        ChatWindowPage().click_location()
+        page.click_by_another6()
         time.sleep(2)
-        addr_elements = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements = page.get_by_another5()
         self.assertTrue(len(addr_elements) > 0)
         group_chat_name = Preconditions.get_group_chat_name()
         page.press(addr_elements[0])
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
+        page.click_resend_group()
         page.click_select_group()
         # 点击群名称  然后取消 todo 企业群
         SelectContactsPage().select_one_contact_by_name(group_chat_name)
-        page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/btn_cancel" and @text="取消"]'))
+        page.click_by_another7()
 
         # 点击群名称  然后确认
         SelectContactsPage().select_one_contact_by_name(group_chat_name)
         page.click_ok_message()
 
-        addr_elements = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements = page.get_by_another5()
         page.press(addr_elements[0])
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
+        page.click_resend_group()
         contact_page = SelectContactPage()
         contact_page.input_search_key('我的电脑')
-        contact_page.click_element(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text="我的电脑"]'))
-        contact_page.click_ok_message()
+        SelectContactsPage().select_one_contact_by_name('我的电脑')
+
+        SelectContactsPage().click_ok_message()
         contact_page.is_toast_exist("已转发")
 
     @staticmethod
@@ -1038,37 +1001,30 @@ class MsgAllPrior(TestCase):
         page.input_search_contact_message('admin')
         page.input_search_contact_message('admin')
         GroupChatPage().click_more()
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="位置"]'))
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn" and @text="发送"]'))
+        ChatWindowPage().click_location()
+        page.click_by_another6()
         time.sleep(2)
-        addr_elements = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements = page.get_by_another5()
         self.assertTrue(len(addr_elements) > 0)
         group_chat_name = Preconditions.get_group_chat_name()
         page.press(addr_elements[0])
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
+        page.click_resend_group()
         page.click_select_group()
         # 点击群名称  然后取消 todo 企业群
         SelectContactsPage().select_one_contact_by_name(group_chat_name)
-        page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/btn_cancel" and @text="取消"]'))
+        page.click_by_another7()
 
         # 点击群名称  然后确认
         SelectContactsPage().select_one_contact_by_name(group_chat_name)
         page.click_ok_message()
 
-        addr_elements = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements = page.get_by_another5()
         page.press(addr_elements[0])
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
+        page.click_resend_group()
         contact_page = SelectContactPage()
-        elements = contact_page.get_elements((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_rl"]'))
+        elements = SelectContactsPage().get_by_another6()
         elements[0].click()
-        contact_page.click_ok_message()
+        SelectContactsPage().click_ok_message()
         contact_page.is_toast_exist("已转发")
 
     @staticmethod
@@ -1094,22 +1050,16 @@ class MsgAllPrior(TestCase):
         # 点击群名称  然后取消 todo 企业群
         SelectContactsPage().select_one_contact_by_name(group_chat_name)
         GroupChatPage().click_more()
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="位置"]'))
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn" and @text="发送"]'))
+        ChatWindowPage().click_location()
+        page.click_by_another6()
         time.sleep(2)
-        addr_elements = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements = page.get_by_another5()
         self.assertTrue(len(addr_elements) > 0)
-        addr_elements_pre = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements_pre = page.get_by_another5()
         page.press(addr_elements_pre[0])
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="删除"]'))
+        SelectContactsPage().click_delete_group()
         time.sleep(1)
-        addr_elements_suf = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements_suf = page.get_by_another5()
         self.assertTrue(len(addr_elements_suf) == (len(addr_elements_pre) - 1))
 
     @staticmethod
@@ -1135,22 +1085,16 @@ class MsgAllPrior(TestCase):
         # 点击群名称  然后取消 todo 企业群
         SelectContactsPage().select_one_contact_by_name(group_chat_name)
         GroupChatPage().click_more()
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="位置"]'))
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn" and @text="发送"]'))
+        ChatWindowPage().click_location()
+        page.click_by_another6()
         time.sleep(2)
-        addr_elements = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements = page.get_by_another5()
         self.assertTrue(len(addr_elements) > 0)
-        addr_elements_pre = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements_pre = page.get_by_another5()
         page.press(addr_elements_pre[0])
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="撤回"]'))
+        SelectContactsPage().click_cancel_message()
         time.sleep(1)
-        addr_elements_suf = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements_suf = page.get_by_another5()
         self.assertTrue(len(addr_elements_suf) == (len(addr_elements_pre) - 1))
 
     @staticmethod
@@ -1176,16 +1120,12 @@ class MsgAllPrior(TestCase):
         # 点击群名称  然后取消 todo 企业群
         SelectContactsPage().select_one_contact_by_name(group_chat_name)
         GroupChatPage().click_more()
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="位置"]'))
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn" and @text="发送"]'))
+        ChatWindowPage().click_location()
+        page.click_by_another6()
         time.sleep(2)
-        addr_elements_pre = page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/lloc_famous_address_text"]'))
+        addr_elements_pre = page.get_by_another5()
         page.press(addr_elements_pre[0])
-        page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="收藏"]'))
+        SelectContactsPage().click_collect_message()
         page.is_toast_exist('已收藏')
 
         addr__text = addr_elements_pre[0].text
@@ -1214,19 +1154,18 @@ class MsgAllPrior(TestCase):
         """进入免费/发送短信--选择联系人页面"""
         message_page = MessagePage()
         message_page.open_message_page()
-        element = message_page.get_element((MobileBy.XPATH,
-                                           '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text="admin"]'))
+        element = SelectContactsPage().select_one_group_by_name("admin")
+
         message_page.press(element)
-        message_page.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="删除聊天"]'))
-        elements = message_page.get_elements((MobileBy.XPATH,
-                                            '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text="admin"]'))
+        SelectContactsPage().click_get123()
+        elements = SelectContactsPage().select_one_group_by_name("admin")
         self.assertTrue(len(elements) == 0)
 
     @staticmethod
     def setUp_test_msg_xiaoliping_B_0008():
         Preconditions.select_mobile('Android-移动')
         contact2.push_resource_dir_to_mobile_sdcard(Preconditions.select_mobile('Android-移动'))
-        Preconditions.make_already_have_a_message()
+        # Preconditions.make_already_have_a_message()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoliping_B_0008(self):
@@ -1263,7 +1202,8 @@ class MsgAllPrior(TestCase):
             chatdialog.accept_and_close_tips_alert()
         single = SingleChatPage()
         # 如果当前页面不存在消息，发送一条消息
-        if not single._is_element_present((MobileBy.XPATH, '//*[@text ="测试一个删除"]')):
+
+        if not single.is_text_present('测试一个删除'):
             single.input_text_message("测试一个删除")
             single.send_text()
         single.press_mess("测试一个删除")
@@ -1346,7 +1286,7 @@ class MsgAllPrior(TestCase):
         self.assertTrue(me.is_on_this_page())
         me.click_setting_menu()
         message_notice_set = MessageNoticeSettingPage()
-        me.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/default_SMS_app'))
+        SelectContactsPage().click_by_another8()
         message_notice_set.assert_menu_item_has_been_turn_on('消息送达状态显示')
 
     @staticmethod
@@ -1369,7 +1309,7 @@ class MsgAllPrior(TestCase):
         self.assertTrue(me.is_on_this_page())
         me.click_setting_menu()
         message_notice_set = MessageNoticeSettingPage()
-        me.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/default_SMS_app'))
+        SelectContactsPage().click_by_another8()
         message_notice_set.turn_off('消息送达状态显示')
         message_notice_set.click_back()
         message_notice_set.click_back()
@@ -1395,15 +1335,13 @@ class MsgAllPrior(TestCase):
         mess.page_should_not_contain_text('已转为短信送达')
         mess.page_should_not_contain_text('对方离线')
         mess.page_should_not_contain_text('已提醒')
-        single.click_back()
-        mess.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_back'))
-        mess.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_back01'))
+        single.click_back_by_android(3)
 
         me.open_me_page()
         me.is_on_this_page()
         me.click_setting_menu()
         message_notice_set = MessageNoticeSettingPage()
-        me.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/default_SMS_app'))
+        SelectContactsPage().click_by_another8()
         message_notice_set.turn_on('消息送达状态显示')
 
     @staticmethod
@@ -1456,8 +1394,8 @@ class MsgAllPrior(TestCase):
         mess.click_add_icon()
         mess.click_new_message()
         select_page = SelectContactsPage()
-        mess.page_should_contain_element((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'))
-        mess.page_should_contain_element((MobileBy.XPATH,"//*[@text='选择团队联系人']"))
+        SelectHeContactsDetailPage().is_exists_search_box()
+        mess.page_should_contain_text('选择团队联系人')
         select_page.select_one_contact_by_name('给个红包1')
 
         chatdialog = ChatNoticeDialog()
@@ -1499,14 +1437,14 @@ class MsgAllPrior(TestCase):
                 mess_call_page.wait_for_freemsg_load()
 
         select_page = SelectContactsPage()
-        mess.page_should_contain_element((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'))
-        mess.page_should_contain_element((MobileBy.XPATH,"//*[@text='选择团队联系人']"))
+        SelectHeContactsDetailPage().is_exists_search_box()
+        mess.page_should_contain_text('选择团队联系人')
         select_page.select_one_contact_by_name('给个红包1')
         chatdialog = ChatNoticeDialog()
         # 判断存在？标志
-        chatdialog.page_should_contain_element((MobileBy.ID, 'com.chinasofti.rcs:id/sms_direction'))
+        FreeMsgPage().wait_is_exist_wenhao()
         # 判断存在退出短信按钮
-        chatdialog.page_should_contain_element((MobileBy.ID, 'com.chinasofti.rcs:id/tv_exitsms'))
+        FreeMsgPage().wait_is_exist_exit()
 
     @staticmethod
     def setUp_test_msg_huangcaizui_A_0289():
@@ -1536,12 +1474,12 @@ class MsgAllPrior(TestCase):
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_exist_tips():
             chatdialog.accept_and_close_tips_alert()
-        mess.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'))
-        mess.click_element((MobileBy.XPATH, '//*[@text="名片"]'))
-        mess.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text="给个名片2"]'))
+        ChatMorePage().close_more()
+        mess.click_element_by_text('名片')
+        SelectContactsPage().select_one_contact_by_name("给个名片2")
         send_card = Send_CardNamePage()
         send_card.click_share_btn()
-        mess.click_element((MobileBy.XPATH, '//*[@text="给个名片2"]'))
+        mess.click_element_by_text('给个名片2')
         GroupChatSetSeeMembersPage().wait_for_profile_page_load()
         # 点击消息按钮发送消息
         ContactDetailsPage().click_message_icon()
@@ -1567,7 +1505,7 @@ class MsgAllPrior(TestCase):
         contactspage = ContactsPage()
         contactspage.click_search_box()
         contactspage.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/edit_query01'),'给个红包1')
-        contactspage.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and @text="给个红包1"]'))
+        SelectContactsPage().select_recent_chat_by_name("给个红包1")
         # 点击消息按钮发送消息
         ContactDetailsPage().click_message_icon()
         chatdialog = ChatNoticeDialog()
@@ -1608,16 +1546,16 @@ class MsgAllPrior(TestCase):
             if mess_call_page.is_exist_allow_button():
                 # 存在提示点击允许
                 mess_call_page.wait_for_freemsg_load()
-        mess.click_element((MobileBy.XPATH, '//*[@text ="给个红包1"]'))
+        mess.click_element_by_text('给个红包1')
         singe_chat = SingleChatPage()
         chatdialog = ChatNoticeDialog()
         singe_chat.input_sms_message("测试前一半")
         # 点击退出短信按钮
-        chatdialog.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/tv_exitsms'))
+        singe_chat.click_exit_sms()
         # 点击短信按钮
         singe_chat.click_sms()
         # 判断是否有之前输入的内容
-        chatdialog.page_should_contain_element((MobileBy.XPATH, '//*[@text ="测试前一半"]'))
+        chatdialog.page_should_contain_text('测试前一半')
         singe_chat.edit_clear("测试前一半")
 
     @staticmethod
@@ -1652,21 +1590,21 @@ class MsgAllPrior(TestCase):
             if mess_call_page.is_exist_allow_button():
                 # 存在提示点击允许
                 mess_call_page.wait_for_freemsg_load()
-        mess.click_element((MobileBy.XPATH, '//*[@text ="给个红包1"]'))
+        mess.click_element_by_text('给个红包1')
         singe_chat = SingleChatPage()
         chatdialog = ChatNoticeDialog()
         singe_chat.input_sms_message("发送第一条")
         # 点击发送短信
         singe_chat.send_sms()
         # 判断弹出资费提醒提示框
-        chatdialog.page_should_contain_element((MobileBy.XPATH, '//*[@text ="资费提醒"]'))
+        chatdialog.page_should_contain_text('资费提醒')
         # 点击发送
-        chatdialog.click_element((MobileBy.XPATH, '//*[@text ="发送"]'))
+        mess.click_element_by_text('发送')
         singe_chat.input_sms_message("发送第二条")
         # 点击发送短信
         singe_chat.send_sms()
         # 判断未弹出资费提醒提示框
-        chatdialog.page_should_not_contain_element((MobileBy.XPATH, '//*[@text ="资费提醒"]'))
+        chatdialog.page_should_not_contain_text('资费提醒')
 
     @staticmethod
     def setUp_test_msg_huangcaizui_B_0025():
@@ -1698,7 +1636,7 @@ class MsgAllPrior(TestCase):
     def test_msg_huangcaizui_B_0025(self):
         single = SingleChatPage()
         # 如果当前页面不存在消息，发送一条消息
-        if not single._is_element_present((MobileBy.XPATH, '//*[@text ="测试一个呵呵"]')):
+        if not single.is_text_present('测试一个呵呵'):
             single.input_text_message("测试一个呵呵")
             single.send_text()
         # 长按通过短信发送
@@ -1713,14 +1651,13 @@ class MsgAllPrior(TestCase):
         single.send_for_sms('测试一个呵呵')
         single.is_present_sms_fee_remind()
         single.click_send_button()
-        single.page_should_contain_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_message" and @text="测试一个呵呵"]'))
-        single.page_should_contain_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_sms_mark" and @text="短信"]'))
+        single.page_should_contain_text('测试一个呵呵')
+        single.page_should_contain_text('短信')
         single.send_for_sms('测试一个呵呵')
-        single.page_should_not_contain_element((MobileBy.XPATH, '//*[@text="资费提醒"]'))
-        single.page_should_contain_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_message" and @text="测试一个呵呵"]'))
-        single.page_should_contain_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_sms_mark" and @text="短信"]'))
+        single.page_should_not_contain_text('资费提醒')
+        single.page_should_contain_text('测试一个呵呵')
+        single.page_should_contain_text('短信')
+
 
     @staticmethod
     def setUp_test_msg_huangcaizui_B_0062():
@@ -1837,9 +1774,8 @@ class MsgAllPrior(TestCase):
         # 搜索关键词给个红包1
         SearchPage().input_search_keyword("我的电脑")
         # 选择联系人进入联系人页
-        mess.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text="我的电脑"]'))
-        mess.click_back()
-        mess.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_back01'))
+        SelectContactsPage().select_one_group_by_name("我的电脑")
+        mess.click_back_by_android(2)
         mess.is_on_this_page()
 
     @staticmethod
@@ -1876,9 +1812,9 @@ class MsgAllPrior(TestCase):
         time.sleep(2)
         current_mobile().hide_keyboard_if_display()
         # 点击进入我的电脑
-        mess.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text="我的电脑"]'))
+        SelectContactsPage().select_one_group_by_name("我的电脑")
         # 检查是否进入我的电脑页面
-        mess.page_should_contain_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/title" and @text="我的电脑"]'))
+        mess.page_should_contain_text('我的电脑')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0186():

@@ -50,9 +50,9 @@ class Contacts_demo(TestCase):
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_exist_tips():
             chatdialog.accept_and_close_tips_alert()
-        mess.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'))
-        mess.click_element((MobileBy.XPATH, '//*[@text="名片"]'))
-        mess.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text="给个名片2"]'))
+        ChatMorePage().close_more()
+        mess.click_element_by_text('名片')
+        SelectContactsPage().select_one_contact_by_name("给个名片2")
         send_card = Send_CardNamePage()
         send_card.assert_card_name_equal_to('给个名片2')
         send_card.is_present_card_phone('13800138300')
@@ -128,12 +128,12 @@ class Contacts_demo(TestCase):
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_exist_tips():
             chatdialog.accept_and_close_tips_alert()
-        mess.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'))
-        mess.click_element((MobileBy.XPATH, '//*[@text="名片"]'))
-        mess.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text="给个名片2"]'))
+        ChatMorePage().close_more()
+        mess.click_element_by_text('名片')
+        SelectContactsPage().select_one_contact_by_name("给个名片2")
         send_card = Send_CardNamePage()
         send_card.click_share_btn()
-        mess.click_element((MobileBy.XPATH, '//*[@text="给个名片2"]'))
+        mess.click_element_by_text('给个名片2')
         GroupChatSetSeeMembersPage().wait_for_profile_page_load()
         mess.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_back'))
         mess.choose_chat_by_name('给个名片1')
@@ -169,9 +169,9 @@ class Contacts_demo(TestCase):
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_exist_tips():
             chatdialog.accept_and_close_tips_alert()
-        mess.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'))
-        mess.click_element((MobileBy.XPATH, '//*[@text="名片"]'))
-        mess.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text="给个名片2"]'))
+        ChatMorePage().close_more()
+        mess.click_element_by_text('名片')
+        SelectContactsPage().select_one_contact_by_name("给个名片2")
         send_card = Send_CardNamePage()
         send_card.click_share_btn()
         send_card.press_mess('给个名片2')
@@ -215,9 +215,9 @@ class Contacts_demo(TestCase):
                 mess_call_page.wait_for_freemsg_load()
         mess.click_element((MobileBy.XPATH, '//*[@text ="测试短信1"]'))
         # 判断存在？标志
-        chatdialog.page_should_contain_element((MobileBy.ID, 'com.chinasofti.rcs:id/sms_direction'))
+        FreeMsgPage().wait_is_exist_wenhao()
         # 判断存在退出短信按钮
-        chatdialog.page_should_contain_element((MobileBy.ID, 'com.chinasofti.rcs:id/tv_exitsms'))
+        FreeMsgPage().wait_is_exist_exit()
 
     @staticmethod
     def setUp_test_msg_huangcaizui_A_0045():
@@ -267,9 +267,9 @@ class Contacts_demo(TestCase):
             single.input_text_message('呵呵哒')
             single.send_text()
             single.click_back()
-            mess.click_element((MobileBy.XPATH, '//*[@text ="给个红包1"]'))
+            mess.click_element_by_text('给个红包1')
         else:
-            mess.click_element((MobileBy.XPATH, '//*[@text ="给个红包1"]'))
+            mess.click_element_by_text('给个红包1')
             # 若存在资费提醒对话框，点击确认
             if chatdialog.is_exist_tips():
                 chatdialog.accept_and_close_tips_alert()
@@ -299,7 +299,7 @@ class Contacts_demo(TestCase):
             select_page = SelectContactsPage()
             select_page.select_one_contact_by_name('给个红包1')
         else:
-            mess.click_element((MobileBy.XPATH, '//*[@text ="给个红包1"]'))
+            mess.click_element_by_text('给个红包1')
         chatdialog = ChatNoticeDialog()
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_exist_tips():
@@ -332,7 +332,7 @@ class Contacts_demo(TestCase):
             select_page = SelectContactsPage()
             select_page.select_one_contact_by_name('给个红包1')
         else:
-            mess.click_element((MobileBy.XPATH, '//*[@text ="给个红包1"]'))
+            mess.click_element_by_text('给个红包1')
         chatdialog = ChatNoticeDialog()
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_exist_tips():
@@ -367,7 +367,7 @@ class Contacts_demo(TestCase):
             select_page = SelectContactsPage()
             select_page.select_one_contact_by_name('给个红包1')
         else:
-            mess.click_element((MobileBy.XPATH, '//*[@text ="给个红包1"]'))
+            mess.click_element_by_text('给个红包1')
         chatdialog = ChatNoticeDialog()
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_exist_tips():
@@ -403,7 +403,7 @@ class Contacts_demo(TestCase):
             select_page = SelectContactsPage()
             select_page.select_one_contact_by_name('给个红包1')
         else:
-            mess.click_element((MobileBy.XPATH, '//*[@text ="给个红包1"]'))
+            mess.click_element_by_text('给个红包1')
         chatdialog = ChatNoticeDialog()
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_exist_tips():
@@ -452,7 +452,7 @@ class Contacts_demo(TestCase):
             select_page = SelectContactsPage()
             select_page.select_one_contact_by_name('给个红包1')
         else:
-            mess.click_element((MobileBy.XPATH, '//*[@text ="给个红包1"]'))
+            mess.click_element_by_text('给个红包1')
         chatdialog = ChatNoticeDialog()
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_exist_tips():
@@ -490,7 +490,7 @@ class Contacts_demo(TestCase):
             select_page = SelectContactsPage()
             select_page.select_one_contact_by_name('给个红包1')
         else:
-            mess.click_element((MobileBy.XPATH, '//*[@text ="给个红包1"]'))
+            mess.click_element_by_text('给个红包1')
         chatdialog = ChatNoticeDialog()
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_exist_tips():
@@ -526,7 +526,7 @@ class Contacts_demo(TestCase):
             select_page = SelectContactsPage()
             select_page.select_one_contact_by_name('给个红包1')
         else:
-            mess.click_element((MobileBy.XPATH, '//*[@text ="给个红包1"]'))
+            mess.click_element_by_text('给个红包1')
         chatdialog = ChatNoticeDialog()
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_exist_tips():
@@ -572,7 +572,7 @@ class Contacts_demo(TestCase):
             select_page = SelectContactsPage()
             select_page.select_one_contact_by_name('给个红包1')
         else:
-            mess.click_element((MobileBy.XPATH, '//*[@text ="给个红包1"]'))
+            mess.click_element_by_text('给个红包1')
         chatdialog = ChatNoticeDialog()
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_exist_tips():
@@ -609,7 +609,7 @@ class Contacts_demo(TestCase):
             select_page = SelectContactsPage()
             select_page.select_one_contact_by_name('给个红包1')
         else:
-            mess.click_element((MobileBy.XPATH, '//*[@text ="给个红包1"]'))
+            mess.click_element_by_text('给个红包1')
         chatdialog = ChatNoticeDialog()
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_exist_tips():
