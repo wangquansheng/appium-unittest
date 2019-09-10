@@ -188,6 +188,11 @@ class SelectLocalContactsPage(BasePage):
         self.click_element((MobileBy.XPATH, '//*[@text ="%s"]' % name))
 
     @TestLogger.log()
+    def select_one_contact_by_name(self, name):
+        """通过人名选择一个联系人"""
+        self.click_element((MobileBy.XPATH, '//*[@text ="%s"]' % name))
+
+    @TestLogger.log()
     def search_and_select_one_member_by_name(self, name):
         """搜索选择联系人"""
         self.input_text(self.__class__.__locators["搜索或输入手机号"], name)
