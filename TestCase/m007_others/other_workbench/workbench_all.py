@@ -148,31 +148,31 @@ class MsgAllPrior(TestCase):
         message.click_back()
         self.assertTrue(message.is_on_this_page)
 
-    @staticmethod
-    def setUp_test_me_zhangshuli_019():
-        Preconditions.select_mobile('Android-移动')
-
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
-    def test_me_zhangshuli_019(self):
-        """会话窗口中点击删除文本消息"""
-        # 打开‘我’页面
-        me = MePage()
-        me.open_me_page()
-        time.sleep(3)
-        self.assertTrue(me.is_on_this_page())
-        # 打开‘查看并编辑个人资料’页面
-        me.click_view_edit()
-        # 点击分享名片
-        view_user_profile_page = MeViewUserProfilePage()
-        view_user_profile_page.page_down()
-        view_user_profile_page = view_user_profile_page.click_share_card()
-        # 选择本地联系人
-        sc = SelectContactsPage()
-        sc.click_phone_contact()
-        local_contacts_page = SelectLocalContactsPage()
-        search = local_contacts_page.search("1111111111111111")
-        result = local_contacts_page.no_search_result()
-        self.assertTrue(result)
+    # @staticmethod
+    # def setUp_test_me_zhangshuli_019():
+    #     Preconditions.select_mobile('Android-移动')
+    #
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # def test_me_zhangshuli_019(self):
+    #     """会话窗口中点击删除文本消息"""
+    #     # 打开‘我’页面
+    #     me = MePage()
+    #     me.open_me_page()
+    #     time.sleep(3)
+    #     self.assertTrue(me.is_on_this_page())
+    #     # 打开‘查看并编辑个人资料’页面
+    #     me.click_view_edit()
+    #     # 点击分享名片
+    #     view_user_profile_page = MeViewUserProfilePage()
+    #     view_user_profile_page.page_down()
+    #     view_user_profile_page = view_user_profile_page.click_share_card()
+    #     # 选择本地联系人
+    #     sc = SelectContactsPage()
+    #     sc.click_phone_contact()
+    #     local_contacts_page = SelectLocalContactsPage()
+    #     search = local_contacts_page.search("1111111111111111")
+    #     result = local_contacts_page.no_search_result()
+    #     self.assertTrue(result)
 
     @staticmethod
     def setUp_test_msg_huangcaizui_B_0023():
