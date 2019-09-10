@@ -648,10 +648,8 @@ class MsgAllPrior(TestCase):
         group_chat_name = Preconditions.get_group_chat_name()
         select_one_group_page.select_one_group_by_name(group_chat_name)
         select_one_group_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'))
-        element = select_one_group_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="文件"]'))
-        element = select_one_group_page.click_element(
-            (MobileBy.ID, 'com.chinasofti.rcs:id/ll_mobile_memory'))
+        element = select_one_group_ChatMorePage().click_file1()
+        element = select_one_group_ChatSelectFilePage().click_local_file()
         elements = elements = select_one_group_page.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         while len(elements) == 0:
@@ -661,10 +659,8 @@ class MsgAllPrior(TestCase):
                 (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         select_one_group_page.click_element(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        select_one_group_page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="2018-11-09 11-06-18-722582.log"]'))
-        select_one_group_page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'))
+        select_one_group_page.click_element_by_path("2018-11-09 11-06-18-722582.log")
+        select_one_group_page.click_send_message()
         file_elements = select_one_group_page.get_elements(
             (MobileBy.XPATH,
              '//*[@resource-id="com.chinasofti.rcs:id/textview_file_name" and @text="2018-11-09 11-06-18-722582.log"]'))
@@ -672,21 +668,15 @@ class MsgAllPrior(TestCase):
             select_one_group_page.press(file_element)
             select_one_group_page.click_element(
                 (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
-            select_one_group_page.click_element(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/text_hint" and @text="选择一个群"]'))
+            select_one_group_page.click_select_group()
             # 点击群名称  然后取消
-            select_one_group_page.click_element(
-                (MobileBy.XPATH,
-                 '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text="%s"]' % group_chat_name))
+            select_one_group_SelectContactsPage().select_one_contact_by_name(group_chat_name)
             select_one_group_page.click_element((MobileBy.XPATH,
                                                  '//*[@resource-id="com.chinasofti.rcs:id/btn_cancel" and @text="取消"]'))
 
             # 点击群名称  然后确认
-            select_one_group_page.click_element(
-                (MobileBy.XPATH,
-                 '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text="%s"]' % group_chat_name))
-            select_one_group_page.click_element((MobileBy.XPATH,
-                                                 '//*[@resource-id="com.chinasofti.rcs:id/btn_ok" and @text="确定"]'))
+            select_one_group_SelectContactsPage().select_one_contact_by_name(group_chat_name)
+            select_one_group_page.click_ok_message()
             select_one_group_page.is_toast_exist("已转发")
         # 删除所有转发信息
         wait_del_file_elements = select_one_group_page.get_elements(
@@ -726,10 +716,8 @@ class MsgAllPrior(TestCase):
         group_chat_name = Preconditions.get_group_chat_name()
         select_one_group_page.select_one_group_by_name(group_chat_name)
         select_one_group_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'))
-        select_one_group_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="文件"]'))
-        select_one_group_page.click_element(
-            (MobileBy.ID, 'com.chinasofti.rcs:id/ll_mobile_memory'))
+        select_one_group_ChatMorePage().click_file1()
+        select_one_group_ChatSelectFilePage().click_local_file()
         elements = select_one_group_page.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         while len(elements) == 0:
@@ -739,10 +727,8 @@ class MsgAllPrior(TestCase):
                 (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         select_one_group_page.click_element(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        select_one_group_page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="2018-11-09 11-06-18-722582.log"]'))
-        select_one_group_page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'))
+        select_one_group_page.click_element_by_path("2018-11-09 11-06-18-722582.log")
+        select_one_group_page.click_send_message()
         time.sleep(1)
         file_elements = select_one_group_page.get_elements(
             (MobileBy.XPATH,
@@ -810,10 +796,8 @@ class MsgAllPrior(TestCase):
         group_chat_name = Preconditions.get_group_chat_name()
         select_one_group_page.select_one_group_by_name(group_chat_name)
         select_one_group_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'))
-        select_one_group_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="文件"]'))
-        select_one_group_page.click_element(
-            (MobileBy.ID, 'com.chinasofti.rcs:id/ll_mobile_memory'))
+        select_one_group_ChatMorePage().click_file1()
+        select_one_group_ChatSelectFilePage().click_local_file()
         elements = select_one_group_page.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         while len(elements) == 0:
@@ -823,10 +807,8 @@ class MsgAllPrior(TestCase):
                 (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         select_one_group_page.click_element(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        select_one_group_page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="2018-11-09 11-06-18-722582.log"]'))
-        select_one_group_page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'))
+        select_one_group_page.click_element_by_path("2018-11-09 11-06-18-722582.log")
+        select_one_group_page.click_send_message()
         time.sleep(1)
         file_elements = select_one_group_page.get_elements(
             (MobileBy.XPATH,
@@ -885,10 +867,8 @@ class MsgAllPrior(TestCase):
         group_chat_name = Preconditions.get_group_chat_name()
         select_one_group_page.select_one_group_by_name(group_chat_name)
         select_one_group_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'))
-        select_one_group_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="文件"]'))
-        select_one_group_page.click_element(
-            (MobileBy.ID, 'com.chinasofti.rcs:id/ll_mobile_memory'))
+        select_one_group_ChatMorePage().click_file1()
+        select_one_group_ChatSelectFilePage().click_local_file()
         elements = select_one_group_page.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         while len(elements) == 0:
@@ -898,10 +878,8 @@ class MsgAllPrior(TestCase):
                 (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         select_one_group_page.click_element(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        select_one_group_page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="2018-11-09 11-06-18-722582.log"]'))
-        select_one_group_page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'))
+        select_one_group_page.click_element_by_path("2018-11-09 11-06-18-722582.log")
+        select_one_group_page.click_send_message()
         time.sleep(1)
         file_elements = select_one_group_page.get_elements(
             (MobileBy.XPATH,
@@ -957,10 +935,8 @@ class MsgAllPrior(TestCase):
         group_chat_name = Preconditions.get_group_chat_name()
         select_one_group_page.select_one_group_by_name(group_chat_name)
         select_one_group_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'))
-        select_one_group_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iocn_tv" and @text="文件"]'))
-        select_one_group_page.click_element(
-            (MobileBy.ID, 'com.chinasofti.rcs:id/ll_mobile_memory'))
+        select_one_group_ChatMorePage().click_file1()
+        select_one_group_ChatSelectFilePage().click_local_file()
         elements = select_one_group_page.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         while len(elements) == 0:
@@ -970,10 +946,8 @@ class MsgAllPrior(TestCase):
                 (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
         select_one_group_page.click_element(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        select_one_group_page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="2018-11-09 11-06-18-722582.log"]'))
-        select_one_group_page.click_element((MobileBy.XPATH,
-                                             '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'))
+        select_one_group_page.click_element_by_path("2018-11-09 11-06-18-722582.log")
+        select_one_group_page.click_send_message()
         time.sleep(1)
         file_elements = select_one_group_page.get_elements(
             (MobileBy.XPATH,
