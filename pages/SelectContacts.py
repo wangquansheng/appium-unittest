@@ -1116,3 +1116,75 @@ class SelectContactsPage(BasePage):
         """获取元素"""
         self.click_element(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
+
+    @TestLogger.log("点击发送")
+    def click_send_message(self):
+        """点击发送"""
+        self.click_element((MobileBy.XPATH,
+                            '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'))
+
+    @TestLogger.log("点击发送")
+    def click_ok_message(self):
+        """点击发送"""
+        self.click_element((MobileBy.XPATH,
+                            '//*[@resource-id="com.chinasofti.rcs:id/btn_ok" and @text="确定"]'))
+
+    @TestLogger.log("点击发送")
+    def click_select_group(self):
+        """点击发送"""
+        self.click_element(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/text_hint" and @text="选择一个群"]'))
+
+    @TestLogger.log("点击发送")
+    def click_resend_group(self):
+        """点击发送"""
+        self.click_element((MobileBy.XPATH,
+                            '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
+
+    def get_element_by_path1(self, path):
+        """获取元素"""
+        elements = self.get_elements(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/textview_file_name" and @text="%s"]' % path))
+        return elements
+
+    def swipe_by_direction1(self):
+        """获取元素"""
+        self.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
+
+    def swipe_by_direction2(self):
+        """获取元素"""
+        self.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/rv_favorite'), 'up')
+
+    def click_cancel_message(self):
+        """获取元素"""
+        self.click_element((MobileBy.XPATH,
+                            '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="撤回"]'))
+
+    def check_cancel_message(self):
+        get_elements = self.get_elements(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_sys_msg" and @text="你撤回了一条信息"]'))
+        return get_elements
+
+    def click_collect_message(self):
+        self.click_element((MobileBy.XPATH,
+                    '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="收藏"]'))
+
+    def click_by_filename(self, filename):
+        self.click_element((MobileBy.XPATH,
+                               '//*[@resource-id="com.chinasofti.rcs:id/file_name" and @text="%s"]' % filename))
+
+    def get_by_filename(self, filename):
+        get_elements = self.get_elements(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/file_name" and @text="%s"]' % filename))
+        return get_elements
+
+    def get_by_another1(self):
+        get_elements = self.get_elements(
+            (MobileBy.XPATH,
+             '//*[@resource-id="com.chinasofti.rcs:id/imageview_msg_image" and @index="1"]'))
+        return get_elements
+
+    def get_by_another2(self):
+        get_elements = self.get_elements(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/favorite_image" and @index="0"]'))
+        return get_elements
