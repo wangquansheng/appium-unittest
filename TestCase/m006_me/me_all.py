@@ -276,6 +276,40 @@ class Preconditions(WorkbenchPreconditions):
             raise AssertionError("Failure to enter group chat session page.")
 
     @staticmethod
+    def get_into_group_chat_page(name):
+        """进入群聊聊天会话页面"""
+
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        # 点击 +
+        mp.click_add_icon()
+        # 点击发起群聊
+        mp.click_group_chat()
+        scg = SelectContactsPage()
+        times = 15
+        n = 0
+        # 重置应用时需要再次点击才会出现选择一个群
+        while n < times:
+            # 等待选择联系人页面加载
+            flag = scg.wait_for_page_load()
+            if not flag:
+                scg.click_back()
+                time.sleep(2)
+                mp.click_add_icon()
+                mp.click_group_chat()
+            else:
+                break
+            n += 1
+        scg.click_select_one_group()
+        sog = SelectOneGroupPage()
+        # 等待“选择一个群”页面加载
+        sog.wait_for_page_load()
+        # 选择一个普通群
+        sog.selecting_one_group_by_name(name)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+
+    @staticmethod
     def make_already_have_my_group(reset=False):
         """确保有群，没有群则创建群名为mygroup+电话号码后4位的群"""
         # 消息页面
@@ -2635,7 +2669,8 @@ class MeAllTest(TestCase):
         mwp.click_close_welfare_activities()
         mep.open_message_page()
         # 5.将复制内容转发到群里面
-        Preconditions.enter_group_chat_page()
+        Preconditions.get_into_group_chat_page("群聊1")
+        # Preconditions.enter_group_chat_page()
         gcp = GroupChatPage()
         gcp.click_long_copy_message()
         gcp.send_text()
