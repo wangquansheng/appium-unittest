@@ -152,16 +152,14 @@ class Preconditions(WorkbenchPreconditions):
         mep1.swipe_up()
         mep1.input_name("姓名", "中国人123*#!")
         mep1.input_name("公司", "中移科技有限公司")
-        mep1.input_name("职位", "高级工程师123")
+        zhiwei ="高级工程师" + str(random.randint(100, 999))
+        mep1.input_name("职位", zhiwei)
         mep1.swipe_up()
         mep1.input_name("邮箱", "邮箱")
         time.sleep(1)
         mep1.click_save()
         if mep1.is_toast_save_success():
             mep1.click_back()
-        if mep1.is_toast_save():
-            mep1.click_back()
-            mup.click_back()
         else:
             pass
 
@@ -793,15 +791,11 @@ class MeAllTest(TestCase):
         scp.select_local_contacts()
         slp = SelectLocalContactsPage()
         slp.wait_for_page_load()
-        slp.select_one_member_by_name("给个红包1")
+        slp.selecting_local_contacts_by_name("给个红包1")
         # 3.跳转到卡名
         mnp = MeCardNamePage()
-        # mnp.wait_for_page_load()
-        # mnp.click_el_text("关闭")
-        # 7.再次选择任意群聊
-        # slp.select_one_member_by_name("给个红包1")
         mnp.wait_for_page_load()
-        # 8.点击发送名片按钮
+        # 4.点击发送名片按钮
         mnp.click_el_text("发送名片")
         mup.click_back()
 
@@ -2137,7 +2131,8 @@ class MeAllTest(TestCase):
         scg = SelectContactsPage()
         scg.wait_for_page_load()
         # 2.点击搜索框输入已有群聊名称
-        group_name = Preconditions.get_group_chat_name()
+        # group_name = Preconditions.get_group_chat_name()
+        group_name = "群聊1"
         scg.input_search_keyword(group_name)
         scg.page_should_contain_text("群聊")
         # 3.点击任何一个结果
@@ -2568,7 +2563,7 @@ class MeAllTest(TestCase):
         # 2.等待福利页面跳转
         mwp.wait_for_page_load()
         # 3.点击任意一个福利活动
-        mwp.click_welfare_activities2()
+        mwp.click_welfare_activities()
         mwp.wait_for_page_load_welfare_activities()
         time.sleep(10)
         # mwp.page_should_contain_text("活动规则")

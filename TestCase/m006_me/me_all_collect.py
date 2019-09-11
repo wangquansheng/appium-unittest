@@ -155,7 +155,8 @@ class Preconditions(WorkbenchPreconditions):
         time.sleep(3)
         sc.click_select_one_group()
         # 群名
-        group_name = Preconditions.get_group_chat_name()
+        # group_name = Preconditions.get_group_chat_name()
+        group_name = "给个红包4"
         # 获取已有群名
         sog = SelectOneGroupPage()
         sog.wait_for_page_load()
@@ -216,7 +217,8 @@ class Preconditions(WorkbenchPreconditions):
         scp = GroupChatPage()
         sogp = SelectOneGroupPage()
         if sogp.is_on_this_page():
-            group_name = Preconditions.get_group_chat_name()
+            # group_name = Preconditions.get_group_chat_name()
+            group_name="给个红包4"
             # 点击群名，进入群聊页面
             sogp.click_one_contact(group_name)
             scp.wait_for_page_load()
@@ -997,7 +999,10 @@ class MeAllCollect(TestCase):
         mcp.click_collection_file_name()
         mcp.page_should_contain_text(file_name)
         # 4.点击返回
-        mcp.click_back_by_android(2)
+        if mcp.is_toast_exist("无法播放文件"):
+            mcp.click_back_by_android()
+        else:
+            mcp.click_back_by_android(2)
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_468(self):
@@ -1941,7 +1946,7 @@ class MeAllCollect(TestCase):
         one_key.wait_for_page_load()
         self.assertEquals(one_key.is_on_this_page(), True)
 
-    @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
+    @unittest.skip("跳过")
     def test_me_zhangshuli_584(self):
         """验证我-设置-退出登录(异常网络)"""
         # 备注：退出登录暂时不验证
