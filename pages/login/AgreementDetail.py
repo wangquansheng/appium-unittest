@@ -23,12 +23,22 @@ class AgreementDetailPage(BasePage):
         '同意_631': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_positive_button'),
         '不同意_631': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_negative_button'),
         '热门问题': (MobileBy.ID, '//android.view.View[@content-desc="1、什么是实名认证？"]'),
+        '和包余额': (MobileBy.ID, 'com.chinasofti.rcs:id/lv_cash_area'),
     }
 
     @TestLogger.log()
     def click_agree_button(self):
         """点击同意"""
         self.click_element(self.__locators['同意'])
+
+    @TestLogger.log()
+    def is_exist_element_by_id(self,text):
+        """点击同意"""
+        els = self.get_elements(self.__locators[text])
+        if els:
+            return True
+        else:
+            return False
 
     @TestLogger.log()
     def click_agree_button_631(self):

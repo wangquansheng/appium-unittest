@@ -1,3 +1,5 @@
+from lib2to3.pgen2 import driver
+
 from appium.webdriver.common.mobileby import MobileBy
 
 from library.core.BasePage import BasePage
@@ -14,8 +16,8 @@ class SuperMeetingPage(BasePage):
         '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
         '关闭': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_close_actionbar'),
         '创建语音通知': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View[1]/android.view.View/android.view.View/android.view.View[5]/android.view.View'),
-        # '预约会议': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View[1]'),
-        '预约会议': (MobileBy.XPATH, '//*[contains(@text,"预约会议")]'),
+        # '预约会议': (MobileBy.XPATH, '//*[contains(@text,"预约会议")]'),
+        '预约会议': (MobileBy.XPATH, '//*[@text="预约会议" or @content-desc="预约会议"]'),
         '马上开会': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[3]/android.view.View[2]'),
         '下三角': (MobileBy.XPATH, '//*[@text="ic_arrow_%20down"]'),
         '上三角': (MobileBy.XPATH, '//*[@text="ic_arrow_upward"]'),
@@ -29,7 +31,7 @@ class SuperMeetingPage(BasePage):
         '加号': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[2]/android.widget.ListView/android.view.View[3]/android.widget.Image'),
         '确定删除所有记录': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[2]/android.view.View[2]/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]'),
         '确定取消此次会议': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[4]/android.view.View[2]/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]'),
-
+        '时间小时': (MobileBy.ID, 'hourSelectList'),
     }
 
     @TestLogger.log()

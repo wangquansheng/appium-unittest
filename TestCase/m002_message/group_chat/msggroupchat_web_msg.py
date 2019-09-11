@@ -706,7 +706,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
             time.sleep(3)
             hr.click_text_or_description('未读')
             # 如果有已读联系人，点击第一个
-            hr.click_first_contact2()
+            hr.click_text("大佬1")
             cdp = ContactDetailsPage()
             cdp.wait_for_page_load()
             if not cdp.is_on_this_page():
@@ -845,7 +845,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
             time.sleep(3)
             hr.click_text_or_description('未读')
             # 如果有已读联系人，点击第一个
-            hr.click_first_contact2()
+            hr.click_text("大佬1")
             cdp = ContactDetailsPage()
             cdp.wait_for_page_load()
             if not cdp.is_on_this_page():
@@ -2347,8 +2347,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.click_back()
         # 打开企业群
-        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        # group_name = "ag" + phone_number[-4:]
         Preconditions.get_into_group_chat_page('测试企业群')
         Preconditions.delete_record_group_chat()
         # 发送消息
@@ -2390,8 +2388,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.click_back()
         # 打开企业群
-        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        # group_name = "ag" + phone_number[-4:]
         Preconditions.get_into_group_chat_page('测试企业群')
         Preconditions.delete_record_group_chat()
         # 发送消息
@@ -2438,8 +2434,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.click_back()
         # 打开企业群
-        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        # group_name = "ag" + phone_number[-4:]
         Preconditions.get_into_group_chat_page('测试企业群')
         Preconditions.delete_record_group_chat()
         # 发送消息
@@ -2481,8 +2475,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.click_back()
         # 打开企业群
-        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        # group_name = "ag" + phone_number[-4:]
         Preconditions.get_into_group_chat_page('测试企业群')
         Preconditions.delete_record_group_chat()
         # 发送消息
@@ -2595,7 +2587,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # hr.wait_for_page_load()
         hr.click_text_or_description('未读')
         # 如果有已读联系人，点击第一个
-        hr.click_first_contact2()
+        time.sleep(3)
+        hr.click_text("大佬1")
         cdp = ContactDetailsPage()
         cdp.wait_for_page_load()
         if not cdp.is_on_this_page():
@@ -2625,7 +2618,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # hr.wait_for_page_load()
         hr.click_text_or_description('未读')
         # 如果有已读联系人，点击第一个
-        hr.click_first_contact2()
+        time.sleep(3)
+        hr.click_text("大佬1")
         cdp = ContactDetailsPage()
         cdp.wait_for_page_load()
         if not cdp.is_on_this_page():
@@ -2670,7 +2664,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
             # hr.wait_for_page_load()
             hr.click_text_or_description('未读')
             # 如果有已读联系人，点击第一个
-            hr.click_first_contact2()
+            time.sleep(3)
+            hr.click_text("大佬1")
             cdp = ContactDetailsPage()
             cdp.wait_for_page_load()
             if not cdp.is_on_this_page():
@@ -2716,7 +2711,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
             hr.click_text_or_description('未读')
             # hr.click_has_not_read()
             # 如果有已读联系人，点击第一个
-            hr.click_first_contact2()
+            time.sleep(3)
+            hr.click_text("大佬1")
             cdp = ContactDetailsPage()
             cdp.wait_for_page_load()
             if not cdp.is_on_this_page():
@@ -2749,7 +2745,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # hr.wait_for_page_load()
         hr.click_text_or_description('未读')
         # 如果有已读联系人，点击第一个
-        hr.click_first_contact2()
+        time.sleep(3)
+        hr.click_text("大佬1")
         cdp = ContactDetailsPage()
         cdp.wait_for_page_load()
         if not cdp.is_on_this_page():
@@ -2779,7 +2776,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # hr.wait_for_page_load()
         hr.click_text_or_description('未读')
         # 如果有已读联系人，点击第一个
-        hr.click_first_contact2()
+        time.sleep(3)
+        hr.click_text("大佬1")
         cdp = ContactDetailsPage()
         cdp.wait_for_page_load()
         if not cdp.is_on_this_page():
@@ -2864,25 +2862,28 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mess.click_sure_button()
         time.sleep(1)
         cgp = ContactsPage()
-        cgp.input_text_c('联系人输入框', "测试0180")
+        cgp.input_text_c('联系人输入框', "大佬3")
         mess.click_sure_button()
         time.sleep(2)
         result = gcp.is_text_present("发出群邀请")
         self.assertEqual(result, True)
 
     def tearDown_test_msg_huangmianhua_0180(self):
-        gcp = GroupChatPage()
-        gcp.click_setting()
-        gcsp = GroupChatSetPage()
-        gcsp.wait_for_page_load()
-        gcsp.click_group_manage()
-        time.sleep(1)
-        gcsp.click_group_manage_disband_button()
-        time.sleep(1)
-        gc = GroupChatPage()
-        # 解散
-        gc.click_resend_confirm()
-        time.sleep(5)
+        try:
+            gcp = GroupChatPage()
+            gcp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            gcsp.click_group_manage()
+            time.sleep(1)
+            gcsp.click_group_manage_disband_button()
+            time.sleep(1)
+            gc = GroupChatPage()
+            # 解散
+            gc.click_resend_confirm()
+            time.sleep(5)
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'group_chat')
     def test_msg_huangmianhua_0181(self):
@@ -3559,7 +3560,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         result = gcp.is_text_present("大佬1")
         self.assertTrue(result)
         # 如果有已读联系人，点击第一个
-        hr.click_first_contact2()
+        hr.click_text("大佬1")
         cdp = ContactDetailsPage()
         cdp.wait_for_page_load()
         if not cdp.is_on_this_page():
@@ -3590,7 +3591,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         hr.click_text_or_description('未读')
         time.sleep(1)
         # 如果有已读联系人，点击第一个
-        hr.click_first_contact2()
+        hr.click_text("大佬1")
         cdp = ContactDetailsPage()
         cdp.wait_for_page_load()
         if not cdp.is_on_this_page():
@@ -4687,12 +4688,12 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 搜索群
         mess = MessagePage()
         mess.click_search()
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        group_name = "ag" + phone_number[-4:]
-        mess.input_search_message_631(group_name)
+        # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        # group_name = "ag" + phone_number[-4:]
+        mess.input_search_message_631("测试企业群")
         mess.hide_keyboard()
         time.sleep(1)
-        mess.selecting_one_group_scroll_by_name(group_name)
+        mess.selecting_one_group_scroll_by_name("测试企业群")
         gcp.click_setting()
         time.sleep(1)
         # 判断
@@ -4782,12 +4783,10 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 搜索群
         mess = MessagePage()
         mess.click_search()
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        group_name = "ag" + phone_number[-4:]
-        mess.input_search_message_631(group_name)
+        mess.input_search_message_631("测试企业群")
         mess.hide_keyboard()
         time.sleep(1)
-        mess.selecting_one_group_scroll_by_name(group_name)
+        mess.selecting_one_group_scroll_by_name("测试企业群")
         gcp.click_setting()
         time.sleep(1)
         # 判断
@@ -4914,12 +4913,10 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 搜索群
         mess = MessagePage()
         mess.click_search()
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        group_name = "ag" + phone_number[-4:]
-        mess.input_search_message_631(group_name)
+        mess.input_search_message_631("测试企业群")
         mess.hide_keyboard()
         time.sleep(1)
-        mess.selecting_one_group_scroll_by_name(group_name)
+        mess.selecting_one_group_scroll_by_name("测试企业群")
         # 发送消息
         gcp.input_text_message("哈哈")
         gcp.send_message()
@@ -4928,9 +4925,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         time.sleep(1)
         gcp.click_back_by_android()
         # 消息列表进入群
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        group_name = "ag" + phone_number[-4:]
-        mess.selecting_one_group_click_by_name(group_name)
+        mess.selecting_one_group_click_by_name("测试企业群")
         time.sleep(1)
         gcp.click_setting()
         time.sleep(1)
@@ -5125,6 +5120,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         """通讯录——群聊入口——群聊列表入口"""
         gcp = GroupChatPage()
         gcp.click_back()
+        time.sleep(2)
         # 进入"联系"标签
         mess = MessagePage()
         mess.open_contacts_page()
@@ -5132,9 +5128,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         contact.click_group_chat_631()
         time.sleep(1)
         sog = SelectOneGroupPage()
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        group_name = "ag" + phone_number[-4:]
-        sog.selecting_one_group_by_name(group_name)
+        sog.selecting_one_group_by_name("群聊1")
         time.sleep(1)
         gcp.click_setting()
         time.sleep(1)
@@ -5250,12 +5244,10 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 搜索企业群
         sog = SelectOneGroupPage()
         sog.click_search_group()
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        group_name = "ag" + phone_number[-4:]
-        sog.input_search_keyword(group_name)
+        sog.input_search_keyword("测试企业群")
         time.sleep(1)
         # 打开企业群
-        sog.selecting_one_group_by_name(group_name)
+        sog.selecting_one_group_by_name("测试企业群")
         time.sleep(1)
         gcp.click_setting()
         time.sleep(1)
@@ -5676,9 +5668,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.click_back()
         # 打开企业群
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        group_name = "ag" + phone_number[-4:]
-        Preconditions.get_into_group_chat_page(group_name)
+        Preconditions.get_into_group_chat_page('测试企业群')
         Preconditions.delete_record_group_chat()
         # 发送消息
         gcp.input_text_message("哈哈")
@@ -5716,9 +5706,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.click_back()
         # 打开企业群
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        group_name = "ag" + phone_number[-4:]
-        Preconditions.get_into_group_chat_page(group_name)
+        Preconditions.get_into_group_chat_page('测试企业群')
         Preconditions.delete_record_group_chat()
         # 发送消息
         gcp.input_text_message("哈哈")
@@ -5756,9 +5744,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.click_back()
         # 打开企业群
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        group_name = "ag" + phone_number[-4:]
-        Preconditions.get_into_group_chat_page(group_name)
+        Preconditions.get_into_group_chat_page('测试企业群')
         Preconditions.delete_record_group_chat()
         # 发送消息
         gcp.input_text_message("哈哈")
@@ -5796,9 +5782,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         gcp = GroupChatPage()
         gcp.click_back()
         # 打开企业群
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        group_name = "ag" + phone_number[-4:]
-        Preconditions.get_into_group_chat_page(group_name)
+        Preconditions.get_into_group_chat_page('测试企业群')
         Preconditions.delete_record_group_chat()
         # 发送消息
         gcp.input_text_message("哈哈")
