@@ -1169,7 +1169,6 @@ class MsgPrivateChatVideoPicTest(TestCase):
                 chat.wait_for_page_load()
                 return
 
-
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_msg_xiaoliping_C_0169(self):
         """在单聊会话窗，搜索特殊字符关键字发送趣图"""
@@ -1393,7 +1392,7 @@ class MsgPrivateChatVideoPicTest(TestCase):
         if pv.is_on_this_page():
             pv.click_back()
         # 回到消息页面
-        record.click_back_by_android(6)
+        record.click_back_by_android(5)
         cdp = ContactDetailsPage()
         mess = MessagePage()
         mess.open_message_page()
@@ -1409,6 +1408,7 @@ class MsgPrivateChatVideoPicTest(TestCase):
         mess.open_contacts_page()
         contacts = ContactsPage()
         contacts.wait_for_page_load()
+        mess.click_phone_contact()
         names = contacts.get_contacts_name()
         chat = SingleChatPage()
         contacts.select_people_by_name(names[0])
@@ -1511,33 +1511,10 @@ class MsgPrivateChatVideoPicTest(TestCase):
         if pv.is_on_this_page():
             pv.click_back()
         # 回到消息页面
-        record.click_back_by_android(6)
-        cdp = ContactDetailsPage()
+        record.click_back_by_android(5)
         mess = MessagePage()
         mess.open_message_page()
         mess.wait_for_page_load()
-        # # 在转发人的聊天界面可查看转发内容
-        # mess.look_detail_news_by_name(names[0])
-        # chat.wait_for_page_load()
-        # if not chat.is_exist_video_msg():
-        #     raise AssertionError("转发视频时在转发人的聊天界面无转发的视频")
-        # chat.click_back()
-        # mess.wait_for_page_load()
-        # # 从消息页面进入单聊页面
-        # mess.open_contacts_page()
-        # contacts = ContactsPage()
-        # time.sleep(3)
-        # names = contacts.get_contacts_name()
-        # chat = SingleChatPage()
-        # contacts.select_people_by_name(names[0])
-        # cdp.wait_for_page_load()
-        # # 点击消息进入单聊会话页面
-        # cdp.click_message_icon()
-        # # 如果弹框用户须知则点击处理
-        # flag = chat.is_exist_dialog()
-        # if flag:
-        #     chat.click_i_have_read()
-        # chat.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'DEBUG')
     def test_msg_xiaoliping_C_0204(self):
