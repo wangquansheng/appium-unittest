@@ -2365,13 +2365,10 @@ class MsgPrivateChatAllTest(TestCase):
         local_file = ChatSelectLocalFilePage()
         # 点击继续发送
         local_file.click_continue_send()
-        # 1.验证是否发送成功
-        cwp = ChatWindowPage()
-        cwp.wait_for_msg_send_status_become_to('发送成功', 30)
         # 再次选择大型视频文件发送
         Preconditions.send_large_video_file()
         time.sleep(2)
-        # 2.是否弹出继续发送、订购免流特权、以后不再提示
+        # 是否弹出继续发送、订购免流特权、以后不再提示
         self.assertEquals(local_file.is_exist_continue_send(), True)
         self.assertEquals(local_file.is_exist_free_flow_privilege(), True)
         self.assertEquals(local_file.is_exist_no_longer_prompt(), True)
@@ -2387,7 +2384,6 @@ class MsgPrivateChatAllTest(TestCase):
     @staticmethod
     def tearDown_test_msg_weifenglian_1V1_0035():
         """恢复网络"""
-
         mp = MessagePage()
         mp.set_network_status(6)
 
@@ -2514,7 +2510,7 @@ class MsgPrivateChatAllTest(TestCase):
         Preconditions.send_local_music()
         # 3.验证是否发送成功
         cwp = ChatWindowPage()
-        cwp.wait_for_msg_send_status_become_to('发送成功', 30)
+        cwp.wait_for_msg_send_status_become_to('发送成功', 120)
         time.sleep(2)
         # 获取发送的文件名称
         file_name = scp.get_current_file_name()
@@ -5714,9 +5710,10 @@ class MsgPrivateChatAllTest(TestCase):
         # 1.点击全部团队
         contact.click_contact_all_team()
         time.sleep(2)
-        contact.click_text("测试团队1")
+        shcdp = SelectHeContactsDetailPage()
+        shcdp.click_department_name("测试团队1")
         time.sleep(2)
-        contact.click_text("大佬1")
+        contact.select_group_contact_by_name("大佬1")
         time.sleep(2)
         cdp = ContactDetailsPage()
         time.sleep(2)
