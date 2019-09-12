@@ -581,10 +581,10 @@ class CallMultipartyVideo(TestCase):
     def setUpClass(cls) -> None:
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
-        # phone_number = (current_mobile().get_cards(CardType.CHINA_MOBILE)[0])[-4:]
-        # name = 'Test_' + phone_number
-        # Preconditions.dismiss_one_group(name)
-        # Preconditions.create_contacts_groups()
+        phone_number = (current_mobile().get_cards(CardType.CHINA_MOBILE)[0])[-4:]
+        name = 'Test_' + phone_number
+        Preconditions.dismiss_one_group(name)
+        Preconditions.create_contacts_groups()
 
     @classmethod
     def tearDownClass(cls):
