@@ -155,8 +155,7 @@ class Preconditions(WorkbenchPreconditions):
         time.sleep(3)
         sc.click_select_one_group()
         # 群名
-        # group_name = Preconditions.get_group_chat_name()
-        group_name = "给个红包4"
+        group_name = Preconditions.get_group_chat_name()
         # 获取已有群名
         sog = SelectOneGroupPage()
         sog.wait_for_page_load()
@@ -217,8 +216,7 @@ class Preconditions(WorkbenchPreconditions):
         scp = GroupChatPage()
         sogp = SelectOneGroupPage()
         if sogp.is_on_this_page():
-            # group_name = Preconditions.get_group_chat_name()
-            group_name="给个红包4"
+            group_name = Preconditions.get_group_chat_name()
             # 点击群名，进入群聊页面
             sogp.click_one_contact(group_name)
             scp.wait_for_page_load()

@@ -193,7 +193,7 @@ class Preconditions(WorkbenchPreconditions):
     def get_group_chat_name():
         """获取群名"""
         phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        group_name = "c" + phone_number[-4:]
+        group_name = "a" + phone_number[-4:]
         return group_name
 
     @staticmethod
@@ -434,6 +434,8 @@ class MeAllTest(TestCase):
                 fail_time1 += 1
             if flag1:
                 break
+        # 创建群名 a+[-4]
+        Preconditions.enter_group_chat_page()
 
     def default_setUp(self):
         """确保每个用例运行前在我的会话页面"""
@@ -934,7 +936,6 @@ class MeAllTest(TestCase):
         # 5.点击返回
         mup.click_back()
 
-    # @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
     @unittest.skip('页面发生改变')
     def test_me_zhangshuli_021(self):
         """分享名片-关键字搜索"""
@@ -2131,7 +2132,6 @@ class MeAllTest(TestCase):
         scg = SelectContactsPage()
         scg.wait_for_page_load()
         # 2.点击搜索框输入已有群聊名称
-        # group_name = Preconditions.get_group_chat_name()
         group_name = "群聊1"
         scg.input_search_keyword(group_name)
         scg.page_should_contain_text("群聊")
