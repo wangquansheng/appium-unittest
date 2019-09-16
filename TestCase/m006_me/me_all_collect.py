@@ -481,8 +481,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_445(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_446(self):
@@ -503,8 +506,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_446(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_447(self):
@@ -527,8 +533,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_447(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_451(self):
@@ -758,8 +767,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_459(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_460(self):
@@ -838,8 +850,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_461(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_462(self):
@@ -875,8 +890,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_462(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_464(self):
@@ -1106,8 +1124,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_471(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_472(self):
@@ -1172,8 +1193,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_473(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_476(self):
