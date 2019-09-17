@@ -41,6 +41,7 @@ class ContactsDemo(TestCase):
         import warnings
         warnings.simplefilter('ignore', ResourceWarning)
 
+
     def default_setUp(self):
         # 启动App
         Preconditions.select_mobile('Android-移动')
@@ -1968,6 +1969,12 @@ class msgtips(TestCase):
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
         Preconditions.create_contacts_if_not_exist_631(["给个名片1, 13800138200", "给个名片2, 13800138300"])
+        path = 'aaaresource'
+        from dataproviders import contact2
+        import os
+        from settings import PROJECT_PATH
+        contact2.push_resource_dir_to_mobile_sdcard2(Preconditions.select_mobile('Android-移动'),
+                                                     os.path.join(PROJECT_PATH, path))
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0259(self):
