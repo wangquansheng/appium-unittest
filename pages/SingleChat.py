@@ -700,7 +700,7 @@ class SingleChatPage(BaseChatPage):
         for i in range(1, 5):
             chatWindowPage.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'down', 600)
         self.select_local_file_directory(path)
-        self.click_text_or_description('resource')
+        # self.click_text_or_description('resource')
         # 文件系统找文件
         time.sleep(2)
         for i in range(1, 5):
