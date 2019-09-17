@@ -2234,15 +2234,30 @@ class MsgCommonGroupTest(TestCase):
         # 2、聊天页面显示输入文本信息预览，有[草稿]标识并标红
         info = "测试未发送信息"
         gcp.input_message(info)
-        # if gcp.is_on_this_page():
-        #     if gcp.is_element_exit_("文本发送按钮"):
-        #         raise AssertionError("有发送按钮")
         gcp.click_back()
         time.sleep(1)
         mess = MessagePage()
         if mess.is_on_this_page():
             exists = mess.is_text_present("草稿")
             self.assertEquals(exists, True)
+
+    @staticmethod
+    def setUp_test_msg_huangmianhua_0174():
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            MessagePage().clear_message_record()
+            Preconditions.enter_group_chat_page()
+            return
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            current_mobile().hide_keyboard_if_display()
+            return
+        else:
+            current_mobile().launch_app()
+            MessagePage().clear_message_record()
+            Preconditions.enter_group_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
     def test_msg_huangmianhua_0174(self):
@@ -2275,13 +2290,31 @@ class MsgCommonGroupTest(TestCase):
             cwp.wait_for_msg_send_status_become_to('发送成功', 10)
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
-        gcp.click_back()
-        time.sleep(1)
+        gcp.click_back_by_android()
         # 4、消息列表[草稿]标红字样消失，显示为正常消息预览
+        # 备注：其它聊天列表记录可能干扰，存在“草稿”文本，导致用例失败
         mess = MessagePage()
         if mess.is_on_this_page():
             exists = mess.is_text_present("草稿")
             self.assertEquals(exists, False)
+
+    @staticmethod
+    def setUp_test_msg_huangmianhua_0175():
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            MessagePage().clear_message_record()
+            Preconditions.enter_group_chat_page()
+            return
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            current_mobile().hide_keyboard_if_display()
+            return
+        else:
+            current_mobile().launch_app()
+            MessagePage().clear_message_record()
+            Preconditions.enter_group_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
     def test_msg_huangmianhua_0175(self):
@@ -12341,7 +12374,7 @@ class MsgCommonGroupAllTest(TestCase):
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
         # 8.返回消息页面判断是否有新的会话窗口
-        gcp.click_back()
+        gcp.click_back_by_android()
         if scp.is_on_this_page():
             scp.click_back()
         mess = MessagePage()
