@@ -57,8 +57,8 @@ class MsgAllPrior(TestCase):
         call_page.click_free_call()
         # 进入多方通话页面选择联系人呼叫
         selectcontacts = SelectContactsPage()
-        selectcontacts.click_one_contact('联系人3')
-        selectcontacts.click_one_contact('联系人4')
+        SelectContactsPage().click_one_contact_631('联系人3')
+        SelectContactsPage().click_one_contact_631('联系人4')
         selectcontacts.click_sure_bottom()
         # 是否弹框_我知道了,点击 发起呼叫
         callcontact = CalllogBannerPage()
@@ -95,8 +95,8 @@ class MsgAllPrior(TestCase):
         call_page.click_free_call()
         # 进入多方通话页面选择联系人呼叫
         selectcontacts = SelectContactsPage()
-        selectcontacts.click_one_contact('联系人3')
-        selectcontacts.click_one_contact('联系人4')
+        SelectContactsPage().click_one_contact_631('联系人3')
+        SelectContactsPage().click_one_contact_631('联系人4')
         selectcontacts.click_sure_bottom()
         # 是否弹框_我知道了,点击 发起呼叫
         callcontact = CalllogBannerPage()
@@ -136,8 +136,8 @@ class MsgAllPrior(TestCase):
         call_page.click_free_call()
         # 进入多方通话页面选择联系人呼叫
         selectcontacts = SelectContactsPage()
-        selectcontacts.click_one_contact('联系人3')
-        selectcontacts.click_one_contact('联系人4')
+        SelectContactsPage().click_one_contact_631('联系人3')
+        SelectContactsPage().click_one_contact_631('联系人4')
         time.sleep(4)
         selectcontacts.click_sure_bottom()
         # 是否弹框_我知道了,点击 发起呼叫
@@ -210,18 +210,18 @@ class MsgAllPrior(TestCase):
                 labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
                                         auto_accept_permission_alert=False)
                 if not a:
-                    labellist.click_one_contact('联系人3')
+                    SelectContactsPage().click_one_contact_631('联系人3')
                 if not b:
-                    labellist.click_one_contact('联系人4')
+                    SelectContactsPage().click_one_contact_631('联系人4')
                 labellist.click_sure()
         else:
-            labellist.click_one_contact('联系人3')
-            labellist.click_one_contact('联系人4')
+            SelectContactsPage().click_one_contact_631('联系人3')
+            SelectContactsPage().click_one_contact_631('联系人4')
             labellist.click_sure()
             labellist.select_group('分组1')
         labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_third_colum'))
-        labellist.click_one_contact('联系人3')
-        labellist.click_one_contact('联系人4')
+        SelectContactsPage().click_one_contact_631('联系人3')
+        SelectContactsPage().click_one_contact_631('联系人4')
         time.sleep(3)
         labellist.click_sure()
         time.sleep(8)
@@ -268,13 +268,13 @@ class MsgAllPrior(TestCase):
                 labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
                                         auto_accept_permission_alert=False)
                 if not a:
-                    labellist.click_one_contact('联系人3')
+                    SelectContactsPage().click_one_contact_631('联系人3')
                 if not b:
-                    labellist.click_one_contact('联系人4')
+                    SelectContactsPage().click_one_contact_631('联系人4')
                 labellist.click_sure()
         else:
-            labellist.click_one_contact('联系人3')
-            labellist.click_one_contact('联系人4')
+            SelectContactsPage().click_one_contact_631('联系人3')
+            SelectContactsPage().click_one_contact_631('联系人4')
             labellist.click_sure()
             labellist.select_group('分组1')
         # 进入群发消息界面并点击多方通话
@@ -286,8 +286,8 @@ class MsgAllPrior(TestCase):
         labellist.click_element(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and ' + '@text="多方电话"]'))
         time.sleep(3)
-        labellist.click_one_contact('联系人3')
-        labellist.click_one_contact('联系人4')
+        SelectContactsPage().click_one_contact_631('联系人3')
+        SelectContactsPage().click_one_contact_631('联系人4')
         time.sleep(3)
         labellist.click_sure()
         time.sleep(8)
@@ -727,7 +727,7 @@ class MsgAllPrior(TestCase):
         call_page.click_free_call()
         # 进入多方通话页面选择联系人呼叫
         selectcontacts = SelectContactsPage()
-        selectcontacts.click_one_contact('联系人3')
+        SelectContactsPage().click_one_contact_631('联系人3')
         time.sleep(4)
         selectcontacts.click_sure_bottom()
         # 是否弹框_我知道了,点击 发起呼叫
@@ -1009,9 +1009,9 @@ class MsgAllPrior(TestCase):
                 labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
                                         auto_accept_permission_alert=False)
                 if not a:
-                    labellist.click_one_contact('联系人3')
+                    SelectContactsPage().click_one_contact_631('联系人3')
                 if not b:
-                    labellist.click_one_contact('联系人4')
+                    SelectContactsPage().click_one_contact_631('联系人4')
                 labellist.click_sure()
 
         # 创建标签分组
@@ -1074,14 +1074,14 @@ class MsgAllPrior(TestCase):
                 labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
                                         auto_accept_permission_alert=False)
                 if not a:
-                    labellist.click_one_contact('联系人3')
+                    SelectContactsPage().click_one_contact_631('联系人3')
                 if not b:
-                    labellist.click_one_contact('联系人4')
+                    SelectContactsPage().click_one_contact_631('联系人4')
                 labellist.click_sure()
         else:
             # 新建分组 选择分组成员
-            labellist.click_one_contact('联系人3')
-            labellist.click_one_contact('联系人4')
+            SelectContactsPage().click_one_contact_631('联系人3')
+            SelectContactsPage().click_one_contact_631('联系人4')
             labellist.click_sure()
             labellist.select_group('分组1')
         # 点击多方电话
@@ -1134,9 +1134,9 @@ class MsgAllPrior(TestCase):
             labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
                                     auto_accept_permission_alert=False)
             if not a:
-                labelpage.click_one_contact('联系人3')
+                SelectContactsPage().click_one_contact_631('联系人3')
             if not b:
-                labelpage.click_one_contact('联系人4')
+                SelectContactsPage().click_one_contact_631('联系人4')
             labelpage.click_sure()
         # 进入多方通话
         labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_third_colum'))
@@ -1186,9 +1186,9 @@ class MsgAllPrior(TestCase):
             labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
                                     auto_accept_permission_alert=False)
             if not a:
-                labelpage.click_one_contact('联系人3')
+                SelectContactsPage().click_one_contact_631('联系人3')
             if not b:
-                labelpage.click_one_contact('联系人4')
+                SelectContactsPage().click_one_contact_631('联系人4')
             labelpage.click_sure()
         # 进入多方通话
         labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_third_colum'))
@@ -1240,9 +1240,9 @@ class MsgAllPrior(TestCase):
             labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
                                     auto_accept_permission_alert=False)
             if not a:
-                labelpage.click_one_contact('联系人3')
+                SelectContactsPage().click_one_contact_631('联系人3')
             if not b:
-                labelpage.click_one_contact('联系人4')
+                SelectContactsPage().click_one_contact_631('联系人4')
             labelpage.click_sure()
         # 进入多方通话
         labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_third_colum'))

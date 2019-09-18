@@ -153,7 +153,7 @@ class MsgMyPCChating(TestCase):
         scp = SelectContactsPage()
         scp.is_on_this_page()
         scp.click_phone_contact()
-        scp.click_one_contact('给个红包1')
+        SelectContactsPage().click_one_contact_631('给个红包1')
         scp.click_sure_forward()
         time.sleep(2)
         self.assertTrue(chat.is_toast_exist('已转发'))

@@ -152,7 +152,7 @@ class OrganizationTest(TestCase):
             time.sleep(1)
             osp.click_text("从手机通讯录添加")
             time.sleep(2)
-            slc.click_one_contact("飞信电话")
+            SelectContactsPage().click_one_contact_631("飞信电话")
             slc.click_sure()
             if not slc.is_toast_exist("1个联系人联系人在库中已存在"):
                 print("飞信电话已经加入")
@@ -164,7 +164,7 @@ class OrganizationTest(TestCase):
             time.sleep(1)
             osp.click_text("从手机通讯录添加")
             time.sleep(2)
-            slc.click_one_contact("飞信电话")
+            SelectContactsPage().click_one_contact_631("飞信电话")
             slc.click_sure()
             if not slc.is_toast_exist("操作成功"):
                 raise AssertionError("操作不成功")
@@ -194,8 +194,8 @@ class OrganizationTest(TestCase):
             # 搜索联系人
             sc.input_search_contact_message("飞信")
             # 选择“和飞信电话”联系人进行转发
-            sc.click_one_contact("飞信电话")
-            # slc.click_one_contact("和飞信电话")
+            SelectContactsPage().click_one_contact_631("飞信电话")
+            # SelectContactsPage().click_one_contact_631("和飞信电话")
             slc.click_sure()
             if not slc.is_toast_exist("1个联系人已存在"):
                 raise AssertionError("操作不成功")
@@ -211,8 +211,8 @@ class OrganizationTest(TestCase):
             # 搜索联系人
             sc.input_search_contact_message("飞信")
             # 选择“和飞信电话”联系人进行转发
-            sc.click_one_contact("飞信电话")
-            # slc.click_one_contact("和飞信电话")
+            SelectContactsPage().click_one_contact_631("飞信电话")
+            # SelectContactsPage().click_one_contact_631("和飞信电话")
             slc.click_sure()
             if not slc.is_toast_exist("操作成功"):
                 raise AssertionError("操作不成功")
@@ -387,8 +387,8 @@ class OrganizationTest(TestCase):
             # 搜索联系人
             sc.input_search_contact_message("飞信")
             # 选择“和飞信电话”联系人进行转发
-            sc.click_one_contact("飞信电话")
-            # slc.click_one_contact("和飞信电话")
+            SelectContactsPage().click_one_contact_631("飞信电话")
+            # SelectContactsPage().click_one_contact_631("和飞信电话")
             slc.click_sure()
             if not slc.is_toast_exist("操作成功"):
                 raise AssertionError("操作不成功")

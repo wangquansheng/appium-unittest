@@ -210,7 +210,7 @@ class Preconditions(WorkbenchPreconditions):
         sc.click_local_contacts()
         time.sleep(2)
         slc = SelectLocalContactsPage()
-        slc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # a = 0
         # names = {}
         # while a < 3:

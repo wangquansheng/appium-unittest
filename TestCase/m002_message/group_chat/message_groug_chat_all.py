@@ -107,7 +107,7 @@ class Preconditions(WorkbenchPreconditions):
         if sogp.is_on_this_page():
             group_name = Preconditions.get_group_chat_name()
             # 点击群名，进入群聊页面
-            sogp.click_one_contact(group_name)
+            SelectContactsPage().click_one_contact_631(group_name)
             scp.wait_for_page_load()
         if scp.is_on_this_page():
             return

@@ -120,7 +120,7 @@ class Preconditions(WorkbenchPreconditions):
         if sogp.is_on_this_page():
             group_name = Preconditions.get_group_chat_name()
             # 点击群名，进入群聊页面
-            sogp.click_one_contact(group_name)
+            SelectContactsPage().click_one_contact_631(group_name)
             scp.wait_for_page_load()
         if scp.is_on_this_page():
             return
@@ -412,7 +412,7 @@ class Preconditions(WorkbenchPreconditions):
         sc.click_local_contacts()
         time.sleep(2)
         slc = SelectLocalContactsPage()
-        slc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # a = 0
         # names = {}
         # while a < 3:

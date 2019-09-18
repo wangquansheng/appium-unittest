@@ -61,7 +61,7 @@ class Preconditions(WorkbenchPreconditions):
         if sogp.is_on_this_page():
             group_name = Preconditions.get_group_chat_name()
             # 点击群名，进入群聊页面
-            sogp.click_one_contact(group_name)
+            SelectContactsPage().click_one_contact_631(group_name)
             scp.wait_for_page_load()
         if scp.is_on_this_page():
             return
@@ -436,7 +436,7 @@ class Preconditions(WorkbenchPreconditions):
         sc.click_local_contacts()
         time.sleep(2)
         slc = SelectLocalContactsPage()
-        slc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # a = 0
         # names = {}
         # while a < 3:
@@ -1075,7 +1075,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         sc.select_local_contacts()
         time.sleep(2)
         # 选择一个联系人
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(2)
         # 点击确认转发
         sc.click_sure_forward()
@@ -1136,7 +1136,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         sc.wait_for_page_load()
         sc.select_local_contacts()
         time.sleep(2)
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # sc.click_one_local_contacts()
         # 点击取消按钮
         sc.click_cancel_forward()
@@ -1557,7 +1557,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         names = slcp.get_contacts_name()
         if names:
             # slcp.select_one_member_by_name(names[0])
-            scp.click_one_contact("飞信电话")
+            SelectContactsPage().click_one_contact_631("飞信电话")
             # 3、点击确定
             slcp.click_sure_forward()
             flag = slcp.is_toast_exist("已转发")
@@ -3518,7 +3518,7 @@ class MsgGroupChatFileLocationTest(TestCase):
     #     scp.wait_for_page_load()
     #     scp.click_text("选择手机联系人")
     #     time.sleep(2)
-    #     scp.click_one_contact("飞信电话")
+    #     SelectContactsPage().click_one_contact_631("飞信电话")
     #     time.sleep(2)
     #     gcp.click_element_("确定移除")
     #     if not gcp.is_toast_exist("已转发"):
@@ -3581,7 +3581,7 @@ class MsgGroupChatFileLocationTest(TestCase):
     #     sc.click_text("选择团队联系人")
     #     time.sleep(2)
     #     if sc.is_text_present("当前组织"):
-    #         sc.click_one_contact("yyx")
+    #         SelectContactsPage().click_one_contact_631("yyx")
     #         gcp.click_element_("确定移除")
     #         if not gcp.is_toast_exist("已转发"):
     #             raise AssertionError("转发失败")
@@ -3615,7 +3615,7 @@ class MsgGroupChatFileLocationTest(TestCase):
     #         time.sleep(2)
     #         sc.click_element_("企业名称")
     #         time.sleep(2)
-    #         sc.click_one_contact("yyx")
+    #         SelectContactsPage().click_one_contact_631("yyx")
     #         gcp.click_element_("确定移除")
     #         if not gcp.is_toast_exist("已转发"):
     #             raise AssertionError("转发失败")
