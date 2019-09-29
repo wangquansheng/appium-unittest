@@ -1068,44 +1068,44 @@ class MessageSearchTest(TestCase):
         flag = search_page.is_contains_element(results, "群聊1")
         self.assertEqual(flag, True, '检查点：搜索结果中群聊排序是：最近生成消息的群聊（按时间排序）')
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_E_0015():
-        """
-        1、联网正常
-        2、已登录客户端
-        3、当前全局搜索页面
-        """
-        Preconditions.select_mobile('Android-移动')
-        current_mobile().hide_keyboard_if_display()
-        Preconditions.make_already_in_message_page(reset_required=False)
-
-        key_message = '大佬'
-        # 消息页
-        message_page = MessagePage()
-
-        # 创建群
-        message_page.open_contacts_page()
-        contacts_page = ContactsPage()
-        contacts_page.open_group_chat_list()
-        group_list = GroupListPage()
-        groups = ['群聊1', '群聊2']
-        for group_name in groups:
-            group_list.wait_for_page_load()
-            group_list.click_search_input()
-            group_search = GroupListSearchPage()
-            group_search.input_search_keyword(group_name)
-            if group_search.is_group_in_list(group_name):
-                group_search.click_group(group_name)
-                chat = ChatWindowPage()
-                if chat.is_tips_display():
-                    chat.directly_close_tips_alert()
-                chat.send_message(key_message)
-                chat.click_back_by_android()
-                time.sleep(2)
-                group_search.click_back()
-            else:
-                raise AssertionError('缺少预置测试数据：没找到群聊"{}"'.format(groups))
-        group_list.click_back()
+    # @staticmethod
+    # def setUp_test_msg_huangcaizui_E_0015():
+    #     """
+    #     1、联网正常
+    #     2、已登录客户端
+    #     3、当前全局搜索页面
+    #     """
+    #     Preconditions.select_mobile('Android-移动')
+    #     current_mobile().hide_keyboard_if_display()
+    #     Preconditions.make_already_in_message_page(reset_required=False)
+    #
+    #     key_message = '大佬'
+    #     # 消息页
+    #     message_page = MessagePage()
+    #
+    #     # 创建群
+    #     message_page.open_contacts_page()
+    #     contacts_page = ContactsPage()
+    #     contacts_page.open_group_chat_list()
+    #     group_list = GroupListPage()
+    #     groups = ['群聊1', '群聊2']
+    #     for group_name in groups:
+    #         group_list.wait_for_page_load()
+    #         group_list.click_search_input()
+    #         group_search = GroupListSearchPage()
+    #         group_search.input_search_keyword(group_name)
+    #         if group_search.is_group_in_list(group_name):
+    #             group_search.click_group(group_name)
+    #             chat = ChatWindowPage()
+    #             if chat.is_tips_display():
+    #                 chat.directly_close_tips_alert()
+    #             chat.send_message(key_message)
+    #             chat.click_back_by_android()
+    #             time.sleep(2)
+    #             group_search.click_back()
+    #         else:
+    #             raise AssertionError('缺少预置测试数据：没找到群聊"{}"'.format(groups))
+    #     group_list.click_back()
 
     @tags('ALL', 'SMOKE', "CMCC")
     def test_msg_huangcaizui_E_0016(self):
@@ -1140,44 +1140,44 @@ class MessageSearchTest(TestCase):
         self.assertEqual('群聊2', results[0], '检查点：搜索结果中聊天记录排序是： 按时间排序')
         self.assertEqual('群聊1', results[1], '检查点：搜索结果中聊天记录排序是： 按时间排序')
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_E_0016():
-        """
-        1、联网正常
-        2、已登录客户端
-        3、当前全局搜索页面
-        """
-        Preconditions.select_mobile('Android-移动')
-        current_mobile().hide_keyboard_if_display()
-        Preconditions.make_already_in_message_page(reset_required=False)
-
-        key_message = '新消息'
-        # 消息页
-        message_page = MessagePage()
-
-        # 创建群
-        message_page.open_contacts_page()
-        contacts_page = ContactsPage()
-        contacts_page.open_group_chat_list()
-        group_list = GroupListPage()
-        groups = ['群聊1', '群聊2']
-        for group_name in groups:
-            group_list.wait_for_page_load()
-            group_list.click_search_input()
-            group_search = GroupListSearchPage()
-            group_search.input_search_keyword(group_name)
-            if group_search.is_group_in_list(group_name):
-                group_search.click_group(group_name)
-                chat = ChatWindowPage()
-                if chat.is_tips_display():
-                    chat.directly_close_tips_alert()
-                chat.send_message(key_message)
-                chat.click_back_by_android()
-                time.sleep(2)
-                group_search.click_back()
-            else:
-                raise AssertionError('缺少预置测试数据：没找到群聊"{}"'.format(groups))
-        group_list.click_back()
+    # @staticmethod
+    # def setUp_test_msg_huangcaizui_E_0016():
+    #     """
+    #     1、联网正常
+    #     2、已登录客户端
+    #     3、当前全局搜索页面
+    #     """
+    #     Preconditions.select_mobile('Android-移动')
+    #     current_mobile().hide_keyboard_if_display()
+    #     Preconditions.make_already_in_message_page(reset_required=False)
+    #
+    #     key_message = '新消息'
+    #     # 消息页
+    #     message_page = MessagePage()
+    #
+    #     # 创建群
+    #     message_page.open_contacts_page()
+    #     contacts_page = ContactsPage()
+    #     contacts_page.open_group_chat_list()
+    #     group_list = GroupListPage()
+    #     groups = ['群聊1', '群聊2']
+    #     for group_name in groups:
+    #         group_list.wait_for_page_load()
+    #         group_list.click_search_input()
+    #         group_search = GroupListSearchPage()
+    #         group_search.input_search_keyword(group_name)
+    #         if group_search.is_group_in_list(group_name):
+    #             group_search.click_group(group_name)
+    #             chat = ChatWindowPage()
+    #             if chat.is_tips_display():
+    #                 chat.directly_close_tips_alert()
+    #             chat.send_message(key_message)
+    #             chat.click_back_by_android()
+    #             time.sleep(2)
+    #             group_search.click_back()
+    #         else:
+    #             raise AssertionError('缺少预置测试数据：没找到群聊"{}"'.format(groups))
+    #     group_list.click_back()
 
     @tags('ALL', 'SMOKE', "CMCC")
     def test_msg_huangcaizui_E_0017(self):
@@ -1786,18 +1786,18 @@ class MessageSearchTest(TestCase):
         sorted_order.sort()
         self.assertEqual(list_order, sorted_order, '排序"{}"'.format([value_map[i] for i in list_order]))
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_E_0026():
-        """
-        1、网络异常
-        2、已登录客户端
-        3、当前全局搜索页面
-        """
-        Preconditions.select_mobile('Android-移动')
-        current_mobile().hide_keyboard_if_display()
-        Preconditions.make_already_in_message_page(reset_required=False)
-        current_mobile().set_network_status(0)
-        current_mobile().activate_app()
+    # @staticmethod
+    # def setUp_test_msg_huangcaizui_E_0026():
+    #     """
+    #     1、网络异常
+    #     2、已登录客户端
+    #     3、当前全局搜索页面
+    #     """
+    #     Preconditions.select_mobile('Android-移动')
+    #     current_mobile().hide_keyboard_if_display()
+    #     Preconditions.make_already_in_message_page(reset_required=False)
+    #     current_mobile().set_network_status(0)
+    #     current_mobile().activate_app()
 
     @staticmethod
     def tearDown_test_msg_huangcaizui_E_0026():
