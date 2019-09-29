@@ -790,8 +790,8 @@ DEVICES_CONFIG_DEBUG_YL = {
         "DEFAULT_CAPABILITY": {
         "platformName": "Android",
         "platformVersion": "7.0",
-        "deviceName": "DWT7N18614014715",
-        "udid": "DWT7N18614014715",
+        "deviceName": "DRB5T18721004015",
+        "udid": "DRB5T18721004015",
         "automationName": "UiAutomator2",
         "newCommandTimeout": 600,
         "appPackage": "com.chinasofti.rcs",
@@ -800,7 +800,7 @@ DEVICES_CONFIG_DEBUG_YL = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '13641490071'
+                'CARD_NUMBER': '15013708131'
             },
         ]
     },

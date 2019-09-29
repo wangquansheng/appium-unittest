@@ -82,19 +82,19 @@ class ChatSelectLocalFilePage(BasePage):
         self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
 
     @TestLogger.log()
-    def find_element_by_swipe(self, locator, times=15):
+    def find_element_by_swipe(self, locator, times=40):
         """找不到元素就滑动"""
         if self._is_element_present(locator):
             return self.get_element(locator)
         else:
             c = 0
-            while c < 15:
+            while c < times:
                 self.page_up()
                 if self._is_element_present(locator):
                     return self.get_element(locator)
                 c += 1
             d=0
-            while d < 15:
+            while d < times:
                 self.page_down()
                 if self._is_element_present(locator):
                     return self.get_element(locator)
@@ -109,7 +109,7 @@ class ChatSelectLocalFilePage(BasePage):
         """向下滑动"""
         self.swipe_by_percent_on_screen(50, 30, 50, 70, 800)
 
-    def find_file_by_type(self, locator, file_type, times=10):
+    def find_file_by_type(self, locator, file_type, times=20):
         """根据文件类型查找文件"""
         if self._is_element_present(locator):
             els = self.get_elements(locator)

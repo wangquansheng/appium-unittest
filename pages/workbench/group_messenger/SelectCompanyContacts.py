@@ -66,7 +66,7 @@ class SelectCompanyContactsPage(BasePage):
         return self
 
     @TestLogger.log()
-    def find_element_by_swipe(self, locator, times=10):
+    def find_element_by_swipe(self, locator, times=15):
         """找不到元素就滑动"""
         if self._is_element_present(locator):
             return self.get_element(locator)
