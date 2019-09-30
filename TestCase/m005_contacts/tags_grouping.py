@@ -1780,7 +1780,7 @@ class Tag_Group(TestCase):
         time.sleep(1)
         SelectContactsPage().select_local_contacts()
         time.sleep(1)
-        SelectContactsPage().click_one_contact('大佬1')
+        SelectContactsPage().click_one_contact_631('大佬1')
         time.sleep(1)
         SelectContactsPage().click_share_card()
 

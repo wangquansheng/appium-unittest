@@ -2863,7 +2863,7 @@ class ContactsLocalhigh(TestCase):
         mass_assistant.click_contact_avatar()
         #选择联系人,输入内容后发送
         select_contact=SelectContactsPage()
-        select_contact.click_one_contact('大佬1')
+        select_SelectContactsPage().click_one_contact_631('大佬1')
         select_contact.click_sure_bottom()
         time.sleep(2)
         mass_assistant.click_input_box()
@@ -3043,8 +3043,8 @@ class ContactsLocalhigh(TestCase):
         mass_assistant.click_contact_avatar()
         #选择联系人,输入内容后发送
         select_contact=SelectContactsPage()
-        select_contact.click_one_contact('大佬1')
-        select_contact.click_one_contact('大佬2')
+        select_SelectContactsPage().click_one_contact_631('大佬1')
+        select_SelectContactsPage().click_one_contact_631('大佬2')
         select_contact.click_sure_bottom()
         time.sleep(2)
         mass_assistant.input_text_and_send('测shi123&&&')

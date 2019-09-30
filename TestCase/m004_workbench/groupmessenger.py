@@ -279,7 +279,7 @@ class MassMessengerTest(TestCase):
             sccp = SelectCompanyContactsPage()
             sccp.wait_for_page_load()
             # 飞信电话 or 和飞信电话
-            sccp.click_one_contact("飞信电话")
+            SelectContactsPage().click_one_contact_631("飞信电话")
             sccp.click_sure()
             time.sleep(1)
             org.click_back_by_android()
@@ -300,7 +300,7 @@ class MassMessengerTest(TestCase):
         # 点击指定联系人
         sccp = SelectCompanyContactsPage()
         sccp.wait_for_page_load()
-        sccp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(3)
         sccp.click_text("飞信电话")
         if sccp.is_left_head_exit():
@@ -334,7 +334,7 @@ class MassMessengerTest(TestCase):
         # 点击指定联系人
         sccp = SelectCompanyContactsPage()
         sccp.wait_for_page_load()
-        sccp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         if not sccp.is_left_head_exit():
             raise AssertionError("找不到搜索栏左侧被点击人员人名和头像")
         #返回
@@ -345,7 +345,7 @@ class MassMessengerTest(TestCase):
         mgp.wait_for_edit_message_page_load()
         mgp.click_close()
 
-
+@unittest.skip("跳过，群发信使功能暂时关闭")
 class MassMessengerAllTest(TestCase):
     """工作台->群发信使"""
 
@@ -427,7 +427,7 @@ class MassMessengerAllTest(TestCase):
     def default_tearDown(self):
         pass
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0001(self):
         """可以正常查看帮助中心内容"""
 
@@ -465,7 +465,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0005(self):
         """添加搜索出的联系人"""
 
@@ -497,7 +497,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0006(self):
         """添加成员之后再移除成员"""
 
@@ -541,7 +541,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0007(self):
         """多个部门累计添加成员"""
 
@@ -578,7 +578,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0009(self):
         """用户不在任何部门下"""
 
@@ -606,7 +606,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0010(self):
         """用户在企业部门下"""
 
@@ -690,7 +690,7 @@ class MassMessengerAllTest(TestCase):
             except:
                 fail_time += 1
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0011(self):
         """用户在企业部门下又在企业子一层级中，直接进入企业层级"""
 
@@ -776,7 +776,7 @@ class MassMessengerAllTest(TestCase):
             except:
                 fail_time += 1
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0012(self):
         """用户同时在两个部门下"""
 
@@ -864,7 +864,7 @@ class MassMessengerAllTest(TestCase):
             except:
                 fail_time += 1
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0016(self):
         """搜索“我的电脑”"""
 
@@ -894,7 +894,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0017(self):
         """11位号码精准搜索"""
 
@@ -929,7 +929,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0018(self):
         """6-10位数字可支持模糊搜索匹配结果"""
 
@@ -964,7 +964,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0019(self):
         """联系人姓名（全名）精准搜索"""
 
@@ -1001,7 +1001,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0020(self):
         """联系人姓名（非全名）模糊搜索"""
 
@@ -1038,7 +1038,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0025(self):
         """纯空格键不支持搜索匹配"""
 
@@ -1068,7 +1068,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0026(self):
         """空格键+文本 可支持匹配"""
 
@@ -1105,7 +1105,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0030(self):
         """字母+汉字组合可精准搜索"""
 
@@ -1141,7 +1141,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0031(self):
         """字母+汉字+数字 组合可精准搜索"""
 
@@ -1177,7 +1177,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0032(self):
         """搜索非企业联系人提示无结果"""
 
@@ -1207,7 +1207,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0033(self):
         """任意点击搜索结果联系人"""
 
@@ -1248,7 +1248,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0035(self):
         """多选-任意选择多位联系人"""
 
@@ -1297,7 +1297,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0036(self):
         """添加多部门联系人"""
 
@@ -1342,7 +1342,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0039(self):
         """直接添加接收人后再次点击'+'"""
 
@@ -1388,7 +1388,7 @@ class MassMessengerAllTest(TestCase):
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0042(self):
         """点击返回键返回上一级页面"""
 
@@ -1411,7 +1411,7 @@ class MassMessengerAllTest(TestCase):
         # 1.等待群发信使首页加载
         gmp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_QFXS_0043(self):
         """点击顶部关闭按钮退出到工作台页面"""
 

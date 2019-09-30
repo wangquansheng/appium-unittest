@@ -123,7 +123,7 @@ class Preconditions(WorkbenchPreconditions):
         if sogp.is_on_this_page():
             group_name = Preconditions.get_group_chat_name()
             # 点击群名，进入群聊页面
-            sogp.click_one_contact(group_name)
+            SelectContactsPage().click_one_contact_631(group_name)
             scp.wait_for_page_load()
         if scp.is_on_this_page():
             return
@@ -2403,7 +2403,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         group_contact = EnterpriseContactsPage()
         group_contact.click_sub_level_department_by_name2('bm0')
         # 选择“b测算”联系人进行转发
-        sc.click_one_contact("b测算")
+        SelectContactsPage().click_one_contact_631("b测算")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -2446,7 +2446,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 选择手机联系人
         sc.click_text("选择手机联系人")
         # 选择“给个红包2”联系人进行转发
-        sc.click_one_contact("给个红包2")
+        SelectContactsPage().click_one_contact_631("给个红包2")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -2487,7 +2487,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 选择手机联系人
         # sc.click_text("选择手机联系人")
         # 选择“给个红包2”联系人进行转发
-        sc.click_one_contact("给个红包2")
+        SelectContactsPage().click_one_contact_631("给个红包2")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -3684,7 +3684,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         group_contact.click_sub_level_department_by_name2('bm0')
         time.sleep(1)
         # 选择“b测算”联系人进行转发
-        sc.click_one_contact("b测算")
+        SelectContactsPage().click_one_contact_631("b测算")
         time.sleep(1)
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
@@ -3723,7 +3723,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         group_contact.click_sub_level_department_by_name2('bm0')
         time.sleep(1)
         # 选择“b测算”联系人进行转发
-        sc.click_one_contact("b测算")
+        SelectContactsPage().click_one_contact_631("b测算")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -3761,7 +3761,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         group_contact.click_sub_level_department_by_name2('bm0')
         time.sleep(1)
         # 选择“b测算”联系人进行转发
-        sc.click_one_contact("b测算")
+        SelectContactsPage().click_one_contact_631("b测算")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -3799,7 +3799,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         group_contact.click_sub_level_department_by_name2('bm0')
         time.sleep(1)
         # 选择“b测算”联系人进行转发
-        sc.click_one_contact("b测算")
+        SelectContactsPage().click_one_contact_631("b测算")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -3850,7 +3850,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         group_contact.click_sub_level_department_by_name2('bm0')
         time.sleep(1)
         # 选择“b测算”联系人进行转发
-        sc.click_one_contact("b测算")
+        SelectContactsPage().click_one_contact_631("b测算")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -3901,7 +3901,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         group_contact.click_sub_level_department_by_name2('bm0')
         time.sleep(1)
         # 选择“b测算”联系人进行转发
-        sc.click_one_contact("b测算")
+        SelectContactsPage().click_one_contact_631("b测算")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -3952,7 +3952,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         group_contact.click_sub_level_department_by_name2('bm0')
         time.sleep(1)
         # 选择“b测算”联系人进行转发
-        sc.click_one_contact("b测算")
+        SelectContactsPage().click_one_contact_631("b测算")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -4003,7 +4003,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         group_contact.click_sub_level_department_by_name2('bm0')
         time.sleep(1)
         # 选择“b测算”联系人进行转发
-        sc.click_one_contact("b测算")
+        SelectContactsPage().click_one_contact_631("b测算")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -5685,7 +5685,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         group_contact.click_sub_level_department_by_name2('bm0')
         # 选择“b测算”联系人进行转发
         time.sleep(1)
-        sc.click_one_contact("b测算")
+        SelectContactsPage().click_one_contact_631("b测算")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -5722,7 +5722,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         group_contact.click_sub_level_department_by_name2('bm0')
         time.sleep(1)
         # 选择“b测算”联系人进行转发
-        sc.click_one_contact("b测算")
+        SelectContactsPage().click_one_contact_631("b测算")
         time.sleep(1)
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
@@ -5761,7 +5761,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         group_contact.click_sub_level_department_by_name2('bm0')
         time.sleep(1)
         # 选择“b测算”联系人进行转发
-        sc.click_one_contact("b测算")
+        SelectContactsPage().click_one_contact_631("b测算")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -5799,7 +5799,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         group_contact.click_sub_level_department_by_name2('bm0')
         time.sleep(1)
         # 选择“b测算”联系人进行转发
-        sc.click_one_contact("b测算")
+        SelectContactsPage().click_one_contact_631("b测算")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)

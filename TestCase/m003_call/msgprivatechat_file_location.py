@@ -348,7 +348,7 @@ class Preconditions(WorkbenchPreconditions):
                 raise e
 
     @staticmethod
-    def make_in_message_page(moible_param,reset=False):
+    def make_in_message_page(moible_param, reset=False):
         """确保应用在消息页面"""
         Preconditions.select_mobile(moible_param, reset)
         current_mobile().hide_keyboard_if_display()
@@ -363,7 +363,7 @@ class Preconditions(WorkbenchPreconditions):
         Preconditions.login_by_one_key_login()
 
     @staticmethod
-    def build_one_new_group_with_number(puhone_number,group_name):
+    def build_one_new_group_with_number(puhone_number, group_name):
         """新建一个指定成员和名称的群，如果已存在，不建群"""
         # 消息页面
         mess = MessagePage()
@@ -415,7 +415,7 @@ class Preconditions(WorkbenchPreconditions):
         mess.click_add_icon()
         # 点击 发起群聊
         mess.click_group_chat()
-        #添加指定电话成员
+        # 添加指定电话成员
         time.sleep(2)
         sc.input_search_keyword(puhone_number)
         time.sleep(2)
@@ -425,7 +425,7 @@ class Preconditions(WorkbenchPreconditions):
         sc.click_local_contacts()
         time.sleep(2)
         slc = SelectLocalContactsPage()
-        slc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # a = 0
         # names = {}
         # while a < 3:
@@ -546,7 +546,7 @@ class Preconditions(WorkbenchPreconditions):
         slc = SelectLocalContactsPage()
         # 选择联系人加入团队
         slc.wait_for_page_load()
-        name_contacts = ["a a", "bb1122",  "大佬1", "给个红包1", "English", "特殊!@$"]
+        name_contacts = ["a a", "bb1122", "大佬1", "给个红包1", "English", "特殊!@$"]
         for name_contact in name_contacts:
             time.sleep(2)
             slc.selecting_local_contacts_by_name(name_contact)
@@ -1330,71 +1330,71 @@ class MsgPrivateChatAllTest(TestCase):
 
         Preconditions.select_mobile('Android-移动')
         # 导入测试联系人、群聊
-        fail_time1 = 0
-        flag1 = False
-        import dataproviders
-        while fail_time1 < 2:
-            try:
-                required_contacts = dataproviders.get_preset_contacts()
-                conts = ContactsPage()
-                current_mobile().hide_keyboard_if_display()
-                Preconditions.make_already_in_message_page()
-                conts.open_contacts_page()
-                try:
-                    if conts.is_text_present("发现SIM卡联系人"):
-                        conts.click_text("显示")
-                except:
-                    pass
-                for name, number in required_contacts:
-                    # 创建联系人
-                    conts.create_contacts_if_not_exits_new(name, number)
-
-                # 创建名片消息联系人
-                conts.create_contacts_if_not_exits2("名片消息测试", "13500135001", "中软国际", "经理", "123456@139.com")
-                required_group_chats = dataproviders.get_preset_group_chats()
-                conts.open_group_chat_list()
-                group_list = GroupListPage()
-                for group_name, members in required_group_chats:
-                    group_list.wait_for_page_load()
-                    # 创建群
-                    group_list.create_group_chats_if_not_exits(group_name, members)
-                group_list.click_back()
-                conts.open_message_page()
-                flag1 = True
-            except:
-                fail_time1 += 1
-            if flag1:
-                break
-
-        # 导入团队联系人
-        fail_time2 = 0
-        flag2 = False
-        while fail_time2 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-                Preconditions.create_he_contacts(contact_names)
-                contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
-                                  ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296")]
-                Preconditions.create_he_contacts2(contact_names2)
-                flag2 = True
-            except:
-                fail_time2 += 1
-            if flag2:
-                break
-
-        # 确保有企业群
-        fail_time3 = 0
-        flag3 = False
-        while fail_time3 < 5:
-            try:
-                Preconditions.make_already_in_message_page()
-                Preconditions.ensure_have_enterprise_group()
-                flag3 = True
-            except:
-                fail_time3 += 1
-            if flag3:
-                break
+        # fail_time1 = 0
+        # flag1 = False
+        # import dataproviders
+        # while fail_time1 < 2:
+        #     try:
+        #         required_contacts = dataproviders.get_preset_contacts()
+        #         conts = ContactsPage()
+        #         current_mobile().hide_keyboard_if_display()
+        #         Preconditions.make_already_in_message_page()
+        #         conts.open_contacts_page()
+        #         try:
+        #             if conts.is_text_present("发现SIM卡联系人"):
+        #                 conts.click_text("显示")
+        #         except:
+        #             pass
+        #         for name, number in required_contacts:
+        #             # 创建联系人
+        #             conts.create_contacts_if_not_exits_new(name, number)
+        #
+        #         # 创建名片消息联系人
+        #         conts.create_contacts_if_not_exits2("名片消息测试", "13500135001", "中软国际", "经理", "123456@139.com")
+        #         required_group_chats = dataproviders.get_preset_group_chats()
+        #         conts.open_group_chat_list()
+        #         group_list = GroupListPage()
+        #         for group_name, members in required_group_chats:
+        #             group_list.wait_for_page_load()
+        #             # 创建群
+        #             group_list.create_group_chats_if_not_exits(group_name, members)
+        #         group_list.click_back()
+        #         conts.open_message_page()
+        #         flag1 = True
+        #     except:
+        #         fail_time1 += 1
+        #     if flag1:
+        #         break
+        #
+        # # 导入团队联系人
+        # fail_time2 = 0
+        # flag2 = False
+        # while fail_time2 < 5:
+        #     try:
+        #         Preconditions.make_already_in_message_page()
+        #         contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
+        #         Preconditions.create_he_contacts(contact_names)
+        #         contact_names2 = [("b测算", "13800137001"), ("c平5", "13800137002"), ('哈 马上', "13800137003"),
+        #                           ('陈丹丹', "13800137004"), ('alice', "13800137005"), ('郑海', "13802883296")]
+        #         Preconditions.create_he_contacts2(contact_names2)
+        #         flag2 = True
+        #     except:
+        #         fail_time2 += 1
+        #     if flag2:
+        #         break
+        #
+        # # 确保有企业群
+        # fail_time3 = 0
+        # flag3 = False
+        # while fail_time3 < 5:
+        #     try:
+        #         Preconditions.make_already_in_message_page()
+        #         Preconditions.ensure_have_enterprise_group()
+        #         flag3 = True
+        #     except:
+        #         fail_time3 += 1
+        #     if flag3:
+        #         break
 
     def default_setUp(self):
         """
@@ -3951,7 +3951,7 @@ class MsgPrivateChatAllTest(TestCase):
         time.sleep(2)
         sc.click_text("确定")
         time.sleep(3)
-        scp=SingleChatPage()
+        scp = SingleChatPage()
         if scp.is_text_present("1元/条"):
             scp.click_i_have_read()
         scp.wait_for_page_load()
@@ -3971,7 +3971,7 @@ class MsgPrivateChatAllTest(TestCase):
         # 1.长按接受到的文件并转发
         scp.click_element_("消息文件")
         scp.wait_for_file_load()
-        scp.press_element_("消息文件",3000)
+        scp.press_element_("消息文件", 3000)
         scp.click_text("转发")
         sc = SelectContactsPage()
         sc.wait_for_page_load()
@@ -4032,7 +4032,7 @@ class MsgPrivateChatAllTest(TestCase):
         time.sleep(2)
         sc.click_text("确定")
         time.sleep(3)
-        scp=SingleChatPage()
+        scp = SingleChatPage()
         if scp.is_text_present("1元/条"):
             scp.click_i_have_read()
         scp.wait_for_page_load()
@@ -4052,7 +4052,7 @@ class MsgPrivateChatAllTest(TestCase):
         # 1.长按接受到的文件并转发
         scp.click_element_("消息文件")
         scp.wait_for_file_load()
-        scp.press_element_("消息文件",3000)
+        scp.press_element_("消息文件", 3000)
         scp.click_text("转发")
         sc = SelectContactsPage()
         sc.wait_for_page_load()
@@ -4113,7 +4113,7 @@ class MsgPrivateChatAllTest(TestCase):
         time.sleep(2)
         sc.click_text("确定")
         time.sleep(3)
-        scp=SingleChatPage()
+        scp = SingleChatPage()
         if scp.is_text_present("1元/条"):
             scp.click_i_have_read()
         scp.wait_for_page_load()
@@ -4133,7 +4133,7 @@ class MsgPrivateChatAllTest(TestCase):
         # 1.长按接受到的文件并转发
         scp.click_element_("消息文件")
         scp.wait_for_file_load()
-        scp.press_element_("消息文件",3000)
+        scp.press_element_("消息文件", 3000)
         scp.click_text("转发")
         sc = SelectContactsPage()
         sc.wait_for_page_load()
@@ -4141,7 +4141,7 @@ class MsgPrivateChatAllTest(TestCase):
         time.sleep(2)
         sc.click_element_("企业名称")
         time.sleep(2)
-        sc.click_one_contact("大佬3")
+        SelectContactsPage().click_one_contact_631("大佬3")
         scp.click_element_("确定")
         if not scp.is_toast_exist("已转发"):
             raise AssertionError("转发失败")
@@ -4188,7 +4188,7 @@ class MsgPrivateChatAllTest(TestCase):
         time.sleep(2)
         sc.click_text("确定")
         time.sleep(3)
-        scp=SingleChatPage()
+        scp = SingleChatPage()
         if scp.is_text_present("1元/条"):
             scp.click_i_have_read()
         scp.wait_for_page_load()
@@ -4208,7 +4208,7 @@ class MsgPrivateChatAllTest(TestCase):
         # 1.长按接受到的文件并转发
         scp.click_element_("消息文件")
         scp.wait_for_file_load()
-        scp.press_element_("消息文件",3000)
+        scp.press_element_("消息文件", 3000)
         scp.click_text("转发")
         sc = SelectContactsPage()
         sc.wait_for_page_load()
@@ -4261,7 +4261,7 @@ class MsgPrivateChatAllTest(TestCase):
         time.sleep(2)
         sc.click_text("确定")
         time.sleep(3)
-        scp=SingleChatPage()
+        scp = SingleChatPage()
         if scp.is_text_present("1元/条"):
             scp.click_i_have_read()
         scp.wait_for_page_load()
@@ -4281,7 +4281,7 @@ class MsgPrivateChatAllTest(TestCase):
         # 1.长按接受到的文件并转发
         scp.click_element_("消息文件")
         scp.wait_for_file_load()
-        scp.press_element_("消息文件",3000)
+        scp.press_element_("消息文件", 3000)
         scp.click_text("转发")
         sc = SelectContactsPage()
         sc.wait_for_page_load()
@@ -4329,7 +4329,7 @@ class MsgPrivateChatAllTest(TestCase):
         time.sleep(2)
         sc.click_text("确定")
         time.sleep(3)
-        scp=SingleChatPage()
+        scp = SingleChatPage()
         if scp.is_text_present("1元/条"):
             scp.click_i_have_read()
         scp.wait_for_page_load()
@@ -4349,7 +4349,7 @@ class MsgPrivateChatAllTest(TestCase):
         # 1.长按接受到的文件并删除
         scp.click_element_("消息文件")
         scp.wait_for_file_load()
-        scp.press_element_("消息文件",3000)
+        scp.press_element_("消息文件", 3000)
         scp.click_text("删除")
         time.sleep(2)
         if scp.is_element_exit_("消息文件"):
@@ -4385,7 +4385,7 @@ class MsgPrivateChatAllTest(TestCase):
         time.sleep(2)
         sc.click_text("确定")
         time.sleep(3)
-        scp=SingleChatPage()
+        scp = SingleChatPage()
         if scp.is_text_present("1元/条"):
             scp.click_i_have_read()
         scp.wait_for_page_load()
@@ -4463,7 +4463,7 @@ class MsgPrivateChatAllTest(TestCase):
         time.sleep(2)
         sc.click_text("确定")
         time.sleep(3)
-        scp=SingleChatPage()
+        scp = SingleChatPage()
         if scp.is_text_present("1元/条"):
             scp.click_i_have_read()
         scp.wait_for_page_load()
@@ -4539,13 +4539,13 @@ class MsgPrivateChatAllTest(TestCase):
         sc.wait_for_page_load()
         sc.click_text("选择手机联系人")
         time.sleep(2)
-        scp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(2)
         sc.click_element_("确定")
         if not sc.is_toast_exist("已转发"):
             raise AssertionError("转发失败")
         Preconditions.change_mobile('Android-移动-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.wait_for_page_load()
         mess.click_text("飞信电话")
         if scp.is_text_present("1元/条"):
@@ -4557,7 +4557,7 @@ class MsgPrivateChatAllTest(TestCase):
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
         Preconditions.change_mobile('Android-移动-移动')
-        mess.press_file_to_do("飞信电话","删除聊天")
+        mess.press_file_to_do("飞信电话", "删除聊天")
         mess.press_file_to_do(phone_number2, "删除聊天")
         Preconditions.change_mobile('Android-移动')
         mess.press_file_to_do(phone_number, "删除聊天")
@@ -4609,7 +4609,7 @@ class MsgPrivateChatAllTest(TestCase):
         sc.click_text("选择团队联系人")
         time.sleep(2)
         if sc.is_text_present("当前组织"):
-            sc.click_one_contact("yyx")
+            SelectContactsPage().click_one_contact_631("yyx")
             scp.click_element_("确定")
             if not scp.is_toast_exist("已转发"):
                 raise AssertionError("转发失败")
@@ -4645,12 +4645,12 @@ class MsgPrivateChatAllTest(TestCase):
             time.sleep(2)
             sc.click_element_("企业名称")
             time.sleep(2)
-            sc.click_one_contact("yyx")
+            SelectContactsPage().click_one_contact_631("yyx")
             scp.click_element_("确定")
             if not scp.is_toast_exist("已转发"):
                 raise AssertionError("转发失败")
         Preconditions.change_mobile('Android-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.wait_for_page_load()
         mess.click_text("yyx")
         if scp.is_text_present("1元/条"):
@@ -4662,7 +4662,7 @@ class MsgPrivateChatAllTest(TestCase):
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
         Preconditions.change_mobile('Android-移动')
-        mess.press_file_to_do("yyx","删除聊天")
+        mess.press_file_to_do("yyx", "删除聊天")
         mess.press_file_to_do(phone_number2, "删除聊天")
         Preconditions.change_mobile('Android-移动-移动')
         mess.press_file_to_do(phone_number, "删除聊天")
@@ -4719,7 +4719,7 @@ class MsgPrivateChatAllTest(TestCase):
         if not sc.is_toast_exist("已转发"):
             raise AssertionError("转发失败")
         Preconditions.change_mobile('Android-移动-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.wait_for_page_load()
         mess.click_text("我的电脑")
         if scp.is_text_present("1元/条"):
@@ -4731,7 +4731,7 @@ class MsgPrivateChatAllTest(TestCase):
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
         Preconditions.change_mobile('Android-移动-移动')
-        mess.press_file_to_do("我的电脑","删除聊天")
+        mess.press_file_to_do("我的电脑", "删除聊天")
         mess.press_file_to_do(phone_number2, "删除聊天")
         Preconditions.change_mobile('Android-移动')
         mess.press_file_to_do(phone_number, "删除聊天")
@@ -4786,7 +4786,7 @@ class MsgPrivateChatAllTest(TestCase):
         if not sc.is_toast_exist("已转发"):
             raise AssertionError("转发失败")
         Preconditions.change_mobile('Android-移动-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.wait_for_page_load()
         mess.click_text(phone_number2)
         if scp.is_text_present("1元/条"):
@@ -5083,7 +5083,7 @@ class MsgPrivateChatAllTest(TestCase):
         if not sc.is_toast_exist("已转发"):
             raise AssertionError("转发失败")
         Preconditions.change_mobile('Android-移动-移动')
-        mess=MessagePage()
+        mess = MessagePage()
         mess.wait_for_page_load()
         mess.click_text(phone_number2)
         if scp.is_text_present("1元/条"):
@@ -6133,10 +6133,3 @@ class MsgPrivateChatAllTest(TestCase):
         scp.press_last_file_to_do("收藏")
         # 3.验证是否收藏成功
         self.assertTrue(scp.is_toast_exist("已收藏"))
-
-
-
-
-
-
-

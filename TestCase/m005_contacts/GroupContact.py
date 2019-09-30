@@ -227,10 +227,10 @@ class Preconditions(WorkbenchPreconditions):
             # 选择联系人
             # names=slc.get_contacts_name_list()
             # time.sleep(2)
-            sc.click_one_contact(name)
-            # sc.click_one_contact(name)
-            # sc.click_one_contact(name)
-            # slc.click_one_contact("飞信电话")
+            SelectContactsPage().click_one_contact_631(name)
+            # SelectContactsPage().click_one_contact_631(name)
+            # SelectContactsPage().click_one_contact_631(name)
+            # SelectContactsPage().click_one_contact_631("飞信电话")
             slc.click_sure()
             # if not slc.is_toast_exist("操作成功"):
             #     raise AssertionError("操作不成功")
@@ -657,7 +657,7 @@ class MygroupSearchPage(TestCase):
         # 分享名片按钮可点击
         detailpage.click_share_business_card()
         SelectContactsPage().select_local_contacts()
-        SelectContactsPage().click_one_contact('大佬1')
+        SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
         time.sleep(2)
         SelectContactsPage().click_share_card()
         detailpage.page_should_contain_text('已发送')
@@ -809,7 +809,7 @@ class MygroupSearchPage(TestCase):
         # 分享名片按钮可点击
         detailpage.click_share_business_card()
         SelectContactsPage().select_local_contacts()
-        SelectContactsPage().click_one_contact('大佬1')
+        SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
         time.sleep(2)
         SelectContactsPage().click_share_card()
         detailpage.page_should_contain_text('已发送')
@@ -1190,7 +1190,7 @@ class MygroupSearchPage(TestCase):
         if detailpage.is_text_present("分享名片"):
             detailpage.click_share_business_card()
             SelectContactsPage().select_local_contacts()
-            SelectContactsPage().click_one_contact('大佬1')
+            SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
             time.sleep(2)
             SelectContactsPage().click_share_card()
             detailpage.page_should_contain_text('已发送')
@@ -1483,7 +1483,7 @@ class MygroupSearchPage(TestCase):
         # 分享名片按钮可点击
         detailpage.click_share_business_card()
         SelectContactsPage().select_local_contacts()
-        SelectContactsPage().click_one_contact('大佬1')
+        SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
         time.sleep(2)
         SelectContactsPage().click_share_card()
         detailpage.page_should_contain_text('已发送')
@@ -1573,7 +1573,7 @@ class MygroupSearchPage(TestCase):
         if detailpage.is_text_present("分享名片"):
             detailpage.click_share_business_card()
             SelectContactsPage().select_local_contacts()
-            SelectContactsPage().click_one_contact('大佬1')
+            SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
             time.sleep(2)
             SelectContactsPage().click_share_card()
             detailpage.page_should_contain_text('已发送')
@@ -1935,7 +1935,7 @@ class MygroupSearchPage(TestCase):
         # 分享名片按钮可点击
         detailpage.click_share_business_card()
         SelectContactsPage().select_local_contacts()
-        SelectContactsPage().click_one_contact('大佬1')
+        SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
         time.sleep(2)
         SelectContactsPage().click_share_card()
         detailpage.page_should_contain_text('已发送')

@@ -262,7 +262,7 @@ class ContactPage(TestCase):
         # 分享名片按钮可点击
         detailpage.click_share_business_card()
         SelectContactsPage().select_local_contacts()
-        SelectContactsPage().click_one_contact('大佬1')
+        SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
         # SelectContactsPage().click_cantact_avatar()
         time.sleep(2)
         SelectContactsPage().click_share_card()
@@ -316,7 +316,7 @@ class ContactPage(TestCase):
         # 点击分享名片
         detailpage.click_share_business_card()
         SelectContactsPage().select_local_contacts()
-        SelectContactsPage().click_one_contact('大佬10')
+        SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬10')
         # SelectContactsPage().click_cantact_avatar()
         time.sleep(2)
         SelectContactsPage().click_share_card()
@@ -383,7 +383,7 @@ class ContactPage(TestCase):
         # 点击分享名片进入选择联系人页面，可以成功的分享给人/群
         detailpage.click_share_business_card()
         SelectContactsPage().select_local_contacts()
-        SelectContactsPage().click_one_contact('大佬1')
+        SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
         time.sleep(2)
         SelectContactsPage().click_share_card()
         # 消息、电话、语音视频、视频电话、副号拨打、和飞信电话置灰，不可点击
@@ -458,7 +458,7 @@ class ContactPage(TestCase):
         # 点击分享名片进入选择联系人页面，可以成功的分享给人/群
         detailpage.click_share_business_card()
         SelectContactsPage().select_local_contacts()
-        SelectContactsPage().click_one_contact('大佬1')
+        SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
         time.sleep(2)
         SelectContactsPage().click_share_card()
         # 消息、电话、语音视频、视频电话、副号拨打、和飞信电话置灰，不可点击
@@ -609,7 +609,7 @@ class ContactPage(TestCase):
         time.sleep(2)
         select_contact = SelectContactsPage()
         select_contact.select_local_contacts()
-        select_contact.click_one_contact('大佬2')
+        select_SelectContactsPage().click_one_contact_631('大佬2')
         time.sleep(2)
         select_contact.page_should_contain_text('发送名片')
         SelectOneGroupPage().click_share_business_card()
@@ -646,7 +646,7 @@ class ContactPage(TestCase):
         select_contacts.page_should_contain_text('查看更多')
         select_contacts.page_should_contain_text('群聊')
         # 选择本地联系人是否会弹出弹框 #是否弹出弹框未检测
-        select_contacts.click_one_contact('给个红包1')
+        select_SelectContactsPage().click_one_contact_631('给个红包1')
         select_contacts.is_text_present('发送名片')
         select_contacts.click_share_card()
         # 选择群联系人是否会出现弹框  是否弹出弹框未检测
@@ -671,7 +671,7 @@ class ContactPage(TestCase):
         select_contacts.click_read_more()
         time.sleep(2)
         select_contacts.page_should_contain_text('给个红包4')
-        select_contacts.click_one_contact('给个红包4')
+        select_SelectContactsPage().click_one_contact_631('给个红包4')
         select_contacts.click_share_card()
         # 返回通讯录页面
         ContactDetailsPage().click_back_by_android(3)
@@ -728,7 +728,7 @@ class ContactPage(TestCase):
         time.sleep(1)
         select_contacts.click_select_one_group()
         time.sleep(2)
-        SelectOneGroupPage().click_one_contact("给个红包1")
+        SelectOneGroupPage()SelectContactsPage().click_one_contact_631("给个红包1")
         time.sleep(1)
         select_contacts.page_should_contain_text('发送名片')
         select_contacts.click_share_card()

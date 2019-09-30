@@ -64,7 +64,7 @@ class Preconditions(WorkbenchPreconditions):
         if sogp.is_on_this_page():
             group_name = Preconditions.get_group_chat_name()
             # 点击群名，进入群聊页面
-            sogp.click_one_contact(group_name)
+            SelectContactsPage().click_one_contact_631(group_name)
             scp.wait_for_page_load()
         if scp.is_on_this_page():
             return
@@ -436,7 +436,7 @@ class Preconditions(WorkbenchPreconditions):
         sc.click_local_contacts()
         time.sleep(2)
         slc = SelectLocalContactsPage()
-        slc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # a = 0
         # names = {}
         # while a < 3:
@@ -1066,7 +1066,7 @@ class MsgCommonGroupTest(TestCase):
         # 搜索联系人
         sc.input_search_contact_message("飞信")
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -1133,7 +1133,7 @@ class MsgCommonGroupTest(TestCase):
         # 搜索联系人
         sc.input_search_contact_message("飞信")
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -1286,7 +1286,7 @@ class MsgCommonGroupTest(TestCase):
         sc.wait_for_page_local_contact_load()
         sc.select_local_contacts()
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -1353,7 +1353,7 @@ class MsgCommonGroupTest(TestCase):
         sc = SelectContactsPage()
         sc.wait_for_page_local_contact_load()
         # 选择最近聊天中“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -2279,7 +2279,7 @@ class MsgCommonGroupTest(TestCase):
         # 点击群名，进入群聊页面
         group_name = Preconditions.get_group_chat_name()
         sogp = SelectOneGroupPage()
-        sogp.click_one_contact(group_name)
+        SelectContactsPage().click_one_contact_631(group_name)
         time.sleep(3)
         # 点击发送消息
         gcp.send_message()
@@ -2335,7 +2335,7 @@ class MsgCommonGroupTest(TestCase):
         # 点击群名，进入群聊页面
         group_name = Preconditions.get_group_chat_name()
         sogp = SelectOneGroupPage()
-        sogp.click_one_contact(group_name)
+        SelectContactsPage().click_one_contact_631(group_name)
         time.sleep(3)
         # 3、草稿信息删除成功,清空信息
         gcp.input_message("")
@@ -2865,7 +2865,7 @@ class MsgCommonGroupTest(TestCase):
         gcsp.click_add_member()
         time.sleep(2)
         cgacp = ChatGroupAddContactsPage()
-        cgacp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(1)
         if not cgacp.sure_btn_is_enabled():
             raise AssertionError("右上角的确定按钮不能高亮展示")
@@ -3336,7 +3336,7 @@ class MsgCommonGroupTest(TestCase):
         sc = SelectContactsPage()
         sc.wait_for_page_load()
         sc.select_local_contacts()
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -4231,7 +4231,7 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_cancel_forward()
         sc.click_back()
         sc.click_back()
@@ -4265,7 +4265,7 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -4470,13 +4470,13 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击取消
         gcp.click_cancel_repeat_msg()
         # 验证停留在最近聊天选择器页面
         if not gcp.is_text_present("选择联系人"):
             raise AssertionError("没有停留在最近聊天选择器页面")
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击确定
         gcp.click_sure_repeat_msg()
         flag = sc.is_toast_exist("已转发")
@@ -4554,13 +4554,13 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击取消
         gcp.click_cancel_repeat_msg()
         # 验证停留在最近聊天选择器页面
         if not gcp.is_text_present("选择联系人"):
             raise AssertionError("没有停留在最近聊天选择器页面")
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击确定
         gcp.click_sure_repeat_msg()
         flag = sc.is_toast_exist("已转发")
@@ -4701,13 +4701,13 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击取消
         gcp.click_cancel_repeat_msg()
         # 验证停留在最近聊天选择器页面
         if not gcp.is_text_present("选择联系人"):
             raise AssertionError("没有停留在最近聊天选择器页面")
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击确定
         gcp.click_sure_repeat_msg()
         flag = sc.is_toast_exist("已转发")
@@ -4760,13 +4760,13 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击取消
         gcp.click_cancel_repeat_msg()
         # 验证停留在最近聊天选择器页面
         if not gcp.is_text_present("选择联系人"):
             raise AssertionError("没有停留在最近聊天选择器页面")
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击确定
         gcp.click_sure_repeat_msg()
         flag = sc.is_toast_exist("已转发")
@@ -6914,7 +6914,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         cgacp = ChatGroupAddContactsPage()
         if not cgacp.is_text_present("添加群成员"):
             raise AssertionError("不可以跳转到联系人选择器页面")
-        cgacp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(1)
         cgacp.click_sure()
         time.sleep(2)
@@ -6962,7 +6962,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         cgacp = ChatGroupAddContactsPage()
         if not cgacp.is_text_present("添加群成员"):
             raise AssertionError("不可以跳转到联系人选择器页面")
-        cgacp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(1)
         cgacp.click_sure()
         time.sleep(2)
@@ -8927,7 +8927,7 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.wait_for_page_load()
         gcp.click_profile()
         time.sleep(2)
-        gcp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(2)
         gcp.click_text("发送名片")
         # 验证是否发送成功
@@ -9579,7 +9579,7 @@ class MsgCommonGroupAllTest(TestCase):
         # 选择联系人界面，选择手机联系人
         sc = SelectContactsPage()
         sc.click_phone_contact()
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(2)
         sc.click_text("确定")
         chat = SingleChatPage()
