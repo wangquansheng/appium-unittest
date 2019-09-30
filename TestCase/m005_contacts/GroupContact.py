@@ -657,7 +657,7 @@ class MygroupSearchPage(TestCase):
         # 分享名片按钮可点击
         detailpage.click_share_business_card()
         SelectContactsPage().select_local_contacts()
-        SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
+        SelectContactsPage().click_one_contact_631('大佬1')
         time.sleep(2)
         SelectContactsPage().click_share_card()
         detailpage.page_should_contain_text('已发送')
@@ -809,7 +809,7 @@ class MygroupSearchPage(TestCase):
         # 分享名片按钮可点击
         detailpage.click_share_business_card()
         SelectContactsPage().select_local_contacts()
-        SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
+        SelectContactsPage().click_one_contact_631('大佬1')
         time.sleep(2)
         SelectContactsPage().click_share_card()
         detailpage.page_should_contain_text('已发送')
@@ -1190,7 +1190,7 @@ class MygroupSearchPage(TestCase):
         if detailpage.is_text_present("分享名片"):
             detailpage.click_share_business_card()
             SelectContactsPage().select_local_contacts()
-            SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
+            SelectContactsPage().click_one_contact_631('大佬1')
             time.sleep(2)
             SelectContactsPage().click_share_card()
             detailpage.page_should_contain_text('已发送')
@@ -1483,7 +1483,7 @@ class MygroupSearchPage(TestCase):
         # 分享名片按钮可点击
         detailpage.click_share_business_card()
         SelectContactsPage().select_local_contacts()
-        SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
+        SelectContactsPage().click_one_contact_631('大佬1')
         time.sleep(2)
         SelectContactsPage().click_share_card()
         detailpage.page_should_contain_text('已发送')
@@ -1573,7 +1573,7 @@ class MygroupSearchPage(TestCase):
         if detailpage.is_text_present("分享名片"):
             detailpage.click_share_business_card()
             SelectContactsPage().select_local_contacts()
-            SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
+            SelectContactsPage().click_one_contact_631('大佬1')
             time.sleep(2)
             SelectContactsPage().click_share_card()
             detailpage.page_should_contain_text('已发送')
@@ -1935,7 +1935,7 @@ class MygroupSearchPage(TestCase):
         # 分享名片按钮可点击
         detailpage.click_share_business_card()
         SelectContactsPage().select_local_contacts()
-        SelectContactsPage()SelectContactsPage().click_one_contact_631('大佬1')
+        SelectContactsPage().click_one_contact_631('大佬1')
         time.sleep(2)
         SelectContactsPage().click_share_card()
         detailpage.page_should_contain_text('已发送')

@@ -107,7 +107,7 @@ class ContactSearchOpTest(TestCase):
         cp.click_search_box()
         # 查询页面输入'188262'
         search_page = SearchPage()
-        search_number = "188262"
+        search_number = "13800"
         search_page.input_search_keyword(search_number)
         time.sleep(5)
         search_page.hide_keyboard()
@@ -194,7 +194,7 @@ class ContactSearchOpTest(TestCase):
         self.assertEquals(result, True)
         # 2、输入1-11位同我的团队匹配号码，18826211112
         search_page = SearchPage()
-        search_number = "18826211112"
+        search_number = "13800137004"
         search_page.input_search_keyword(search_number)
         time.sleep(5)
         search_page.hide_keyboard()
@@ -208,7 +208,7 @@ class ContactSearchOpTest(TestCase):
         cp = ContactsPage()
         cp.click_search_box()
         search_page = SearchPage()
-        search_number = "+861882"
+        search_number = "13800"
         search_page.input_search_keyword(search_number)
         time.sleep(5)
         search_page.hide_keyboard()
@@ -297,7 +297,7 @@ class ContactSearchOpTest(TestCase):
         # 判定点
         # 1、展示搜索结果，显示头像、姓名、号码（包含其他号码或固话）、公司部门（没公司部门的不显示）
         sccp = SelectCompanyContactsPage()
-        search_number = "18826211112"
+        search_number = "13800137004"
         self.assertEquals(sccp.is_search_contacts_name_match(search_name), True)
         self.assertEquals(sccp.is_search_contacts_number_full_match(search_number), True)
         ecp = EnterpriseContactsPage()
@@ -311,7 +311,7 @@ class ContactSearchOpTest(TestCase):
         cp = ContactsPage()
         cp.click_search_box()
         search_page = SearchPage()
-        search_number = "1882621"
+        search_number = "13800"
         search_page.input_search_keyword(search_number)
         time.sleep(5)
         search_page.hide_keyboard()

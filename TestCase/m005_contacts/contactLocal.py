@@ -132,6 +132,49 @@ class Preconditions(WorkbenchPreconditions):
             detail_page.click_back_by_android()
             time.sleep(1)
 
+    @staticmethod
+    def create_sub_department_by_name(departmentName, name):
+        """从消息列表开始创建子部门并添加一个部门成员"""
+        WorkbenchPreconditions.enter_organization_page()
+        osp = OrganizationStructurePage()
+        osp.wait_for_page_load()
+        if osp.is_element_present_by_name(departmentName):
+            time.sleep(2)
+        else:
+            osp.click_specify_element_by_name("添加子部门")
+            osp.wait_for_sub_department_page_load()
+            osp.input_sub_department_name(departmentName)
+            osp.click_specify_element_by_name("完成")
+            time.sleep(2)
+        osp.click_specify_element_by_name("测试部门1")
+        time.sleep(2)
+        if osp.is_element_present_by_name(name):
+            time.sleep(2)
+        else:
+            osp.click_specify_element_by_name("添加联系人")
+            time.sleep(1)
+            osp.click_specify_element_by_name("从手机通讯录添加")
+            time.sleep(2)
+            sc = SelectContactsPage()
+            slc = SelectLocalContactsPage()
+            # 选择联系人
+            # names=slc.get_contacts_name_list()
+            # time.sleep(2)
+            SelectContactsPage().click_one_contact_631(name)
+            # SelectContactsPage().click_one_contact_631(name)
+            # SelectContactsPage().click_one_contact_631(name)
+            # SelectContactsPage().click_one_contact_631("飞信电话")
+            slc.click_sure()
+            # if not slc.is_toast_exist("操作成功"):
+            #     raise AssertionError("操作不成功")
+        time.sleep(1)
+        # 关闭
+        osp.click_close()
+        workbench = WorkbenchPage()
+        workbench.wait_for_page_load()
+        time.sleep(3)
+        workbench.open_message_page()
+
 
 class ContactsLocal(TestCase):
     """联系-通讯录"""
@@ -3042,9 +3085,9 @@ class ContactsLocalhigh(TestCase):
         mass_assistant.click_sure()
         mass_assistant.click_contact_avatar()
         #选择联系人,输入内容后发送
-        select_contact=SelectContactsPage()
-        select_SelectContactsPage().click_one_contact_631('大佬1')
-        select_SelectContactsPage().click_one_contact_631('大佬2')
+        select_contact = SelectContactsPage()
+        select_contact.click_one_contact_631('大佬1')
+        select_contact.click_one_contact_631('大佬2')
         select_contact.click_sure_bottom()
         time.sleep(2)
         mass_assistant.input_text_and_send('测shi123&&&')
