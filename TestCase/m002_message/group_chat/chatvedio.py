@@ -129,7 +129,7 @@ class Preconditions(WorkbenchPreconditions):
         if sogp.is_on_this_page():
             group_name = Preconditions.get_group_chat_name()
             # 点击群名，进入群聊页面
-            sogp.click_one_contact(group_name)
+            SelectContactsPage().click_one_contact_631(group_name)
             scp.wait_for_page_load()
         if scp.is_on_this_page():
             return
@@ -423,7 +423,7 @@ class Preconditions(WorkbenchPreconditions):
         sc.click_local_contacts()
         time.sleep(2)
         slc = SelectLocalContactsPage()
-        slc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # a = 0
         # names = {}
         # while a < 3:
@@ -1744,7 +1744,7 @@ class MsgGroupChatvedioTest(TestCase):
         scp.select_local_contacts()
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
-        scp.click_one_contact("大佬2")
+        SelectContactsPage().click_one_contact_631("大佬2")
         scp.click_sure_forward()
         self.assertEquals(gcv.is_toast_exist_zf(), True)
         # 6.点击返回到群聊页面//6.2.9版本有改动
@@ -1765,7 +1765,7 @@ class MsgGroupChatvedioTest(TestCase):
         # sog.click_back()
         # sct = SelectContactsPage()
         # gcp.click_back()
-        scp.click_one_contact("大佬2")
+        SelectContactsPage().click_one_contact_631("大佬2")
         time.sleep(2)
         if gcp.is_exist_dialog():
             gcp.click_i_have_read()
@@ -1893,7 +1893,7 @@ class MsgGroupChatvedioTest(TestCase):
         scp.select_local_contacts()
         slc = SelectLocalContactsPage()
         slc.wait_for_page_load()
-        scp.click_one_contact("大佬3")
+        SelectContactsPage().click_one_contact_631("大佬3")
         scp.click_sure_forward()
         self.assertEquals(gcv.is_toast_exist_zf(), True)
         # 6.点击返回到群聊页面
@@ -1914,7 +1914,7 @@ class MsgGroupChatvedioTest(TestCase):
         # sog.click_back()
         # sct = SelectContactsPage()
         # sct.click_back()
-        scp.click_one_contact("大佬3")
+        SelectContactsPage().click_one_contact_631("大佬3")
         time.sleep(2)
         if gcp.is_exist_dialog():
             gcp.click_i_have_read()
@@ -2723,7 +2723,7 @@ class MsgGroupChatvedioTest(TestCase):
         sc.wait_for_page_load()
         sc.click_text("选择手机联系人")
         time.sleep(2)
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(2)
         gcp.click_element_("确定移除")
         if not gcp.is_toast_exist("已转发"):
@@ -2812,7 +2812,7 @@ class MsgGroupChatvedioTest(TestCase):
         sc.wait_for_page_load()
         sc.click_text("选择手机联系人")
         time.sleep(2)
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(2)
         gcp.click_element_("确定移除")
         if not gcp.is_toast_exist("已转发"):
@@ -2905,7 +2905,7 @@ class MsgGroupChatvedioTest(TestCase):
         sc.wait_for_page_load()
         sc.click_text("选择手机联系人")
         time.sleep(2)
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(2)
         gcp.click_element_("取消移除")
         scp = SelectLocalContactsPage()
@@ -2976,7 +2976,7 @@ class MsgGroupChatvedioTest(TestCase):
         sc.click_text("选择团队联系人")
         time.sleep(2)
         if sc.is_text_present("当前组织"):
-            sc.click_one_contact("yyx")
+            SelectContactsPage().click_one_contact_631("yyx")
             gcp.click_element_("确定移除")
             if not gcp.is_toast_exist("已转发"):
                 raise AssertionError("转发失败")
@@ -3015,7 +3015,7 @@ class MsgGroupChatvedioTest(TestCase):
             time.sleep(2)
             sc.click_element_("企业名称")
             time.sleep(2)
-            sc.click_one_contact("yyx")
+            SelectContactsPage().click_one_contact_631("yyx")
             gcp.click_element_("确定移除")
             if not gcp.is_toast_exist("已转发"):
                 raise AssertionError("转发失败")
@@ -3102,7 +3102,7 @@ class MsgGroupChatvedioTest(TestCase):
         sc.click_text("选择团队联系人")
         time.sleep(2)
         if sc.is_text_present("当前组织"):
-            sc.click_one_contact("yyx")
+            SelectContactsPage().click_one_contact_631("yyx")
             gcp.set_network_status(0)
             time.sleep(8)
             gcp.click_element_("确定移除")
@@ -3143,7 +3143,7 @@ class MsgGroupChatvedioTest(TestCase):
             time.sleep(2)
             sc.click_element_("企业名称")
             time.sleep(2)
-            sc.click_one_contact("yyx")
+            SelectContactsPage().click_one_contact_631("yyx")
             gcp.set_network_status(0)
             time.sleep(8)
             gcp.click_element_("确定移除")
@@ -3238,7 +3238,7 @@ class MsgGroupChatvedioTest(TestCase):
         sc.click_text("选择团队联系人")
         time.sleep(2)
         if sc.is_text_present("当前组织"):
-            sc.click_one_contact("yyx")
+            SelectContactsPage().click_one_contact_631("yyx")
             gcp.click_element_("取消移除")
             if not gcp.is_text_present("团队"):
                 raise AssertionError("没有停留在当前页面")
@@ -3278,7 +3278,7 @@ class MsgGroupChatvedioTest(TestCase):
             time.sleep(2)
             sc.click_element_("企业名称")
             time.sleep(2)
-            sc.click_one_contact("yyx")
+            SelectContactsPage().click_one_contact_631("yyx")
             gcp.click_element_("取消移除")
             if not gcp.is_text_present("团队"):
                 raise AssertionError("没有停留在当前页面")
@@ -4192,7 +4192,7 @@ class MsgGroupChatvedioTest(TestCase):
         sc.wait_for_page_load()
         sc.click_text("选择手机联系人")
         time.sleep(2)
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(2)
         gcp.click_element_("确定移除")
         if not gcp.is_toast_exist("已转发"):
@@ -4289,7 +4289,7 @@ class MsgGroupChatvedioTest(TestCase):
         sc.wait_for_page_load()
         sc.click_text("选择手机联系人")
         time.sleep(2)
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(2)
         gcp.click_element_("取消移除")
         sc.wait_for_page_load()

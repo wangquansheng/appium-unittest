@@ -425,7 +425,7 @@ class Preconditions(WorkbenchPreconditions):
         sc.click_local_contacts()
         time.sleep(2)
         slc = SelectLocalContactsPage()
-        slc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # a = 0
         # names = {}
         # while a < 3:
@@ -4141,7 +4141,7 @@ class MsgPrivateChatAllTest(TestCase):
         time.sleep(2)
         sc.click_element_("企业名称")
         time.sleep(2)
-        sc.click_one_contact("大佬3")
+        SelectContactsPage().click_one_contact_631("大佬3")
         scp.click_element_("确定")
         if not scp.is_toast_exist("已转发"):
             raise AssertionError("转发失败")
@@ -4539,7 +4539,7 @@ class MsgPrivateChatAllTest(TestCase):
         sc.wait_for_page_load()
         sc.click_text("选择手机联系人")
         time.sleep(2)
-        scp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(2)
         sc.click_element_("确定")
         if not sc.is_toast_exist("已转发"):
@@ -4609,7 +4609,7 @@ class MsgPrivateChatAllTest(TestCase):
         sc.click_text("选择团队联系人")
         time.sleep(2)
         if sc.is_text_present("当前组织"):
-            sc.click_one_contact("yyx")
+            SelectContactsPage().click_one_contact_631("yyx")
             scp.click_element_("确定")
             if not scp.is_toast_exist("已转发"):
                 raise AssertionError("转发失败")
@@ -4645,7 +4645,7 @@ class MsgPrivateChatAllTest(TestCase):
             time.sleep(2)
             sc.click_element_("企业名称")
             time.sleep(2)
-            sc.click_one_contact("yyx")
+            SelectContactsPage().click_one_contact_631("yyx")
             scp.click_element_("确定")
             if not scp.is_toast_exist("已转发"):
                 raise AssertionError("转发失败")

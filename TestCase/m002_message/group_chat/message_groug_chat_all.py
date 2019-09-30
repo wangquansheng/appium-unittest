@@ -107,7 +107,7 @@ class Preconditions(WorkbenchPreconditions):
         if sogp.is_on_this_page():
             group_name = Preconditions.get_group_chat_name()
             # 点击群名，进入群聊页面
-            sogp.click_one_contact(group_name)
+            SelectContactsPage().click_one_contact_631(group_name)
             scp.wait_for_page_load()
         if scp.is_on_this_page():
             return
@@ -363,12 +363,10 @@ class MsgAllPrior(TestCase):
         # 2、选择短信功能，进入短信发送模式
         single_chat_page.click_sms()
         time.sleep(2)
-        if single_chat_page.wait_until(lambda x: single_chat_page.page_should_contain_text("欢迎使用免费短信"), timeout=8,
+        if single_chat_page.wait_until(lambda x: single_chat_page.page_should_contain_text("你正在使用短信功能"), timeout=8,
                                        auto_accept_permission_alert=False):
-            single_chat_page.page_should_contain_text("欢迎使用免费短信")
-            single_chat_page.page_should_contain_text("免费给移动用户发送短信")
-            single_chat_page.page_should_contain_text("给非移动用户发短信将收取0.01元/条")
-            single_chat_page.page_should_contain_text("给港澳台等境外用户发短信将收取1元/条")
+            single_chat_page.page_should_contain_text("你正在使用短信功能")
+            single_chat_page.page_should_contain_text("发送短信")
             single_chat_page.driver.back()
         else:
             single_chat_page.wait_for_page_load()
@@ -397,9 +395,9 @@ class MsgAllPrior(TestCase):
         # 2、选择短信功能，进入短信发送模式
         single_chat_page.click_sms()
         time.sleep(2)
-        if single_chat_page.wait_until(lambda x: single_chat_page.page_should_contain_text("欢迎使用免费短信"), timeout=8,
+        if single_chat_page.wait_until(lambda x: single_chat_page.page_should_contain_text("你正在使用短信功能"), timeout=8,
                                        auto_accept_permission_alert=False):
-            self.assertTrue(single_chat_page.check_cmcc_msg_two_button())
+            self.assertTrue(single_chat_page.is_text_present("退出"))
             single_chat_page.driver.back()
         else:
             single_chat_page.wait_for_page_load()
@@ -425,10 +423,12 @@ class MsgAllPrior(TestCase):
         """会话窗口中点击删除文本消息"""
         single_chat_page = SingleChatPage()
         single_chat_page.wait_for_page_load()
-        single_chat_page.input_text_message('this is a test message')
+        single_chat_page.input_text_message('测试删除信息')
+        time.sleep(1)
         single_chat_page.send_text()
-        single_chat_page.delete_mess('this is a test message')
-        single_chat_page.page_should_not_contain_text('this is a test message')
+        time.sleep(1)
+        single_chat_page.delete_mess('测试删除信息')
+        single_chat_page.page_should_not_contain_text('测试删除信息')
 
 
 class MsgGroupChatTest(TestCase):

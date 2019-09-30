@@ -112,7 +112,7 @@ class Preconditions(WorkbenchPreconditions):
         # 2.选择联系人发送一条消息
         scp = SelectContactsPage()
         scp.wait_for_page_local_contact_load()
-        scp.click_one_contact("给个红包1")
+        SelectContactsPage().click_one_contact_631("给个红包1")
         bcp = BaseChatPage()
         if bcp.is_exist_dialog():
             bcp.click_i_have_read()
@@ -218,7 +218,7 @@ class Preconditions(WorkbenchPreconditions):
         if sogp.is_on_this_page():
             group_name = Preconditions.get_group_chat_name()
             # 点击群名，进入群聊页面
-            sogp.click_one_contact(group_name)
+            SelectContactsPage().click_one_contact_631(group_name)
             scp.wait_for_page_load()
         if scp.is_on_this_page():
             return
@@ -481,8 +481,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_445(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_446(self):
@@ -503,8 +506,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_446(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_447(self):
@@ -527,8 +533,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_447(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_451(self):
@@ -758,8 +767,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_459(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_460(self):
@@ -838,8 +850,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_461(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_462(self):
@@ -875,8 +890,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_462(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_464(self):
@@ -1106,8 +1124,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_471(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_472(self):
@@ -1172,8 +1193,11 @@ class MeAllCollect(TestCase):
         mep.open_message_page()
 
     def tearDown_test_me_zhangshuli_473(self):
-        Preconditions.make_already_in_me_all_page()
-        Preconditions.delete_all_my_collection()
+        try:
+            Preconditions.make_already_in_me_all_page()
+            Preconditions.delete_all_my_collection()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_476(self):
@@ -1551,7 +1575,7 @@ class MeAllCollect(TestCase):
         # # 3.选择本地联系人
         # scp = SelectContactsPage()
         # scp.wait_for_page_local_contact_load()
-        # scp.click_one_contact("和飞信电话")
+        # SelectContactsPage().click_one_contact_631("和飞信电话")
         # scp.page_should_contain_text("免费短信省钱省心，多方通话一呼八应，邀请你一起畅享沟通，立即体验")
         # # 4.点击发送
         # mrp.click_send()
@@ -1581,7 +1605,7 @@ class MeAllCollect(TestCase):
         # scp = SelectContactsPage()
         # scp.wait_for_page_local_contact_load()
         # phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        # scp.click_one_contact(phone_number)
+        # SelectContactsPage().click_one_contact_631(phone_number)
         # self.assertEquals(scp.is_toast_exist("该联系人不可选择"), True)
         # # 4.点击返回
         # scp.click_back()

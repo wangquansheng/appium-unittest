@@ -64,7 +64,7 @@ class Preconditions(WorkbenchPreconditions):
         if sogp.is_on_this_page():
             group_name = Preconditions.get_group_chat_name()
             # 点击群名，进入群聊页面
-            sogp.click_one_contact(group_name)
+            SelectContactsPage().click_one_contact_631(group_name)
             scp.wait_for_page_load()
         if scp.is_on_this_page():
             return
@@ -436,7 +436,7 @@ class Preconditions(WorkbenchPreconditions):
         sc.click_local_contacts()
         time.sleep(2)
         slc = SelectLocalContactsPage()
-        slc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # a = 0
         # names = {}
         # while a < 3:
@@ -1066,7 +1066,7 @@ class MsgCommonGroupTest(TestCase):
         # 搜索联系人
         sc.input_search_contact_message("飞信")
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -1133,7 +1133,7 @@ class MsgCommonGroupTest(TestCase):
         # 搜索联系人
         sc.input_search_contact_message("飞信")
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -1286,7 +1286,7 @@ class MsgCommonGroupTest(TestCase):
         sc.wait_for_page_local_contact_load()
         sc.select_local_contacts()
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -1353,7 +1353,7 @@ class MsgCommonGroupTest(TestCase):
         sc = SelectContactsPage()
         sc.wait_for_page_local_contact_load()
         # 选择最近聊天中“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -2234,15 +2234,30 @@ class MsgCommonGroupTest(TestCase):
         # 2、聊天页面显示输入文本信息预览，有[草稿]标识并标红
         info = "测试未发送信息"
         gcp.input_message(info)
-        # if gcp.is_on_this_page():
-        #     if gcp.is_element_exit_("文本发送按钮"):
-        #         raise AssertionError("有发送按钮")
         gcp.click_back()
         time.sleep(1)
         mess = MessagePage()
         if mess.is_on_this_page():
             exists = mess.is_text_present("草稿")
             self.assertEquals(exists, True)
+
+    @staticmethod
+    def setUp_test_msg_huangmianhua_0174():
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            MessagePage().clear_message_record()
+            Preconditions.enter_group_chat_page()
+            return
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            current_mobile().hide_keyboard_if_display()
+            return
+        else:
+            current_mobile().launch_app()
+            MessagePage().clear_message_record()
+            Preconditions.enter_group_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
     def test_msg_huangmianhua_0174(self):
@@ -2264,7 +2279,7 @@ class MsgCommonGroupTest(TestCase):
         # 点击群名，进入群聊页面
         group_name = Preconditions.get_group_chat_name()
         sogp = SelectOneGroupPage()
-        sogp.click_one_contact(group_name)
+        SelectContactsPage().click_one_contact_631(group_name)
         time.sleep(3)
         # 点击发送消息
         gcp.send_message()
@@ -2275,13 +2290,31 @@ class MsgCommonGroupTest(TestCase):
             cwp.wait_for_msg_send_status_become_to('发送成功', 10)
         except TimeoutException:
             raise AssertionError('消息在 {}s 内没有发送成功'.format(10))
-        gcp.click_back()
-        time.sleep(1)
+        gcp.click_back_by_android()
         # 4、消息列表[草稿]标红字样消失，显示为正常消息预览
+        # 备注：其它聊天列表记录可能干扰，存在“草稿”文本，导致用例失败
         mess = MessagePage()
         if mess.is_on_this_page():
             exists = mess.is_text_present("草稿")
             self.assertEquals(exists, False)
+
+    @staticmethod
+    def setUp_test_msg_huangmianhua_0175():
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().launch_app()
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            MessagePage().clear_message_record()
+            Preconditions.enter_group_chat_page()
+            return
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            current_mobile().hide_keyboard_if_display()
+            return
+        else:
+            current_mobile().launch_app()
+            MessagePage().clear_message_record()
+            Preconditions.enter_group_chat_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
     def test_msg_huangmianhua_0175(self):
@@ -2302,7 +2335,7 @@ class MsgCommonGroupTest(TestCase):
         # 点击群名，进入群聊页面
         group_name = Preconditions.get_group_chat_name()
         sogp = SelectOneGroupPage()
-        sogp.click_one_contact(group_name)
+        SelectContactsPage().click_one_contact_631(group_name)
         time.sleep(3)
         # 3、草稿信息删除成功,清空信息
         gcp.input_message("")
@@ -2832,7 +2865,7 @@ class MsgCommonGroupTest(TestCase):
         gcsp.click_add_member()
         time.sleep(2)
         cgacp = ChatGroupAddContactsPage()
-        cgacp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(1)
         if not cgacp.sure_btn_is_enabled():
             raise AssertionError("右上角的确定按钮不能高亮展示")
@@ -3303,7 +3336,7 @@ class MsgCommonGroupTest(TestCase):
         sc = SelectContactsPage()
         sc.wait_for_page_load()
         sc.select_local_contacts()
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -4198,7 +4231,7 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_cancel_forward()
         sc.click_back()
         sc.click_back()
@@ -4232,7 +4265,7 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         sc.click_sure_forward()
         flag = sc.is_toast_exist("已转发")
         self.assertTrue(flag)
@@ -4437,13 +4470,13 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击取消
         gcp.click_cancel_repeat_msg()
         # 验证停留在最近聊天选择器页面
         if not gcp.is_text_present("选择联系人"):
             raise AssertionError("没有停留在最近聊天选择器页面")
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击确定
         gcp.click_sure_repeat_msg()
         flag = sc.is_toast_exist("已转发")
@@ -4521,13 +4554,13 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击取消
         gcp.click_cancel_repeat_msg()
         # 验证停留在最近聊天选择器页面
         if not gcp.is_text_present("选择联系人"):
             raise AssertionError("没有停留在最近聊天选择器页面")
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击确定
         gcp.click_sure_repeat_msg()
         flag = sc.is_toast_exist("已转发")
@@ -4668,13 +4701,13 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击取消
         gcp.click_cancel_repeat_msg()
         # 验证停留在最近聊天选择器页面
         if not gcp.is_text_present("选择联系人"):
             raise AssertionError("没有停留在最近聊天选择器页面")
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击确定
         gcp.click_sure_repeat_msg()
         flag = sc.is_toast_exist("已转发")
@@ -4727,13 +4760,13 @@ class MsgCommonGroupTest(TestCase):
         sc.select_local_contacts()
         time.sleep(1)
         # 选择“和飞信电话”联系人进行转发
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击取消
         gcp.click_cancel_repeat_msg()
         # 验证停留在最近聊天选择器页面
         if not gcp.is_text_present("选择联系人"):
             raise AssertionError("没有停留在最近聊天选择器页面")
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         # 点击确定
         gcp.click_sure_repeat_msg()
         flag = sc.is_toast_exist("已转发")
@@ -6881,7 +6914,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         cgacp = ChatGroupAddContactsPage()
         if not cgacp.is_text_present("添加群成员"):
             raise AssertionError("不可以跳转到联系人选择器页面")
-        cgacp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(1)
         cgacp.click_sure()
         time.sleep(2)
@@ -6929,7 +6962,7 @@ class MsgCommonGroupPriorityTest(TestCase):
         cgacp = ChatGroupAddContactsPage()
         if not cgacp.is_text_present("添加群成员"):
             raise AssertionError("不可以跳转到联系人选择器页面")
-        cgacp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(1)
         cgacp.click_sure()
         time.sleep(2)
@@ -8894,7 +8927,7 @@ class MsgCommonGroupAllTest(TestCase):
         gcp.wait_for_page_load()
         gcp.click_profile()
         time.sleep(2)
-        gcp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(2)
         gcp.click_text("发送名片")
         # 验证是否发送成功
@@ -9546,7 +9579,7 @@ class MsgCommonGroupAllTest(TestCase):
         # 选择联系人界面，选择手机联系人
         sc = SelectContactsPage()
         sc.click_phone_contact()
-        sc.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(2)
         sc.click_text("确定")
         chat = SingleChatPage()
@@ -12341,7 +12374,7 @@ class MsgCommonGroupAllTest(TestCase):
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
         # 8.返回消息页面判断是否有新的会话窗口
-        gcp.click_back()
+        gcp.click_back_by_android()
         if scp.is_on_this_page():
             scp.click_back()
         mess = MessagePage()

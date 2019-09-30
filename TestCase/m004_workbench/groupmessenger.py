@@ -279,7 +279,7 @@ class MassMessengerTest(TestCase):
             sccp = SelectCompanyContactsPage()
             sccp.wait_for_page_load()
             # 飞信电话 or 和飞信电话
-            sccp.click_one_contact("飞信电话")
+            SelectContactsPage().click_one_contact_631("飞信电话")
             sccp.click_sure()
             time.sleep(1)
             org.click_back_by_android()
@@ -300,7 +300,7 @@ class MassMessengerTest(TestCase):
         # 点击指定联系人
         sccp = SelectCompanyContactsPage()
         sccp.wait_for_page_load()
-        sccp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         time.sleep(3)
         sccp.click_text("飞信电话")
         if sccp.is_left_head_exit():
@@ -334,7 +334,7 @@ class MassMessengerTest(TestCase):
         # 点击指定联系人
         sccp = SelectCompanyContactsPage()
         sccp.wait_for_page_load()
-        sccp.click_one_contact("飞信电话")
+        SelectContactsPage().click_one_contact_631("飞信电话")
         if not sccp.is_left_head_exit():
             raise AssertionError("找不到搜索栏左侧被点击人员人名和头像")
         #返回

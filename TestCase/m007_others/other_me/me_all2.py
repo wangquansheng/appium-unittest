@@ -244,7 +244,7 @@ class MsgAllPrior(TestCase):
 
         sc.input_search_contact_message(team_name)
         sc.driver.hide_keyboard()
-        sc.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/text_hint'))
+        SelectContactsPage().click_search_he_contact()
         sc.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'))
         exist = sc.is_toast_exist("该联系人不可选择")
         self.assertTrue(exist)
@@ -270,7 +270,7 @@ class MsgAllPrior(TestCase):
 
         sc.input_search_contact_message('asdasdasfewefwe')
         sc.driver.hide_keyboard()
-        sc.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/text_hint'))
+        SelectContactsPage().click_search_he_contact()
         time.sleep(3)
         elements = sc.get_elements((MobileBy.ID, 'com.chinasofti.rcs:id/no_contact_text'))
         self.assertTrue(len(elements) > 0)

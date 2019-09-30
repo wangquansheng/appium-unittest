@@ -537,7 +537,7 @@ class MeAllTest(TestCase):
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
     def test_me_zhangshuli_008(self):
-        """个人资料详情-部分完善资料"""
+        """个人资料详情-部分完善资料--app存在bug"""
         Preconditions.make_already_in_me_save_part_page()
         # 1.检验是否跳转到我页面
         mep = MePage()
@@ -1768,7 +1768,7 @@ class MeAllTest(TestCase):
             mep = MePage()
             mep.set_network_status(6)
         except:
-            mep.set_network_status(6)
+            pass
 
     @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
     def test_me_zhangshuli_055(self):

@@ -513,6 +513,16 @@ class SelectContactsPage(BasePage):
             print("本地联系人中无%s ，请添加此联系人再操作" % contactName)
 
     @TestLogger.log()
+    def click_one_contact_631(self, contactName):
+        """选择特定联系人"""
+        el = self.find_element_by_swipe((MobileBy.XPATH, '//*[contains(@text, "%s")]' % contactName), times=100)
+        if el:
+            el.click()
+            return el
+        else:
+            print("本地联系人中无%s ，请添加此联系人再操作" % contactName)
+
+    @TestLogger.log()
     def input_search_contact_message(self, message):
         """输入查询联系人查询信息"""
         self.input_text(self.__class__.__locators["搜索或输入手机号"], message)
