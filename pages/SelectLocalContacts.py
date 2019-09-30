@@ -270,7 +270,7 @@ class SelectLocalContactsPage(BasePage):
         return contacts_name
 
     @TestLogger.log()
-    def swipe_select_one_member_by_name(self, name, times=15):
+    def swipe_select_one_member_by_name(self, name, times=25):
         """通过人名选择一个联系人"""
         time.sleep(2)
         while times > 0:

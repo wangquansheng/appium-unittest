@@ -20,7 +20,7 @@ from pages.workbench.group_messenger.NewMessage import NewMessagePage
 from pages.workbench.group_messenger.Organization import Organization
 from pages.workbench.group_messenger.SelectCompanyContacts import SelectCompanyContactsPage
 from pages.workbench.organization.OrganizationStructure import OrganizationStructurePage
-from preconditions.BasePreconditions import WorkbenchPreconditions
+from preconditions.BasePreconditions import WorkbenchPreconditions, SelectContactsPage
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -228,7 +228,8 @@ class MassMessengerTest(TestCase):
         mgp.wait_for_edit_message_page_load()
         mgp.click_close()
 
-    @tags('ALL', 'CMCC', 'workbench')
+    # @tags('ALL', 'CMCC', 'workbench')
+    @unittest.skip("跳过，群发信使功能暂时关闭")
     def test_QFXS_0010(self):
         """1、搜索不存在的用户名称"""
         mess = MessagePage()
@@ -261,7 +262,8 @@ class MassMessengerTest(TestCase):
         mgp.wait_for_edit_message_page_load()
         mgp.click_close()
 
-    @tags('ALL', 'CMCC', 'workbench')
+    # @tags('ALL', 'CMCC', 'workbench')
+    @unittest.skip("跳过，群发信使功能暂时关闭")
     def test_QFXS_0011(self):
         """1、再次点击头像，取消选择人员"""
         mess = MessagePage()
@@ -313,7 +315,8 @@ class MassMessengerTest(TestCase):
         mgp.wait_for_edit_message_page_load()
         mgp.click_close()
 
-    @tags('ALL', 'CMCC', 'workbench')
+    # @tags('ALL', 'CMCC', 'workbench')
+    @unittest.skip("跳过，群发信使功能暂时关闭")
     def test_QFXS_0013(self):
         """1、点击“+”，添加接收人
             2、添加人数小于当前企业剩余条数"""

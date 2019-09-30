@@ -26,7 +26,7 @@ class Preconditions(WorkbenchPreconditions):
             current_mobile().launch_app()
             Preconditions.enter_super_meeting_page()
 
-
+@unittest.skip("跳过，超级会议功能暂时关闭")
 class SuperMeetingTest(TestCase):
     """工作台->超级会议"""
 
@@ -57,7 +57,7 @@ class SuperMeetingTest(TestCase):
     def default_tearDown(self):
         pass
 
-    @tags('ALL', 'CMCC','workbench', 'CJHY')
+    # @tags('ALL', 'CMCC','workbench', 'CJHY')
     def test_CJHY_0001(self):
         """查看超级会议使用说明"""
         # 1、点击超级会议顶部下拉箭头
@@ -78,7 +78,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC','workbench', 'CJHY')
+    # @tags('ALL', 'CMCC','workbench', 'CJHY')
     def test_CJHY_0002(self):
         """添加搜索出的企业通讯录联系人"""
         # 1、点击“预约会议”
@@ -145,7 +145,7 @@ class SuperMeetingTest(TestCase):
         current_mobile().back()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0003(self):
         """添加搜索出的本地联系人"""
         # 1、点击“预约会议”
@@ -185,7 +185,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC','workbench', 'CJHY')
+    # @tags('ALL', 'CMCC','workbench', 'CJHY')
     def test_CJHY_0004(self):
         """添加搜索的陌生号码"""
         # 1、点击“预约会议”
@@ -224,7 +224,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC','workbench', 'CJHY')
+    # @tags('ALL', 'CMCC','workbench', 'CJHY')
     def test_CJHY_0005(self):
         """添加搜索的陌生固话"""
         # 1、点击“预约会议”
@@ -264,7 +264,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0006(self):
         """11位号码精准搜索"""
         # 1.在搜索框输入11位号码，查看匹配结果
@@ -324,7 +324,7 @@ class SuperMeetingTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0007(self):
         """6-10位数字可支持模糊搜索匹配结果"""
         # 1.在搜索框输入6 - 10位数字, 查看匹配结果
@@ -384,7 +384,7 @@ class SuperMeetingTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0008(self):
         """联系人姓名（全名）精准搜索"""
         # 1.在搜索框输入联系人姓名（全名）, 查看匹配结果
@@ -448,7 +448,7 @@ class SuperMeetingTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0009(self):
         """联系人姓名（非全名）模糊搜索"""
         # 1.在搜索框输入联系人联系人姓名（非全名）, 查看匹配结果
@@ -512,7 +512,7 @@ class SuperMeetingTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0010(self):
         """字母搜索，按照联系人的姓（包含字母）"""
         # 1.在搜索框输入1字母, 查看匹配结果
@@ -576,7 +576,7 @@ class SuperMeetingTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0011(self):
         """字母搜索，按照联系人的姓（包含字母）"""
         # 1.在搜索框输入1字母, 查看匹配结果
@@ -640,7 +640,7 @@ class SuperMeetingTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0012(self):
         """字母搜索可支持多个字母大小写同时匹配"""
         # 1.在搜索框输入多方大小写字母, 查看匹配结果
@@ -704,7 +704,7 @@ class SuperMeetingTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0013(self):
         """特殊字符可支持搜索匹配"""
         # 1.在搜索框输入特殊字符, 查看匹配结果
@@ -768,7 +768,7 @@ class SuperMeetingTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0014(self):
         """纯空格键不支持搜索匹配"""
         # 1.在搜索框输入空格，查看显示
@@ -815,7 +815,7 @@ class SuperMeetingTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0015(self):
         """空格键+文本 可支持匹配"""
         # 1.在搜索框输入空格键 + 文本, 查看匹配结果
@@ -879,7 +879,7 @@ class SuperMeetingTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0016(self):
         """搜索框输入，不限制字符，可一键删除，可按输入盘删除键删除"""
         # 1.在搜索框输入长文本
@@ -905,7 +905,7 @@ class SuperMeetingTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0017(self):
         """搜索本机号码"""
         # 1.在搜索框输入本机号码，查看匹配结果
@@ -970,7 +970,7 @@ class SuperMeetingTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0019(self):
         """字母+汉字组合可精准搜索"""
         # 1.在搜索框输入：字母 + 汉字, 查看匹配结果
@@ -1034,7 +1034,7 @@ class SuperMeetingTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0020(self):
         """字母+汉字+数字组合可精准搜索"""
         # 1.在搜索框输入：字母 + 汉字 + 数字, 查看匹配结果
@@ -1098,7 +1098,7 @@ class SuperMeetingTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0021(self):
         """搜索固话"""
         # 1.在搜索框输入：固话号码, 查看匹配结果
@@ -1121,7 +1121,7 @@ class SuperMeetingTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0022(self):
         """用户不在任何部门下"""
         # 1.点击“+”添加联系人
@@ -1157,7 +1157,7 @@ class SuperMeetingTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', 'CMCC1', 'workbench1', 'CJHY')
+    # @tags('ALL', 'CMCC1', 'workbench1', 'CJHY')
     def test_CJHY_0023(self):
         """用户在企业部门下"""
         # 1.点击“+”添加联系人
@@ -1261,7 +1261,7 @@ class SuperMeetingTest(TestCase):
         else:
             print("用户一开始已经在企业部门下，请删除部门让用户一开始不在企业部门下")
 
-    @tags('ALL', 'CMCC1', 'workbench1', 'CJHY')
+    # @tags('ALL', 'CMCC1', 'workbench1', 'CJHY')
     def test_CJHY_0024(self):
         """用户在企业部门下又在企业子一层级中，直接进入企业层级"""
         # 1.点击“+”添加联系人
@@ -1376,7 +1376,7 @@ class SuperMeetingTest(TestCase):
         else:
             print("用户一开始已经在企业部门下，请删除部门让用户一开始不在企业部门下")
 
-    @tags('ALL', 'CMCC1', 'workbench1', 'CJHY')
+    # @tags('ALL', 'CMCC1', 'workbench1', 'CJHY')
     def test_CJHY_0025(self):
         """用户同时在两个部门下"""
         # 1.点击“+”添加联系人
@@ -1513,7 +1513,7 @@ class SuperMeetingTest(TestCase):
         else:
             print("用户一开始已经在企业部门下，请删除部门让用户一开始不在企业部门下")
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0026(self):
         """添加企业通讯录联系人"""
         # 1、点击“预约会议”
@@ -1582,7 +1582,7 @@ class SuperMeetingTest(TestCase):
         current_mobile().back()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0027(self):
         """添加企业通讯录联系人"""
         # 1、点击“预约会议”
@@ -1651,7 +1651,7 @@ class SuperMeetingTest(TestCase):
         current_mobile().back()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0028(self):
         """添加本地联系人"""
         # 1、点击“预约会议”
@@ -1690,7 +1690,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0029(self):
         """添加本地联系人，搜索结果"""
         # 1、点击“预约会议”
@@ -1731,7 +1731,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0034(self):
         """添加最近聊天"""
         # 1、点击“预约会议”
@@ -1806,7 +1806,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0038(self):
         """预约会议详情"""
         # 1、点击已经预约成功的会议，进入详情
@@ -1860,7 +1860,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0039(self):
         """预约会议详情"""
         # 1、点击已经预约成功的会议，进入详情
@@ -1910,7 +1910,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0040(self):
         """添加搜索出的企业通讯录联系人"""
         # 1、点击“马上开会”
@@ -1966,7 +1966,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0041(self):
         """添加搜索出的本地联系人"""
         # 1、点击“马上开会”
@@ -1997,7 +1997,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0042(self):
         """添加搜索的陌生号码"""
         # 1、点击“马上开会”
@@ -2026,7 +2026,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0043(self):
         """添加搜索的陌生固话"""
         # 1、点击“马上开会”
@@ -2055,7 +2055,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0044(self):
         """添加企业通讯录联系人"""
         # 1、点击“马上开会”
@@ -2112,7 +2112,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0045(self):
         """添加本地联系人"""
         # 1、点击“马上开会”
@@ -2140,7 +2140,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0046(self):
         """添加本地联系人"""
         # 1、点击“马上开会”
@@ -2180,7 +2180,7 @@ class SuperMeetingTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.enter_super_meeting_page()
 
-    @tags('ALL', 'CMCC_skip', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC_skip', 'workbench', 'CJHY')
     def test_CJHY_0047(self):
         """读取本地联系人权限"""
         # 1、点击“马上开会”
@@ -2214,7 +2214,7 @@ class SuperMeetingTest(TestCase):
         # current_mobile().connect_mobile()
         Preconditions.enter_super_meeting_page()
 
-    @tags('ALL', 'CMCC_skip', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC_skip', 'workbench', 'CJHY')
     def test_CJHY_0050(self):
         """读取本地联系人权限"""
         # 1、点击“马上开会”
@@ -2239,7 +2239,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0051(self):
         """添加最近聊天"""
         # 1、点击“马上开会”
@@ -2301,7 +2301,7 @@ class SuperMeetingTest(TestCase):
         current_mobile().back()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0057(self):
         """断网提示"""
         # 1、断开网络
@@ -2330,7 +2330,7 @@ class SuperMeetingTest(TestCase):
         gcp = GroupChatPage()
         gcp.set_network_status(6)
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0058(self):
         """点击顶部返回键"""
         # 1、在任意页面点击顶部【 < 】
@@ -2340,7 +2340,7 @@ class SuperMeetingTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
     def test_CJHY_0059(self):
         """点击顶部关闭按钮"""
         # 在其他有关闭按钮页面，点击顶部【x】

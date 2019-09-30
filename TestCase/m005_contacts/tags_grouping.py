@@ -194,32 +194,32 @@ class TagsGroupingTest(TestCase):
     @classmethod
     def setUpClass(cls):
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        mess = MessagePage()
-        if mess.is_on_this_page():
-            WorkbenchPreconditions.enter_create_team_page2()
-        # 当前为消息页面
-        # 确保存在子部门
-        WorkbenchPreconditions.create_sub_department()
-        # 导入测试联系人
-        fail_time1 = 0
-        import dataproviders
-        flag1 = False
-        while fail_time1 < 2:
-            try:
-                required_contacts = dataproviders.get_preset_contacts()
-                conts = ContactsPage()
-                conts.open_contacts_page()
-                if conts.is_text_present("发现SIM卡联系人"):
-                    conts.click_text("显示")
-                for name, number in required_contacts:
-                    # 创建联系人
-                    conts.create_contacts_if_not_exits_new(name, number)
-                flag1 = True
-            except:
-                fail_time1 += 1
-            if flag1:
-                break
+        # Preconditions.make_already_in_message_page()
+        # mess = MessagePage()
+        # if mess.is_on_this_page():
+        #     WorkbenchPreconditions.enter_create_team_page2()
+        # # 当前为消息页面
+        # # 确保存在子部门
+        # WorkbenchPreconditions.create_sub_department()
+        # # 导入测试联系人
+        # fail_time1 = 0
+        # import dataproviders
+        # flag1 = False
+        # while fail_time1 < 2:
+        #     try:
+        #         required_contacts = dataproviders.get_preset_contacts()
+        #         conts = ContactsPage()
+        #         conts.open_contacts_page()
+        #         if conts.is_text_present("发现SIM卡联系人"):
+        #             conts.click_text("显示")
+        #         for name, number in required_contacts:
+        #             # 创建联系人
+        #             conts.create_contacts_if_not_exits_new(name, number)
+        #         flag1 = True
+        #     except:
+        #         fail_time1 += 1
+        #     if flag1:
+        #         break
 
     def default_setUp(self):
         Preconditions.select_mobile('Android-移动')
@@ -372,20 +372,20 @@ class TagsGroupingTest(TestCase):
         # 多方通话
         glp.enter_mutil_call()
         time.sleep(1)
-        glp.click_text("大佬1")
-        time.sleep(1)
-        cdp.send_call_number()
-        time.sleep(1)
-        if glp.is_text_present('我知道了'):
-            time.sleep(2)
-            glp.click_text('我知道了')
-        if glp.is_text_present('发起多方电话失败'):
-            pass
-        else:
-            cdp.cancel_permission()
-            time.sleep(2)
-            cdp.cancel_hefeixin_call()
-            time.sleep(2)
+        # glp.click_text("大佬1")
+        # time.sleep(1)
+        # cdp.send_call_number()
+        # time.sleep(1)
+        # if glp.is_text_present('我知道了'):
+        #     time.sleep(2)
+        #     glp.click_text('我知道了')
+        # if glp.is_text_present('发起多方电话失败'):
+        #     pass
+        # else:
+        #     cdp.cancel_permission()
+        #     time.sleep(2)
+        #     cdp.cancel_hefeixin_call()
+        #     time.sleep(2)
 
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_contacts_quxinli_0398(self):

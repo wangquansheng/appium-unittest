@@ -109,52 +109,52 @@ class ImportantMattersAllTest(TestCase):
 
         Preconditions.select_mobile('Android-移动')
         # 导入测试联系人、群聊
-        # fail_time1 = 0
-        # flag1 = False
-        # import dataproviders
-        # while fail_time1 < 2:
-        #     try:
-        #         required_contacts = dataproviders.get_preset_contacts()
-        #         conts = ContactsPage()
-        #         current_mobile().hide_keyboard_if_display()
-        #         Preconditions.make_already_in_message_page()
-        #         conts.open_contacts_page()
-        #         try:
-        #             if conts.is_text_present("发现SIM卡联系人"):
-        #                 conts.click_text("显示")
-        #         except:
-        #             pass
-        #         for name, number in required_contacts:
-        #             # 创建联系人
-        #             conts.create_contacts_if_not_exits_new(name, number)
-        #         required_group_chats = dataproviders.get_preset_group_chats()
-        #         conts.open_group_chat_list()
-        #         group_list = GroupListPage()
-        #         for group_name, members in required_group_chats:
-        #             group_list.wait_for_page_load()
-        #             # 创建群
-        #             group_list.create_group_chats_if_not_exits(group_name, members)
-        #         group_list.click_back()
-        #         conts.open_message_page()
-        #         flag1 = True
-        #     except:
-        #         fail_time1 += 1
-        #     if flag1:
-        #         break
-        #
-        # # 导入团队联系人
-        # fail_time2 = 0
-        # flag2 = False
-        # while fail_time2 < 2:
-        #     try:
-        #         Preconditions.make_already_in_message_page()
-        #         contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-        #         Preconditions.create_he_contacts(contact_names)
-        #         flag2 = True
-        #     except:
-        #         fail_time2 += 1
-        #     if flag2:
-        #         break
+        fail_time1 = 0
+        flag1 = False
+        import dataproviders
+        while fail_time1 < 2:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                current_mobile().hide_keyboard_if_display()
+                Preconditions.make_already_in_message_page()
+                conts.open_contacts_page()
+                try:
+                    if conts.is_text_present("发现SIM卡联系人"):
+                        conts.click_text("显示")
+                except:
+                    pass
+                for name, number in required_contacts:
+                    # 创建联系人
+                    conts.create_contacts_if_not_exits_new(name, number)
+                required_group_chats = dataproviders.get_preset_group_chats()
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name, members in required_group_chats:
+                    group_list.wait_for_page_load()
+                    # 创建群
+                    group_list.create_group_chats_if_not_exits(group_name, members)
+                group_list.click_back()
+                conts.open_message_page()
+                flag1 = True
+            except:
+                fail_time1 += 1
+            if flag1:
+                break
+
+        # 导入团队联系人
+        fail_time2 = 0
+        flag2 = False
+        while fail_time2 < 2:
+            try:
+                Preconditions.make_already_in_message_page()
+                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
+                Preconditions.create_he_contacts(contact_names)
+                flag2 = True
+            except:
+                fail_time2 += 1
+            if flag2:
+                break
 
     def default_setUp(self):
         """
@@ -177,6 +177,35 @@ class ImportantMattersAllTest(TestCase):
 
     def default_tearDown(self):
         pass
+
+    @staticmethod
+    def setUp_test_ZYSX_0001():
+        Preconditions.select_mobile('Android-移动')
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        if mp.is_on_this_page():
+            mp.click_workbench()
+            wbp = WorkbenchPage()
+            wbp.wait_for_workbench_page_load()
+            # 查找并点击所有展开元素
+            wbp.find_and_click_open_element()
+            if wbp.is_text_present("ateam7272"):
+                wbp.click_setting_icon()
+                wbp.click_text_or_description("默认团队")
+                wbp.click_text_or_description("测试团队1")
+                wbp.click_text_or_description("确定")
+                time.sleep(2)
+                wbp.click_setting_back()
+            wbp.click_message_icon()
+            Preconditions.enter_important_matters_page()
+            return
+        imp = ImportantMattersPage()
+        if imp.is_on_important_matters_page():
+            current_mobile().hide_keyboard_if_display()
+        else:
+            current_mobile().launch_app()
+            Preconditions.make_already_in_message_page()
+            Preconditions.enter_important_matters_page()
 
     @tags('ALL', 'CMCC', 'workbench', 'LXD')
     def test_ZYSX_0001(self):
@@ -675,7 +704,7 @@ class ImportantMattersAllTest(TestCase):
         imp.click_text("佬1")
         # 3.等待选择联系人页面加载
         sccp.wait_for_page_load()
-        search_name = "大佬2"
+        search_name = "English"
         sccp.input_search_message(search_name)
         time.sleep(2)
         sccp.click_contacts_by_name(search_name)

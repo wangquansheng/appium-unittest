@@ -895,7 +895,8 @@ class TeamTestAll(TestCase):
         workbench.click_create_team()
         team.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'CJTD')
+    # @tags('ALL', "CMCC", 'workbench', 'CJTD')
+    @unittest.skip("创建团队需要验证码")
     def test_CJTD_0028(self):
         """敏感词检验 -- 管理员检查"""
         # 1、依次填写企业名称、选择所在地、行业

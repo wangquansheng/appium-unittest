@@ -99,6 +99,10 @@ class WorkbenchPage(FooterPage):
                   '当前团队名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_actionbar'),
                   '第一个团队': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[2]/android.support.v7.widget.RecyclerView/android.widget.RelativeLayout[1]/android.widget.TextView'),
                   '第二个团队': (MobileBy.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[2]/android.support.v7.widget.RecyclerView/android.widget.RelativeLayout[2]/android.widget.TextView'),
+                    '设置': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_right1'),
+                    '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
+
+
                   }
 
     def swipe_half_page_up(self):
@@ -611,3 +615,11 @@ class WorkbenchPage(FooterPage):
     @TestLogger.log("点击消息图标")
     def click_message_icon(self):
         self.click_element(self.__locators['消息'])
+
+    @TestLogger.log("点击工作台设置")
+    def click_setting_icon(self):
+        self.click_element(self.__locators['设置'])
+
+    @TestLogger.log("点击返回")
+    def click_setting_back(self):
+        self.click_element(self.__locators['返回'])

@@ -1,4 +1,5 @@
 import time
+import unittest
 
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile
@@ -99,7 +100,8 @@ class VoiceNoticeTest(TestCase):
             Preconditions.make_already_in_message_page()
             mess.open_workbench_page()
 
-    @tags('ALL', 'CMCC', 'workbench', 'debug_fk')
+    # @tags('ALL', 'CMCC', 'workbench', 'debug_fk')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0001(self):
         """正常查看使用该指引"""
         # 0.进入语音通知页面
@@ -127,7 +129,8 @@ class VoiceNoticeTest(TestCase):
         vnp.click_back()
         vnp.click_back()
 
-    @tags('ALL', 'CMCC', 'workbench', 'debug_fk')
+    # @tags('ALL', 'CMCC', 'workbench', 'debug_fk')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0015(self):
         """点击顶部关闭按钮"""
         # 0.进入语音通知页面
@@ -143,7 +146,8 @@ class VoiceNoticeTest(TestCase):
         time.sleep(3)
         self.assertEquals(wbp.is_on_this_page(), True)
 
-    @tags('ALL', 'CMCC', 'workbench', 'debug_fk')
+    # @tags('ALL', 'CMCC', 'workbench', 'debug_fk')
+    @unittest.skip("跳过，超级会议功能暂时关闭")
     def test_cjhy_0001(self):
         """查看超级会议使用说明"""
         # 0.进入超级会议页面页面
