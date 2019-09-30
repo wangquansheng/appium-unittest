@@ -107,7 +107,7 @@ class ContactSearchOpTest(TestCase):
         cp.click_search_box()
         # 查询页面输入'188262'
         search_page = SearchPage()
-        search_number = "188262"
+        search_number = "13800"
         search_page.input_search_keyword(search_number)
         time.sleep(5)
         search_page.hide_keyboard()
@@ -226,7 +226,7 @@ class ContactSearchOpTest(TestCase):
         cp = ContactsPage()
         cp.click_search_box()
         search_page = SearchPage()
-        search_name = "f"
+        search_name = "a"
         search_page.input_search_keyword(search_name)
         time.sleep(5)
         search_page.hide_keyboard()
@@ -234,8 +234,8 @@ class ContactSearchOpTest(TestCase):
         # 1、匹配内容高亮显示，搜索结果显示姓名中包含有a-z，还有包含a-z拼音汉字
         # 3、匹配内容高亮显示，结果也显示包含a结果。
         sccp = SelectCompanyContactsPage()
-        self.assertEquals(sccp.is_text_present("ff56"), True)
-        self.assertEquals(sccp.is_text_present("飞信电话"), True)
+        self.assertEquals(sccp.is_search_contacts_name_match("a"), True)
+        self.assertEquals(sccp.is_search_contacts_name_match("啊"), True)
         # 2、匹配内容高亮显示，从左至右输入a-al-ali-alic-alice,搜索结果显示正常
         search_page = SearchPage()
         search_name = "alice"
@@ -311,7 +311,7 @@ class ContactSearchOpTest(TestCase):
         cp = ContactsPage()
         cp.click_search_box()
         search_page = SearchPage()
-        search_number = "1882621"
+        search_number = "13800"
         search_page.input_search_keyword(search_number)
         time.sleep(5)
         search_page.hide_keyboard()
