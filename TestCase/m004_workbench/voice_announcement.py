@@ -50,7 +50,8 @@ class VoiceAnnouncementTest(TestCase):
     def default_tearDown(self):
         pass
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0001(self):
         """网络正常情况下正常跳转到应用首页"""
         # 1、点击【语音通知】
@@ -58,7 +59,8 @@ class VoiceAnnouncementTest(TestCase):
         vnp = VoiceNoticePage()
         vnp.wait_for_page_loads()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0002(self):
         """网络异常情况下提示页面"""
         # 1、断开网络
@@ -87,7 +89,8 @@ class VoiceAnnouncementTest(TestCase):
         gcp.set_network_status(6)
         time.sleep(8)
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0003(self):
         """剩余条数显示正确"""
         # 1、查看本月剩余通知条数
@@ -118,7 +121,8 @@ class VoiceAnnouncementTest(TestCase):
         else:
             print("已创建通知")
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0005(self):
         """正常展开收起权益"""
         # 1、点击本月剩余通知条数旁边的下三角
@@ -134,7 +138,8 @@ class VoiceAnnouncementTest(TestCase):
         if vnp.is_text_present("企业认证"):
             raise AssertionError("不可正常收起")
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0006(self):
         """跳转企业认证"""
         # 1、点击本月剩余通知条数旁边的下三角
@@ -167,7 +172,8 @@ class VoiceAnnouncementTest(TestCase):
         current_mobile().back()
         vnp.wait_for_page_loads()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0007(self):
         """可正常跳转到充值页面"""
         # 1、点击本月剩余通知条数旁边的下三角
@@ -184,7 +190,8 @@ class VoiceAnnouncementTest(TestCase):
         vnp.wait_for_page_loads()
         time.sleep(3)
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0008(self):
         """添加搜索出的成员"""
         # 1、点击“+”
@@ -210,7 +217,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0009(self):
         """多个部门成员累加"""
         # 1、点击“+”
@@ -290,7 +298,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0010(self):
         """移除成员"""
         # 1、点击“+”
@@ -384,7 +393,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0011(self):
         """移除成员再添加成员"""
         # 1、点击“+”
@@ -485,7 +495,8 @@ class VoiceAnnouncementTest(TestCase):
 
 
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0012(self):
         """无号码或自己等于100，成员等于20的时候成员不可勾选"""
         # 1、点击“+”
@@ -509,7 +520,8 @@ class VoiceAnnouncementTest(TestCase):
         current_mobile().back()
         vnp.wait_for_page_loads()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0014(self):
         """语音时长小于1s"""
         # 1、点击“创建语音通知”
@@ -533,7 +545,8 @@ class VoiceAnnouncementTest(TestCase):
         current_mobile().back()
         vnp.wait_for_page_loads()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0015(self):
         """录制语音时长为59s"""
         # 1、点击“创建语音通知”
@@ -558,7 +571,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0016(self):
         """录制语音时长为60s"""
         # 1、点击“创建语音通知”
@@ -583,7 +597,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0017(self):
         """录制语音时长大于60s"""
         # 1、点击“创建语音通知”
@@ -608,7 +623,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0020(self):
         """录制后点击录音后边的删除按钮"""
         # 1、点击“创建语音通知”
@@ -633,7 +649,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0021(self):
         """录制后点击小键盘，切换到输入模式"""
         # 1、点击“创建语音通知”
@@ -656,7 +673,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0024(self):
         """成功创建一条语音通知，输入内容，设置定时，添加按键反馈"""
         # 1、点击“创建语音通知”
@@ -703,7 +721,8 @@ class VoiceAnnouncementTest(TestCase):
     #     if vnp.is_text_present('2"'):
     #         raise AssertionError("我创建的列表中被删除的通知信息没有被移除")
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0029(self):
         """用户不在任何部门下"""
         # 1.点击“+”添加联系人
@@ -724,7 +743,8 @@ class VoiceAnnouncementTest(TestCase):
         # current_mobile().back()
         vnp.wait_for_page_loads()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0033(self):
         """选择用户本人"""
         # 1、点击用户本人头像
@@ -746,7 +766,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0035(self):
         """搜索不存在的用户昵称"""
         # 1、搜索不存在的用户名称
@@ -766,7 +787,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0036(self):
         """搜索“我的电脑”"""
         # 1、搜索“我的电脑”
@@ -786,7 +808,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0037(self):
         """11位号码精准搜索"""
         vnp = VoiceNoticePage()
@@ -846,7 +869,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0038(self):
         """6-10位数字可支持模糊搜索匹配结果"""
         # 1.在搜索框输入6 - 10位数字, 查看匹配结果
@@ -908,7 +932,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0039(self):
         """联系人姓名（全名）精准搜索"""
         # 1.在搜索框输入联系人姓名（全名）, 查看匹配结果
@@ -974,7 +999,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0040(self):
         """联系人姓名（非全名）模糊搜索"""
         # 1.在搜索框输入联系人联系人姓名（非全名）, 查看匹配结果
@@ -1040,7 +1066,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0041(self):
         """字母搜索，按照联系人的姓（包含字母）"""
         # 1.在搜索框输入1字母, 查看匹配结果
@@ -1106,7 +1133,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0042(self):
         """字母搜索，按照联系人的姓（包含字母）"""
         # 1.在搜索框输入1字母, 查看匹配结果
@@ -1172,7 +1200,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0043(self):
         """字母搜索可支持多个字母大小写同时匹配"""
         # 1.在搜索框输入多方大小写字母, 查看匹配结果
@@ -1238,7 +1267,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0044(self):
         """特殊字符可支持搜索匹配"""
         # 1.在搜索框输入特殊字符, 查看匹配结果
@@ -1304,7 +1334,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0045(self):
         """纯空格键不支持搜索匹配"""
         # 1.在搜索框输入空格，查看显示
@@ -1353,7 +1384,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0046(self):
         """空格键+文本 可支持匹配"""
         # 1.在搜索框输入空格键 + 文本, 查看匹配结果
@@ -1419,7 +1451,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0047(self):
         """搜索框输入，不限制字符，可一键删除，可按输入盘删除键删除"""
         # 1.在搜索框输入长文本
@@ -1446,7 +1479,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0048(self):
         """搜索本机号码"""
         # 1.在搜索框输入本机号码，查看匹配结果
@@ -1513,7 +1547,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0050(self):
         """字母+汉字组合可精准搜索"""
         # 1.在搜索框输入：字母 + 汉字, 查看匹配结果
@@ -1579,7 +1614,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0051(self):
         """字母+汉字+数字 组合可精准搜索"""
         # 1.在搜索框输入：字母 + 汉字 + 数字, 查看匹配结果
@@ -1645,7 +1681,8 @@ class VoiceAnnouncementTest(TestCase):
             workbench = WorkbenchPage()
             workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0052(self):
         """搜索非企业联系人提示无结果"""
         # 1、搜索不存在在企业通讯录中的用户电话号码，大陆号码11位或8位香港号码
@@ -1670,7 +1707,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0053(self):
         """任意点击搜索结果联系人"""
         # 1、任意点击头像，选择人员
@@ -1697,7 +1735,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0054(self):
         """取消选择人员"""
         # 1、再次点击头像，取消选择人员
@@ -1733,7 +1772,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0055(self):
         """多选-任意选择多位联系人"""
         # 1、任意选择多位联系人
@@ -1766,7 +1806,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0056(self):
         """添加多部门联系人"""
         # 1、进入A部门勾选C用户后，返回一级页面在进入B部门勾选其它用户
@@ -1875,7 +1916,8 @@ class VoiceAnnouncementTest(TestCase):
     #     time.sleep(2)
     #     sc.click_sure_bottom()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0060(self):
         """无缓存数据-无网络时点击“+”添加接收人"""
         # 1、点击“+”添加联系人
@@ -1904,7 +1946,8 @@ class VoiceAnnouncementTest(TestCase):
         vnp.set_network_status(6)
         time.sleep(8)
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0061(self):
         """有缓存数据-无网络时点击“+”添加接收人"""
         # 1、点击“+”添加联系人
@@ -1935,7 +1978,8 @@ class VoiceAnnouncementTest(TestCase):
         vnp.set_network_status(6)
         time.sleep(8)
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0062(self):
         """断开网络，点击“发送”"""
         # 1、点击“创建语音通知”
@@ -1974,7 +2018,8 @@ class VoiceAnnouncementTest(TestCase):
         vnp.set_network_status(6)
         time.sleep(8)
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0063(self):
         """点击顶部返回键"""
         # 1、在任意页面点击顶部【 < 】
@@ -1986,7 +2031,8 @@ class VoiceAnnouncementTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    # @tags('ALL', "CMCC", 'workbench', 'YYTZ')
+    @unittest.skip("跳过，语音通知功能暂时关闭")
     def test_YYTZ_0064(self):
         """点击顶部关闭按钮"""
         # 在其他有关闭按钮页面，点击顶部【x】

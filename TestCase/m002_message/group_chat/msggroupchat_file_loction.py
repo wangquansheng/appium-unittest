@@ -589,7 +589,7 @@ class MsgGroupChatFileLocationTest(TestCase):
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
-        # Preconditions.create_contacts_groups()
+        Preconditions.create_contacts_groups()
 
     def default_setUp(self):
         """确保每个用例运行前在群聊聊天会话页面"""
