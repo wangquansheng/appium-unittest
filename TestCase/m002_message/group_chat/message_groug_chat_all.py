@@ -363,6 +363,8 @@ class MsgAllPrior(TestCase):
         # 2、选择短信功能，进入短信发送模式
         single_chat_page.click_sms()
         time.sleep(2)
+        if single_chat_page.is_text_present("欢迎使用短信！"):
+            single_chat_page.click_text("确定")
         if single_chat_page.wait_until(lambda x: single_chat_page.page_should_contain_text("你正在使用短信功能"), timeout=8,
                                        auto_accept_permission_alert=False):
             single_chat_page.page_should_contain_text("你正在使用短信功能")
@@ -395,6 +397,8 @@ class MsgAllPrior(TestCase):
         # 2、选择短信功能，进入短信发送模式
         single_chat_page.click_sms()
         time.sleep(2)
+        if single_chat_page.is_text_present("欢迎使用短信！"):
+            single_chat_page.click_text("确定")
         if single_chat_page.wait_until(lambda x: single_chat_page.page_should_contain_text("你正在使用短信功能"), timeout=8,
                                        auto_accept_permission_alert=False):
             self.assertTrue(single_chat_page.is_text_present("退出"))
