@@ -48,8 +48,8 @@ class MsgAllPrior(TestCase):
         """需要预置联系人"""
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
+        # contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
+        # contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
 
         Preconditions.enter_call_page()
         # 点击多方通话
@@ -86,8 +86,8 @@ class MsgAllPrior(TestCase):
         """需要预置联系人"""
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
+        # contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
+        # contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
 
         Preconditions.enter_call_page()
         # 点击多方通话
@@ -127,8 +127,8 @@ class MsgAllPrior(TestCase):
         """需要预置联系人"""
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
+        # contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
+        # contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
 
         Preconditions.enter_call_page()
         # 点击多方通话
@@ -136,8 +136,8 @@ class MsgAllPrior(TestCase):
         call_page.click_free_call()
         # 进入多方通话页面选择联系人呼叫
         selectcontacts = SelectContactsPage()
-        SelectContactsPage().click_one_contact_631('联系人3')
-        SelectContactsPage().click_one_contact_631('联系人4')
+        SelectContactsPage().click_one_contact_631('大佬1')
+        SelectContactsPage().click_one_contact_631('大佬2')
         time.sleep(4)
         selectcontacts.click_sure_bottom()
         # 是否弹框_我知道了,点击 发起呼叫
@@ -370,7 +370,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0081(self):
-        # 通讯录界面搜索姓名
+        """ 通讯录界面搜索姓名"""
         mess = MessagePage()
         mess.click_search()
         # 精确搜索关键词联系人3
@@ -409,7 +409,7 @@ class MsgAllPrior(TestCase):
         call_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
                                 auto_accept_permission_alert=False)
         time.sleep(5)
-        call_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'), '联系人')
+        call_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'), '联系人3')
         self.assertTrue(call_page._is_element_present(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="联系人3"]')))
 

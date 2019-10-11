@@ -2408,12 +2408,12 @@ class MsgContactsSelect(TestCase):
         """需要预置一个联系人"""
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('测试0664', '15875537272')
+        contactspage.create_contacts_if_not_exits('测试人员2', '15875537272')
         contactspage.open_message_page()
         """预制一个团队"""
         Preconditions.create_new_team(TEAM_NAME, TEAM_ADMIN)
         """在团队中添加一个联系人"""
-        Preconditions.team_add_contact(TEAM_NAME, "测试0664")
+        Preconditions.team_add_contact(TEAM_NAME, "测试人员2")
         contactspage.open_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')

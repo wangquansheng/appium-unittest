@@ -606,7 +606,15 @@ class MessagePage(FooterPage):
     @TestLogger.log()
     def click_element_by_text(self, text):
         """点击指定元素"""
-        self.click_element((MobileBy.XPATH, '//*[@text="%s"]' % text))
+        # self.click_element((MobileBy.XPATH, '//*[@text="%s"]' % text))
+        """点击指定元素"""
+        try:
+            locator = (MobileBy.XPATH, '//*[contains(@text,"%s")]' % text)
+            self.click_element(locator)
+        except:
+            # 华为note 8手机-content-desc
+            locator = (MobileBy.XPATH, '//*[contains(@content-desc,"%s")]' % text)
+            self.click_element(locator)
 
     @TestLogger.log()
     def is_iv_fail_status_present(self):
