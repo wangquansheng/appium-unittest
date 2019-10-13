@@ -2689,6 +2689,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0140(self):
+        """群主——修改群昵称"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -2748,6 +2749,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0141(self):
+        """群主——清除旧名称——录入一个汉字"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -2805,6 +2807,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0142(self):
+        """群主——清除旧名称——录入5个汉字"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -2862,6 +2865,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0143(self):
+        """群主——清除旧名称——录入10个汉字"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -2919,6 +2923,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0144(self):
+        """群主——清除旧名称——录入11个汉字"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -2976,6 +2981,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0145(self):
+        """群主——清除旧名称——录入1个字母（不区分大、小写）"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3033,6 +3039,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0146(self):
+        """群主——清除旧名称——录入10个字母（不区分大、小写）"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3090,6 +3097,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0147(self):
+        """群主——清除旧名称——录入29个字母（不区分大、小写）"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3148,6 +3156,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0148(self):
+        """群主——清除旧名称——录入30个字母（不区分大、小写）"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3206,6 +3215,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0149(self):
+        """群主——清除旧名称——录入31个字母（不区分大、小写）"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3264,6 +3274,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0150(self):
+        """群主——清除旧名称——录入1个数字"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3321,6 +3332,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0151(self):
+        """群主——清除旧名称——录入10个数字"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3378,6 +3390,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0152(self):
+        """群主——清除旧名称——录入30个数字"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3436,6 +3449,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0153(self):
+        """群主——清除旧名称——录入31个数字"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3494,6 +3508,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0154(self):
+        """群主——清除旧名称——录入汉字+字母+数字"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3551,6 +3566,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0155(self):
+        """群主——清除旧名称——录入特殊字符"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3612,6 +3628,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0156(self):
+        """群主——修改群名片"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3674,6 +3691,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0157(self):
+        """群主——清除旧名片——录入一个汉字"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3731,6 +3749,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0158(self):
+        """群主——清除旧名片——录入5个汉字"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3788,6 +3807,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0159(self):
+        """群主——清除旧名片——录入10个汉字"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -3845,6 +3865,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0160(self):
+        """群主——清除旧名片——录入11个汉字"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()

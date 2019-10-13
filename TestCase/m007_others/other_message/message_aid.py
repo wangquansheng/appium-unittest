@@ -1189,6 +1189,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0191(self):
+        """转发默认选中项（1条）—删除"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -1238,6 +1239,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0212(self):
+        """删除选中的消息体"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -1282,6 +1284,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0260(self):
+        """消息送达状态显示开关入口"""
         # 打开‘我’页面
         me = MePage()
         me.open_me_page()
@@ -1304,7 +1307,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0261(self):
-        # 打开‘我’页面
+        """关闭送达状态显示"""
         me = MePage()
         mess = MessagePage()
         me.open_me_page()
@@ -1360,6 +1363,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0273(self):
+        """从全局搜索中搜索号码进入单聊"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -1390,6 +1394,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0274(self):
+        """从新建消息进入单聊"""
         single = SingleChatPage()
         mess = MessagePage()
         # 点击+号
@@ -1420,6 +1425,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0275(self):
+        """从发送短信进入单聊"""
         single = SingleChatPage()
         mess = MessagePage()
         # 点击+号
@@ -1463,6 +1469,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0289(self):
+        """单聊/群聊会话页面点击名片进入单聊页面"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -1504,6 +1511,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0354(self):
+        """联系——搜索手机联系人——进入单聊页面"""
         contactspage = ContactsPage()
         contactspage.click_search_box()
         contactspage.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/edit_query01'),'给个红包1')
@@ -1532,6 +1540,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_B_0021(self):
+        """验证编辑短信不发送，再次进入是否可以再次编辑"""
         mess = MessagePage()
         # 点击+号
         mess.click_add_icon()
@@ -1576,6 +1585,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_B_0022(self):
+        """验证非首次发送短信出去没有短信资费弹框"""
         mess = MessagePage()
         # 点击+号
         mess.click_add_icon()
@@ -1636,6 +1646,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_B_0025(self):
+        """将文本消息转为短信发送"""
         single = SingleChatPage()
         # 如果当前页面不存在消息，发送一条消息
         if not single.is_text_present('测试一个呵呵'):
@@ -1675,6 +1686,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_B_0062(self):
+        """免费/发送短信—输入姓名/号码搜索"""
         mess = MessagePage()
         # 点击+号
         mess.click_add_icon()
@@ -1713,6 +1725,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_B_0063(self):
+        """免费/发送短信—输入姓名/号码搜索—查看搜索结果"""
         mess = MessagePage()
         # 点击+号
         mess.click_add_icon()
@@ -1770,6 +1783,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0004(self):
+        """在我的电脑面板点击左上角的返回按钮返回到消息列表页"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
@@ -1789,6 +1803,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_E_0002(self):
+        """搜索框正常弹起和收起"""
         mess = MessagePage()
         mess.click_search()
         time.sleep(2)
@@ -1805,6 +1820,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_E_0029(self):
+        """已使用过pc版和飞信搜索我的电脑"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()

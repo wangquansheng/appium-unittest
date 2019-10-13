@@ -657,6 +657,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_hanjiabin_0179(self):
+        """名片消息——单聊——点击名片按钮进入“和通讯录+本地联系人”的联系人选择器——搜索——名称搜索"""
         ChatMorePage().close_more()
         ChatMorePage().click_card()
         SelectContactsPage().click_one_contact_631("给个名片2")
@@ -678,6 +679,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_hanjiabin_0187(self):
+        """名片消息——单聊——异常场景——发送方"""
         current_mobile().set_network_status(1)
         single = SingleChatPage()
         single.input_text_message("测试一个呵呵")
@@ -696,6 +698,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_hanjiabin_0189(self):
+        """名片消息——单聊——发出名片后--消息界面——点击查看"""
         mess = MessagePage()
         ChatMorePage().close_more()
         ChatMorePage().click_card()
@@ -712,6 +715,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_hanjiabin_0195(self):
+        """名片消息——单聊——发出名片后--消息界面——长按"""
         mess = MessagePage()
         ChatMorePage().close_more()
         ChatMorePage().click_card()
@@ -733,6 +737,7 @@ class Contacts_demo(TestCase):
     # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     @unittest.skip("跳过，无免费短信功能")
     def test_msg_huangcaizui_A_0022(self):
+        """免费/发送短信—选择手机联系人"""
         mess = MessagePage()
         # 点击+号
         mess.click_add_icon()
@@ -764,6 +769,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0045(self):
+        """消息-消息列表界面+功能页面元素检查"""
         mess = MessagePage()
         # 点击+号
         mess.click_add_icon()
@@ -781,6 +787,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0052(self):
+        """消息-消息列表进入到会话页面"""
         single = SingleChatPage()
         single.input_text_message("测试一个呵呵")
         single.send_text()
@@ -793,6 +800,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0064(self):
+        """消息—一对一消息会话—设置"""
         single = SingleChatPage()
         single.wait_for_page_load()
         single.click_setting()
@@ -805,6 +813,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0065(self):
+        """消息—一对一消息会话—设置页面头像转跳"""
         single = SingleChatPage()
         chat_set = SingleChatSetPage()
         single.click_setting()
@@ -819,6 +828,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0070(self):
+        """消息-一对一消息会话-设置页面查找聊天内容"""
         single = SingleChatPage()
         mess = MessagePage()
         chat_set = SingleChatSetPage()
@@ -835,6 +845,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0072(self):
+        """输入框中输入表情消息不发送，进入查找聊天内容后是否还显示草稿"""
         single = SingleChatPage()
         mess = MessagePage()
         chat_set = SingleChatSetPage()
@@ -863,6 +874,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0078(self):
+        """消息-一对一消息会话-设置页面查找不存在的聊天内容"""
         single = SingleChatPage()
         mess = MessagePage()
         chat_set = SingleChatSetPage()
@@ -881,6 +893,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0089(self):
+        """一对一聊天设置创建群聊"""
         single = SingleChatPage()
         mess = MessagePage()
         chat_set = SingleChatSetPage()
@@ -896,6 +909,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0100(self):
+        """长按消息体是否弹出多功能列表"""
         single = SingleChatPage()
         mess = MessagePage()
         # 如果当前页面不存在消息，发送一条消息
@@ -919,6 +933,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0151(self):
+        """进入到单聊天会话页面，发送一条字符等于5000的文本消息"""
         single = SingleChatPage()
         mess = MessagePage()
         self.assertTrue(single.is_exist_send_audio_button())
@@ -934,6 +949,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0182(self):
+        """自己撤回文本消息，是否会起新的头像"""
         single = SingleChatPage()
         mess = MessagePage()
         # 如果当前页面不存在消息，发送一条消息
@@ -955,6 +971,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0184(self):
+        """聊天会话窗口的批量选择器页面展示"""
         mess = MessagePage()
         single = SingleChatPage()
         # 如果当前页面不存在消息，发送一条消息

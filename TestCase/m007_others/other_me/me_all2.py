@@ -122,7 +122,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_064(self):
-        """分享我的二维码"""
+        """我的二维码分享-手机联系人搜索结果页面顶部搜索"""
         # 打开‘我’页面
         me = MePage()
         me.click_qr_code_icon()
@@ -148,7 +148,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_065(self):
-        """分享我的二维码"""
+        """我的二维码分享-搜索字母特殊字符关数字，手机号等关键字有群聊结果"""
         my_qr_code_page = MyQRCodePage()
         my_qr_code_page.click_forward_qr_code()
         sc = SelectContactsPage()
@@ -167,7 +167,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_069(self):
-        """分享我的二维码"""
+        """我的二维码分享-团队联系人二次查询入口选择自己"""
         # 打开‘我’页面
         me = MePage()
         me.click_qr_code_icon()
@@ -196,7 +196,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_070(self):
-        """分享我的二维码"""
+        """我的二维码分享-团队联系人搜索自己的手机号或姓名并选择自己"""
         team_name = 'admin'
         # 打开‘我’页面
         me = MePage()
@@ -221,7 +221,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_071(self):
-        """分享我的二维码"""
+        """我的二维码分享-团队联系人搜索有结果"""
         # 打开‘我’页面
         me = MePage()
         me.click_qr_code_icon()
@@ -246,7 +246,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_078(self):
-        """分享我的二维码"""
+        """我的二维码-我的电脑"""
         # 打开‘我’页面
         me = MePage()
         me.click_qr_code_icon()
@@ -271,7 +271,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_083(self):
-        """和包支付--授权"""
+        """授权-暂不授权"""
 
         # 打开‘我’页面
         me = MePage()
@@ -299,7 +299,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_084(self):
-        """和包支付--授权"""
+        """授权-确认授权"""
         # 打开‘我’页面
         me = MePage()
         me.open_me_page()
@@ -320,7 +320,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_088(self):
-        """和包支付--授权"""
+        """已授权，卸载安装客户端，再授权"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -340,7 +340,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_109(self):
-        """和包支付--授权"""
+        """和包余额页面元素检查"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID,"com.chinasofti.rcs:id/redpager"))
@@ -362,7 +362,7 @@ class MsgAllPrior(TestCase):
         self.assertTrue(flag)
 
     @staticmethod
-    def setUp_test_me_zhangshuli_110():
+    def setUp_test_me_zhangshuli_111():
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
@@ -370,8 +370,7 @@ class MsgAllPrior(TestCase):
         me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
-    def test_me_zhangshuli_110(self):
-        """和包支付--授权"""
+    def test_me_zhangshuli_111(self):
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID,"com.chinasofti.rcs:id/redpager"))
@@ -412,7 +411,8 @@ class MsgAllPrior(TestCase):
         me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
-    def test_me_zhangshuli_112(self):
+    def test_me_zhangshuli_110(self):
+        """充值-网络异常"""
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
         agreement_detail_page = AgreementDetailPage()
@@ -431,7 +431,7 @@ class MsgAllPrior(TestCase):
         exist = agreement_detail_page.is_toast_exist("当前网络不可用，请检查网络设置")
         self.assertTrue(exist)
 
-    def tearDown_test_me_zhangshuli_112(self):
+    def tearDown_test_me_zhangshuli_110(self):
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.set_network_status(6)
 
@@ -446,7 +446,7 @@ class MsgAllPrior(TestCase):
     # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     @unittest.skip("跳过,RCS用户")
     def test_me_zhangshuli_116(self):
-        """和包支付--授权"""
+        """充值-已绑卡，单笔交易金额超限"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -479,7 +479,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_123(self):
-        """和包支付--授权"""
+        """无现金余额提现"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -516,7 +516,7 @@ class MsgAllPrior(TestCase):
     # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     @unittest.skip("跳过,RCS用户")
     def test_me_zhangshuli_135(self):
-        """和包支付--授权"""
+        """无流量时充到手机"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -544,7 +544,7 @@ class MsgAllPrior(TestCase):
     # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     @unittest.skip("跳过,RCS用户")
     def test_me_zhangshuli_136(self):
-        """和包支付--授权"""
+        """流量不足100M时充到手机"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -572,7 +572,7 @@ class MsgAllPrior(TestCase):
     # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     @unittest.skip("跳过,RCS用户")
     def test_me_zhangshuli_141(self):
-        """和包支付--授权"""
+        """帮助手册页面显示验证"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -604,6 +604,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_142(self):
+        """网络异常时进入流量页面"""
         # 用例描述为:点击流量
         # 现版本无流量，修改为;点击和包余额
         me = MePage()
@@ -634,7 +635,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_143(self):
-        """和包支付--授权"""
+        """查看流量明细"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -666,7 +667,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_144(self):
-        """和包支付--授权"""
+        """银行卡页面展示"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -721,7 +722,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_147(self):
-        """和包支付--银行卡页面填写0-14位银行卡号"""
+        """银行卡页面填写15-19位无效的银行卡号"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -758,7 +759,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_148(self):
-        """和包支付--银行卡页面填写0-14位银行卡号"""
+        """银行预留信息页面仅填写持卡人姓名"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -798,7 +799,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_149(self):
-        """和包支付--银行卡页面填写0-14位银行卡号"""
+        """银行预留信息页面仅填写持卡人身份证号"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -839,7 +840,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_153(self):
-        """和包支付--银行卡页面填写0-14位银行卡号"""
+        """银行预留信息页-填写持卡人姓名&身份证号&小于11位手机号"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -880,7 +881,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_155(self):
-        """和包支付--银行卡页面填写0-14位银行卡号"""
+        """银行预留信息页面查看快捷支付协议"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -924,7 +925,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_156(self):
-        """和包支付--银行卡页面填写0-14位银行卡号"""
+        """银行预留信息页面查看持卡人与手机号栏后面有相关说明入口（安卓端）"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -977,7 +978,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_162(self):
-        """和包支付--银行卡页面填写0-14位银行卡号"""
+        """银行预留页面填写正确的姓名&正确的身份证号&无效的手机号-11位格式错误手机号"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -1019,7 +1020,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_172(self):
-        """和包支付--银行卡页面填写0-14位银行卡号"""
+        """银行卡页面填写20位银行卡号"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -1059,6 +1060,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_173(self):
+        """填写完15-19位银行卡号后断开网络"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -1109,7 +1111,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_174(self):
-        """和包支付--银行卡页面填写0-14位银行卡号"""
+        """填写21位银行卡号"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -1147,7 +1149,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_175(self):
-        """和包支付--银行卡页面填写0-14位银行卡号"""
+        """填写完15-19位有效银行卡号后返回"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -1183,7 +1185,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_283(self):
-        """和包支付--银行卡页面填写0-14位银行卡号"""
+        """帮助中心页面展示"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -1214,6 +1216,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_284(self):
+        """网络异常点击帮助中心"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
@@ -1249,7 +1252,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_285(self):
-        # 打开‘我’页面
+        """帮助中心-网络异常点击热点问题"""
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
         agreement_detail_page = AgreementDetailPage()
@@ -1285,6 +1288,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_290(self):
+        """无网络点击活动中心"""
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
         agreement_detail_page = AgreementDetailPage()
@@ -1320,7 +1324,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_291(self):
-        """和包支付--银行卡页面填写0-14位银行卡号"""
+        """和聚宝页面展示"""
         # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))

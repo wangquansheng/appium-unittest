@@ -81,7 +81,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0071(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """检查从通话记录列表-拨号盘发起语音通话"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -141,7 +141,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0072(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """检查通话记录列表--回拨发起语音通话"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -206,7 +206,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0073(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """检查通话记录列表--通话详情界面发起语音电话"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -271,7 +271,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0074(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """检查profile发起语音电话"""
         Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111"])
         # 网络正常
         mess = MessagePage()
@@ -288,7 +288,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0093(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """检查语音通话--被叫未接通主叫挂断"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -324,7 +324,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0208(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """检查通话记录列表--回拨发起视频通话"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -371,7 +371,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0209(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """检查通话记录列表--通话详情界面发起视频电话"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -418,7 +418,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0210(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """检查profile发起视频电话"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -465,7 +465,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0212(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """检查单聊发起视频通话"""
         Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111"])
         # 网络正常
         mess = MessagePage()
@@ -491,7 +491,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0346(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """检查从通话记录列表进入到通话profile"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -545,7 +545,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0063(self):
-        """发起1人的多方电话--再次呼叫，网络正常重新呼叫和飞信电话"""
+        """网络正常，多方电话通话详情页可再次呼叫成功"""
 
         # 下面根据用例情况进入相应的页面
         # 需要预置联系人
@@ -597,7 +597,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0145(self):
-        """发起1人的多方电话--再次呼叫，网络正常重新呼叫和飞信电话"""
+        """选择1个联系人可发起呼叫多方电话"""
 
         current_mobile().launch_app()
         # 启动后不论当前在哪个页面，强制进入消息页面
@@ -644,7 +644,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0146(self):
-        """发起1人的多方电话--再次呼叫，网络正常重新呼叫和飞信电话"""
+        """选择8个联系人可发起呼叫多方电话"""
 
         current_mobile().launch_app()
         # 启动后不论当前在哪个页面，强制进入消息页面
@@ -693,7 +693,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0147(self):
-        """发起1人的多方电话--再次呼叫，网络正常重新呼叫和飞信电话"""
+        """搜索陌生人+本地联系人+和通讯录联系人共8人可发起多方电话"""
 
         current_mobile().launch_app()
         # 启动后不论当前在哪个页面，强制进入消息页面
@@ -743,7 +743,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0193(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """多方电话联系人选择器支持搜索保存在本地的固号呼叫"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -770,7 +770,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0389(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """成功创建会场成功后断开网络会控页不消失"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -813,7 +813,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0401(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """成功创建会场成功后（12560回呼接通）编辑呼叫中成员信息"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -848,7 +848,7 @@ class ContactsDemo(TestCase):
 
     @unittest.skip('悬浮窗无法抓取')
     def test_call_wangqiong_0405(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """成功创建会场成功后断开网络会控页不消失"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -902,7 +902,7 @@ class ContactsDemo(TestCase):
 
     @unittest.skip('悬浮窗无法抓取')
     def test_call_wangqiong_0495(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """成功创建会场成功后断开网络会控页不消失"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -963,7 +963,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_zengxi_0001(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """主叫发起语音通话呼叫时，消息页支持语音通话入口功能"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -998,7 +998,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_zengxi_0005(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """主叫发起视频通话呼叫时，消息页支持视频通话入口功能"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -1023,7 +1023,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_zengxi_0009(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """主叫发起多方视频通话呼叫时，消息页支持多方视频通话入口功能"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -1050,7 +1050,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_zengxi_0013(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """主叫发起多方电话通话呼叫时，消息页支持多方电话通话入口功能"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -1106,7 +1106,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_zengxi_0017(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """多个状态展示在消息列表中时，通话入口将会展示在最上面"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -1326,7 +1326,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_zhenyishan_0328(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """IOS-陌电弹屏：检查陌生联系人语音通话详情页展示"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -1364,7 +1364,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_zhenyishan_0382(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """（安卓）开启陌电识别开关，开启悬浮窗权限，检查通话记录列表，陌生联系人+和通讯录联系人语音通话记录展示"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -1402,7 +1402,7 @@ class ContactsDemo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_zhenyishan_0387(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """（安卓）开启陌电识别开关，开启悬浮窗权限，检查和通讯录联系人语音通话详情页，显示公司名称一栏"""
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
         contactspage.create_contacts_allinfo_if_not_exits('给个名片1', '13800138200', '中软国际', '软件工程师', 'test1234@163.com')
@@ -1448,7 +1448,7 @@ class msgtips(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_hanjiabin_0192(self):
-
+        """名片消息——单聊——发出名片后--消息界面——长按"""
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
         mess = MessagePage()
@@ -1557,7 +1557,7 @@ class msgtips(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0113(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """仅消息通知提示条时，进行拨打视频通话，两个提示条共存"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -1604,7 +1604,7 @@ class msgtips(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0114(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """仅消息通知提示条时，进行拨打多方视频通话，两个提示条共存"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -1653,7 +1653,7 @@ class msgtips(TestCase):
 
     @unittest.skip('悬浮窗无法抓取')
     def test_msg_huangcaizui_D_0115(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """仅消息通知提示条时，进行拨打多方电话，两个提示条共存"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -1729,7 +1729,7 @@ class msgtips(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0120(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """仅语音通话提示条存在时，关闭设置消息提示，语音通话提示条和消息通知提示条共存"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -1794,7 +1794,7 @@ class msgtips(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0121(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """仅视频通话提示条存在时，关闭设置消息提示，视频通话提示条和消息通知提示条共存"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -1849,7 +1849,7 @@ class msgtips(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0122(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """仅多方视频通话提示条存在时，关闭设置消息提示，多方视频通话提示条和消息通知提示条共存"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -1908,7 +1908,7 @@ class msgtips(TestCase):
 
     @unittest.skip('悬浮窗无法抓取')
     def test_msg_huangcaizui_D_0123(self):
-        """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
+        """仅多方电话提示条存在时，关闭设置消息提示，多方电话提示条和消息通知提示条共存"""
         # 网络正常
         mess = MessagePage()
         # Step 2、进行拨打语音通话
@@ -1990,7 +1990,7 @@ class msgtips(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0259(self):
-        """验证在我的电脑-查找聊天内容-文件页面点击打开已下载的不可预览文件-右上角的更多按钮-转发时是否正常"""
+        """验证在单聊会话窗口点击发送失败的文件是否可以正常打开"""
         # 1、当前在我的电脑-查找聊天内容-文件页面
         # 2、当前页面有已下载的不可预览文件
         # 3、网络异常
@@ -2130,7 +2130,7 @@ class msgtips(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_PC_0237(self):
-        """验证在我的电脑-查找聊天内容-文件页面点击未下载且不可直接预览的文件-下载完成后，点击右上角的更多按钮-收藏时是否正常"""
+        """验证在我的电脑-查找聊天内容-文件页面点击未下载且可直接预览的文件-下载完成后，点击右上角的更多按钮-转发时是否正常"""
         Preconditions.enter_my_computer_page()
         # 1、当前在我的电脑-查找聊天内容-文件页面-已下载完成的文件详情页
         # 2、网络正常
@@ -2149,7 +2149,7 @@ class msgtips(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_PC_0238(self):
-        """验证在我的电脑-查找聊天内容-文件页面点击未下载且不可直接预览的文件-下载完成后，点击右上角的更多按钮-收藏时是否正常"""
+        """验证在我的电脑-查找聊天内容-文件页面点击未下载且可直接预览的文件-下载完成后，点击右上角的更多按钮-收藏时是否正常"""
         Preconditions.enter_my_computer_page()
         # 1、当前在我的电脑-查找聊天内容-文件页面-已下载完成的文件详情页
         # 2、网络正常
@@ -2168,7 +2168,7 @@ class msgtips(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_PC_0240(self):
-        """验证在我的电脑-查找聊天内容-文件页面点击未下载且不可直接预览的文件-下载完成后，点击右上角的更多按钮-收藏时是否正常"""
+        """验证在我的电脑-查找聊天内容-文件页面点击未下载且可直接预览的文件-下载完成后，点击右上角的更多按钮-其他应用打开时是否正常"""
         Preconditions.enter_my_computer_page()
         # 1、当前在我的电脑-查找聊天内容-文件页面-已下载完成的文件详情页
         # 2、网络正常
@@ -2187,7 +2187,7 @@ class msgtips(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_PC_0243(self):
-        """验证在我的电脑-查找聊天内容-文件页面点击未下载且不可直接预览的文件-下载完成后，点击右上角的更多按钮-收藏时是否正常"""
+        """验证在我的电脑-查找聊天内容-文件页面点击未下载且不可直接预览的文件-下载完成后，点击右上角的更多按钮-转发时是否正常"""
         Preconditions.enter_my_computer_page()
         # 1、当前在我的电脑-查找聊天内容-文件页面-已下载完成的文件详情页
         # 2、网络正常
@@ -2244,7 +2244,7 @@ class msgtips(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_PC_0249(self):
-        """验证在我的电脑-查找聊天内容-文件页面点击未下载且不可直接预览的文件-下载完成后，点击右上角的更多按钮-收藏时是否正常"""
+        """验证在我的电脑-查找聊天内容-文件页面点击未下载且可直接预览的文件-下载完成后，点击右上角的更多按钮-收藏时是否正常"""
         Preconditions.enter_my_computer_page()
         # 1、当前在我的电脑-查找聊天内容-文件页面-已下载完成的文件详情页
         # 2、网络正常
@@ -2263,7 +2263,7 @@ class msgtips(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_PC_0251(self):
-        """验证在我的电脑-查找聊天内容-文件页面点击未下载且不可直接预览的文件-下载完成后，点击右上角的更多按钮-收藏时是否正常"""
+        """验证在我的电脑-查找聊天内容-文件页面点击未下载且可直接预览的文件-下载完成后，点击右上角的更多按钮-其他应用打开时是否正常"""
         Preconditions.enter_my_computer_page()
         # 1、当前在我的电脑-查找聊天内容-文件页面-已下载完成的文件详情页
         # 2、网络正常

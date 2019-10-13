@@ -1053,6 +1053,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_quxinli_0002(self):
+        """用户未加入团队且有手机联系人时联系页面"""
         contacts = ContactsPage()
         createteampage = CreateTeamPage()
 
@@ -1106,6 +1107,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_quxinli_0003(self):
+        """用户已加入团队时联系页面"""
         contacts = ContactsPage()
         createteampage = CreateTeamPage()
 
@@ -1160,6 +1162,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_quxinli_0019(self):
+        """点击搜索结果已保存到本地的RCS用户进入Profile页"""
         contacts = ContactsPage()
 
         # """1.点击联系tab的搜索框输入关键字"""
@@ -1230,6 +1233,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_quxinli_0426(self):
+        """从团队联系人Profile保存联系到本地后返回的到的Profile页，点击星标、编辑、分享名片"""
         contacts = ContactsPage()
         contactdetailspage = ContactDetailsPage()
         # """删除联系人"""
@@ -1305,6 +1309,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_quxinli_0019(self):
+        """点击搜索结果已保存到本地的RCS用户进入Profile页"""
         contacts = ContactsPage()
 
         # """1.进入我的团队联系人的Profile页"""
@@ -1329,6 +1334,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_quxinli_0426(self):
+        """从团队联系人Profile保存联系到本地后返回的到的Profile页，点击星标、编辑、分享名片"""
         contacts = ContactsPage()
         contactdetailspage = ContactDetailsPage()
         # """删除联系人"""
