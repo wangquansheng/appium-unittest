@@ -312,3 +312,15 @@ class SelectOneGroupPage(BasePage):
         """长按群-搜索输入框"""
         el = self.get_element(self.__locators["群-搜索"])
         self.press(el)
+
+    @TestLogger.log("获取元素")
+    def click_element_by_path(self, path):
+        """获取元素"""
+        self.click_element(
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
+
+    @TestLogger.log("点击发送")
+    def click_send_message(self):
+        """点击发送"""
+        self.click_element((MobileBy.XPATH,
+                            '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'))

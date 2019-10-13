@@ -794,7 +794,7 @@ class MsgAllPrior(TestCase):
                                                      os.path.join(PROJECT_PATH, path))
         select_one_group_page = SelectOneGroupPage()
         group_chat_name = Preconditions.get_group_chat_name()
-        select_one_group_page.select_one_group_by_name(group_chat_name)
+        select_one_group_page.select_one_group_by_name("群聊2")
         select_one_group_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'))
         ChatMorePage().click_file1()
         ChatSelectFilePage().click_local_file()

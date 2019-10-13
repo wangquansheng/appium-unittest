@@ -17,6 +17,8 @@ class GlobalSearchGroupPage(Keyboard, BasePage):
         '数据类型名称': (MobileBy.ID, 'com.chinasofti.rcs:id/text_hint'),
         '列表': (MobileBy.ID, 'com.chinasofti.rcs:id/result_list'),
         '列表项': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/result_list"]/*'),
+        '群列表': (MobileBy.ID, 'com.chinasofti.rcs:id/recyclerView'),
+        '列表项1': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_group_list_item'),
         '头像': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_head'),
         '群名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_conv_name'),
         '联系人名字': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name'),
@@ -62,3 +64,13 @@ class GlobalSearchGroupPage(Keyboard, BasePage):
                 break
         if not find_out:
             raise AssertionError('列表没有找到名字等于"{}"的群组'.format(name))
+
+    @TestLogger.log('判断列表是否存在群XXX')
+    def is_group_in_list(self, name):
+        groups = self.mobile.list_iterator(self.__locators['群列表'], self.__locators['列表项1'])
+        for group in groups:
+            if group.find_elements(MobileBy.XPATH,
+                                   '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' +
+                                   '@text="{}"]'.format(name)):
+                return True
+        return False

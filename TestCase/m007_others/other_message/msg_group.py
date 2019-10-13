@@ -48,9 +48,9 @@ class Contacts_demo(TestCase):
         groupchat.click_element_by_text("搜索群组")
         # Step: 4、进行英文精确搜索
         global_search_group_page = GlobalSearchGroupPage()
-        global_search_group_page.search("groupchat")
+        global_search_group_page.search("Aweqwqw")
         #CheckPoint：英文精确搜索，存在跟搜索条件匹配的群聊
-        self.assertTrue(global_search_group_page.is_group_in_list("groupchat"))
+        self.assertTrue(GroupListSearchPage().is_group_in_list("Aweqwqw"))
 
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -155,9 +155,9 @@ class Contacts_demo(TestCase):
         groupchat.click_element_by_text("搜索群组")
         # Step: 4、进行空格精确搜索
         global_search_group_page = GlobalSearchGroupPage()
-        global_search_group_page.search("群 ")
+        global_search_group_page.search("a a")
         #CheckPoint：空格精确搜索，是否可以匹配展示搜索结果
-        self.assertTrue(global_search_group_page.is_group_in_list("群 "))
+        self.assertTrue(GroupListSearchPage().is_group_in_list("a a"))
 
 
     @staticmethod
@@ -215,10 +215,10 @@ class Contacts_demo(TestCase):
         groupchat.click_element_by_text("搜索群组")
         # Step: 4、进行数字精确搜索
         global_search_group_page = GlobalSearchGroupPage()
-        global_search_group_page.search("123")
+        global_search_group_page.search("138138138")
         #CheckPoint：数字精确搜索，可以匹配展示搜索结果
         time.sleep(5)
-        self.assertTrue(global_search_group_page.is_group_in_list("123"))
+        self.assertTrue(GroupListSearchPage().is_group_in_list("138138138"))
 
 
     @staticmethod
@@ -277,10 +277,10 @@ class Contacts_demo(TestCase):
         groupchat.click_element_by_text("搜索群组")
         # Step: 4、进行数字精确搜索
         global_search_group_page = GlobalSearchGroupPage()
-        global_search_group_page.search("123")
+        global_search_group_page.search("138138138")
         #CheckPoint：数字精确搜索，可以匹配展示搜索结果
         time.sleep(5)
-        self.assertTrue(global_search_group_page.is_group_in_list("123"))
+        self.assertTrue(GroupListSearchPage().is_group_in_list("138138138"))
 
     @staticmethod
     def setUp_test_msg_huangmianhua_0198():
@@ -337,10 +337,10 @@ class Contacts_demo(TestCase):
         groupchat.click_element_by_text("搜索群组")
         # Step: 4、进行字符精确搜索
         global_search_group_page = GlobalSearchGroupPage()
-        global_search_group_page.search("abc")
+        global_search_group_page.search("群聊1")
         # CheckPoint：字符精确搜索，可以匹配展示搜索结果
         time.sleep(5)
-        self.assertTrue(global_search_group_page.is_group_in_list("abc"))
+        self.assertTrue(GroupListSearchPage().is_group_in_list("群聊1"))
 
     @staticmethod
     def setUp_test_msg_huangmianhua_0200():
