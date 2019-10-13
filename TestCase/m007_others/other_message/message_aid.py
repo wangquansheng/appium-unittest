@@ -128,6 +128,8 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_msg_weifenglian_1V1_0130():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0130(self):
@@ -2628,23 +2630,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0297(self):
         """通话记录详情页：一键建群，网络正常可建群成功"""
-
-        # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
-        # 下面根据用例情况进入相应的页面
-        # 需要预置联系人
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        contactname2 = Preconditions.contacts_name_2
-        contactnum2 = Preconditions.telephone_num_2
-        # 新建联系人
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-        contactspage.create_contacts_if_not_exits_631(contactname2, contactnum2)
-        # 进入通话页签
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -2654,7 +2640,8 @@ class MsgAllPrior(TestCase):
         # 选择指定联系人 点击呼叫
         from pages.components import ContactsSelector
         contactselect = ContactsSelector()
-        contactselect.select_local_contacts(contactname1, contactname2)
+        # contactselect.select_local_contacts(contactname1, contactname2)
+        contactselect.select_local_contacts("大佬1", "大佬2")
         # 是否存在请先接听“和飞信电话”，点击“我知道了” 并自动允许和飞信管理
         callcontact.click_elsfif_ikonw()
         # 是否存在权限窗口 自动赋权
@@ -2699,18 +2686,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        # 需要预置联系人
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        contactname2 = Preconditions.contacts_name_2
-        contactnum2 = Preconditions.telephone_num_2
-        # 新建联系人
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-        contactspage.create_contacts_if_not_exits_631(contactname2, contactnum2)
-        # 进入通话页签
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -2719,8 +2694,8 @@ class MsgAllPrior(TestCase):
         callcontact.click_free_call()
         # 1.1选择指定联系人 发起和飞信呼叫
         selectcontacts = SelectContactsPage()
-        selectcontacts.search(contactname1)
-        selectcontacts.click_contact_by_name(contactname1)
+        selectcontacts.search("大佬3")
+        selectcontacts.click_contact_by_name("大佬4")
         time.sleep(4)
         selectcontacts.click_sure_bottom()
         time.sleep(1)
@@ -2750,10 +2725,10 @@ class MsgAllPrior(TestCase):
         callcontact.click_free_call()
         # 2.2选择指定联系人 发起多方电话呼叫
         selectcontacts = SelectContactsPage()
-        selectcontacts.search(contactname1)
-        selectcontacts.click_contact_by_name(contactname1)
-        selectcontacts.search(contactname2)
-        selectcontacts.click_contact_by_name(contactname2)
+        selectcontacts.search("大佬3")
+        selectcontacts.click_contact_by_name("大佬3")
+        selectcontacts.search("大佬4")
+        selectcontacts.click_contact_by_name("大佬4")
         time.sleep(4)
         selectcontacts.click_sure_bottom()
         time.sleep(1)

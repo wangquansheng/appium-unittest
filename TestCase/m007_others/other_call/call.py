@@ -1,5 +1,7 @@
 import time
 from appium.webdriver.common.mobileby import MobileBy
+
+from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile
 from pages import ChatAudioPage
 from pages import ChatWindowPage
@@ -10,14 +12,16 @@ from pages import GroupChatSetPage
 from pages import GroupNamePage
 from pages import SelectContactPage
 from pages.call.multipartycall import MultipartyCallPage
-from pages.components import ChatNoticeDialog
+from pages.components import ChatNoticeDialog, BaseChatPage
 from pages.components import ContactsSelector
 from pages.components import SearchBar
 from pages.components.SearchGroup import SearchGroupPage
 from pages.message.FreeMsg import FreeMsgPage
 from preconditions.BasePreconditions import LoginPreconditions, ContactsPage, CallPage, ContactSecltorPage, \
     SelectContactsPage, CalllogBannerPage, MessagePage, SearchPage, LabelGroupingPage, GroupListPage, \
-    GroupListSearchPage, LableGroupDetailPage, WorkbenchPreconditions
+    GroupListSearchPage, LableGroupDetailPage, WorkbenchPreconditions, SelectOneGroupPage, SelectLocalContactsPage, \
+    CreateGroupNamePage, OneKeyLoginPage, GuidePage, PermissionListPage, AgreementDetailPage, ChatMorePage, \
+    ChatSelectFilePage, ChatSelectLocalFilePage
 from library.core.TestCase import TestCase
 from library.core.utils.testcasefilter import tags
 from preconditions.BasePreconditions import LoginPreconditions, ContactsPage, CallPage, \
@@ -27,10 +31,624 @@ from preconditions.BasePreconditions import LoginPreconditions, ContactsPage, Ca
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
-    contacts_name_1 = LoginPreconditions.get_contacts_by_row_linename(0, 'contacts_name')
-    telephone_num_1 = LoginPreconditions.get_contacts_by_row_linename(0, 'telephone_num')
-    contacts_name_2 = LoginPreconditions.get_contacts_by_row_linename(1, 'contacts_name')
-    telephone_num_2 = LoginPreconditions.get_contacts_by_row_linename(1, 'telephone_num')
+
+    @staticmethod
+    def enter_group_chat_page(name):
+        """进入群聊聊天会话页面"""
+
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        # 点击 +
+        mp.click_add_icon()
+        # 点击发起群聊
+        mp.click_group_chat()
+        scg = SelectContactsPage()
+        times = 15
+        n = 0
+        # 重置应用时需要再次点击才会出现选择一个群
+        while n < times:
+            # 等待选择联系人页面加载
+            flag = scg.wait_for_page_load()
+            if not flag:
+                scg.click_back()
+                time.sleep(2)
+                mp.click_add_icon()
+                mp.click_group_chat()
+            else:
+                break
+            n = n + 1
+        scg.click_select_one_group()
+        sog = SelectOneGroupPage()
+        # 等待“选择一个群”页面加载
+        sog.wait_for_page_load()
+        # 选择一个普通群
+        sog.selecting_one_group_by_name(name)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+
+    @staticmethod
+    def make_already_have_my_group(reset=False):
+        """确保有群，没有群则创建群名为mygroup+电话号码后4位的群"""
+        # 消息页面
+        Preconditions.make_already_in_message_page(reset)
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        times = 15
+        n = 0
+        # 重置应用时需要再次点击才会出现选择一个群
+        while n < times:
+            flag = sc.wait_for_page_load()
+            if not flag:
+                sc.click_back()
+                time.sleep(2)
+                mess.click_add_icon()
+                mess.click_group_chat()
+                sc = SelectContactsPage()
+            else:
+                break
+            n = n + 1
+        time.sleep(3)
+        sc.click_select_one_group()
+        # 群名
+        group_name = Preconditions.get_group_chat_name()
+        # 获取已有群名
+        sog = SelectOneGroupPage()
+        sog.wait_for_page_load()
+        sog.click_search_group()
+        time.sleep(2)
+        sog.input_search_keyword(group_name)
+        time.sleep(2)
+        if sog.is_element_exit("群聊名"):
+            current_mobile().back()
+            time.sleep(2)
+            current_mobile().back()
+            return
+        current_mobile().back()
+        time.sleep(2)
+        current_mobile().back()
+        sog.click_back()
+        time.sleep(2)
+        sc.click_back()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 从本地联系人中选择成员创建群
+        sc.click_local_contacts()
+        time.sleep(2)
+        slc = SelectLocalContactsPage()
+        a = 0
+        names = {}
+        while a < 3:
+            names = slc.get_contacts_name()
+            num = len(names)
+            if not names:
+                raise AssertionError("No contacts, please add contacts in address book.")
+            if num == 1:
+                sog.page_up()
+                a += 1
+                if a == 3:
+                    raise AssertionError("联系人只有一个，请再添加多个不同名字联系人组成群聊")
+            else:
+                break
+        # 选择成员
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_sure()
+        # 创建群
+        cgnp = CreateGroupNamePage()
+        cgnp.input_group_name(group_name)
+        cgnp.click_sure()
+        # 等待群聊页面加载
+        GroupChatPage().wait_for_page_load()
+
+    @staticmethod
+    def get_group_chat_name():
+        """获取群名"""
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "ag" + phone_number[-4:]
+        return group_name
+
+    @staticmethod
+    def make_already_in_one_key_login_page():
+        """已经进入一键登录页"""
+        # 如果当前页面已经是一键登录页，不做任何操作
+        one_key = OneKeyLoginPage()
+        if one_key.is_on_this_page():
+            return
+
+        # 如果当前页不是引导页第一页，重新启动app
+        guide_page = GuidePage()
+        if not guide_page.is_on_the_first_guide_page():
+            # current_mobile().launch_app()
+            current_mobile().reset_app()
+            guide_page.wait_for_page_load(20)
+
+        # 跳过引导页
+        guide_page.wait_for_page_load(30)
+        # guide_page.swipe_to_the_second_banner()
+        # guide_page.swipe_to_the_third_banner()
+        # current_mobile().hide_keyboard_if_display()
+        guide_page.click_start_the_experience()
+
+        # 点击权限列表页面的确定按钮
+        permission_list = PermissionListPage()
+        # permission_list.click_submit_button()
+        permission_list.go_permission()
+        permission_list.click_permission_button()
+        one_key.wait_for_page_load(30)
+
+    @staticmethod
+    def login_by_one_key_login():
+        """
+        从一键登录页面登录
+        :return:
+        """
+        # 等待号码加载完成后，点击一键登录
+        one_key = OneKeyLoginPage()
+        one_key.wait_for_page_load()
+        # one_key.wait_for_tell_number_load(60)
+        one_key.click_one_key_login()
+        # if one_key.have_read_agreement_detail():
+        #     one_key.click_read_agreement_detail()
+        #     # 同意协议
+        #     agreement = AgreementDetailPage()
+        #     agreement.click_agree_button()
+        agreement = AgreementDetailPage()
+        time.sleep(1)
+        agreement.click_agree_button()
+        # 等待消息页
+        message_page = MessagePage()
+        message_page.wait_login_success(60)
+
+    @staticmethod
+    def public_send_file(file_type):
+        """选择指定类型文件发送"""
+        # 1、在当前聊天会话页面，点击更多富媒体的文件按钮
+        chat = GroupChatPage()
+        chat.wait_for_page_load()
+        chat.click_more()
+        # 2、点击本地文件
+        more_page = ChatMorePage()
+        more_page.click_file()
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_local_file()
+        # 3、选择任意文件，点击发送按钮
+        local_file = ChatSelectLocalFilePage()
+        # 没有预置文件，则上传
+        flag = local_file.push_preset_file()
+        if flag:
+            local_file.click_back()
+            csf.click_local_file()
+        # 进入预置文件目录，选择文件发送
+        local_file.click_preset_file_dir()
+        file = local_file.select_file(file_type)
+        if file:
+            local_file.click_send()
+        else:
+            local_file.click_back()
+            local_file.click_back()
+            csf.click_back()
+        chat.wait_for_page_load()
+
+    @staticmethod
+    def delete_record_group_chat():
+        # 删除聊天记录
+        scp = GroupChatPage()
+        if scp.is_on_this_page():
+            scp.click_setting()
+            gcsp = GroupChatSetPage()
+            gcsp.wait_for_page_load()
+            # 点击删除聊天记录
+            gcsp.click_clear_chat_record()
+            gcsp.wait_clear_chat_record_confirmation_box_load()
+            # 点击确认
+            gcsp.click_determine()
+            time.sleep(3)
+            # if not gcsp.is_toast_exist("聊天记录清除成功"):
+            #     raise AssertionError("没有聊天记录清除成功弹窗")
+            # 点击返回群聊页面
+            gcsp.click_back()
+            time.sleep(2)
+            # 判断是否返回到群聊页面
+            if not scp.is_on_this_page():
+                raise AssertionError("没有返回到群聊页面")
+        else:
+            try:
+                raise AssertionError("没有返回到群聊页面，无法删除记录")
+            except AssertionError as e:
+                raise e
+
+    @staticmethod
+    def build_one_new_group(group_name):
+        """新建一个指定名称的群，如果已存在，不建群"""
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        times = 15
+        n = 0
+        # 重置应用时需要再次点击才会出现选择一个群
+        while n < times:
+            flag = sc.wait_for_page_load()
+            if not flag:
+                sc.click_back()
+                time.sleep(2)
+                mess.click_add_icon()
+                mess.click_group_chat()
+                sc = SelectContactsPage()
+            else:
+                break
+            n = n + 1
+        time.sleep(2)
+        sc.click_select_one_group()
+        # 群名
+        # group_name = Preconditions.get_group_chat_name()
+        # 获取已有群名
+        sog = SelectOneGroupPage()
+        sog.wait_for_page_load()
+        sog.click_search_group()
+        time.sleep(2)
+        sog.input_search_keyword(group_name)
+        time.sleep(2)
+        if sog.is_element_exit("群聊名"):
+            current_mobile().back()
+            time.sleep(2)
+            current_mobile().back()
+            if not mess.is_on_this_page():
+                current_mobile().back()
+                time.sleep(2)
+                current_mobile().back()
+            return
+        current_mobile().back()
+        time.sleep(2)
+        current_mobile().back()
+        if not mess.is_on_this_page():
+            current_mobile().back()
+            time.sleep(2)
+            current_mobile().back()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 从本地联系人中选择成员创建群
+        sc.click_local_contacts()
+        time.sleep(2)
+        slc = SelectLocalContactsPage()
+        a = 0
+        names = {}
+        while a < 3:
+            names = slc.get_contacts_name()
+            num = len(names)
+            if not names:
+                raise AssertionError("No contacts, please add contacts in address book.")
+            if num == 1:
+                sog.page_up()
+                a += 1
+                if a == 3:
+                    raise AssertionError("联系人只有一个，请再添加多个不同名字联系人组成群聊")
+            else:
+                break
+        # 选择成员
+        for name in names:
+            slc.select_one_member_by_name(name)
+        slc.click_sure()
+        # 创建群
+        cgnp = CreateGroupNamePage()
+        cgnp.input_group_name(group_name)
+        cgnp.click_sure()
+        # 等待群聊页面加载
+        GroupChatPage().wait_for_page_load()
+        GroupChatPage().click_back()
+
+    @staticmethod
+    def make_in_message_page(moible_param, reset=False):
+        """确保应用在消息页面"""
+        Preconditions.select_mobile(moible_param, reset)
+        current_mobile().hide_keyboard_if_display()
+        time.sleep(1)
+        # 如果在消息页，不做任何操作
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            return
+        # 进入一键登录页
+        Preconditions.make_already_in_one_key_login_page()
+        #  从一键登录页面登录
+        Preconditions.login_by_one_key_login()
+
+    @staticmethod
+    def build_one_new_group_with_number(puhone_number, group_name):
+        """新建一个指定成员和名称的群，如果已存在，不建群"""
+        # 消息页面
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        times = 15
+        n = 0
+        # 重置应用时需要再次点击才会出现选择一个群
+        while n < times:
+            flag = sc.wait_for_page_load()
+            if not flag:
+                sc.click_back()
+                time.sleep(2)
+                mess.click_add_icon()
+                mess.click_group_chat()
+                sc = SelectContactsPage()
+            else:
+                break
+            n = n + 1
+        time.sleep(3)
+        sc.click_select_one_group()
+        # 群名
+        # group_name = Preconditions.get_group_chat_name()
+        # 获取已有群名
+        sog = SelectOneGroupPage()
+        sog.wait_for_page_load()
+        sog.click_search_group()
+        time.sleep(2)
+        sog.input_search_keyword(group_name)
+        time.sleep(2)
+        if sog.is_element_exit("群聊名"):
+            current_mobile().back()
+            time.sleep(2)
+            current_mobile().back()
+            return True
+        current_mobile().back()
+        time.sleep(2)
+        current_mobile().back()
+        current_mobile().back()
+        time.sleep(2)
+        current_mobile().back()
+        time.sleep(2)
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 添加指定电话成员
+        time.sleep(2)
+        sc.input_search_keyword(puhone_number)
+        time.sleep(2)
+        sog.click_text("tel")
+        time.sleep(2)
+        # 从本地联系人中选择成员创建群
+        sc.click_local_contacts()
+        time.sleep(2)
+        slc = SelectLocalContactsPage()
+        SelectContactsPage().click_one_contact_631("飞信电话")
+        # a = 0
+        # names = {}
+        # while a < 3:
+        #     names = slc.get_contacts_name()
+        #     num = len(names)
+        #     if not names:
+        #         raise AssertionError("No contacts, please add contacts in address book.")
+        #     if num == 1:
+        #         sog.page_up()
+        #         a += 1
+        #         if a == 3:
+        #             raise AssertionError("联系人只有一个，请再添加多个不同名字联系人组成群聊")
+        #     else:
+        #         break
+        # # 选择成员
+        # for name in names:
+        #     slc.select_one_member_by_name(name)
+        slc.click_sure()
+        # 创建群
+        cgnp = CreateGroupNamePage()
+        cgnp.input_group_name(group_name)
+        cgnp.click_sure()
+        # 等待群聊页面加载
+        GroupChatPage().wait_for_page_load()
+        return False
+
+    @staticmethod
+    def get_group_chat_name_double():
+        """获取多人群名"""
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        group_name = "多机" + phone_number[-4:]
+        return group_name
+
+    @staticmethod
+    def go_to_group_double(group_name):
+        """从消息列表进入双机群聊，前提：已经存在双机群聊"""
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        mess = MessagePage()
+        mess.wait_for_page_load()
+        # 点击 +
+        mess.click_add_icon()
+        # 点击 发起群聊
+        mess.click_group_chat()
+        # 选择联系人界面，选择一个群
+        sc = SelectContactsPage()
+        times = 15
+        n = 0
+        # 重置应用时需要再次点击才会出现选择一个群
+        while n < times:
+            flag = sc.wait_for_page_load()
+            if not flag:
+                sc.click_back()
+                time.sleep(2)
+                mess.click_add_icon()
+                mess.click_group_chat()
+                sc = SelectContactsPage()
+            else:
+                break
+            n = n + 1
+        time.sleep(3)
+        sc.click_select_one_group()
+        # # 群名
+        # group_name = Preconditions.get_group_chat_name_double()
+        # 获取已有群名
+        sog = SelectOneGroupPage()
+        sog.wait_for_page_load()
+        sog.click_search_group()
+        time.sleep(2)
+        sog.input_search_keyword(group_name)
+        time.sleep(2)
+        if not sog.is_element_exit("群聊名"):
+            raise AssertionError("没有找到双机群聊，请确认是否创建")
+        sog.click_element_("群聊名")
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+
+    @staticmethod
+    def change_mobile(moible_param):
+        """转换设备连接并且确保在消息列表页面"""
+        Preconditions.select_mobile(moible_param)
+        current_mobile().hide_keyboard_if_display()
+        current_mobile().launch_app()
+        Preconditions.make_in_message_page(moible_param)
+
+    @staticmethod
+    def activate_app(app_id=None):
+        """激活APP"""
+        if not app_id:
+            app_id = current_mobile().driver.desired_capabilities['appPackage']
+        current_mobile().driver.activate_app(app_id)
+
+    @staticmethod
+    def get_into_group_chat_page(name):
+        """进入群聊聊天会话页面"""
+
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        # 点击 +
+        mp.click_add_icon()
+        # 点击发起群聊
+        mp.click_group_chat()
+        scg = SelectContactsPage()
+        times = 15
+        n = 0
+        # 重置应用时需要再次点击才会出现选择一个群
+        while n < times:
+            # 等待选择联系人页面加载
+            flag = scg.wait_for_page_load()
+            if not flag:
+                scg.click_back()
+                time.sleep(2)
+                mp.click_add_icon()
+                mp.click_group_chat()
+            else:
+                break
+            n += 1
+        scg.click_select_one_group()
+        sog = SelectOneGroupPage()
+        # 等待“选择一个群”页面加载
+        sog.wait_for_page_load()
+        # 选择一个普通群
+        sog.selecting_one_group_by_name(name)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+
+    @staticmethod
+    def enter_message_page(reset=False):
+        """进入消息页面"""
+        # 登录进入消息页面
+        Preconditions.make_already_in_message_page(reset)
+
+    @staticmethod
+    def enter_single_chat_page(name):
+        """进入单聊聊天会话页面"""
+
+        mp = MessagePage()
+        mp.wait_for_page_load()
+        # 点击 +
+        mp.click_add_icon()
+        # 点击“新建消息”
+        mp.click_new_message()
+        slc = SelectLocalContactsPage()
+        slc.wait_for_page_load()
+        # 进入单聊会话页面
+        slc.selecting_local_contacts_by_name(name)
+        bcp = BaseChatPage()
+        if bcp.is_exist_dialog():
+            # 点击我已阅读
+            bcp.click_i_have_read()
+        scp = SingleChatPage()
+        # 等待单聊会话页面加载
+        scp.wait_for_page_load()
+
+    @staticmethod
+    def dismiss_one_group(name):
+        Preconditions.get_into_group_chat_page(name)
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
+    def dismiss_one_group2(name):
+        Preconditions.get_into_group_chat_page(name)
+        GroupChatPage().click_setting()
+        page = GroupChatSetPage()
+        time.sleep(1)
+        page.click_group_manage2()
+        time.sleep(1)
+        page.click_group_manage_disband_button()
+        time.sleep(0.5)
+        page.click_element_('确定')
+        time.sleep(3)
+        page.wait_for_text('该群已解散')
+
+    @staticmethod
+    def create_contacts_groups():
+
+        # 创建联系人
+        fail_time = 0
+        import dataproviders
+        while fail_time < 3:
+            try:
+                # 获取需要导入的联系人数据
+                required_contacts = dataproviders.get_preset_contacts()[:3]
+                # 连接手机
+                conts = ContactsPage()
+                Preconditions.select_mobile('Android-移动')
+                current_mobile().hide_keyboard_if_display()
+                # 导入数据
+                for name, number in required_contacts:
+                    Preconditions.make_already_in_message_page()
+                    conts.open_contacts_page()
+                    conts.create_contacts_if_not_exits_new(name, number)
+                # # 创建群
+                name_list = ['给个红包1', '给个红包2']
+                group_name_list = ['群聊1']
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name in group_name_list:
+                    group_list.wait_for_page_load()
+                    group_list.create_group_chats_if_not_exits(group_name, name_list)
+                group_list.click_back()
+                conts.open_message_page()
+                return
+            except Exception as e:
+                fail_time += 1
+                print(e)
+
+
 
 class MsgAllPrior(TestCase):
     """通话---和飞信电话会控页"""
@@ -44,77 +662,33 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        # contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        # contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-
         Preconditions.enter_call_page()
         # 点击多方通话
         call_page = CallPage()
         call_page.click_free_call()
         # 进入多方通话页面选择联系人呼叫
         selectcontacts = SelectContactsPage()
-        SelectContactsPage().click_one_contact_631('联系人3')
-        SelectContactsPage().click_one_contact_631('联系人4')
+        SelectContactsPage().click_one_contact_631('大佬3')
+        SelectContactsPage().click_one_contact_631('大佬4')
         selectcontacts.click_sure_bottom()
-        # 是否弹框_我知道了,点击 发起呼叫
-        callcontact = CalllogBannerPage()
-        time.sleep(3)
-        # 是否存在请先接听“和飞信电话”，点击“我知道了”
-        if callcontact._is_element_present((MobileBy.ID, 'com.chinasofti.rcs:id/andfetion_tip_bt')):
-            callcontact.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/andfetion_tip_bt'))
-        # 是否存在设置悬浮窗，存在去设置页设置权限
-        if callcontact._is_element_present((MobileBy.ID, 'android:id/button1')):
-            callcontact.click_element((MobileBy.ID, 'android:id/button1'))
-            current_mobile().click_element((MobileBy.ID, 'android:id/switch_widget'))
-            current_mobile().click_element((MobileBy.XPATH, '//android.widget.ImageButton[@content-desc="向上导航"]'))
-        time.sleep(3)
-        # 接听和飞信电话  为自动接听
-        callcontact._is_element_present((MobileBy.ID, 'com.android.incallui:id/endButton'))
-        time.sleep(6)
-        callcontact.click_element((MobileBy.ID, 'com.android.incallui:id/endButton'))
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0059(self):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        # contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        # contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-
         Preconditions.enter_call_page()
         # 点击多方通话
         call_page = CallPage()
         call_page.click_free_call()
         # 进入多方通话页面选择联系人呼叫
         selectcontacts = SelectContactsPage()
-        SelectContactsPage().click_one_contact_631('联系人3')
-        SelectContactsPage().click_one_contact_631('联系人4')
+        SelectContactsPage().click_one_contact_631('大佬3')
+        SelectContactsPage().click_one_contact_631('大佬4')
         selectcontacts.click_sure_bottom()
         # 是否弹框_我知道了,点击 发起呼叫
         callcontact = CalllogBannerPage()
         time.sleep(3)
-        # 是否存在请先接听“和飞信电话”，点击“我知道了”
-        if callcontact._is_element_present((MobileBy.ID, 'com.chinasofti.rcs:id/andfetion_tip_bt')):
-            callcontact.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/andfetion_tip_bt'))
-        # 是否存在设置悬浮窗，存在去设置页设置权限
-        if callcontact._is_element_present((MobileBy.ID, 'android:id/button1')):
-            callcontact.click_element((MobileBy.ID, 'android:id/button1'))
-            current_mobile().click_element((MobileBy.ID, 'android:id/switch_widget'))
-            current_mobile().click_element((MobileBy.XPATH, '//android.widget.ImageButton[@content-desc="向上导航"]'))
-        time.sleep(5)
-        # 接听和飞信电话  为自动接听
-        callcontact._is_element_present((MobileBy.ID, 'com.android.incallui:id/endButton'))
-        time.sleep(3)
-        callcontact.click_element((MobileBy.ID, 'com.android.incallui:id/endButton'))
-        time.sleep(4)
         # 挂断电话返回到通话页面
         self.assertTrue(callcontact._is_element_present((MobileBy.ID, "com.chinasofti.rcs:id/btnFreeCall")))
 
@@ -123,13 +697,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        # contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        # contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-
         Preconditions.enter_call_page()
         # 点击多方通话
         call_page = CallPage()
@@ -143,48 +710,26 @@ class MsgAllPrior(TestCase):
         # 是否弹框_我知道了,点击 发起呼叫
         callcontact = CalllogBannerPage()
         time.sleep(3)
-        # 是否存在请先接听“和飞信电话”，点击“我知道了”
-        if callcontact._is_element_present((MobileBy.ID, 'com.chinasofti.rcs:id/andfetion_tip_bt')):
-            callcontact.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/andfetion_tip_bt'))
-        # 是否存在设置悬浮窗，存在去设置页设置权限
-        if callcontact._is_element_present((MobileBy.ID, 'android:id/button1')):
-            callcontact.click_element((MobileBy.ID, 'android:id/button1'))
-            current_mobile().click_element((MobileBy.ID, 'android:id/switch_widget'))
-            current_mobile().click_element((MobileBy.XPATH, '//android.widget.ImageButton[@content-desc="向上导航"]'))
-
-        # 挂断多方通话
-        call_page.hang_up_hefeixin_call()
-        time.sleep(3)
         # 点击多方通话详情
         call_page.click_element((MobileBy.XPATH,
                                  '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.view.ViewGroup/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.view.ViewGroup/android.support.v7.widget.RecyclerView/android.widget.RelativeLayout[1]/android.widget.LinearLayout[2]'),
                                 auto_accept_permission_alert=False)
-
         time.sleep(3)
         # 再次呼叫并接听和飞信电话
         call_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/call_again'))
         time.sleep(5)
-        # 挂断电话
-        callcontact._is_element_present((MobileBy.ID, 'com.android.incallui:id/endButton'))
-        callcontact.click_element((MobileBy.ID, 'com.android.incallui:id/endButton'))
-        time.sleep(3)
-        # 挂断电话回到多方通话界面
-        self.assertTrue(callcontact._is_element_present((MobileBy.ID, "com.chinasofti.rcs:id/btnFreeCall")))
 
     @staticmethod
     def setUp_test_call_wangqiong_0071():
-        """预置条件"""
-        # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-        # 进入标签分组页签
-        contactspage.click_label_grouping()
+        mess = MessagePage()
+        # 点击‘通讯录’
+        mess.open_contacts_page()
+        contacts = ContactsPage()
+        contacts.wait_for_page_load()
+        contacts.click_mobile_contacts()
+        contacts.click_label_grouping()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0071(self):
@@ -204,45 +749,42 @@ class MsgAllPrior(TestCase):
                 time.sleep(5)
                 labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
                                         auto_accept_permission_alert=False)
-            a = labellist.is_contacter_in_lable('联系人3')
-            b = labellist.is_contacter_in_lable('联系人4')
+            a = labellist.is_contacter_in_lable('大佬1')
+            b = labellist.is_contacter_in_lable('大佬2')
             if not (a & b):
                 labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
                                         auto_accept_permission_alert=False)
                 if not a:
-                    SelectContactsPage().click_one_contact_631('联系人3')
+                    SelectContactsPage().click_one_contact_631('大佬1')
                 if not b:
-                    SelectContactsPage().click_one_contact_631('联系人4')
+                    SelectContactsPage().click_one_contact_631('大佬2')
                 labellist.click_sure()
         else:
-            SelectContactsPage().click_one_contact_631('联系人3')
-            SelectContactsPage().click_one_contact_631('联系人4')
+            SelectContactsPage().click_one_contact_631('大佬1')
+            SelectContactsPage().click_one_contact_631('大佬2')
             labellist.click_sure()
             labellist.select_group('分组1')
         labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_third_colum'))
-        SelectContactsPage().click_one_contact_631('联系人3')
-        SelectContactsPage().click_one_contact_631('联系人4')
+        SelectContactsPage().click_one_contact_631('大佬1')
+        SelectContactsPage().click_one_contact_631('大佬2')
         time.sleep(3)
         labellist.click_sure()
         time.sleep(8)
         # 接听和飞信电话后挂断电话
-        labellist._is_element_present((MobileBy.ID, 'com.android.incallui:id/endButton'))
-        labellist.click_element((MobileBy.ID, 'com.android.incallui:id/endButton'))
+        # labellist._is_element_present((MobileBy.ID, 'com.android.incallui:id/endButton'))
+        # labellist.click_element((MobileBy.ID, 'com.android.incallui:id/endButton'))
 
     @staticmethod
     def setUp_test_call_wangqiong_0073():
-        """预置条件"""
-        # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-        # 进入标签分组页签
-        contactspage.click_label_grouping()
+        mess = MessagePage()
+        # 点击‘通讯录’
+        mess.open_contacts_page()
+        contacts = ContactsPage()
+        contacts.wait_for_page_load()
+        contacts.click_mobile_contacts()
+        contacts.click_label_grouping()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0073(self):
@@ -262,38 +804,39 @@ class MsgAllPrior(TestCase):
                 time.sleep(5)
                 labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
                                         auto_accept_permission_alert=False)
-            a = labellist.is_contacter_in_lable('联系人3')
-            b = labellist.is_contacter_in_lable('联系人4')
+            a = labellist.is_contacter_in_lable('大佬1')
+            b = labellist.is_contacter_in_lable('大佬2')
             if not (a & b):
                 labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
                                         auto_accept_permission_alert=False)
                 if not a:
-                    SelectContactsPage().click_one_contact_631('联系人3')
+                    SelectContactsPage().click_one_contact_631('大佬1')
                 if not b:
-                    SelectContactsPage().click_one_contact_631('联系人4')
+                    SelectContactsPage().click_one_contact_631('大佬2')
                 labellist.click_sure()
         else:
-            SelectContactsPage().click_one_contact_631('联系人3')
-            SelectContactsPage().click_one_contact_631('联系人4')
+            SelectContactsPage().click_one_contact_631('大佬1')
+            SelectContactsPage().click_one_contact_631('大佬2')
             labellist.click_sure()
             labellist.select_group('分组1')
         # 进入群发消息界面并点击多方通话
+        # 只有飞信电话，多方视频
 
         labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_second_colum'),
                                 auto_accept_permission_alert=False)
         labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/action_multicall'),
                                 auto_accept_permission_alert=False)
         labellist.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and ' + '@text="多方电话"]'))
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and ' + '@text="多方视频"]'))
         time.sleep(3)
-        SelectContactsPage().click_one_contact_631('联系人3')
-        SelectContactsPage().click_one_contact_631('联系人4')
+        SelectContactsPage().click_one_contact_631('大佬1')
+        SelectContactsPage().click_one_contact_631('大佬2')
         time.sleep(3)
         labellist.click_sure()
         time.sleep(8)
         # 接听和飞信电话后挂断电话
-        labellist._is_element_present((MobileBy.ID, 'com.android.incallui:id/endButton'))
-        labellist.click_element((MobileBy.ID, 'com.android.incallui:id/endButton'))
+        # labellist._is_element_present((MobileBy.ID, 'com.android.incallui:id/endButton'))
+        # labellist.click_element((MobileBy.ID, 'com.android.incallui:id/endButton'))
 
     @staticmethod
     def setUp_test_call_wangqiong_0080():
@@ -301,13 +844,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-        contactspage.open_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0080(self):
@@ -315,9 +851,9 @@ class MsgAllPrior(TestCase):
         mess = MessagePage()
         mess.click_search()
         # 精确搜索关键词联系人3
-        SearchPage().input_search_keyword("联系人3")
+        SearchPage().input_search_keyword("大佬1")
         # 正确搜索出联系人
-        SearchPage().assert_contact_name_display("联系人3")
+        SearchPage().assert_contact_name_display("大佬1")
         mess.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_back01'))
         time.sleep(4)
         # 多方通话搜索联系人
@@ -350,9 +886,9 @@ class MsgAllPrior(TestCase):
         call_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
                                 auto_accept_permission_alert=False)
         time.sleep(5)
-        call_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'), '联系人3')
+        call_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'), '大佬1')
         self.assertTrue(call_page._is_element_present(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="联系人3"]')))
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="大佬1"]')))
 
     @staticmethod
     def setUp_test_call_wangqiong_0081():
@@ -360,13 +896,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18351994357')
-        contactspage.create_contacts_if_not_exits('联系人4', '18351994307')
-        contactspage.open_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0081(self):
@@ -374,9 +903,9 @@ class MsgAllPrior(TestCase):
         mess = MessagePage()
         mess.click_search()
         # 精确搜索关键词联系人3
-        SearchPage().input_search_keyword("联系人")
+        SearchPage().input_search_keyword("大佬3")
         # 正确搜索出联系人
-        SearchPage().assert_contact_name_display("联系人3")
+        SearchPage().assert_contact_name_display("大佬3")
         mess.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_back01'))
         time.sleep(4)
         # 多方通话搜索联系人
@@ -409,9 +938,9 @@ class MsgAllPrior(TestCase):
         call_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
                                 auto_accept_permission_alert=False)
         time.sleep(5)
-        call_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'), '联系人3')
+        call_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'), '大佬3')
         self.assertTrue(call_page._is_element_present(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="联系人3"]')))
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="大佬3"]')))
 
     @staticmethod
     def setUp_test_call_wangqiong_0086():
@@ -419,13 +948,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-        contactspage.open_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0086(self):
@@ -433,9 +955,9 @@ class MsgAllPrior(TestCase):
         mess = MessagePage()
         mess.click_search()
         # 精确搜索关键词联系人3
-        SearchPage().input_search_keyword("18311111111")
+        SearchPage().input_search_keyword("13800138007")
         # 正确搜索出联系人
-        SearchPage().assert_contact_name_display("联系人3")
+        SearchPage().assert_contact_name_display("大佬3")
         mess.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_back01'))
         time.sleep(4)
         # 多方通话搜索联系人
@@ -468,19 +990,19 @@ class MsgAllPrior(TestCase):
         call_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
                                 auto_accept_permission_alert=False)
         time.sleep(5)
-        call_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'), '18311111111')
+        call_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'), '13800138007')
         self.assertTrue(call_page._is_element_present(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="联系人3"]')))
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="大佬3"]')))
         call_page.click_back()
         call_page.click_back()
 
         # 打开拨号键
         call_page.click_call()
-        call_page.dial_number('18311111111')
-        self.assertTrue(current_mobile().is_text_present('联系人3'))
+        call_page.dial_number('13800138007')
+        self.assertTrue(current_mobile().is_text_present('大佬3'))
         # 选择联系人正常展示
         call_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tvName" and ' + '@text="联系人3"]'))
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tvName" and ' + '@text="大佬3"]'))
 
     @staticmethod
     def setUp_test_call_wangqiong_0087():
@@ -488,13 +1010,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-        contactspage.open_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0087(self):
@@ -535,22 +1050,22 @@ class MsgAllPrior(TestCase):
         call_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
                                 auto_accept_permission_alert=False)
         time.sleep(5)
-        call_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'), '18311111111')
+        call_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'), '13800138007')
         self.assertTrue(call_page._is_element_present(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="联系人3"]')))
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="大佬3"]')))
         # 点击搜素到的结果
         call_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="联系人3"]'))
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="大佬3"]'))
 
         call_page.click_back()
 
         # 打开拨号键
         call_page.click_call()
-        call_page.dial_number('18311111111')
-        self.assertTrue(current_mobile().is_text_present('联系人3'))
+        call_page.dial_number('13800138007')
+        self.assertTrue(current_mobile().is_text_present('大佬3'))
         # 选择联系人正常展示
         call_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tvName" and ' + '@text="联系人3"]'))
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tvName" and ' + '@text="大佬3"]'))
 
     @staticmethod
     def setUp_test_call_wangqiong_0088():
@@ -558,13 +1073,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-        contactspage.open_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0088(self):
@@ -598,14 +1106,14 @@ class MsgAllPrior(TestCase):
         call_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
                                 auto_accept_permission_alert=False)
         time.sleep(5)
-        call_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'), '18312345678')
+        call_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'), '18300345678')
         call_page.hide_keyboard()
 
         # 校验是否搜索到未知号码
         SelectContactsPage().is_present_unknown_member()
         call_page.click_element(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' +
-             '@text="18312345678(未知号码)"]'))
+             '@text="18300345678(未知号码)"]'))
         time.sleep(3)
         call_page.click_back()
 
@@ -615,12 +1123,8 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0119(self):
@@ -630,9 +1134,9 @@ class MsgAllPrior(TestCase):
         from pages import ContactListSearchPage
         contact_search = ContactListSearchPage()
         contact_search.wait_for_page_load()
-        contact_search.input_search_keyword('联系人3')
-        self.assertTrue(contact_search.is_contact_in_list('联系人3'))
-        contact_search.click_contact('联系人3')
+        contact_search.input_search_keyword('大佬3')
+        self.assertTrue(contact_search.is_contact_in_list('大佬3'))
+        contact_search.click_contact('大佬3')
 
     @staticmethod
     def setUp_test_call_wangqiong_0120():
@@ -640,12 +1144,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0120(self):
@@ -655,9 +1153,9 @@ class MsgAllPrior(TestCase):
         from pages import ContactListSearchPage
         contact_search = ContactListSearchPage()
         contact_search.wait_for_page_load()
-        contact_search.input_search_keyword('联系人')
-        self.assertTrue(contact_search.is_contact_in_list('联系人3'))
-        contact_search.click_contact('联系人3')
+        contact_search.input_search_keyword('大佬4')
+        self.assertTrue(contact_search.is_contact_in_list('大佬4'))
+        contact_search.click_contact('大佬4')
 
     @staticmethod
     def setUp_test_call_wangqiong_0126():
@@ -665,12 +1163,8 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0126(self):
@@ -680,9 +1174,9 @@ class MsgAllPrior(TestCase):
         from pages import ContactListSearchPage
         contact_search = ContactListSearchPage()
         contact_search.wait_for_page_load()
-        contact_search.input_search_keyword('18311111111')
-        self.assertTrue(contact_search.is_contact_in_list('联系人3'))
-        contact_search.click_contact('联系人3')
+        contact_search.input_search_keyword('13800138007')
+        self.assertTrue(contact_search.is_contact_in_list('大佬3'))
+        contact_search.click_contact('大佬3')
 
     @staticmethod
     def setUp_test_call_wangqiong_0127():
@@ -690,12 +1184,8 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0127(self):
@@ -706,28 +1196,21 @@ class MsgAllPrior(TestCase):
         contact_search = ContactListSearchPage()
         contact_search.wait_for_page_load()
         # 输入9位数 查看是否正匹配到数据
-        contact_search.input_search_keyword('18311111')
-        self.assertTrue(contact_search.is_contact_in_list('联系人3'))
-        contact_search.click_contact('联系人3')
+        contact_search.input_search_keyword('123138001')
+        self.assertTrue(contact_search.is_contact_in_list('xili'))
+        contact_search.click_contact('xili')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_call_wangqiong_0145(self):
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-
         Preconditions.enter_call_page()
         # 点击多方通话
         call_page = CallPage()
         call_page.click_free_call()
         # 进入多方通话页面选择联系人呼叫
         selectcontacts = SelectContactsPage()
-        SelectContactsPage().click_one_contact_631('联系人3')
+        SelectContactsPage().click_one_contact_631('大佬3')
         time.sleep(4)
         selectcontacts.click_sure_bottom()
         # 是否弹框_我知道了,点击 发起呼叫
@@ -748,7 +1231,7 @@ class MsgAllPrior(TestCase):
         time.sleep(3)
         # 查看通话类型为和飞信通话
         call_page._is_element_present((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tvName" and ' +
-                                       '@text="联系人3"]'))
+                                       '@text="大佬3"]'))
         call_page._is_element_present((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tvCallManner" and ' +
                                        '@text="和飞信电话"]'))
         time.sleep(3)
@@ -837,13 +1320,6 @@ class MsgAllPrior(TestCase):
     def test_call_call_wangqiong_0147(self):
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人1', '18312345678')
-
         Preconditions.enter_call_page()
         # 点击多方通话
         call_page = CallPage()
@@ -851,23 +1327,23 @@ class MsgAllPrior(TestCase):
         time.sleep(4)
         # 进入多方通话页面选择联系人呼叫
         selectcontacts = SelectContactsPage()
-        selectcontacts.search('联系人1')
+        selectcontacts.search('大佬1')
         selectcontacts.click_element(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' +
-             '@text="联系人1"]'))
-        selectcontacts.search('18311111111')
+             '@text="大佬1"]'))
+        selectcontacts.search('18311111110')
         selectcontacts.click_unknown_member()
-        selectcontacts.search('18322222222')
+        selectcontacts.search('18322222220')
         selectcontacts.click_unknown_member()
-        selectcontacts.search('18333333333')
+        selectcontacts.search('18333333330')
         selectcontacts.click_unknown_member()
-        selectcontacts.search('18333333333')
+        selectcontacts.search('18333333330')
         selectcontacts.click_unknown_member()
-        selectcontacts.search('18344444444')
+        selectcontacts.search('18344444440')
         selectcontacts.click_unknown_member()
-        selectcontacts.search('18355555555')
+        selectcontacts.search('18355555550')
         selectcontacts.click_unknown_member()
-        selectcontacts.search('18366666666')
+        selectcontacts.search('18366666660')
         selectcontacts.click_unknown_member()
 
         time.sleep(5)
@@ -885,7 +1361,7 @@ class MsgAllPrior(TestCase):
 
         # 挂断多方通话
         time.sleep(4)
-        call_page.hang_up_hefeixin_call()
+        # call_page.hang_up_hefeixin_call()
         time.sleep(3)
         # 查看通话类型为和飞信通话
         call_page._is_element_present((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tvCallTime" and ' +
@@ -899,63 +1375,30 @@ class MsgAllPrior(TestCase):
         """预置条件"""
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-        # 进入群聊分组页签
-        contactspage.open_group_chat_list()
+        Preconditions.enter_group_chat_page("群聊1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0155(self):
-        # 创建标签分组
         grouppage = GroupListPage()
-        # 创建群聊1
-        grouppage.create_group_chats_if_not_exits('群聊1', ["联系人3", "联系人4"])
-        # 进入群聊的多方电话
-        grouppage.click_group('群聊1')
         grouppage.click_mult_call_icon()
         time.sleep(3)
-        grouppage.click_element((MobileBy.XPATH, "//*[@text='多方电话']"))
-
+        grouppage.click_element((MobileBy.XPATH, "//*[@text='多方视频']"))
         # 选择成员进行多方电话
-
         time.sleep(10)
 
     @staticmethod
     def setUp_test_call_wangqiong_0157():
         """预置条件"""
-        # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-        # 进入群聊分组页签
-        contactspage.open_group_chat_list()
+        Preconditions.enter_group_chat_page("群聊1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0157(self):
-        # 创建标签分组
         grouppage = GroupListPage()
-        # 创建群聊1
-        grouppage.create_group_chats_if_not_exits('群聊1', ["联系人3", "联系人4"])
-        # 进入群聊的多方电话
-        grouppage.click_search_input()
-        groupserch = GroupListSearchPage()
-        groupserch.input_search_keyword('群聊1')
-        # 点击群聊1
-        groupserch.click_group('群聊1')
         grouppage.click_mult_call_icon()
         time.sleep(3)
-        grouppage.click_element((MobileBy.XPATH, "//*[@text='多方电话']"))
-
+        grouppage.click_element((MobileBy.XPATH, "//*[@text='多方视频']"))
         contactselect = ContactsSelector()
         # 选择自己进行多方电话,弹框该联系人不可选择,呼叫按钮任然置灰
         contactselect.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/index_text'))
@@ -963,27 +1406,15 @@ class MsgAllPrior(TestCase):
 
     @staticmethod
     def setUp_test_call_wangqiong_0171():
-        """预置条件"""
-        # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        # contactspage.create_contacts_if_not_exits('A联系人', '18311111111')
-        # contactspage.create_contacts_if_not_exits('B联系人', '18322222222')
-        # contactspage.create_contacts_if_not_exits('C联系人', '18333333333')
-        # contactspage.create_contacts_if_not_exits('D联系人', '18344444444')
-        # contactspage.create_contacts_if_not_exits('E联系人', '18355555555')
-        # contactspage.create_contacts_if_not_exits('F联系人', '18366666666')
-        # contactspage.create_contacts_if_not_exits('G联系人', '18377777777')
-        # contactspage.create_contacts_if_not_exits('H联系人', '18388888888')
-        # contactspage.create_contacts_if_not_exits('I联系人', '18399999999')
-        # contactspage.create_contacts_if_not_exits('J联系人', '13822222222')
-        # contactspage.create_contacts_if_not_exits('K联系人', '13811111111')
-        # 进入标签分组页签
-        contactspage.click_label_grouping()
+        mess = MessagePage()
+        # 点击‘通讯录’
+        mess.open_contacts_page()
+        contacts = ContactsPage()
+        contacts.wait_for_page_load()
+        contacts.click_mobile_contacts()
+        contacts.click_label_grouping()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0171(self):
@@ -1037,18 +1468,15 @@ class MsgAllPrior(TestCase):
 
     @staticmethod
     def setUp_test_call_wangqiong_0179():
-        """预置条件"""
-        # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-        # 进入标签分组页签
-        contactspage.click_label_grouping()
+        mess = MessagePage()
+        # 点击‘通讯录’
+        mess.open_contacts_page()
+        contacts = ContactsPage()
+        contacts.wait_for_page_load()
+        contacts.click_mobile_contacts()
+        contacts.click_label_grouping()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0179(self):
@@ -1068,20 +1496,20 @@ class MsgAllPrior(TestCase):
                 time.sleep(5)
                 labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
                                         auto_accept_permission_alert=False)
-            a = labellist.is_contacter_in_lable('联系人3')
-            b = labellist.is_contacter_in_lable('联系人4')
+            a = labellist.is_contacter_in_lable('大佬1')
+            b = labellist.is_contacter_in_lable('大佬2')
             if not (a & b):
                 labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
                                         auto_accept_permission_alert=False)
                 if not a:
-                    SelectContactsPage().click_one_contact_631('联系人3')
+                    SelectContactsPage().click_one_contact_631('大佬1')
                 if not b:
-                    SelectContactsPage().click_one_contact_631('联系人4')
+                    SelectContactsPage().click_one_contact_631('大佬2')
                 labellist.click_sure()
         else:
             # 新建分组 选择分组成员
-            SelectContactsPage().click_one_contact_631('联系人3')
-            SelectContactsPage().click_one_contact_631('联系人4')
+            SelectContactsPage().click_one_contact_631('大佬1')
+            SelectContactsPage().click_one_contact_631('大佬2')
             labellist.click_sure()
             labellist.select_group('分组1')
         # 点击多方电话
@@ -1092,9 +1520,9 @@ class MsgAllPrior(TestCase):
         from pages import SelectLocalContactsPage
 
         selectpage = SelectLocalContactsPage()
-        selectpage.search('18311111111')
+        selectpage.search('13800138005')
         # 搜索到指定联系人选择之后 搜索栏清空 呼叫按钮可点击
-        selectpage.click_element((MobileBy.XPATH, '//*[contains(@text, "联系人3")]'))
+        selectpage.click_element((MobileBy.XPATH, '//*[contains(@text, "大佬1")]'))
         time.sleep(3)
         selectpage.element_should_be_enabled((MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'))
 
@@ -1103,40 +1531,37 @@ class MsgAllPrior(TestCase):
 
     @staticmethod
     def setUp_test_call_wangqiong_0180():
-        """预置条件"""
-        # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-        # 进入标签分组页签
-        contactspage.click_label_grouping()
+        mess = MessagePage()
+        # 点击‘通讯录’
+        mess.open_contacts_page()
+        contacts = ContactsPage()
+        contacts.wait_for_page_load()
+        contacts.click_mobile_contacts()
+        contacts.click_label_grouping()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0180(self):
         # 创建标签分组
         labelpage = LabelGroupingPage()
         if not labelpage.is_text_present('分组1'):
-            labelpage.create_group('分组1', '联系人3', '联系人4')
+            labelpage.create_group('分组1', '大佬1', '大佬2')
         labelpage.click_label_group('分组1')
         # 校验里面成员是否包含联系人3&联系人4，没有则添加成员
         if labelpage._is_element_present((MobileBy.ID, 'com.chinasofti.rcs:id/dialog_message')):
             time.sleep(5)
             labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
                                     auto_accept_permission_alert=False)
-        a = labelpage.is_contacter_in_lable('联系人3')
-        b = labelpage.is_contacter_in_lable('联系人4')
+        a = labelpage.is_contacter_in_lable('大佬1')
+        b = labelpage.is_contacter_in_lable('大佬2')
         if not (a & b):
             labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
                                     auto_accept_permission_alert=False)
             if not a:
-                SelectContactsPage().click_one_contact_631('联系人3')
+                SelectContactsPage().click_one_contact_631('大佬1')
             if not b:
-                SelectContactsPage().click_one_contact_631('联系人4')
+                SelectContactsPage().click_one_contact_631('大佬2')
             labelpage.click_sure()
         # 进入多方通话
         labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_third_colum'))
@@ -1146,7 +1571,7 @@ class MsgAllPrior(TestCase):
         selectpage = SelectLocalContactsPage()
         selectpage.search('1')
         # 搜索到指定联系人选择之后 搜索栏清空 呼叫按钮可点击
-        selectpage.click_element((MobileBy.XPATH, '//*[contains(@text, "联系人3")]'))
+        selectpage.click_element((MobileBy.XPATH, '//*[contains(@text, "大佬1")]'))
         time.sleep(3)
         selectpage.element_should_be_enabled((MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'))
 
@@ -1155,40 +1580,37 @@ class MsgAllPrior(TestCase):
 
     @staticmethod
     def setUp_test_call_wangqiong_0181():
-        """预置条件"""
-        # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-        # 进入标签分组页签
-        contactspage.click_label_grouping()
+        mess = MessagePage()
+        # 点击‘通讯录’
+        mess.open_contacts_page()
+        contacts = ContactsPage()
+        contacts.wait_for_page_load()
+        contacts.click_mobile_contacts()
+        contacts.click_label_grouping()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0181(self):
         # 创建标签分组
         labelpage = LabelGroupingPage()
         if not labelpage.is_text_present('分组1'):
-            labelpage.create_group('分组1', '联系人3', '联系人4')
+            labelpage.create_group('分组1', '大佬1', '大佬2')
         labelpage.click_label_group('分组1')
         # 校验里面成员是否包含联系人3&联系人4，没有则添加成员
         if labelpage._is_element_present((MobileBy.ID, 'com.chinasofti.rcs:id/dialog_message')):
             time.sleep(5)
             labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
                                     auto_accept_permission_alert=False)
-        a = labelpage.is_contacter_in_lable('联系人3')
-        b = labelpage.is_contacter_in_lable('联系人4')
+        a = labelpage.is_contacter_in_lable('大佬1')
+        b = labelpage.is_contacter_in_lable('大佬2')
         if not (a & b):
             labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
                                     auto_accept_permission_alert=False)
             if not a:
-                SelectContactsPage().click_one_contact_631('联系人3')
+                SelectContactsPage().click_one_contact_631('大佬1')
             if not b:
-                SelectContactsPage().click_one_contact_631('联系人4')
+                SelectContactsPage().click_one_contact_631('大佬2')
             labelpage.click_sure()
         # 进入多方通话
         labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_third_colum'))
@@ -1196,11 +1618,11 @@ class MsgAllPrior(TestCase):
         # 输入全名 查看是否能精准匹配到联系人
         from pages import SelectLocalContactsPage
         selectpage = SelectLocalContactsPage()
-        selectpage.search('联系人3')
+        selectpage.search('大佬1')
         time.sleep(3)
         # 搜索到指定联系人选择之后 搜索栏清空 呼叫按钮可点击
         selectpage.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="联系人3"]'))
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="大佬1"]'))
         time.sleep(3)
         selectpage.element_should_be_enabled((MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'))
 
@@ -1209,40 +1631,37 @@ class MsgAllPrior(TestCase):
 
     @staticmethod
     def setUp_test_call_wangqiong_0182():
-        """预置条件"""
-        # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-        # 进入标签分组页签
-        contactspage.click_label_grouping()
+        mess = MessagePage()
+        # 点击‘通讯录’
+        mess.open_contacts_page()
+        contacts = ContactsPage()
+        contacts.wait_for_page_load()
+        contacts.click_mobile_contacts()
+        contacts.click_label_grouping()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0182(self):
         # 创建标签分组
         labelpage = LabelGroupingPage()
         if not labelpage.is_text_present('分组1'):
-            labelpage.create_group('分组1', '联系人3', '联系人4')
+            labelpage.create_group('分组1', '大佬1', '大佬2')
         labelpage.click_label_group('分组1')
         # 校验里面成员是否包含联系人3&联系人4，没有则添加成员
         if labelpage._is_element_present((MobileBy.ID, 'com.chinasofti.rcs:id/dialog_message')):
             time.sleep(5)
             labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
                                     auto_accept_permission_alert=False)
-        a = labelpage.is_contacter_in_lable('联系人3')
-        b = labelpage.is_contacter_in_lable('联系人4')
+        a = labelpage.is_contacter_in_lable('大佬1')
+        b = labelpage.is_contacter_in_lable('大佬2')
         if not (a & b):
             labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
                                     auto_accept_permission_alert=False)
             if not a:
-                SelectContactsPage().click_one_contact_631('联系人3')
+                SelectContactsPage().click_one_contact_631('大佬1')
             if not b:
-                SelectContactsPage().click_one_contact_631('联系人4')
+                SelectContactsPage().click_one_contact_631('大佬2')
             labelpage.click_sure()
         # 进入多方通话
         labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_third_colum'))
@@ -1252,29 +1671,18 @@ class MsgAllPrior(TestCase):
         selectpage = SelectLocalContactsPage()
         selectpage.search('联系人')
         # 搜索到指定联系人选择之后 搜索栏清空 呼叫按钮可点击
-        selectpage.click_element((MobileBy.XPATH, '//*[contains(@text, "联系人3")]'))
+        selectpage.click_element((MobileBy.XPATH, '//*[contains(@text, "大佬1")]'))
         time.sleep(3)
         selectpage.element_should_be_enabled((MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'))
 
         """判断输入框是否自动清空"""
         self.assertTrue(selectpage.page_should_not_contain_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_delect')))
 
-    @staticmethod
-    def setUp_test_call_wangqiong_0193():
-        """预置条件"""
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_call_wangqiong_0193(self):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits('联系人3', '18311111111')
-        contactspage.create_contacts_if_not_exits('联系人4', '18322222222')
-
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1283,9 +1691,9 @@ class MsgAllPrior(TestCase):
         callcontact.click_element((MobileBy.ID, "com.chinasofti.rcs:id/btnFreeCall"))
         # 选择指定联系人 点击呼叫
         selectcontacts = SelectContactsPage()
-        selectcontacts.search('联系人3')
+        selectcontacts.search('大佬3')
         selectcontacts.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="联系人3"]'))
+            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="大佬3"]'))
         time.sleep(4)
         selectcontacts.click_sure_bottom()
         time.sleep(3)
@@ -1319,74 +1727,28 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0033(self):
         """本网用户各和飞信电话入口，可成功发起呼叫"""
-
-        # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
-        # 下面根据用例情况进入相应的页面
-        # 需要预置联系人
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        contactname2 = Preconditions.contacts_name_2
-        contactnum2 = Preconditions.telephone_num_2
-        # 新建联系人
+        Preconditions.make_already_in_message_page()
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-        contactspage.create_contacts_if_not_exits_631(contactname2, contactnum2)
         # 1.在通讯录（群聊、单聊/标签分组）profile页，点击：和飞信电话（免费），发起呼叫（呼叫成功后挂断）
         contactspage.click_search_box()
         contact = ContactListSearchPage()
-        contact.input_search_keyword(contactname1)
-        contact.click_contact(contactname1)
+        contact.input_search_keyword("大佬1")
+        contact.click_contact("大佬1")
         # 点击和飞信电话,呼叫成功后挂断
         callcontactdetail = CallContactDetailPage()
-        callcontactdetail.call_fetion_call()
-        # 是否存在权限窗口 自动赋权
-        from pages import GrantPemissionsPage
-        grantpemiss = GrantPemissionsPage()
-        grantpemiss.allow_contacts_permission()
-
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
+        callcontactdetail.click_text_or_description("飞信电话")
         # 挂断和飞信电话
         callpage = CallPage()
-        callpage.hang_up_hefeixin_call_631()
         time.sleep(2)
-        # 2.在通讯录（群聊、单聊/标签分组）profile页，进入消息页面发起和飞信电话
-        callcontactdetail.click_normal_message()
-        # 存在用户须知？ 存在则同意
-        time.sleep(2)
-        from pages.components import ChatNoticeDialog
-        chatnotice = ChatNoticeDialog()
-        if chatnotice.is_exist_tips():
-            chatnotice.accept_and_close_tips_alert()
-        singlechat = SingleChatPage()
-        time.sleep(2)
-        singlechat.click_action_call()
-        singlechat.click_hefeixinfree_call_631()
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-        # 挂断和飞信电话
-        callpage = CallPage()
-        callpage.hang_up_hefeixin_call_631()
-        time.sleep(2)
-        # 返回到联系页面
-        singlechat.click_back()
         contactdetail = ContactDetailsPage()
         contactdetail.click_back_icon()
         # 返回到联系人页面
         contact.click_back()
         time.sleep(2)
-
         # 3.进入通话页签 输入数字进行拨打和飞信电话
         Preconditions.enter_call_page()
-
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
         callcontact.skip_multiparty_call()
@@ -1398,97 +1760,27 @@ class MsgAllPrior(TestCase):
         calltype = CallTypeSelectPage()
         calltype.click_call_by_app_631()
 
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-        # 挂断和飞信电话
-        callpage = CallPage()
-        callpage.hang_up_hefeixin_call_631()
-        time.sleep(2)
-        callpage.click_call()
-
-        # Checkpoint：拨打的通话记录为飞信通话 进入通话详情页，标题为飞信通话类型
-        callpage.is_type_hefeixin(0, '飞信电话')
-        # 进入详情页
-        time.sleep(5)
-        callpage.click_ganggang_call_time()
-        # 查看详情页面是否是飞信电话？
-        time.sleep(5)
-        callpage.is_hefeixin_page('飞信电话')
-
     @staticmethod
     def setUp_test_call_wangqiong_0172():
-        """标签分组-多方电话选择器-支持组员名称号码搜索"""
-
-        # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
-        # 下面根据用例情况进入相应的页面
-        """需要预置联系人"""
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        contactname2 = Preconditions.contacts_name_2
-        contactnum2 = Preconditions.telephone_num_2
-        contactname3 = Preconditions.contacts_name_3
-        contactnum3 = Preconditions.telephone_num_3
-        contactname4 = Preconditions.contacts_name_4
-        contactnum4 = Preconditions.telephone_num_4
-        contactname5 = Preconditions.contacts_name_5
-        contactnum5 = Preconditions.telephone_num_5
-        contactname6 = Preconditions.contacts_name_6
-        contactnum6 = Preconditions.telephone_num_6
-        contactname7 = Preconditions.contacts_name_7
-        contactnum7 = Preconditions.telephone_num_7
-        contactname8 = Preconditions.contacts_name_8
-        contactnum8 = Preconditions.telephone_num_8
-        contactname9 = Preconditions.contacts_name_9
-        contactnum9 = Preconditions.telephone_num_9
-        contactname10 = Preconditions.contacts_name_10
-        contactnum10 = Preconditions.telephone_num_10
-        contactname11 = Preconditions.contacts_name_11
-        contactnum11 = Preconditions.telephone_num_11
-        # 新建联系人
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-        contactspage.create_contacts_if_not_exits_631(contactname2, contactnum2)
-        contactspage.create_contacts_if_not_exits_631(contactname3, contactnum3)
-        contactspage.create_contacts_if_not_exits_631(contactname4, contactnum4)
-        contactspage.create_contacts_if_not_exits_631(contactname5, contactnum5)
-        contactspage.create_contacts_if_not_exits_631(contactname6, contactnum6)
-        contactspage.create_contacts_if_not_exits_631(contactname7, contactnum7)
-        contactspage.create_contacts_if_not_exits_631(contactname8, contactnum8)
-        contactspage.create_contacts_if_not_exits_631(contactname9, contactnum9)
-        contactspage.create_contacts_if_not_exits_631(contactname10, contactnum10)
-        contactspage.create_contacts_if_not_exits_631(contactname11, contactnum11)
-        # 进入标签分组页签
-        contactspage.click_label_grouping_631()
+        Preconditions.make_already_in_message_page()
+        mess = MessagePage()
+        # 点击‘通讯录’
+        mess.open_contacts_page()
+        contacts = ContactsPage()
+        contacts.wait_for_page_load()
+        contacts.click_mobile_contacts()
+        contacts.click_label_grouping()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0172(self):
-        # 创建标签分组
+        """标签分组-多方电话选择器-支持组员名称号码搜索"""
         labellist = LabelGroupingPage()
-        # 存在老的分组 则删除
-        labellist.delete_label_groups('分组A')
-        time.sleep(2)
-        labellist.create_group('分组A', Preconditions.contacts_name_1, Preconditions.contacts_name_2,
-                               Preconditions.contacts_name_3, Preconditions.contacts_name_4, Preconditions.contacts_name_5,
-                               Preconditions.contacts_name_6, Preconditions.contacts_name_7, Preconditions.contacts_name_8,
-                               Preconditions.contacts_name_9, Preconditions.contacts_name_10, Preconditions.contacts_name_11)
-        labellist.click_label_group('分组A')
+        labellist.click_label_group('分组1')
         # 选择成员进行多方通话
         labellist.click_third_image_call()
         # CheckPoint： 选择成员成功发起呼叫
-        labellist.select_local_contacts(Preconditions.contacts_name_1, Preconditions.contacts_name_2)
-        # 存在悬浮权限提醒，暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-        # 挂断多方通话
-        callpage = CallPage()
-        callpage.hang_up_hefeixin_call_631()
+        labellist.select_local_contacts("大佬1", "大佬2")
 
     @staticmethod
     def setUp_call_wangqiong_0194():
@@ -1497,12 +1789,8 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0194(self):
         """多方电话联系人选择器支持搜索正确陌生内地固号"""
-
-        # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
-
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1523,22 +1811,6 @@ class MsgAllPrior(TestCase):
         # 呼叫
         time.sleep(2)
         contactselect.click_sure_bottom()
-        # 是否存在‘我知道了’ ，点击
-        time.sleep(2)
-        callcontact.click_elsfif_ikonw()
-        # 是否存在权限窗口 自动赋权
-        from pages import GrantPemissionsPage
-        grantpemiss = GrantPemissionsPage()
-        grantpemiss.allow_contacts_permission()
-
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-
-        # checkpoint: 可以正常可以挂断飞信电话
-        callpage = CallPage()
-        callpage.hang_up_hefeixin_call_631()
 
     @staticmethod
     def setUp_test_call_wangqiong_0204():
@@ -1547,26 +1819,8 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0204(self):
         """网络信号正常，发起多方电话流程正常"""
-
-        # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
-        # 下面根据用例情况进入相应的页面
-        # 需要预置联系人
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        contactname2 = Preconditions.contacts_name_2
-        contactnum2 = Preconditions.telephone_num_2
-        contactname3 = Preconditions.contacts_name_3
-        contactnum3 = Preconditions.telephone_num_3
-        # 新建联系人
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-        contactspage.create_contacts_if_not_exits_631(contactname2, contactnum2)
-        contactspage.create_contacts_if_not_exits_631(contactname3, contactnum3)
-
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1576,49 +1830,7 @@ class MsgAllPrior(TestCase):
         # 选择指定联系人 点击呼叫
         from pages.components import ContactsSelector
         contactselect = ContactsSelector()
-        contactselect.select_local_contacts(contactname1, contactname2, contactname3)
-        #  调试用，可删除
-        # contactselect.select_local_contacts(contactname1)
-        # 是否存在请先接听“和飞信电话”，点击“我知道了” 并自动允许和飞信管理
-        callcontact.click_elsfif_ikonw()
-        # 是否存在权限窗口 自动赋权
-        from pages import GrantPemissionsPage
-        grantpemiss = GrantPemissionsPage()
-        grantpemiss.allow_contacts_permission()
-
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-        # Checkpoint：当前页面是否是系统通话页面 如果是返回到主界面
-        # 当出现系统通话页面，则进入手机home页
-        callpage = CallPage()
-        Flag = True
-        i = 0
-        while Flag:
-            time.sleep(1)
-            if callpage.is_phone_in_calling_state():
-                break
-            elif i > 30:
-                break
-            else:
-                i = i + 1
-        # 进入手机home页
-        from pages import OneKeyLoginPage
-        page = OneKeyLoginPage()
-        page.press_home_key()
-        time.sleep(2)
-        # 再次激活进入和飞信app
-        current_mobile().activate_app(app_id='com.chinasofti.rcs')
-        time.sleep(2)
-        # 点击进入通话会控页，未接听前，联系人状态为呼叫中
-        callpage.click_back_to_call_631()
-        time.sleep(2)
-        # 当前页面呼叫人状态为‘呼叫中’
-        multipage = MultipartyCallPage()
-        multipage.assert_caller_status_is_display()
-        # 挂断和飞信
-        callpage.hang_up_hefeixin_call_631()
+        contactselect.select_local_contacts("大佬1", "大佬2", "大佬3")
 
     @staticmethod
     def setUp_test_call_wangqiong_0210():
@@ -1630,22 +1842,7 @@ class MsgAllPrior(TestCase):
 
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
-        # 下面根据用例情况进入相应的页面
-        # 需要预置联系人
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        contactname2 = Preconditions.contacts_name_2
-        contactnum2 = Preconditions.telephone_num_2
-        contactname3 = Preconditions.contacts_name_3
-        contactnum3 = Preconditions.telephone_num_3
-        # 新建联系人
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-        contactspage.create_contacts_if_not_exits_631(contactname2, contactnum2)
-        contactspage.create_contacts_if_not_exits_631(contactname3, contactnum3)
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1655,56 +1852,7 @@ class MsgAllPrior(TestCase):
         # 选择指定联系人 点击呼叫
         from pages.components import ContactsSelector
         contactselect = ContactsSelector()
-        contactselect.select_local_contacts(contactname1, contactname2, contactname3)
-        # 调试用，可删除
-        # contactselect.select_local_contacts(contactname1)
-
-        # 是否存在请先接听“和飞信电话”，点击“我知道了” 并自动允许和飞信管理
-        callcontact.click_elsfif_ikonw()
-        # 是否存在权限窗口 自动赋权
-        from pages import GrantPemissionsPage
-        grantpemiss = GrantPemissionsPage()
-        grantpemiss.allow_contacts_permission()
-
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-        # 当出现系统通话页面，则进入手机home页
-        callpage = CallPage()
-        Flag = True
-        i = 0
-        while Flag:
-            time.sleep(1)
-            if callpage.is_phone_in_calling_state():
-                break
-            elif i > 30:
-                break
-            else:
-                i = i + 1
-        # 进入手机home页
-        from pages import OneKeyLoginPage
-        page = OneKeyLoginPage()
-        page.press_home_key()
-        time.sleep(2)
-        # 再次激活进入和飞信app
-        current_mobile().activate_app(app_id='com.chinasofti.rcs')
-        time.sleep(2)
-        # 点击进入通话会控页，未接听前，联系人状态为呼叫中
-        callpage.click_back_to_call_631()
-        time.sleep(1)
-        # Checkpoint：1.当前页面呼叫人状态为‘呼叫中’
-        multipage = MultipartyCallPage()
-        multipage.assert_caller_status_is_display()
-        # Checkpoint：2.右上角存在隐藏符号
-        multipage.assert_hide_icon_is_display()
-        # Checkpoint：3.+号展示最多9人
-        multipage.assert_caller_max_count_is_display()
-        # Checkpoint：4.展示我（主叫）
-        multipage.assert_caller_me_is_display()
-        time.sleep(1)
-        # 挂断和飞信
-        callpage.hang_up_hefeixin_call_631()
+        contactselect.select_local_contacts("大佬1", "大佬2", "大佬3")
 
     @staticmethod
     def setUp_test_call_wangqiong_0211():
@@ -1713,25 +1861,8 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0211(self):
         """多方电话呼叫中时--网络正常下，会控界面点击顶部可返回至系统通话页"""
-
-        # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        # 需要预置联系人
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        contactname2 = Preconditions.contacts_name_2
-        contactnum2 = Preconditions.telephone_num_2
-        contactname3 = Preconditions.contacts_name_3
-        contactnum3 = Preconditions.telephone_num_3
-        # 新建联系人
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-        contactspage.create_contacts_if_not_exits_631(contactname2, contactnum2)
-        contactspage.create_contacts_if_not_exits_631(contactname3, contactnum3)
-        # 进入通话页签
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1741,46 +1872,7 @@ class MsgAllPrior(TestCase):
         # 选择指定联系人 点击呼叫
         from pages.components import ContactsSelector
         contactselect = ContactsSelector()
-        contactselect.select_local_contacts(contactname1, contactname2, contactname3)
-        # 是否存在请先接听“和飞信电话”，点击“我知道了” 并自动允许和飞信管理
-        callcontact.click_elsfif_ikonw()
-        # 是否存在权限窗口 自动赋权
-        from pages import GrantPemissionsPage
-        grantpemiss = GrantPemissionsPage()
-        grantpemiss.allow_contacts_permission()
-
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-        # Checkpoint：当前页面是否是系统通话页面 如果是返回手机home页
-        callpage = CallPage()
-        Flag = True
-        i = 0
-        while Flag:
-            time.sleep(1)
-            if callpage.is_phone_in_calling_state():
-                break
-            elif i > 30:
-                break
-            else:
-                i = i + 1
-        # 进入手机home页
-        from pages import OneKeyLoginPage
-        page = OneKeyLoginPage()
-        page.press_home_key()
-        time.sleep(2)
-        # 再次激活进入和飞信app
-        current_mobile().activate_app(app_id='com.chinasofti.rcs')
-        time.sleep(2)
-        # 点击进入通话会控页，未接听前，联系人状态为呼叫中
-        callpage.click_back_to_call_631()
-        time.sleep(1)
-        # 当前页面呼叫人状态为‘呼叫中’
-        multipage = MultipartyCallPage()
-        multipage.assert_caller_status_is_display()
-        # 挂断和飞信
-        callpage.hang_up_hefeixin_call_631()
+        contactselect.select_local_contacts("大佬1", "大佬2", "大佬3")
 
     @staticmethod
     def setUp_test_call_wangqiong_0262():
@@ -1794,16 +1886,6 @@ class MsgAllPrior(TestCase):
         Preconditions.select_mobile('Android-移动')
         # 启动后不论当前在哪个页面，强制进入消息页面
         Preconditions.force_enter_message_page_631()
-        # 下面根据用例情况进入相应的页面
-        # 需要预置联系人
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        # 新建联系人
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-        contactspage.create_contacts_if_not_exits_631('联系人2', '18311111111')
-
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1812,59 +1894,13 @@ class MsgAllPrior(TestCase):
         callcontact.click_free_call()
         # 1.1选择指定联系人 发起和飞信呼叫
         selectcontacts = SelectContactsPage()
-        selectcontacts.search(contactname1)
-        selectcontacts.click_contact_by_name(contactname1)
-        selectcontacts.search('联系人2')
-        selectcontacts.click_contact_by_name('联系人2')
+        selectcontacts.search("大佬1")
+        selectcontacts.click_contact_by_name("大佬1")
+        selectcontacts.search("大佬2")
+        selectcontacts.click_contact_by_name("大佬2")
         time.sleep(2)
         selectcontacts.click_sure_bottom()
         time.sleep(2)
-        # 是否存在请先接听“和飞信电话”，点击“我知道了” 并自动允许和飞信管理
-        callcontact.click_elsfif_ikonw()
-        # 是否存在权限窗口 自动赋权
-        grantpemiss = GrantPemissionsPage()
-        grantpemiss.allow_contacts_permission()
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-        # 判断当前是否在系统通话界面,是的话进入手机home页
-        callpage = CallPage()
-        Flag = True
-        i = 0
-        while Flag:
-            time.sleep(1)
-            if callpage.is_phone_in_calling_state():
-                break
-            elif i > 30:
-                break
-            else:
-                i = i + 1
-        # 进入手机home页
-        from pages import OneKeyLoginPage
-        page = OneKeyLoginPage()
-        page.press_home_key()
-        time.sleep(2)
-        # 再次激活进入和飞信app
-        current_mobile().activate_app(app_id='com.chinasofti.rcs')
-        time.sleep(2)
-        # 点击进入通话会控页，
-        callpage.click_back_to_call_631()
-        time.sleep(2)
-        # checkpoint1：点击未接通 展示页面含有未接通
-        multipage = MultipartyCallPage()
-        multipage.click_not_access()
-        multipage.page_should_contain_text('联系人2 未接通')
-        # checkpoint2: 点击取消,回收弹框
-        multipage.click_cancel()
-        multipage.page_should_not_contain_text('联系人2 未接通')
-        # checkpoint3: 再次点击未接通,点击重新呼叫，回到会控页面，且联系人2状态变为呼叫中
-        multipage.click_not_access()
-        multipage.click_call_again()
-
-        # checkpoint3: 点击取消
-        multipage.click_not_access()
-        multipage.click_cancel()
 
     @staticmethod
     def setUp_test_call_wangqiong_0266():
@@ -1875,20 +1911,6 @@ class MsgAllPrior(TestCase):
         """发起多方电话呼叫邀请中，可点击会控界面挂断按钮，结束多方电话通话"""
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
-        # 下面根据用例情况进入相应的页面
-        # 需要预置联系人
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        contactname2 = Preconditions.contacts_name_2
-        contactnum2 = Preconditions.telephone_num_2
-        # 新建联系人
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-        contactspage.create_contacts_if_not_exits_631(contactname2, contactnum2)
-
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1897,50 +1919,13 @@ class MsgAllPrior(TestCase):
         callcontact.click_free_call()
         # 1.1选择指定联系人 发起和飞信呼叫
         selectcontacts = SelectContactsPage()
-        selectcontacts.search(contactname1)
-        selectcontacts.click_contact_by_name(contactname1)
-        selectcontacts.search(contactname2)
-        selectcontacts.click_contact_by_name(contactname2)
+        selectcontacts.search("大佬1")
+        selectcontacts.click_contact_by_name("大佬1")
+        selectcontacts.search("大佬2")
+        selectcontacts.click_contact_by_name("大佬2")
         time.sleep(2)
         selectcontacts.click_sure_bottom()
         time.sleep(2)
-        # 是否存在请先接听“和飞信电话”，点击“我知道了” 并自动允许和飞信管理
-        callcontact.click_elsfif_ikonw()
-        # 是否存在权限窗口 自动赋权
-        grantpemiss = GrantPemissionsPage()
-        grantpemiss.allow_contacts_permission()
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-        # 判断当前是否在系统通话界面,是的话进入手机home页
-        callpage = CallPage()
-        Flag = True
-        i = 0
-        while Flag:
-            time.sleep(1)
-            if callpage.is_phone_in_calling_state():
-                break
-            elif i > 30:
-                break
-            else:
-                i = i + 1
-        # 进入手机home页
-        from pages import OneKeyLoginPage
-        page = OneKeyLoginPage()
-        page.press_home_key()
-        time.sleep(2)
-        # 再次激活进入和飞信app
-        current_mobile().activate_app(app_id='com.chinasofti.rcs')
-        time.sleep(2)
-        # 点击进入通话会控页，
-        callpage.click_back_to_call_631()
-        time.sleep(2)
-        # checkpoint1：会控页面飞信电话挂断，系统电话也挂断
-        callpage.hang_up_hefeixin_call_631()
-        time.sleep(6)
-        message = MessagePage()
-        self.assertTrue(message.is_on_this_page())
 
     @staticmethod
     def setUp_test_call_wangqiong_0267():
@@ -1949,20 +1934,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0267(self):
         """发起多方电话呼叫邀请中，可点击系统电话挂断，结束多方电话通话"""
-
-        # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
-        # 下面根据用例情况进入相应的页面
-        # 需要预置联系人
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        # 新建联系人
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1972,57 +1944,12 @@ class MsgAllPrior(TestCase):
         # 选择指定联系人 点击呼叫
         from pages.components import ContactsSelector
         contactselect = ContactsSelector()
-        contactselect.select_local_contacts(contactname1)
-        # 是否存在请先接听“和飞信电话”，点击“我知道了” 并自动允许和飞信管理
-        callcontact.click_elsfif_ikonw()
-        # 是否存在权限窗口 自动赋权
-        from pages import GrantPemissionsPage
-        grantpemiss = GrantPemissionsPage()
-        grantpemiss.allow_contacts_permission()
-
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-        # Checkpoint：当前页面是否是系统通话页面 如果是挂断，多方通话一起挂断，返回到通话页签
-        # 当出现系统通话页面，则进入手机home页
-        callpage = CallPage()
-        Flag = True
-        i = 0
-        while Flag:
-            time.sleep(1)
-            if callpage.is_phone_in_calling_state():
-                break
-            elif i > 30:
-                break
-            else:
-                i = i + 1
-        # 挂断之后回到通话页面
-        time.sleep(2)
-        callpage.hang_up_the_call()
-        time.sleep(5)
-        self.assertTrue(callpage.is_on_the_call_page())
+        contactselect.select_local_contacts("大佬3")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0288(self):
         """多人的多方电话--通话记录详情页各信息显示正常。"""
-
-        # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
-        # 下面根据用例情况进入相应的页面
-        # 需要预置联系人
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        contactname2 = Preconditions.contacts_name_2
-        contactnum2 = Preconditions.telephone_num_2
-        # 新建联系人
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-        contactspage.create_contacts_if_not_exits_631(contactname2, contactnum2)
-        # 进入通话页签
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -2032,25 +1959,8 @@ class MsgAllPrior(TestCase):
         # 选择指定联系人 点击呼叫
         from pages.components import ContactsSelector
         contactselect = ContactsSelector()
-        contactselect.select_local_contacts(contactname1, contactname2)
-        # 是否存在请先接听“和飞信电话”，点击“我知道了” 并自动允许和飞信管理
-        callcontact.click_elsfif_ikonw()
-        # 是否存在权限窗口 自动赋权
-        from pages import GrantPemissionsPage
-        grantpemiss = GrantPemissionsPage()
-        grantpemiss.allow_contacts_permission()
-
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-        # 会控页面挂断和飞信电话，回到通话页
+        contactselect.select_local_contacts("大佬1", "大佬2")
         callpage = CallPage()
-        callpage.hang_up_hefeixin_call_631()
-
-        # Checkpoint：拨打的通话记录为飞信电话 进入通话详情页，标题为飞信电话类型
-        callpage.is_type_hefeixin(0, '飞信电话')
-        # 进入详情页
         time.sleep(3)
         callpage.click_ganggang_call_time()
         # Checkpoint：查看详情页面是否是多方电话？
@@ -2070,17 +1980,6 @@ class MsgAllPrior(TestCase):
 
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
-        # 下面根据用例情况进入相应的页面
-        # 需要预置联系人
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        # 新建联系人
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-        # 进入通话页签
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -2090,26 +1989,9 @@ class MsgAllPrior(TestCase):
         # 选择指定联系人 点击呼叫
         from pages.components import ContactsSelector
         contactselect = ContactsSelector()
-        contactselect.select_local_contacts(contactname1)
-        # 是否存在请先接听“和飞信电话”，点击“我知道了” 并自动允许和飞信管理
-        callcontact.click_elsfif_ikonw()
-        # 是否存在权限窗口 自动赋权
-        from pages import GrantPemissionsPage
-        grantpemiss = GrantPemissionsPage()
-        grantpemiss.allow_contacts_permission()
-
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-        # 会控页面挂断和飞信电话，回到通话页
-        callpage = CallPage()
-        callpage.hang_up_hefeixin_call_631()
-
-        # Checkpoint：拨打的通话记录为飞信电话 进入通话详情页，标题为飞信电话通话类型
-        callpage.is_type_hefeixin(0, '飞信电话')
-        # 进入详情页
+        contactselect.select_local_contacts("大佬1")
         time.sleep(3)
+        callpage = CallPage()
         callpage.click_ganggang_call_time()
         # Checkpoint：查看详情页面是否是和飞信电话？
         callpage.is_hefeixin_page('飞信电话')
@@ -2124,22 +2006,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0291(self):
         """多方通话记录详情页--再次呼叫，网络正常重新呼叫多方电话"""
-
-        # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        # 需要预置联系人
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        contactname2 = Preconditions.contacts_name_2
-        contactnum2 = Preconditions.telephone_num_2
-        # 新建联系人
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-        contactspage.create_contacts_if_not_exits_631(contactname2, contactnum2)
-        # 进入通话页签
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -2149,36 +2016,13 @@ class MsgAllPrior(TestCase):
         # 选择指定联系人 点击呼叫
         from pages.components import ContactsSelector
         contactselect = ContactsSelector()
-        contactselect.select_local_contacts(contactname1, contactname2)
-        # 是否存在请先接听“和飞信电话”，点击“我知道了” 并自动允许和飞信管理
-        callcontact.click_elsfif_ikonw()
-        # 是否存在权限窗口 自动赋权
-        from pages import GrantPemissionsPage
-        grantpemiss = GrantPemissionsPage()
-        grantpemiss.allow_contacts_permission()
-
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-        # 会控页面挂断和飞信电话，回到通话页
+        contactselect.select_local_contacts("大佬1", "大佬2")
         callpage = CallPage()
-        callpage.hang_up_hefeixin_call_631()
-
-        # Checkpoint：拨打的通话记录为多方电话 进入通话详情页，标题为多方电话通话类型
-        callpage.is_type_hefeixin(0, '飞信电话')
-        # 进入详情页
-        time.sleep(3)
         callpage.click_ganggang_call_time()
         # Checkpoint：查看详情页面是否是多方电话？
         callpage.is_hefeixin_page('飞信电话')
-
         # 点击‘再次呼叫’
         callpage.click_mutil_call_again()
-        suspend.ignore_tips_if_tips_display()
-        # Checkpoint：当前是否是和飞信通话会控页
-        time.sleep(2)
-        callpage.hang_up_hefeixin_call_631()
 
     @staticmethod
     def setUp_test_call_wangqiong_0292():
@@ -2190,16 +2034,6 @@ class MsgAllPrior(TestCase):
 
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
-        # 下面根据用例情况进入相应的页面
-        # 需要预置联系人
-        contactname1 = Preconditions.contacts_name_1
-        contactnum1 = Preconditions.telephone_num_1
-        # 新建联系人
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
         # 进入通话页签
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
@@ -2210,36 +2044,13 @@ class MsgAllPrior(TestCase):
         # 选择指定联系人 点击呼叫
         from pages.components import ContactsSelector
         contactselect = ContactsSelector()
-        contactselect.select_local_contacts(contactname1)
-        # 是否存在请先接听“和飞信电话”，点击“我知道了” 并自动允许和飞信管理
-        callcontact.click_elsfif_ikonw()
-        # 是否存在权限窗口 自动赋权
-        from pages import GrantPemissionsPage
-        grantpemiss = GrantPemissionsPage()
-        grantpemiss.allow_contacts_permission()
-
-        # 是否存在设置悬浮窗，存在暂不开启
-        from pages.components.dialogs import SuspendedTips
-        suspend = SuspendedTips()
-        suspend.ignore_tips_if_tips_display()
-        # 会控页面挂断和飞信电话，回到通话页
+        contactselect.select_local_contacts("大佬1")
         callpage = CallPage()
-        callpage.hang_up_hefeixin_call_631()
-
-        # Checkpoint：拨打的通话记录为飞信电话 进入通话详情页，标题为飞信通话类型
-        callpage.is_type_hefeixin(0, '飞信电话')
-        # 进入详情页
-        time.sleep(3)
         callpage.click_ganggang_call_time()
         # Checkpoint：查看详情页面是否是为飞信电话？
         callpage.is_hefeixin_page('飞信电话')
-
         # 点击‘再次呼叫’
         callpage.click_mutil_call_again()
-        suspend.ignore_tips_if_tips_display()
-        # Checkpoint：当前是否是和飞信通话会控页
-        time.sleep(2)
-        callpage.hang_up_hefeixin_call_631()
 
 
     @staticmethod
@@ -2247,9 +2058,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('Aweqwqw', "测试短信1", "测试短信2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0282(self):
@@ -2333,9 +2141,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试!@#测试', "测试短信1", "测试短信2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0290(self):
@@ -2354,19 +2159,15 @@ class MsgAllPrior(TestCase):
         contactspage.click_group_chat_631()
         grouplist.click_search_input()
         group_search = GroupListSearchPage()
-        group_search.input_search_keyword('测试!@#测试')
+        group_search.input_search_keyword('给个红包3')
         # Checkpoint 可以匹配展示搜索结果
-        self.assertTrue(group_search.is_group_in_list('测试!@#测试'))
+        self.assertTrue(group_search.is_group_in_list('给个红包3'))
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0284():
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('带空格  的群组', "测试短信1", "测试短信2")
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0284(self):
@@ -2385,9 +2186,9 @@ class MsgAllPrior(TestCase):
         contactspage.click_group_chat_631()
         grouplist.click_search_input()
         group_search = GroupListSearchPage()
-        group_search.input_search_keyword('带空格  的群组')
+        group_search.input_search_keyword('a a')
         # Checkpoint 可以匹配展示搜索结果
-        self.assertTrue(group_search.is_group_in_list('带空格  的群组'))
+        self.assertTrue(group_search.is_group_in_list('a a'))
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0285():
@@ -2453,9 +2254,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_631('测试群组1', "测试短信1", "测试短信2")
 
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -2484,10 +2282,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('12321431413', "测试短信1", "测试短信2")
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0286(self):
@@ -2506,19 +2300,15 @@ class MsgAllPrior(TestCase):
         contactspage.click_group_chat_631()
         grouplist.click_search_input()
         group_search = GroupListSearchPage()
-        group_search.input_search_keyword('12321431413')
+        group_search.input_search_keyword('给个红包2')
         # Checkpoint 可以匹配展示搜索结果
-        self.assertTrue(group_search.is_group_in_list('12321431413'))
+        self.assertTrue(group_search.is_group_in_list('给个红包2'))
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0402():
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.delete_group_if_exist('测试群组88')
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0402(self):
@@ -2548,16 +2338,21 @@ class MsgAllPrior(TestCase):
         # Checkpoint 群消息显示：你向“XX, XX, XX...”发出群邀请（逗号为中文字符；提示语姓名不加双引号，前后用空格；...省略号后加一个空格）
         GroupChatPage().page_should_contain_text('你向 +86138********,+86138********... 发出群邀请')
 
+    @staticmethod
+    def tearDown_test_msg_xiaoqiu_0402():
+        groupset = GroupChatSetPage()
+        # 建群完成以后删除
+        groupset.click_group_manage()
+        groupset.wait_exist_and_delete_confirmation_box_load()
+        groupset.click_group_manage_disband_button()
+        SingleChatPage().click_sure()
+
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0404():
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0404(self):
@@ -2567,7 +2362,7 @@ class MsgAllPrior(TestCase):
         # 3、当前在消息列表页面
         mess = MessagePage()
         # Step 1、在消息列表页点击全局搜索框，进行群聊搜索
-        mess.search_and_enter('测试群组1')
+        mess.search_and_enter('给个红包4')
         groupchat = GroupChatPage()
         groupset = GroupChatSetPage()
         groupchat.wait_for_page_load()
@@ -2581,9 +2376,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.delete_group_if_exist('测试群组88')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0405(self):
@@ -2614,13 +2406,20 @@ class MsgAllPrior(TestCase):
         GroupChatSetPage().wait_for_page_load()
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0405():
+        groupchat = GroupChatPage()
+        groupset = GroupChatSetPage()
+        # 建群完成以后删除
+        groupset.click_group_manage()
+        groupset.wait_exist_and_delete_confirmation_box_load()
+        groupset.click_group_manage_disband_button()
+        SingleChatPage().click_sure()
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0406():
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0406(self):
@@ -2634,7 +2433,7 @@ class MsgAllPrior(TestCase):
         mess.click_group_chat()
         select_cont = SelectContactsPage()
         select_cont.click_select_one_group()
-        SearchGroupPage().click_group('测试群组1')
+        SearchGroupPage().click_group('群聊2')
         groupchat = GroupChatPage()
         groupset = GroupChatSetPage()
         # Checkpoint 1、进入会话窗口页面
@@ -2649,9 +2448,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0408(self):
@@ -2665,7 +2461,7 @@ class MsgAllPrior(TestCase):
         contactspage.wait_for_contact_load()
         contactspage.click_sim_contact()
         contactspage.click_group_chat_631()
-        SearchGroupPage().click_group('测试群组1')
+        SearchGroupPage().click_group('群聊2')
         groupchat = GroupChatPage()
         # Checkpoint 1、进入会话窗口页面
         groupchat.wait_for_page_load()
@@ -2679,9 +2475,6 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111"])
-        Preconditions.delete_group_if_exist('测试群组88')
 
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -2700,7 +2493,7 @@ class MsgAllPrior(TestCase):
         # Step 选择手机联系人
         select_cont = SelectContactsPage()
         select_cont.select_local_contacts()
-        ContactsSelector().click_local_contacts('测试短信1')
+        ContactsSelector().click_local_contacts('大佬2')
         select_cont.click_back()
         select_cont.click_search_keyword()
         select_cont.input_search_keyword('13901390144')
@@ -2720,12 +2513,22 @@ class MsgAllPrior(TestCase):
         GroupChatSetPage().wait_for_page_load()
 
     @staticmethod
+    def tearDown_test_msg_xiaoqiu_0409():
+        groupchat = GroupChatPage()
+        groupset = GroupChatSetPage()
+        # 建群完成以后删除
+        groupset.click_group_manage()
+        groupset.wait_exist_and_delete_confirmation_box_load()
+        groupset.click_group_manage_disband_button()
+        SingleChatPage().click_sure()
+
+
+
+    @staticmethod
     def setUp_test_msg_xiaoqiu_0534():
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0534(self):
@@ -2735,7 +2538,7 @@ class MsgAllPrior(TestCase):
         # 4、当前用户未创建任何群聊
         mess = MessagePage()
         # Step 使用创建群聊功能，创建1个普通群
-        Preconditions.create_group_if_not_exist_not_enter_chat('测试群组5', "测试短信1", "测试短信2")
+        Preconditions.create_group_if_not_exist_not_enter_chat('测试群组5', "大佬1", "大佬2")
         mess.search_and_enter('测试群组5')
         groupchat = GroupChatPage()
         # Checkpoint 可以正常创建一个普通群
@@ -2757,9 +2560,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0548():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
+        Preconditions.enter_group_chat_page("给个红包1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0548(self):
@@ -2770,8 +2571,6 @@ class MsgAllPrior(TestCase):
         # 4、群主、群成员
         # 5、仅限大陆本网和异网号码
         mess = MessagePage()
-        Preconditions.create_group_if_not_exist_not_enter_chat('测试群组1', "测试短信1", "测试短信2")
-        mess.search_and_enter('测试群组1')
         groupchat = GroupChatPage()
         groupset = GroupChatSetPage()
         groupchat.wait_for_page_load()
@@ -2790,17 +2589,13 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0605():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
+        Preconditions.enter_group_chat_page("给个红包1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0605(self):
         """开启免打扰后，在聊天页面在输入框输入内容-返回到消息列表页时，该消息列表窗口直接展示：草稿"""
         # 1、当前在群聊（普通群/企业群）会话窗口页面
         mess = MessagePage()
-        Preconditions.create_group_if_not_exist_not_enter_chat('测试群组1', "测试短信1", "测试短信2")
-        mess.search_and_enter('测试群组1')
         groupchat = GroupChatPage()
         groupset = GroupChatSetPage()
         groupchat.wait_for_page_load()
@@ -2829,9 +2624,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0613():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
+        Preconditions.enter_group_chat_page("给个红包1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0613(self):
@@ -2841,8 +2634,6 @@ class MsgAllPrior(TestCase):
         # 3、登录和飞信
         # 4、进入到群聊设置页面
         mess = MessagePage()
-        Preconditions.create_group_if_not_exist_not_enter_chat('测试群组1', "测试短信1", "测试短信2")
-        mess.search_and_enter('测试群组1')
         groupchat = GroupChatPage()
         groupchat.wait_for_page_load()
         groupchat.click_setting()
@@ -2856,9 +2647,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0614():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
+        Preconditions.enter_group_chat_page("给个红包1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0614(self):
@@ -2869,9 +2658,6 @@ class MsgAllPrior(TestCase):
         # 4、进入到群聊设置页面
         # 5、不勾选弹窗中复选框
         mess = MessagePage()
-        Preconditions.create_group_if_not_exist_not_enter_chat('测试群组1', "测试短信1", "测试短信2")
-
-        mess.search_and_enter('测试群组1')
         groupchat = GroupChatPage()
         groupchat.wait_for_page_load()
         groupchat.click_setting()
@@ -2890,10 +2676,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0427():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        # Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        # Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
+        Preconditions.enter_group_chat_page("给个红包1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0427(self):
@@ -2904,7 +2687,6 @@ class MsgAllPrior(TestCase):
         # 4、聊天会话页面，存在发送失败的消息
         # 5、普通群/单聊/企业群/我的电脑/标签分组
         mess = MessagePage()
-        mess.search_and_enter('测试群组1')
         chatdialog = ChatNoticeDialog()
         # 若存在资费提醒对话框，点击确认
         if chatdialog.is_tips_display():
@@ -3095,58 +2877,37 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置一个联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.wait_for_contact_load()
-        contactspage.click_sim_contact()
-        contactspage.create_contacts_if_not_exits('转发短信1', '13800138112')
-        contactspage.create_contacts_if_not_exits('转发短信2', '13800138113')
-        contactspage.open_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_E_0006(self):
         mess = MessagePage()
         mess.click_search()
         searchbar = SearchBar()
-        searchbar.input_search_keyword('转发短信1')
+        searchbar.input_search_keyword('给个红包1')
         search = SearchPage()
-        search.assert_contact_name_display('转发短信1')
+        search.assert_contact_name_display('给个红包1')
 
     @staticmethod
     def setUp_test_msg_huangcaizui_E_0007():
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置一个联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.wait_for_contact_load()
-        contactspage.click_sim_contact()
-        contactspage.create_contacts_if_not_exits('转发短信1', '13800138112')
-        contactspage.create_contacts_if_not_exits('转发短信2', '13800138113')
-        contactspage.open_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_E_0007(self):
         mess = MessagePage()
         mess.click_search()
         searchbar = SearchBar()
-        searchbar.input_search_keyword('转发')
+        searchbar.input_search_keyword('给个红包')
         search = SearchPage()
-        search.assert_contact_name_display('转发短信1')
-        search.assert_contact_name_display('转发短信2')
+        search.assert_contact_name_display('给个红包1')
+        search.assert_contact_name_display('给个红包2')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0433():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
+        Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0433(self):
@@ -3159,7 +2920,6 @@ class MsgAllPrior(TestCase):
         # 6、普通群/单聊/企业群/我的电脑/标签分组
         mess = MessagePage()
         # Step 进入群聊页面
-        mess.search_and_enter('测试群组1')
         groupchat = GroupChatPage()
         chataudio = ChatAudioPage()
         groupset = GroupChatSetPage()
@@ -3200,10 +2960,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0434():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
+        Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0434(self):
@@ -3216,7 +2973,6 @@ class MsgAllPrior(TestCase):
         # 6、普通群/单聊/企业群/我的电脑/标签分组
         mess = MessagePage()
         # Step 进入群聊页面
-        mess.search_and_enter('测试群组1')
         groupchat = GroupChatPage()
         chataudio = ChatAudioPage()
         groupset = GroupChatSetPage()
@@ -3257,10 +3013,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0436():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
+        Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0436(self):
@@ -3271,9 +3024,6 @@ class MsgAllPrior(TestCase):
         # 4、聊天会话页面
         # 5、存在发送成功时间，小于1分钟的消息
         # 6、普通群/单聊/企业群/我的电脑/标签分组
-        mess = MessagePage()
-        # Step 进入群聊页面
-        mess.search_and_enter('测试群组1')
         groupchat = GroupChatPage()
         chataudio = ChatAudioPage()
         groupset = GroupChatSetPage()
@@ -3308,16 +3058,14 @@ class MsgAllPrior(TestCase):
         # Step 1、长按发送成功的消息
         groupchat.press_voice_message()
         # Checkpoint 不可以成功此条消息（超过10分钟的消息，不能被撤回）
+        mess = MessagePage()
         mess.page_should_not_contain_text('你撤回了一条信息')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0439():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
+        Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0439(self):
@@ -3328,9 +3076,6 @@ class MsgAllPrior(TestCase):
         # 4、聊天会话页面，
         # 5、存在发送成功时间小于10分钟的消息
         # 6、普通群/单聊/企业群/我的电脑/标签分组
-        mess = MessagePage()
-        # Step 进入群聊页面
-        mess.search_and_enter('测试群组1')
         groupchat = GroupChatPage()
         chataudio = ChatAudioPage()
         groupset = GroupChatSetPage()
@@ -3362,6 +3107,7 @@ class MsgAllPrior(TestCase):
         # Step 1、长按发送失败的消息
         groupchat.press_voice_message()
         # Checkpoint 2、弹出的功能列表中，不存在撤回功能（发送失败的消息，不允许进行撤回操作）
+        mess = MessagePage()
         mess.page_should_not_contain_text('撤回')
 
     def tearDown_msg_xiaoqiu_0439(self):
@@ -3371,10 +3117,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0440():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
+        Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0440(self):
@@ -3385,9 +3128,6 @@ class MsgAllPrior(TestCase):
         # 4、聊天会话页面，
         # 5、存在发送成功时间小于10分钟的消息
         # 6、普通群/单聊/企业群/我的电脑/标签分组
-        mess = MessagePage()
-        # Step 进入群聊页面
-        mess.search_and_enter('测试群组1')
         groupchat = GroupChatPage()
         groupset = GroupChatSetPage()
         groupchat.wait_for_page_load()
@@ -3405,6 +3145,7 @@ class MsgAllPrior(TestCase):
         # Step 2、在10分钟内，长按弹出功能菜单列表
         groupchat.press_text_message()
         # Checkpoint 2、在10分钟内，长按弹出功能菜单列表
+        mess = MessagePage()
         mess.page_should_contain_text('撤回')
         # Step 3、在超过10分钟后，点击撤回功能，是否可以撤回此条消息
         a = 10 * 60
@@ -3421,10 +3162,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0441():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
+        Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0441(self):
@@ -3433,9 +3171,6 @@ class MsgAllPrior(TestCase):
         # 2、登录和飞信
         # 3、已加入普通群
         # 4、聊天会话页面
-        mess = MessagePage()
-        # Step 进入群聊页面
-        mess.search_and_enter('测试群组1')
         groupchat = GroupChatPage()
         groupset = GroupChatSetPage()
         groupchat.wait_for_page_load()
@@ -3459,10 +3194,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0465():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
+        Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0465(self):
@@ -3470,9 +3202,6 @@ class MsgAllPrior(TestCase):
         # 1、网络正常
         # 2、已登录和飞信
         # 3、已加入普通群
-        mess = MessagePage()
-        # Step 进入群聊页面
-        mess.search_and_enter('测试群组1')
         groupchat = GroupChatPage()
         groupset = GroupChatSetPage()
         groupchat.wait_for_page_load()
@@ -3502,16 +3231,14 @@ class MsgAllPrior(TestCase):
         # Checkpoint 跳转到聊天记录对应的位置
         groupchat.is_on_this_page()
         # Checkpoint 搜索结果展示页的输入框中，不会自动填充内容
+        mess = MessagePage()
         mess.page_should_contain_text('说点什么...')
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0469():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        # Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        # Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
+        Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0469(self):
@@ -3520,8 +3247,6 @@ class MsgAllPrior(TestCase):
         # 2、已登录和飞信
         # 3、已加入普通群
         # 4、置顶聊天开关，开启状态（安卓）
-        mess = MessagePage()
-        mess.search_and_enter('测试群组1')
         groupchat = GroupChatPage()
         groupset = GroupChatSetPage()
         groupchat.wait_for_page_load()
@@ -3531,11 +3256,12 @@ class MsgAllPrior(TestCase):
             groupset.click_chat_set_to_top_switch()
         groupset.click_back()
         groupchat.click_back()
-        ContactListSearchPage().click_back()
+        # ContactListSearchPage().click_back()
+        mess = MessagePage()
         mess.wait_for_page_load()
         # Step 1、在消息列表长按置顶成功的会话窗口，弹出的功能列表中是否存在展示为：取消置顶的功能
         mess.cancel_message_record_stick()
-        mess.search_and_enter('测试群组1')
+        Preconditions.enter_group_chat_page("给个红包2")
         # Step 2、点击取消置顶，取消置顶成功后，去到群聊设置页面，置顶聊天的开关是否已被关闭
         groupchat.click_setting()
         groupset.wait_for_page_load()
@@ -3546,10 +3272,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0550():
         # 启动App
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
+        Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0550(self):
@@ -3559,9 +3282,6 @@ class MsgAllPrior(TestCase):
         # 3、已消除红点
         # 4、群主、群成员
         # 5、仅限大陆本网和异网号码
-        mess = MessagePage()
-        # Step 1、在群聊设置页面，群口令生成成功后
-        mess.search_and_enter('测试群组1')
         groupchat = GroupChatPage()
         groupset = GroupChatSetPage()
         groupchat.wait_for_page_load()

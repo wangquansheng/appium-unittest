@@ -38,24 +38,7 @@ class MsgAllPrior(TestCase):
         names = contacts.get_contacts_name()
         if '本机' in names:
             names.remove('本机')
-        cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0083_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-            cdp.wait_for_page_load()
-            cdp.click_back_icon()
-            contacts = ContactsPage()
-            time.sleep(1)
-        else:
-            name = names[0]
-        contacts.is_exist_contracts_list()
-        contacts.select_contacts_by_name(name)
+        contacts.select_contacts_by_name("大佬1")
         cdp = ContactDetailsPage()
         cdp.wait_for_page_load()
         self.assertTrue(cdp.is_on_this_page())
@@ -159,7 +142,7 @@ class MsgAllPrior(TestCase):
         contacts.click_add()
         ccp = CreateContactPage()
         ccp.wait_for_page_load()
-        name = "atest_0138_" + str(random.randint(100, 999))
+        name = "联系人创建"
         ccp.click_input_name()
         ccp.input_name(name)
         time.sleep(1)
@@ -167,6 +150,17 @@ class MsgAllPrior(TestCase):
         ccp.input_number("138")
         ccp.save_contact()
         self.assertTrue(ccp.is_toast_exist("创建成功"))
+
+    def tearDown_test_contacts_chenjixiang_0140(self):
+        """删除联系人"""
+        cdp = ContactDetailsPage()
+        cdp.click_edit_contact()
+        time.sleep(1)
+        cdp.hide_keyboard()
+        cdp.page_up()
+        cdp.change_delete_number()
+        cdp.click_sure_delete()
+        time.sleep(2)
 
     @staticmethod
     def setUp_test_contacts_chenjixiang_0147():
@@ -196,6 +190,17 @@ class MsgAllPrior(TestCase):
         ccp.save_contact()
         self.assertTrue(ccp.is_toast_exist("创建成功"))
 
+    def tearDown_test_contacts_chenjixiang_0147(self):
+        """删除联系人"""
+        cdp = ContactDetailsPage()
+        cdp.click_edit_contact()
+        time.sleep(1)
+        cdp.hide_keyboard()
+        cdp.page_up()
+        cdp.change_delete_number()
+        cdp.click_sure_delete()
+        time.sleep(2)
+
     @staticmethod
     def setUp_test_contacts_chenjixiang_0154():
         Preconditions.select_mobile('Android-移动')
@@ -223,6 +228,17 @@ class MsgAllPrior(TestCase):
         ccp.input_position("a")
         ccp.save_contact()
         self.assertTrue(ccp.is_toast_exist("创建成功"))
+
+    def tearDown_test_contacts_chenjixiang_0154(self):
+        """删除联系人"""
+        cdp = ContactDetailsPage()
+        cdp.click_edit_contact()
+        time.sleep(1)
+        cdp.hide_keyboard()
+        cdp.page_up()
+        cdp.change_delete_number()
+        cdp.click_sure_delete()
+        time.sleep(2)
 
     @staticmethod
     def setUp_test_contacts_chenjixiang_0161():
@@ -252,6 +268,17 @@ class MsgAllPrior(TestCase):
         ccp.save_contact()
         self.assertTrue(ccp.is_toast_exist("创建成功"))
 
+    def tearDown_test_contacts_chenjixiang_0161(self):
+        """删除联系人"""
+        cdp = ContactDetailsPage()
+        cdp.click_edit_contact()
+        time.sleep(1)
+        cdp.hide_keyboard()
+        cdp.page_up()
+        cdp.change_delete_number()
+        cdp.click_sure_delete()
+        time.sleep(2)
+
     @staticmethod
     def setUp_test_contacts_chenjixiang_0194():
         Preconditions.select_mobile('Android-移动')
@@ -261,23 +288,8 @@ class MsgAllPrior(TestCase):
         mess.open_contacts_page()
         contacts = ContactsPage()
         contacts.wait_for_page_load()
-        mess.click_phone_contact()
-        names = contacts.get_contacts_name()
-        if '本机' in names:
-            names.remove('本机')
-        cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0194_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
-        cdp.wait_for_page_load()
+        contacts.click_mobile_contacts()
+        contacts.select_contacts_by_name('大佬1')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_chenjixiang_0194(self):
@@ -302,23 +314,8 @@ class MsgAllPrior(TestCase):
         mess.open_contacts_page()
         contacts = ContactsPage()
         contacts.wait_for_page_load()
-        mess.click_phone_contact()
-        names = contacts.get_contacts_name()
-        if '本机' in names:
-            names.remove('本机')
-        cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0201_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
-        cdp.wait_for_page_load()
+        contacts.click_mobile_contacts()
+        contacts.select_contacts_by_name('大佬2')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_chenjixiang_0201(self):
@@ -349,17 +346,7 @@ class MsgAllPrior(TestCase):
         if '本机' in names:
             names.remove('本机')
         cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0209_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
+        contacts.select_contacts_by_name('大佬4')
         cdp.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -394,17 +381,7 @@ class MsgAllPrior(TestCase):
         if '本机' in names:
             names.remove('本机')
         cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0214_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
+        contacts.select_contacts_by_name('大佬4')
         cdp.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -434,23 +411,8 @@ class MsgAllPrior(TestCase):
         mess.open_contacts_page()
         contacts = ContactsPage()
         contacts.wait_for_page_load()
-        mess.click_phone_contact()
-        names = contacts.get_contacts_name()
-        if '本机' in names:
-            names.remove('本机')
-        cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0216_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
-        cdp.wait_for_page_load()
+        contacts.click_mobile_contacts()
+        contacts.select_contacts_by_name('大佬2')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_chenjixiang_0216(self):
@@ -484,17 +446,7 @@ class MsgAllPrior(TestCase):
         if '本机' in names:
             names.remove('本机')
         cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0223_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
+        contacts.select_contacts_by_name('大佬4')
         cdp.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -529,17 +481,7 @@ class MsgAllPrior(TestCase):
         if '本机' in names:
             names.remove('本机')
         cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0228_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
+        contacts.select_contacts_by_name('大佬4')
         cdp.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -579,18 +521,13 @@ class MsgAllPrior(TestCase):
         if '本机' in names:
             names.remove('本机')
         cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0230_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            name = names[0]
-            contacts.select_people_by_name(name)
+        contacts.click_add()
+        ccp = CreateContactPage()
+        ccp.wait_for_page_load()
+        name = "atest_0230_" + str(random.randint(100, 999))
+        number = "147752" + str(time.time())[-5:]
+        ccp.create_contact(name, number)
+        ccp.click_allow_button()
         cdp.wait_for_page_load()
         cdp.click_edit_contact()
         ecp = EditContactPage()
@@ -614,23 +551,8 @@ class MsgAllPrior(TestCase):
         mess.open_contacts_page()
         contacts = ContactsPage()
         contacts.wait_for_page_load()
-        mess.click_phone_contact()
-        names = contacts.get_contacts_name()
-        if '本机' in names:
-            names.remove('本机')
-        cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0237_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
-        cdp.wait_for_page_load()
+        contacts.click_mobile_contacts()
+        contacts.select_contacts_by_name('大佬1')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_chenjixiang_0237(self):
@@ -681,17 +603,7 @@ class MsgAllPrior(TestCase):
         if '本机' in names:
             names.remove('本机')
         cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0247_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
+        contacts.select_contacts_by_name('大佬2')
         cdp.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -718,17 +630,7 @@ class MsgAllPrior(TestCase):
         if '本机' in names:
             names.remove('本机')
         cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0248_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
+        contacts.select_contacts_by_name('大佬1')
         cdp.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -755,17 +657,7 @@ class MsgAllPrior(TestCase):
         if '本机' in names:
             names.remove('本机')
         cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0250_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
+        contacts.select_contacts_by_name('大佬2')
         cdp.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -793,17 +685,7 @@ class MsgAllPrior(TestCase):
         if '本机' in names:
             names.remove('本机')
         cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0259_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
+        contacts.select_contacts_by_name('大佬2')
         cdp.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -827,17 +709,7 @@ class MsgAllPrior(TestCase):
         if '本机' in names:
             names.remove('本机')
         cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0262_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
+        contacts.select_contacts_by_name('大佬2')
         cdp.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -867,17 +739,7 @@ class MsgAllPrior(TestCase):
         if '本机' in names:
             names.remove('本机')
         cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0291_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-        else:
-            contacts.select_people_by_name(names[0])
+        contacts.select_contacts_by_name('大佬2')
         cdp.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -929,6 +791,17 @@ class MsgAllPrior(TestCase):
         ecp.hide_keyboard_if_display()
         self.assertTrue(ecp.check_element_word("输入号码", "+" + tail))
 
+    def tearDown_test_contacts_chenjixiang_0352(self):
+        """删除联系人"""
+        cdp = ContactDetailsPage()
+        # cdp.click_edit_contact()
+        time.sleep(1)
+        cdp.hide_keyboard()
+        cdp.page_up()
+        cdp.change_delete_number()
+        cdp.click_sure_delete()
+        time.sleep(2)
+
     @staticmethod
     def setUp_test_contacts_chenjixiang_0353():
         Preconditions.select_mobile('Android-移动')
@@ -964,6 +837,17 @@ class MsgAllPrior(TestCase):
         ecp.hide_keyboard_if_display()
         self.assertTrue(ecp.check_element_word("输入号码", "+"))
 
+    def tearDown_test_contacts_chenjixiang_0353(self):
+        """删除联系人"""
+        cdp = ContactDetailsPage()
+        # cdp.click_edit_contact()
+        time.sleep(1)
+        cdp.hide_keyboard()
+        cdp.page_up()
+        cdp.change_delete_number()
+        cdp.click_sure_delete()
+        time.sleep(2)
+
     @staticmethod
     def setUp_test_contacts_chenjixiang_0433():
         Preconditions.select_mobile('Android-移动')
@@ -977,19 +861,6 @@ class MsgAllPrior(TestCase):
         names = contacts.get_contacts_name()
         if '本机' in names:
             names.remove('本机')
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0433_" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            cdp = ContactDetailsPage()
-            cdp.wait_for_page_load()
-            cdp.click_back()
-            contacts = ContactsPage()
-            contacts.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_chenjixiang_0433(self):
@@ -1006,20 +877,7 @@ class MsgAllPrior(TestCase):
         lgp.wait_for_page_load()
         # 无分组则创建分组
         group_names = lgp.get_label_grouping_names()
-        if len(group_names) == 0:
-            group_name = "gtest_0433_" + str(random.randint(100, 999))
-            lgp.click_new_create_group()
-            time.sleep(1)
-            lgp.input_label_grouping_name(group_name)
-            lgp.click_sure()
-            scp = SelectContactsPage()
-            scp.wait_for_page_load()
-            scp.click_back()
-            lgp = LabelGroupingPage()
-            lgp.wait_for_page_load()
-            lgp.new_group_click_back()
-        else:
-            group_name = group_names[0]
+        group_name = group_names[0]
         # 点击分组
         lgp.click_label_group(group_name)
         time.sleep(1)
@@ -1112,20 +970,6 @@ class MsgAllPrior(TestCase):
         contacts = ContactsPage()
         contacts.wait_for_page_load()
         mess.click_phone_contact()
-        for i in range(3):
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0737_" + str(random.randint(100, 999))
-            number = "147652" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-            cdp = ContactDetailsPage()
-            cdp.wait_for_page_load()
-            cdp.click_back_by_android()
-        cdp.click_back_by_android()
-        contacts = ContactsPage()
-        contacts.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_chenjixiang_0737(self):
@@ -1133,7 +977,7 @@ class MsgAllPrior(TestCase):
         contacts = ContactsPage()
         contacts.click_search_box()
         clsp = ContactListSearchPage()
-        clsp.input_search_keyword("atest_0737")
+        clsp.input_search_keyword2("大佬")
         self.assertFalse(clsp.is_show_more_display())
 
     @staticmethod
@@ -1146,18 +990,6 @@ class MsgAllPrior(TestCase):
         contacts = ContactsPage()
         contacts.wait_for_page_load()
         mess.click_phone_contact()
-        for i in range(4):
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest_0738_" + str(random.randint(100, 999))
-            number = "147652" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-            ccp.click_allow_button()
-            ccp.click_back_by_android()
-        ccp.click_back_by_android()
-        contacts = ContactsPage()
-        contacts.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_chenjixiang_0738(self):
@@ -1165,7 +997,7 @@ class MsgAllPrior(TestCase):
         contacts = ContactsPage()
         contacts.click_search_box()
         clsp = ContactListSearchPage()
-        clsp.input_search_keyword("atest_0738")
+        clsp.input_search_keyword2("大佬")
         if clsp.is_text_present("团队联系人"):
             self.assertTrue(clsp.is_show_more_display())
         else:
@@ -1218,7 +1050,6 @@ class MsgAllPrior(TestCase):
         # """点击到“联系”页"""
         if mess.is_on_this_page():
             mess.open_contacts_page()
-            return
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_contacts_quxinli_0002(self):
@@ -1227,12 +1058,12 @@ class MsgAllPrior(TestCase):
 
         # """1.测试“搜索栏”存在并点击有效，并返回"""
         contacts.click_search_box()
-        contacts.click_search_return()
-
+        # contacts.click_search_return()
+        contacts.click_back()
         # """测试“备份提示”是否存在，并返回"""
         contacts.is_exist_backup_tips()
-        contacts.is_exist_backup_tips_text()
-
+        # contacts.is_exist_backup_tips_text()
+        contacts.page_should_contain_text("备份你的手机通讯录，联系人数据不丢失")
         # """测试“群聊”存在并点击有效，并返回"""
         contacts.open_group_chat_list()
         contacts.click_return()

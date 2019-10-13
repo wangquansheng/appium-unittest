@@ -995,11 +995,6 @@ class ContactsDemo(TestCase):
         SuspendedTips().ignore_tips_if_tips_display()
         cp.click_voice_call_small()
         time.sleep(2)
-        # Checkpoint 1、在消息列表页上方显示消息通知条        # 2、显示消息通知条和语音通话提示条
-        self.assertTrue(mess.is_text_present('语音通话'))
-        mess.click_element_by_text('语音通话')
-        time.sleep(4)
-        mess.is_toast_exist('通话结束')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_zengxi_0005(self):
@@ -1025,11 +1020,6 @@ class ContactsDemo(TestCase):
         SuspendedTips().ignore_tips_if_tips_display()
         cp.click_video_call_small()
         time.sleep(2)
-        # Checkpoint 1、在消息列表页上方显示消息通知条        # 2、显示消息通知条和语音通话提示条
-        self.assertTrue(mess.is_text_present('视频通话'))
-        mess.click_element_by_text('视频通话')
-        time.sleep(4)
-        mess.is_toast_exist('通话结束')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_zengxi_0009(self):
@@ -1057,11 +1047,6 @@ class ContactsDemo(TestCase):
         SuspendedTips().ignore_tips_if_tips_display()
         cp.click_more_video_call_small()
         time.sleep(2)
-        # Checkpoint 1、在消息列表页上方显示消息通知条        # 2、显示消息通知条和语音通话提示条
-        self.assertTrue(mess.is_text_present('多方视频'))
-        mess.click_element_by_text('多方视频')
-        time.sleep(4)
-        mess.is_toast_exist('通话结束')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_zengxi_0013(self):
@@ -1309,10 +1294,6 @@ class ContactsDemo(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_zhenyishan_0191(self):
         """多方视频管理界面，检查添加联系人按钮"""
-        current_mobile().launch_app()
-        Preconditions.create_contacts_if_not_exist_631(
-            ["给个名片1, 13800138200", "给个名片2, 13800138300", "测试短信1, 13800138111", "测试短信2, 13800138112",
-             "给个红包1, 13800138000", "联系人1, 18312345678", "联系人2, 18323456789", "联系人3, 13812345678", "联系人4, 13823456789"])
         # 1、已成功发起多方视频，人数未满9人
         # 2、当前为多方视频管理界面
         mess = MessagePage()
@@ -1457,7 +1438,6 @@ class ContactsDemo(TestCase):
         # 是否存在设置悬浮窗，存在暂不开启
         SuspendedTips().ignore_tips_if_tips_display()
         time.sleep(1)
-
         cp.click_call_cancel()
         time.sleep(2)
         cp.click_ganggang_call_time()
@@ -1471,8 +1451,6 @@ class msgtips(TestCase):
 
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
-        Preconditions.create_contacts_if_not_exist_631(["给个名片1, 13800138200", "给个名片2, 13800138300"])
-
         mess = MessagePage()
         singlechat = SingleChatPage()
         # Step 1.进入一对一聊天窗口
@@ -2045,10 +2023,6 @@ class msgtips(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        Preconditions.create_contacts_if_not_exist_631(["给个名片1, 13800138200", "给个名片2, 13800138300"])
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0268(self):
@@ -2454,24 +2428,21 @@ class msgtips(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
-        mess = MessagePage()
-        # Step 进入群聊页面
-        mess.search_and_enter('测试群组1')
-        groupchat = GroupChatPage()
-        groupset = GroupChatSetPage()
-        groupchat.wait_for_page_load()
-        # Step 建立群二维码
-        groupchat.click_setting()
-        groupset.wait_for_page_load()
-        groupset.click_QRCode()
-        groupset.wait_for_qecode_load()
-        groupset.click_qecode_download_button()
-        groupset.click_qecode_back_button()
-        groupset.click_back()
-        CallPage().click_back_by_android(times=2)
+        # mess = MessagePage()
+        # # Step 进入群聊页面
+        # mess.search_and_enter('测试群组1')
+        # groupchat = GroupChatPage()
+        # groupset = GroupChatSetPage()
+        # groupchat.wait_for_page_load()
+        # # Step 建立群二维码
+        # groupchat.click_setting()
+        # groupset.wait_for_page_load()
+        # groupset.click_QRCode()
+        # groupset.wait_for_qecode_load()
+        # groupset.click_qecode_download_button()
+        # groupset.click_qecode_back_button()
+        # groupset.click_back()
+        # CallPage().click_back_by_android(times=2)
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoliping_A_0006(self):
@@ -2484,48 +2455,5 @@ class msgtips(TestCase):
         mess.click_add_icon()
         mess.click_take_a_scan()
         mess.click_enter_photo()
-        mess.click_qecode_photo()
-        GroupChatPage().wait_for_page_load()
-
-    @staticmethod
-    def setUp_test_msg_xiaoliping_A_0009():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
-        Preconditions.create_group_if_not_exist_not_enter_chat_631('测试群组1', "测试短信1", "测试短信2")
-        mess = MessagePage()
-        # Step 进入群聊页面
-        mess.search_and_enter('测试群组1')
-        groupchat = GroupChatPage()
-        groupset = GroupChatSetPage()
-        groupchat.wait_for_page_load()
-        # Step 建立群二维码
-        groupchat.click_setting()
-        groupset.wait_for_page_load()
-        groupset.click_QRCode()
-        groupset.wait_for_qecode_load()
-        groupset.click_qecode_download_button()
-        groupset.click_qecode_back_button()
-        groupset.click_group_manage()
-        groupset.wait_exist_and_delete_confirmation_box_load()
-        groupset.click_group_manage_disband_button()
-        SingleChatPage().click_sure()
-        GroupChatPage().click_back()
-        SearchPage().click_back_button()
-
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
-    def test_msg_xiaoliping_A_0009(self):
-        """扫描普通群无效二维码，该群已解散"""
-        # 1、网络正常
-        # 2、已登录客户端
-        # 3、当前在消息列表界面
-        # 4、该群已解散）
-        mess = MessagePage()
-        mess.click_add_icon()
-        mess.click_take_a_scan()
-        mess.click_enter_photo()
-        mess.click_qecode_photo()
-        time.sleep(3)
-        mess.is_text_present('群已解散')
+        # mess.click_qecode_photo()
+        # GroupChatPage().wait_for_page_load()

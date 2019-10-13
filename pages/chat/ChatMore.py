@@ -60,6 +60,7 @@ class ChatMorePage(BasePage):
                   '飞信电话': (MobileBy.XPATH, "//android.widget.TextView[@text='飞信电话']"),
                   '多方视频': (MobileBy.XPATH, "//android.widget.TextView[@text='多方视频']"),
                   '名片': (MobileBy.XPATH, "//android.widget.TextView[@text='名片']"),
+                  # '名片': (MobileBy.XPATH, '//*[(@resource-id="com.chinasofti.rcs:id/iocn_tv") and (@text="名片")]'),
 
 
 
@@ -116,3 +117,8 @@ class ChatMorePage(BasePage):
             if not self._is_enabled(self.__locators[ele]):
                 return False
         return True
+
+    @TestLogger.log()
+    def click_card(self):
+        """点击名片"""
+        self.click_element(self.__class__.__locators["名片"])

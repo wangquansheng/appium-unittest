@@ -1,5 +1,6 @@
 import random
 import time
+import unittest
 
 from appium.webdriver.common.mobileby import MobileBy
 
@@ -111,64 +112,26 @@ class Preconditions(WorkbenchPreconditions):
 
 class MsgAllPrior(TestCase):
 
-    # @staticmethod
-    # def setUp_test_me_zhangshuli_063():
-    #     Preconditions.select_mobile('Android-移动')
-    #
-    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
-    # def test_me_zhangshuli_063(self):
-    #     """分享我的二维码"""
-    #     name = "atest" + str(random.randint(100, 999))
-    #     Preconditions.make_contact(name)
-    #     name = "atest" + str(random.randint(100, 999))
-    #     Preconditions.make_contact(name)
-    #     name = "atest" + str(random.randint(100, 999))
-    #     Preconditions.make_contact(name)
-    #     name = "atest" + str(random.randint(100, 999))
-    #     Preconditions.make_contact(name)
-    #     # 打开‘我’页面
-    #     me = MePage()
-    #     me.open_me_page()
-    #     me.click_qr_code_icon()
-    #     my_qr_code_page = MyQRCodePage()
-    #     my_qr_code_page.click_forward_qr_code()
-    #     sc = SelectContactsPage()
-    #     sc.input_search_keyword('atest')
-    #     sc.click_element((MobileBy.XPATH,'//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @index="2"]'))
-    #     sc.click_cancel_forward()
-    #     sc.click_read_more()
-    #     sc.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @index="2"]'))
-    #     sc.click_sure_forward()
-
     @staticmethod
     def setUp_test_me_zhangshuli_064():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_064(self):
         """分享我的二维码"""
-        mess = MessagePage()
-        mess.open_contacts_page()
-        contacts = ContactsPage()
-        time.sleep(2)
-        contacts.wait_for_page_load()
-        mess.click_phone_contact()
-        name = "atest" + str(random.randint(100, 999))
-        Preconditions.make_contact(name)
-        name = "atest" + str(random.randint(100, 999))
-        Preconditions.make_contact(name)
-
         # 打开‘我’页面
         me = MePage()
-        me.click_back_by_android()
-        me.open_me_page()
         me.click_qr_code_icon()
         my_qr_code_page = MyQRCodePage()
         my_qr_code_page.click_forward_qr_code()
         sc = SelectContactsPage()
         sc.click_phone_contact()
         local_contacts_page = SelectLocalContactsPage()
-        local_contacts_page.input_search_keyword("atest")
+        local_contacts_page.input_search_keyword("大佬")
         local_contacts_page.hide_keyboard()
         elements = local_contacts_page.get_elements(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name"]'))
@@ -177,11 +140,11 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_065():
         Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_have_my_group()
-        # 打开‘我’页面
-        me = MePage()
-        me.open_me_page()
-        me.click_qr_code_icon()
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
+        me_page.click_qr_code_icon()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_065(self):
@@ -197,16 +160,16 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_069():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_069(self):
         """分享我的二维码"""
-        # Preconditions.enter_create_team_page()
-        # team_name = 'team_name_' + str(random.random())[-4:];
-        # Preconditions.create_team(team_name)
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_qr_code_icon()
         my_qr_code_page = MyQRCodePage()
         my_qr_code_page.click_forward_qr_code()
@@ -226,22 +189,21 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_070():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_070(self):
         """分享我的二维码"""
-        # Preconditions.enter_create_team_page()
-        # team_name = 'team_name_' + str(random.random())[-4:];
-        # Preconditions.create_team(team_name)
         team_name = 'admin'
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_qr_code_icon()
         my_qr_code_page = MyQRCodePage()
         my_qr_code_page.click_forward_qr_code()
         sc = SelectContactsPage()
-
         sc.input_search_contact_message(team_name)
         sc.driver.hide_keyboard()
         SelectContactsPage().click_search_he_contact()
@@ -252,17 +214,16 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_071():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_071(self):
         """分享我的二维码"""
-        # Preconditions.enter_create_team_page()
-        # team_name = 'team_name_' + str(random.random())[-4:];
-        # Preconditions.create_team(team_name)
-        team_name = 'admin'
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_qr_code_icon()
         my_qr_code_page = MyQRCodePage()
         my_qr_code_page.click_forward_qr_code()
@@ -278,17 +239,16 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_078():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_078(self):
         """分享我的二维码"""
-        # Preconditions.enter_create_team_page()
-        # team_name = 'team_name_' + str(random.random())[-4:];
-        # Preconditions.create_team(team_name)
-        team_name = 'admin'
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_qr_code_icon()
         my_qr_code_page = MyQRCodePage()
         my_qr_code_page.click_forward_qr_code()
@@ -304,6 +264,10 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_083():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_083(self):
@@ -311,28 +275,26 @@ class MsgAllPrior(TestCase):
 
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID,"com.chinasofti.rcs:id/redpager"))
 
         agreement_detail_page = AgreementDetailPage()
-        match_this_page = agreement_detail_page.is_current_activity_match_this_page()
-        if match_this_page:
-            agreement_detail_page.click_agree_button()
+        agreement_detail_page.is_current_activity_match_this_page()
+        if agreement_detail_page.page_should_contain_text("确认授权"):
+            agreement_detail_page.click_text_or_description("确认授权")
         result = agreement_detail_page.is_exist_element_by_id('和包余额')
         self.assertTrue(result)
 
     @staticmethod
     def setUp_test_me_zhangshuli_084():
         Preconditions.select_mobile('Android-移动')
-        # 预制授权完成
-        me = MePage()
-        me.open_me_page()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
-
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
+        me_page.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
         agreement_detail_page = AgreementDetailPage()
-        match_this_page = agreement_detail_page.is_current_activity_match_this_page()
-        if match_this_page:
-            agreement_detail_page.click_agree_button()
+        if agreement_detail_page.page_should_contain_text("确认授权"):
+            agreement_detail_page.click_text_or_description("确认授权")
         agreement_detail_page.click_back()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -351,41 +313,36 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_088():
         Preconditions.select_mobile('Android-移动')
-        # 打开‘我’页面
-        me = MePage()
-        me.open_me_page()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
-
-        agreement_detail_page = AgreementDetailPage()
-        match_this_page = agreement_detail_page.is_current_activity_match_this_page()
-        if match_this_page:
-            agreement_detail_page.click_agree_button()
-        time.sleep(3)
-        me.click_back_by_android()
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_088(self):
         """和包支付--授权"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
-
         agreement_detail_page = AgreementDetailPage()
-        match_this_page = agreement_detail_page.is_current_activity_match_this_page()
-        if match_this_page:
-            agreement_detail_page.click_agree_button()
+        agreement_detail_page.is_current_activity_match_this_page()
+        if agreement_detail_page.page_should_contain_text("确认授权"):
+            agreement_detail_page.click_text_or_description("确认授权")
+        agreement_detail_page.click_back()
 
     @staticmethod
     def setUp_test_me_zhangshuli_109():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_109(self):
         """和包支付--授权"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID,"com.chinasofti.rcs:id/redpager"))
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -407,13 +364,16 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_110():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_110(self):
         """和包支付--授权"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID,"com.chinasofti.rcs:id/redpager"))
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -444,22 +404,18 @@ class MsgAllPrior(TestCase):
         mess = MessagePage()
         mess.set_network_status(6)
 
-    @staticmethod
     def setUp_test_me_zhangshuli_112(self):
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_112(self):
-        # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
         agreement_detail_page = AgreementDetailPage()
-        match_this_page = agreement_detail_page.is_current_activity_match_this_page()
-        if match_this_page:
-            agreement_detail_page.click_agree_button()
-        else:
-            self.assertTrue(False, "没有进入授权页面")
         time.sleep(1)
         elements = agreement_detail_page.get_elements((MobileBy.ID, 'com.chinasofti.rcs:id/lv_cash_area'))
         self.assertTrue(len(elements) > 0)
@@ -482,13 +438,17 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_116():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过,RCS用户")
     def test_me_zhangshuli_116(self):
         """和包支付--授权"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -512,14 +472,18 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_123():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_123(self):
         """和包支付--授权"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -537,21 +501,26 @@ class MsgAllPrior(TestCase):
             if el.text == "原和飞信零钱已合并至和包余额":
                 flag = True
         self.assertTrue(flag)
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_tv_cash_withdraw'))
-        exist = agreement_detail_page.is_toast_exist("和飞信：提现金额需大于0元")
-        self.assertTrue(exist)
+        agreement_detail_page.click_text_or_description("提现")
+        # exist = agreement_detail_page.is_toast_exist("和飞信：提现金额需大于0元")
+        # self.assertTrue(exist)
 
     @staticmethod
     def setUp_test_me_zhangshuli_135():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过,RCS用户")
     def test_me_zhangshuli_135(self):
         """和包支付--授权"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -567,14 +536,19 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_136():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过,RCS用户")
     def test_me_zhangshuli_136(self):
         """和包支付--授权"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -590,14 +564,19 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_141():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过,RCS用户")
     def test_me_zhangshuli_141(self):
         """和包支付--授权"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -618,20 +597,19 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_142(self):
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_142(self):
         # 用例描述为:点击流量
         # 现版本无流量，修改为;点击和包余额
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
-        match_this_page = agreement_detail_page.is_current_activity_match_this_page()
-        if match_this_page:
-            agreement_detail_page.click_agree_button()
-        else:
-            self.assertTrue(False, "没有进入授权页面")
         time.sleep(1)
         elements = agreement_detail_page.get_elements((MobileBy.ID, 'com.chinasofti.rcs:id/lv_cash_area'))
         self.assertTrue(len(elements) > 0)
@@ -649,14 +627,18 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_143():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_143(self):
         """和包支付--授权"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -677,14 +659,18 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_144():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_144(self):
         """和包支付--授权"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(5)
@@ -692,20 +678,23 @@ class MsgAllPrior(TestCase):
         self.assertTrue(len(elements) > 0)
 
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
-        self.assertTrue(text == "添加银行卡")
+        self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
 
     @staticmethod
     def setUp_test_me_zhangshuli_146():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_146(self):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -714,9 +703,8 @@ class MsgAllPrior(TestCase):
         self.assertTrue(len(elements) > 0)
 
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
-        self.assertTrue(text == "添加银行卡")
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
+        self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
+        agreement_detail_page.click_text_or_description("绑定新的银行卡")
         agreement_detail_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),
                                          "111111111")
         attribute = agreement_detail_page.get_element_attribute(
@@ -726,14 +714,18 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_147():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_147(self):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -742,9 +734,8 @@ class MsgAllPrior(TestCase):
         self.assertTrue(len(elements) > 0)
 
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
-        self.assertTrue(text == "添加银行卡")
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
+        self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
+        agreement_detail_page.click_text_or_description("绑定新的银行卡")
 
         time.sleep(5)
         agreement_detail_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),
@@ -760,14 +751,18 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_148():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_148(self):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(5)
@@ -775,9 +770,8 @@ class MsgAllPrior(TestCase):
         self.assertTrue(len(elements) > 0)
 
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
-        self.assertTrue(text == "添加银行卡")
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
+        self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
+        agreement_detail_page.click_text_or_description("绑定新的银行卡")
 
         time.sleep(5)
         agreement_detail_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),
@@ -797,14 +791,18 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_149():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_149(self):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -813,9 +811,8 @@ class MsgAllPrior(TestCase):
         self.assertTrue(len(elements) > 0)
 
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
-        self.assertTrue(text == "添加银行卡")
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
+        self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
+        agreement_detail_page.click_text_or_description("绑定新的银行卡")
 
         time.sleep(5)
         agreement_detail_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),
@@ -835,14 +832,18 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_153():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_153(self):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -851,9 +852,8 @@ class MsgAllPrior(TestCase):
         self.assertTrue(len(elements) > 0)
 
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
-        self.assertTrue(text == "添加银行卡")
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
+        self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
+        agreement_detail_page.click_text_or_description("绑定新的银行卡")
 
         time.sleep(5)
         agreement_detail_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),
@@ -873,14 +873,18 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_155():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_155(self):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -889,9 +893,8 @@ class MsgAllPrior(TestCase):
         self.assertTrue(len(elements) > 0)
 
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
-        self.assertTrue(text == "添加银行卡")
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
+        self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
+        agreement_detail_page.click_text_or_description("绑定新的银行卡")
 
         time.sleep(5)
         agreement_detail_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),
@@ -914,14 +917,18 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_156():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_156(self):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -931,9 +938,12 @@ class MsgAllPrior(TestCase):
 
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
         time.sleep(5)
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
-        self.assertTrue(text == "添加银行卡")
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
+        # text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
+        # self.assertTrue(text == "绑定新的银行卡")# 绑定新的银行卡  添加银行卡
+        # agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
+
+        self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
+        agreement_detail_page.click_text_or_description("绑定新的银行卡")
 
         time.sleep(5)
         agreement_detail_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),
@@ -960,14 +970,18 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_162():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_162(self):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -976,9 +990,8 @@ class MsgAllPrior(TestCase):
         self.assertTrue(len(elements) > 0)
 
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
-        self.assertTrue(text == "添加银行卡")
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
+        self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
+        agreement_detail_page.click_text_or_description("绑定新的银行卡")
 
         time.sleep(5)
         agreement_detail_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),
@@ -994,22 +1007,23 @@ class MsgAllPrior(TestCase):
         # TODO  持卡人身份证号无法修改
         attribute = agreement_detail_page.get_element_attribute(
             (MobileBy.ID, 'com.chinasofti.rcs:id/ipos_inputKjCardInfo_nextBtn'), "enabled")
-        self.assertTrue(attribute == "true")
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_inputKjCardInfo_nextBtn'))
-        exist = agreement_detail_page.is_toast_exist("和飞信：请输入正确的11位手机号码")
-        self.assertTrue(exist)
+        self.assertTrue(attribute == "false")
 
     @staticmethod
     def setUp_test_me_zhangshuli_172():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_172(self):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -1018,9 +1032,8 @@ class MsgAllPrior(TestCase):
         self.assertTrue(len(elements) > 0)
 
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
-        self.assertTrue(text == "添加银行卡")
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
+        self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
+        agreement_detail_page.click_text_or_description("绑定新的银行卡")
 
         time.sleep(5)
         agreement_detail_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),
@@ -1039,13 +1052,17 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_173():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_173(self):
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(5)
@@ -1061,11 +1078,11 @@ class MsgAllPrior(TestCase):
                 continue
         time.sleep(3)
         # 点击 绑定新的银行卡
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs: id / ipos_condition_addcard'))
-        time.sleep(2)
-        # 输入银行卡号
-        card_number = "6214 1803 0000 1315 1981"
-        agreement_detail_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),card_number)
+        agreement_detail_page.click_text_or_description("绑定新的银行卡")
+
+        time.sleep(5)
+        agreement_detail_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),
+                                         "1214180300001315198")
         # 断开网络
         agreement_detail_page.set_network_status(0)
         time.sleep(1)
@@ -1078,7 +1095,6 @@ class MsgAllPrior(TestCase):
         exist = agreement_detail_page.is_text_present("您的网络连接可能存在问题，请检查网络设置")
         self.assertTrue(exist)
 
-
     def tearDown_test_me_zhangshuli_173(self):
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.set_network_status(6)
@@ -1086,14 +1102,18 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_174():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_174(self):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(5)
@@ -1101,9 +1121,8 @@ class MsgAllPrior(TestCase):
         self.assertTrue(len(elements) > 0)
 
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
-        self.assertTrue(text == "添加银行卡")
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
+        self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
+        agreement_detail_page.click_text_or_description("绑定新的银行卡")
 
         time.sleep(5)
         card_number = "6214 1803 0000 1315 1981"
@@ -1121,14 +1140,18 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_175():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_175(self):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -1137,9 +1160,8 @@ class MsgAllPrior(TestCase):
         self.assertTrue(len(elements) > 0)
 
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
-        self.assertTrue(text == "添加银行卡")
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
+        self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
+        agreement_detail_page.click_text_or_description("绑定新的银行卡")
 
         time.sleep(5)
         card_number = "6214 1803 0000 1315 198"
@@ -1149,21 +1171,24 @@ class MsgAllPrior(TestCase):
             (MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addkjbankcard_next'), "enabled")
         self.assertTrue(attribute == "true")
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addKjbankcard_return'))
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addcard_text'))
-        self.assertTrue(text == "添加银行卡")
+        agreement_detail_page.page_should_contain_text("绑定新的银行卡")
 
     @staticmethod
     def setUp_test_me_zhangshuli_283():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_283(self):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
         agreement_detail_page = AgreementDetailPage()
+        time.sleep(2)
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_action_bar_help'))
 
         elements = agreement_detail_page.get_elements(
@@ -1182,13 +1207,17 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_284():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_284(self):
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_action_bar_help'))
         # 断开网络
@@ -1213,14 +1242,18 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_285():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_285(self):
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
         agreement_detail_page = AgreementDetailPage()
+        time.sleep(2)
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_action_bar_help'))
 
         elements = agreement_detail_page.get_elements(
@@ -1233,11 +1266,10 @@ class MsgAllPrior(TestCase):
         time.sleep(3)
         # 断开网络
         agreement_detail_page.set_network_status(0)
-        agreement_detail_page.click_hot_question()
+        agreement_detail_page.click_text_or_description("1、什么是实名认证？")
         exist = agreement_detail_page.is_toast_exist("当前网络不可用，请检查网络设置")
         self.assertTrue(exist)
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_actionbar_left_back'))
-        time.sleep(1)
+
 
     def tearDown_test_me_zhangshuli_285(self):
         agreement_detail_page = AgreementDetailPage()
@@ -1246,12 +1278,14 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_me_zhangshuli_290():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_290(self):
-        # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -1270,27 +1304,33 @@ class MsgAllPrior(TestCase):
         # 返回
         me.click_element(["id", 'com.chinasofti.rcs:id/iv_actionbar_left_back'], 15)
         time.sleep(1)
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/tv_actionbar_title'))
-        self.assertTrue(text == "和包支付")
+        self.assertTrue(agreement_detail_page.page_should_contain_text("和包支付"))
+
+    def tearDown_test_me_zhangshuli_290(self):
+        agreement_detail_page = AgreementDetailPage()
+        agreement_detail_page.set_network_status(6)
 
     @staticmethod
     def setUp_test_me_zhangshuli_291():
         Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        me_page = MePage()
+        me_page.open_me_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_291(self):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.open_me_page()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
         elements = agreement_detail_page.get_elements((MobileBy.CLASS_NAME, 'android.widget.TextView'))
         for e in elements:
-            if e.text == "和聚宝":
+            if e.text == "和包支付":
                 e.click()
         text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/tv_actionbar_title'))
-        self.assertTrue(text == "和聚宝")
+        self.assertTrue(text == "和包支付")
 
