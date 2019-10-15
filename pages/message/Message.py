@@ -95,7 +95,7 @@ class MessagePage(FooterPage):
         '全部团队': (MobileBy.ID, 'com.chinasofti.rcs:id/all_team'),
         '创建团队': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_group_chat_item_id'),
         '和飞信号': (MobileBy.ID, 'com.chinasofti.rcs:id/card_photo_num'),
-
+        "返回": (MobileBy.ID, "com.chinasofti.rcs:id/back"),
     }
 
     @TestLogger.log()
@@ -229,7 +229,7 @@ class MessagePage(FooterPage):
     @TestLogger.log()
     def click_free_sms(self):
         """点击免费短信"""
-        self.click_element(self.__locators['免费短信'])
+        self.click_text_or_description("发送短信")
 
     @TestLogger.log()
     def assert_free_sms_text_equal_to(self, expect):
@@ -1075,3 +1075,8 @@ class MessagePage(FooterPage):
         locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/album_picture"]')
         aphone_all = self.get_elements(locator)
         aphone_all[0].click()
+
+    @TestLogger.log()
+    def click_back(self):
+        """点击返回"""
+        self.click_element(self.__locators['返回'])

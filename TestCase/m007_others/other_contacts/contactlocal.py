@@ -19,6 +19,11 @@ class Preconditions(WorkbenchPreconditions):
 
 class MsgAllPrior(TestCase):
 
+    def default_setUp(self):
+        # 启动App
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+
     @staticmethod
     def setUp_test_contacts_chenjixiang_0083():
         Preconditions.select_mobile('Android-移动')
@@ -1536,6 +1541,11 @@ class MsgAllPrior(TestCase):
 
 
 class Contacts_demo(TestCase):
+
+    def default_setUp(self):
+        # 启动App
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0109():

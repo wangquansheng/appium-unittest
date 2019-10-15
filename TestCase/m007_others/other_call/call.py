@@ -649,9 +649,13 @@ class Preconditions(WorkbenchPreconditions):
                 print(e)
 
 
-
 class MsgAllPrior(TestCase):
     """通话---和飞信电话会控页"""
+
+    def default_setUp(self):
+        # 启动App
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
 
     @staticmethod
     def setUp_test_call_wangqiong_0057():

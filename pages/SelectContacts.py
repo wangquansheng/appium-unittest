@@ -1251,3 +1251,9 @@ class SelectContactsPage(BasePage):
         file_size_text = self.get_element_attribute(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'), 'enabled')
         return file_size_text
+
+    @TestLogger.log()
+    def press_mess(self, mess):
+        """长按消息"""
+        el = self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % mess))
+        self.press(el)

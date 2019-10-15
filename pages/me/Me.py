@@ -402,3 +402,8 @@ class MePage(FooterPage):
     def click_setting_menu_631(self):
         """点击设置菜单"""
         self.click_element(self.__locators['设置'])
+
+    @TestLogger.log("点击消息")
+    def click_message(self):
+        """点击消息"""
+        self.click_element(self.__locators['消息'])

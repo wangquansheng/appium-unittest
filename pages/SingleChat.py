@@ -716,3 +716,8 @@ class SingleChatPage(BaseChatPage):
         """发送消息如果当前页不存在该消息"""
         self.click_element((MobileBy.XPATH, '//*[@text ="%s"]' % mess))
 
+    @TestLogger.log("当前页面是否有发文件消息")
+    def is_exist_msg_file(self):
+        el = self.get_elements(('id', 'com.chinasofti.rcs:id/ll_msg'))
+        return len(el) > 0
+
