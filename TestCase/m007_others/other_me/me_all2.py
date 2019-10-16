@@ -399,7 +399,7 @@ class MsgAllPrior(TestCase):
         exist = agreement_detail_page.is_toast_exist("当前网络不可用，请检查网络设置")
         self.assertTrue(exist)
 
-    def tearDown_test_me_zhangshuli_110(self):
+    def tearDown_test_me_zhangshuli_111(self):
         mess = MessagePage()
         mess.set_network_status(6)
 
