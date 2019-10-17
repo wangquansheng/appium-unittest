@@ -671,7 +671,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_B_0036(self):
-        """进入免费/发送短信--选择联系人页面"""
+        """转发短信"""
         message_page = MessagePage()
         message_page.open_message_page()
         # 点击+号
@@ -690,18 +690,13 @@ class MsgAllPrior(TestCase):
         msg_text = '你好，testOK !'
         select_contacts_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/et_sms'), msg_text)
         select_contacts_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_sms_send'))
-        try:
-            select_contacts_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'))
-        except BaseException:
-            print("warn ：非首次进入，无需资费提醒确认！")
         select_contacts_page.click_element((MobileBy.ID, 'com.android.mms:id/send_button_sms'))
         select_contacts_page.press_mess(msg_text)
-        select_contacts_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
+        time.sleep(2)
+        select_contacts_page.click_text_or_description("转发")
         time.sleep(2)
         select_contacts_page.click_one_contact_631("大佬2")
-        select_contacts_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/btn_ok" and @text="确定"]'))
+        select_contacts_page.click_text_or_description("确定")
         exist = select_contacts_page.is_toast_exist('已转发')
         self.assertTrue(exist)
 
@@ -2338,120 +2333,125 @@ class Contacts_demo(TestCase):
             current_mobile().launch_app()
             Preconditions.make_already_in_message_page()
 
-    @staticmethod
-    def setUp_test_msg_hanjiabin_0193():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置一个联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_allinfo_if_not_exits('给个名片1', '13800138200', '中软国际', '软件工程师', 'test1234@163.com')
-        contactspage.create_contacts_allinfo_if_not_exits('给个名片2', '13800138300', '中软国际', '软件工程师', 'test1234@163.com')
-        contactspage.open_message_page()
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_hanjiabin_0193(self):
         mess = MessagePage()
+        Preconditions.enter_single_chat_page("大佬2")
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        scp.click_more()
+        scp.click_profile()
+        select_contacts_page = SelectContactsPage()
+        time.sleep(2)
+        select_contacts_page.click_one_contact_631("大佬3")
+        scp.click_text_or_description("发送名片")
+        scp.press_last_message_to_do("个人名片")
+        # time.sleep(660)
+        scp.page_should_contain_text("撤回")
         # 点击消息页搜索
-        mess.click_search()
-        # 搜索关键词给个红包1
-        SearchPage().input_search_keyword("给个名片1")
-        # 选择联系人进入联系人页
-        mess.choose_chat_by_name('给个名片1')
-        # 点击消息按钮发送消息
-        ContactDetailsPage().click_message_icon()
-        chatdialog = ChatNoticeDialog()
-        # 若存在资费提醒对话框，点击确认
-        if chatdialog.is_exist_tips():
-            chatdialog.accept_and_close_tips_alert()
-        ChatMorePage().close_more()
-        mess.click_element_by_text('名片')
-        SelectContactsPage().select_one_contact_by_name("给个名片2")
-        send_card = Send_CardNamePage()
-        send_card.click_share_btn()
-        time.sleep(660)
-        send_card.press_mess('给个名片2')
-        mess.page_should_not_contain_element((MobileBy.XPATH, '//*[@text="删除"]'))
+        # mess.click_search()
+        # # 搜索关键词给个红包1
+        # SearchPage().input_search_keyword("给个名片1")
+        # # 选择联系人进入联系人页
+        # mess.choose_chat_by_name('给个名片1')
+        # # 点击消息按钮发送消息
+        # ContactDetailsPage().click_message_icon()
+        # chatdialog = ChatNoticeDialog()
+        # # 若存在资费提醒对话框，点击确认
+        # if chatdialog.is_exist_tips():
+        #     chatdialog.accept_and_close_tips_alert()
+        # ChatMorePage().close_more()
+        # mess.click_element_by_text('名片')
+        # SelectContactsPage().select_one_contact_by_name("给个名片2")
+        # send_card = Send_CardNamePage()
+        # send_card.click_share_btn()
+        # time.sleep(660)
+        # send_card.press_mess('给个名片2')
+        # mess.page_should_not_contain_element((MobileBy.XPATH, '//*[@text="删除"]'))
 
-    @staticmethod
-    def setUp_test_msg_hanjiabin_0194():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        """需要预置一个联系人"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        contactspage.create_contacts_allinfo_if_not_exits('给个名片1', '13800138200', '中软国际', '软件工程师', 'test1234@163.com')
-        contactspage.create_contacts_allinfo_if_not_exits('给个名片2', '13800138300', '中软国际', '软件工程师', 'test1234@163.com')
-        contactspage.open_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_hanjiabin_0194(self):
         mess = MessagePage()
+        Preconditions.enter_single_chat_page("大佬2")
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        scp.click_more()
+        scp.click_profile()
+        select_contacts_page = SelectContactsPage()
+        time.sleep(2)
+        select_contacts_page.click_one_contact_631("大佬3")
+        scp.click_text_or_description("发送名片")
+        scp.press_last_message_to_do("个人名片")
+        # time.sleep(660)
+        scp.page_should_contain_text("删除")
         # 点击消息页搜索
-        mess.click_search()
-        # 搜索关键词给个红包1
-        SearchPage().input_search_keyword("给个名片1")
-        # 选择联系人进入联系人页
-        mess.choose_chat_by_name('给个名片1')
-        # 点击消息按钮发送消息
-        ContactDetailsPage().click_message_icon()
-        chatdialog = ChatNoticeDialog()
-        # 若存在资费提醒对话框，点击确认
-        if chatdialog.is_exist_tips():
-            chatdialog.accept_and_close_tips_alert()
-        ChatMorePage().close_more()
-        mess.click_element_by_text('名片')
-        SelectContactsPage().select_one_contact_by_name("给个名片2")
-        send_card = Send_CardNamePage()
-        send_card.click_share_btn()
-        send_card.press_mess('给个名片2')
-        mess.click_element((MobileBy.XPATH, '//*[@text="删除"]'))
-        mess.page_should_not_contain_text('给个名片2')
+        # mess.click_search()
+        # # 搜索关键词给个红包1
+        # SearchPage().input_search_keyword("给个名片1")
+        # # 选择联系人进入联系人页
+        # mess.choose_chat_by_name('给个名片1')
+        # # 点击消息按钮发送消息
+        # ContactDetailsPage().click_message_icon()
+        # chatdialog = ChatNoticeDialog()
+        # # 若存在资费提醒对话框，点击确认
+        # if chatdialog.is_exist_tips():
+        #     chatdialog.accept_and_close_tips_alert()
+        # ChatMorePage().close_more()
+        # mess.click_element_by_text('名片')
+        # SelectContactsPage().select_one_contact_by_name("给个名片2")
+        # send_card = Send_CardNamePage()
+        # send_card.click_share_btn()
+        # send_card.press_mess('给个名片2')
+        # mess.click_element((MobileBy.XPATH, '//*[@text="删除"]'))
+        # mess.page_should_not_contain_text('给个名片2')
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0023():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist(["给个红包1, 13800138000"])
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0023(self):
         mess = MessagePage()
+        mess = MessagePage()
+        Preconditions.enter_single_chat_page("大佬2")
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        scp.click_more()
+        scp.click_profile()
+        select_contacts_page = SelectContactsPage()
+        time.sleep(2)
+        select_contacts_page.click_one_contact_631("大佬3")
+        scp.click_text_or_description("发送名片")
+        scp.press_last_message_to_do("个人名片")
+        # time.sleep(660)
+        scp.page_should_contain_text("删除")
         # 点击消息页搜索
-        mess.click_search()
-        # 搜索关键词给个红包1
-        SearchPage().input_search_keyword("给个红包1")
-        # 选择联系人进入联系人页
-        mess.choose_chat_by_name('给个红包1')
-        # 点击消息按钮发送消息
-        ContactDetailsPage().click_message_icon()
-        chatdialog = ChatNoticeDialog()
-        # 若存在资费提醒对话框，点击确认
-        if chatdialog.is_exist_tips():
-            chatdialog.accept_and_close_tips_alert()
-        single = SingleChatPage()
-        # 如果当前页面不存在消息，发送一条消息
-        if not single._is_element_present((MobileBy.XPATH, '//*[@text ="测试一个呵呵"]')):
-            single.input_text_message("测试一个呵呵")
-            single.send_text()
-        single.press_mess("测试一个呵呵")
-        single.click_forward()
-        select_page = SelectContactPage()
-        # 判断存在选择联系人
-        select_page.is_exist_select_contact_btn()
-        # 判断存在搜索或输入手机号提示
-        select_page.is_exist_selectorinput_toast()
-        # 判断存在选择团队联系人按钮
-        single.page_should_contain_element((MobileBy.XPATH, '//*[@text ="选择一个群"]'))
-        single.page_should_contain_element((MobileBy.XPATH, '//*[@text ="选择手机联系人"]'))
-        single.page_should_contain_element((MobileBy.XPATH, '//*[@text ="选择团队联系人"]'))
+        # mess.click_search()
+        # # 搜索关键词给个红包1
+        # SearchPage().input_search_keyword("给个红包1")
+        # # 选择联系人进入联系人页
+        # mess.choose_chat_by_name('给个红包1')
+        # # 点击消息按钮发送消息
+        # ContactDetailsPage().click_message_icon()
+        # chatdialog = ChatNoticeDialog()
+        # # 若存在资费提醒对话框，点击确认
+        # if chatdialog.is_exist_tips():
+        #     chatdialog.accept_and_close_tips_alert()
+        # single = SingleChatPage()
+        # # 如果当前页面不存在消息，发送一条消息
+        # if not single._is_element_present((MobileBy.XPATH, '//*[@text ="测试一个呵呵"]')):
+        #     single.input_text_message("测试一个呵呵")
+        #     single.send_text()
+        # single.press_mess("测试一个呵呵")
+        # single.click_forward()
+        # select_page = SelectContactPage()
+        # # 判断存在选择联系人
+        # select_page.is_exist_select_contact_btn()
+        # # 判断存在搜索或输入手机号提示
+        # select_page.is_exist_selectorinput_toast()
+        # # 判断存在选择团队联系人按钮
+        # single.page_should_contain_element((MobileBy.XPATH, '//*[@text ="选择一个群"]'))
+        # single.page_should_contain_element((MobileBy.XPATH, '//*[@text ="选择手机联系人"]'))
+        # single.page_should_contain_element((MobileBy.XPATH, '//*[@text ="选择团队联系人"]'))
 
     @staticmethod
     def setUp_test_msg_huangcaizui_A_0279():
@@ -4020,7 +4020,7 @@ class Contacts_demo(TestCase):
         contactspage.page_should_contain_text('测试短信1')
         contactspage.page_should_contain_text('测试短信2')
         # Step 3.任意选择一标签分组中的联系人
-        BaseChatPage().click_to_do('测试短信1')
+        BaseChatPage().click_text_or_description('测试短信1')
         # Checkpoint 3.进入联系人详情页面
         self.assertTrue(ContactDetailsPage().is_on_this_page())
         # Step 4.点击消息
