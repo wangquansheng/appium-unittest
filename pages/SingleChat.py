@@ -718,6 +718,11 @@ class SingleChatPage(BaseChatPage):
 
     @TestLogger.log("当前页面是否有发文件消息")
     def is_exist_msg_file(self):
-        el = self.get_elements(('id', 'com.chinasofti.rcs:id/ll_msg'))
+        el = self.get_elements(('id', 'com.chinasofti.rcs:id/ll_msg'))  # 消息位置
         return len(el) > 0
+
+    @TestLogger.log()
+    def click_address(self):
+        """点击位置"""
+        self.click_element(self.__locators['消息位置'])
 

@@ -1175,8 +1175,6 @@ class ContactsDemo(TestCase):
         from pages.components import ContactsSelector
         contactselect = ContactsSelector()
         contactselect.select_local_contacts_search("测试短信1")
-
-
         # 是否存在请先接听“和飞信电话”，点击“我知道了” 并自动允许和飞信管理
         callcontact.click_elsfif_ikonw()
         # 是否存在权限窗口 自动赋权

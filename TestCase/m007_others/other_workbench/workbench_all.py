@@ -611,9 +611,8 @@ class MsgAllPrior(TestCase):
         message.wait_for_page_load()
         message.click_add_icon()
         message.click_new_message()
-        message.wait_for_page_load()
         # 点击返回，并判断是否正常
-        slc = SelectContactsPage()
+        # slc = SelectContactsPage()
         # slc.click_back()
         # self.assertTrue(message.is_on_this_page)
 
@@ -1008,231 +1007,103 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_msg_weifenglian_1V1_0125():
         Preconditions.select_mobile('Android-移动')
-        mess = MessagePage()
-        # 从消息进入创建团队页面
-        mess.open_workbench_page()
-        workbench = WorkbenchPage()
-        workbench.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_actionbar'))
-        elements = workbench.get_elements((MobileBy.XPATH,
-                                           '//*[@resource-id="com.chinasofti.rcs:id/tv_listitem" and @text="%s"]' % Preconditions.get_team_name()))
-
-        if len(elements) == 0:
-            Preconditions.enter_create_team_page()
-            Preconditions.create_team()
-        else:
-            elements[0].click()
-        Preconditions.make_already_have_my_group()
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_single_chat_page("大佬2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0125(self):
-        """会话窗口中点击删除文本消息"""
-        # 推送文件到指定目录
-        path = 'aaaresource'
-        contact2.push_resource_dir_to_mobile_sdcard2(Preconditions.select_mobile('Android-移动'),
-                                                     os.path.join(PROJECT_PATH, path))
-        select_one_group_page = SelectOneGroupPage()
-        group_chat_name = Preconditions.get_group_chat_name()
-        select_one_group_page.select_one_group_by_name("群聊2")
-        select_one_group_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'))
-        ChatMorePage().click_file1()
-        ChatSelectFilePage().click_local_file()
-        elements = select_one_group_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        while len(elements) == 0:
-            select_one_group_page.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = select_one_group_page.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        select_one_group_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        select_one_group_page.click_element_by_path("2018-11-09 11-06-18-722582.log")
-        select_one_group_page.click_send_message()
-        time.sleep(1)
-        file_elements = select_one_group_page.get_elements(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/textview_file_name" and @text="2018-11-09 11-06-18-722582.log"]'))
-        time.sleep(1)
-        select_one_group_page.press(file_elements[0])
-        select_one_group_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
-        select_one_group_page.input_text(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_search_bar" and @text="搜索或输入手机号"]'),
-            '我的电脑')
-        # 点击我的电脑
-        select_one_group_page.click_element(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text="我的电脑"]'))
-        select_one_group_page.click_element(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/btn_ok" and @text="确定"]'))
-        exist = select_one_group_page.is_toast_exist("已转发")
-        self.assertTrue(exist)
-        # 删除所有转发信息
-        wait_del_file_elements = select_one_group_page.get_elements(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/textview_file_name" and @text="2018-11-09 11-06-18-722582.log"]'))
-        for file_element in wait_del_file_elements:
-            select_one_group_page.press(file_element)
-            select_one_group_page.click_element(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="删除"]'))
+        """将自己发送的文件转发到我的电脑"""
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        if scp.is_exist_msg_file():
+            pass
+        else:
+            scp = SingleChatPage()
+            scp.click_file()
+            select_file_type = ChatSelectFilePage()
+            select_file_type.wait_for_page_load()
+            select_file_type.click_local_file()
+            local_file = ChatSelectLocalFilePage()
+            local_file.click_preset_file_dir()
+            local_file.select_file(".xlsx")
+            local_file.click_send()
+            scp.wait_for_page_load()
+        # 转发xls文件
+        ChatFilePage().forward_file('.xlsx')
+        SelectContactsPage().wait_for_page_load()
+        SelectContactsPage().search('我的电脑')
+        SelectOneGroupPage().click_search_result()
+        SelectOneGroupPage().click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的文件时，没有‘已转发’提示")
+
 
     @staticmethod
     def setUp_test_msg_weifenglian_1V1_0126():
         Preconditions.select_mobile('Android-移动')
-        mess = MessagePage()
-        # 从消息进入创建团队页面
-        mess.open_workbench_page()
-        workbench = WorkbenchPage()
-        workbench.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_actionbar'))
-        elements = workbench.get_elements((MobileBy.XPATH,
-                                           '//*[@resource-id="com.chinasofti.rcs:id/tv_listitem" and @text="%s"]' % Preconditions.get_team_name()))
-
-        if len(elements) == 0:
-            Preconditions.enter_create_team_page()
-            Preconditions.create_team()
-        else:
-            elements[0].click()
-        Preconditions.make_already_have_my_group()
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_single_chat_page("大佬2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0126(self):
-        """会话窗口中点击删除文本消息"""
-        # 推送文件到指定目录
-        path = 'aaaresource'
-        contact2.push_resource_dir_to_mobile_sdcard2(Preconditions.select_mobile('Android-移动'),
-                                                     os.path.join(PROJECT_PATH, path))
-        select_one_group_page = SelectOneGroupPage()
-        group_chat_name = Preconditions.get_group_chat_name()
-        select_one_group_page.select_one_group_by_name(group_chat_name)
-        select_one_group_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'))
-        ChatMorePage().click_file1()
-        ChatSelectFilePage().click_local_file()
-        elements = select_one_group_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        while len(elements) == 0:
-            select_one_group_page.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = select_one_group_page.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        select_one_group_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        select_one_group_page.click_element_by_path("2018-11-09 11-06-18-722582.log")
-        select_one_group_page.click_send_message()
-        time.sleep(1)
-        file_elements = select_one_group_page.get_elements(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/textview_file_name" and @text="2018-11-09 11-06-18-722582.log"]'))
-        time.sleep(1)
-        select_one_group_page.press(file_elements[0])
-        select_one_group_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
-        # 点击我的电脑
-        select_one_group_page.click_element(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/item_rl" and @index="1"]'))
-        select_one_group_page.click_element(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/btn_ok" and @text="确定"]'))
-        exist = select_one_group_page.is_toast_exist("已转发")
-        self.assertTrue(exist)
-        # 删除所有转发信息
-        wait_del_file_elements = select_one_group_page.get_elements(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/textview_file_name" and @text="2018-11-09 11-06-18-722582.log"]'))
-        for file_element in wait_del_file_elements:
-            select_one_group_page.press(file_element)
-            select_one_group_page.click_element(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="删除"]'))
+        """将自己发送的文件转发到最近聊天"""
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        if scp.is_exist_msg_file():
+            pass
+        else:
+            scp = SingleChatPage()
+            scp.click_file()
+            select_file_type = ChatSelectFilePage()
+            select_file_type.wait_for_page_load()
+            select_file_type.click_local_file()
+            local_file = ChatSelectLocalFilePage()
+            local_file.click_preset_file_dir()
+            local_file.select_file(".xlsx")
+            local_file.click_send()
+            scp.wait_for_page_load()
+        # 转发xls文件
+        ChatFilePage().forward_file('.xlsx')
+        SelectContactsPage().wait_for_page_load()
+        select_recent_chat = SelectContactsPage()
+        select_recent_chat.wait_for_page_load()
+        select_recent_chat.select_recent_chat_by_number(0)
+        SelectContactsPage().click_sure_forward()
+        flag = scp.is_toast_exist("已转发")
+        if not flag:
+            raise AssertionError("在转发发送自己的文件时，没有‘已转发’提示")
 
     @staticmethod
     def setUp_test_msg_weifenglian_1V1_0129():
         Preconditions.select_mobile('Android-移动')
-        mess = MessagePage()
-        # 从消息进入创建团队页面
-        mess.open_workbench_page()
-        workbench = WorkbenchPage()
-        workbench.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_actionbar'))
-        elements = workbench.get_elements((MobileBy.XPATH,
-                                           '//*[@resource-id="com.chinasofti.rcs:id/tv_listitem" and @text="%s"]' % Preconditions.get_team_name()))
-
-        if len(elements) == 0:
-            Preconditions.enter_create_team_page()
-            Preconditions.create_team()
-        else:
-            elements[0].click()
-        Preconditions.make_already_have_my_group()
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_single_chat_page("大佬2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0129(self):
-        """会话窗口中点击删除文本消息"""
-        # 推送文件到指定目录
-        path = 'aaaresource'
-        contact2.push_resource_dir_to_mobile_sdcard2(Preconditions.select_mobile('Android-移动'),
-                                                     os.path.join(PROJECT_PATH, path))
-        select_one_group_page = SelectOneGroupPage()
-        group_chat_name = Preconditions.get_group_chat_name()
-        select_one_group_page.select_one_group_by_name(group_chat_name)
-        select_one_group_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'))
-        ChatMorePage().click_file1()
-        ChatSelectFilePage().click_local_file()
-        elements = select_one_group_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        while len(elements) == 0:
-            select_one_group_page.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'), 'up')
-            time.sleep(1)
-            elements = select_one_group_page.get_elements(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        select_one_group_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_file_name" and @text="%s"]' % path))
-        select_one_group_page.click_element_by_path("2018-11-09 11-06-18-722582.log")
-        select_one_group_page.click_send_message()
-        time.sleep(1)
-        file_elements = select_one_group_page.get_elements(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/textview_file_name" and @text="2018-11-09 11-06-18-722582.log"]'))
-        time.sleep(1)
-        select_one_group_page.press(file_elements[0])
-        select_one_group_page.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="转发"]'))
-        # 点击我的电脑
-        select_one_group_page.click_element(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/item_rl" and @index="1"]'))
-        select_one_group_page.click_element(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/btn_ok" and @text="确定"]'))
-        exist = select_one_group_page.is_toast_exist("已转发")
-        self.assertTrue(exist)
-        # 删除所有转发信息
-        wait_del_file_elements = select_one_group_page.get_elements(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/textview_file_name" and @text="2018-11-09 11-06-18-722582.log"]'))
-        for file_element in wait_del_file_elements:
-            select_one_group_page.press(file_element)
-            select_one_group_page.click_element(
-                (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view" and @text="删除"]'))
-
+        """对自己发送出去的文件消息进行删除"""
+        scp = SingleChatPage()
+        scp.wait_for_page_load()
+        if scp.is_exist_msg_file():
+            pass
+        else:
+            scp = SingleChatPage()
+            scp.click_file()
+            select_file_type = ChatSelectFilePage()
+            select_file_type.wait_for_page_load()
+            select_file_type.click_local_file()
+            local_file = ChatSelectLocalFilePage()
+            local_file.click_preset_file_dir()
+            local_file.select_file(".xlsx")
+            local_file.click_send()
+            scp.wait_for_page_load()
+        # 长按删除xls文件
+        ChatFilePage().delete_file('.xlsx')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0392(self):
         """会控页未创建会场成功时（12560未回呼）添加成员按钮置灰"""
-
-        # # 启动App
-        # Preconditions.select_mobile('Android-移动')
-        # # 启动后不论当前在哪个页面，强制进入消息页面
-        # Preconditions.force_enter_message_page_631()
-        # # 下面根据用例情况进入相应的页面
-        # # 需要预置联系人
-        # contactname1 = Preconditions.contacts_name_1
-        # contactnum1 = Preconditions.telephone_num_1
-        # contactname2 = Preconditions.contacts_name_2
-        # contactnum2 = Preconditions.telephone_num_2
-        # # 新建联系人
-        # contactspage = ContactsPage()
-        # contactspage.open_contacts_page()
-        # contactspage.create_contacts_if_not_exits_631(contactname1, contactnum1)
-        # contactspage.create_contacts_if_not_exits_631(contactname2, contactnum2)
-
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1273,7 +1144,6 @@ class MsgAllPrior(TestCase):
         #         i = i + 1
         # time.sleep(2)
         # callpage.hang_up_the_call()
-
 
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -1446,7 +1316,6 @@ class MsgAllPrior(TestCase):
         # # checkpoint2: 挂断电话回到通话页签
         # time.sleep(3)
         # self.assertTrue(callpage.is_on_the_call_page())
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0397(self):
@@ -1874,7 +1743,7 @@ class MsgAllPrior(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
         # 进入单聊页面
-        Preconditions.enter_private_chat_page()
+        Preconditions.enter_single_chat_page("大佬2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_PC_0354(self):
@@ -1882,408 +1751,355 @@ class MsgAllPrior(TestCase):
         chat_window_page = ChatWindowPage()
         chat_window_page.click_add_icon()
         chat_window_page.click_menu_icon('位置')
-        elements = chat_window_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.lbe.security.miui:id/permission_message"]'))
-        self.assertTrue(len(elements) > 0)
+        # elements = chat_window_page.get_elements(
+        #     (MobileBy.XPATH, '//*[@resource-id="com.lbe.security.miui:id/permission_message"]'))
+        # self.assertTrue(len(elements) > 0)
 
     @staticmethod
     def setUp_test_msg_weifenglian_1V1_0433():
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 进入单聊页面
-        Preconditions.enter_private_chat_page()
+        Preconditions.enter_single_chat_page("大佬2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0433(self):
-        """单聊-位置"""
+        """未开启位置权限时点击位置按钮后有位置权限申请的弹窗"""
         chat_window_page = ChatWindowPage()
         chat_window_page.click_add_icon()
         chat_window_page.click_menu_icon('位置')
-        elements = chat_window_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.lbe.security.miui:id/permission_message"]'))
-        self.assertTrue(len(elements) > 0)
+        # elements = chat_window_page.get_elements(
+        #     (MobileBy.XPATH, '//*[@resource-id="com.lbe.security.miui:id/permission_message"]'))
+        # self.assertTrue(len(elements) > 0)
 
     @staticmethod
     def setUp_test_msg_weifenglian_1V1_0436():
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 进入单聊页面
-        Preconditions.enter_private_chat_page()
+        Preconditions.enter_single_chat_page("大佬2")
+
+    def make_sure_have_loc_msg(self):
+        group_chat_page = GroupChatPage()
+        # group_chat_page.wait_for_page_load()
+        if group_chat_page.is_exist_loc_msg():
+            pass
+        else:
+            chat_more = ChatMorePage()
+            chat_more.close_more()
+            chat_more.click_location()
+            location_page = ChatLocationPage()
+            location_page.wait_for_page_load()
+            time.sleep(1)
+            # 点击发送按钮
+            if not location_page.send_btn_is_enabled():
+                raise AssertionError("位置页面发送按钮不可点击")
+            location_page.click_send()
+            # group_chat_page.wait_for_page_load()
+            group_chat_page.click_more()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0436(self):
-        """单聊-位置"""
-        chat_window_page = ChatWindowPage()
-        chat_window_page.click_add_icon()
-        chat_window_page.click_menu_icon('位置')
-        elements = chat_window_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.lbe.security.miui:id/permission_message"]'))
-        if len(elements) > 0:
-            chat_window_page.click_element((MobileBy.XPATH, '//*[@resource-id="android:id/button1"]'))
-        chat_window_page.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn"]'))
-        # 长按位置信息
-        time.sleep(3)
-        chat_window_page.press(chat_window_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/image_view_lloc_icon"]'))[0])
-        # 获取操作信息
-        time.sleep(3)
-        ops_elements = chat_window_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_view"]'))
-        self.assertTrue(len(ops_elements) > 0)
+        """长按发送出去的位置消息体进行转发、删除、收藏、撤回等操作"""
+        self.make_sure_have_loc_msg()
+        SingleChatPage().press_message_to_do("转发")
 
     @staticmethod
     def setUp_test_msg_weifenglian_1V1_0437():
-        # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 进入单聊页面
-        Preconditions.enter_private_chat_page()
+        Preconditions.enter_single_chat_page("大佬2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0437(self):
-        """单聊-位置"""
-        chat_window_page = ChatWindowPage()
-        chat_window_page.click_add_icon()
-        chat_window_page.click_menu_icon('位置')
-        elements = chat_window_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.lbe.security.miui:id/permission_message"]'))
-        if len(elements) > 0:
-            chat_window_page.click_element((MobileBy.XPATH, '//*[@resource-id="android:id/button1"]'))
-        chat_window_page.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn"]'))
-        # 长按位置信息
-        time.sleep(3)
-        chat_window_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/image_view_lloc_icon"]'))[0].click()
-        # 获取操作信息
-        time.sleep(3)
-        enabled_status = chat_window_page.get_element_attribute(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_nativ_btn"]'), 'enabled')
-        self.assertTrue(enabled_status == "true")
+        """点击位置消息体进入到位置详情页面，可以进行导航操作"""
+        self.make_sure_have_loc_msg()
+        gcp = GroupChatPage()
+        gcp.click_addr_info()
+        # 等待页面加载
+        gcp.wait_for_location_page_load()
+        # 点击右下角按钮
+        gcp.click_nav_btn()
+        # 判断是否有手机导航应用
+        if gcp.is_toast_exist("未发现手机导航应用", timeout=5):
+            pass
+        else:
+            time.sleep(3)
+            map_flag = gcp.is_text_present("地图")
+            self.assertTrue(map_flag)
+            gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
+            gcp.click_location_back()
+            time.sleep(2)
 
     @staticmethod
     def setUp_test_msg_weifenglian_1V1_0445():
-        # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 进入单聊页面
-        Preconditions.enter_private_chat_page()
+        Preconditions.enter_single_chat_page("大佬2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0445(self):
-        """单聊-位置"""
-        chat_window_page = ChatWindowPage()
-        chat_window_page.click_add_icon()
-        chat_window_page.click_menu_icon('位置')
-        elements = chat_window_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.lbe.security.miui:id/permission_message"]'))
-        if len(elements) > 0:
-            chat_window_page.click_element((MobileBy.XPATH, '//*[@resource-id="android:id/button1"]'))
-
-        chat_window_page.input_text((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/search_edit"]'), "医院")
-
-        chat_window_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/poi_list_item_title"]'))[0].click()
-
-        chat_window_page.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn"]'))
-        # 长按位置信息
-        time.sleep(3)
-        window_page_get_elements = chat_window_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/image_view_lloc_icon"]'))
-        self.assertTrue(len(window_page_get_elements) > 0)
+        """在位置搜索页面选择搜索结果，网络正常时进行发送位置消息"""
+        self.make_sure_have_loc_msg()
 
     @staticmethod
     def setUp_test_msg_weifenglian_1V1_0450():
-        # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 进入单聊页面
-        Preconditions.enter_private_chat_page()
+        Preconditions.enter_single_chat_page("大佬2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0450(self):
-        """单聊-位置"""
-        chat_window_page = ChatWindowPage()
-        chat_window_page.click_add_icon()
-        chat_window_page.click_menu_icon('位置')
-        elements = chat_window_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.lbe.security.miui:id/permission_message"]'))
-        if len(elements) > 0:
-            chat_window_page.click_element((MobileBy.XPATH, '//*[@resource-id="android:id/button1"]'))
-
-        chat_window_page.swipe_by_direction((MobileBy.ID, 'com.chinasofti.rcs:id/gd_map_view'), 'up')
-        time.sleep(5)
-        chat_window_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/poi_list_item_title"]'))[0].click()
-
-        chat_window_page.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/location_ok_btn"]'))
-        # 按位置信息
-        time.sleep(3)
-        window_page_get_elements = chat_window_page.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/image_view_lloc_icon"]'))
-        self.assertTrue(len(window_page_get_elements) > 0)
+        """在地图界面滑动地图进行定位后点击发送按钮"""
+        self.make_sure_have_loc_msg()
+        gcp = GroupChatPage()
+        gcp.click_addr_info()
+        # 等待页面加载
+        gcp.wait_for_location_page_load()
+        # 点击右下角按钮
+        gcp.click_nav_btn()
+        # 判断是否有手机导航应用
+        if gcp.is_toast_exist("未发现手机导航应用", timeout=5):
+            pass
+        else:
+            time.sleep(3)
+            map_flag = gcp.is_text_present("地图")
+            self.assertTrue(map_flag)
+            gcp.tap_coordinate([(100, 20), (100, 60), (100, 100)])
+            gcp.click_location_back()
+            time.sleep(2)
 
     @staticmethod
     def setUp_test_msg_weifenglian_PC_0042():
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 进入我的电脑页面
-        message_page = MessagePage()
-        message_page.wait_for_page_load()
-        message_page.search_and_enter("我的电脑")
+        Preconditions.enter_my_computer_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_PC_0042(self):
-        """会话窗口中点击删除文本消息"""
-        # 推送文件到指定目录
-        path = 'aaaresource'
-        # contact2.push_resource_dir_to_mobile_sdcard2(Preconditions.select_mobile('Android-移动'),
-        #                                              os.path.join(PROJECT_PATH, path))
-
-        # 转发文件的名称
-        file_name = '2018-11-09 11-06-18-722582.log'
-        chatWindowPage = ChatWindowPage()
-        chatWindowPage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_file'))
-        chatWindowPage.click_element(
-            (MobileBy.ID, 'com.chinasofti.rcs:id/ll_music'))
-        time.sleep(2)
-        elements = chatWindowPage.get_elements(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/cb_choose_icon"]'))
-        self.assertTrue(len(elements) > 0)
-        elements[0].click()
-        # 发送
-        chatWindowPage.click_element((MobileBy.XPATH,
-                                      '//*[@resource-id="com.chinasofti.rcs:id/button_send" and @text="发送"]'))
-        try:
-            chatWindowPage.click_element((MobileBy.XPATH,
-                                          '//*[@resource-id="com.chinasofti.rcs:id/continue_call" and @text="继续发送"]'))
-        except BaseException as e:
-            print(e)
-        time.sleep(3)
-        page_elements = chatWindowPage.get_elements((MobileBy.XPATH,
-                                                     '//*[@resource-id="com.chinasofti.rcs:id/textview_file_name"]'))
-        self.assertTrue(len(page_elements) > 0)
+        """勾选音乐列表页面任意音乐点击发送按钮"""
+        gcp = GroupChatPage()
+        # 点击更多富媒体按钮
+        gcp.click_more()
+        # 点击文件按钮
+        more_page = ChatMorePage()
+        more_page.click_file()
+        # 点击音乐选项
+        csf = ChatSelectFilePage()
+        csf.wait_for_page_load()
+        csf.click_music()
+        # 选择一个音乐文件发送
+        local_file = ChatSelectLocalFilePage()
+        local_file.wait_for_page_loads()
+        el = local_file.select_file2("音乐")
+        if el:
+            local_file.click_send()
+            # gcp.wait_for_page_load()
+        else:
+            raise AssertionError("There is no music")
 
     @staticmethod
     def setUp_test_msg_huangcaizui_D_0048():
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_my_computer_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0048(self):
-        """1、点击GIF"""
-        mess = MessagePage()
-        # 判断网络是否正常
-        ns = mess.get_network_status()
-        self.assertTrue(ns in [2, 4, 6])
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
-        cwp = ChatWindowPage()
-        # 点击表情
-        cwp.click_expression()
+        """在我的电脑会话窗，验证点击趣图搜搜入口"""
+        chat = SingleChatPage()
+        gif = ChatGIFPage()
+        if gif.is_gif_exist():
+            gif.close_gif()
+        gif.click_expression_icon()
         time.sleep(1)
-        # 点击gif
-        cwp.click_gif()
-        cgp = ChatGIFPage()
-        cgp.wait_for_page_load()
-        # 判断是否出现gif界面
-        self.assertTrue(cgp.is_on_this_page())
+        chat.click_gif()
+        gif.wait_for_page_load()
+        # 进入趣图选择页面
+        if not gif.is_gif_exist():
+            raise AssertionError("趣图页面无gif趣图")
+        gif.close_gif()
 
     @staticmethod
     def setUp_test_msg_huangcaizui_D_0049():
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_my_computer_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0049(self):
-        """1、点击GIF 2、选择表情点击"""
-        mess = MessagePage()
-        # 判断网络是否正常
-        ns = mess.get_network_status()
-        self.assertTrue(ns in [2, 4, 6])
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
-        cwp = ChatWindowPage()
-        # 点击表情
-        cwp.click_expression()
+        """在我的电脑会话窗，网络正常发送表情搜搜"""
+        chat = SingleChatPage()
+        gif = ChatGIFPage()
+        if gif.is_gif_exist():
+            gif.close_gif()
+        gif.click_expression_icon()
         time.sleep(1)
-        # 点击gif
-        cwp.click_gif()
-        cgp = ChatGIFPage()
-        cgp.wait_for_page_load()
-        # 判断是否出现gif界面
-        self.assertTrue(cgp.is_on_this_page())
-        # 点击第一个表情包
-        cgp.send_gif()
-        # 判断是否发送成功
-        cwp.wait_for_msg_send_status_become_to("发送成功", max_wait_time=10)
+        chat.click_gif()
+        gif.wait_for_page_load()
+        # 2、选择表情点击发送
+        gif.send_gif()
+        gif.close_gif()
+        current_mobile().hide_keyboard_if_display()
+        if not chat.is_exist_pic_msg():
+            raise AssertionError("发送表情后，在单聊会话窗无表情趣图存在")
 
     @staticmethod
     def setUp_test_msg_huangcaizui_D_0051():
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_my_computer_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0051(self):
-        """1、点击GIF图标 2、搜索框输入数字 3、点击选择表情"""
-        mess = MessagePage()
-        # 判断网络是否正常
-        ns = mess.get_network_status()
-        self.assertTrue(ns in [2, 4, 6])
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
-        cwp = ChatWindowPage()
-        # 点击表情
-        cwp.click_expression()
+        """在我的电脑会话窗，搜索数字关键字选择发送趣图"""
+        chat = SingleChatPage()
+        gif = ChatGIFPage()
+        if gif.is_gif_exist():
+            gif.close_gif()
+        gif.click_expression_icon()
         time.sleep(1)
-        # 点击gif
-        cwp.click_gif()
-        cgp = ChatGIFPage()
-        cgp.wait_for_page_load()
-        # 点击表情搜搜
-        cgp.input_message("6")
-        time.sleep(1)
-        # 点击第一个表情包
-        cgp.send_gif()
-        # 判断是否发送成功
-        cwp.wait_for_msg_send_status_become_to("发送成功", max_wait_time=10)
+        chat.click_gif()
+        gif.wait_for_page_load()
+        # 2、搜索框输入数字
+        nums = ['1', '2', '6', '666', '8']
+        for msg in nums:
+            gif.input_message(msg)
+            if not gif.is_toast_exist("无搜索结果，换个热词试试", timeout=4):
+                # 3、点击选择表情
+                gif.send_gif()
+                gif.input_message("")
+                gif.close_gif()
+                current_mobile().hide_keyboard_if_display()
+                if not chat.is_exist_pic_msg():
+                    raise AssertionError("发送gif后，在单聊会话窗无gif")
+                return
 
     @staticmethod
     def setUp_test_msg_huangcaizui_D_0052():
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_my_computer_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'hig搜索特殊字符关键字发送趣图h')
     def test_msg_huangcaizui_D_0052(self):
-        """1、点击GIF图标 2、搜索框输入特殊字符 3、点击选择表情"""
-        # 判断网络是否正常
-        mess = MessagePage()
-        ns = mess.get_network_status()
-        self.assertTrue(ns in [2, 4, 6])
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
-        cwp = ChatWindowPage()
-        # 点击表情
-        cwp.click_expression()
+        """在我的电脑会话窗，搜索特殊字符关键字发送趣图"""
+        chat = SingleChatPage()
+        gif = ChatGIFPage()
+        if gif.is_gif_exist():
+            gif.close_gif()
+        gif.click_expression_icon()
         time.sleep(1)
-        # 点击gif
-        cwp.click_gif()
-        cgp = ChatGIFPage()
-        cgp.wait_for_page_load()
-        # 点击表情搜搜
-        cgp.input_message("囍")
-        time.sleep(1)
-        # 点击第一个表情包
-        cgp.send_gif()
-        # 判断是否发送成功
-        cwp.wait_for_msg_send_status_become_to("发送成功", max_wait_time=10)
+        chat.click_gif()
+        gif.wait_for_page_load()
+        # 2、搜索框输入关键字
+        chars = ['appium', 'xxxx', 'a', '123456', '*']
+        # 提示无搜索结果，换个关键词试试
+        for msg in chars:
+            gif.input_message(msg)
+            if gif.is_toast_exist("无搜索结果，换个热词试试", timeout=4):
+                gif.input_message("")
+                gif.close_gif()
+                current_mobile().hide_keyboard_if_display()
+                chat.wait_for_page_load()
+                return
 
     @staticmethod
     def setUp_test_msg_huangcaizui_D_0053():
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_my_computer_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0053(self):
-        """1、点击GIF图标 2、搜索框输入特殊字符 3、点击选择表情"""
-        # 判断网络是否正常
-        mess = MessagePage()
-        ns = mess.get_network_status()
-        self.assertTrue(ns in [2, 4, 6])
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
-        cwp = ChatWindowPage()
-        # 点击表情
-        cwp.click_expression()
+        """在我的电脑会话窗，搜索无结果的趣图"""
+        chat = SingleChatPage()
+        gif = ChatGIFPage()
+        if gif.is_gif_exist():
+            gif.close_gif()
+        gif.click_expression_icon()
         time.sleep(1)
-        # 点击gif
-        cwp.click_gif()
-        cgp = ChatGIFPage()
-        cgp.wait_for_page_load()
-        # 点击表情搜搜
-        cgp.input_message("q")
-        self.assertTrue(cwp.is_toast_exist("无搜索结果，换个热词试试"))
+        chat.click_gif()
+        gif.wait_for_page_load()
+        # 2、搜索框输入关键字
+        chars = ['appium', 'xxxx', 'a', '123456', '*']
+        # 提示无搜索结果，换个关键词试试
+        for msg in chars:
+            gif.input_message(msg)
+            if gif.is_toast_exist("无搜索结果，换个热词试试", timeout=4):
+                gif.input_message("")
+                gif.close_gif()
+                current_mobile().hide_keyboard_if_display()
+                chat.wait_for_page_load()
+                return
 
     @staticmethod
     def setUp_test_msg_huangcaizui_D_0054():
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_my_computer_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0054(self):
-        """1、点击GIF图标 2、搜索框输入关键字匹配到对应结果后点击返回 3、再次进入该会话页面"""
+        """在我的电脑会话窗，搜索趣图过程中返回至消息列表重新进入"""
         # 判断网络是否正常
-        mess = MessagePage()
-        ns = mess.get_network_status()
-        self.assertTrue(ns in [2, 4, 6])
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
-        cwp = ChatWindowPage()
-        # 点击表情
-        cwp.click_expression()
+        chat = SingleChatPage()
+        gif = ChatGIFPage()
+        if gif.is_gif_exist():
+            gif.close_gif()
+        gif.click_expression_icon()
         time.sleep(1)
-        # 点击gif
-        cwp.click_gif()
-        cgp = ChatGIFPage()
-        cgp.wait_for_page_load()
-        # 点击表情搜搜
-        cgp.input_message("6")
-        time.sleep(1)
-        # 退出对话
-        cwp.click_back1()
-        time.sleep(1)
-        # 再次点击我的电脑
-        mess.click_my_computer()
-        # 判断搜索结果是否存在
-        self.false = self.assertFalse(cgp.is_on_this_page())
+        chat.click_gif()
+        gif.wait_for_page_load()
+        # 2、搜索框输入关键字匹配到对应结果后点击返回
+        chars = ['ok', 'o', '哈哈', 'no', 'yes']
+        for msg in chars:
+            gif.input_message(msg)
+            if not gif.is_toast_exist("无搜索结果，换个热词试试", timeout=4):
+                chat.click_back()
+                # 3、再次进入该会话页面
+                cdp = ContactDetailsPage()
+                cdp.click_message_icon()
+                gif.input_message("")
+                current_mobile().hide_keyboard_if_display()
+                if gif.is_gif_exist():
+                    raise AssertionError("在单聊会话窗，gif搜索到对应结果后点击返回,再次进入该会话页面时gif存在")
+                return
+        raise AssertionError("在单聊会话窗，搜索框输入特殊字符" + "、".join(chars) + "无gif搜索结果")
 
     @staticmethod
     def setUp_test_msg_huangcaizui_D_0055():
         Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_my_computer_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0055(self):
-        """1、点击GIF图标 2、搜索框输入关键字匹配到对应结果后点击发送"""
-        # 判断网络是否正常
-        mess = MessagePage()
-        ns = mess.get_network_status()
-        self.assertTrue(ns in [2, 4, 6])
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
-        cwp = ChatWindowPage()
-        # 点击表情
-        cwp.click_expression()
+        """在我的电脑会话窗，趣图发送成功后搜索结果依然保留"""
+        chat = SingleChatPage()
+        gif = ChatGIFPage()
+        if gif.is_gif_exist():
+            gif.close_gif()
+        gif.click_expression_icon()
         time.sleep(1)
-        # 点击gif
-        cwp.click_gif()
-        cgp = ChatGIFPage()
-        cgp.wait_for_page_load()
-        # 点击表情搜搜
-        cgp.input_message("6")
-        time.sleep(1)
-        # 点击第一个表情包
-        cgp.send_gif()
-        # 判断是否发送成功
-        cwp.wait_for_msg_send_status_become_to("发送成功", max_wait_time=10)
-        # 判断搜索结果是否存在
-        self.assertTrue(cgp.is_on_this_page())
+        chat.click_gif()
+        gif.wait_for_page_load()
+        # 2、搜索框输入关键字匹配到对应结果后点击返回
+        chars = ['ok', 'o', '哈哈', 'no', 'yes']
+        for msg in chars:
+            gif.input_message(msg)
+            if not gif.is_toast_exist("无搜索结果，换个热词试试", timeout=4):
+                chat.click_back()
+                # 3、再次进入该会话页面
+                cdp = ContactDetailsPage()
+                cdp.click_message_icon()
+                gif.input_message("")
+                current_mobile().hide_keyboard_if_display()
+                if gif.is_gif_exist():
+                    raise AssertionError("在单聊会话窗，gif搜索到对应结果后点击返回,再次进入该会话页面时gif存在")
+                return
+        raise AssertionError("在单聊会话窗，搜索框输入特殊字符" + "、".join(chars) + "无gif搜索结果")
 
     @staticmethod
     def setUp_test_msg_huangcaizui_D_0057():
