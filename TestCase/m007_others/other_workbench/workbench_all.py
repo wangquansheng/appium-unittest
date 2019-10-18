@@ -2105,11 +2105,12 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_huangcaizui_D_0057():
         Preconditions.select_mobile('Android-移动')
         # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_my_computer_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0057(self):
-        """1、点击GIF图标 2、点击搜索框右方×"""
+        """在我的电脑会话窗，关闭GIF搜索框"""
         # 判断网络是否正常
         mess = MessagePage()
         ns = mess.get_network_status()
@@ -2152,6 +2153,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_hanjiabin_0193(self):
+        """名片消息——单聊——发出名片后 - -消息界面——长按"""
         mess = MessagePage()
         Preconditions.enter_single_chat_page("大佬2")
         scp = SingleChatPage()
@@ -2162,7 +2164,7 @@ class Contacts_demo(TestCase):
         time.sleep(2)
         select_contacts_page.click_one_contact_631("大佬3")
         scp.click_text_or_description("发送名片")
-        scp.press_last_message_to_do("个人名片")
+        scp.press_mess("大佬3")
         # time.sleep(660)
         scp.page_should_contain_text("撤回")
         # 点击消息页搜索
@@ -2189,6 +2191,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_hanjiabin_0194(self):
+        """名片消息——单聊——发出名片后 - -消息界面——长按"""
         mess = MessagePage()
         Preconditions.enter_single_chat_page("大佬2")
         scp = SingleChatPage()
@@ -2199,7 +2202,7 @@ class Contacts_demo(TestCase):
         time.sleep(2)
         select_contacts_page.click_one_contact_631("大佬3")
         scp.click_text_or_description("发送名片")
-        scp.press_last_message_to_do("个人名片")
+        scp.press_mess("大佬3")
         # time.sleep(660)
         scp.page_should_contain_text("删除")
         # 点击消息页搜索
@@ -2226,6 +2229,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0023(self):
+        """最近聊天选择器：单聊内转发消息"""
         mess = MessagePage()
         mess = MessagePage()
         Preconditions.enter_single_chat_page("大佬2")
@@ -2237,9 +2241,9 @@ class Contacts_demo(TestCase):
         time.sleep(2)
         select_contacts_page.click_one_contact_631("大佬3")
         scp.click_text_or_description("发送名片")
-        scp.press_last_message_to_do("个人名片")
+        scp.press_mess("大佬3")
         # time.sleep(660)
-        scp.page_should_contain_text("删除")
+        scp.click_text_or_description("转发")
         # 点击消息页搜索
         # mess.click_search()
         # # 搜索关键词给个红包1
@@ -2353,6 +2357,7 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0285(self):
+        """联系——+号——添加联系人——进入单聊页面"""
         contactdetail = ContactDetailsPage()
         contactdetail.delete_contact('测试短信1')
         contactspage = ContactsPage()
@@ -2384,13 +2389,14 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_B_0015(self):
+        """验证点击确定按钮是否是进入发送短信页面"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
         # 搜索关键词给个红包1
         SearchPage().input_search_keyword("给个红包1")
         # 选择联系人进入联系人页
-        mess.choose_chat_by_name('给个红包1')
+        mess.choose_enter_chat('给个红包1')
         # 点击消息按钮发送消息
         ContactDetailsPage().click_message_icon()
         chatdialog = ChatNoticeDialog()
@@ -2429,7 +2435,7 @@ class Contacts_demo(TestCase):
         # 搜索关键词给个红包1
         SearchPage().input_search_keyword("给个红包1")
         # 选择联系人进入联系人页
-        mess.choose_chat_by_name('给个红包1')
+        mess.choose_enter_chat('给个红包1')
         # 点击消息按钮发送消息
         ContactDetailsPage().click_message_icon()
         chatdialog = ChatNoticeDialog()
@@ -2445,7 +2451,7 @@ class Contacts_demo(TestCase):
         # 判断存在退出短信按钮
         FreeMsgPage().wait_is_exist_exit()
         # 点击退出短信按钮
-        singe_chat.click_exit_sms()
+        singlechat.click_exit_sms()
         # 判断是否进入单聊对话框
         text = singlechat.is_on_this_page()
         self.assertTrue(lambda: (text.endswith(')') and text.startswith('(')))
@@ -2459,13 +2465,14 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_E_0022(self):
+        """短信设置默认关闭状态"""
         # 打开‘我’页面
         me = MePage()
         me.open_me_page()
         time.sleep(3)
         self.assertTrue(me.is_on_this_page())
         me.click_setting_menu()
-        me.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/setting_sms_text'))
+        me.click_text_or_description("消息")
         SmsSettingPage().assert_menu_item_has_been_turn_on('应用内收发短信')
 
     @staticmethod
@@ -2474,17 +2481,18 @@ class Contacts_demo(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist(["给个红包1, 13800138000"])
+        # Preconditions.create_contacts_if_not_exist(["给个红包1, 13800138000"])
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangmianhua_0400(self):
+        """企业群/党群在消息列表内展示——长按/左划出功能选择弹窗——iOS（左划）"""
         mess = MessagePage()
         # 点击消息页搜索
         mess.click_search()
         # 搜索关键词给个红包1
         SearchPage().input_search_keyword("给个红包1")
         # 选择联系人进入联系人页
-        mess.choose_chat_by_name('给个红包1')
+        mess.choose_enter_chat('给个红包1')
         # 点击消息按钮发送消息
         ContactDetailsPage().click_message_icon()
         chatdialog = ChatNoticeDialog()
@@ -2499,9 +2507,9 @@ class Contacts_demo(TestCase):
         mess.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_back01'))
         mess.is_on_this_page()
         single.press_mess("给个红包1")
-        mess.click_element((MobileBy.XPATH, '//*[@text ="置顶聊天"]'))
+        mess.click_text_or_description("置顶聊天")
         single.press_mess("给个红包1")
-        mess.click_element((MobileBy.XPATH, '//*[@text ="取消置顶"]'))
+        mess.click_text_or_description("取消置顶")
         mess.delete_message_record_by_name("给个红包1")
         mess.page_should_not_contain_text('给个红包1')
 
@@ -3811,7 +3819,7 @@ class Contacts_demo(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
         # 下面根据用例情况进入相应的页面
-        Preconditions.create_contacts_if_not_exist(["测试短信1, 13800138111", "测试短信2, 13800138112"])
+        Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111", "测试短信2, 13800138112"])
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0283(self):
@@ -3828,7 +3836,7 @@ class Contacts_demo(TestCase):
         labelgroup = LabelGroupingPage()
         time.sleep(2)
         if '测试分组1' not in labelgroup.get_label_grouping_names():
-            labelgroup.create_group('测试分组1', '测试短信1', '测试短信2')
+            labelgroup.create_group_631('测试分组1', '测试短信1', '测试短信2')
         # Step 2.任意点击一存在多名成员的标签分组
         labelgroup.click_label_group('测试分组1')
         time.sleep(2)
@@ -3944,7 +3952,6 @@ class Contacts_demo(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_E_0024(self):
-        """查看更多聊天记录"""
         # 1、联网正常
         # 2、已登录客户端
         # 3、当前聊天页面搜索页面
