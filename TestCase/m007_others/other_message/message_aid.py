@@ -2437,10 +2437,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0024(self):
         """1、在当前聊天会话页面，点击输入框左上方的相册图标.不选择照片，直接点击发送按钮"""
-        mess = MessagePage()
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
+        Preconditions.enter_my_computer_page()
         cwp = ChatWindowPage()
         # 点击发送图片
         cwp.click_img_msgs()
@@ -2452,10 +2449,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0025(self):
         """1、在当前聊天会话页面，点击输入框左上方的相册图标 2.选择一张照片，点击发送按钮"""
-        mess = MessagePage()
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
+        Preconditions.enter_my_computer_page()
         cwp = ChatWindowPage()
         # 点击发送图片
         cwp.send_img_msgs({"pic": (1,)})
@@ -2465,10 +2459,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0026(self):
         """1、在当前聊天会话页面，点击输入框左上方的相册图标 2.选择一张照片，点击左下角的预览按钮"""
-        mess = MessagePage()
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
+        Preconditions.enter_my_computer_page()
         cwp = ChatWindowPage()
         # 点击发送图片
         cwp.click_img_msgs()
@@ -2482,10 +2473,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0027(self):
         """1、在当前聊天会话页面，点击输入框左上方的相册图标 2.选择一张照片，点击左下角的预览按钮 3.直接点击发送按钮"""
-        mess = MessagePage()
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
+        Preconditions.enter_my_computer_page()
         cwp = ChatWindowPage()
         # 点击发送图片
         cwp.click_img_msgs()
@@ -2503,10 +2491,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0028(self):
         """1、在当前聊天会话页面，点击输入框左上方的相册图标 2.选择多张照片，点击左下角的预览按钮 3.查看发送按钮数字"""
-        mess = MessagePage()
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
+        Preconditions.enter_my_computer_page()
         cwp = ChatWindowPage()
         # 点击发送图片
         cwp.click_img_msgs()
@@ -2522,10 +2507,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0036(self):
         """1、在当前聊天会话页面，点击输入框左上方的相册图标 2、选择2张照片后，点击左下角的预览按钮"""
-        mess = MessagePage()
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
+        Preconditions.enter_my_computer_page()
         cwp = ChatWindowPage()
         # 点击发送图片
         cwp.click_img_msgs()
@@ -2543,10 +2525,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0037(self):
         """1、在当前聊天会话页面，点击输入框左上方的相册图标 2.选择9张图片，点击发送"""
-        mess = MessagePage()
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
+        Preconditions.enter_my_computer_page()
         cwp = ChatWindowPage()
         # 选择图片 选择预览
         index = []
@@ -2558,10 +2537,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0038(self):
         """1、在当前聊天会话页面，点击输入框左上方的相册图标 2.选择9张图片，点击发送"""
-        mess = MessagePage()
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
+        Preconditions.enter_my_computer_page()
         cwp = ChatWindowPage()
         # 点击图片
         cwp.click_img_msgs()
@@ -2574,10 +2550,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0039(self):
         """我的电脑会话页面，同时发送相册中的图片和视屏"""
-        mess = MessagePage()
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
+        Preconditions.enter_my_computer_page()
         cwp = ChatWindowPage()
         # 选择图片
         cwp.click_img_msgs()
@@ -2590,10 +2563,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0040(self):
         """1、在当前聊天会话页面，点击富媒体行拍照图标、拍摄照片，点击“√”"""
-        mess = MessagePage()
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
+        Preconditions.enter_my_computer_page()
         cwp = ChatWindowPage()
         # 选择拍照
         cwp.click_photo()
@@ -2609,10 +2579,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0044(self):
         """1、在当前聊天会话页面，点击富媒体行拍照图标 2、打开照相机，点击“∨”"""
-        mess = MessagePage()
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
+        Preconditions.enter_my_computer_page()
         cwp = ChatWindowPage()
         # 选择拍照
         cwp.click_photo()
@@ -2626,10 +2593,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0045(self):
         """1、在当前聊天会话页面，点击富媒体行拍照图标 2、打开照相机，点击“返回图标”"""
-        mess = MessagePage()
-        # 点击我的电脑
-        self.assertTrue(mess.page_should_contain_my_computer())
-        mess.click_my_computer()
+        Preconditions.enter_my_computer_page()
         cwp = ChatWindowPage()
         # 选择拍照
         cwp.click_photo()
