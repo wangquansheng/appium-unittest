@@ -657,15 +657,9 @@ class MsgAllPrior(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
 
-    @staticmethod
-    def setUp_test_call_wangqiong_0057():
-        """预置条件"""
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0057(self):
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
+        """网络正常，拨号盘多方电话  按钮，发起正常"""
         Preconditions.enter_call_page()
         # 点击多方通话
         call_page = CallPage()
@@ -678,9 +672,7 @@ class MsgAllPrior(TestCase):
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0059(self):
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
+        """网络正常，通话页-多方电话悬浮，发起正常，发起正常"""
         Preconditions.enter_call_page()
         # 点击多方通话
         call_page = CallPage()
@@ -699,8 +691,6 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_call_wangqiong_0063(self):
         """网络正常，多方电话通话详情页可再次呼叫成功"""
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
         Preconditions.enter_call_page()
         # 点击多方通话
         call_page = CallPage()
@@ -842,13 +832,6 @@ class MsgAllPrior(TestCase):
         # labellist._is_element_present((MobileBy.ID, 'com.android.incallui:id/endButton'))
         # labellist.click_element((MobileBy.ID, 'com.android.incallui:id/endButton'))
 
-    @staticmethod
-    def setUp_test_call_wangqiong_0080():
-        """预置条件"""
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0080(self):
         """本地搜索：联系人姓名（全名）精准搜索可匹配结果"""
@@ -894,10 +877,6 @@ class MsgAllPrior(TestCase):
         self.assertTrue(call_page._is_element_present(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="大佬1"]')))
 
-    @staticmethod
-    def setUp_test_call_wangqiong_0081():
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0081(self):
@@ -1136,6 +1115,8 @@ class MsgAllPrior(TestCase):
     def setUp_test_call_wangqiong_0120():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
+        contactspage = ContactsPage()
+        contactspage.open_contacts_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0120(self):
@@ -1361,6 +1342,7 @@ class MsgAllPrior(TestCase):
     @staticmethod
     def setUp_test_call_wangqiong_0155():
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("群聊1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -1389,7 +1371,7 @@ class MsgAllPrior(TestCase):
         contactselect = ContactsSelector()
         # 选择自己进行多方电话,弹框该联系人不可选择,呼叫按钮任然置灰
         contactselect.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/index_text'))
-        current_mobile().assert_element_should_be_disabled((MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'))
+        # current_mobile().assert_element_should_be_disabled((MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'))
 
     @staticmethod
     def setUp_test_call_wangqiong_0171():
@@ -1431,27 +1413,6 @@ class MsgAllPrior(TestCase):
                 if not b:
                     SelectContactsPage().click_one_contact_631('联系人4')
                 labellist.click_sure()
-
-        # 创建标签分组
-        labellist = LabelGroupingPage()
-        labellist.create_group('分组A', ["A联系人", "B联系人", "C联系人"])
-        # labellist.create_group('分组A', ['A联系人', 'B联系人', 'C联系人', 'D联系人', 'E联系人', 'F联系人', 'G联系人', 'H联系人', 'I联系人', 'J联系人', 'K联系人'])
-        labellist.click_label_group('分组A')
-        # 进入多方通话
-        labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_third_colum'))
-        # 查看时长
-        labellist.click_element((MobileBy.ID, 'com.chinasofti.rcs: id/multi_time_tip'))
-        self.assertTrue(labellist.is_text_present((MobileBy.XPATH, '//*[contains(@text, "分钟")]')))
-
-        # 按照字母滑动
-        contact = ContactsPage()
-        contact.click_element(
-            ('xpath', '//*[@resource-id="com.chinasofti.rcs:id/indexbarview"]'))
-        elements = contact.get_elements((MobileBy.ID, 'com.chinasofti.rcs:id/tv_name'))
-        for i in range(len(elements)):
-            elements[i].click()
-        # 判断右侧字符是否按顺序排列
-        current_mobile().is_right_letters_sorted()
 
     @staticmethod
     def setUp_test_call_wangqiong_0179():
@@ -1653,20 +1614,8 @@ class MsgAllPrior(TestCase):
         # 进入多方通话
         labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_third_colum'))
 
-        # 输入非全名 查看是否能模糊匹配到联系人
-        from pages import SelectLocalContactsPage
-        selectpage = SelectLocalContactsPage()
-        selectpage.search('联系人')
-        # 搜索到指定联系人选择之后 搜索栏清空 呼叫按钮可点击
-        selectpage.click_element((MobileBy.XPATH, '//*[contains(@text, "大佬1")]'))
-        time.sleep(3)
-        selectpage.element_should_be_enabled((MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'))
-
-        """判断输入框是否自动清空"""
-        self.assertTrue(selectpage.page_should_not_contain_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_delect')))
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
-    def test_call_call_wangqiong_0193(self):
+    def test_call_wangqiong_0193(self):
         """多方电话联系人选择器支持搜索保存在本地的固号呼叫"""
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
@@ -1707,15 +1656,9 @@ class MsgAllPrior(TestCase):
         # 挂断电话回到多方通话界面
         self.assertTrue(callcontact._is_element_present((MobileBy.ID, "com.chinasofti.rcs:id/btnFreeCall")))
 
-    @staticmethod
-    def setUp_test_call_wangqiong_0033():
-        """预置条件"""
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0033(self):
         """本网用户各和飞信电话入口，可成功发起呼叫"""
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
         # 1.在通讯录（群聊、单聊/标签分组）profile页，点击：和飞信电话（免费），发起呼叫（呼叫成功后挂断）
@@ -1769,15 +1712,9 @@ class MsgAllPrior(TestCase):
         # CheckPoint： 选择成员成功发起呼叫
         labellist.select_local_contacts("大佬1", "大佬2")
 
-    @staticmethod
-    def setUp_call_wangqiong_0194():
-        """预置条件"""
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0194(self):
         """多方电话联系人选择器支持搜索正确陌生内地固号"""
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1799,15 +1736,9 @@ class MsgAllPrior(TestCase):
         time.sleep(2)
         contactselect.click_sure_bottom()
 
-    @staticmethod
-    def setUp_test_call_wangqiong_0204():
-        """预置条件"""
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0204(self):
         """网络信号正常，发起多方电话流程正常"""
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1819,17 +1750,10 @@ class MsgAllPrior(TestCase):
         contactselect = ContactsSelector()
         contactselect.select_local_contacts("大佬1", "大佬2", "大佬3")
 
-    @staticmethod
-    def setUp_test_call_wangqiong_0210():
-        """预置条件"""
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0210(self):
         """多方电话呼叫中---网络正常下，会控界面显示正常"""
-
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1841,15 +1765,10 @@ class MsgAllPrior(TestCase):
         contactselect = ContactsSelector()
         contactselect.select_local_contacts("大佬1", "大佬2", "大佬3")
 
-    @staticmethod
-    def setUp_test_call_wangqiong_0211():
-        """预置条件"""
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0211(self):
         """多方电话呼叫中时--网络正常下，会控界面点击顶部可返回至系统通话页"""
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1861,18 +1780,10 @@ class MsgAllPrior(TestCase):
         contactselect = ContactsSelector()
         contactselect.select_local_contacts("大佬1", "大佬2", "大佬3")
 
-    @staticmethod
-    def setUp_test_call_wangqiong_0262():
-        """预置条件"""
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0262(self):
         """会控界面：“未接听”状态的成员，可支持重新拨号、移除成员、取消成功"""
-        """前置条件：保证contactnum1为真实号码 ，contactnum2为非真实现网手机"""
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        # 启动后不论当前在哪个页面，强制进入消息页面
-        Preconditions.force_enter_message_page_631()
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1888,16 +1799,10 @@ class MsgAllPrior(TestCase):
         time.sleep(2)
         selectcontacts.click_sure_bottom()
         time.sleep(2)
-
-    @staticmethod
-    def setUp_test_call_wangqiong_0266():
-        """预置条件"""
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0266(self):
         """发起多方电话呼叫邀请中，可点击会控界面挂断按钮，结束多方电话通话"""
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1914,14 +1819,9 @@ class MsgAllPrior(TestCase):
         selectcontacts.click_sure_bottom()
         time.sleep(2)
 
-    @staticmethod
-    def setUp_test_call_wangqiong_0267():
-        """预置条件"""
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0267(self):
         """发起多方电话呼叫邀请中，可点击系统电话挂断，结束多方电话通话"""
-        Preconditions.select_mobile('Android-移动')
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1936,7 +1836,6 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0288(self):
         """多人的多方电话--通话记录详情页各信息显示正常。"""
-        Preconditions.select_mobile('Android-移动')
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1957,16 +1856,9 @@ class MsgAllPrior(TestCase):
         self.assertTrue(callpage.page_should_contain_text('再次呼叫'))
         self.assertTrue(callpage.page_should_contain_text('一键建群'))
 
-    @staticmethod
-    def setUp_test_call_wangqiong_0289():
-        """预置条件"""
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0289(self):
         """发起1人的多方电话--通话记录详情页各信息显示正常。"""
-
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -1986,14 +1878,9 @@ class MsgAllPrior(TestCase):
         # Checkpoint：详情页是否有‘再次呼叫’
         self.assertTrue(callpage.page_should_contain_text('再次呼叫'))
 
-    @staticmethod
-    def setUp_test_call_wangqiong_0291():
-        """预置条件"""
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0291(self):
         """多方通话记录详情页--再次呼叫，网络正常重新呼叫多方电话"""
-        Preconditions.select_mobile('Android-移动')
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -2011,17 +1898,9 @@ class MsgAllPrior(TestCase):
         # 点击‘再次呼叫’
         callpage.click_mutil_call_again()
 
-    @staticmethod
-    def setUp_test_call_wangqiong_0292():
-        """预置条件"""
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0292(self):
         """发起1人的多方电话--再次呼叫，网络正常重新呼叫和飞信电话"""
-
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        # 进入通话页签
         Preconditions.enter_call_page()
         # 如果存在多方通话引导页跳过引导页
         callcontact = CalllogBannerPage()
@@ -2038,13 +1917,6 @@ class MsgAllPrior(TestCase):
         callpage.is_hefeixin_page('飞信电话')
         # 点击‘再次呼叫’
         callpage.click_mutil_call_again()
-
-
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0282():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0282(self):
@@ -2067,13 +1939,6 @@ class MsgAllPrior(TestCase):
         # Checkpoint 可以匹配展示搜索结果
         self.assertTrue(group_search.is_group_in_list('Aweqwqw'))
 
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0283():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0283(self):
         """通讯录-群聊-英文精确搜索——搜索结果展示"""
@@ -2094,13 +1959,6 @@ class MsgAllPrior(TestCase):
         group_search.input_search_keyword('fFOWEPQPW')
         # Checkpoint 可以匹配展示搜索结果
         contactspage.page_should_contain_text('无搜索结果')
-
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0289():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0289(self):
@@ -2123,12 +1981,6 @@ class MsgAllPrior(TestCase):
         # Checkpoint 可以匹配展示搜索结果
         contactspage.page_should_contain_text('无搜索结果')
 
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0290():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0290(self):
         """通讯录-群聊-字符精确搜索——搜索结果展示"""
@@ -2149,12 +2001,6 @@ class MsgAllPrior(TestCase):
         group_search.input_search_keyword('给个红包3')
         # Checkpoint 可以匹配展示搜索结果
         self.assertTrue(group_search.is_group_in_list('给个红包3'))
-
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0284():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0284(self):
@@ -2177,14 +2023,6 @@ class MsgAllPrior(TestCase):
         # Checkpoint 可以匹配展示搜索结果
         self.assertTrue(group_search.is_group_in_list('a a'))
 
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0285():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0285(self):
         """通讯录-群聊-空格精确搜索——搜索结果展示"""
@@ -2205,14 +2043,6 @@ class MsgAllPrior(TestCase):
         group_search.input_search_keyword('测  试  空  格')
         # Checkpoint 可以匹配展示搜索结果
         contactspage.page_should_contain_text('无搜索结果')
-
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0291():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0291(self):
@@ -2235,14 +2065,6 @@ class MsgAllPrior(TestCase):
         # Checkpoint 可以匹配展示搜索结果
         contactspage.page_should_contain_text('无搜索结果')
 
-
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0400():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0400(self):
         """验证群主A或群成员B在设置页面——点击+邀请群成员C后——发起人收到的群消息"""
@@ -2264,12 +2086,6 @@ class MsgAllPrior(TestCase):
         # Checkpoint 收到群消息：你向C发出群邀请
         mess.page_should_contain_text("你向 测试短信1... 发出群邀请")
 
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0286():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0286(self):
         """通讯录-群聊-数字精确搜索——搜索结果展示"""
@@ -2290,12 +2106,6 @@ class MsgAllPrior(TestCase):
         group_search.input_search_keyword('给个红包2')
         # Checkpoint 可以匹配展示搜索结果
         self.assertTrue(group_search.is_group_in_list('给个红包2'))
-
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0402():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0402(self):
@@ -2334,13 +2144,6 @@ class MsgAllPrior(TestCase):
         groupset.click_group_manage_disband_button()
         SingleChatPage().click_sure()
 
-
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0404():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0404(self):
         """在全局搜索搜索群聊时——点击进入到群会话窗口——群设置页面(重复在消息列表页已有的群聊列表进入到群这个入口进群进行测试)"""
@@ -2357,12 +2160,6 @@ class MsgAllPrior(TestCase):
         groupchat.click_setting()
         # Checkpoint 2、进入到群设置页面
         groupset.wait_for_page_load()
-
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0405():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0405(self):
@@ -2401,12 +2198,6 @@ class MsgAllPrior(TestCase):
         groupset.click_group_manage_disband_button()
         SingleChatPage().click_sure()
 
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0406():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0406(self):
         """在点击消息列表右上角的+，选择发起群聊选择已有群进入到群会话窗口和群设置页面(重复在消息列表页已有的群聊列表进入到群这个入口进群进行测试)"""
@@ -2429,12 +2220,6 @@ class MsgAllPrior(TestCase):
         # Checkpoint 2、进入到群设置页面
         groupset.wait_for_page_load()
 
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0408():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0408(self):
         """点击通讯录——点击群聊——任意选中一个群——进入到群会话窗口和群设置页面"""
@@ -2455,13 +2240,6 @@ class MsgAllPrior(TestCase):
         groupchat.click_setting()
         # Checkpoint 2、进入到群设置页面
         GroupChatSetPage().wait_for_page_load()
-
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0409():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0409(self):
@@ -2507,27 +2285,40 @@ class MsgAllPrior(TestCase):
         groupset.click_group_manage_disband_button()
         SingleChatPage().click_sure()
 
-
-
-    @staticmethod
-    def setUp_test_msg_xiaoqiu_0534():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0534(self):
         """创建一个普通群"""
         # 1、网络正常
         # 2、已登录和飞信
         # 4、当前用户未创建任何群聊
-        mess = MessagePage()
-        # Step 使用创建群聊功能，创建1个普通群
-        Preconditions.create_group_if_not_exist_not_enter_chat('测试群组5', "大佬1", "大佬2")
-        mess.search_and_enter('测试群组5')
-        groupchat = GroupChatPage()
-        # Checkpoint 可以正常创建一个普通群
-        groupchat.wait_for_page_load()
+        contactspage = ContactsPage()
+        grouplist = GroupListPage()
+        contactspage.open_contacts_page()
+        contactspage.wait_for_contact_load()
+        contactspage.click_sim_contact()
+        contactspage.click_group_chat_631()
+        grouplist.click_create_group()
+        # Step 选择手机联系人
+        select_cont = SelectContactsPage()
+        select_cont.select_local_contacts()
+        ContactsSelector().click_local_contacts('大佬2')
+        select_cont.click_back()
+        select_cont.click_search_keyword()
+        select_cont.input_search_keyword('13901390144')
+        select_cont.select_one_contact_by_name('13901390144(未知号码)')
+        select_cont.click_sure_bottom()
+        # Checkpoint 跳转到群名称设置页面
+        groupname = GroupNamePage()
+        groupname.wait_for_page_load_631()
+        groupname.clear_input_group_name()
+        groupname.input_group_name_631('测试群组')
+        groupname.click_sure()
+        # Checkpoint 可以创建普通群聊成功
+        GroupChatPage().wait_for_page_load()
+        # Step 2、点击右上角的群设置按钮
+        GroupChatPage().click_setting()
+        # Checkpoint 2、进入到群设置页面
+        GroupChatSetPage().wait_for_page_load()
 
     @staticmethod
     def tearDown_test_msg_xiaoqiu_0534():
@@ -2545,6 +2336,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0548():
         # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -2555,7 +2347,6 @@ class MsgAllPrior(TestCase):
         # 3、已消除红点
         # 4、群主、群成员
         # 5、仅限大陆本网和异网号码
-        mess = MessagePage()
         groupchat = GroupChatPage()
         groupset = GroupChatSetPage()
         groupchat.wait_for_page_load()
@@ -2574,6 +2365,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0605():
         # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -2599,16 +2391,16 @@ class MsgAllPrior(TestCase):
         groupchat.click_back()
         SearchPage().click_back_button()
         # Step 查看该消息列表窗口显示
-        mess.page_should_contain_text('测试群组1')
+        mess.page_should_contain_text('给个红包1')
         # Checkpoint 该消息列表窗口直接展示：草稿
         mess.page_should_contain_text('[草稿] ')
         mess.page_should_contain_text('呵呵呵2')
-        mess.delete_message_record_by_name("测试群组1")
+        mess.delete_message_record_by_name("给个红包1")
 
     @staticmethod
     def setUp_test_msg_xiaoqiu_0613():
-        # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -2632,6 +2424,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0614():
         # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -2661,6 +2454,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0427():
         # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -2696,7 +2490,7 @@ class MsgAllPrior(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
         # 进入单聊页面
-        Preconditions.enter_private_chat_page()
+        Preconditions.enter_single_chat_page("大佬1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0496(self):
@@ -2725,7 +2519,7 @@ class MsgAllPrior(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
         # 进入单聊页面
-        Preconditions.enter_private_chat_page()
+        Preconditions.enter_single_chat_page("大佬1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0504(self):
@@ -2835,24 +2629,11 @@ class MsgAllPrior(TestCase):
         # 判断存在手机联系人列表
         freemsg.page_should_contain_element((MobileBy.ID, 'com.chinasofti.rcs:id/contact_list'))
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0044():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0044(self):
         """消息-消息列表进入"""
         mess = MessagePage()
         mess.page_should_contain_element((MobileBy.ID, 'com.chinasofti.rcs:id/tv_title'))
-
-    @staticmethod
-    def setUp_test_msg_huangcaizui_E_0001():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-        # 下面根据用例情况进入相应的页面
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_E_0001(self):
@@ -2876,12 +2657,6 @@ class MsgAllPrior(TestCase):
         search = SearchPage()
         search.assert_contact_name_display('给个红包1')
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_E_0007():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_E_0007(self):
         """搜索关键字-中文模糊搜索"""
@@ -2897,6 +2672,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0433():
         # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -2950,6 +2726,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0434():
         # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -3003,6 +2780,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0436():
         # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -3055,6 +2833,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0439():
         # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -3107,6 +2886,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0440():
         # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -3152,6 +2932,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0441():
         # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -3184,6 +2965,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0465():
         # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -3228,6 +3010,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0469():
         # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
@@ -3262,6 +3045,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_xiaoqiu_0550():
         # 启动App
         Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("给个红包2")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')

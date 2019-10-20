@@ -7018,17 +7018,6 @@ class MsgCommonGroupPriorityTest(TestCase):
         time.sleep(2)
         gcsp.save_group_name()
         gcsp.wait_for_page_load()
-        gn = Preconditions.get_group_chat_name()
-        if not gcsp.is_text_present(gn):
-            raise AssertionError("没有直接保存现有群名称")
-        gcsp.click_modify_group_name()
-        time.sleep(1)
-        gcsp.click_iv_delete_button()
-        time.sleep(2)
-        if not gcsp.is_text_present("请输入群聊名称"):
-            raise AssertionError("不可以一次性清除群名称文案")
-        gcsp.click_edit_group_card_back()
-        gcsp.click_back()
 
     @tags('ALL', 'Priority', 'CMCC', 'high')
     def test_msg_xiaoqiu_0141(self):

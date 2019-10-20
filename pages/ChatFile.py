@@ -34,6 +34,7 @@ class ChatFilePage(BasePage):
                   '收藏': (MobileBy.XPATH, "//*[contains(@text, '收藏')]"),
                   '转发': (MobileBy.XPATH, "//*[contains(@text, '转发')]"),
                   '删除': (MobileBy.XPATH, "//*[contains(@text, '删除')]"),
+                  '撤回': (MobileBy.XPATH, "//*[contains(@text, '撤回')]")
                   }
 
     @TestLogger.log()
@@ -48,6 +49,13 @@ class ChatFilePage(BasePage):
         el = self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file))
         self.press(el)
         self.click_element(self.__class__.__locators['删除'])
+
+    @TestLogger.log()
+    def de_file(self, file):
+        """长按文件撤回"""
+        el = self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file))
+        self.press(el)
+        self.click_element(self.__class__.__locators['撤回'])
 
     @TestLogger.log()
     def collection_file(self, file):

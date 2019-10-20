@@ -184,7 +184,6 @@ class MessagePage(FooterPage):
     @TestLogger.log()
     def is_on_this_page(self):
         """当前页面是否在消息页"""
-
         # mark=10
         # while mark>0:
         #     time.sleep(1)

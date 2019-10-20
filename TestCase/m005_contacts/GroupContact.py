@@ -921,6 +921,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0064(self):
+        """点击搜索结果已保存到本地的非RCS用户进入Profile页"""
         group_contact = EnterpriseContactsPage()
         group_contact.wait_for_page_load()
         group_contact.click_search_box()
@@ -968,6 +969,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0066(self):
+        """点击搜索结果未保存到本地的RCS用户进入Profile页"""
         group_contact = EnterpriseContactsPage()
         group_contact.wait_for_page_load()
         group_contact.click_search_box()
@@ -1014,6 +1016,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0067(self):
+        """点击搜索结果未保存到本地的非RCS用户进入Profile页"""
         group_contact = EnterpriseContactsPage()
         group_contact.wait_for_page_load()
         group_contact.click_search_box()
@@ -1061,6 +1064,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0068(self):
+        """点击搜索结果未保存到本地的本机用户进入Profile页"""
         group_contact = EnterpriseContactsPage()
         group_contact.wait_for_page_load()
         group_contact.click_search_box()
@@ -1114,6 +1118,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0093(self):
+        """子层级下已保存到本地的非RCS用户Profile"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_sub_level_department_by_name('bm0')
         group_contact.click_search_box()
@@ -1197,6 +1202,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0094(self):
+        """子层级已保存到本地的本机用户Profile"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_sub_level_department_by_name('bm0')
         time.sleep(1)
@@ -1247,6 +1253,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0095(self):
+        """子层级未保存到本地的RCS用户Profile"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_sub_level_department_by_name('bm0')
         time.sleep(1)
@@ -1278,6 +1285,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0096(self):
+        """子层级未保存到本地的非RCS用户Profile"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_search_box()
         time.sleep(1)
@@ -1359,6 +1367,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0097(self):
+        """子层级未保存到本地的本机用户Profile"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_sub_level_department_by_name('bm0')
         time.sleep(1)
@@ -1408,6 +1417,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0107(self):
+        """点击搜索结果已保存到本地的RCS用户进入Profile页"""
         group_contact=EnterpriseContactsPage()
         group_contact.click_sub_level_department_by_name('测试部门1')
         group_contact.click_search_box()
@@ -1490,6 +1500,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0108(self):
+        """点击搜索结果已保存到本地的非RCS用户进入Profile页"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_sub_level_department_by_name('bm0')
         group_contact.click_search_box()
@@ -1580,6 +1591,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0109(self):
+        """点击搜索结果已保存到本地的本机用户进入Profile页"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_sub_level_department_by_name('bm0')
         time.sleep(1)
@@ -1637,6 +1649,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0110(self):
+        """点击搜索结果未保存到本地的RCS用户进入Profile页"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_sub_level_department_by_name('bm0')
         time.sleep(1)
@@ -1716,6 +1729,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0111(self):
+        """点击搜索结果未保存到本地的非RCS用户进入Profile页"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_sub_level_department_by_name('bm0')
         time.sleep(1)
@@ -1796,6 +1810,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0112(self):
+        """点击搜索结果未保存到本地的本机用户进入Profile页"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_sub_level_department_by_name('bm0')
         time.sleep(1)
@@ -1846,6 +1861,7 @@ class MygroupSearchPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact', 'my_group')
     def test_contacts_quxinli_0129(self):
+        """点击搜索结果长ID企业已保存到本地的RCS用户进入Profile页"""
         group_contact = EnterpriseContactsPage()
         group_contact.click_sub_level_department_by_name('bm0')
         time.sleep(2)

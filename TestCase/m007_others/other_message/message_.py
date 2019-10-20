@@ -1,5 +1,6 @@
 import time
 import unittest
+import warnings
 
 from appium.webdriver.common.mobileby import MobileBy
 
@@ -648,6 +649,16 @@ class Preconditions(WorkbenchPreconditions):
 
 class Contacts_demo(TestCase):
 
+    def default_setUp(self):
+        """确保每个用例运行前在消息页面"""
+        Preconditions.select_mobile('Android-移动')
+        mess = MessagePage()
+        if mess.is_on_this_page():
+            return
+        else:
+            current_mobile().launch_app()
+            Preconditions.make_already_in_message_page()
+
     @staticmethod
     def setUp_test_msg_hanjiabin_0179():
         # 启动App
@@ -671,15 +682,10 @@ class Contacts_demo(TestCase):
         # 判断存在选择联系人
         SelectContactPage().is_exist_select_contact_btn()
 
-    @staticmethod
-    def setUp_test_msg_hanjiabin_0187():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.enter_single_chat_page("大佬2")
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_hanjiabin_0187(self):
         """名片消息——单聊——异常场景——发送方"""
+        Preconditions.enter_single_chat_page("大佬2")
         current_mobile().set_network_status(1)
         single = SingleChatPage()
         single.input_text_message("测试一个呵呵")
@@ -699,7 +705,6 @@ class Contacts_demo(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_hanjiabin_0189(self):
         """名片消息——单聊——发出名片后--消息界面——点击查看"""
-        mess = MessagePage()
         ChatMorePage().close_more()
         ChatMorePage().click_card()
         SelectContactsPage().click_one_contact_631("给个名片2")
@@ -745,7 +750,6 @@ class Contacts_demo(TestCase):
         mess.click_free_sms()
         mess_call_page = CallPage()
         freemsg = FreeMsgPage()
-        chatdialog = ChatNoticeDialog()
         # 若存在欢迎页面
         if freemsg.is_exist_welcomepage():
             # 点击确定按钮
@@ -761,12 +765,6 @@ class Contacts_demo(TestCase):
         # 判断存在退出短信按钮
         FreeMsgPage().wait_is_exist_exit()
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0045():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_message_page()
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0045(self):
         """消息-消息列表界面+功能页面元素检查"""
@@ -779,41 +777,28 @@ class Contacts_demo(TestCase):
         mess.page_should_contain_text('群发助手')
         mess.page_should_contain_text('扫一扫')
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0052():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.enter_single_chat_page("大佬2")
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0052(self):
         """消息-消息列表进入到会话页面"""
+        Preconditions.enter_single_chat_page("大佬2")
         single = SingleChatPage()
         single.input_text_message("测试一个呵呵")
         single.send_text()
         time.sleep(2)
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0064():
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.enter_single_chat_page("大佬2")
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0064(self):
         """消息—一对一消息会话—设置"""
+        Preconditions.enter_single_chat_page("大佬2")
         single = SingleChatPage()
         single.wait_for_page_load()
         single.click_setting()
         self.assertTrue(SingleChatSetPage().is_on_this_page())
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0065():
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.enter_single_chat_page("大佬2")
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0065(self):
         """消息—一对一消息会话—设置页面头像转跳"""
+        Preconditions.enter_single_chat_page("大佬2")
         single = SingleChatPage()
         chat_set = SingleChatSetPage()
         single.click_setting()
@@ -821,33 +806,22 @@ class Contacts_demo(TestCase):
         chat_set.click_avatar()
         GroupChatSetSeeMembersPage().wait_for_profile_page_load()
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0070():
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.enter_single_chat_page("大佬2")
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0070(self):
         """消息-一对一消息会话-设置页面查找聊天内容"""
+        Preconditions.enter_single_chat_page("大佬2")
         single = SingleChatPage()
-        mess = MessagePage()
         chat_set = SingleChatSetPage()
         single.click_setting()
         chat_set.is_on_this_page()
         chat_set.search_chat_record()
         FindChatRecordPage().wait_for_page_loads()
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0072():
-        # 启动App
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.enter_single_chat_page("大佬2")
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0072(self):
         """输入框中输入表情消息不发送，进入查找聊天内容后是否还显示草稿"""
+        Preconditions.enter_single_chat_page("大佬2")
         single = SingleChatPage()
-        mess = MessagePage()
         chat_set = SingleChatSetPage()
         findchat = FindChatRecordPage()
         if not single._is_element_present((MobileBy.XPATH, '//*[@text ="呵呵哒"]')):
@@ -867,14 +841,10 @@ class Contacts_demo(TestCase):
         findchat.click_record()
         CallPage().wait_for_chat_page()
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0078():
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.enter_single_chat_page("大佬2")
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0078(self):
         """消息-一对一消息会话-设置页面查找不存在的聊天内容"""
+        Preconditions.enter_single_chat_page("大佬2")
         single = SingleChatPage()
         mess = MessagePage()
         chat_set = SingleChatSetPage()
@@ -886,30 +856,21 @@ class Contacts_demo(TestCase):
         findchat.input_search_message('ADDWOQWIQWOPPQWIDIWQDQW')
         mess.page_should_contain_element((MobileBy.XPATH, '//*[@text ="无搜索结果"]'))
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0089():
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.enter_single_chat_page("大佬2")
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0089(self):
         """一对一聊天设置创建群聊"""
+        Preconditions.enter_single_chat_page("大佬2")
         single = SingleChatPage()
-        mess = MessagePage()
         chat_set = SingleChatSetPage()
         single.click_setting()
         chat_set.is_on_this_page()
         chat_set.click_add_icon()
         ContactsSelector().wait_for_contacts_selector_page_load()
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0100():
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.enter_single_chat_page("大佬2")
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0100(self):
         """长按消息体是否弹出多功能列表"""
+        Preconditions.enter_single_chat_page("大佬2")
         single = SingleChatPage()
         mess = MessagePage()
         # 如果当前页面不存在消息，发送一条消息
@@ -926,30 +887,21 @@ class Contacts_demo(TestCase):
         single.page_should_contain_text("删除")
         single.page_should_contain_text("多选")
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0151():
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.enter_single_chat_page("大佬2")
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0151(self):
         """进入到单聊天会话页面，发送一条字符等于5000的文本消息"""
+        Preconditions.enter_single_chat_page("大佬2")
         single = SingleChatPage()
-        mess = MessagePage()
         self.assertTrue(single.is_exist_send_audio_button())
         single.input_text_message("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
         self.assertTrue(single.is_exist_send_txt_button())
         single.send_text()
         time.sleep(1)
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0182():
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.enter_single_chat_page("大佬2")
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0182(self):
         """自己撤回文本消息，是否会起新的头像"""
+        Preconditions.enter_single_chat_page("大佬2")
         single = SingleChatPage()
         mess = MessagePage()
         # 如果当前页面不存在消息，发送一条消息
@@ -964,14 +916,10 @@ class Contacts_demo(TestCase):
         time.sleep(3)
         mess.page_should_contain_element((MobileBy.XPATH, '//*[@text ="你撤回了一条信息"]'))
 
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0184():
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.enter_single_chat_page("大佬2")
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0184(self):
         """聊天会话窗口的批量选择器页面展示"""
+        Preconditions.enter_single_chat_page("大佬2")
         mess = MessagePage()
         single = SingleChatPage()
         # 如果当前页面不存在消息，发送一条消息

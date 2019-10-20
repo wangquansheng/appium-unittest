@@ -385,6 +385,7 @@ class SuperMeetingTest(TestCase):
             workbench.wait_for_page_load()
 
     # @tags('ALL', 'CMCC', 'workbench', 'CJHY')
+    @unittest.skip("跳过")
     def test_CJHY_0008(self):
         """联系人姓名（全名）精准搜索"""
         # 1.在搜索框输入联系人姓名（全名）, 查看匹配结果

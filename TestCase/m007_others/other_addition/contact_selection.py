@@ -3,6 +3,7 @@ import random
 import string
 import unittest
 import preconditions
+from library.core.utils.applicationcache import current_mobile
 from preconditions.BasePreconditions import LoginPreconditions
 from preconditions.BasePreconditions import WorkbenchPreconditions
 from library.core.TestCase import TestCase
@@ -103,6 +104,48 @@ class Preconditions(WorkbenchPreconditions):
 
 class MsgContactsSelect(TestCase):
     """单聊-联系人选择器-新建消息"""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        import warnings
+        warnings.simplefilter('ignore', ResourceWarning)
+        Preconditions.select_mobile('Android-移动')
+        current_mobile().hide_keyboard_if_display()
+        Preconditions.make_already_in_message_page()
+        # 导入测试联系人、群聊
+        fail_time1 = 0
+        flag1 = False
+        import dataproviders
+        while fail_time1 < 2:
+            try:
+                Preconditions.make_already_in_message_page()
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                conts.open_contacts_page()
+                if conts.is_text_present("发现SIM卡联系人"):
+                    conts.click_text("显示")
+                for name, number in required_contacts:
+                    # 创建联系人
+                    conts.create_contacts_if_not_exits_new(name, number)
+                required_group_chats = dataproviders.get_preset_group_chats()
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name, members in required_group_chats:
+                    group_list.wait_for_page_load()
+                    # 创建群
+                    group_list.create_group_chats_if_not_exits(group_name, members)
+                group_list.click_back()
+                conts.open_message_page()
+                flag1 = True
+            except:
+                fail_time1 += 1
+            if flag1:
+                break
+
+    def default_setUp(self):
+        # 启动App
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
 
     @staticmethod
     def setUp_test_msg_huangcaizui_A_0002():

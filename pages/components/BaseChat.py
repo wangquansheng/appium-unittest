@@ -237,6 +237,13 @@ class BaseChatPage(BasePage):
         self.press(el)
 
     @TestLogger.log()
+    def press_file_to_do(self, file, text):
+        """长按指定文件进行操作"""
+        el = self.get_element((MobileBy.XPATH, "//*[contains(@text, '%s')]" % file))
+        self.press(el)
+        self.click_element(self.__class__.__locators[text])
+
+    @TestLogger.log()
     def press_pic(self):
         """长按图片"""
         el = self.get_element(self.__class__.__locators['消息图片'])
@@ -658,6 +665,11 @@ class BaseChatPage(BasePage):
     def click_send_sms(self):
         """点击发送短信"""
         self.click_element(self.__class__.__locators["发送短信"])
+
+    @TestLogger.log()
+    def click_sure_send_sms(self):
+        """点击确定发送短信"""
+        self.click_element((MobileBy.ID, 'com.android.mms:id/send_button_sms'))
 
     @TestLogger.log()
     def click_copy(self):

@@ -361,48 +361,6 @@ class MsgAllPrior(TestCase):
                 flag = True
         self.assertTrue(flag)
 
-    @staticmethod
-    def setUp_test_me_zhangshuli_111():
-        Preconditions.select_mobile('Android-移动')
-        current_mobile().hide_keyboard_if_display()
-        Preconditions.make_already_in_message_page()
-        me_page = MePage()
-        me_page.open_me_page()
-
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
-    def test_me_zhangshuli_111(self):
-        # 打开‘我’页面
-        me = MePage()
-        me.click_element((MobileBy.ID,"com.chinasofti.rcs:id/redpager"))
-        agreement_detail_page = AgreementDetailPage()
-        agreement_detail_page.is_current_activity_match_this_page()
-        time.sleep(3)
-        elements = agreement_detail_page.get_elements((MobileBy.ID, 'com.chinasofti.rcs:id/lv_cash_area'))
-        time.sleep(3)
-        self.assertTrue(len(elements) > 0)
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/lv_cash_area'))
-        text = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/id_tv_cash'))
-        # 1.00
-        # self.assertTrue(text == "1.00")
-        title = agreement_detail_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/tv_actionbar_title'))
-        self.assertTrue(title == "和包余额")
-        get_elements = agreement_detail_page.get_elements((MobileBy.CLASS_NAME, 'android.widget.TextView'))
-        flag = False
-        for el in get_elements:
-            if el.text == "原和飞信零钱已合并至和包余额":
-                flag = True
-        self.assertTrue(flag)
-        # status = agreement_detail_page.get_network_status()
-        # if status != 1:
-        agreement_detail_page.set_network_status(0)
-        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_tv_cash_recharge'))
-        exist = agreement_detail_page.is_toast_exist("当前网络不可用，请检查网络设置")
-        self.assertTrue(exist)
-
-    def tearDown_test_me_zhangshuli_111(self):
-        mess = MessagePage()
-        mess.set_network_status(6)
-
     def setUp_test_me_zhangshuli_112(self):
         Preconditions.select_mobile('Android-移动')
         current_mobile().hide_keyboard_if_display()
@@ -410,7 +368,8 @@ class MsgAllPrior(TestCase):
         me_page = MePage()
         me_page.open_me_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过")
     def test_me_zhangshuli_110(self):
         """充值-网络异常"""
         me = MePage()
@@ -602,7 +561,8 @@ class MsgAllPrior(TestCase):
         me_page = MePage()
         me_page.open_me_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过")
     def test_me_zhangshuli_142(self):
         """网络异常时进入流量页面"""
         # 用例描述为:点击流量
@@ -633,7 +593,8 @@ class MsgAllPrior(TestCase):
         me_page = MePage()
         me_page.open_me_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过")
     def test_me_zhangshuli_143(self):
         """查看流量明细"""
         # 打开‘我’页面
@@ -668,7 +629,6 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_144(self):
         """银行卡页面展示"""
-        # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
         time.sleep(2)
@@ -1021,7 +981,6 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_172(self):
         """银行卡页面填写20位银行卡号"""
-        # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
         time.sleep(2)
@@ -1061,26 +1020,17 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_me_zhangshuli_173(self):
         """填写完15-19位银行卡号后断开网络"""
-        # 打开‘我’页面
         me = MePage()
         me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
-        time.sleep(5)
-        # 点击银行卡
-        elements = agreement_detail_page.get_elements((MobileBy.CLASS_NAME, 'android.widget.TextView'))
-        for e in elements:
-            if e.text == "银行卡":
-                e.click()
-                # exist = agreement_detail_page.is_toast_exist("当前网络不可用，请检查网络设置")
-                # self.assertTrue(exist)
-                break
-            else:
-                continue
         time.sleep(3)
-        # 点击 绑定新的银行卡
-        agreement_detail_page.click_text_or_description("绑定新的银行卡")
+        elements = agreement_detail_page.get_elements((MobileBy.ID, 'com.chinasofti.rcs:id/lv_cash_area'))
+        time.sleep(3)
+        self.assertTrue(len(elements) > 0)
+        agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
+        self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
 
         time.sleep(5)
         agreement_detail_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),

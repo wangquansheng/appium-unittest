@@ -434,11 +434,22 @@ class SelectContactsPage(BasePage):
         except:
             raise AssertionError("没有本地联系人可转发")
 
-    @TestLogger.log()
-    def select_one_contact_by_name(self, name):
-        """通过名称选择一个联系人"""
-        self.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text ="%s"]' % name))
+    # @TestLogger.log()
+    # def select_one_contact_by_name(self, name):
+    #     """通过名称选择一个联系人"""
+    #     self.click_element(
+    #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text ="%s"]' % name))
+
+    def select_one_contact_by_name(self, name, max_try=20):
+        """通过名字选择一个聊天"""
+        locator = (MobileBy.XPATH, '//*[@text ="%s"]' % name)
+        current = 0
+        while current < max_try:
+            if self._is_element_present(locator):
+                break
+            current += 1
+            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        self.click_element(locator)
 
     @TestLogger.log()
     def get_contact_name2(self):

@@ -293,6 +293,7 @@ class MessageScanTest(TestCase):
         # Step: 2.编辑好短信，点击发送按钮
         basepg.input_free_message("测试短信，请勿回复")
         basepg.click_send_sms()
+        basepg.click_sure_send_sms()
         time.sleep(1)
         if basepg.is_exist_send_button():
             basepg.click_send_button()
@@ -333,6 +334,7 @@ class MessageScanTest(TestCase):
         # Step: 2.编辑好短信，点击发送按钮
         basepg.input_free_message("测试短信，请勿回复")
         basepg.click_send_sms()
+        basepg.click_sure_send_sms()
         time.sleep(1)
         if basepg.is_exist_send_button():
             basepg.click_send_button()
@@ -384,6 +386,7 @@ class MessageScanTest(TestCase):
         basepg.hide_keyboard()
         time.sleep(1)
         basepg.click_send_sms()
+        basepg.click_sure_send_sms()
         time.sleep(2)
         # 2、长按短信
         basepg.press_mess("测试短信，请勿回复")
@@ -428,6 +431,7 @@ class MessageScanTest(TestCase):
         basepg.input_free_message("测试短信，请勿回复")
         time.sleep(2)
         basepg.click_send_sms()
+        basepg.click_sure_send_sms()
         time.sleep(2)
         # 2、长按短信
         basepg = BaseChatPage()
@@ -467,6 +471,7 @@ class MessageScanTest(TestCase):
         basepg.hide_keyboard()
         time.sleep(2)
         basepg.click_send_sms()
+        basepg.click_sure_send_sms()
         time.sleep(2)
         # 2、长按短信
         basepg = BaseChatPage()
@@ -502,6 +507,7 @@ class MessageScanTest(TestCase):
         basepg.input_free_message("测试短信，请勿回复")
         time.sleep(2)
         basepg.click_send_sms()
+        basepg.click_sure_send_sms()
         time.sleep(2)
         # 2、长按短信
         basepg = BaseChatPage()
@@ -538,6 +544,7 @@ class MessageScanTest(TestCase):
         basepg.hide_keyboard()
         time.sleep(2)
         basepg.click_send_sms()
+        basepg.click_sure_send_sms()
         time.sleep(2)
         # 2、长按短信
         basepg = BaseChatPage()

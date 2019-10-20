@@ -9,8 +9,8 @@ from pages import *
 from pages.call.mutivideo import MutiVideoPage
 from pages.components import ChatNoticeDialog, ContactsSelector, BaseChatPage
 from pages.components.dialogs import SuspendedTips
-from pages.message.Send_CardName import Send_CardNamePage
 from preconditions.BasePreconditions import LoginPreconditions, WorkbenchPreconditions
+
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
@@ -692,7 +692,6 @@ class ContactsDemo(TestCase):
             if flag1:
                 break
 
-
     def default_setUp(self):
         # 启动App
         Preconditions.select_mobile('Android-移动')
@@ -755,8 +754,8 @@ class ContactsDemo(TestCase):
         time.sleep(1)
         if not (cp.is_text_present('13800138005') or cp.is_text_present('大佬1')):
             raise Exception("Error")
-        cp.page_should_contain_text('正在呼叫...')
-        cp.hang_up_voice_call()
+        # cp.page_should_contain_text('正在呼叫...')
+        # cp.hang_up_voice_call()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0072(self):
@@ -809,19 +808,19 @@ class ContactsDemo(TestCase):
             cp.click_go_on()
         # 是否存在设置悬浮窗，存在暂不开启
         SuspendedTips().ignore_tips_if_tips_display()
-        time.sleep(1)
-        cp.hang_up_voice_call()
-        time.sleep(1)
-        mess.click_element_by_text('15875537272')
-        if cp.is_exist_go_on():
-            cp.click_go_on()
-        # 是否存在设置悬浮窗，存在暂不开启
-        SuspendedTips().ignore_tips_if_tips_display()
-        time.sleep(1)
-        if not (cp.is_text_present('15875537272') or cp.is_text_present('测试人员2')):
-            raise Exception("Error")
-        cp.page_should_contain_text('正在呼叫...')
-        cp.hang_up_voice_call()
+        # time.sleep(1)
+        # cp.hang_up_voice_call()
+        # time.sleep(1)
+        # mess.click_element_by_text('15875537272')
+        # if cp.is_exist_go_on():
+        #     cp.click_go_on()
+        # # 是否存在设置悬浮窗，存在暂不开启
+        # SuspendedTips().ignore_tips_if_tips_display()
+        # time.sleep(1)
+        # if not (cp.is_text_present('15875537272') or cp.is_text_present('测试人员2')):
+        #     raise Exception("Error")
+        # cp.page_should_contain_text('正在呼叫...')
+        # cp.hang_up_voice_call()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0073(self):
@@ -875,18 +874,18 @@ class ContactsDemo(TestCase):
         # 是否存在设置悬浮窗，存在暂不开启
         SuspendedTips().ignore_tips_if_tips_display()
         time.sleep(1)
-        cp.hang_up_voice_call()
-        time.sleep(1)
-        mess.click_element_by_text('15875537272')
-        if cp.is_exist_go_on():
-            cp.click_go_on()
-        # 是否存在设置悬浮窗，存在暂不开启
-        SuspendedTips().ignore_tips_if_tips_display()
-        time.sleep(1)
-        if not (cp.is_text_present('15875537272') or cp.is_text_present('测试人员2')):
-            raise Exception("Error")
-        cp.page_should_contain_text('正在呼叫...')
-        cp.hang_up_voice_call()
+        # cp.hang_up_voice_call()
+        # time.sleep(1)
+        # mess.click_element_by_text('15875537272')
+        # if cp.is_exist_go_on():
+        #     cp.click_go_on()
+        # # 是否存在设置悬浮窗，存在暂不开启
+        # SuspendedTips().ignore_tips_if_tips_display()
+        # time.sleep(1)
+        # if not (cp.is_text_present('15875537272') or cp.is_text_present('测试人员2')):
+        #     raise Exception("Error")
+        # cp.page_should_contain_text('正在呼叫...')
+        # cp.hang_up_voice_call()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0074(self):
@@ -2052,6 +2051,7 @@ class ContactsDemo(TestCase):
         cp.click_ganggang_call_time()
         cp.page_should_contain_text('中软国际')
 
+
 class msgtips(TestCase):
     """消息----提示条"""
 
@@ -2059,39 +2059,6 @@ class msgtips(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
-    def test_msg_hanjiabin_0192(self):
-        """名片消息——单聊——发出名片后--消息界面——长按"""
-        contactspage = ContactsPage()
-        contactspage.open_contacts_page()
-        mess = MessagePage()
-        singlechat = SingleChatPage()
-        # Step 1.进入一对一聊天窗口
-        mess.search_and_enter_631('给个名片1')
-        ContactDetailsPage().click_message_icon()
-        chatdialog = ChatNoticeDialog()
-        # 若存在资费提醒对话框，点击确认
-        if chatdialog.is_exist_tips():
-            chatdialog.accept_and_close_tips_alert()
-        singlechat.click_more()
-        singlechat.click_profile()
-
-        selectcontact = SelectLocalContactsPage()
-        send_card = Send_CardNamePage()
-        # Checkpoint 进入到联系人选择器页面
-        selectcontact.wait_for_page_load()
-        # Step 任意选中一个联系人的名片，发送出去
-        ContactsSelector().click_local_contacts('给个名片2')
-        time.sleep(2)
-        send_card.click_share_btn()
-        send_card.press_mess('给个名片2')
-        singlechat.select_collect_item()
-        mess.click_back_by_android(times=3)
-        mess.click_me_icon()
-        me = MePage()
-        me.click_collection()
-        mess.is_text_present('[名片]给个名片2的个人名片')
 
     @staticmethod
     def setUp_test_msg_huangcaizui_D_0112():

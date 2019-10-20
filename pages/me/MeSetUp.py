@@ -50,7 +50,7 @@ class MeSetUpPage(BasePage):
     @TestLogger.log()
     def click_call_setting(self, type):
         """通话》拨号方式 》优先使用和飞信电话（免费）"""
-        self.click_element(self.__locators['通话'])
+        self.click_element(self.locators['通话'])
         from pages import MeSetDialPage
         mesetdial = MeSetDialPage()
         mesetdial.click_dial_mode()
