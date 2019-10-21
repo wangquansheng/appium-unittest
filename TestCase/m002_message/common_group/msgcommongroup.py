@@ -7334,7 +7334,7 @@ class MsgCommonGroupAllTest(TestCase):
         sog = SelectOneGroupPage()
         sog.wait_for_page_load()
         sog.click_search_group()
-        sog.input_search_keyword("啊")
+        sog.input_search_keyword("啊测")
         time.sleep(2)
         els = sog.get_search_result_group()
         if not els[0].get_attribute("text") == "啊测测试试":
@@ -13306,7 +13306,7 @@ class MsgCommonGroupAllTest(TestCase):
         scp.click_sure_forward()
         cgnp = CreateGroupNamePage()
         # 4.输入群名
-        cgnp.input_group_name("测试1")
+        cgnp.input_group_name("群聊1")
         # 5.点击确定
         cgnp.click_sure()
         gcp = GroupChatPage()

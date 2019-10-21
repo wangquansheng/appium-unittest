@@ -442,7 +442,7 @@ class SelectContactsPage(BasePage):
 
     def select_one_contact_by_name(self, name, max_try=20):
         """通过名字选择一个聊天"""
-        locator = (MobileBy.XPATH, '//*[@text ="%s"]' % name)
+        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text ="%s"]' % name)
         current = 0
         while current < max_try:
             if self._is_element_present(locator):
