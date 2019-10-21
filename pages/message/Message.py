@@ -228,7 +228,7 @@ class MessagePage(FooterPage):
     @TestLogger.log()
     def click_free_sms(self):
         """点击免费短信"""
-        self.click_text_or_description("发送短信")
+        self.click_text_or_description("发送短信") or self.click_text_or_description("免费短信")
 
     @TestLogger.log()
     def assert_free_sms_text_equal_to(self, expect):
