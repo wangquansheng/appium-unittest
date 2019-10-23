@@ -4175,7 +4175,7 @@ class MessageGroupChatSendGroupMessage(TestCase):
         Preconditions.make_already_in_message_page()
         Preconditions.get_into_group_chat_page("群聊2")
 
-    @tags('ALL', 'CMCC', 'group_chat', "high", "yx")
+    @tags('ALL', 'CMCC-RESET', 'group_chat', "high", "yx")
     def test_msg_huangcaizui_C_0035(self):
         """选择群成员后返回去查看，是否可以从新选择"""
         # 1.网络正常，本网用户

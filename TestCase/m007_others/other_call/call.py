@@ -2065,6 +2065,13 @@ class MsgAllPrior(TestCase):
         # Checkpoint 可以匹配展示搜索结果
         contactspage.page_should_contain_text('无搜索结果')
 
+    @staticmethod
+    def setUp_test_msg_xiaoqiu_0400():
+        # 启动App
+        Preconditions.select_mobile('Android-移动')
+        Preconditions.make_already_in_message_page()
+        Preconditions.enter_group_chat_page("给个红包1")
+
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0400(self):
         """验证群主A或群成员B在设置页面——点击+邀请群成员C后——发起人收到的群消息"""
@@ -2120,8 +2127,7 @@ class MsgAllPrior(TestCase):
         select_cont = SelectContactsPage()
         # Step 选择手机联系人
         select_cont.select_local_contacts()
-        ContactsSelector().click_local_contacts('测试短信1')
-        ContactsSelector().click_local_contacts('测试短信2')
+        ContactsSelector().click_local_contacts('测试短信1','测试短信2')
         select_cont.click_sure_bottom()
         # Checkpoint 跳转到群名称设置页面
         GroupNamePage().wait_for_page_load_631()
@@ -2137,8 +2143,11 @@ class MsgAllPrior(TestCase):
 
     @staticmethod
     def tearDown_test_msg_xiaoqiu_0402():
+        groupchat = GroupChatPage()
         groupset = GroupChatSetPage()
         # 建群完成以后删除
+        groupchat.click_setting()
+        groupset.wait_for_page_load()
         groupset.click_group_manage()
         groupset.wait_exist_and_delete_confirmation_box_load()
         groupset.click_group_manage_disband_button()
@@ -2150,9 +2159,10 @@ class MsgAllPrior(TestCase):
         # 1、已登录客户端
         # 2、网络正常
         # 3、当前在消息列表页面
-        mess = MessagePage()
-        # Step 1、在消息列表页点击全局搜索框，进行群聊搜索
-        mess.search_and_enter('给个红包4')
+        Preconditions.enter_group_chat_page("给个红包4")
+        # mess = MessagePage()
+        # # Step 1、在消息列表页点击全局搜索框，进行群聊搜索
+        # mess.search_and_enter('给个红包4')
         groupchat = GroupChatPage()
         groupset = GroupChatSetPage()
         groupchat.wait_for_page_load()
@@ -2173,8 +2183,7 @@ class MsgAllPrior(TestCase):
         mess.click_group_chat()
         select_cont = SelectContactsPage()
         select_cont.select_local_contacts()
-        ContactsSelector().click_local_contacts('测试短信1')
-        ContactsSelector().click_local_contacts('测试短信2')
+        ContactsSelector().click_local_contacts('测试短信1','测试短信2')
         select_cont.click_sure_bottom()
         GroupNamePage().wait_for_page_load_631()
         groupname = GroupNamePage()
@@ -2325,8 +2334,8 @@ class MsgAllPrior(TestCase):
         groupchat = GroupChatPage()
         groupset = GroupChatSetPage()
         # 建群完成以后删除
-        groupchat.click_setting()
-        groupset.wait_for_page_load()
+        # groupchat.click_setting()
+        # groupset.wait_for_page_load()
         groupset.click_group_manage()
         groupset.wait_exist_and_delete_confirmation_box_load()
         groupset.click_group_manage_disband_button()
@@ -2389,7 +2398,7 @@ class MsgAllPrior(TestCase):
         groupchat.send_text()
         groupchat.input_text_message('呵呵呵2')
         groupchat.click_back()
-        SearchPage().click_back_button()
+        # SearchPage().click_back_button()
         # Step 查看该消息列表窗口显示
         mess.page_should_contain_text('给个红包1')
         # Checkpoint 该消息列表窗口直接展示：草稿
@@ -2544,10 +2553,7 @@ class MsgAllPrior(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        # 进入我的电脑页面
-        message_page = MessagePage()
-        message_page.wait_for_page_load()
-        message_page.search_and_enter("我的电脑")
+        Preconditions.enter_my_computer_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0528(self):
@@ -2577,9 +2583,7 @@ class MsgAllPrior(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
         # 进入我的电脑页面
-        message_page = MessagePage()
-        message_page.wait_for_page_load()
-        message_page.search_and_enter("我的电脑")
+        Preconditions.enter_my_computer_page()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0531(self):

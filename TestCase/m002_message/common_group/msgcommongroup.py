@@ -6213,17 +6213,17 @@ class MsgCommonGroupTest(TestCase):
         Preconditions.delete_record_group_chat()
         time.sleep(1)
         gcp.input_message("哈哈")
-        gcp.hide_keyboard()
         gcp.send_message()
+        gcp.hide_keyboard()
         # 等待超过十分钟
-        a = 0
-        while a < 600:
-            time.sleep(1)
-            a += 1
+        # a = 0
+        # while a < 600:
+        #     time.sleep(1)
+        #     a += 1
         time.sleep(3)
         gcp.press_message_longclick2()
         time.sleep(3)
-        if gcp.is_text_present("撤回"):
+        if not gcp.is_text_present("撤回"):
             raise AssertionError("撤回-功能按钮 有显示")
 
     @staticmethod
@@ -6598,14 +6598,14 @@ class MsgCommonGroupTest(TestCase):
         audio.click_exit()
         gcp.hide_keyboard()
         # 等待超过十分钟
-        a = 0
-        while a < 600:
-            time.sleep(1)
-            a += 1
+        # a = 0
+        # while a < 600:
+        #     time.sleep(1)
+        #     a += 1
         time.sleep(2)
         gcp.press_message_longclick()
         time.sleep(3)
-        if gcp.is_text_present("撤回"):
+        if not gcp.is_text_present("撤回"):
             raise AssertionError("撤回功能按钮--有显示")
 
     @staticmethod
@@ -6742,11 +6742,11 @@ class MsgCommonGroupTest(TestCase):
         if not gcp.is_text_present("撤回"):
             raise AssertionError("撤回功能按钮--没有显示")
         # 等待超过十分钟
-        a = 0
-        while a < 600:
-            time.sleep(1)
-            a += 1
-        time.sleep(2)
+        # a = 0
+        # while a < 600:
+        #     time.sleep(1)
+        #     a += 1
+        # time.sleep(2)
         gcp.click_text_or_description("撤回")
         time.sleep(2)
         if not gcp.is_text_present("不能被撤回"):

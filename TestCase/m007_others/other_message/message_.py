@@ -912,7 +912,7 @@ class Contacts_demo(TestCase):
         single.send_text()
         single.press_mess('呵呵哒')
         mess.click_element((MobileBy.XPATH, '//*[@text ="撤回"]'))
-        single.click_i_know()
+        # single.click_i_know()
         time.sleep(3)
         mess.page_should_contain_element((MobileBy.XPATH, '//*[@text ="你撤回了一条信息"]'))
 

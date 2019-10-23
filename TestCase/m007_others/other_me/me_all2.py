@@ -1031,6 +1031,7 @@ class MsgAllPrior(TestCase):
         self.assertTrue(len(elements) > 0)
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/id_iv_avatar'))
         self.assertTrue(agreement_detail_page.page_should_contain_text("绑定新的银行卡"))
+        agreement_detail_page.click_text_or_description("绑定新的银行卡")
 
         time.sleep(5)
         agreement_detail_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addbankcard_cardnoEdit'),
@@ -1044,7 +1045,7 @@ class MsgAllPrior(TestCase):
         # 点击 下一步
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ipos_addkjbankcard_next'))
         # 判定
-        exist = agreement_detail_page.is_text_present("您的网络连接可能存在问题，请检查网络设置")
+        exist = agreement_detail_page.is_text_present("您的网络连接可能存在问题,请检查网络设置")
         self.assertTrue(exist)
 
     def tearDown_test_me_zhangshuli_173(self):

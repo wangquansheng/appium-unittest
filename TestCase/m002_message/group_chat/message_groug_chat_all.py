@@ -772,7 +772,7 @@ class MsgGroupChatTest(TestCase):
         MessagePage().wait_for_page_load()
         MessagePage().clear_message_record()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
+    @tags('ALL', 'SMOKE', 'CMCC-skip', 'group_chat')
     def test_msg_weifenglian_qun_0009(self):
         """点击订购免流特权后可正常返回"""
         # 关闭wifi发送文件
@@ -999,7 +999,7 @@ class MsgGroupChatTest(TestCase):
     def tearDown_test_msg_weifenglian_qun_0020():
         MessagePage().set_network_status(6)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
+    @tags('ALL', 'SMOKE', 'CMCC-skip', 'group_chat')
     def test_msg_weifenglian_qun_0022(self):
         """点击订购免流特权后可正常返回"""
         # 关闭wifi发送文件
@@ -1216,7 +1216,7 @@ class MsgGroupChatTest(TestCase):
         MessagePage().wait_for_page_load()
         MessagePage().clear_message_record()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
+    @tags('ALL', 'SMOKE', 'CMCC-skip', 'group_chat')
     def test_msg_weifenglian_qun_0036(self):
         """点击订购免流特权后可正常返回"""
         # 关闭wifi发送文件
@@ -1424,7 +1424,7 @@ class MsgGroupChatTest(TestCase):
         local_file.click_send()
         self.test_msg_weifenglian_qun_0047()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
+    @tags('ALL', 'SMOKE', 'CMCC-skip', 'group_chat')
     def test_msg_weifenglian_qun_0050(self):
         """点击订购免流特权后可正常返回"""
         # 关闭wifi发送文件

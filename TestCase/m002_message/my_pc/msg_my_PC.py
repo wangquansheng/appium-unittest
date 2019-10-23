@@ -877,8 +877,10 @@ class MsgMyPcTest(TestCase):
     def test_msg_weifenglian_PC_0032(self):
         """对发送失败的视频进行重发后，消息列表页面的消息发送失败的标识消失"""
         self.test_msg_weifenglian_PC_0031()
-        MessagePage().wait_for_page_load()
-        self.assertFalse(MessagePage().is_iv_fail_status_present())
+        ChatWindowPage().click_back1()
+        message_page = MessagePage()
+        message_page.wait_for_page_load()
+        self.assertFalse(message_page.is_iv_fail_status_present())
 
     @staticmethod
     def tearDown_test_msg_weifenglian_PC_0032():

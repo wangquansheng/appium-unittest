@@ -1580,7 +1580,7 @@ class MessageSearchTest(TestCase):
 
     @tags('ALL', 'SMOKE', "CMCC_RESET")
     def test_msg_huangcaizui_E_0024(self):
-        """查看更多聊天记录"""
+        """首次使用短信设置，拉取最近一个月短信展示在消息列表"""
         key_message = '测试相同聊天记录大于一条'
         # 消息页
         message_page = MessagePage()

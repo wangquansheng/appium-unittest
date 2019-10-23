@@ -790,8 +790,8 @@ DEVICES_CONFIG_DEBUG_YL = {
         "DEFAULT_CAPABILITY": {
         "platformName": "Android",
         "platformVersion": "7.0",
-        "deviceName": "DRB5T18721004015",
-        "udid": "DRB5T18721004015",
+        "deviceName": "CLB7N18904002073",
+        "udid": "CLB7N18904002073",
         "automationName": "UiAutomator2",
         "newCommandTimeout": 600,
         "appPackage": "com.chinasofti.rcs",
