@@ -1524,7 +1524,7 @@ class CallAll(TestCase):
         CallPage().delete_all_call_entry()
         CallPage().set_network_status(4)
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC-REST', 'Call')
     def test_call_shenlisi_0156(self):
         """检查4g免流特权提示权订购免流特权提示窗口订购免流界面跳转---语音通话"""
         # 1.客户端已登录
@@ -1973,7 +1973,7 @@ class CallAll(TestCase):
         CallPage().delete_all_call_entry()
         CallPage().set_network_status(4)
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC-REST', 'Call')
     def test_call_shenlisi_0232(self):
         """检查4g免流特权提示权订购免流特权提示窗口订购免流界面跳转--视频通话"""
         # 1.客户端已登录
@@ -3032,7 +3032,7 @@ class CallAll(TestCase):
         CallPage().delete_all_call_entry()
         CallPage().set_network_status(4)
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC-REST', 'Call')
     def test_call_shenlisi_0384(self):
         """单聊界面---检查4g免流特权提示权订购免流特权提示窗口订购免流界面跳转---语音通话"""
         # 1.客户端已登录

@@ -668,83 +668,83 @@ class MsgAllPrior(TestCase):
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
         # 导入测试联系人、群聊
-        # fail_time1 = 0
-        # flag1 = False
-        # import dataproviders
-        # while fail_time1 < 2:
-        #     try:
-        #         required_contacts = dataproviders.get_preset_contacts()
-        #         conts = ContactsPage()
-        #         current_mobile().hide_keyboard_if_display()
-        #         Preconditions.make_already_in_message_page()
-        #         conts.open_contacts_page()
-        #         try:
-        #             if conts.is_text_present("发现SIM卡联系人"):
-        #                 conts.click_text("显示")
-        #         except:
-        #             pass
-        #         for name, number in required_contacts:
-        #             # 创建联系人
-        #             conts.create_contacts_if_not_exits(name, number)
-        #         required_group_chats = dataproviders.get_preset_group_chats()
-        #         conts.open_group_chat_list()
-        #         group_list = GroupListPage()
-        #         for group_name, members in required_group_chats:
-        #             group_list.wait_for_page_load()
-        #             # 创建群
-        #             group_list.create_group_chats_if_not_exits(group_name, members)
-        #         group_list.click_back()
-        #         conts.open_message_page()
-        #         flag1 = True
-        #     except:
-        #         fail_time1 += 1
-        #     if flag1:
-        #         break
-        #
-        # # 导入团队联系人
-        # fail_time2 = 0
-        # flag2 = False
-        # while fail_time2 < 5:
-        #     try:
-        #         Preconditions.make_already_in_message_page()
-        #         contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
-        #         Preconditions.create_he_contacts(contact_names)
-        #         flag2 = True
-        #     except:
-        #         fail_time2 += 1
-        #     if flag2:
-        #         break
-        #
-        # # 确保有企业群
-        # fail_time3 = 0
-        # flag3 = False
-        # while fail_time3 < 5:
-        #     try:
-        #         Preconditions.make_already_in_message_page()
-        #         Preconditions.ensure_have_enterprise_group()
-        #         flag3 = True
-        #     except:
-        #         fail_time3 += 1
-        #     if flag3:
-        #         break
-        #
-        # # 确保测试手机有resource文件夹
-        # name = "群聊1"
-        # Preconditions.get_into_group_chat_page(name)
-        # gcp = GroupChatPage()
-        # gcp.wait_for_page_load()
-        # cmp = ChatMorePage()
-        # cmp.click_file()
-        # csfp = ChatSelectFilePage()
-        # csfp.wait_for_page_load()
-        # csfp.click_local_file()
-        # local_file = ChatSelectLocalFilePage()
-        # # 没有预置文件，则上传
-        # local_file.push_preset_file()
-        # local_file.click_back()
-        # csfp.wait_for_page_load()
-        # csfp.click_back()
-        # gcp.wait_for_page_load()
+        fail_time1 = 0
+        flag1 = False
+        import dataproviders
+        while fail_time1 < 2:
+            try:
+                required_contacts = dataproviders.get_preset_contacts()
+                conts = ContactsPage()
+                current_mobile().hide_keyboard_if_display()
+                Preconditions.make_already_in_message_page()
+                conts.open_contacts_page()
+                try:
+                    if conts.is_text_present("发现SIM卡联系人"):
+                        conts.click_text("显示")
+                except:
+                    pass
+                for name, number in required_contacts:
+                    # 创建联系人
+                    conts.create_contacts_if_not_exits(name, number)
+                required_group_chats = dataproviders.get_preset_group_chats()
+                conts.open_group_chat_list()
+                group_list = GroupListPage()
+                for group_name, members in required_group_chats:
+                    group_list.wait_for_page_load()
+                    # 创建群
+                    group_list.create_group_chats_if_not_exits(group_name, members)
+                group_list.click_back()
+                conts.open_message_page()
+                flag1 = True
+            except:
+                fail_time1 += 1
+            if flag1:
+                break
+
+        # 导入团队联系人
+        fail_time2 = 0
+        flag2 = False
+        while fail_time2 < 5:
+            try:
+                Preconditions.make_already_in_message_page()
+                contact_names = ["大佬1", "大佬2", "大佬3", "大佬4"]
+                Preconditions.create_he_contacts(contact_names)
+                flag2 = True
+            except:
+                fail_time2 += 1
+            if flag2:
+                break
+
+        # 确保有企业群
+        fail_time3 = 0
+        flag3 = False
+        while fail_time3 < 5:
+            try:
+                Preconditions.make_already_in_message_page()
+                Preconditions.ensure_have_enterprise_group()
+                flag3 = True
+            except:
+                fail_time3 += 1
+            if flag3:
+                break
+
+        # 确保测试手机有resource文件夹
+        name = "群聊1"
+        Preconditions.get_into_group_chat_page(name)
+        gcp = GroupChatPage()
+        gcp.wait_for_page_load()
+        cmp = ChatMorePage()
+        cmp.click_file()
+        csfp = ChatSelectFilePage()
+        csfp.wait_for_page_load()
+        csfp.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        # 没有预置文件，则上传
+        local_file.push_preset_file()
+        local_file.click_back()
+        csfp.wait_for_page_load()
+        csfp.click_back()
+        gcp.wait_for_page_load()
 
     def default_setUp(self):
         """确保每个用例运行前在消息页面"""
@@ -762,15 +762,19 @@ class MsgAllPrior(TestCase):
         Preconditions.enter_single_chat_page("大佬3")
         scp = SingleChatPage()
         scp.wait_for_page_load()
-        scp.click_file()
-        select_file_type = ChatSelectFilePage()
-        select_file_type.wait_for_page_load()
-        select_file_type.click_local_file()
-        local_file = ChatSelectLocalFilePage()
-        local_file.click_preset_file_dir()
-        local_file.select_file(".xlsx")
-        local_file.click_send()
-        scp.wait_for_page_load()
+        if scp.is_exist_msg_file():
+            pass
+        else:
+            scp = SingleChatPage()
+            scp.click_file()
+            select_file_type = ChatSelectFilePage()
+            select_file_type.wait_for_page_load()
+            select_file_type.click_local_file()
+            local_file = ChatSelectLocalFilePage()
+            local_file.click_preset_file_dir()
+            local_file.select_file(".xlsx")
+            local_file.click_send()
+            scp.wait_for_page_load()
         # 长按xls文件
         ChatFilePage().de_file('.xlsx')
 
@@ -780,15 +784,19 @@ class MsgAllPrior(TestCase):
         Preconditions.enter_single_chat_page("大佬3")
         scp = SingleChatPage()
         scp.wait_for_page_load()
-        scp.click_file()
-        select_file_type = ChatSelectFilePage()
-        select_file_type.wait_for_page_load()
-        select_file_type.click_local_file()
-        local_file = ChatSelectLocalFilePage()
-        local_file.click_preset_file_dir()
-        local_file.select_file(".xlsx")
-        local_file.click_send()
-        scp.wait_for_page_load()
+        if scp.is_exist_msg_file():
+            pass
+        else:
+            scp = SingleChatPage()
+            scp.click_file()
+            select_file_type = ChatSelectFilePage()
+            select_file_type.wait_for_page_load()
+            select_file_type.click_local_file()
+            local_file = ChatSelectLocalFilePage()
+            local_file.click_preset_file_dir()
+            local_file.select_file(".xlsx")
+            local_file.click_send()
+            scp.wait_for_page_load()
         # 长按xls文件
         ChatFilePage().collection_file('.xlsx')
 
@@ -835,7 +843,7 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0204(self):
         """在收藏列表中打开图片文件"""
-        Preconditions.make_already_set_chart_group_file(".xlsl")
+        Preconditions.make_already_set_chart_group_file(".jpg")
         # 1.点击跳转到我的页面
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -1395,13 +1403,13 @@ class MsgAllPrior(TestCase):
         # 长按通过短信发送
         single.send_for_sms('测试一个呵呵')
         # 判断控件存在
-        # single.is_present_sms_fee_remind()
-        # single.is_exist_send_button()
-        # single.is_exist_cancel_button()
+        single.is_present_sms_fee_remind()
+        single.is_exist_send_button()
+        single.is_exist_cancel_button()
         # 点击取消按钮
-        # single.click_cancel()
+        single.click_cancel()
         # 再次发送
-        # single.send_for_sms('测试一个呵呵')
+        single.send_for_sms('测试一个呵呵')
         # single.is_present_sms_fee_remind()
         # single.click_send_button()
         # single.page_should_contain_text('测试一个呵呵')
@@ -1569,14 +1577,14 @@ class MsgAllPrior(TestCase):
         gcs.click_group_manage()
         gcs.wait_for_group_manage_load()
         # 2、点击群主管理权转让，会弹出toast提示：暂无群成员并且停留在当前页
-        # gcs.click_group_manage_transfer_button()
-        # self.assertEquals(gcs.is_toast_exist("暂无群成员"), True)
-        # gcs.wait_for_group_manage_load()
-        # # 3、点击左上角的返回按钮，可以返回到群聊设置页
-        # gcs.click_group_manage_back_button()
-        # gcs.wait_for_page_load()
-        # gcs.click_back()
-        # gcp.wait_for_page_load()
+        gcs.click_group_manage_transfer_button()
+        self.assertEquals(gcs.is_toast_exist("暂无群成员"), True)
+        gcs.wait_for_group_manage_load()
+        # 3、点击左上角的返回按钮，可以返回到群聊设置页
+        gcs.click_group_manage_back_button()
+        gcs.wait_for_page_load()
+        gcs.click_back()
+        gcp.wait_for_page_load()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_xiaoqiu_0197(self):
@@ -2199,7 +2207,8 @@ class MsgAllPrior(TestCase):
         mepage.click_setting_menu()
         # 进入拨号设置 并选择'优先使用和飞信电话（免费）'
         meset = MeSetUpPage()
-        meset.click_call_setting('优先使用飞信电话（免费）')
+        meset.click
+        meset.click_call_setting('总是询问（默认）')
         # # 返回到‘我’页面
         # meset.click_back()
         # meset.click_back()

@@ -1704,7 +1704,7 @@ class MsgPrivateChatAllTest(TestCase):
         mp.set_network_status(6)
         Preconditions.make_already_in_message_page(True)
 
-    @tags('ALL', 'CMCC', 'LXD')
+    @tags('ALL', 'CMCC-REST', 'LXD')
     def test_msg_weifenglian_1V1_0010(self):
         """点击订购免流特权后可正常返回"""
 
@@ -2072,7 +2072,7 @@ class MsgPrivateChatAllTest(TestCase):
         mp.set_network_status(6)
         Preconditions.make_already_in_message_page(True)
 
-    @tags('ALL', 'CMCC', 'LXD')
+    @tags('ALL', 'CMCC-REST', 'LXD')
     def test_msg_weifenglian_1V1_0023(self):
         """点击订购免流特权后可正常返回"""
 
@@ -2423,7 +2423,7 @@ class MsgPrivateChatAllTest(TestCase):
         mp.set_network_status(6)
         Preconditions.make_already_in_message_page(True)
 
-    @tags('ALL', 'CMCC', 'LXD')
+    @tags('ALL', 'CMCC-REST', 'LXD')
     def test_msg_weifenglian_1V1_0037(self):
         """点击订购免流特权后可正常返回"""
 
@@ -2778,7 +2778,7 @@ class MsgPrivateChatAllTest(TestCase):
         mp.set_network_status(6)
         Preconditions.make_already_in_message_page(True)
 
-    @tags('ALL', 'CMCC', 'LXD')
+    @tags('ALL', 'CMCC-REST', 'LXD')
     def test_msg_weifenglian_1V1_0051(self):
         """点击订购免流特权后可正常返回"""
 

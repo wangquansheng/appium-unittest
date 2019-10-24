@@ -814,8 +814,8 @@ DEVICES_CONFIG_WJH = {
         "DEFAULT_CAPABILITY": {
             "platformName": "Android",
             "platformVersion": "8.1.0",
-            "deviceName": "CLB7N18904002073",
-            "udid": "CLB7N18904002073",
+            "deviceName": "DRB5T18721004015",
+            "udid": "DRB5T18721004015",
             "automationName": "UiAutomator2",
             "newCommandTimeout": 600,
             "appPackage": "com.chinasofti.rcs",
@@ -836,8 +836,8 @@ DEVICES_CONFIG_WJH2 = {
             "DEFAULT_CAPABILITY": {
                 "platformName": "Android",
                 "platformVersion": "8.1.0",
-                "deviceName": "CLB7N18904002073",
-                "udid": "CLB7N18904002073",
+                "deviceName": "DRB5T18721004015",
+                "udid": "DRB5T18721004015",
                 "automationName": "UiAutomator2",
                 "newCommandTimeout": 600,
                 "appPackage": "com.chinasofti.rcs",

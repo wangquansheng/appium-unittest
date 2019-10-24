@@ -745,7 +745,6 @@ class ContactsDemo(TestCase):
         cp.page_should_contain_text('飞信电话（免费）')
         cp.page_should_contain_text('语音通话')
         cp.page_should_contain_text('普通电话')
-        cp.click_voice_call()
         time.sleep(1)
         if cp.is_exist_go_on():
             cp.click_go_on()
@@ -802,25 +801,25 @@ class ContactsDemo(TestCase):
             time.sleep(1)
         cp.click_call_phone()
         time.sleep(1)
-        cp.click_voice_call()
-        time.sleep(1)
-        if cp.is_exist_go_on():
-            cp.click_go_on()
-        # 是否存在设置悬浮窗，存在暂不开启
-        SuspendedTips().ignore_tips_if_tips_display()
+        # cp.click_voice_call()
         # time.sleep(1)
-        # cp.hang_up_voice_call()
-        # time.sleep(1)
-        # mess.click_element_by_text('15875537272')
         # if cp.is_exist_go_on():
         #     cp.click_go_on()
         # # 是否存在设置悬浮窗，存在暂不开启
         # SuspendedTips().ignore_tips_if_tips_display()
-        # time.sleep(1)
-        # if not (cp.is_text_present('15875537272') or cp.is_text_present('测试人员2')):
-        #     raise Exception("Error")
-        # cp.page_should_contain_text('正在呼叫...')
-        # cp.hang_up_voice_call()
+        # # time.sleep(1)
+        # # cp.hang_up_voice_call()
+        # # time.sleep(1)
+        # # mess.click_element_by_text('15875537272')
+        # # if cp.is_exist_go_on():
+        # #     cp.click_go_on()
+        # # # 是否存在设置悬浮窗，存在暂不开启
+        # # SuspendedTips().ignore_tips_if_tips_display()
+        # # time.sleep(1)
+        # # if not (cp.is_text_present('15875537272') or cp.is_text_present('测试人员2')):
+        # #     raise Exception("Error")
+        # # cp.page_should_contain_text('正在呼叫...')
+        # # cp.hang_up_voice_call()
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_shenlisi_0073(self):
@@ -1958,6 +1957,7 @@ class ContactsDemo(TestCase):
             cp.click_two()
             time.sleep(1)
         cp.click_call_phone()
+        time.sleep(2)
         cp.click_voice_call()
         time.sleep(1)
         if cp.is_exist_go_on():
