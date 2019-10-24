@@ -2576,6 +2576,7 @@ class Contacts_demo(TestCase):
         # 启动App
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
+        current_mobile().set_network_status(6)
         Preconditions.enter_group_chat_page("给个红包3")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
