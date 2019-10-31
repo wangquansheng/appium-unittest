@@ -1105,7 +1105,7 @@ class Tag_Group(TestCase):
         glp.click_back_by_android(3)
         glp.delete_group(name='aaa')
 
-    @tags('ALL', 'CONTACT', 'CMCC')
+    @tags('ALL', 'CONTACT')
     def test_contacts_quxinli_0396(self):
         """分组联系人进入Profile页-编辑-删除联系人"""
         glp = GroupListPage()
@@ -1973,7 +1973,7 @@ class Tag_Group(TestCase):
         GroupPage.click_back_button(times=3)
         GroupPage.delete_group(name='aaa')
 
-    @tags('ALL', 'CONTACT', 'CMCC')
+    @tags('ALL', 'CONTACT')
     def test_contacts_quxinli_0412(self):
         """分组设置-移除成员选择"""
         glp = GroupListPage()
@@ -2006,7 +2006,7 @@ class Tag_Group(TestCase):
         glp = GroupListPage()
         glp.delete_group(name='aaa')
 
-    @tags('ALL', 'CONTACT', 'CMCC')
+    @tags('ALL', 'CONTACT')
     def test_contacts_quxinli_0413(self):
         """分组设置-移除成员"""
         glp = GroupListPage()

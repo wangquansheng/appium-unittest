@@ -38,7 +38,7 @@ class WorkBenchManagerTest(TestCase):
     def default_tearDown(self):
         pass
 
-    @tags('ALL', "CMCC", 'workbench', 'GZTGL')
+    @tags('ALL', 'workbench', 'GZTGL')
     def test_GZTGL_0003(self):
         """搜索不存在的应用名称"""
         # 1、点击“工作台管理”
@@ -74,7 +74,7 @@ class WorkBenchManagerTest(TestCase):
         workbench = WorkbenchPage()
         workbench.wait_for_page_load()
 
-    @tags('ALL', "CMCC", 'workbench', 'GZTGL')
+    @tags('ALL', 'workbench', 'GZTGL')
     def test_GZTGL_0008(self):
         """点击顶部关闭按钮返回工作台页面"""
         # 1、点击“工作台管理”应用

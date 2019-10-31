@@ -1,5 +1,6 @@
 import time
 import unittest
+import warnings
 
 from selenium.common.exceptions import TimeoutException
 
@@ -73,7 +74,7 @@ class ManagerGuideAllTest(TestCase):
         1、成功登录和飞信
         2、当前页面在工作台首页
         """
-
+        warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
         mp = MessagePage()
         if mp.is_on_this_page():
@@ -90,7 +91,8 @@ class ManagerGuideAllTest(TestCase):
     def default_tearDown(self):
         pass
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    @unittest.skip("跳过，无管理员指引页")
     def test_QY_0001(self):
         """能够正常打开管理员指引页面，可以正常返回"""
 
@@ -144,7 +146,8 @@ class ManagerGuideAllTest(TestCase):
         # 等待工作台首页加载
         wbp.wait_for_workbench_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    @unittest.skip("跳过，无管理员指引页")
     def test_QY_0002(self):
         """点击返回键返回上一级页面"""
 
@@ -178,7 +181,8 @@ class ManagerGuideAllTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_workbench_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    @unittest.skip("跳过，无管理员指引页")
     def test_QY_0003(self):
         """点击关闭按钮返回到工作台页面"""
 
@@ -217,7 +221,8 @@ class ManagerGuideAllTest(TestCase):
         # 等待工作台首页加载
         wbp.wait_for_workbench_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    @unittest.skip("跳过，无管理员指引页")
     def test_QY_0004(self):
         """断网提示"""
 
@@ -270,7 +275,8 @@ class ManagerGuideAllTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_workbench_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    @unittest.skip("跳过，无和飞信套餐购买入口")
     def test_QY_0007(self):
         """和飞信套餐购买"""
 
@@ -295,7 +301,8 @@ class ManagerGuideAllTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_workbench_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    @unittest.skip("跳过，无和飞信套餐购买入口")
     def test_QY_0008(self):
         """和飞信套餐购买- 不勾选同意"""
 
@@ -316,7 +323,8 @@ class ManagerGuideAllTest(TestCase):
         wbp = WorkbenchPage()
         wbp.wait_for_workbench_page_load()
 
-    @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    # @tags('ALL', 'CMCC', 'workbench', 'LXD')
+    @unittest.skip("跳过，无和飞信套餐购买入口")
     def test_QY_0009(self):
         """和飞信套餐购买"""
 

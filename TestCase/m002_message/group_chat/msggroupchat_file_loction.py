@@ -3011,7 +3011,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
+    @tags('ALL', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0356(self):
         """将自己发送的位置转发到在企业内搜索框输入数字搜索到的团队联系人"""
         Preconditions.public_send_location()
@@ -3120,7 +3120,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
+    @tags('ALL', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0360(self):
         """将自己发送的位置转发到在企业内搜索框输入英文搜索到的团队联系人"""
         Preconditions.public_send_location()
@@ -3174,7 +3174,7 @@ class MsgGroupChatFileLocationTest(TestCase):
         if not gcp.is_on_this_page():
             raise AssertionError("当前页面不在群聊页面")
 
-    @tags('ALL', 'CMCC', 'group_chat', 'full', 'high', 'yx')
+    @tags('ALL', 'group_chat', 'full', 'high', 'yx')
     def test_msg_weifenglian_qun_0362(self):
         """将自己发送的位置转发到在企业内搜索框输入空格搜索到的团队联系人"""
         Preconditions.public_send_location()

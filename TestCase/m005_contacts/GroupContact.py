@@ -1,4 +1,5 @@
 import time
+import unittest
 
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
@@ -2008,7 +2009,8 @@ class MygroupdetailPage(TestCase):
             chat.click_sure_icon()
         SingleChatPage().is_on_this_page()
 
-    @tags('ALL', 'CMCC', 'contact', 'my_group')
+    # @tags('ALL', 'CMCC', 'contact', 'my_group')
+    @unittest.skip("跳过，无通话功能")
     def test_contacts_quxinli_0150(self):
         """进入我的团队用户的Profile页-电话"""
         group_contact = EnterpriseContactsPage()
@@ -2123,7 +2125,8 @@ class MygroupdetailPage(TestCase):
         self.assertTrue(contact_detail.is_element_present(locator='和飞信电话-挂断电话'))
         contact_detail.cancel_hefeixin_call()
 
-    @tags('ALL', 'CMCC', 'contact', 'my_group')
+    # @tags('ALL', 'CMCC', 'contact', 'my_group')
+    @unittest.skip("跳过，无通话功能")
     def test_contacts_quxinli_0156(self):
         """本网登录用户进入我的团队用户的Profile页-非首次拨打飞信电话"""
         group_contact = EnterpriseContactsPage()

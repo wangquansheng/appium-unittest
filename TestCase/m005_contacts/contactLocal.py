@@ -906,7 +906,7 @@ class ContactsLocal(TestCase):
         number2 = lcontact.get_all_contacts_number()[1].text
         self.assertEqual(number1, number2)
 
-    @tags('ALL', 'CONTACTS', 'CMCC')
+    @tags('ALL', 'CONTACTS')
     def test_contacts_chenjixiang_0034(self):
         '''
        测试系统通讯录联系人拥有多个手机号码，手机号码一致的情况，通过手机号码搜索
@@ -986,7 +986,7 @@ class ContactsLocal(TestCase):
         number2 = lcontact.get_all_contacts_number()[1].text
         self.assertNotEqual(number1, number2)
 
-    @tags('ALL', 'CONTACTS', 'CMCC')
+    @tags('ALL', 'CONTACTS')
     def test_contacts_chenjixiang_0036(self):
         '''
        测试系统通讯录存在多个联系人，名称相同，手机号码不一致，通过手机号码搜索
@@ -1734,7 +1734,7 @@ class ContactsLocal(TestCase):
         number2 = lcontact.get_all_contacts_number()[1].text
         self.assertNotEqual(number1, number2)
 
-    @tags('ALL', 'CONTACTS', 'CMCC')
+    @tags('ALL', 'CONTACTS')
     def test_contacts_chenjixiang_0086(self):
         '''
         测试系统通讯录存在多个联系人，手机号码一样

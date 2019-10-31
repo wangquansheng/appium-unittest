@@ -175,7 +175,7 @@ class ContactSearchOpTest(TestCase):
         sccp = SelectCompanyContactsPage()
         self.assertEquals(sccp.is_search_contacts_name_match(search_name), True)
 
-    @tags('ALL', 'CONTACT', 'CMCC')
+    @tags('ALL', 'CONTACT')
     def test_contacts_quxinli_0013(self):
         mess = MessagePage()
         mess.open_contacts_page()
@@ -201,7 +201,7 @@ class ContactSearchOpTest(TestCase):
         result = sccp.is_search_contacts_number_match(search_number)
         self.assertEquals(result, True)
 
-    @tags('ALL', 'CONTACT', 'CMCC')
+    @tags('ALL', 'CONTACT')
     def test_contacts_quxinli_0014(self):
         mess = MessagePage()
         mess.open_contacts_page()
@@ -218,7 +218,7 @@ class ContactSearchOpTest(TestCase):
         result = sccp.is_search_number_match_result(search_number)
         self.assertEquals(result, True)
 
-    @tags('ALL', 'CONTACT', 'CMCC')
+    @tags('ALL', 'CONTACT')
     def test_contacts_quxinli_0015(self):
         mess = MessagePage()
         mess.open_contacts_page()

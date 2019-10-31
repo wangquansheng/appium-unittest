@@ -1,6 +1,7 @@
 import re
 import time
 import unittest
+import warnings
 
 from appium.webdriver.common.mobileby import MobileBy
 
@@ -454,6 +455,7 @@ class MeAllCollect(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
 
     def default_setUp(self):
@@ -696,7 +698,7 @@ class MeAllCollect(TestCase):
         scp.wait_for_page_load()
         file_name1 = scp.get_file_info("文件名")
         file_size1 = scp.get_file_info("文件大小")
-        mess.click_back()
+        scp.click_back()
         time.sleep(1.8)
         # 2.点击我的收藏,进入收藏页面
         mess.open_me_page()
@@ -741,7 +743,7 @@ class MeAllCollect(TestCase):
         scp.wait_for_page_load()
         file_name1 = scp.get_file_info("文件名")
         file_size1 = scp.get_file_info("文件大小")
-        mess.click_back()
+        scp.click_back()
         time.sleep(1.8)
         # 2.点击我的收藏,进入收藏页面
         mess.open_me_page()
@@ -786,7 +788,7 @@ class MeAllCollect(TestCase):
         scp.wait_for_page_load()
         file_name1 = scp.get_file_info("文件名")
         file_size1 = scp.get_file_info("文件大小")
-        mess.click_back()
+        scp.click_back()
         time.sleep(1.8)
         # 2.点击我的收藏,进入收藏页面
         mess.open_me_page()
@@ -827,7 +829,7 @@ class MeAllCollect(TestCase):
         scp.wait_for_page_load()
         file_name1 = scp.get_file_info("文件名")
         file_size1 = scp.get_file_info("文件大小")
-        mess.click_back()
+        scp.click_back()
         time.sleep(1.8)
         # 2.点击我的收藏,进入收藏页面
         mess.open_me_page()
@@ -868,7 +870,7 @@ class MeAllCollect(TestCase):
         scp.wait_for_page_load()
         file_name1 = scp.get_file_info("文件名")
         file_size1 = scp.get_file_info("文件大小")
-        mess.click_back()
+        scp.click_back()
         time.sleep(1.8)
         # 2.点击我的收藏,进入收藏页面
         mess.open_me_page()
@@ -908,7 +910,7 @@ class MeAllCollect(TestCase):
         scp.wait_for_page_load()
         file_name1 = scp.get_file_info("文件名")
         file_size1 = scp.get_file_info("文件大小")
-        mess.click_back()
+        scp.click_back()
         time.sleep(1.8)
         # 2.点击我的收藏,进入收藏页面
         mess.open_me_page()
@@ -945,7 +947,7 @@ class MeAllCollect(TestCase):
         scp.wait_for_page_load()
         file_name1 = scp.get_file_info("文件名")
         file_size1 = scp.get_file_info("文件大小")
-        mess.click_back()
+        scp.click_back()
         time.sleep(1.8)
         # 2.点击我的收藏,进入收藏页面
         mess.open_me_page()
@@ -1947,7 +1949,7 @@ class MeAllCollect(TestCase):
         sp.click_back()
         mep.open_message_page()
 
-    @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me3')
+    @tags('ALL', 'CMCC-REST', 'me_all', 'debug_fk_me3')
     def test_me_zhangshuli_583(self):
         """验证我-设置-退出登录(正常网络)"""
         # 1.点击跳转到我的页面

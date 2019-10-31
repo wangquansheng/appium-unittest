@@ -1166,7 +1166,7 @@ class MsgCommonGroupTest(TestCase):
         if mess.is_on_this_page():
             self.assertTrue(mess.is_text_present("飞信电话"))
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
+    @tags('ALL', 'SMOKE', 'group_chat')
     def test_msg_common_group_0012(self):
         """在聊天会话页面，点击重发按钮，重新发送发送失败的消息"""
         gcp = GroupChatPage()
@@ -4103,7 +4103,7 @@ class MsgCommonGroupTest(TestCase):
             except AssertionError as e:
                 raise e
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'DEBUG_YYX', 'xin')
+    @tags('ALL', 'SMOKE', 'group_chat', 'DEBUG_YYX', 'xin')
     def test_msg_common_group_0102(self):
         """下拉是否可加载历史消息"""
         gcp = GroupChatPage()
@@ -5779,7 +5779,7 @@ class MsgCommonGroupTest(TestCase):
             # current_mobile().reset_app()
             Preconditions.enter_group_chat_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
+    @tags('ALL', 'SMOKE', 'group_chat', 'high')
     def test_msg_huangmianhua_0225(self):
         """转发——支持转发的——默认选中项（1条）"""
         gcp = GroupChatPage()
@@ -6730,7 +6730,7 @@ class MsgCommonGroupTest(TestCase):
             # current_mobile().reset_app()
             Preconditions.enter_group_chat_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'high')
+    @tags('ALL', 'SMOKE', 'group_chat', 'high')
     def test_msg_huangmianhua_0257(self):
         """聊天会话页面——在10分钟内长按——弹出功能菜单列表——10分钟后撤回"""
         Preconditions.delete_record_group_chat()
@@ -11738,7 +11738,7 @@ class MsgCommonGroupAllTest(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'CMCC', 'group_chat', 'yx')
+    @tags('ALL', 'group_chat', 'yx')
     def test_msg_xiaoqiu_0266(self):
         """消息列表——发起群聊——搜索选择手机联系人+选择团队联系人"""
         # 1、已成功登录和飞信

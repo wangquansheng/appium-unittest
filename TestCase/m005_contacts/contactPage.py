@@ -1,4 +1,5 @@
 import time
+import unittest
 
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
@@ -217,7 +218,7 @@ class ContactPage(TestCase):
         contact.page_should_contain_text('公众号')
         contact.is_page_contain_element('创建团队')
 
-    @tags('All', 'CMCC')
+    @unittest.skip("跳过，RCS用户")
     def test_contacts_quxinli_0019(self):
         """点击搜索结果已保存到本地的RCS用户进入Profile页"""
         ContactsPage().click_search_box()

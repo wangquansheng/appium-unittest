@@ -63,7 +63,7 @@ class CreateTeamPage(BasePage):
             self.wait_until(
                 timeout=timeout,
                 auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self.is_text_present("立即创建团队")
+                condition=lambda d: self.is_text_present("欢迎创建团队")
             )
         except:
             message = "页面在{}s内，没有加载成功".format(str(timeout))

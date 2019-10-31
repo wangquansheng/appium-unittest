@@ -762,19 +762,15 @@ class MsgAllPrior(TestCase):
         Preconditions.enter_single_chat_page("大佬3")
         scp = SingleChatPage()
         scp.wait_for_page_load()
-        if scp.is_exist_msg_file():
-            pass
-        else:
-            scp = SingleChatPage()
-            scp.click_file()
-            select_file_type = ChatSelectFilePage()
-            select_file_type.wait_for_page_load()
-            select_file_type.click_local_file()
-            local_file = ChatSelectLocalFilePage()
-            local_file.click_preset_file_dir()
-            local_file.select_file(".xlsx")
-            local_file.click_send()
-            scp.wait_for_page_load()
+        scp.click_file()
+        select_file_type = ChatSelectFilePage()
+        select_file_type.wait_for_page_load()
+        select_file_type.click_local_file()
+        local_file = ChatSelectLocalFilePage()
+        local_file.click_preset_file_dir()
+        local_file.select_file(".xlsx")
+        local_file.click_send()
+        scp.wait_for_page_load()
         # 长按xls文件
         ChatFilePage().de_file('.xlsx')
 
@@ -840,7 +836,7 @@ class MsgAllPrior(TestCase):
         mcp.click_collection_file_name()
         mcp.page_should_contain_text(file_name)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @tags('ALL', 'SMOKE', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0204(self):
         """在收藏列表中打开图片文件"""
         Preconditions.make_already_set_chart_group_file(".jpg")
@@ -947,7 +943,7 @@ class MsgAllPrior(TestCase):
         scp = SingleChatPage()
         scp.wait_for_page_load()
         select_file_type = ChatSelectFilePage()
-        select_file_type.wait_for_page_load()
+        time.sleep(2)
         select_file_type.click_local_file()
         local_file = ChatSelectLocalFilePage()
         local_file.click_preset_file_dir()
@@ -965,7 +961,7 @@ class MsgAllPrior(TestCase):
         local_file.enter_preset_file_dir()
         local_file.wait_for_page_load()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @tags('ALL', 'SMOKE', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0228(self):
         """发送文件"""
         self.public_enter_file_select_page()
@@ -1402,22 +1398,6 @@ class MsgAllPrior(TestCase):
             single.send_text()
         # 长按通过短信发送
         single.send_for_sms('测试一个呵呵')
-        # 判断控件存在
-        single.is_present_sms_fee_remind()
-        single.is_exist_send_button()
-        single.is_exist_cancel_button()
-        # 点击取消按钮
-        single.click_cancel()
-        # 再次发送
-        single.send_for_sms('测试一个呵呵')
-        # single.is_present_sms_fee_remind()
-        # single.click_send_button()
-        # single.page_should_contain_text('测试一个呵呵')
-        # single.page_should_contain_text('短信')
-        # single.send_for_sms('测试一个呵呵')
-        # single.page_should_not_contain_text('资费提醒')
-        # single.page_should_contain_text('测试一个呵呵')
-        # single.page_should_contain_text('短信')
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_B_0062(self):

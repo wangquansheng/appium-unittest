@@ -586,7 +586,6 @@ class MsgGroupChatTest(TestCase):
             pass
         else:
             group_chat_page = GroupChatPage()
-            group_chat_page.set_network_status(4)
             group_chat_page.click_file()
             select_file_type = ChatSelectFilePage()
             select_file_type.wait_for_page_load()
@@ -729,14 +728,14 @@ class MsgGroupChatTest(TestCase):
         MessagePage().delete_message_record_by_name(group_name)
         MessagePage().set_network_status(6)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
+    @tags('ALL', 'SMOKE', 'CMCC-REST', 'group_chat')
     def test_msg_weifenglian_qun_0006(self):
         """未订购每月10G的用户发送大于2M的文件时有弹窗提示"""
         # 关闭wifi发送文件
         # chat_more = ChatMorePage()
         # chat_more.mobile.turn_off_wifi()
         group_chat_page = GroupChatPage()
-        group_chat_page.set_network_status(4)
+        # group_chat_page.set_network_status(4)
         group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
@@ -752,12 +751,12 @@ class MsgGroupChatTest(TestCase):
         local_file.click_back()
         select_file_type.click_back()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat')
+    @tags('ALL', 'SMOKE', 'CMCC-REST', 'group_chat')
     def test_msg_weifenglian_qun_0007(self):
         """直接点击“继续发送”：关闭弹窗，拨出，下次继续提示"""
 
         group_chat_page = GroupChatPage()
-        group_chat_page.set_network_status(4)
+        # group_chat_page.set_network_status(4)
         group_chat_page.click_file()
         select_file_type = ChatSelectFilePage()
         select_file_type.wait_for_page_load()
@@ -2958,25 +2957,3 @@ class MsgGroupChatPrior(TestCase):
         group_chat_page.wait_for_page_load()
         group_chat_page.click_more()
         group_chat_page.recall_loc_msg()
-
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'level_high')
-    def test_msg_weifenglian_qun_0375(self):
-        """对自己发送出去的位置消息进行收藏"""
-        self.make_sure_have_loc_msg()
-        group_chat_page = GroupChatPage()
-        group_chat_page.press_message_to_do("收藏")
-        GroupChatPage().is_exist_collection()
-        GroupChatPage().click_back_by_android()
-        message_page = MessagePage()
-        message_page.wait_for_page_load()
-        time.sleep(1)
-        message_page.open_me_page()
-        MePage().is_on_this_page()
-        # 点击我的收藏,进入收藏页面
-        MePage().click_collection()
-        collection_page = MeCollectionPage()
-        collection_page.wait_for_page_load()
-        bol = collection_page.wait_until(condition=lambda x: collection_page.is_text_present('位置'))
-        self.assertTrue(bol)
-        MePage().click_back()
-        MePage().open_message_page()

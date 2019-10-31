@@ -93,6 +93,7 @@ class Preconditions(WorkbenchPreconditions):
             wbp.wait_for_workbench_page_load()
 
 
+@unittest.skip("跳过，功能改变")
 class AppStoreAllTest(TestCase):
     """工作台->应用商城"""
 

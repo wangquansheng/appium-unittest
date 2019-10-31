@@ -742,31 +742,12 @@ class MsgAllPrior(TestCase):
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_B_0023(self):
         """进入免费/发送短信--选择联系人页面"""
-        message_page = MessagePage()
-        # 点击+号
-        message_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/action_add'))
-        # 点击免费短信
-        message_page.click_free_sms()
-        try:
-            text = message_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/sure_btn'))
-            if text == "确定":
-                message_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/sure_btn'))
-        except BaseException:
-            print("warn ：非首次进入，无需确认！")
-        select_contacts_page = SelectContactsPage()
-        time.sleep(2)
-        select_contacts_page.click_one_contact_631("大佬1")
-        sms_text = select_contacts_page.get_text((MobileBy.ID, 'com.chinasofti.rcs:id/et_sms'))
-        self.assertTrue(sms_text == '发送短信...')
-        select_contacts_page.input_text((MobileBy.ID, 'com.chinasofti.rcs:id/et_sms'), "你好，testOK !")
-        select_contacts_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/ib_sms_send'))
-        # 	com.chinasofti.rcs:id/ib_sms_send
-        try:
-            select_contacts_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'))
-        except BaseException:
-            print("warn ：非首次进入，无需资费提醒确认！")
-        select_contacts_page.click_element((MobileBy.ID, 'com.android.mms:id/send_button_sms'))
-        # com.android.mms:id/send_button_sms
+        mess = MessagePage()
+        # Step 1.点击右上角“+”
+        mess.click_add_icon()
+        # Step 点击下方发送短信按钮
+        mess.click_free_sms()
+        SelectOneGroupPage().select_contact_by_name('给个红包1')
 
     @tags('ALL', 'CMCC', 'freemsg', "high")
     def test_msg_huangcaizui_B_0036(self):
@@ -784,8 +765,8 @@ class MsgAllPrior(TestCase):
         basepg.hide_keyboard()
         time.sleep(1)
         basepg.click_send_sms()
-        basepg.click_sure_send_sms()
-        time.sleep(2)
+        # basepg.click_sure_send_sms()
+        # time.sleep(2)
         # 2、长按短信
         # basepg.press_file_to_do("测试短信", "转发")
         # time.sleep(2)
@@ -807,6 +788,25 @@ class MsgAllPrior(TestCase):
         # time.sleep(1)
         # basepg.click_back_by_android()
 
+    @tags('ALL', 'CMCC-REST', 'freemsg', "high")
+    def test_msg_huangcaizui_B_0035(self):
+        """在单聊页面中非首次点击发送短信按钮是否有短信资费介绍页--无资费介绍"""
+        # 1.网络正常，本网用户
+        # 2.客户端已登录
+        # 3.已经使用过发送短信功能，短信设置开关已开启
+        Preconditions.make_already_have_used_free_sms2()
+        # 4.在单聊会话页面
+        slc = SelectLocalContactsPage()
+        slc.selecting_local_contacts_by_name("测试号码")
+        # Step: 1.点击下方发送短信按钮
+        basepg = BaseChatPage()
+        # CheckPoint: 1.直接进入短信编辑页面，无资费介绍页
+        basepg.page_should_not_contain_text("欢迎使用免费短信")
+        result = basepg.is_text_present("退出")
+        self.assertTrue(result)
+        basepg.click_exit_sms()
+        basepg.click_back_by_android()
+
     @staticmethod
     def tearDown_test_msg_huangcaizui_B_0036():
         Preconditions.make_already_in_message_page()
@@ -827,8 +827,8 @@ class MsgAllPrior(TestCase):
         basepg.input_free_message("测试短信，请勿回复")
         time.sleep(2)
         basepg.click_send_sms()
-        basepg.click_sure_send_sms()
-        time.sleep(2)
+        # basepg.click_sure_send_sms()
+        # time.sleep(2)
         # 2、长按短信
         # basepg = BaseChatPage()
         # basepg.press_file_to_do("测试短信，请勿回复", "删除")
@@ -854,8 +854,8 @@ class MsgAllPrior(TestCase):
         basepg.hide_keyboard()
         time.sleep(2)
         basepg.click_send_sms()
-        basepg.click_sure_send_sms()
-        time.sleep(2)
+        # basepg.click_sure_send_sms()
+        # time.sleep(2)
         # 2、长按短信
         # basepg = BaseChatPage()
         # basepg.press_file_to_do("测试短信，请勿回复", "复制")
@@ -880,8 +880,8 @@ class MsgAllPrior(TestCase):
         basepg.input_free_message("测试短信，请勿回复")
         time.sleep(2)
         basepg.click_send_sms()
-        basepg.click_sure_send_sms()
-        time.sleep(2)
+        # basepg.click_sure_send_sms()
+        # time.sleep(2)
         # 2、长按短信
         # basepg = BaseChatPage()
         # basepg.press_file_to_do("测试短信，请勿回复", "收藏")
@@ -1152,7 +1152,7 @@ class MsgAllPrior(TestCase):
     def setUp_test_msg_weifenglian_1V1_0126():
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
-        Preconditions.enter_single_chat_page("大佬2")
+        Preconditions.enter_single_chat_page("大佬1")
 
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_msg_weifenglian_1V1_0126(self):
@@ -2129,7 +2129,7 @@ class MsgAllPrior(TestCase):
         Preconditions.make_already_in_message_page()
         Preconditions.enter_my_computer_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @tags('ALL', 'SMOKE', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_D_0054(self):
         """在我的电脑会话窗，搜索趣图过程中返回至消息列表重新进入"""
         chat = SingleChatPage()
@@ -2286,10 +2286,9 @@ class Contacts_demo(TestCase):
         # mess.click_element((MobileBy.XPATH, '//*[@text="删除"]'))
         # mess.page_should_not_contain_text('给个名片2')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @tags('ALL', 'SMOKE', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0023(self):
         """最近聊天选择器：单聊内转发消息"""
-        mess = MessagePage()
         Preconditions.enter_single_chat_page("大佬2")
         scp = SingleChatPage()
         scp.wait_for_page_load()
@@ -3423,7 +3422,7 @@ class Contacts_demo(TestCase):
         singe_chat.input_sms_message("测试前一半")
         # 点击发送按钮
         singe_chat.send_sms()
-        singe_chat.click_sure_send_sms()
+        # singe_chat.click_sure_send_sms()
         # if singe_chat.is_present_sms_fee_remind():
         #     singe_chat.click_sure()
         # # Step 输入想存为草稿的内容
@@ -3460,11 +3459,11 @@ class Contacts_demo(TestCase):
         singe_chat.input_sms_message("发送第一条")
         # 点击发送按钮
         singe_chat.send_sms()
-        if singe_chat.is_present_sms_fee_remind():
-            singe_chat.click_sure()
-        singe_chat.input_sms_message("发送第一条")
-        singe_chat.send_sms()
-        singe_chat.click_sure_send_sms()
+        # if singe_chat.is_present_sms_fee_remind():
+        #     singe_chat.click_sure()
+        # singe_chat.input_sms_message("发送第一条")
+        # singe_chat.send_sms()
+        # singe_chat.click_sure_send_sms()
         # singe_chat.click_back()
         # mess.click_search()
         # # Step 1.搜索框输入一条有多条相同的聊天记录

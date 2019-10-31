@@ -1308,8 +1308,8 @@ class MsgGroupChatTest(TestCase):
         for name in names:
             contacts_page.search_and_select_one_member_by_name(name)
         contacts_page.click_sure()
-        gcp.wait_for_page_load()
-        gcp.page_should_contain_text("发出群邀请")
+        # gcp.wait_for_page_load()
+        # gcp.page_should_contain_text("发出群邀请")
 
     def msg_group_chat_0064_pre_condition(self):
         """test_msg_group_chat_0064执行前置条件"""

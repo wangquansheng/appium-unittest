@@ -78,7 +78,7 @@ class WorkbenchPage(FooterPage):
                   'com.chinasofti.rcs:id/iv_logo': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_logo'),
                   '应用管理': (MobileBy.XPATH, '//*[@text="应用管理"]'),
                   '咨询客服': (MobileBy.XPATH, '//*[@text="咨询客服"]'),
-                  '创建团队': (MobileBy.XPATH, '//*[@text="创建团队"]'),
+                  '创建团队': (MobileBy.XPATH, '//*[@text="欢迎创建团队"]'),
                   '创建群': (MobileBy.XPATH, '//*[@text="创建群"]'),
                   '马上创建群': (MobileBy.XPATH, '//*[@text="马上创建群"]'),
                   '消息': (MobileBy.ID, 'com.chinasofti.rcs:id/tvMessage'),

@@ -1440,62 +1440,6 @@ class MsgPrivateChatDialog(TestCase):
             raise AssertionError("输入框文本不是 ‘说点什么...’")
 
     @staticmethod
-    def setUp_test_msg_huangcaizui_A_0128():
-        Preconditions.make_already_in_message_page()
-        mes = MessagePage()
-        mes.click_add_icon()
-        mes.click_free_sms()
-        time.sleep(1)
-        contacts = ContactsPage()
-        names = contacts.get_contacts_name2()
-        contacts.select_people_by_name(names[0])
-        gcp = GroupChatPage()
-        gcp.click_back()
-        time.sleep(3)
-        Preconditions.enter_private_chat_page()
-
-
-    @tags('ALL', 'SMOKE', 'CMCC', 'DEBUG')
-    def test_msg_huangcaizui_A_0128(self):
-        """进入发送页面"""
-        # 1、进入一对一聊天界面
-        chat = SingleChatPage()
-        # 2、选择短信功能，进入短信发送模式
-        try:
-            chat.page_should_contain_text('退出短信')
-            chat.click_text("退出短信")
-        except:
-            pass
-        try:
-            time.sleep(1)
-            chat.page_should_contain_text("欢迎使用免费短信")
-            chat.click_text("确定")
-            time.sleep(2)
-        except:
-            pass
-        chat.page_should_contain_text("发送短信")
-        chat.page_should_contain_text("退出")
-        chat.click_text("退出")
-
-    @staticmethod
-    def setUp_test_msg_huangcaizui_A_0129():
-        """该账号未开启过和飞信短信功能"""
-        Preconditions.enter_private_chat_page(reset=True)
-
-    @tags('ALL', 'SMOKE', 'CMCC_RESET', 'DEBUG')
-    def test_msg_huangcaizui_A_0129(self):
-        """进入发送页面"""
-        # 1、进入一对一天界面
-        chat = SingleChatPage()
-        # 2、选择短信功能，进入短信发送模式
-        chat.click_sms()
-        time.sleep(1)
-        chat.page_should_contain_text("欢迎使用免费短信")
-        chat.page_should_contain_text("免费给移动用户发送短信")
-        chat.page_should_contain_text("给非移动用户发短信将收取0.01元/条")
-        chat.page_should_contain_text("给港澳台等境外用户发短信将收取1元/条")
-
-    @staticmethod
     def setUp_test_msg_huangcaizui_B_0073():
         """该账号未开启过和飞信短信功能"""
         Preconditions.enter_private_chat_page(reset=True)
@@ -1728,17 +1672,6 @@ class MsgPrivateChatDialog(TestCase):
             local_file.click_back()
             csf.click_back()
         chat.wait_for_page_load()
-
-    @tags('ALL', 'SMOKE', 'CMCC', 'DEBUG')
-    def test_msg_huangcaizui_A_0147(self):
-        """会话窗口中点击删除文本消息"""
-        self.public_send_file('.txt')
-        # 1.长按文本消息
-        chat = SingleChatPage()
-        msg = '.txt'
-        # 2.点击删除
-        chat.delete_mess(msg)
-        chat.page_should_not_contain_text(msg)
 
     @staticmethod
     def setUp_test_msg_huangcaizui_A_0148():
