@@ -821,7 +821,8 @@ class ContactsDemo(TestCase):
         # # cp.page_should_contain_text('正在呼叫...')
         # # cp.hang_up_voice_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_shenlisi_0073(self):
         """检查通话记录列表--通话详情界面发起语音电话"""
         # 网络正常
@@ -903,7 +904,8 @@ class ContactsDemo(TestCase):
         time.sleep(1)
         cp.page_should_contain_text('测试短信1')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_shenlisi_0093(self):
         """检查语音通话--被叫未接通主叫挂断"""
         # 网络正常
@@ -939,7 +941,8 @@ class ContactsDemo(TestCase):
         cp.hang_up_voice_call()
         mess.is_toast_exist('通话结束')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_shenlisi_0208(self):
         """检查通话记录列表--回拨发起视频通话"""
         # 网络正常
@@ -986,7 +989,8 @@ class ContactsDemo(TestCase):
         # Step 2、主叫方点击挂断按钮
         cp.hang_up_video_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_shenlisi_0209(self):
         """检查通话记录列表--通话详情界面发起视频电话"""
         # 网络正常
@@ -1033,7 +1037,8 @@ class ContactsDemo(TestCase):
         # Step 2、主叫方点击挂断按钮
         cp.hang_up_video_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_shenlisi_0210(self):
         """检查profile发起视频电话"""
         # 网络正常
@@ -1106,7 +1111,8 @@ class ContactsDemo(TestCase):
         # # Step 2、主叫方点击挂断按钮
         # cp.hang_up_video_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_shenlisi_0346(self):
         """检查从通话记录列表进入到通话profile"""
         # 网络正常
@@ -1568,7 +1574,8 @@ class ContactsDemo(TestCase):
     def tearDown_test_call_wangqiong_0495(self):
         current_mobile().set_network_status(6)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zengxi_0001(self):
         """主叫发起语音通话呼叫时，消息页支持语音通话入口功能"""
         # 网络正常
@@ -1711,7 +1718,8 @@ class ContactsDemo(TestCase):
         mess.is_toast_exist('通话结束')
         mess.hang_up_the_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zengxi_0017(self):
         """多个状态展示在消息列表中时，通话入口将会展示在最上面"""
         # 网络正常
@@ -1931,7 +1939,8 @@ class ContactsDemo(TestCase):
                                                  '联系人4')
         cmvp.is_toast_exist('人数已达上限8人')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zhenyishan_0328(self):
         """IOS-陌电弹屏：检查陌生联系人语音通话详情页展示"""
         # 网络正常
@@ -1970,7 +1979,8 @@ class ContactsDemo(TestCase):
         # time.sleep(2)
         # cp.click_ganggang_call_time()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zhenyishan_0382(self):
         """（安卓）开启陌电识别开关，开启悬浮窗权限，检查通话记录列表，陌生联系人+和通讯录联系人语音通话记录展示"""
         # 网络正常
@@ -2008,7 +2018,8 @@ class ContactsDemo(TestCase):
         cp.click_ganggang_call_time()
         cp.page_should_contain_text('语音通话')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zhenyishan_0387(self):
         """（安卓）开启陌电识别开关，开启悬浮窗权限，检查和通讯录联系人语音通话详情页，显示公司名称一栏"""
         contactspage = ContactsPage()
@@ -2079,7 +2090,8 @@ class msgtips(TestCase):
         Mess_notice_set.new_message_switch_bar_turn_off()
         CallPage().click_back_by_android(times=3)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_msg_huangcaizui_D_0112(self):
         """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
         # 网络正常
@@ -2309,7 +2321,8 @@ class msgtips(TestCase):
         CallPage().click_back_by_android(times=3)
         me.click_message()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_msg_huangcaizui_D_0120(self):
         """仅语音通话提示条存在时，关闭设置消息提示，语音通话提示条和消息通知提示条共存"""
         # 网络正常

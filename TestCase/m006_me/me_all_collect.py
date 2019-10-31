@@ -381,7 +381,7 @@ class Preconditions(WorkbenchPreconditions):
             local_file.click_back()
             csf.click_back()
         # 3.点击该信息收藏
-        scp.press_file_to_do(file_type, "收藏")
+        scp.press_last_file_to_do("收藏")
         if not scp.is_toast_exist("已收藏"):
             raise AssertionError("没有此弹框")
         cmp.click_back()

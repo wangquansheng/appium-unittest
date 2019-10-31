@@ -2198,7 +2198,8 @@ class MsgAllPrior(TestCase):
         # result = mepage.is_mutil_call_manage_631()
         # self.assertTrue(result)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0351(self):
         """拨号方式选择优先使用和飞信电话拨号盘拨打以和飞信电话呼出"""
         mepage = MePage()
@@ -2207,7 +2208,6 @@ class MsgAllPrior(TestCase):
         mepage.click_setting_menu()
         # 进入拨号设置 并选择'优先使用和飞信电话（免费）'
         meset = MeSetUpPage()
-        meset.click
         meset.click_call_setting('总是询问（默认）')
         # # 返回到‘我’页面
         # meset.click_back()
