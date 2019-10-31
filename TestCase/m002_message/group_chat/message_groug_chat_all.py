@@ -586,7 +586,7 @@ class MsgGroupChatTest(TestCase):
             pass
         else:
             group_chat_page = GroupChatPage()
-            group_chat_page.set_network_status(4)
+            # group_chat_page.set_network_status(6)
             group_chat_page.click_file()
             select_file_type = ChatSelectFilePage()
             select_file_type.wait_for_page_load()

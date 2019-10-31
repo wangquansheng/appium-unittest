@@ -877,7 +877,6 @@ class MsgAllPrior(TestCase):
         self.assertTrue(call_page._is_element_present(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="大佬1"]')))
 
-
     @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
     def test_call_wangqiong_0081(self):
         """ 通讯录界面搜索姓名"""
