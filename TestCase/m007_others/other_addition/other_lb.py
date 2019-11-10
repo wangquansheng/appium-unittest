@@ -697,7 +697,8 @@ class ContactsDemo(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_shenlisi_0071(self):
         """检查从通话记录列表-拨号盘发起语音通话"""
         # 网络正常
@@ -756,7 +757,8 @@ class ContactsDemo(TestCase):
         # cp.page_should_contain_text('正在呼叫...')
         # cp.hang_up_voice_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_shenlisi_0072(self):
         """检查通话记录列表--回拨发起语音通话"""
         # 网络正常
@@ -887,7 +889,8 @@ class ContactsDemo(TestCase):
         # cp.page_should_contain_text('正在呼叫...')
         # cp.hang_up_voice_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_shenlisi_0074(self):
         """检查profile发起语音电话"""
         Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111"])
@@ -1085,7 +1088,8 @@ class ContactsDemo(TestCase):
         # Step 2、主叫方点击挂断按钮
         cp.hang_up_video_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_shenlisi_0212(self):
         """检查单聊发起视频通话"""
         Preconditions.create_contacts_if_not_exist_631(["测试短信1, 13800138111"])
@@ -1166,7 +1170,8 @@ class ContactsDemo(TestCase):
         # Checkpoint：查看详情页面是否是为飞信电话？
         cp.page_should_contain_text('视频通话')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0063(self):
         """网络正常，多方电话通话详情页可再次呼叫成功"""
         Preconditions.enter_call_page()
@@ -1208,7 +1213,8 @@ class ContactsDemo(TestCase):
         # time.sleep(2)
         Preconditions.hang_up_fetion_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0145(self):
         """选择1个联系人可发起呼叫多方电话"""
 
@@ -1255,7 +1261,8 @@ class ContactsDemo(TestCase):
         callpage.page_should_contain_text('[飞信电话]')
         callpage.page_should_contain_text('拨出电话')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0146(self):
         """选择8个联系人可发起呼叫多方电话"""
 
@@ -1304,7 +1311,8 @@ class ContactsDemo(TestCase):
         callpage.page_should_contain_text('[飞信电话]')
         callpage.page_should_contain_text('拨出电话')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0147(self):
         """搜索陌生人+本地联系人+和通讯录联系人共8人可发起多方电话"""
 
@@ -1354,7 +1362,8 @@ class ContactsDemo(TestCase):
         callpage.page_should_contain_text('[飞信电话]')
         callpage.page_should_contain_text('拨出电话')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0193(self):
         """多方电话联系人选择器支持搜索保存在本地的固号呼叫"""
         # 网络正常
@@ -1381,7 +1390,8 @@ class ContactsDemo(TestCase):
         suspend.ignore_tips_if_tips_display()
         Preconditions.hang_up_fetion_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0389(self):
         """成功创建会场成功后断开网络会控页不消失"""
         # 网络正常
@@ -1424,7 +1434,8 @@ class ContactsDemo(TestCase):
     def tearDown_test_call_wangqiong_0389(self):
         current_mobile().set_network_status(6)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0401(self):
         """成功创建会场成功后（12560回呼接通）编辑呼叫中成员信息"""
         # 网络正常
@@ -1460,6 +1471,7 @@ class ContactsDemo(TestCase):
         Preconditions.hang_up_fetion_call()
 
     @unittest.skip('悬浮窗无法抓取')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0405(self):
         """成功创建会场成功后断开网络会控页不消失"""
         # 网络正常
@@ -1514,6 +1526,7 @@ class ContactsDemo(TestCase):
         current_mobile().set_network_status(6)
 
     @unittest.skip('悬浮窗无法抓取')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0495(self):
         """成功创建会场成功后断开网络会控页不消失"""
         # 网络正常
@@ -1610,7 +1623,8 @@ class ContactsDemo(TestCase):
         cp.click_voice_call_small()
         time.sleep(2)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zengxi_0005(self):
         """主叫发起视频通话呼叫时，消息页支持视频通话入口功能"""
         # 网络正常
@@ -1635,7 +1649,8 @@ class ContactsDemo(TestCase):
         cp.click_video_call_small()
         time.sleep(2)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zengxi_0009(self):
         """主叫发起多方视频通话呼叫时，消息页支持多方视频通话入口功能"""
         # 网络正常
@@ -1662,7 +1677,8 @@ class ContactsDemo(TestCase):
         cp.click_more_video_call_small()
         time.sleep(2)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zengxi_0013(self):
         """主叫发起多方电话通话呼叫时，消息页支持多方电话通话入口功能"""
         # 网络正常
@@ -1759,7 +1775,8 @@ class ContactsDemo(TestCase):
         # time.sleep(2)
         # self.assertTrue(cp.check_end_voice_call())
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zhenyishan_0112(self):
         """通话模块：当前勾选人数已有8人，继续勾选团队联系人，检查提示"""
         current_mobile().launch_app()
@@ -1779,7 +1796,8 @@ class ContactsDemo(TestCase):
                                                  '联系人4')
         mess.is_toast_exist('最多只能选择8人')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zhenyishan_0153(self):
         """分组群发/标签分组/群发消息：多方视频联系人选择器--点击任意群成员"""
         current_mobile().launch_app()
@@ -1811,7 +1829,8 @@ class ContactsDemo(TestCase):
         labellist.page_should_contain_text('呼叫(1/8)')
         labellist.page_should_contain_text('信1')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zhenyishan_0178(self):
         """仅消息通知提示条时，进行拨打语音通话，两个提示条共存"""
         # 网络正常
@@ -1843,7 +1862,8 @@ class ContactsDemo(TestCase):
         cp.click_ganggang_call_time()
         cp.click_mutil_call_again()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zhenyishan_0183(self):
         """主叫多方视频管理界面，检查挂断按钮"""
         # 1、已成功发起多方视频
@@ -1876,7 +1896,8 @@ class ContactsDemo(TestCase):
         time.sleep(3)
         cmvp.page_should_not_contain_text('关闭摄像头')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zhenyishan_0186(self):
         """多方视频管理界面，检查添加联系人按钮"""
         # 1、已成功发起多方视频，人数未满9人
@@ -1906,7 +1927,8 @@ class ContactsDemo(TestCase):
         time.sleep(1)
         self.assertFalse(cmvp.is_enabled_tv_sure())
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_zhenyishan_0191(self):
         """多方视频管理界面，检查添加联系人按钮"""
         # 1、已成功发起多方视频，人数未满9人
@@ -2148,7 +2170,8 @@ class msgtips(TestCase):
         Mess_notice_set.new_message_switch_bar_turn_off()
         CallPage().click_back_by_android(times=3)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_msg_huangcaizui_D_0113(self):
         """仅消息通知提示条时，进行拨打视频通话，两个提示条共存"""
         # 网络正常
@@ -2195,7 +2218,8 @@ class msgtips(TestCase):
         Mess_notice_set.new_message_switch_bar_turn_off()
         CallPage().click_back_by_android(times=3)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_msg_huangcaizui_D_0114(self):
         """仅消息通知提示条时，进行拨打多方视频通话，两个提示条共存"""
         # 网络正常
@@ -2389,7 +2413,8 @@ class msgtips(TestCase):
         CallPage().click_back_by_android(times=3)
         me.click_message()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_msg_huangcaizui_D_0121(self):
         """仅视频通话提示条存在时，关闭设置消息提示，视频通话提示条和消息通知提示条共存"""
         # 网络正常
@@ -2445,7 +2470,8 @@ class msgtips(TestCase):
         CallPage().click_back_by_android(times=3)
         me.click_message()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_msg_huangcaizui_D_0122(self):
         """仅多方视频通话提示条存在时，关闭设置消息提示，多方视频通话提示条和消息通知提示条共存"""
         # 网络正常
@@ -2505,6 +2531,7 @@ class msgtips(TestCase):
         CallPage().click_back_by_android(times=3)
 
     @unittest.skip('悬浮窗无法抓取')
+    @unittest.skip("跳过，通话功能关闭")
     def test_msg_huangcaizui_D_0123(self):
         """仅多方电话提示条存在时，关闭设置消息提示，多方电话提示条和消息通知提示条共存"""
         # 网络正常

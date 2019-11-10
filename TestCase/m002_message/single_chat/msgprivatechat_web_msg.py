@@ -283,10 +283,7 @@ class MsgPrivateChatWebMsgTest(TestCase):
 
     @tags('ALL', 'CMCC', 'WJH')
     def test_msg_hanjiabin_0227(self):
-        """
-        网页消息——打开链接后的通用浏览器——右上角更多——复制链接
-        """
-
+        """网页消息——打开链接后的通用浏览器——右上角更多——复制链接"""
         msg = 'http://www.baidu.com'
         cwp = self.send_one_web_msg_rcwp(msg)
         # 点击网页消息，打开网页
@@ -309,9 +306,7 @@ class MsgPrivateChatWebMsgTest(TestCase):
 
     @tags('ALL', 'CMCC', 'WJH')
     def test_msg_hanjiabin_0226(self):
-        """
-        网页消息——打开链接后的通用浏览器——右上角更多——在浏览器中打开
-        """
+        """网页消息——打开链接后的通用浏览器——右上角更多——在浏览器中打开"""
         msg = 'http://www.baidu.com'
         cwp = self.send_one_web_msg_rcwp(msg)
         # 点击网页消息，打开网页
@@ -389,10 +384,7 @@ class MsgPrivateChatWebMsgTest(TestCase):
 
     @tags('ALL', 'CMCC', 'WJH')
     def test_msg_hanjiabin_0223(self):
-        """
-        网页消息——打开链接后的通用浏览器——右上角更多——转发给微信好友
-        """
-
+        """网页消息——打开链接后的通用浏览器——右上角更多——转发给微信好友"""
         msg = 'http://www.baidu.com'
         cwp = self.send_one_web_msg_rcwp(msg)
         # 点击网页消息，打开网页
@@ -416,9 +408,7 @@ class MsgPrivateChatWebMsgTest(TestCase):
 
     @tags('ALL', 'CMCC', 'WJH')
     def test_msg_hanjiabin_0224(self):
-        """
-        网页消息——打开链接后的通用浏览器——右上角更多——转发给QQ好友
-        """
+        """网页消息——打开链接后的通用浏览器——右上角更多——转发给QQ好友"""
         msg = 'http://www.baidu.com'
         cwp = self.send_one_web_msg_rcwp(msg)
         # 点击网页消息，打开网页
@@ -442,9 +432,7 @@ class MsgPrivateChatWebMsgTest(TestCase):
 
     @tags('ALL', 'CMCC', 'WJH')
     def test_msg_hanjiabin_0225(self):
-        """
-        网页消息——打开链接后的通用浏览器——右上角更多——转发到朋友圈
-        """
+        """网页消息——打开链接后的通用浏览器——右上角更多——转发到朋友圈"""
         msg = 'http://www.baidu.com'
         cwp = self.send_one_web_msg_rcwp(msg)
         # 点击网页消息，打开网页
@@ -469,6 +457,7 @@ class MsgPrivateChatWebMsgTest(TestCase):
 
     @tags('ALL', 'CMCC', 'WJH')
     def test_msg_huangcaizui_A_0278(self):
+        """从通话——通话详情——进入单聊页面"""
         ChatWindowPage().click_back1()
         mp = MessagePage()
         mp.click_calls()
@@ -507,11 +496,7 @@ class MsgPrivateChatWebMsgTest(TestCase):
 
     @tags('ALL', 'CMCC', 'WJH')
     def test_msg_huangcaizui_A_0282(self):
-        """
-            1.结果匹配到相关的团队联系人
-            1.进入联系人详情页面
-            2.进入单聊页面"
-        """
+        """联系——搜索团队联系人——进入单聊页面"""
         ChatWindowPage().click_back1()
         mp = MessagePage()
         mp.set_network_status(6)

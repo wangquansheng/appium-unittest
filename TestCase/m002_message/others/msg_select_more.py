@@ -120,6 +120,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0078(self):
+        """消息列表——发起群聊——选择一个群——模糊搜索存在的企业群和党群"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -164,6 +165,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0080(self):
+        """群聊列表展示页面——中文精确搜索存在的企业群和党群"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -185,6 +187,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0081(self):
+        """群聊列表展示页面——中文精确搜索不存在的企业群和党群"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -204,6 +207,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0082(self):
+        """群聊列表展示页面——英文精确搜索存在的企业群和党群"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -225,6 +229,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0083(self):
+        """群聊列表展示页面——英文精确搜索不存在的企业群和党群"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -244,6 +249,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0084(self):
+        """群聊列表展示页面——空格精确搜索存在的企业群和党群"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -264,6 +270,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0085(self):
+        """群聊列表展示页面——空格精确搜索不存在的企业群和党群"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -283,6 +290,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0086(self):
+        """群聊列表展示页面——数字精确搜索存在的企业群和党群"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -303,6 +311,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0087(self):
+        """群聊列表展示页面——数字精确搜索不存在的企业群和党群"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -322,6 +331,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0088(self):
+        """群聊列表展示页面——字符精确搜索存在的企业群和党群"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -342,6 +352,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0089(self):
+        """群聊列表展示页面——字符精确搜索不存在的企业群和党群"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -361,6 +372,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0131(self):
+        """聊天设置页面——清空聊天记录"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()
@@ -395,6 +407,7 @@ class MsgSelectMoreTest(TestCase):
 
     @tags('ALL', 'CMCC', 'MES_OTHER', 'YL')
     def test_msg_huangmianhua_0132(self):
+        """聊天设置页面——取消清空聊天记录"""
         Preconditions.make_already_in_message_page()
         mess = MessagePage()
         mess.wait_for_page_load()

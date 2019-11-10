@@ -355,7 +355,7 @@ class MsgAllPrior(TestCase):
             current_mobile().launch_app()
             Preconditions.enter_private_chat_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @tags('ALL', 'SMOKE', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0128(self):
         """进入发送页面"""
         # 1、进入一对一天界面
@@ -389,7 +389,7 @@ class MsgAllPrior(TestCase):
             current_mobile().launch_app()
             Preconditions.enter_private_chat_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @tags('ALL', 'SMOKE', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0129(self):
         """进入发送页面"""
         # 1、进入一对一天界面
@@ -422,7 +422,7 @@ class MsgAllPrior(TestCase):
             current_mobile().launch_app()
             Preconditions.enter_private_chat_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @tags('ALL', 'SMOKE', 'group_chat', 'prior', 'high')
     def test_msg_huangcaizui_A_0147(self):
         """会话窗口中点击删除文本消息"""
         single_chat_page = SingleChatPage()

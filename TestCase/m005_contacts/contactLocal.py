@@ -252,12 +252,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0001(self):
-        '''
-        搜索输入框校验，通过手机号码搜索，输入数字模糊查询（只搜索一条记录）
-        author:darcy
-
-        :return:
-        '''
+        '''搜索输入框校验，通过手机号码搜索，输入数字模糊查询（只搜索一条记录）'''
         lcontact=localContactPage()
         lcontact.click_search_box()
         time.sleep(2)
@@ -269,11 +264,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0002(self):
-        '''
-        搜索输入框校验，通过手机号码搜索，输入数字模糊查询（搜索多条记录）
-        auther:darcy
-        :return:
-        '''
+        '''搜索输入框校验，通过手机号码搜索，输入数字模糊查询（搜索多条记录）'''
         lcontact = localContactPage()
         lcontact.click_search_box()
         time.sleep(1)
@@ -289,11 +280,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0003(self):
-        '''
-        搜索输入框校验，通过手机号码搜索，输入手机号码全匹配查询
-        auther:darcy
-        :return:
-        '''
+        '''搜索输入框校验，通过手机号码搜索，输入手机号码全匹配查询'''
         lcontact = localContactPage()
         lcontact.click_search_box()
         time.sleep(1)
@@ -319,11 +306,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0019(self):
-        '''
-       测试sim单卡测试，无联系人，手机系统设置关闭“显示SIM联系人”，和飞信关闭“显示sim卡联系人”，是否能搜索到本地联系人
-        auther:darcy
-        :return:
-        '''
+        '''测试sim单卡测试，无联系人，手机系统设置关闭“显示SIM联系人”，和飞信关闭“显示sim卡联系人”，是否能搜索到本地联系人'''
         lcontact = localContactPage()
         GroupPage = GroupListPage()
         GroupPage.open_contacts_page()
@@ -350,11 +333,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0020(self):
-        '''
-       测试sim单卡测试，有联系人，手机系统设置开启“显示SIM联系人”，和飞信开启“显示sim卡联系人”，是否能搜索到sim联系人
-        auther:darcy
-        :return:
-        '''
+        '''测试sim单卡测试，有联系人，手机系统设置开启“显示SIM联系人”，和飞信开启“显示sim卡联系人”，是否能搜索到sim联系人'''
         lcontact = localContactPage()
         glp = GroupListPage()
         glp.open_contacts_page()
@@ -385,11 +364,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0021(self):
-        '''
-       测试sim单卡测试，有联系人，手机系统设置开启“显示SIM联系人”，和飞信关闭“显示sim卡联系人”，是否能搜索到sim联系人
-        auther:darcy
-        :return:
-        '''
+        '''测试sim单卡测试，有联系人，手机系统设置开启“显示SIM联系人”，和飞信关闭“显示sim卡联系人”，是否能搜索到sim联系'''
         lcontact = localContactPage()
         glp = GroupListPage()
         glp.open_contacts_page()
@@ -417,11 +392,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0022(self):
-        '''
-       测试sim单卡，有联系人，手机系统设置关闭“显示SIM联系人”，和飞信开启“显示sim卡联系人”，是否能搜索到sim联系人
-        auther:darcy
-        :return:
-        '''
+        '''测试sim单卡，有联系人，手机系统设置关闭“显示SIM联系人”，和飞信开启“显示sim卡联系人”，是否能搜索到sim联系人'''
         lcontact = localContactPage()
         glp = GroupListPage()
         glp.open_contacts_page()
@@ -436,11 +407,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0005(self):
-        '''
-        搜索输入框校验，通过名称搜索（英文），输入名称模糊查询（搜索多条记录）
-        auther:darcy
-        :return:
-        '''
+        '''搜索输入框校验，通过名称搜索（英文），输入名称模糊查询（搜索多条记录）'''
         lcontact = localContactPage()
         # GroupPage = GroupListPage()
         # GroupPage.open_contacts_page()
@@ -458,11 +425,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0006(self):
-        '''
-        搜索输入框校验，通过名称搜索（特殊字符）,输入名称模糊查询（搜索多条记录）
-        auther:darcy
-        :return:
-        '''
+        '''搜索输入框校验，通过名称搜索（特殊字符）,输入名称模糊查询（搜索多条记录）'''
         lcontact = localContactPage()
         # GroupPage = GroupListPage()
         # GroupPage.open_contacts_page()
@@ -480,11 +443,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0004(self):
-        '''
-        搜索输入框校验，通过名称（中文）搜索，输入名称模糊查询（搜索多条记录）
-        auther:darcy
-        :return:
-        '''
+        '''搜索输入框校验，通过名称（中文）搜索，输入名称模糊查询（搜索多条记录）'''
         lcontact = localContactPage()
         # GroupPage = GroupListPage()
         # GroupPage.open_contacts_page()
@@ -502,11 +461,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0008(self):
-        '''
-        测试空格+文本进行搜索
-        auther:darcy
-        :return:
-        '''
+        '''测试空格+文本进行搜索'''
         lcontact = localContactPage()
         lcontact.click_search_box()
         time.sleep(1)
@@ -520,11 +475,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0010(self):
-        '''
-        测试搜索输入框输入超长字符
-        auther:darcy
-        :return:
-        '''
+        '''测试搜索输入框输入超长字符'''
         lcontact = localContactPage()
         lcontact.click_search_box()
         time.sleep(1)
@@ -538,11 +489,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0012(self):
-        '''
-        测试搜索输入框的X按钮是否可以清空内容
-        auther:darcy
-        :return:
-        '''
+        '''测试搜索输入框的X按钮是否可以清空内容'''
         lcontact = localContactPage()
         # GroupPage = GroupListPage()
         # GroupPage.open_contacts_page()
@@ -556,12 +503,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0014(self):
-        '''
-        搜索一个不存在本地的正常的11位号码
-        auther:darcy
-        :return:
-
-        '''
+        '''搜索一个不存在本地的正常的11位号码'''
         lcontact = localContactPage()
         # GroupPage = GroupListPage()
         # GroupPage.open_contacts_page()
@@ -575,12 +517,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0015(self):
-        '''
-        搜索不存在本地通讯录的联系人
-        auther:darcy
-        :return:
-
-        '''
+        '''搜索不存在本地通讯录的联系人'''
         lcontact = localContactPage()
         # GroupPage = GroupListPage()
         # GroupPage.open_contacts_page()
@@ -608,11 +545,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0016(self):
-        '''
-        测试sim单卡测试，无联系人，手机系统设置开启“显示SIM联系人”，和飞信开启“显示sim卡联系人”，是否能搜索到本地联系人
-        auther:darcy
-        :return:
-        '''
+        '''测试sim单卡测试，无联系人，手机系统设置开启“显示SIM联系人”，和飞信开启“显示sim卡联系人”，是否能搜索到本地联系人'''
         lcontact = localContactPage()
         glp = GroupListPage()
         glp.open_contacts_page()
@@ -644,11 +577,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0017(self):
-        '''
-       测试sim单卡测试，无联系人，手机系统设置开启“显示SIM联系人”，和飞信关闭“显示sim卡联系人”，是否能搜索到不存在的联系人
-        auther:darcy
-        :return:
-        '''
+        '''测试sim单卡测试，无联系人，手机系统设置开启“显示SIM联系人”，和飞信关闭“显示sim卡联系人”，是否能搜索到不存在的联系'''
         lcontact = localContactPage()
         GroupPage = GroupListPage()
         GroupPage.open_contacts_page()
@@ -675,11 +604,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0018(self):
-        '''
-       测试sim单卡测试，无联系人，手机系统设置关闭“显示SIM联系人”，和飞信开启“显示sim卡联系人”，是否能搜索到本地联系人
-        auther:darcy
-        :return:
-        '''
+        '''测试sim单卡测试，无联系人，手机系统设置关闭“显示SIM联系人”，和飞信开启“显示sim卡联系人”，是否能搜索到本地联系人'''
         lcontact = localContactPage()
         GroupPage = GroupListPage()
         GroupPage.open_contacts_page()
@@ -710,11 +635,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0023(self):
-        '''
-       测试sim单卡，有联系人，手机系统设置关闭“显示SIM联系人”，和飞信关闭“显示sim卡联系人”，是否能搜索到sim联系人
-        auther:darcy
-        :return:
-        '''
+        '''测试sim单卡，有联系人，手机系统设置关闭“显示SIM联系人”，和飞信关闭“显示sim卡联系人”，是否能搜索到sim联系人 '''
         lcontact = localContactPage()
         glp = GroupListPage()
         glp.open_contacts_page()
@@ -744,11 +665,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC-双卡,跳过')
     def test_contacts_chenjixiang_0024(self):
-        '''
-       测试sim双卡，卡1有联系人，卡2无联系人，已开启“显示sim卡联系人”，分别搜索卡1、卡2、本地通讯录、和通讯录
-        auther:darcy
-        :return:
-        '''
+        '''测试sim双卡，卡1有联系人，卡2无联系人，已开启“显示sim卡联系人”，分别搜索卡1、卡2、本地通讯录、和通讯录'''
         lcontact = localContactPage()
         GroupPage = GroupListPage()
         GroupPage.open_contacts_page()
@@ -765,11 +682,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0030(self):
-        '''
-       测试搜索结果点击后跳转到profile页面
-        auther:darcy
-        :return:
-        '''
+        '''测试搜索结果点击后跳转到profile页面'''
         lcontact = localContactPage()
         # GroupPage = GroupListPage()
         # GroupPage.open_contacts_page()
@@ -787,11 +700,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0031(self):
-        '''
-       测试系统通讯录联系人拥有多个手机号码，手机号码不一致的情况，通过名称搜索
-        auther:darcy
-        :return:
-        '''
+        '''测试系统通讯录联系人拥有多个手机号码，手机号码不一致的情况，通过名称搜索'''
         # 添加手机联系人
         time.sleep(2)
         # 添加联系人
@@ -835,11 +744,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0032(self):
-        '''
-       测试系统通讯录联系人拥有多个手机号码，手机号码不一致的情况，通过手机号码搜索
-        auther:darcy
-        :return:
-        '''
+        '''测试系统通讯录联系人拥有多个手机号码，手机号码不一致的情况，通过手机号码搜索 '''
         lcontact = localContactPage()
         time.sleep(3)
         lcontact.click_search_box()
@@ -855,10 +760,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0033(self):
-        '''
-       测试系统通讯录联系人拥有多个手机号码，手机号码一致的情况，通过名称搜索
-        :return:
-        '''
+        '''测试系统通讯录联系人拥有多个手机号码，手机号码一致的情况，通过名称搜索'''
         # 添加手机联系人
         time.sleep(2)
         # 添加联系人
@@ -908,10 +810,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS')
     def test_contacts_chenjixiang_0034(self):
-        '''
-       测试系统通讯录联系人拥有多个手机号码，手机号码一致的情况，通过手机号码搜索
-        :return:
-        '''
+        '''测试系统通讯录联系人拥有多个手机号码，手机号码一致的情况，通过手机号码搜索'''
         # 添加手机联系人
         time.sleep(2)
         # 添加联系人
@@ -960,10 +859,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0035(self):
-        '''
-       测试系统通讯录存在多个联系人，名称相同，手机号码不一致，通过名称搜索
-        :return:
-        '''
+        '''测试系统通讯录存在多个联系人，名称相同，手机号码不一致，通过名称搜索'''
         lcontact = localContactPage()
         time.sleep(3)
         lcontact.click_search_box()
@@ -988,10 +884,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS')
     def test_contacts_chenjixiang_0036(self):
-        '''
-       测试系统通讯录存在多个联系人，名称相同，手机号码不一致，通过手机号码搜索
-        :return:
-        '''
+        '''测试系统通讯录存在多个联系人，名称相同，手机号码不一致，通过手机号码搜索'''
 
         lcontact = localContactPage()
         # GroupPage = GroupListPage()
@@ -1013,10 +906,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0039(self):
-        '''
-       测试系统通讯录存在多个联系人，名称不一致，手机号码相同，通过名称搜索
-        :return:
-        '''
+        '''测试系统通讯录存在多个联系人，名称不一致，手机号码相同，通过名称搜索'''
 
         lcontact = localContactPage()
         # GroupPage = GroupListPage()
@@ -1038,10 +928,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0040(self):
-        '''
-       测试系统通讯录存在多个联系人，名称不一致，手机号码相同，通过手机号码搜索
-        :return:
-        '''
+        '''测试系统通讯录存在多个联系人，名称不一致，手机号码相同，通过手机号码搜索'''
 
         lcontact = localContactPage()
         # GroupPage = GroupListPage()
@@ -1063,10 +950,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0041(self):
-        '''
-       测试系统通讯录存在多个联系人，名称和手机号码不一致，通过名称搜索
-        :return:
-        '''
+        '''测试系统通讯录存在多个联系人，名称和手机号码不一致，通过名称搜索'''
 
         lcontact = localContactPage()
         # GroupPage = GroupListPage()
@@ -1088,10 +972,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0042(self):
-        '''
-       测试系统通讯录存在多个联系人，名称和手机号码不一致，通过手机号码搜索
-        :return:
-        '''
+        '''测试系统通讯录存在多个联系人，名称和手机号码不一致，通过手机号码搜索'''
 
         lcontact = localContactPage()
         # GroupPage = GroupListPage()
@@ -1113,10 +994,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0043(self):
-        '''
-      测试+86的手机号码，通过名称搜索
-        :return:
-        '''
+        '''测试+86的手机号码，通过名称搜索'''
 
         lcontact = localContactPage()
         time.sleep(1)
@@ -1135,10 +1013,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0044(self):
-        '''
-      测试+86的手机号码，通过手机号码搜索
-        :return:
-        '''
+        '''测试+86的手机号码，通过手机号码搜索'''
         lcontact = localContactPage()
         time.sleep(1)
         lcontact.click_search_box()
@@ -1156,10 +1031,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0045(self):
-        '''
-      测试+86的手机号码，通过+搜索
-        :return:
-        '''
+        '''测试+86的手机号码，通过+搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1178,10 +1050,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0046(self):
-        '''
-      测试+86的手机号码，通过+86搜索
-        :return:
-        '''
+        '''测试+86的手机号码，通过+86搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1200,10 +1069,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0047(self):
-        '''
-      测试+86的手机号码，通过区号和手机号码前几个字符一起搜索（+8613512345123，搜索输入613等）
-        :return:
-        '''
+        '''测试+86的手机号码，通过区号和手机号码前几个字符一起搜索（+8613512345123，搜索输入613等）'''
         lcontact = localContactPage()
         time.sleep(1)
         lcontact.click_search_box()
@@ -1221,10 +1087,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0048(self):
-        '''
-      测试+86的手机号码，通过输入前10位手机号码进行匹配搜索
-        :return:
-        '''
+        '''测试+86的手机号码，通过输入前10位手机号码进行匹配搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1243,10 +1106,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0049(self):
-        '''
-        测试+86的手机号码，通过输入11位手机号码进行全匹配搜索
-        :return:
-        '''
+        '''测试+86的手机号码，通过输入11位手机号码进行全匹配搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1265,10 +1125,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0050(self):
-        '''
-        测试+852的手机号码，通过名称搜索
-        :return:
-        '''
+        '''测试+852的手机号码，通过名称搜索'''
         lcontact = localContactPage()
         time.sleep(1)
         lcontact.click_search_box()
@@ -1286,10 +1143,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0051(self):
-        '''
-        测试+852的手机号码，通过手机号码搜索
-        :return:
-        '''
+        '''测试+852的手机号码，通过手机号码搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1308,10 +1162,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0052(self):
-        '''
-        测试+852的手机号码，通过+搜索
-        :return:
-        '''
+        '''测试+852的手机号码，通过+搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1330,10 +1181,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0053(self):
-        '''
-        测试+852的手机号码，通过+852搜索
-        :return:
-        '''
+        '''测试+852的手机号码，通过+852搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1352,10 +1200,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0054(self):
-        '''
-        测试+852的手机号码，通过521搜索
-        :return:
-        '''
+        '''测试+852的手机号码，通过521搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1374,10 +1219,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0055(self):
-        '''
-        测试+852的手机号码，通过输入前7位手机号码进行匹配搜索
-        :return:
-        '''
+        '''测试+852的手机号码，通过输入前7位手机号码进行匹配搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1392,10 +1234,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0056(self):
-        '''
-        测试+852的手机号码，通过输入前8位手机号码进行匹配搜索
-        :return:
-        '''
+        '''测试+852的手机号码，通过输入前8位手机号码进行匹配搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1410,10 +1249,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0057(self):
-        '''
-        测试搜索内地固话，通过手机号码搜索
-        :return:
-        '''
+        '''测试搜索内地固话，通过手机号码搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1428,10 +1264,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0058(self):
-        '''
-        测试搜索香港固话，通过手机号码搜索
-        :return:
-        '''
+        '''测试搜索香港固话，通过手机号码搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1445,10 +1278,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0059(self):
-        '''
-        测试断网情况下，是否能读取本地联系人和搜索
-        :return:
-        '''
+        '''测试断网情况下，是否能读取本地联系人和搜索'''
         lcontact = localContactPage()
         lcontact.set_network_status(0)
         time.sleep(1)
@@ -1472,10 +1302,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0060(self):
-        '''
-        测试通过名称搜索无号码的联系人
-        :return:
-        '''
+        '''测试通过名称搜索无号码的联系人'''
         lcontact = localContactPage()
         time.sleep(1)
         lcontact.click_search_box()
@@ -1489,10 +1316,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0061(self):
-        '''
-        测试搜索一个超长姓名和号码的联系人，搜索结果列表显示超长使用…
-        :return:
-        '''
+        '''测试搜索一个超长姓名和号码的联系人，搜索结果列表显示超长使用…'''
         lcontact = localContactPage()
         time.sleep(1)
         lcontact.click_search_box()
@@ -1506,10 +1330,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0063(self):
-        '''
-        测试已经被过滤掉空格的联系人，通过空格搜索
-        :return:
-        '''
+        '''测试已经被过滤掉空格的联系人，通过空格搜索'''
         lcontact = localContactPage()
         time.sleep(1)
         lcontact.click_search_box()
@@ -1523,10 +1344,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0064(self):
-        '''
-        测试已经被过滤掉空格的联系人，通过姓名搜索
-        :return:
-        '''
+        '''测试已经被过滤掉空格的联系人，通过姓名搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1544,10 +1362,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0065(self):
-        '''
-        测试号码已经被过滤掉的字符进行搜索（中英文、特殊字符、空格）的联系人，通过被过滤掉的字符进行搜索
-        :return:
-        '''
+        '''测试号码已经被过滤掉的字符进行搜索（中英文、特殊字符、空格）的联系人，通过被过滤掉的字符进行搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1564,10 +1379,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0066(self):
-        '''
-        测试号码已经被过滤掉的字符进行搜索（中英文、特殊字符、空格）的联系人，通过手机号码进行搜索
-        :return:
-        '''
+        '''测试号码已经被过滤掉的字符进行搜索（中英文、特殊字符、空格）的联系人，通过手机号码进行搜索'''
         lcontact = localContactPage()
 
         time.sleep(1)
@@ -1582,10 +1394,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0067(self):
-        '''
-        测试sim单卡有联系人情况下，开启“显示sim卡联系人”，和飞信本地通讯录是否能读取到
-        :return:
-        '''
+        '''测试sim单卡有联系人情况下，开启“显示sim卡联系人”，和飞信本地通讯录是否能读取到'''
         time.sleep(2)
         ContactsPage().open_me_page()
         me_page = MePage()
@@ -1613,10 +1422,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0068(self):
-        '''
-        测试sim单卡有联系人情况下，未开启“显示sim卡联系人”，和飞信本地通讯录是否能读取到
-        :return:
-        '''
+        '''测试sim单卡有联系人情况下，未开启“显示sim卡联系人”，和飞信本地通讯录是否能读取到'''
         time.sleep(2)
         ContactsPage().open_me_page()
         time.sleep(1)
@@ -1644,10 +1450,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0069(self):
-        '''
-        测试sim单卡无联系人情况下，开启“显示sim卡联系人”，和飞信本地通讯录是否能读取到
-        :return:
-        '''
+        '''测试sim单卡无联系人情况下，开启“显示sim卡联系人”，和飞信本地通讯录是否能读取到'''
         time.sleep(2)
         ContactsPage().open_me_page()
         time.sleep(1)
@@ -1671,10 +1474,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0070(self):
-        '''
-        测试sim单卡无联系人情况下，未开启“显示sim卡联系人”，和飞信本地通讯录是否能读取到
-        :return:
-        '''
+        '''测试sim单卡无联系人情况下，未开启“显示sim卡联系人”，和飞信本地通讯录是否能读取到'''
         time.sleep(2)
         ContactsPage().open_me_page()
         time.sleep(2)
@@ -1712,10 +1512,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0085(self):
-        '''
-        测试系统通讯录一个联系人拥有多个手机号码，手机号码都不一样的情况下，显示多条（不去重）
-        :return:
-        '''
+        '''测试系统通讯录一个联系人拥有多个手机号码，手机号码都不一样的情况下，显示多条（不去重）'''
         lcontact = localContactPage()
         time.sleep(3)
         lcontact.click_search_box()
@@ -1736,10 +1533,7 @@ class ContactsLocal(TestCase):
 
     @tags('ALL', 'CONTACTS')
     def test_contacts_chenjixiang_0086(self):
-        '''
-        测试系统通讯录存在多个联系人，手机号码一样
-        :return:
-        '''
+        '''测试系统通讯录存在多个联系人，手机号码一样'''
         # 添加手机联系人
         time.sleep(2)
         # 添加联系人
@@ -2892,7 +2686,7 @@ class ContactsLocalhigh(TestCase):
         mass_assistant.click_contact_avatar()
         #选择联系人,输入内容后发送
         select_contact=SelectContactsPage()
-        select_SelectContactsPage().click_one_contact_631('大佬1')
+        select_contact.click_one_contact_631('大佬1')
         select_contact.click_sure_bottom()
         time.sleep(2)
         mass_assistant.click_input_box()

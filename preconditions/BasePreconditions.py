@@ -17,6 +17,7 @@ from pages.workbench.voice_notice.VoiceNotice import VoiceNoticePage
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
+    'Android-移动2': 'M960BDQN229CH_1',
     'IOS-移动': '',
     'Android-电信': 'single_telecom',
     'Android-联通': 'single_union',
@@ -48,8 +49,13 @@ class LoginPreconditions(object):
     @staticmethod
     def select_mobile(category, reset=False):
         """选择手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
+        try:
+            client = switch_to_mobile(REQUIRED_MOBILES[category])
+            client.connect_mobile()
+        except:
+            category=category+"2"
+            client = switch_to_mobile(REQUIRED_MOBILES[category])
+            client.connect_mobile()
         if reset:
             current_mobile().reset_app()
         return client

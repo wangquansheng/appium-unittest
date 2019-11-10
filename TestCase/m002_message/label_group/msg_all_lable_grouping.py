@@ -898,7 +898,7 @@ class MsgLabelGroupingAll(TestCase):
             mep = MePage()
             mep.set_network_status(6)
 
-    @tags('ALL', 'CMCC', 'DEBUG_1', 'label_grouping')
+    @tags('ALL', 'CMCC-REST', 'DEBUG_1', 'label_grouping')
     def test_msg_weifenglian_fenzu_0021(self):
         """移动网络下,发送大于2M的图片会出现弹框,继续发送"""
         # 设置网络为移动网络

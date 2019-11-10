@@ -323,7 +323,7 @@ class MsgAllPrior(TestCase):
         """已授权，卸载安装客户端，再授权"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         if agreement_detail_page.page_should_contain_text("确认授权"):
@@ -373,7 +373,7 @@ class MsgAllPrior(TestCase):
     def test_me_zhangshuli_110(self):
         """充值-网络异常"""
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         agreement_detail_page = AgreementDetailPage()
         time.sleep(1)
         elements = agreement_detail_page.get_elements((MobileBy.ID, 'com.chinasofti.rcs:id/lv_cash_area'))
@@ -408,7 +408,7 @@ class MsgAllPrior(TestCase):
         """充值-已绑卡，单笔交易金额超限"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         elements = agreement_detail_page.get_elements((MobileBy.ID, 'com.chinasofti.rcs:id/lv_cash_area'))
@@ -441,7 +441,7 @@ class MsgAllPrior(TestCase):
         """无现金余额提现"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -478,7 +478,7 @@ class MsgAllPrior(TestCase):
         """无流量时充到手机"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -506,7 +506,7 @@ class MsgAllPrior(TestCase):
         """流量不足100M时充到手机"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -534,7 +534,7 @@ class MsgAllPrior(TestCase):
         """帮助手册页面显示验证"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -568,7 +568,7 @@ class MsgAllPrior(TestCase):
         # 用例描述为:点击流量
         # 现版本无流量，修改为;点击和包余额
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         time.sleep(1)
@@ -599,7 +599,7 @@ class MsgAllPrior(TestCase):
         """查看流量明细"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -630,7 +630,7 @@ class MsgAllPrior(TestCase):
     def test_me_zhangshuli_144(self):
         """银行卡页面展示"""
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -654,7 +654,7 @@ class MsgAllPrior(TestCase):
         """和包支付--银行卡页面填写0-14位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -685,7 +685,7 @@ class MsgAllPrior(TestCase):
         """银行卡页面填写15-19位无效的银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -722,7 +722,7 @@ class MsgAllPrior(TestCase):
         """银行预留信息页面仅填写持卡人姓名"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -762,7 +762,7 @@ class MsgAllPrior(TestCase):
         """银行预留信息页面仅填写持卡人身份证号"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -803,7 +803,7 @@ class MsgAllPrior(TestCase):
         """银行预留信息页-填写持卡人姓名&身份证号&小于11位手机号"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -844,7 +844,7 @@ class MsgAllPrior(TestCase):
         """银行预留信息页面查看快捷支付协议"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -888,7 +888,7 @@ class MsgAllPrior(TestCase):
         """银行预留信息页面查看持卡人与手机号栏后面有相关说明入口（安卓端）"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -941,7 +941,7 @@ class MsgAllPrior(TestCase):
         """银行预留页面填写正确的姓名&正确的身份证号&无效的手机号-11位格式错误手机号"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -982,7 +982,7 @@ class MsgAllPrior(TestCase):
     def test_me_zhangshuli_172(self):
         """银行卡页面填写20位银行卡号"""
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -1021,7 +1021,7 @@ class MsgAllPrior(TestCase):
     def test_me_zhangshuli_173(self):
         """填写完15-19位银行卡号后断开网络"""
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -1065,7 +1065,7 @@ class MsgAllPrior(TestCase):
         """填写21位银行卡号"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -1103,7 +1103,7 @@ class MsgAllPrior(TestCase):
         """填写完15-19位有效银行卡号后返回"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
@@ -1139,7 +1139,7 @@ class MsgAllPrior(TestCase):
         """帮助中心页面展示"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         agreement_detail_page = AgreementDetailPage()
         time.sleep(2)
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_action_bar_help'))
@@ -1170,7 +1170,7 @@ class MsgAllPrior(TestCase):
         """网络异常点击帮助中心"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         time.sleep(2)
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_action_bar_help'))
@@ -1205,7 +1205,7 @@ class MsgAllPrior(TestCase):
     def test_me_zhangshuli_285(self):
         """帮助中心-网络异常点击热点问题"""
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         agreement_detail_page = AgreementDetailPage()
         time.sleep(2)
         agreement_detail_page.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/iv_action_bar_help'))
@@ -1241,7 +1241,7 @@ class MsgAllPrior(TestCase):
     def test_me_zhangshuli_290(self):
         """无网络点击活动中心"""
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)
@@ -1278,7 +1278,7 @@ class MsgAllPrior(TestCase):
         """和聚宝页面展示"""
         # 打开‘我’页面
         me = MePage()
-        me.click_element((MobileBy.ID, "com.chinasofti.rcs:id/redpager"))
+        me.click_text_or_description("和包支付")
         agreement_detail_page = AgreementDetailPage()
         agreement_detail_page.is_current_activity_match_this_page()
         time.sleep(3)

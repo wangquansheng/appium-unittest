@@ -100,6 +100,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0010(self):
+        """联系页面-搜索-我的团队搜索内容匹配高亮显示"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -119,6 +120,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0011(self):
+        """我的团队-精准搜索"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -158,6 +160,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0012(self):
+        """我的团队-中文模糊搜索"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -177,6 +180,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT')
     def test_contacts_quxinli_0013(self):
+        """我的团队-数字模糊搜索"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -203,6 +207,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT')
     def test_contacts_quxinli_0014(self):
+        """我的团队-国家码模糊搜索"""
         mess = MessagePage()
         mess.open_contacts_page()
         cp = ContactsPage()
@@ -220,6 +225,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT')
     def test_contacts_quxinli_0015(self):
+        """我的团队-英文模糊搜索"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -246,6 +252,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0016(self):
+        """我的团队-非法字符搜索"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -263,6 +270,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0017(self):
+        """网络异常下搜索我的团队联系人"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -284,6 +292,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0018(self):
+        """搜索我的团队联系人结果展示"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -305,6 +314,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0025(self):
+        """联系页面-搜索-我的团队长ID搜索内容匹配高亮显示"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -323,6 +333,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0026(self):
+        """我的团队长ID企业-精准搜索"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -364,6 +375,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0027(self):
+        """我的团队长ID企业-中文模糊搜索"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -383,6 +395,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0736(self):
+        """输入其他字符，比如特殊字符（范围：`~!@#$%^&*()_+-=[]{}\|;:'"<,>.?/）等，支持模糊查询，正常搜索出结果"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -400,6 +413,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0739(self):
+        """团队联系人搜索结果标签小于3条记录时，不显示“查看更多”按钮"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -417,6 +431,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0740(self):
+        """团队联系人搜索结果标签大于3条记录时，显示“查看更多”按钮，点击查看更多之后，按关键词分页展示剩余匹配结果"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -434,7 +449,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0741(self):
-        """查看更多联系人"""
+        """群聊搜索结果标签小于3条记录时，不显示“查看更多”按钮"""
         mess = MessagePage()
         mess.open_contacts_page()
         cp = ContactsPage()
@@ -449,6 +464,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0742(self):
+        """公众号搜索结果标签小于3条记录时，不显示“查看更多”按钮"""
         mess = MessagePage()
         mess.open_contacts_page()
         cp = ContactsPage()
@@ -463,6 +479,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0743(self):
+        """联系人在某个企业下，在企业通讯录层级搜索（名称或者手机号码）"""
         mess = MessagePage()
         mess.open_contacts_page()
         cp = ContactsPage()
@@ -478,6 +495,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0744(self):
+        """公众号搜索结果标签大于3条记录时，显示“查看更多”按钮，点击查看更多之后，按关键词分页展示剩余匹配结果"""
         mess = MessagePage()
         mess.open_contacts_page()
         cp = ContactsPage()
@@ -493,6 +511,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0760(self):
+        """没有企业的或者企业通讯录无返回结果的情况，搜索时，不展示和通讯录搜索结果标签"""
         mess = MessagePage()
         mess.open_contacts_page()
         cp = ContactsPage()
@@ -507,6 +526,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_chenjixiang_0781(self):
+        """企业通讯录搜索规则，特殊字符搜索，输入.进行搜索"""
         mess = MessagePage()
         mess.open_contacts_page()
         # 1、点击通讯录，点击搜索输入框
@@ -523,6 +543,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0004(self):
+        """用户未加入团队且未获取权限时联系人页面"""
         mess = MessagePage()
         mess.open_contacts_page()
         time.sleep(5)
@@ -538,6 +559,7 @@ class ContactSearchOpTest(TestCase):
 
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0024(self):
+        """点击搜索结果未保存到本地的本机用户进入Profile页"""
         mess = MessagePage()
         mess.open_contacts_page()
         cp = ContactsPage()

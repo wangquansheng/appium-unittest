@@ -2058,7 +2058,8 @@ class MsgAllPrior(TestCase):
         gcsp.input_my_group_card_name("哈bbb123")
         gcsp.save_group_card_name()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0297(self):
         """通话记录详情页：一键建群，网络正常可建群成功"""
         Preconditions.enter_call_page()
@@ -2104,7 +2105,8 @@ class MsgAllPrior(TestCase):
         # groupchat = GroupChatPage()
         # self.assertTrue(groupchat.is_on_this_page())
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0300(self):
         """大陆用户实现自动接听的号码：12560结尾的长度不超过9位的号码"""
         Preconditions.enter_call_page()
@@ -2210,7 +2212,8 @@ class MsgAllPrior(TestCase):
         # # Checkpoint2：出现‘设置为默认’
         # self.assertTrue(calltypeselect.is_setting_default_display())
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0353(self):
         """拨号方式选择优先使用和飞信电话拨号盘拨打以和飞信电话呼出"""
         mepage = MePage()
@@ -2233,7 +2236,8 @@ class MsgAllPrior(TestCase):
         # # Checkpoint3：出现‘可在我-设置-拨号设置”中修改’
         # calltypeselect.is_toast_exist('可前往“我-设置-拨号设置”中修改')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0357(self):
         """拨号方式选择优先使用和飞信电话拨号盘拨打以和飞信电话呼出"""
         mepage = MePage()
@@ -2282,7 +2286,8 @@ class MsgAllPrior(TestCase):
         # callpage.is_hefeixin_page('飞信电话')
         # time.sleep(3)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0374(self):
         """非首次拨打多方电话显示多方电话会控页（去掉原浮层提示），发起后不再放音，缩短呼叫等待时间"""
         Preconditions.enter_call_page()
@@ -2322,7 +2327,8 @@ class MsgAllPrior(TestCase):
         time.sleep(2)
         callpage.hang_up_the_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0390(self):
         """非首次拨打多方电话显示多方电话会控页（去掉原浮层提示），发起后不再放音，缩短呼叫等待时间"""
         Preconditions.enter_call_page()
@@ -2367,7 +2373,8 @@ class MsgAllPrior(TestCase):
         time.sleep(2)
         callpage.is_type_hefeixin(0, '飞信电话')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0391(self):
         """会控页未创建会场成功时（12560未回呼）会控置灰文案"""
         Preconditions.enter_call_page()

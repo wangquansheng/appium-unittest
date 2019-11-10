@@ -726,43 +726,43 @@ class MessageSearchTest(TestCase):
                 # 检查搜索结果是否包含关键字
                 search_page.assert_search_result_match_keyword(result, search_key)
 
-    def setUp_test_msg_huangcaizui_E_0009(self):
-        """
-        1、联网正常
-        2、已登录客户端
-        3、当前全局搜索页面
-        """
-        Preconditions.select_mobile('Android-移动')
-        current_mobile().hide_keyboard_if_display()
-        Preconditions.make_already_in_message_page(reset_required=False)
-
-        contacts_page = ContactsPage()
-        detail_page = ContactDetailsPage()
-        chat = ChatWindowPage()
-
-        # 创建联系人
-        self.contact_name = '给个红包1'
-        self.search_keyword = '1234567890'
-        self.message_content = '其他字符' + self.search_keyword + '其他字符'
-        contacts_page.open_contacts_page()
-        names = [self.contact_name]
-        for uid in names:
-            contacts_page.click_search_box()
-            contact_search = ContactListSearchPage()
-            contact_search.wait_for_page_load()
-            contact_search.input_search_keyword(uid)
-            if contact_search.is_contact_in_list(uid):
-                contact_search.click_contact(uid)
-                detail_page.click_message_icon()
-                if chat.is_tips_display():
-                    chat.directly_close_tips_alert()
-                chat.send_message(self.message_content)
-                chat.click_back_by_android()
-                detail_page.wait_for_page_load()
-                detail_page.click_back_icon()
-                contact_search.click_back()
-            else:
-                raise AssertionError('缺少预置测试数据：没找到联系人"{}"'.format(self.contact_name))
+    # def setUp_test_msg_huangcaizui_E_0009(self):
+    #     """
+    #     1、联网正常
+    #     2、已登录客户端
+    #     3、当前全局搜索页面
+    #     """
+    #     Preconditions.select_mobile('Android-移动')
+    #     current_mobile().hide_keyboard_if_display()
+    #     Preconditions.make_already_in_message_page(reset_required=False)
+    #
+    #     contacts_page = ContactsPage()
+    #     detail_page = ContactDetailsPage()
+    #     chat = ChatWindowPage()
+    #
+    #     # 创建联系人
+    #     self.contact_name = '给个红包1'
+    #     self.search_keyword = '1234567890'
+    #     self.message_content = '其他字符' + self.search_keyword + '其他字符'
+    #     contacts_page.open_contacts_page()
+    #     names = [self.contact_name]
+    #     for uid in names:
+    #         contacts_page.click_search_box()
+    #         contact_search = ContactListSearchPage()
+    #         contact_search.wait_for_page_load()
+    #         contact_search.input_search_keyword(uid)
+    #         if contact_search.is_contact_in_list(uid):
+    #             contact_search.click_contact(uid)
+    #             detail_page.click_message_icon()
+    #             if chat.is_tips_display():
+    #                 chat.directly_close_tips_alert()
+    #             chat.send_message(self.message_content)
+    #             chat.click_back_by_android()
+    #             detail_page.wait_for_page_load()
+    #             detail_page.click_back_icon()
+    #             contact_search.click_back()
+    #         else:
+    #             raise AssertionError('缺少预置测试数据：没找到联系人"{}"'.format(self.contact_name))
 
     @tags('ALL', 'SMOKE', "CMCC")
     def test_msg_huangcaizui_E_0009(self):
@@ -779,7 +779,7 @@ class MessageSearchTest(TestCase):
             search_page.hide_keyboard()
 
         # 用消息内容作为关键字搜索
-        search_key = self.search_keyword
+        search_key = "138138"
         search_page.input_search_keyword(search_key)
         search_page.hide_keyboard_if_display()
         now_go_to = None

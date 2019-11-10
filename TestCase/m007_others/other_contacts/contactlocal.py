@@ -1771,7 +1771,6 @@ class MsgAllPrior(TestCase):
         # """1.点击联系tab的搜索框输入关键字"""
         contacts.click_search_box()
         contactlistsearchpage = ContactListSearchPage()
-        # contactlistsearchpage.click_myteam()
         contactlistsearchpage.input_search_keyword('给个红包1')
         time.sleep(0.5)
         contactlistsearchpage.click_result_icon()
@@ -1788,13 +1787,6 @@ class MsgAllPrior(TestCase):
         contactdetailspage.is_exists_video_call_icon()
         contactdetailspage.is_exists_dial_hefeixin_icon()
         contactdetailspage.is_exists_share_card_icon()
-
-
-        # """点击头像显示大图
-        # contactdetailspage.click_avatar()
-        # contactdetailspage.is_exists_big_avatar()
-        # contactdetailspage.click_big_avatar()
-        # time.sleep(2)
 
         # """点击消息按钮进入会话界面
         contactdetailspage.message_btn_is_clickable()
@@ -1819,7 +1811,7 @@ class MsgAllPrior(TestCase):
         contacts.share_to_contact()
 
         # """可以成功分享给群、联系人"""
-        contacts.select_contacts_by_name('大佬1')
+        SelectContactsPage().click_one_contact_631("大佬2")
         contacts.share_sure()
         time.sleep(0.5)
         contacts.assert_screen_contain_text('已发送')
@@ -1834,7 +1826,7 @@ class MsgAllPrior(TestCase):
             mess.open_contacts_page()
             return
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @tags('ALL', 'SMOKE', 'group_chat', 'prior', 'high')
     def test_contacts_quxinli_0426(self):
         """从团队联系人Profile保存联系到本地后返回的到的Profile页，点击星标、编辑、分享名片"""
         contacts = ContactsPage()

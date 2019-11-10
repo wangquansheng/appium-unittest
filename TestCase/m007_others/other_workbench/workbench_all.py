@@ -1,3 +1,4 @@
+import unittest
 import warnings
 
 from pages.me.MeViewUserProfile import MeViewUserProfilePage
@@ -1210,7 +1211,8 @@ class MsgAllPrior(TestCase):
         # 长按删除xls文件
         ChatFilePage().delete_file('.xlsx')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0392(self):
         """会控页未创建会场成功时（12560未回呼）添加成员按钮置灰"""
         Preconditions.enter_call_page()
@@ -1254,7 +1256,8 @@ class MsgAllPrior(TestCase):
         # time.sleep(2)
         # callpage.hang_up_the_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0393(self):
         """会控页未创建会场成功时（12560未回呼）点击呼叫中的成员头像提示语"""
 
@@ -1299,7 +1302,8 @@ class MsgAllPrior(TestCase):
         # time.sleep(2)
         # callpage.hang_up_the_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0394(self):
         """会控页未创建会场成功时（12560未回呼）点击缩小按钮"""
 
@@ -1346,7 +1350,8 @@ class MsgAllPrior(TestCase):
         # time.sleep(2)
         # callpage.hang_up_the_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0395(self):
         """会控页未创建会场成功时（12560未回呼）点击全员禁言按钮"""
 
@@ -1390,8 +1395,8 @@ class MsgAllPrior(TestCase):
         # time.sleep(2)
         # callpage.hang_up_the_call()
 
-
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0396(self):
         """会控页未创建会场成功时（12560未回呼）点击挂断"""
 
@@ -1425,7 +1430,8 @@ class MsgAllPrior(TestCase):
         # time.sleep(3)
         # self.assertTrue(callpage.is_on_the_call_page())
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0397(self):
         """成功创建会场成功后（12560回呼接通）进入会控页"""
 
@@ -1483,7 +1489,8 @@ class MsgAllPrior(TestCase):
         # multipage.click_back()
         # callpage.hang_up_hefeixin_call_631()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0398(self):
         """成功创建会场成功后（12560回呼接通）点击添加成员"""
 
@@ -1540,7 +1547,8 @@ class MsgAllPrior(TestCase):
         # multipage.click_back()
         # callpage.hang_up_hefeixin_call_631()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0399(self):
         """成功创建会场成功后（12560回呼接通）缩小悬浮窗"""
 
@@ -1597,7 +1605,8 @@ class MsgAllPrior(TestCase):
         # callpage.click_back_to_call_631()
         # callpage.hang_up_hefeixin_call_631()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0400(self):
         """成功创建会场成功后（12560回呼接通）点击全员禁言"""
 
@@ -1654,7 +1663,8 @@ class MsgAllPrior(TestCase):
         # self.assertTrue(callpage.is_text_present('全员禁言'))
         # callpage.hang_up_hefeixin_call_631()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0404(self):
         """成功创建会场成功后（12560回呼接通）挂断当前通话"""
 
@@ -1706,7 +1716,8 @@ class MsgAllPrior(TestCase):
         # # checkpoint：当前页面是会控页面，挂断飞信电话
         # callpage.hang_up_hefeixin_call_631()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0406(self):
         """大陆用户实现自动接听的号码：12560结尾的长度不超过9位的号码"""
 
@@ -1755,7 +1766,8 @@ class MsgAllPrior(TestCase):
         # # 挂断系统电话
         # callpage.hang_up_the_call()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0409(self):
         """大陆用户实现自动接听的号码：12560结尾的长度不超过9位的号码"""
 
@@ -1807,7 +1819,8 @@ class MsgAllPrior(TestCase):
         # # checkpoint: 刚才拨打的类型为【电话】,号码包含12560
         # callpage.is_type_hefeixin(0, '电话')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0494(self):
         """成功创建会场成功后（12560回呼接通）挂断当前通话"""
 

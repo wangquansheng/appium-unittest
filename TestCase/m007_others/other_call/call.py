@@ -1,4 +1,6 @@
 import time
+import unittest
+
 from appium.webdriver.common.mobileby import MobileBy
 
 from library.core.common.simcardtype import CardType
@@ -657,7 +659,8 @@ class MsgAllPrior(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0057(self):
         """网络正常，拨号盘多方电话  按钮，发起正常"""
         Preconditions.enter_call_page()
@@ -670,7 +673,8 @@ class MsgAllPrior(TestCase):
         SelectContactsPage().click_one_contact_631('大佬4')
         selectcontacts.click_sure_bottom()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0059(self):
         """网络正常，通话页-多方电话悬浮，发起正常，发起正常"""
         Preconditions.enter_call_page()
@@ -688,7 +692,8 @@ class MsgAllPrior(TestCase):
         # 挂断电话返回到通话页面
         self.assertTrue(callcontact._is_element_present((MobileBy.ID, "com.chinasofti.rcs:id/btnFreeCall")))
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_call_wangqiong_0063(self):
         """网络正常，多方电话通话详情页可再次呼叫成功"""
         Preconditions.enter_call_page()
@@ -725,7 +730,8 @@ class MsgAllPrior(TestCase):
         contacts.click_mobile_contacts()
         contacts.click_label_grouping()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0071(self):
         """网络正常，标签分组-多方电话，拨打正常 ，拨打正常"""
         labellist = LabelGroupingPage()
@@ -780,7 +786,8 @@ class MsgAllPrior(TestCase):
         contacts.click_mobile_contacts()
         contacts.click_label_grouping()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0073(self):
         """网络正常，标签分组-群发消息-多方电话，拨打正常 ，拨打正常"""
         labellist = LabelGroupingPage()
@@ -832,7 +839,8 @@ class MsgAllPrior(TestCase):
         # labellist._is_element_present((MobileBy.ID, 'com.android.incallui:id/endButton'))
         # labellist.click_element((MobileBy.ID, 'com.android.incallui:id/endButton'))
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0080(self):
         """本地搜索：联系人姓名（全名）精准搜索可匹配结果"""
         mess = MessagePage()
@@ -877,7 +885,8 @@ class MsgAllPrior(TestCase):
         self.assertTrue(call_page._is_element_present(
             (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' + '@text="大佬1"]')))
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0081(self):
         """ 通讯录界面搜索姓名"""
         mess = MessagePage()
@@ -927,7 +936,8 @@ class MsgAllPrior(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0086(self):
         """本地搜索：本地联系人号码精准搜索显示正常"""
         mess = MessagePage()
@@ -987,7 +997,8 @@ class MsgAllPrior(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0087(self):
         """本地搜索：1-10位数字可支持模糊搜索匹配结果（和通讯录仅支持6-10位数模糊匹配）"""
         call_page = CallPage()
@@ -1048,7 +1059,8 @@ class MsgAllPrior(TestCase):
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_message_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0088(self):
         """搜索11位陌生号码匹配网络搜索结果"""
         call_page = CallPage()
@@ -1098,7 +1110,8 @@ class MsgAllPrior(TestCase):
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0119(self):
         """和通讯录全局搜索：联系人姓名（全名）精准搜索可匹配结果"""
         contac = ContactsPage()
@@ -1117,7 +1130,8 @@ class MsgAllPrior(TestCase):
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0120(self):
         """和通讯录全局搜索：联系人姓名（非全名）模糊搜索可匹配结果"""
         contac = ContactsPage()
@@ -1136,7 +1150,8 @@ class MsgAllPrior(TestCase):
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0126(self):
         """和通讯录全局搜索：11位号码精准搜索显示正常"""
         contac = ContactsPage()
@@ -1155,7 +1170,8 @@ class MsgAllPrior(TestCase):
         contactspage = ContactsPage()
         contactspage.open_contacts_page()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0127(self):
         """和通讯录全局搜索：6-10位数字可支持模糊搜索匹配结果"""
         contac = ContactsPage()
@@ -1168,7 +1184,8 @@ class MsgAllPrior(TestCase):
         self.assertTrue(contact_search.is_contact_in_list('xili'))
         contact_search.click_contact('xili')
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_call_wangqiong_0145(self):
         """选择1个联系人可发起呼叫多方电话"""
         Preconditions.select_mobile('Android-移动')
@@ -1204,7 +1221,8 @@ class MsgAllPrior(TestCase):
                                        '@text="和飞信电话"]'))
         time.sleep(3)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_call_wangqiong_0146(self):
         """选择8个联系人可发起呼叫多方电话"""
         Preconditions.select_mobile('Android-移动')
@@ -1284,7 +1302,8 @@ class MsgAllPrior(TestCase):
                                        '@text="和飞信电话"]'))
         time.sleep(3)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_call_wangqiong_0147(self):
         """搜索陌生人+本地联系人+和通讯录联系人共8人可发起多方电话"""
         Preconditions.select_mobile('Android-移动')
@@ -1344,7 +1363,8 @@ class MsgAllPrior(TestCase):
         Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("群聊1")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0155(self):
         """普通群聊多方电话-联系人选择器-仅支持当前群成员名称  进行搜索"""
         grouppage = GroupListPage()
@@ -1360,7 +1380,8 @@ class MsgAllPrior(TestCase):
         Preconditions.make_already_in_message_page()
         Preconditions.enter_group_chat_page("群聊1")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0157(self):
         """普通群聊多方电话-联系人选择器-本机号码不可选，置灰显示"""
         grouppage = GroupListPage()
@@ -1384,7 +1405,8 @@ class MsgAllPrior(TestCase):
         contacts.click_mobile_contacts()
         contacts.click_label_grouping()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0171(self):
         """标签分组-多方电话选择器界面显示正常"""
         labellist = LabelGroupingPage()
@@ -1425,7 +1447,8 @@ class MsgAllPrior(TestCase):
         contacts.click_mobile_contacts()
         contacts.click_label_grouping()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0179(self):
         """标签分组-多方电话选择器-组员11位号码精准搜索显示正常"""
         labellist = LabelGroupingPage()
@@ -1488,7 +1511,8 @@ class MsgAllPrior(TestCase):
         contacts.click_mobile_contacts()
         contacts.click_label_grouping()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0180(self):
         """标签分组-多方电话选择器-组员1-10位数字可支持模糊搜索匹配结果"""
         labelpage = LabelGroupingPage()
@@ -1537,7 +1561,8 @@ class MsgAllPrior(TestCase):
         contacts.click_mobile_contacts()
         contacts.click_label_grouping()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0181(self):
         """标签分组-多方电话选择器-组员姓名（全名）精准搜索可匹配结果"""
         labelpage = LabelGroupingPage()
@@ -1588,7 +1613,8 @@ class MsgAllPrior(TestCase):
         contacts.click_mobile_contacts()
         contacts.click_label_grouping()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0182(self):
         """标签分组-多方电话选择器-组员（非全名）模糊搜索可匹配结果"""
         labelpage = LabelGroupingPage()
@@ -1613,7 +1639,8 @@ class MsgAllPrior(TestCase):
         # 进入多方通话
         labelpage.click_element((MobileBy.ID, 'com.chinasofti.rcs:id/image_third_colum'))
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0193(self):
         """多方电话联系人选择器支持搜索保存在本地的固号呼叫"""
         Preconditions.select_mobile('Android-移动')
@@ -1655,7 +1682,8 @@ class MsgAllPrior(TestCase):
         # 挂断电话回到多方通话界面
         self.assertTrue(callcontact._is_element_present((MobileBy.ID, "com.chinasofti.rcs:id/btnFreeCall")))
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0033(self):
         """本网用户各和飞信电话入口，可成功发起呼叫"""
         contactspage = ContactsPage()
@@ -1701,7 +1729,8 @@ class MsgAllPrior(TestCase):
         contacts.click_mobile_contacts()
         contacts.click_label_grouping()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0172(self):
         """标签分组-多方电话选择器-支持组员名称号码搜索"""
         labellist = LabelGroupingPage()
@@ -1735,7 +1764,8 @@ class MsgAllPrior(TestCase):
         time.sleep(2)
         contactselect.click_sure_bottom()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0204(self):
         """网络信号正常，发起多方电话流程正常"""
         Preconditions.enter_call_page()
@@ -1749,8 +1779,8 @@ class MsgAllPrior(TestCase):
         contactselect = ContactsSelector()
         contactselect.select_local_contacts("大佬1", "大佬2", "大佬3")
 
-
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0210(self):
         """多方电话呼叫中---网络正常下，会控界面显示正常"""
         Preconditions.enter_call_page()
@@ -1764,8 +1794,8 @@ class MsgAllPrior(TestCase):
         contactselect = ContactsSelector()
         contactselect.select_local_contacts("大佬1", "大佬2", "大佬3")
 
-
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0211(self):
         """多方电话呼叫中时--网络正常下，会控界面点击顶部可返回至系统通话页"""
         Preconditions.enter_call_page()
@@ -1779,8 +1809,8 @@ class MsgAllPrior(TestCase):
         contactselect = ContactsSelector()
         contactselect.select_local_contacts("大佬1", "大佬2", "大佬3")
 
-
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0262(self):
         """会控界面：“未接听”状态的成员，可支持重新拨号、移除成员、取消成功"""
         Preconditions.enter_call_page()
@@ -1799,7 +1829,8 @@ class MsgAllPrior(TestCase):
         selectcontacts.click_sure_bottom()
         time.sleep(2)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0266(self):
         """发起多方电话呼叫邀请中，可点击会控界面挂断按钮，结束多方电话通话"""
         Preconditions.enter_call_page()
@@ -1818,7 +1849,8 @@ class MsgAllPrior(TestCase):
         selectcontacts.click_sure_bottom()
         time.sleep(2)
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0267(self):
         """发起多方电话呼叫邀请中，可点击系统电话挂断，结束多方电话通话"""
         Preconditions.enter_call_page()
@@ -1832,7 +1864,8 @@ class MsgAllPrior(TestCase):
         contactselect = ContactsSelector()
         contactselect.select_local_contacts("大佬3")
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0288(self):
         """多人的多方电话--通话记录详情页各信息显示正常。"""
         Preconditions.enter_call_page()
@@ -1855,7 +1888,8 @@ class MsgAllPrior(TestCase):
         self.assertTrue(callpage.page_should_contain_text('再次呼叫'))
         self.assertTrue(callpage.page_should_contain_text('一键建群'))
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0289(self):
         """发起1人的多方电话--通话记录详情页各信息显示正常。"""
         Preconditions.enter_call_page()
@@ -1877,7 +1911,8 @@ class MsgAllPrior(TestCase):
         # Checkpoint：详情页是否有‘再次呼叫’
         self.assertTrue(callpage.page_should_contain_text('再次呼叫'))
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0291(self):
         """多方通话记录详情页--再次呼叫，网络正常重新呼叫多方电话"""
         Preconditions.enter_call_page()
@@ -1897,7 +1932,8 @@ class MsgAllPrior(TestCase):
         # 点击‘再次呼叫’
         callpage.click_mutil_call_again()
 
-    @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    # @tags('ALL', 'SMOKE', 'CMCC', 'group_chat', 'prior', 'high')
+    @unittest.skip("跳过，通话功能关闭")
     def test_call_wangqiong_0292(self):
         """发起1人的多方电话--再次呼叫，网络正常重新呼叫和飞信电话"""
         Preconditions.enter_call_page()
